@@ -1,0 +1,8 @@
+assembly-versioning-scheme: MajorMinorPatch
+mode: 'ContinuousDeployment'
+branches:
+   develop:
+      tag: 'dev'
+   feature:
+      tag: 'issue-{BranchName}'
+      regex: '(issue/|bugfix/|feature/)'
