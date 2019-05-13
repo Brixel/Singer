@@ -8,6 +8,7 @@ pool:
 
 variables:
    buildConfiguration: 'Release'
+   TF_BUILD: 1
 
 steps:
    - task: DotNetCoreCLI@2
