@@ -10,12 +10,13 @@
 
       <!-- Set this to true if you enable server-side prerendering -->
       <BuildServerSideRenderer>false</BuildServerSideRenderer>
+      <WriteVersionInfoToBuildLog>true</WriteVersionInfoToBuildLog>
    </PropertyGroup>
 
    <ItemGroup>
       <PackageReference Include="GitVersionTask" Version="5.0.0-beta*">
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        <PrivateAssets>all</PrivateAssets>
+         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+         <PrivateAssets>all</PrivateAssets>
       </PackageReference>
       <PackageReference Include="Microsoft.AspNetCore.App" />
       <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
