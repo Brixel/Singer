@@ -25,4 +25,4 @@ steps:
         zipAfterPublish: false
    - task: PublishBuildArtifacts@1
      inputs:
-        ArtifactName: $(System.TeamProject)-$(Build.BuildNumber)
+        ArtifactName: $(System.TeamProject)-$(GitVersion.SemVer)
