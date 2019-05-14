@@ -27,6 +27,9 @@ namespace Singer
          {
             configuration.RootPath = "ClientApp/dist";
          });
+
+         // Register the Swagger services
+         services.AddSwaggerDocument();
       }
 
       // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,6 +49,13 @@ namespace Singer
          app.UseHttpsRedirection();
          app.UseStaticFiles();
          app.UseSpaStaticFiles();
+
+         // Register the Swagger generator and the Swagger UI middlewares
+         // Navigate to:
+         // https://localhost:5001/swagger/index.html the Swagger UI.
+         // https://localhost:5001/swagger/v1/swagger.json to view the Swagger specification.
+         app.UseSwagger();
+         app.UseSwaggerUi3();
 
          app.UseMvc(routes =>
          {
