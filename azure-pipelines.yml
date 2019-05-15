@@ -17,6 +17,7 @@ steps:
         command: build
         projects: '**/*.csproj'
         configuration: $(buildConfiguration)
+        arguments: '--verbosity:n'
    - task: DotNetCoreCLI@2
      displayName: 'Publish'
      inputs:
