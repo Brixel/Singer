@@ -17,6 +17,7 @@ steps:
         command: build
         projects: '**/*.csproj'
         configuration: $(buildConfiguration)
+        arguments: '--verbosity:diag'
    - task: DotNetCoreCLI@2
      displayName: 'Publish'
      inputs:
@@ -24,7 +25,6 @@ steps:
         publishWebProjects: true
         arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
         zipAfterPublish: false
-   - script: echo "##vso[build.updatebuildnumber]alex-buidl-test"
    - task: PublishBuildArtifacts@1
      inputs:
         ArtifactName: $(System.TeamProject)-$(GitVersion.SemVer)
