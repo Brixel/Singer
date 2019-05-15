@@ -11,7 +11,6 @@ variables:
    TF_BUILD: 1
 
 steps:
-   - script: 'echo "##vso[build.updatebuildnumber]0.1.0-issue-gitversion.19"'
    - task: DotNetCoreCLI@2
      displayName: 'Build $(buildConfiguration)'
      inputs:
