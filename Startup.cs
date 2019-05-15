@@ -1,3 +1,4 @@
+using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -22,7 +23,7 @@ namespace Singer
       // This method gets called by the runtime. Use this method to add services to the container.
       public void ConfigureServices(IServiceCollection services)
       {
-         var connection = @"Server=db;Database=Singer;User=sa;Password=singer-2019-password;";
+         var connection = Configuration.GetSection("ConnectionStrings").GetChildren().Single(x => x.Key == "Application").Value;
 
          // This line uses 'UseSqlServer' in the 'options' parameter
          // with the connection string defined above.
