@@ -11,13 +11,14 @@ variables:
    TF_BUILD: 1
 
 steps:
+   - script: 'echo "##vso[build.updatebuildnumber]0.1.0-issue-gitversion.19"'
    - task: DotNetCoreCLI@2
      displayName: 'Build $(buildConfiguration)'
      inputs:
         command: build
         projects: '**/*.csproj'
         configuration: $(buildConfiguration)
-        arguments: '--verbosity:diag'
+        arguments: '--verbosity:n'
    - task: DotNetCoreCLI@2
      displayName: 'Publish'
      inputs:
