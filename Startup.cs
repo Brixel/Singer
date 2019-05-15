@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Singer.Data;
 
 namespace Singer
 {
@@ -20,6 +22,14 @@ namespace Singer
       // This method gets called by the runtime. Use this method to add services to the container.
       public void ConfigureServices(IServiceCollection services)
       {
+         var connection = @"Server=db;Database=Singer;User=sa;Password=singer-2019-password;";
+
+         // This line uses 'UseSqlServer' in the 'options' parameter
+         // with the connection string defined above.
+         services.AddDbContext<ApplicationDbContext>(
+            options => options.UseSqlServer(connection));
+
+
          services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
          // In production, the Angular files will be served from this directory
