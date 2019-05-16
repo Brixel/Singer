@@ -11,10 +11,14 @@ variables:
    TF_BUILD: 1
 
 steps:
-   - task: MSBuild@1
+   - task: DotNetCoreCLI@2
      displayName: 'Populate gitversion variables'
      inputs:
-        msbuildArguments: '-restore -target:WriteVersionInfoToBuildLog -verbosity:n'
+        command: 'custom'
+        custom: 'msbuild'
+        arguments: '-restore -target:WriteVersionInfoToBuildLog -verbosity:n'
+        feedsToUse: 'select'
+        versioningScheme: 'off'
    - script: 'echo "##vso[build.updatebuildnumber]$(GitVersion.SemVer)+build$(Build.BuildId)"'
      displayName: 'Set Build.BuildNumber'
    - task: DotNetCoreCLI@2
