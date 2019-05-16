@@ -10,7 +10,10 @@
 
       <!-- Set this to true if you enable server-side prerendering -->
       <BuildServerSideRenderer>false</BuildServerSideRenderer>
+
+      <!-- These settings related to GitVersionTask -->
       <WriteVersionInfoToBuildLog>true</WriteVersionInfoToBuildLog>
+      <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
    </PropertyGroup>
 
    <ItemGroup>
