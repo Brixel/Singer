@@ -12,12 +12,16 @@ variables:
 
 steps:
    - task: DotNetCoreCLI@2
+     displayName: 'Populate gitversion variables'
+     inputs:
+        custom: 'msbuild -restore -target:WriteVersionInfoToBuildLog -verbosity:n'
+   - script: 'echo "##vso[build.updatebuildnumber]$(GitVersion.SemVer)+build$(Build.BuildId)"'
+   - task: DotNetCoreCLI@2
      displayName: 'Build $(buildConfiguration)'
      inputs:
         command: build
         projects: '**/*.csproj'
         configuration: $(buildConfiguration)
-        arguments: '--verbosity:n'
    - task: DotNetCoreCLI@2
      displayName: 'Publish'
      inputs:
@@ -27,4 +31,4 @@ steps:
         zipAfterPublish: false
    - task: PublishBuildArtifacts@1
      inputs:
-        ArtifactName: $(System.TeamProject)-$(GitVersion.SemVer)
+        ArtifactName: $(System.TeamProject)-$(Build.BuildNumber)
