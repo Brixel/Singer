@@ -14,8 +14,8 @@ steps:
    - task: DotNetCoreCLI@2
      displayName: 'Populate gitversion variables'
      inputs:
-        custom: 'msbuild'
-        arguments: '-restore -target:WriteVersionInfoToBuildLog -verbosity:n'
+        command: custom
+        custom: 'msbuild -restore -target:WriteVersionInfoToBuildLog -verbosity:n'
    - script: 'echo "##vso[build.updatebuildnumber]$(GitVersion.SemVer)+build$(Build.BuildId)"'
      displayName: 'Set Build.BuildNumber'
    - task: DotNetCoreCLI@2
