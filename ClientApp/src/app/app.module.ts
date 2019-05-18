@@ -10,6 +10,8 @@ import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { TestComponentComponent } from './components/test-component/test-component.component';
+import { MaterialModule } from './material.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
    declarations: [
@@ -29,6 +31,8 @@ import { TestComponentComponent } from './components/test-component/test-compone
          { path: 'counter', component: CounterComponent },
          { path: 'fetch-data', component: FetchDataComponent },
       ]),
+      MaterialModule,
+      BrowserAnimationsModule,
    ],
    providers: [],
    bootstrap: [AppComponent],
