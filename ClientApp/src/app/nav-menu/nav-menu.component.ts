@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { environment } from '../../environments/environment';
 
 @Component({
    selector: 'app-nav-menu',
@@ -8,7 +7,6 @@ import { environment } from '../../environments/environment';
 })
 export class NavMenuComponent {
    isExpanded = false;
-   public version: string = environment.VERSION;
 
    collapse() {
       this.isExpanded = false;
