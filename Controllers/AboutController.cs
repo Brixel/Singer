@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Singer.DTOs;
 using Singer.Models;
 namespace Singer.Controllers
 {
@@ -18,9 +19,9 @@ namespace Singer.Controllers
          var fullSemVerField = gitVersionInformationType.GetField("FullSemVer");
          _apiVersion = fullSemVerField.GetValue(null).ToString();
       }
-      public AboutModel Index()
+      public AboutDTO Index()
       {
-         return new AboutModel
+         return new AboutDTO
          {
             ApiVersion = _apiVersion
          };

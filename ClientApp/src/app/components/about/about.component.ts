@@ -13,9 +13,9 @@ export class AboutComponent implements OnInit {
    }
    public uiVersion: string = environment.VERSION;
 
-   public about: AboutModel;
+   public about: AboutDTO;
    constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-      http.get<AboutModel>(baseUrl + 'api/About').subscribe(
+      http.get<AboutDTO>(baseUrl + 'api/About').subscribe(
          result => {
             this.about = result;
          },
@@ -24,6 +24,6 @@ export class AboutComponent implements OnInit {
    }
 }
 
-interface AboutModel {
+interface AboutDTO {
    apiVersion: string;
 }
