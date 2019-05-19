@@ -1,9 +1,17 @@
-<h1>Counter</h1>
+<mat-card>
+   <mat-card-header>
+      <mat-card-title>Counter</mat-card-title>
+      <mat-card-subtitle
+         >This is a simple example of an Angular component.</mat-card-subtitle
+      >
+   </mat-card-header>
+   <mat-card-content>
+      <p>
+         Current count: <strong>{{ currentCount }}</strong>
+      </p>
 
-<p>This is a simple example of an Angular component.</p>
-
-<p>
-   Current count: <strong>{{ currentCount }}</strong>
-</p>
-
-<button class="btn btn-primary" (click)="incrementCounter()">Increment</button>
+      <button mat-raised-button mat-icon-button (click)="incrementCounter()">
+         <mat-icon aria-label="Increment counter">add</mat-icon>
+      </button>
+   </mat-card-content>
+</mat-card>
