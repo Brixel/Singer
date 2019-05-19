@@ -17,7 +17,7 @@ export class AuthService {
       body.set('username', username);
       body.set('password', password);
       body.set('grant_type', 'password');
-      body.set('client_id', 'angular.client');
+      body.set('client_id', 'singer.client');
       body.set('client_secret', 'secret');
 
       return this.http

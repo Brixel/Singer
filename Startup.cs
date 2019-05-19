@@ -1,6 +1,12 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Security.Claims;
+using IdentityModel;
+using IdentityServer4.EntityFramework.DbContexts;
+using IdentityServer4.EntityFramework.Entities;
+using IdentityServer4.EntityFramework.Mappers;
 using IdentityServer4.Models;
 using IdentityServer4.Test;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -14,6 +20,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Singer.Data;
+using Singer.Data.Identity;
+using ApiResource = IdentityServer4.EntityFramework.Entities.ApiResource;
+using Client = IdentityServer4.EntityFramework.Entities.Client;
+using Secret = IdentityServer4.EntityFramework.Entities.Secret;
 
 namespace Singer
 {
@@ -29,31 +39,32 @@ namespace Singer
       // This method gets called by the runtime. Use this method to add services to the container.
       public void ConfigureServices(IServiceCollection services)
       {
-         var connection = Configuration.GetSection("ConnectionStrings").GetChildren().Single(x => x.Key == "Application").Value;
+         var connectionString = Configuration.GetSection("ConnectionStrings").GetChildren().Single(x => x.Key == "Application").Value;
+         var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
-         // This line uses 'UseSqlServer' in the 'options' parameter
+                  // This line uses 'UseSqlServer' in the 'options' parameter
          // with the connection string defined above.
          services.AddDbContext<ApplicationDbContext>(
-            options => options.UseSqlServer(connection));
+            options => options.UseSqlServer(connectionString));
 
          services.AddIdentityServer()
             .AddDeveloperSigningCredential()
-            .AddInMemoryApiResources(new List<ApiResource>
+    // this adds the config data from DB (clients, resources)
+            .AddConfigurationStore(options =>
             {
-               new ApiResource("resource.server.api",
-                  new [] { ClaimTypes.Name, ClaimTypes.Email})
+               options.ConfigureDbContext = b =>
+                  b.UseSqlServer(connectionString,
+                     sql => sql.MigrationsAssembly(migrationsAssembly));
             })
-            .AddInMemoryClients(new List<Client>
+            // this adds the operational data from DB (codes, tokens, consents)
+            .AddOperationalStore(options =>
             {
-               new Client
-               {
-                  ClientId = "angular.client",
-                  ClientName = "Angular Client",
-                  ClientSecrets = new [] { new Secret("secret".Sha256())  },
-                  AllowedScopes = new [] { "resource.server.api" },
-                  AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-                  AllowedCorsOrigins = new [] { "http://localhost:4200/" }
-               }
+               options.ConfigureDbContext = b =>
+                  b.UseSqlServer(connectionString,
+                     sql => sql.MigrationsAssembly(migrationsAssembly));
+
+               // this enables automatic token cleanup. this is optional.
+               options.EnableTokenCleanup = true;
             })
             .AddTestUsers(new List<TestUser>
             {
@@ -70,12 +81,15 @@ namespace Singer
                }
             });
 
+
+
          services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
          services.AddAuthentication()
             .AddJwtBearer(options =>
             {
+               
                // The API resource scope issued in authorization server
-               options.Audience = "resource.server.api";
+               options.Audience = "singer.api.read";
                // URL of my authorization server
                options.Authority = "https://localhost:5001";
             });
@@ -102,6 +116,22 @@ namespace Singer
       // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
       public void Configure(IApplicationBuilder app, IHostingEnvironment env)
       {
+         using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+         {
+            var applicationDbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            applicationDbContext.Database.Migrate();
+
+            var configrationDbContext = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
+            configrationDbContext.Database.Migrate();
+
+
+            CreateAPIAndClient(configrationDbContext);
+
+            var persistedGrantDbContext = serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>();
+            persistedGrantDbContext.Database.Migrate();
+         }
+
+
          if (env.IsDevelopment())
          {
             app.UseDeveloperExceptionPage();
@@ -150,6 +180,53 @@ namespace Singer
                spa.UseAngularCliServer(npmScript: "start");
             }
          });
+      }
+
+      private void CreateAPIAndClient(ConfigurationDbContext configrationDbContext)
+      {
+         var singerApiResourceName = "singer.api";
+         var apiResource = configrationDbContext.ApiResources.SingleOrDefault(x => x.Name == singerApiResourceName);
+         if (apiResource == null)
+         {
+            apiResource = new ApiResource()
+            {
+               Name = singerApiResourceName,
+               Scopes = new List<ApiScope>()
+               {
+                  new ApiScope()
+                  {
+                     Name = "singer.api.read",
+                     DisplayName = "Readonly scope for SingerAPI",
+                     Required = true
+                  },
+               },
+               UserClaims = new List<ApiResourceClaim>()
+               {
+                  new ApiResourceClaim()
+                  {
+                     Type = ClaimTypes.Name,
+                  },
+                  new ApiResourceClaim()
+                  {
+                     Type = ClaimTypes.Email
+                  }
+               }
+            };
+
+
+            configrationDbContext.ApiResources.Add(apiResource);
+         }
+
+
+         var clientId = "singer.client";
+         var singerApiClient = configrationDbContext.Clients.SingleOrDefault(x => x.ClientId == clientId);
+         if (singerApiClient == null)
+         {
+            singerApiClient = Config.GetClient().ToEntity();
+            configrationDbContext.Clients.Add(singerApiClient);
+         }
+
+         configrationDbContext.SaveChanges();
       }
    }
 }
