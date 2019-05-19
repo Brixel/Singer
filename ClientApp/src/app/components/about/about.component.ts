@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 
@@ -7,10 +7,7 @@ import { HttpClient } from '@angular/common/http';
    templateUrl: './about.component.html',
    styleUrls: ['./about.component.css'],
 })
-export class AboutComponent implements OnInit {
-   ngOnInit(): void {
-      throw new Error('Method not implemented.');
-   }
+export class AboutComponent {
    public uiVersion: string = environment.VERSION;
 
    public about: AboutDTO;
