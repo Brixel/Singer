@@ -18,8 +18,8 @@ import { AuthService } from './core/services/auth.service';
 import { AuthGuard } from './core/services/auth.guard';
 import { AuthInterceptor } from './core/services/auth-interceptor';
 
-export function tokenGetter() {
-   return localStorage.getItem('access_token');
+export function tokenGetter():string {
+   return localStorage.getItem('token');
  }
 @NgModule({
    declarations: [
@@ -40,9 +40,7 @@ export function tokenGetter() {
       ReactiveFormsModule,
       JwtModule.forRoot({
          config: {
-            tokenGetter: () => {
-               return localStorage.getItem('token');
-             }
+            tokenGetter: tokenGetter,
          },
       }),
    ],
