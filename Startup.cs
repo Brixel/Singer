@@ -7,24 +7,22 @@ using IdentityModel;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Entities;
 using IdentityServer4.EntityFramework.Mappers;
-using IdentityServer4.Models;
 using IdentityServer4.Test;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Logging;
 using Singer.Data;
 using Singer.Data.Identity;
+using Singer.Models;
+using Singer.Services;
 using ApiResource = IdentityServer4.EntityFramework.Entities.ApiResource;
-using Client = IdentityServer4.EntityFramework.Entities.Client;
-using Secret = IdentityServer4.EntityFramework.Entities.Secret;
 
 namespace Singer
 {
@@ -46,11 +44,16 @@ namespace Singer
                   // This line uses 'UseSqlServer' in the 'options' parameter
          // with the connection string defined above.
          services.AddDbContext<ApplicationDbContext>(
-            options => options.UseSqlServer(connectionString));
+               options => options.UseSqlServer(connectionString))
+            .AddIdentity<User, IdentityRole>()
+            .AddEntityFrameworkStores<ApplicationDbContext>();
+         //services.AddDefaultIdentity<User>()
+         //   .AddRoles<IdentityRole>()
+         //   .AddEntityFrameworkStores<ApplicationDbContext>();
 
          services.AddIdentityServer()
             .AddDeveloperSigningCredential()
-    // this adds the config data from DB (clients, resources)
+            // this adds the config data from DB (clients, resources)
             .AddConfigurationStore(options =>
             {
                options.ConfigureDbContext = b =>
@@ -67,20 +70,7 @@ namespace Singer
                // this enables automatic token cleanup. this is optional.
                options.EnableTokenCleanup = true;
             })
-            .AddTestUsers(new List<TestUser>
-            {
-               new TestUser
-               {
-                  SubjectId = "1",
-                  Username = "user",
-                  Password = "1234",
-                  Claims = new List<Claim>
-                  {
-                     new Claim(ClaimTypes.Name, "Test User"),
-                     new Claim(ClaimTypes.Email, "email@mail.com")
-                  }
-               }
-            });
+            .AddResourceOwnerValidator<ResourceOwnerPasswordValidator<User>>();
 
 
 
@@ -130,6 +120,9 @@ namespace Singer
 
             var persistedGrantDbContext = serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>();
             persistedGrantDbContext.Database.Migrate();
+
+            // Seed users
+            SeedUsers(serviceScope, applicationDbContext);
          }
 
 
@@ -183,6 +176,43 @@ namespace Singer
          });
       }
 
+      private void SeedUsers(IServiceScope serviceScope, ApplicationDbContext applicationDbContext)
+      {
+         var userMgr = serviceScope.ServiceProvider.GetRequiredService<UserManager<User>>();
+         var alice = userMgr.FindByNameAsync("alice").Result;
+         if (alice == null)
+         {
+            alice = new User
+            {
+               UserName = "alice"
+            };
+            var result = userMgr.CreateAsync(alice, "Pass123$").Result;
+            if (!result.Succeeded)
+            {
+               throw new Exception(result.Errors.First().Description);
+            }
+
+            result = userMgr.AddClaimsAsync(alice, new Claim[]{
+               new Claim(JwtClaimTypes.Name, "Alice Smith"),
+               new Claim(JwtClaimTypes.GivenName, "Alice"),
+               new Claim(JwtClaimTypes.FamilyName, "Smith"),
+               new Claim(JwtClaimTypes.Email, "AliceSmith@email.com"),
+               new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
+               new Claim(JwtClaimTypes.WebSite, "http://alice.com"),
+               new Claim(JwtClaimTypes.Address, @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }", IdentityServer4.IdentityServerConstants.ClaimValueTypes.Json)
+            }).Result;
+            if (!result.Succeeded)
+            {
+               throw new Exception(result.Errors.First().Description);
+            }
+            Console.WriteLine("alice created");
+         }
+         else
+         {
+            Console.WriteLine("alice already exists");
+         }
+      }
+
       private void CreateAPIAndClient(ConfigurationDbContext configrationDbContext)
       {
          var singerApiResourceName = "singer.api";
@@ -201,6 +231,7 @@ namespace Singer
                      Required = true
                   },
                },
+
                UserClaims = new List<ApiResourceClaim>()
                {
                   new ApiResourceClaim()

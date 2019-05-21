@@ -1,6 +1,6 @@
 {
   "name": "Singer",
-  "version": "0.1.0-issue-identityserver.55",
+  "version": "0.1.0-issue-identityserver.56",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
