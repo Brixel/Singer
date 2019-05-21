@@ -45,6 +45,10 @@
       <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
    </Target>
 
+   <Target Name="UpdatePackageJson" AfterTargets="GetVersion">
+      <Exec WorkingDirectory="$(SpaRoot)" Command="npm version $(GitVersion_FullSemVer) --allow-same-version" />
+   </Target>
+
    <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
       <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
       <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
@@ -61,5 +65,4 @@
          </ResolvedFileToPublish>
       </ItemGroup>
    </Target>
-
 </Project>

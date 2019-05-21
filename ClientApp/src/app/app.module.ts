@@ -9,13 +9,9 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
-import { TestComponentComponent } from './components/test-component/test-component.component';
-import { JwtModule, JwtHelperService } from '@auth0/angular-jwt';
-import { AppRoutingModule } from './app-routing.module';
-import { AuthService } from './core/services/auth.service';
-import { AuthGuard } from './core/services/auth.guard';
-import { AuthComponent } from './components/auth/auth.component';
-import { AuthInterceptor } from './core/services/auth-interceptor';
+import { MaterialModule } from './material.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AboutComponent } from './components/about/about.component';
 
 @NgModule({
    declarations: [
@@ -24,7 +20,7 @@ import { AuthInterceptor } from './core/services/auth-interceptor';
       HomeComponent,
       CounterComponent,
       FetchDataComponent,
-      TestComponentComponent,
+      AboutComponent,
       AuthComponent
    ],
    imports: [
@@ -48,6 +44,8 @@ import { AuthInterceptor } from './core/services/auth-interceptor';
          useClass: AuthInterceptor,
          multi: true,
       },
+      MaterialModule,
+      BrowserAnimationsModule,
    ],
    bootstrap: [AppComponent],
 })
