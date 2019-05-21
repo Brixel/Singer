@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Logging;
 using Singer.Data;
 using Singer.Data.Identity;
 using ApiResource = IdentityServer4.EntityFramework.Entities.ApiResource;
@@ -89,7 +90,7 @@ namespace Singer
             {
                
                // The API resource scope issued in authorization server
-               options.Audience = "singer.api.read";
+               options.Audience = "singer.api";
                // URL of my authorization server
                options.Authority = "https://localhost:5001";
             });
@@ -195,7 +196,7 @@ namespace Singer
                {
                   new ApiScope()
                   {
-                     Name = "singer.api.read",
+                     Name = "apiRead",
                      DisplayName = "Readonly scope for SingerAPI",
                      Required = true
                   },

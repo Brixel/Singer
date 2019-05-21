@@ -24,14 +24,13 @@ namespace Singer.Data.Identity
             {
                new Secret("secret".ToSha256())
             },
-
             RedirectUris = {"https://localhost:5001/index.html"},
             PostLogoutRedirectUris = {"https://localhost:5001/index.html"},
             AllowedCorsOrigins = {"https://localhost:5001"},
 
             AllowedScopes =
             {
-               "singer.api.read"
+               "apiRead"
             }
          };
       }

@@ -40,7 +40,9 @@ export function tokenGetter() {
       ReactiveFormsModule,
       JwtModule.forRoot({
          config: {
-            tokenGetter: tokenGetter,
+            tokenGetter: () => {
+               return localStorage.getItem('token');
+             }
          },
       }),
    ],
