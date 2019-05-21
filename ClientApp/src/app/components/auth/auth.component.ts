@@ -11,7 +11,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 
 export class AuthComponent implements OnInit {
-   private form: FormGroup;
+   form: FormGroup;
    private returnUrl: string;
    constructor(
       private authService: AuthService,
