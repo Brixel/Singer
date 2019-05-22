@@ -3,10 +3,10 @@ using System.Collections.Generic;
 namespace Singer.Models
 {
    /// <summary>
-   /// Model that represents a page of values.
+   /// Model that represents a page of items.
    /// It is used to devide a big list of data in multiple pages and to provide the functionality to navigate to previous/next pages with ease.
    /// </summary>
-   /// <typeparam name="T">Type of the values that are passed with the model.</typeparam>
+   /// <typeparam name="T">Type of the items that are passed with the model.</typeparam>
    public class PaginationModel<T>
    {
       /// <summary>
@@ -25,9 +25,9 @@ namespace Singer.Models
       public string NextPageUrl { get; set; }
 
       /// <summary>
-      /// The number of values given with this response.
+      /// The number of items given with this response.
       /// </summary>
-      public int NumberOfValues { get; set; }
+      public int NumberOfItems { get; set; }
 
       /// <summary>
       /// The index at which this section of values is located.
@@ -35,13 +35,13 @@ namespace Singer.Models
       public int StartAt { get; set; }
 
       /// <summary>
-      /// Total number of values in the data base.
+      /// Total number of items in the data base.
       /// </summary>
-      public int TotalNumberOfValues { get; set; }
+      public int TotalNumberOfItems { get; set; }
 
       /// <summary>
-      /// The returned values.
+      /// The returned items.
       /// </summary>
-      public IList<T> Values { get; set; }
+      public IList<T> Items { get; set; }
    }
 }
