@@ -43,8 +43,7 @@ namespace Singer
 
                   // This line uses 'UseSqlServer' in the 'options' parameter
          // with the connection string defined above.
-         services.AddDbContext<ApplicationDbContext>(
-               options => options.UseSqlServer(connectionString))
+         services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString))
             .AddIdentity<User, IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
          //services.AddDefaultIdentity<User>()
