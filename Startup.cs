@@ -51,7 +51,7 @@ namespace Singer
          //   .AddEntityFrameworkStores<ApplicationDbContext>();
 
          services.AddIdentityServer()
-            .AddDeveloperSigningCredential(true)
+            .AddDeveloperSigningCredential()
             // this adds the config data from DB (clients, resources)
             .AddConfigurationStore(options =>
             {
