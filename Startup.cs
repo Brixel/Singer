@@ -28,6 +28,18 @@ namespace Singer
 {
    public class Startup
    {
+      private const string ROLE_ADMINISTRATOR = "Administrator";
+      private const string ROLE_SOCIALSERVICES = "SocialServices";
+      private const string ROLE_CARETAKER = "Caretaker";
+      private const string ROLE_CAREUSER = "CareUser";
+      private List<string> ROLES = new List<string>()
+      {
+         ROLE_ADMINISTRATOR,
+         ROLE_SOCIALSERVICES,
+         ROLE_CARETAKER,
+         ROLE_CAREUSER
+      }; 
+
       public Startup(IConfiguration configuration)
       {
          Configuration = configuration;
@@ -120,7 +132,8 @@ namespace Singer
             var persistedGrantDbContext = serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>();
             persistedGrantDbContext.Database.Migrate();
 
-            // Seed users
+            // Seed users and roles
+            SeedRoles(serviceScope, applicationDbContext);
             SeedUsers(serviceScope, applicationDbContext);
          }
 
@@ -175,10 +188,34 @@ namespace Singer
          });
       }
 
+      private void SeedRoles(IServiceScope serviceScope, ApplicationDbContext applicationDbContext)
+      {
+         foreach (var role in ROLES)
+         {
+
+            var roleMgr = serviceScope.ServiceProvider.GetRequiredService<AspNetRoleManager<IdentityRole>>();
+            var adminExists = roleMgr.RoleExistsAsync(role).Result;
+            if (!adminExists)
+            {
+               var _ = roleMgr.CreateAsync(new IdentityRole(role)).Result;
+               if (_.Succeeded)
+               {
+                  Console.WriteLine($"Added role {role}");
+
+               }
+               else
+               {
+                  Console.WriteLine($"Failed to add role {role}");
+               }
+            }
+         }
+      }
+
       private void SeedUsers(IServiceScope serviceScope, ApplicationDbContext applicationDbContext)
       {
          var initialAdminPassword = Configuration.GetSection("Application").GetChildren().Single(x => x.Key == "InitialAdminUserPassword").Value;
          var userMgr = serviceScope.ServiceProvider.GetRequiredService<UserManager<User>>();
+         var roleMgr = serviceScope.ServiceProvider.GetRequiredService<AspNetRoleManager<IdentityRole>>();
          var admin = userMgr.FindByNameAsync("admin").Result;
          var usersInDatabase = applicationDbContext.Users.Any();
          if (admin == null && !usersInDatabase)
@@ -212,6 +249,7 @@ namespace Singer
          {
             Console.WriteLine("admin already exists");
          }
+         var _ = userMgr.AddToRoleAsync(admin, ROLE_ADMINISTRATOR).Result;
       }
 
       private void CreateAPIAndClient(ConfigurationDbContext configrationDbContext)
