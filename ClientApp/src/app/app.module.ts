@@ -53,7 +53,6 @@ export function tokenGetter():string {
          useClass: AuthInterceptor,
          multi: true,
       },
-      MaterialModule,
       BrowserAnimationsModule,
    ],
    bootstrap: [AppComponent],
