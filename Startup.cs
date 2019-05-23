@@ -51,6 +51,7 @@ namespace Singer
          //   .AddEntityFrameworkStores<ApplicationDbContext>();
 
          services.AddIdentityServer()
+            .AddDeveloperSigningCredential(true)
             // this adds the config data from DB (clients, resources)
             .AddConfigurationStore(options =>
             {
@@ -70,7 +71,7 @@ namespace Singer
             })
             .AddResourceOwnerValidator<ResourceOwnerPasswordValidator<User>>();
 
-
+         var authority = Configuration.GetSection("Application").GetChildren().Single(x => x.Key == "Authority").Value;
 
          services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
          services.AddAuthentication()
@@ -80,7 +81,7 @@ namespace Singer
                // The API resource scope issued in authorization server
                options.Audience = "singer.api";
                // URL of my authorization server
-               options.Authority = "https://localhost:5001";
+               options.Authority = authority;
             });
 
          // Making JWT authentication scheme the default
