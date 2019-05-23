@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable } from 'rxjs';
@@ -7,8 +7,12 @@ import { map } from 'rxjs/operators';
    providedIn: 'root',
 })
 export class AuthService {
-   private url = 'https://localhost:5001/connect/token';
-   constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {}
+   private url = this.baseUrl + 'connect/token';
+   constructor(
+      private http: HttpClient,
+      private jwtHelper: JwtHelperService,
+      @Inject('BASE_URL') private baseUrl: string
+   ) {}
    authenticate(username: string, password: string): Observable<any> {
       const headers = new HttpHeaders({
          'Content-Type': 'application/x-www-form-urlencoded',
