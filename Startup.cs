@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Security.Claims;
+using System.Security.Cryptography.X509Certificates;
 using IdentityModel;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Entities;
@@ -50,8 +52,15 @@ namespace Singer
          //   .AddRoles<IdentityRole>()
          //   .AddEntityFrameworkStores<ApplicationDbContext>();
 
+         var certPassword = Configuration.GetSection("Application").GetChildren().Single(x => x.Key == "CertPass")
+            .Value;
+         var certThumbprint = Configuration.GetSection("Application").GetChildren()
+            .Single(x => x.Key == "CertThumbprint").Value;
+
+         var cert = LoadCert(certPassword, certThumbprint);
+
          services.AddIdentityServer()
-            .AddDeveloperSigningCredential()
+            .AddSigningCredential(cert)
             // this adds the config data from DB (clients, resources)
             .AddConfigurationStore(options =>
             {
@@ -173,6 +182,33 @@ namespace Singer
                spa.UseAngularCliServer(npmScript: "start");
             }
          });
+      }
+
+      private X509Certificate2 LoadCert(string password, string certThumbprint)
+      {
+         X509Certificate2 cert = null;
+         using (X509Store certStore = new X509Store(StoreName.My, StoreLocation.CurrentUser))
+         {
+            certStore.Open(OpenFlags.ReadOnly);
+            X509Certificate2Collection certCollection = certStore.Certificates.Find(
+               X509FindType.FindByThumbprint,
+               // Replace below with your cert's thumbprint
+               certThumbprint,
+               false);
+            // Get the first cert with the thumbprint
+            if (certCollection.Count > 0)
+            {
+               cert = certCollection[0];
+            }
+         }
+
+         // Fallback to local file for development
+         if (cert == null)
+         {
+            cert = new X509Certificate2(Path.Combine(".", "example.pfx"), password);
+         }
+
+         return cert;
       }
 
       private void SeedUsers(IServiceScope serviceScope, ApplicationDbContext applicationDbContext)
