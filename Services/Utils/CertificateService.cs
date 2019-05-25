@@ -28,7 +28,10 @@ namespace Singer.Services.Utils
 
       public static X509Certificate2 LoadCert(string fileName, string password)
       {
-         return new X509Certificate2(Path.Combine(".", fileName), password); ;
+         return new X509Certificate2(Path.Combine(".", fileName), password,
+         X509KeyStorageFlags.MachineKeySet |
+            X509KeyStorageFlags.PersistKeySet |
+            X509KeyStorageFlags.Exportable); ;
       }
 
    }
