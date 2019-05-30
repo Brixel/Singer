@@ -13,10 +13,10 @@ constructor(private authService: AuthService) {
 }
 
 ngOnInit(): void {
-   if(this.authService.isAuthenticated()){
+   if (this.authService.isAuthenticated()) {
       this.authService.getUserInfo().subscribe((res) => {
          console.log(res);
-      })
+      });
    }
 }
 }

@@ -15,7 +15,7 @@ export class AuthService {
       @Inject('BASE_URL') private baseUrl: string
    ) {}
 
-   getUserInfo():Observable<any>{
+   getUserInfo(): Observable<any> {
       return this.http.get(this.userInfoURL).pipe(map((res) => res));
    }
 
