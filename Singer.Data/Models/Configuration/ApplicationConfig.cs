@@ -1,4 +1,4 @@
-namespace Singer.Models.Configuration
+namespace Singer.Data.Models.Configuration
 {
    public class ApplicationConfig
    {

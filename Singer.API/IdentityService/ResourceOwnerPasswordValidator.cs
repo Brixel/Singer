@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using IdentityModel;
 using IdentityServer4.Events;
@@ -10,9 +6,8 @@ using IdentityServer4.Services;
 using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
-using Singer.Models;
 
-namespace Singer.Services
+namespace Singer.IdentityService
 {
    public class ResourceOwnerPasswordValidator<TUser> : IResourceOwnerPasswordValidator
         where TUser : class

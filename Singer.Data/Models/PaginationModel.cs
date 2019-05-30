@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Singer.Models
+namespace Singer.Data.Models
 {
    /// <summary>
    /// Model that represents a page of items.

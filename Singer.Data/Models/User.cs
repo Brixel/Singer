@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 
-namespace Singer.Models
+namespace Singer.Data.Models
 {
    public class User : IdentityUser
    {

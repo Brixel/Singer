@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Singer", "Singer.API\Singer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Singer.Services", "Singer.Services\Singer.Services.csproj", "{AF7CAE98-C129-4EB4-A84A-B6EF859E86A0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Singer.Data", "Singer.Data\Singer.Data.csproj", "{B132795A-8DAE-423D-934B-177881BE059D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{AF7CAE98-C129-4EB4-A84A-B6EF859E86A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF7CAE98-C129-4EB4-A84A-B6EF859E86A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF7CAE98-C129-4EB4-A84A-B6EF859E86A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B132795A-8DAE-423D-934B-177881BE059D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B132795A-8DAE-423D-934B-177881BE059D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B132795A-8DAE-423D-934B-177881BE059D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B132795A-8DAE-423D-934B-177881BE059D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

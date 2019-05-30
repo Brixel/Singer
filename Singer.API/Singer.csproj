@@ -38,9 +38,18 @@
    </ItemGroup>
 
    <ItemGroup>
+     <ProjectReference Include="..\Singer.Data\Singer.Data.csproj" />
+     <ProjectReference Include="..\Singer.Services\Singer.Services.csproj" />
+   </ItemGroup>
+
+   <ItemGroup>
      <None Update="example.pfx">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </None>
+   </ItemGroup>
+
+   <ItemGroup>
+     <Folder Include="Data\" />
    </ItemGroup>
 
    <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
