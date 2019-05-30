@@ -216,7 +216,8 @@ namespace Singer
 
       private void SeedUsers(IServiceScope serviceScope, ApplicationDbContext applicationDbContext)
       {
-         
+         var initialAdminPassword =
+            Configuration.GetSection("Application").Get<ApplicationConfig>().InitialAdminUserPassword;
          var userMgr = serviceScope.ServiceProvider.GetRequiredService<UserManager<User>>();
          var roleMgr = serviceScope.ServiceProvider.GetRequiredService<AspNetRoleManager<IdentityRole>>();
          var admin = userMgr.FindByNameAsync("admin").Result;
