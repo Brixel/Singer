@@ -1,9 +1,16 @@
+using IdentityModel;
 using IdentityServer4.EntityFramework.DbContexts;
+using IdentityServer4.EntityFramework.Entities;
+using IdentityServer4.EntityFramework.Mappers;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Singer.Data;
+using Singer.Data.Identity;
+using Singer.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Singer.Configuration
@@ -14,16 +21,15 @@ namespace Singer.Configuration
       private const string ROLE_SOCIALSERVICES = "SocialServices";
       private const string ROLE_CARETAKER = "Caretaker";
       private const string ROLE_CAREUSER = "CareUser";
-      private List<string> ROLES = new List<string>()
+      private static List<string> ROLES = new List<string>()
       {
          ROLE_ADMINISTRATOR,
          ROLE_SOCIALSERVICES,
          ROLE_CARETAKER,
          ROLE_CAREUSER
       };
-      public static void SeedUsers(IServiceScope serviceScope, ApplicationDbContext applicationDbContext)
+      public static void SeedUsers(IServiceScope serviceScope, ApplicationDbContext applicationDbContext, string initialAdminPassword)
       {
-         var initialAdminPassword = Configuration.GetSection("Application").GetChildren().Single(x => x.Key == "InitialAdminUserPassword").Value;
          var userMgr = serviceScope.ServiceProvider.GetRequiredService<UserManager<User>>();
          var roleMgr = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
          var admin = userMgr.FindByNameAsync("admin").Result;

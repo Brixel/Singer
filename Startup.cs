@@ -20,6 +20,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Singer.Configuration;
 using Singer.Data;
 using Singer.Data.Identity;
 using Singer.Models;
@@ -85,7 +86,6 @@ namespace Singer
          
          services.AddIdentityServer()
             .AddSigningCredential(cert)
-            // this adds the config data from DB (clients, resources)
             .AddConfigurationStore(options =>
             {
                options.ConfigureDbContext = b =>
@@ -110,7 +110,7 @@ namespace Singer
          services.AddAuthentication()
             .AddJwtBearer(options =>
             {
-               
+
                // The API resource scope issued in authorization server
                options.Audience = "singer.api";
                // URL of my authorization server
@@ -134,6 +134,12 @@ namespace Singer
 
          // Register the Swagger services
          services.AddSwaggerDocument();
+      }
+
+      private static IIdentityServerBuilder AddIdentityService(IServiceCollection services, X509Certificate2 cert)
+      {
+         return services.AddIdentityServer()
+                     .AddSigningCredential(cert);
       }
 
       // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -193,6 +199,7 @@ namespace Singer
 
       private void MigrateContexts(IApplicationBuilder app)
       {
+         var initialAdminPassword = Configuration.GetSection("Application").Get<ApplicationConfig>().InitialAdminUserPassword;
          using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
          {
             var applicationDbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
@@ -201,110 +208,13 @@ namespace Singer
             var configrationDbContext = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
             configrationDbContext.Database.Migrate();
 
-
-            CreateAPIAndClient(configrationDbContext);
-
             var persistedGrantDbContext = serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>();
             persistedGrantDbContext.Database.Migrate();
-
-            // Seed users
-            SeedUsers(serviceScope, applicationDbContext);
+                       
+            Seed.SeedRoles(serviceScope, applicationDbContext);
+            Seed.SeedUsers(serviceScope, applicationDbContext, initialAdminPassword);
+            Seed.CreateAPIAndClient(configrationDbContext);
          }
       }
-
-      #region Seed
-
-      private void SeedUsers(IServiceScope serviceScope, ApplicationDbContext applicationDbContext)
-      {
-         var initialAdminPassword =
-            Configuration.GetSection("Application").Get<ApplicationConfig>().InitialAdminUserPassword;
-         var userMgr = serviceScope.ServiceProvider.GetRequiredService<UserManager<User>>();
-         var roleMgr = serviceScope.ServiceProvider.GetRequiredService<AspNetRoleManager<IdentityRole>>();
-         var admin = userMgr.FindByNameAsync("admin").Result;
-         var usersInDatabase = applicationDbContext.Users.Any();
-         if (admin == null && !usersInDatabase)
-         {
-            admin = new User
-            {
-               UserName = "admin"
-            };
-            var result = userMgr.CreateAsync(admin, initialAdminPassword).Result;
-            if (!result.Succeeded)
-            {
-               throw new Exception(result.Errors.First().Description);
-            }
-
-            result = userMgr.AddClaimsAsync(admin, new Claim[]{
-               new Claim(JwtClaimTypes.Name, "Admin"),
-               new Claim(JwtClaimTypes.GivenName, "GivenName"),
-               new Claim(JwtClaimTypes.FamilyName, "FamilyName"),
-               new Claim(JwtClaimTypes.Email, "email@host.example"),
-               new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
-               new Claim(JwtClaimTypes.WebSite, "http://host.example"),
-               new Claim(JwtClaimTypes.Address, @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }", IdentityServer4.IdentityServerConstants.ClaimValueTypes.Json)
-            }).Result;
-            if (!result.Succeeded)
-            {
-               throw new Exception(result.Errors.First().Description);
-            }
-            Console.WriteLine("admin created");
-         }
-         else
-         {
-            Console.WriteLine("admin already exists");
-         }
-         var _ = userMgr.AddToRoleAsync(admin, ROLE_ADMINISTRATOR).Result;
-      }
-
-      private void CreateAPIAndClient(ConfigurationDbContext configrationDbContext)
-      {
-         var singerApiResourceName = "singer.api";
-         var apiResource = configrationDbContext.ApiResources.SingleOrDefault(x => x.Name == singerApiResourceName);
-         if (apiResource == null)
-         {
-            apiResource = new ApiResource()
-            {
-               Name = singerApiResourceName,
-               Scopes = new List<ApiScope>()
-               {
-                  new ApiScope()
-                  {
-                     Name = "apiRead",
-                     DisplayName = "Readonly scope for SingerAPI",
-                     Required = true
-                  },
-               },
-
-               UserClaims = new List<ApiResourceClaim>()
-               {
-                  new ApiResourceClaim()
-                  {
-                     Type = ClaimTypes.Name,
-                  },
-                  new ApiResourceClaim()
-                  {
-                     Type = ClaimTypes.Email
-                  }
-               }
-            };
-
-
-            configrationDbContext.ApiResources.Add(apiResource);
-         }
-
-
-         var clientId = "singer.client";
-         var singerApiClient = configrationDbContext.Clients.SingleOrDefault(x => x.ClientId == clientId);
-         if (singerApiClient == null)
-         {
-            singerApiClient = Config.GetClient().ToEntity();
-            configrationDbContext.Clients.Add(singerApiClient);
-         }
-
-         configrationDbContext.SaveChanges();
-      }
-
-      #endregion
-
    }
 }
