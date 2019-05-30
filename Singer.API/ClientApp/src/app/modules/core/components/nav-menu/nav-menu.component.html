@@ -1,0 +1,28 @@
+<header>
+   <mat-toolbar color="primary">
+      <span>Singer</span>
+      <span class="fill-remaining-space"></span>
+      <a
+         mat-raised-button
+         [routerLink]="['/']"
+         [routerLinkActiveOptions]="{ exact: true }"
+         routerLinkActive="mat - accent"
+      >
+         Home
+      </a>
+      <a
+         mat-raised-button
+         [routerLink]="['/dashboard/about']"
+         routerLinkActive="mat-accent"
+      >
+         About
+      </a>
+      <a
+         mat-raised-button
+         [routerLink]="['/login']"
+         routerLinkActive="mat-accent"
+      >
+         Login
+      </a>
+   </mat-toolbar>
+</header>
