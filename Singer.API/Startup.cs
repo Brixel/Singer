@@ -177,7 +177,7 @@ namespace Singer
          {
             routes.MapRoute(
                    name: "default",
-                   template: "{controller}/{action=Index}/{id?}");
+                   template: "{controller}/{action=GetAboutVersion}/{id?}");
          });
 
          app.UseSpa(spa =>

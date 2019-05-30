@@ -1,9 +1,12 @@
 import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { MainComponent } from './main.component';
+import { AuthGuard } from './modules/core/services/auth.guard';
 
 const routes: Routes = [
-   { path: 'login', loadChildren: './modules/login/login.module#LoginModule' },
+   { path: 'login',
+      loadChildren: './modules/login/login.module#LoginModule'
+   },
    {
       path: 'dashboard',
       loadChildren: './modules/dashboard/dashboard.module#DashboardModule',

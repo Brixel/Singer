@@ -33,7 +33,6 @@ export class AuthComponent implements OnInit {
    submit() {
       const username = this.form.get('username').value;
       const password = this.form.get('password').value;
-      console.log(' hit');
       this.authService.authenticate(username, password).subscribe(
          () => {
             const url = this.returnUrl || '/';

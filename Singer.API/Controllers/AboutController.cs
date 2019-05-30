@@ -1,13 +1,15 @@
 using System.Reflection;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Singer.DTOs;
 
 namespace Singer.Controllers
 {
    [Route("api/[controller]")]
+   [Authorize]
    public class AboutController : Controller
    {
-      private string _apiVersion;
+      private readonly string _apiVersion;
       public AboutController()
       {
          Assembly assembly = Assembly.Load("Singer");
@@ -15,7 +17,9 @@ namespace Singer.Controllers
          var fullSemVerField = gitVersionInformationType.GetField("FullSemVer");
          _apiVersion = fullSemVerField.GetValue(null).ToString();
       }
-      public AboutDTO Index()
+
+      [HttpGet("")]
+      public AboutDTO GetAboutVersion()
       {
          return new AboutDTO
          {

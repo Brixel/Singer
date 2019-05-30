@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
    selector: 'app-about',
@@ -10,11 +11,13 @@ import { environment } from 'src/environments/environment';
 export class AboutComponent {
    public uiVersion: string = environment.VERSION;
 
-   public about: AboutDTO;
+   private apiVersionSubject$ = new BehaviorSubject<string>(null);
+   apiVersion$ = this.apiVersionSubject$.asObservable();
+
    constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-      http.get<AboutDTO>(baseUrl + 'api/About').subscribe(
+      http.get<AboutDTO>(baseUrl + 'api/about').subscribe(
          result => {
-            this.about = result;
+            this.apiVersionSubject$.next(result.apiVersion);
          },
          error => console.error(error)
       );
