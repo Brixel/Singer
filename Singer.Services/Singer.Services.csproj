@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -10,9 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GitVersionTask" Version="5.0.0-beta" />
-    <PackageReference Include="IdentityServer4.EntityFramework" Version="2.4.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.2.0" />
+    
+      <PackageReference Include="GitVersionTask" Version="5.0.0-beta*">
+         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+         <PrivateAssets>all</PrivateAssets>
+      </PackageReference>
+      <PackageReference Include="IdentityServer4" Version="2.4.0" />
+      <PackageReference Include="IdentityServer4.EntityFramework" Version="2.4.0" />
   </ItemGroup>
 
 </Project>
