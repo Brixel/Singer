@@ -29,8 +29,7 @@ export function tokenGetter():string {
       AppRoutingModule,
       HttpClientModule,
       MaterialModule,
-      FormsModule,
-      ReactiveFormsModule,
+      BrowserAnimationsModule,
       JwtModule.forRoot({
          config: {
             tokenGetter: tokenGetter,

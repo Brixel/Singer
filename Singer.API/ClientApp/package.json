@@ -1,6 +1,6 @@
 {
   "name": "Singer",
-  "version": "0.1.0-dev.99",
+  "version": "0.1.0-issue-AB-11-roles-login.112",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

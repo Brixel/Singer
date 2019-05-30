@@ -2,6 +2,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { AboutComponent } from './components/about/about.component';
+import { AuthGuard } from '../core/services/auth.guard';
 
 const routes: Routes = [
    {
@@ -10,7 +11,8 @@ const routes: Routes = [
    },
    {
       path: 'about',
-      component: AboutComponent
+      component: AboutComponent,
+      canActivate:[AuthGuard]
    }
 ];
 @NgModule({

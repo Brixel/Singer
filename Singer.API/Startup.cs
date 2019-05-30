@@ -5,10 +5,12 @@ using System.Reflection;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 using IdentityModel;
+using IdentityServer4.AccessTokenValidation;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Entities;
 using IdentityServer4.EntityFramework.Mappers;
 using IdentityServer4.Test;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -19,11 +21,14 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using Singer.Configuration;
 using Singer.Data;
 using Singer.Data.Identity;
 using Singer.Data.Models;
 using Singer.Data.Models.Configuration;
 using Singer.IdentityService;
+using Singer.Models;
 using Singer.Services;
 using Singer.Services.Utils;
 using ApiResource = IdentityServer4.EntityFramework.Entities.ApiResource;
@@ -32,17 +37,6 @@ namespace Singer
 {
    public class Startup
    {
-      private const string ROLE_ADMINISTRATOR = "Administrator";
-      private const string ROLE_SOCIALSERVICES = "SocialServices";
-      private const string ROLE_CARETAKER = "Caretaker";
-      private const string ROLE_CAREUSER = "CareUser";
-      private List<string> ROLES = new List<string>()
-      {
-         ROLE_ADMINISTRATOR,
-         ROLE_SOCIALSERVICES,
-         ROLE_CARETAKER,
-         ROLE_CAREUSER
-      }; 
 
       public Startup(IConfiguration configuration)
       {
@@ -59,9 +53,11 @@ namespace Singer
 
          // This line uses 'UseSqlServer' in the 'options' parameter
          // with the connection string defined above.
-         services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString))
+         services
+            .AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString))
             .AddIdentity<User, IdentityRole>()
-            .AddEntityFrameworkStores<ApplicationDbContext>();
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
 
          var applicationConfig = Configuration.GetSection("Application").Get<ApplicationConfig>();
          var certFileName = applicationConfig.CertFileName;
@@ -82,10 +78,11 @@ namespace Singer
          {
             throw new ArgumentNullException("Not able to load certificate");
          }
-         
+
          services.AddIdentityServer()
+
             .AddSigningCredential(cert)
-            // this adds the config data from DB (clients, resources)
+            .AddAspNetIdentity<User>()
             .AddConfigurationStore(options =>
             {
                options.ConfigureDbContext = b =>
@@ -101,18 +98,18 @@ namespace Singer
 
                // this enables automatic token cleanup. this is optional.
                options.EnableTokenCleanup = true;
-            })
-            .AddResourceOwnerValidator<ResourceOwnerPasswordValidator<User>>();
+            });
+            //.AddResourceOwnerValidator<ResourceOwnerPasswordValidator<User>>();
 
          var authority = applicationConfig.Authority;
 
          services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-         services.AddAuthentication()
-            .AddJwtBearer(options =>
+         services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+            .AddIdentityServerAuthentication(options =>
             {
-               
+
                // The API resource scope issued in authorization server
-               options.Audience = "singer.api";
+               options.ApiName = "singer.api";
                // URL of my authorization server
                options.Authority = authority;
             });
@@ -134,6 +131,12 @@ namespace Singer
 
          // Register the Swagger services
          services.AddSwaggerDocument();
+      }
+
+      private static IIdentityServerBuilder AddIdentityService(IServiceCollection services, X509Certificate2 cert)
+      {
+         return services.AddIdentityServer()
+                     .AddSigningCredential(cert);
       }
 
       // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -174,7 +177,7 @@ namespace Singer
          {
             routes.MapRoute(
                    name: "default",
-                   template: "{controller}/{action=Index}/{id?}");
+                   template: "{controller}/{action=GetAboutVersion}/{id?}");
          });
 
          app.UseSpa(spa =>
@@ -193,6 +196,7 @@ namespace Singer
 
       private void MigrateContexts(IApplicationBuilder app)
       {
+         var initialAdminPassword = Configuration.GetSection("Application").Get<ApplicationConfig>().InitialAdminUserPassword;
          using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
          {
             var applicationDbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
@@ -201,110 +205,14 @@ namespace Singer
             var configrationDbContext = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
             configrationDbContext.Database.Migrate();
 
-
-            CreateAPIAndClient(configrationDbContext);
-
             var persistedGrantDbContext = serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>();
             persistedGrantDbContext.Database.Migrate();
-
-            // Seed users
-            SeedUsers(serviceScope, applicationDbContext);
+                       
+            Seed.SeedRoles(serviceScope, applicationDbContext);
+            Seed.SeedUsers(serviceScope, applicationDbContext, initialAdminPassword);
+            Seed.CreateAPIAndClient(configrationDbContext);
+            Seed.SeedIdentityResources(configrationDbContext);
          }
       }
-
-      #region Seed
-
-      private void SeedUsers(IServiceScope serviceScope, ApplicationDbContext applicationDbContext)
-      {
-         var initialAdminPassword =
-            Configuration.GetSection("Application").Get<ApplicationConfig>().InitialAdminUserPassword;
-         var userMgr = serviceScope.ServiceProvider.GetRequiredService<UserManager<User>>();
-         var roleMgr = serviceScope.ServiceProvider.GetRequiredService<AspNetRoleManager<IdentityRole>>();
-         var admin = userMgr.FindByNameAsync("admin").Result;
-         var usersInDatabase = applicationDbContext.Users.Any();
-         if (admin == null && !usersInDatabase)
-         {
-            admin = new User
-            {
-               UserName = "admin"
-            };
-            var result = userMgr.CreateAsync(admin, initialAdminPassword).Result;
-            if (!result.Succeeded)
-            {
-               throw new Exception(result.Errors.First().Description);
-            }
-
-            result = userMgr.AddClaimsAsync(admin, new Claim[]{
-               new Claim(JwtClaimTypes.Name, "Admin"),
-               new Claim(JwtClaimTypes.GivenName, "GivenName"),
-               new Claim(JwtClaimTypes.FamilyName, "FamilyName"),
-               new Claim(JwtClaimTypes.Email, "email@host.example"),
-               new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
-               new Claim(JwtClaimTypes.WebSite, "http://host.example"),
-               new Claim(JwtClaimTypes.Address, @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }", IdentityServer4.IdentityServerConstants.ClaimValueTypes.Json)
-            }).Result;
-            if (!result.Succeeded)
-            {
-               throw new Exception(result.Errors.First().Description);
-            }
-            Console.WriteLine("admin created");
-         }
-         else
-         {
-            Console.WriteLine("admin already exists");
-         }
-         var _ = userMgr.AddToRoleAsync(admin, ROLE_ADMINISTRATOR).Result;
-      }
-
-      private void CreateAPIAndClient(ConfigurationDbContext configrationDbContext)
-      {
-         var singerApiResourceName = "singer.api";
-         var apiResource = configrationDbContext.ApiResources.SingleOrDefault(x => x.Name == singerApiResourceName);
-         if (apiResource == null)
-         {
-            apiResource = new ApiResource()
-            {
-               Name = singerApiResourceName,
-               Scopes = new List<ApiScope>()
-               {
-                  new ApiScope()
-                  {
-                     Name = "apiRead",
-                     DisplayName = "Readonly scope for SingerAPI",
-                     Required = true
-                  },
-               },
-
-               UserClaims = new List<ApiResourceClaim>()
-               {
-                  new ApiResourceClaim()
-                  {
-                     Type = ClaimTypes.Name,
-                  },
-                  new ApiResourceClaim()
-                  {
-                     Type = ClaimTypes.Email
-                  }
-               }
-            };
-
-
-            configrationDbContext.ApiResources.Add(apiResource);
-         }
-
-
-         var clientId = "singer.client";
-         var singerApiClient = configrationDbContext.Clients.SingleOrDefault(x => x.ClientId == clientId);
-         if (singerApiClient == null)
-         {
-            singerApiClient = Config.GetClient().ToEntity();
-            configrationDbContext.Clients.Add(singerApiClient);
-         }
-
-         configrationDbContext.SaveChanges();
-      }
-
-      #endregion
-
    }
 }
