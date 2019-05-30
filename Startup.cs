@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Security.Claims;
+using System.Security.Cryptography.X509Certificates;
 using IdentityModel;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Entities;
@@ -18,10 +19,13 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Singer.Data;
 using Singer.Data.Identity;
 using Singer.Models;
+using Singer.Models.Configuration;
 using Singer.Services;
+using Singer.Services.Utils;
 using ApiResource = IdentityServer4.EntityFramework.Entities.ApiResource;
 
 namespace Singer
@@ -53,17 +57,34 @@ namespace Singer
          var connectionString = Configuration.GetSection("ConnectionStrings").GetChildren().Single(x => x.Key == "Application").Value;
          var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
-                  // This line uses 'UseSqlServer' in the 'options' parameter
+         // This line uses 'UseSqlServer' in the 'options' parameter
          // with the connection string defined above.
          services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString))
             .AddIdentity<User, IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
-         //services.AddDefaultIdentity<User>()
-         //   .AddRoles<IdentityRole>()
-         //   .AddEntityFrameworkStores<ApplicationDbContext>();
 
+         var applicationConfig = Configuration.GetSection("Application").Get<ApplicationConfig>();
+         var certFileName = applicationConfig.CertFileName;
+         var certThumbprint = applicationConfig.CertThumbprint;
+         var certPassword = applicationConfig.CertPass;
+
+         X509Certificate2 cert;
+         if (!string.IsNullOrEmpty(certThumbprint))
+         {
+            cert = CertificateService.LoadCert(certThumbprint);
+         }
+         else
+         {
+            cert = CertificateService.LoadCert(certFileName, certPassword);
+         }
+
+         if (cert == null)
+         {
+            throw new ArgumentNullException("Not able to load certificate");
+         }
+         
          services.AddIdentityServer()
-            .AddDeveloperSigningCredential(true)
+            .AddSigningCredential(cert)
             // this adds the config data from DB (clients, resources)
             .AddConfigurationStore(options =>
             {
@@ -83,7 +104,7 @@ namespace Singer
             })
             .AddResourceOwnerValidator<ResourceOwnerPasswordValidator<User>>();
 
-         var authority = Configuration.GetSection("Application").GetChildren().Single(x => x.Key == "Authority").Value;
+         var authority = applicationConfig.Authority;
 
          services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
          services.AddAuthentication()
@@ -118,25 +139,7 @@ namespace Singer
       // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
       public void Configure(IApplicationBuilder app, IHostingEnvironment env)
       {
-         using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
-         {
-            var applicationDbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-            applicationDbContext.Database.Migrate();
-
-            var configrationDbContext = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
-            configrationDbContext.Database.Migrate();
-
-
-            CreateAPIAndClient(configrationDbContext);
-
-            var persistedGrantDbContext = serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>();
-            persistedGrantDbContext.Database.Migrate();
-
-            // Seed users and roles
-            SeedRoles(serviceScope, applicationDbContext);
-            SeedUsers(serviceScope, applicationDbContext);
-         }
-
+         MigrateContexts(app);
 
          if (env.IsDevelopment())
          {
@@ -188,32 +191,33 @@ namespace Singer
          });
       }
 
-      private void SeedRoles(IServiceScope serviceScope, ApplicationDbContext applicationDbContext)
+      private void MigrateContexts(IApplicationBuilder app)
       {
-         foreach (var role in ROLES)
+         using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
          {
+            var applicationDbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            applicationDbContext.Database.Migrate();
 
-            var roleMgr = serviceScope.ServiceProvider.GetRequiredService<AspNetRoleManager<IdentityRole>>();
-            var adminExists = roleMgr.RoleExistsAsync(role).Result;
-            if (!adminExists)
-            {
-               var _ = roleMgr.CreateAsync(new IdentityRole(role)).Result;
-               if (_.Succeeded)
-               {
-                  Console.WriteLine($"Added role {role}");
+            var configrationDbContext = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
+            configrationDbContext.Database.Migrate();
 
-               }
-               else
-               {
-                  Console.WriteLine($"Failed to add role {role}");
-               }
-            }
+
+            CreateAPIAndClient(configrationDbContext);
+
+            var persistedGrantDbContext = serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>();
+            persistedGrantDbContext.Database.Migrate();
+
+            // Seed users
+            SeedUsers(serviceScope, applicationDbContext);
          }
       }
 
+      #region Seed
+
       private void SeedUsers(IServiceScope serviceScope, ApplicationDbContext applicationDbContext)
       {
-         var initialAdminPassword = Configuration.GetSection("Application").GetChildren().Single(x => x.Key == "InitialAdminUserPassword").Value;
+         var initialAdminPassword =
+            Configuration.GetSection("Application").Get<ApplicationConfig>().InitialAdminUserPassword;
          var userMgr = serviceScope.ServiceProvider.GetRequiredService<UserManager<User>>();
          var roleMgr = serviceScope.ServiceProvider.GetRequiredService<AspNetRoleManager<IdentityRole>>();
          var admin = userMgr.FindByNameAsync("admin").Result;
@@ -299,5 +303,8 @@ namespace Singer
 
          configrationDbContext.SaveChanges();
       }
+
+      #endregion
+
    }
 }
