@@ -2,6 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+
+     <!-- These settings related to GitVersionTask -->
+     <WriteVersionInfoToBuildLog>true</WriteVersionInfoToBuildLog>
+     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+     <UserSecretsId>2c603b24-5e3c-4e7c-afca-070947f91e24</UserSecretsId>
   </PropertyGroup>
 
 </Project>
