@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -8,5 +8,9 @@
      <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
      <UserSecretsId>2c603b24-5e3c-4e7c-afca-070947f91e24</UserSecretsId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="GitVersionTask" Version="5.0.0-beta" />
+  </ItemGroup>
 
 </Project>

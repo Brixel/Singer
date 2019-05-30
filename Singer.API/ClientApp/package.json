@@ -1,6 +1,6 @@
 {
   "name": "Singer",
-  "version": "0.1.0-dev.90",
+  "version": "0.1.0-dev.92",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
