@@ -3,11 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Singer", "Singer.API\Singer.csproj", "{BB65227C-EBA5-439D-B142-62C8937EB8C3}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Singer.Services", "Singer.Services\Singer.Services.csproj", "{AF7CAE98-C129-4EB4-A84A-B6EF859E86A0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Singer.Data", "Singer.Data\Singer.Data.csproj", "{B132795A-8DAE-423D-934B-177881BE059D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Singer", "Singer.API\Singer.csproj", "{BB65227C-EBA5-439D-B142-62C8937EB8C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,14 +15,6 @@ Global
 		{BB65227C-EBA5-439D-B142-62C8937EB8C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB65227C-EBA5-439D-B142-62C8937EB8C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB65227C-EBA5-439D-B142-62C8937EB8C3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AF7CAE98-C129-4EB4-A84A-B6EF859E86A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AF7CAE98-C129-4EB4-A84A-B6EF859E86A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AF7CAE98-C129-4EB4-A84A-B6EF859E86A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AF7CAE98-C129-4EB4-A84A-B6EF859E86A0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B132795A-8DAE-423D-934B-177881BE059D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B132795A-8DAE-423D-934B-177881BE059D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B132795A-8DAE-423D-934B-177881BE059D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B132795A-8DAE-423D-934B-177881BE059D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
