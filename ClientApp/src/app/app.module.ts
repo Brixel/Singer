@@ -17,6 +17,7 @@ import { JwtModule, JwtHelperService } from '@auth0/angular-jwt';
 import { AuthService } from './core/services/auth.service';
 import { AuthGuard } from './core/services/auth.guard';
 import { AuthInterceptor } from './core/services/auth-interceptor';
+import { CareUsersComponent } from './components/care-users/care-users.component';
 
 export function tokenGetter():string {
    return localStorage.getItem('token');
@@ -29,7 +30,8 @@ export function tokenGetter():string {
       CounterComponent,
       FetchDataComponent,
       AboutComponent,
-      AuthComponent
+      AuthComponent,
+      CareUsersComponent
    ],
    imports: [
       BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
