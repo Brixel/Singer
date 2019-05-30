@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using IdentityModel;
 using IdentityServer4;
 using IdentityServer4.Models;
+using static IdentityModel.OidcConstants;
 
 namespace Singer.Data.Identity
 {
@@ -16,7 +17,7 @@ namespace Singer.Data.Identity
          {
             ClientId = "singer.client",
             ClientName = "Singer JS Client",
-            AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
+            AllowedGrantTypes = IdentityServer4.Models.GrantTypes.ResourceOwnerPassword,
             RequirePkce = true,
             RequireClientSecret = true,
 
@@ -30,7 +31,10 @@ namespace Singer.Data.Identity
 
             AllowedScopes =
             {
-               "apiRead"
+               "apiRead",
+               StandardScopes.OpenId,
+               StandardScopes.Email,
+               StandardScopes.Profile
             }
          };
       }

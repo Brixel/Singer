@@ -7,12 +7,18 @@ import { map } from 'rxjs/operators';
    providedIn: 'root',
 })
 export class AuthService {
-   private url = this.baseUrl + 'connect/token';
+   private tokenURL = this.baseUrl + 'connect/token';
+   private userInfoURL = this.baseUrl + 'connect/userinfo';
    constructor(
       private http: HttpClient,
       private jwtHelper: JwtHelperService,
       @Inject('BASE_URL') private baseUrl: string
    ) {}
+
+   getUserInfo():Observable<any>{
+      return this.http.get(this.userInfoURL).pipe(map((res) => res));
+   }
+
    authenticate(username: string, password: string): Observable<any> {
       const headers = new HttpHeaders({
          'Content-Type': 'application/x-www-form-urlencoded',
@@ -25,7 +31,7 @@ export class AuthService {
       body.set('client_secret', 'secret');
 
       return this.http
-         .post<any>(this.url, body.toString(), {
+         .post<any>(this.tokenURL, body.toString(), {
             headers: headers,
          })
          .pipe(

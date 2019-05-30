@@ -2,6 +2,7 @@ using IdentityModel;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Entities;
 using IdentityServer4.EntityFramework.Mappers;
+using IdentityServer4.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Singer.Data;
@@ -12,6 +13,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using static IdentityServer4.IdentityServerConstants;
+using ApiResource = IdentityServer4.EntityFramework.Entities.ApiResource;
+using ClaimValueTypes = System.Security.Claims.ClaimValueTypes;
+using IdentityResource = IdentityServer4.EntityFramework.Entities.IdentityResource;
 
 namespace Singer.Configuration
 {
@@ -91,6 +96,28 @@ namespace Singer.Configuration
          }
       }
 
+      public static void SeedIdentityResources(ConfigurationDbContext configrationDbContext)
+      {
+         var identityResources= new List<IdentityResource>
+         {
+            new IdentityResources.OpenId().ToEntity(),
+            new IdentityResources.Email().ToEntity(),
+            new IdentityResources.Profile().ToEntity(),
+            new IdentityResources.Phone().ToEntity(),
+            new IdentityResources.Address().ToEntity()
+         };
+
+
+        foreach(var identityResource in identityResources)
+         {
+            var identityResourceInDb = configrationDbContext.IdentityResources.SingleOrDefault(x => x.Name == identityResource.Name);
+            if(identityResourceInDb == null)
+            {
+               configrationDbContext.IdentityResources.Add(identityResource);
+            }
+         }
+      }
+
       public static void CreateAPIAndClient(ConfigurationDbContext configrationDbContext)
       {
          var singerApiResourceName = "singer.api";
@@ -108,6 +135,24 @@ namespace Singer.Configuration
                      DisplayName = "Readonly scope for SingerAPI",
                      Required = true
                   },
+                  new ApiScope()
+                  {
+                     Name = StandardScopes.OpenId,
+                     DisplayName ="OpenId",
+                     Required = false
+                  },
+                  new ApiScope()
+                  {
+                     Name = StandardScopes.Profile,
+                     DisplayName = "Profile",
+                     Required = false
+                  },
+                  new ApiScope()
+                  {
+                     Name = StandardScopes.Email,
+                     DisplayName = "Email",
+                     Required = false
+                  }
                },
 
                UserClaims = new List<ApiResourceClaim>()
@@ -119,7 +164,8 @@ namespace Singer.Configuration
                   new ApiResourceClaim()
                   {
                      Type = ClaimTypes.Email
-                  }
+                  },
+                  
                }
             };
 

@@ -5,10 +5,12 @@ using System.Reflection;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 using IdentityModel;
+using IdentityServer4.AccessTokenValidation;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Entities;
 using IdentityServer4.EntityFramework.Mappers;
 using IdentityServer4.Test;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -60,9 +62,11 @@ namespace Singer
 
          // This line uses 'UseSqlServer' in the 'options' parameter
          // with the connection string defined above.
-         services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString))
+         services
+            .AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString))
             .AddIdentity<User, IdentityRole>()
-            .AddEntityFrameworkStores<ApplicationDbContext>();
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
 
          var applicationConfig = Configuration.GetSection("Application").Get<ApplicationConfig>();
          var certFileName = applicationConfig.CertFileName;
@@ -83,9 +87,11 @@ namespace Singer
          {
             throw new ArgumentNullException("Not able to load certificate");
          }
-         
+
          services.AddIdentityServer()
+
             .AddSigningCredential(cert)
+            .AddAspNetIdentity<User>()
             .AddConfigurationStore(options =>
             {
                options.ConfigureDbContext = b =>
@@ -101,18 +107,18 @@ namespace Singer
 
                // this enables automatic token cleanup. this is optional.
                options.EnableTokenCleanup = true;
-            })
-            .AddResourceOwnerValidator<ResourceOwnerPasswordValidator<User>>();
+            });
+            //.AddResourceOwnerValidator<ResourceOwnerPasswordValidator<User>>();
 
          var authority = applicationConfig.Authority;
 
          services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-         services.AddAuthentication()
-            .AddJwtBearer(options =>
+         services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+            .AddIdentityServerAuthentication(options =>
             {
 
                // The API resource scope issued in authorization server
-               options.Audience = "singer.api";
+               options.ApiName = "singer.api";
                // URL of my authorization server
                options.Authority = authority;
             });
@@ -214,6 +220,7 @@ namespace Singer
             Seed.SeedRoles(serviceScope, applicationDbContext);
             Seed.SeedUsers(serviceScope, applicationDbContext, initialAdminPassword);
             Seed.CreateAPIAndClient(configrationDbContext);
+            Seed.SeedIdentityResources(configrationDbContext);
          }
       }
    }
