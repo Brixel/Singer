@@ -18,11 +18,18 @@
          About
       </a>
       <a
+         *ngIf="!isAuthenticated()"
          mat-raised-button
          [routerLink]="['/login']"
          routerLinkActive="mat-accent"
       >
          Login
       </a>
+      <button
+      *ngIf="isAuthenticated()"
+         mat-raised-button
+         (click)="onLogoutClicked()"      >
+         Logout
+      </button>
    </mat-toolbar>
 </header>
