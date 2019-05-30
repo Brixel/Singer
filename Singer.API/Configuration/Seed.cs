@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using Singer.Data.Models;
+using Singer.Models;
 using static IdentityServer4.IdentityServerConstants;
 using ApiResource = IdentityServer4.EntityFramework.Entities.ApiResource;
 using ClaimValueTypes = System.Security.Claims.ClaimValueTypes;

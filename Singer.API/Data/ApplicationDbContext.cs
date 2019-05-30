@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Singer.Data.Models;
+using Singer.Models;
 
 namespace Singer.Data
 {

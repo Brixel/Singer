@@ -28,6 +28,7 @@ using Singer.Data.Identity;
 using Singer.Data.Models;
 using Singer.Data.Models.Configuration;
 using Singer.IdentityService;
+using Singer.Models;
 using Singer.Services;
 using Singer.Services.Utils;
 using ApiResource = IdentityServer4.EntityFramework.Entities.ApiResource;
@@ -36,17 +37,6 @@ namespace Singer
 {
    public class Startup
    {
-      private const string ROLE_ADMINISTRATOR = "Administrator";
-      private const string ROLE_SOCIALSERVICES = "SocialServices";
-      private const string ROLE_CARETAKER = "Caretaker";
-      private const string ROLE_CAREUSER = "CareUser";
-      private List<string> ROLES = new List<string>()
-      {
-         ROLE_ADMINISTRATOR,
-         ROLE_SOCIALSERVICES,
-         ROLE_CARETAKER,
-         ROLE_CAREUSER
-      }; 
 
       public Startup(IConfiguration configuration)
       {
