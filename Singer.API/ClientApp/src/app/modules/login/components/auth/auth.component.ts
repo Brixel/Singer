@@ -30,9 +30,10 @@ export class AuthComponent implements OnInit {
       });
    }
 
-   ngSubmit() {
+   submit() {
       const username = this.form.get('username').value;
       const password = this.form.get('password').value;
+      console.log(username);
       this.authService.authenticate(username, password).subscribe(
          () => {
             const url = this.returnUrl || '/';
