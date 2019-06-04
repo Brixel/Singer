@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-overview',
+  selector: 'app-overview-component',
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.css']
 })
@@ -12,8 +12,12 @@ export class OverviewComponent implements OnInit {
   ngOnInit() {
   }
 
+  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  dataSource = ELEMENT_DATA;
+
 }
 
+//TestData:
 export interface PeriodicElement {
   name: string;
   position: number;
@@ -34,15 +38,6 @@ const ELEMENT_DATA: PeriodicElement[] = [
   {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
 ];
 
-/**
- * @title Basic use of `<table mat-table>`
- */
-@Component({
-  selector: 'table-basic-example',
-  styleUrls: ['table-basic-example.css'],
-  templateUrl: 'table-basic-example.html',
-})
-export class TableBasicExample {
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = ELEMENT_DATA;
-}
+
+
+
