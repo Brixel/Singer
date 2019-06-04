@@ -1,6 +1,6 @@
 {
   "name": "Singer",
-  "version": "0.1.0-issue-AB-12-view-care-users.121",
+  "version": "0.1.0-issue-AB-12-view-care-users.128",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
