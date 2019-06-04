@@ -233,3 +233,4 @@ _Pvt_Extensions
 
 # Singer related files to ignore
 /.dev/*
+package.json.*
