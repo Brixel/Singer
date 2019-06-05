@@ -7,10 +7,10 @@ namespace Singer.Services.Interfaces
 {
    public interface ICareUsersService
    {
-      Task<CareUserDTO> CreateCareUser(CareUserDTO careUser);
-      Task<PaginationModel<CareUserDTO>> GetAllCareUsers();
-      Task<CareUserDTO> GetCareUser(string id);
-      Task<CareUserDTO> UpdateCareUser(CareUserDTO careUser, string id, IEnumerable<string> propertiesToUpdate = null);
-      Task DeleteCareUser(string id);
+      Task<CareUserDTO> CreateCareUserAsync(CareUserDTO careUser);
+      Task<IList<CareUserDTO>> GetAllCareUsersAsync();
+      Task<CareUserDTO> GetCareUserAsync(string id);
+      Task<CareUserDTO> UpdateCareUserAsync(CareUserDTO careUser, string id, IList<string> propertiesToUpdate = null);
+      Task DeleteCareUserAsync(string id);
    }
 }

@@ -7,6 +7,10 @@ namespace Singer.DTOs
 {
    public class CareUserDTO
    {
+      [RegularExpression(@"^[a-zA-Z0-9\-]+$", ErrorMessage = "Het {0} mag alleen letters en cijfers bevatten.")]
+      [DisplayName("Id")]
+      public string Id { get; set; }
+
       [Required]
       [StringLength(maximumLength: 255,
          ErrorMessage = "De {0} moet een lengte hebben van minstens {2} en maximum {1} karakters.",
