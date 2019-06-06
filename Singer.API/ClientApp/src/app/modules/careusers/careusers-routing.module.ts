@@ -5,12 +5,11 @@ import { OverviewComponent } from './components/overview/overview.component';
 
 const routes: Routes = [
    {
-       path: '',
-      component: OverviewComponent
-   }
+      path: '',
+      component: OverviewComponent,
+   },
 ];
 @NgModule({
-   imports: [RouterModule.forChild(routes)]
+   imports: [RouterModule.forChild(routes)],
 })
-
-export class CareUsersRoutingModule{}
+export class CareUsersRoutingModule {}
