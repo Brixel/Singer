@@ -12,6 +12,7 @@ export class OverviewComponent implements AfterViewInit {
    @ViewChild(MatPaginator) paginator: MatPaginator;
    @ViewChild(MatSort) sort: MatSort;
    dataSource: OverviewDataSource;
+   
    careUsersAPI: CareUsersAPIService = new CareUsersAPIService();
 
    /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
@@ -39,4 +40,12 @@ export class OverviewComponent implements AfterViewInit {
          this.careUsersAPI
       );
    }
+
+   applyFilter(filterValue: string) {
+      this.dataSource.filter = filterValue.trim().toLowerCase();
+  
+      if (this.paginator) {
+         this.paginator.firstPage();
+       }
+    }
 }

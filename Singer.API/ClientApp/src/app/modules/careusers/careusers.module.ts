@@ -6,9 +6,12 @@ import {
    MatTableModule,
    MatPaginatorModule,
    MatSortModule,
+   MatButtonModule,
+   MatIconModule,
+   MatFormFieldModule,
+   MatInputModule,
+   MatProgressSpinnerModule
 } from '@angular/material';
-import { MatButtonModule } from '@angular/material';
-import { MatIconModule } from '@angular/material';
 
 @NgModule({
    declarations: [OverviewComponent],
@@ -20,6 +23,9 @@ import { MatIconModule } from '@angular/material';
       MatSortModule,
       MatButtonModule,
       MatIconModule,
+      MatFormFieldModule,
+      MatInputModule,
+      MatProgressSpinnerModule,
    ],
 })
 export class CareUsersModule {}
