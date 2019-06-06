@@ -1,38 +1,74 @@
 import { DataSource } from '@angular/cdk/collections';
 import { MatPaginator, MatSort } from '@angular/material';
-import { map } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 import { Observable, of as observableOf, merge } from 'rxjs';
 
-// TODO: Replace this with your own data model type
+// Care User class
 export interface OverviewItem {
-  name: string;
-  id: number;
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  userName: string;
+  birthday: Date;
+  caseNumber: string;
+  ageGroup: string; //Maybe vervangen door eigen klasse?
+  isExtern: boolean;
+  hasTrajectory: boolean;
+  hasNormalDayCare: boolean;
+  hasVacationDayCare: boolean;
+  hasResources: boolean;
 }
 
 // TODO: replace this with real data from your application
 const EXAMPLE_DATA: OverviewItem[] = [
-  {id: 1, name: 'Hydrogen'},
-  {id: 2, name: 'Helium'},
-  {id: 3, name: 'Lithium'},
-  {id: 4, name: 'Beryllium'},
-  {id: 5, name: 'Boron'},
-  {id: 6, name: 'Carbon'},
-  {id: 7, name: 'Nitrogen'},
-  {id: 8, name: 'Oxygen'},
-  {id: 9, name: 'Fluorine'},
-  {id: 10, name: 'Neon'},
-  {id: 11, name: 'Sodium'},
-  {id: 12, name: 'Magnesium'},
-  {id: 13, name: 'Aluminum'},
-  {id: 14, name: 'Silicon'},
-  {id: 15, name: 'Phosphorus'},
-  {id: 16, name: 'Sulfur'},
-  {id: 17, name: 'Chlorine'},
-  {id: 18, name: 'Argon'},
-  {id: 19, name: 'Potassium'},
-  {id: 20, name: 'Calcium'},
+  {
+    id: '1',
+    firstName: 'Joske', 
+    lastName:'Vermeulen',
+    email: 'joske.vermeulen@gmail.com', 
+    userName: 'joske',  
+    birthday: new Date('2008-07-06'), 
+    caseNumber: '0123456789', 
+    ageGroup: 'Child', 
+    isExtern: false, 
+    hasTrajectory: true, 
+    hasNormalDayCare: true,
+    hasVacationDayCare: true,
+    hasResources: true
+  },
+  {
+    id: '2',
+    firstName: 'Kim', 
+    lastName:'Janssens',
+    email: 'kim.janssens@gmail.com', 
+    userName: 'kim', 
+    birthday: new Date('2006-07-08'), 
+    caseNumber: '9876543210', 
+    ageGroup: 'Child', 
+    isExtern: true, 
+    hasTrajectory: true, 
+    hasNormalDayCare: true,
+    hasVacationDayCare: true,
+    hasResources: true
+  },
+  {
+    id: '3',
+    firstName: 'Benjamin', 
+    lastName:'Vermeulen',
+    email: 'benjamin.vermeulen@gmail.com', 
+    userName: 'benjamin', 
+    birthday: new Date('2010-08-06'), 
+    caseNumber: '091837465', 
+    ageGroup: 'Youngster', 
+    isExtern: false, 
+    hasTrajectory: true, 
+    hasNormalDayCare: true,
+    hasVacationDayCare: true,
+    hasResources: false
+  },
 ];
-
+         
 /**
  * Data source for the Overview view. This class should
  * encapsulate all logic for fetching and manipulating the displayed data

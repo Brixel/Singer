@@ -13,7 +13,22 @@ export class OverviewComponent implements AfterViewInit {
   dataSource: OverviewDataSource;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['id', 'name'];
+  displayedColumns = 
+  [
+    //'id', 
+    'lastName',
+    'firstName', 
+    //'email', 
+    //'userName', 
+    'birthday', 
+    'caseNumber', 
+    'ageGroup', 
+    'isExtern', 
+    'hasTrajectory', 
+    'hasNormalDayCare', 
+    'hasVacationDayCare', 
+    'hasResources'
+  ];
 
   ngAfterViewInit() {
     this.dataSource = new OverviewDataSource(this.paginator, this.sort);

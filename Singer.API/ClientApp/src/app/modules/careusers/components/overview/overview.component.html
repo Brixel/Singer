@@ -1,30 +1,110 @@
-<p>
-  overview works!
-</p>
+<h1>Overview CareUsers</h1>
 
 <div class="mat-elevation-z8 overview-table">
-  <table mat-table [dataSource]="dataSource" matSort aria-label="Elements">
+   <table mat-table [dataSource]="dataSource" matSort aria-label="Elements">
+      <!-- Id Column -->
+      <ng-container matColumnDef="id">
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
+         <td mat-cell *matCellDef="let row">{{ row.id }}</td>
+      </ng-container>
 
-    <!-- Id Column -->
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
-      <td mat-cell *matCellDef="let row">{{row.id}}</td>
-    </ng-container>
+      <!-- FirstName Column -->
+      <ng-container matColumnDef="firstName">
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>First Name</th>
+         <td mat-cell *matCellDef="let row">{{ row.firstName }}</td>
+      </ng-container>
 
-    <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-      <td mat-cell *matCellDef="let row">{{row.name}}</td>
-    </ng-container>
+      <!-- LastName Column -->
+      <ng-container matColumnDef="lastName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Name</th>
+          <td mat-cell *matCellDef="let row">{{ row.lastName }}</td>
+       </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
+      <!-- Email Column -->
+      <ng-container matColumnDef="email">
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>E-Mail</th>
+         <td mat-cell *matCellDef="let row">{{ row.email }}</td>
+      </ng-container>
 
-  <mat-paginator #paginator
+      <!-- UserName Column -->
+      <ng-container matColumnDef="userName">
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>User Name</th>
+         <td mat-cell *matCellDef="let row">{{ row.userName }}</td>
+      </ng-container>
+
+      <!-- Birthday Column -->
+      <ng-container matColumnDef="birthday">
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>Birthday</th>
+         <td mat-cell *matCellDef="let row">{{ row.birthday | date:'shortDate' }}</td>
+      </ng-container>
+
+      <!-- CaseNumber Column -->
+      <ng-container matColumnDef="caseNumber">
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>Case Number</th>
+         <td mat-cell *matCellDef="let row">{{ row.caseNumber }}</td>
+      </ng-container>
+
+      <!-- AgeGroup Column -->
+      <ng-container matColumnDef="ageGroup">
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>Age Group</th>
+         <td mat-cell *matCellDef="let row">{{ row.ageGroup }}</td>
+      </ng-container>
+
+      <!-- IsExtern Column -->
+      <ng-container matColumnDef="isExtern">
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>Is Extern</th>
+         <td mat-cell *matCellDef="let row">{{ row.isExtern ? 'Yes':'No' }}</td>
+      </ng-container>
+
+      <!-- HasTrajectory Column -->
+      <ng-container matColumnDef="hasTrajectory">
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>Has Trajectory</th>
+         <td mat-cell *matCellDef="let row">{{ row.hasTrajectory ? 'Yes':'No' }}</td>
+      </ng-container>
+
+      <!-- HasNormalDayCare Column -->
+      <ng-container matColumnDef="hasNormalDayCare">
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>Has Normal DayCare</th>
+         <td mat-cell *matCellDef="let row">{{ row.hasNormalDayCare ? 'Yes':'No' }}</td>
+      </ng-container>
+
+      <!-- HasVacationDayCare Column -->
+      <ng-container matColumnDef="hasVacationDayCare">
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>Has Vacation DayCare</th>
+         <td mat-cell *matCellDef="let row">{{ row.hasVacationDayCare ? 'Yes':'No' }}</td>
+      </ng-container>
+
+      <!-- HasResources Column -->
+      <ng-container matColumnDef="hasResources">
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>Has Resources</th>
+         <td mat-cell *matCellDef="let row">{{ row.hasResources ? 'Yes':'No' }}</td>
+      </ng-container>
+
+      <!-- export interface OverviewItem {
+      id: string;
+      name: string;
+      email: string;
+      userName: string;
+      birthday: Date;
+      caseNumber: string;
+      ageGroup: string; //Maybe vervangen door eigen klasse?
+      isExtern: boolean;
+      hasTrajectory: boolean;
+      hasNormalDayCare: boolean;
+      hasVacationDayCare: boolean;
+      hasResources: boolean;
+    } -->
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+   </table>
+
+   <mat-paginator
+      #paginator
       [length]="dataSource?.data.length"
       [pageIndex]="0"
-      [pageSize]="50"
-      [pageSizeOptions]="[25, 50, 100, 250]">
-  </mat-paginator>
+      [pageSize]="15"
+      [pageSizeOptions]="[15, 25, 50, 100]"
+   >
+   </mat-paginator>
 </div>
