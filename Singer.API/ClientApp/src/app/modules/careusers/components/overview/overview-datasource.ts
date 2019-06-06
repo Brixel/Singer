@@ -130,8 +130,19 @@ export class OverviewDataSource extends DataSource<OverviewItem> {
     return data.sort((a, b) => {
       const isAsc = this.sort.direction === 'asc';
       switch (this.sort.active) {
-        case 'name': return compare(a.name, b.name, isAsc);
-        case 'id': return compare(+a.id, +b.id, isAsc);
+        case 'id': return compare(a.id, b.id, isAsc);
+        case 'firstName': return compare(a.firstName, b.firstName, isAsc);
+        case 'lastName': return compare(a.lastName, b.lastName, isAsc);
+        case 'email': return compare(a.email, b.email, isAsc);
+        case 'userName': return compare(a.userName, b.userName, isAsc);
+        case 'birthday': return compare(a.birthday, b.birthday, isAsc);
+        case 'caseNumber': return compare(a.caseNumber, b.caseNumber, isAsc);
+        case 'ageGroup': return compare(a.ageGroup, b.ageGroup, isAsc);
+        case 'isExtern': return compare(a.isExtern, b.isExtern, isAsc);
+        case 'hasTrajectory': return compare(a.hasTrajectory, b.hasTrajectory, isAsc);
+        case 'hasNormalDayCare': return compare(a.hasNormalDayCare, b.hasNormalDayCare, isAsc);
+        case 'hasVacationDayCare': return compare(a.hasVacationDayCare, b.hasVacationDayCare, isAsc);
+        case 'hasResources': return compare(a.hasResources, b.hasResources, isAsc);
         default: return 0;
       }
     });
