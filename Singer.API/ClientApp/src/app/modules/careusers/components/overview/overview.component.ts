@@ -29,6 +29,7 @@ export class OverviewComponent implements AfterViewInit {
       'hasNormalDayCare',
       'hasVacationDayCare',
       'hasResources',
+      'edit',
    ];
 
    ngAfterViewInit() {

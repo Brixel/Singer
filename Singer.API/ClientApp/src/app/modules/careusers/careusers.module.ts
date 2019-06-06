@@ -7,6 +7,8 @@ import {
    MatPaginatorModule,
    MatSortModule,
 } from '@angular/material';
+import { MatButtonModule } from '@angular/material';
+import { MatIconModule } from '@angular/material';
 
 @NgModule({
    declarations: [OverviewComponent],
@@ -16,6 +18,8 @@ import {
       MatTableModule,
       MatPaginatorModule,
       MatSortModule,
+      MatButtonModule,
+      MatIconModule,
    ],
 })
 export class CareUsersModule {}
