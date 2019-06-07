@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -5,9 +6,8 @@ namespace Singer.DTOs
 {
    public class UserDTO
    {
-      [RegularExpression(@"^[a-zA-Z0-9\-]+$", ErrorMessage = "Het {0} mag alleen letters en cijfers bevatten.")]
       [DisplayName("Id")]
-      public string Id { get; set; }
+      public Guid Id { get; set; }
 
       [Required]
       [StringLength(maximumLength: 255,
