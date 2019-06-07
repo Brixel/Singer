@@ -6,8 +6,6 @@ import {
    MatTableModule,
    MatPaginatorModule,
    MatSortModule,
-   MatButtonModule,
-   MatIconModule,
    MatFormFieldModule,
    MatInputModule,
    MatProgressSpinnerModule
@@ -21,8 +19,6 @@ import {
       MatTableModule,
       MatPaginatorModule,
       MatSortModule,
-      MatButtonModule,
-      MatIconModule,
       MatFormFieldModule,
       MatInputModule,
       MatProgressSpinnerModule,

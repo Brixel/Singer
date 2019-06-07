@@ -7,14 +7,14 @@ h1 {
 /* FILTER FORM FIELD STYLING */
 .mat-form-field {
    font-size: 14px;
-   width: 80%;
+   width: 75%;
    margin: 10px auto;
    display: block;
  }
 
 /* MAIN TABLE STYLING */
 .overview-table {
-   width: 80%;
+   width: 75%;
    overflow: auto;
    margin: 10px auto;
 }
