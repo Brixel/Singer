@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Singer.Data.Models;
 using Singer.DTOs;
 using Singer.Services.Interfaces;
 
@@ -75,6 +76,11 @@ namespace Singer.Services
                .Cast<T>()
                .ToList()
          );
+      }
+
+      public Task<PaginationModel<T>> GetUsersAsync<T>(int page = 0, Filter<T> filter = null, string sortPropertyName = null) where T : UserDTO
+      {
+         throw new NotImplementedException();
       }
 
       public async Task<T> GetUserAsync<T>(Guid id) where T : UserDTO
