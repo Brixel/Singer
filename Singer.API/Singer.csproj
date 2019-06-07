@@ -29,7 +29,9 @@
       <PackageReference Include="Microsoft.AspNetCore.App" />
       <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.2.0" />
       <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+      <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
       <PackageReference Include="NSwag.AspNetCore" Version="12.2.5" />
+      <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
    </ItemGroup>
 
    <ItemGroup>
@@ -40,9 +42,9 @@
    </ItemGroup>
 
    <ItemGroup>
-     <None Update="example.pfx">
-       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-     </None>
+      <None Update="example.pfx">
+         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
    </ItemGroup>
 
    <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
