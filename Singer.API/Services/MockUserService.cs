@@ -8,11 +8,11 @@ using Singer.Services.Interfaces;
 
 namespace Singer.Services
 {
-   public class MockCareUserService : ICareUserService
+   public class MockUserService : IUserService
    {
       #region FIELDS
 
-      private readonly IList<CareUserDTO> _mockData = new List<CareUserDTO>
+      private readonly IList<UserDTO> _mockData = new List<UserDTO>
       {
          new CareUserDTO
          {
@@ -56,76 +56,79 @@ namespace Singer.Services
 
       #region METHODS
 
-      public async Task<CareUserDTO> CreateCareUserAsync(CareUserDTO careUser)
+      public async Task<T> CreateUserAsync<T>(T careUser) where T : UserDTO
       {
          // generate new id
-         careUser.Id = Guid.NewGuid().ToString();
+         careUser.Id = Guid.NewGuid();
          // add the new care user
          _mockData.Add(careUser);
          // return the new created care user
          return await Task.FromResult(careUser);
       }
 
-      public async Task<IList<CareUserDTO>> GetAllCareUsersAsync()
+      public async Task<IList<T>> GetAllUsersAsync<T>() where T : UserDTO
       {
          // return all the mock data
-         return await Task.FromResult(_mockData);
+         return await Task.FromResult(
+            _mockData
+               .Where(x => x.GetType() == typeof(T))
+               .Cast<T>()
+               .ToList()
+         );
       }
 
-      public async Task<CareUserDTO> GetCareUserAsync(string id)
+      public async Task<T> GetUserAsync<T>(Guid id) where T : UserDTO
       {
-         // check valid id
-         Guid.Parse(id);
          // return the care user with the given id
-         return await Task.FromResult(_mockData.Single(x => x.Id == id));
+         return await Task.FromResult(
+            _mockData
+               .Single(x => x.GetType() == typeof(T) && x.Id == id) as T
+         );
       }
 
-      public async Task<CareUserDTO> UpdateCareUserAsync(
-         CareUserDTO careUser,
-         string id,
-         IList<string> propertiesToUpdate = null)
+      public async Task<T> UpdateUserAsync<T>(
+         T user,
+         Guid id,
+         IList<string> propertiesToUpdate = null) where T : UserDTO
       {
-         // check valid id
-         Guid.Parse(id);
          // get the index of the care user with the given id
          var i = _mockData
-            .Select((user, index) => new { User = user, Index = index })
+            .Where(x => x.GetType() == typeof(T))
+            .Select((u, index) => new {User = u, Index = index})
             .Single(x => x.User.Id == id)
             .Index;
 
          // set the care user's id to the given id 
-         careUser.Id = id;
+         user.Id = id;
          if (propertiesToUpdate == null)
          {
             // update the complete care user
-            _mockData[i] = careUser;
+            _mockData[i] = user;
             // return the updated care user
-            return await Task.FromResult(_mockData[i]);
+            return await Task.FromResult(_mockData[i] as T);
          }
 
          // get the properties of the CareUserDTO without the id property
-         var props = typeof(CareUserDTO)
+         var props = typeof(T)
             .GetProperties()
-            .Where(x => x.Name != nameof(CareUserDTO.Id));
+            .Where(x => x.Name != nameof(UserDTO.Id));
 
          // update all the properties listed in the properties to update
          foreach (var propertyInfo in props)
          {
             if (propertiesToUpdate.Any(x => x == propertyInfo.Name))
-               propertyInfo.SetValue(_mockData[i], propertyInfo.GetValue(careUser));
+               propertyInfo.SetValue(_mockData[i], propertyInfo.GetValue(user));
          }
 
          // return the new care user
-         return await Task.FromResult(_mockData[i]);
+         return await Task.FromResult(_mockData[i] as T);
       }
 
-      public async Task DeleteCareUserAsync(string id)
+      public async Task DeleteUserAsync(Guid id)
       {
-         // check valid id
-         Guid.Parse(id);
          // get the index of the care user with the given id
          var i = _mockData
-            .Select((user, index) => new { User = user, Index = index })
+            .Select((user, index) => new {User = user, Index = index})
             .Single(x => x.User.Id == id)
             .Index;
 

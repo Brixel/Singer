@@ -1,17 +1,16 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Singer.Data.Models;
 using Singer.DTOs;
-using Singer.Models;
 
 namespace Singer.Services.Interfaces
 {
    public interface IUserService
    {
-      Task<T> CreateCareUserAsync<T>(T careUser) where T : UserDTO;
-      Task<IList<T>> GetAllCareUsersAsync<T>() where T : UserDTO;
-      Task<T> GetCareUserAsync<T>(string id) where T : UserDTO;
-      Task<T> UpdateCareUserAsync<T>(T careUser, string id, IList<string> propertiesToUpdate = null) where T : UserDTO;
-      Task DeleteCareUserAsync(string id);
+      Task<T> CreateUserAsync<T>(T user) where T : UserDTO;
+      Task<IList<T>> GetAllUsersAsync<T>() where T : UserDTO;
+      Task<T> GetUserAsync<T>(Guid id) where T : UserDTO;
+      Task<T> UpdateUserAsync<T>(T user, Guid id, IList<string> propertiesToUpdate = null) where T : UserDTO;
+      Task DeleteUserAsync(Guid id);
    }
 }
