@@ -86,14 +86,6 @@
          <td mat-cell *matCellDef="let row">{{ row.hasResources ? 'Ja':'Neen' }}</td>
       </ng-container>
 
-      <!-- Edit Column -->
-      <ng-container matColumnDef="edit" stickyEnd>
-         <th mat-header-cell *matHeaderCellDef mat-sort-header>Bewerken</th>
-         <td mat-cell *matCellDef="let row">
-            <button mat-icon-button color="primary" aria-label="Example icon-button with a heart icon">
-               <mat-icon>edit</mat-icon>
-            </button>
-        </td>
       </ng-container>
 
       <!-- Header Row -->

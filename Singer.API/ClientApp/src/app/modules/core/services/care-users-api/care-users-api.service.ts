@@ -11,6 +11,8 @@ export class CareUsersAPIService {
    }
 }
 
+//http://api/carusers?filter="filterValue";sort="sortProperty";page=0
+
 // Care User class
 export interface CareUser {
    id: string;

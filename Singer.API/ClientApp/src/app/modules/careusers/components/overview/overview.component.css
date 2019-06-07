@@ -7,14 +7,14 @@ h1 {
 /* FILTER FORM FIELD STYLING */
 .mat-form-field {
    font-size: 14px;
-   width: 75%;
+   width: 80%;
    margin: 10px auto;
    display: block;
  }
 
 /* MAIN TABLE STYLING */
 .overview-table {
-   width: 75%;
+   width: 80%;
    overflow: auto;
    margin: 10px auto;
 }
@@ -25,11 +25,6 @@ th {
    background-color: #3f51b5;
    color: white;
 }
-
-/* LAST STICKY COLUMN STYLING */
- .mat-table-sticky:last-child {
-   border-left: 1px solid #3f51b5;
- }
 
 /* INDIVIDUAL COLUMN STYLING */
 .mat-column-id {
