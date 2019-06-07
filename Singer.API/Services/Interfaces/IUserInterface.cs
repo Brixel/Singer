@@ -15,7 +15,7 @@ namespace Singer.Services.Interfaces
       Task<PaginationModel<T>> GetUsersAsync<T>(
          int page = 0,
          Filter<T> filter = null,
-         string sortPropertyName = null)
+         Sorter<T> sorter = null)
          where T : UserDTO;
 
       Task<T> GetUserAsync<T>(Guid id) where T : UserDTO;
