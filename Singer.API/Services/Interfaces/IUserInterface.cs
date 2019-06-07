@@ -6,12 +6,12 @@ using Singer.Models;
 
 namespace Singer.Services.Interfaces
 {
-   public interface ICareUserService
+   public interface IUserService
    {
-      Task<UserDTO> CreateCareUserAsync(CareUserDTO careUser);
-      Task<IList<CareUserDTO>> GetAllCareUsersAsync();
-      Task<CareUserDTO> GetCareUserAsync(string id);
-      Task<CareUserDTO> UpdateCareUserAsync(CareUserDTO careUser, string id, IList<string> propertiesToUpdate = null);
+      Task<T> CreateCareUserAsync<T>(T careUser) where T : UserDTO;
+      Task<IList<T>> GetAllCareUsersAsync<T>() where T : UserDTO;
+      Task<T> GetCareUserAsync<T>(string id) where T : UserDTO;
+      Task<T> UpdateCareUserAsync<T>(T careUser, string id, IList<string> propertiesToUpdate = null) where T : UserDTO;
       Task DeleteCareUserAsync(string id);
    }
 }
