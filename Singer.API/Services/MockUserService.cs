@@ -78,7 +78,7 @@ namespace Singer.Services
          );
       }
 
-      public Task<PaginationModel<T>> GetUsersAsync<T>(int page = 0, Filter<T> filter = null, string sortPropertyName = null) where T : UserDTO
+      public Task<PaginationModel<T>> GetUsersAsync<T>(int page = 0, Filter<T> filter = null, Sorter<T> sorter = null) where T : UserDTO
       {
          throw new NotImplementedException();
       }
@@ -100,11 +100,11 @@ namespace Singer.Services
          // get the index of the care user with the given id
          var i = _mockData
             .Where(x => x.GetType() == typeof(T))
-            .Select((u, index) => new {User = u, Index = index})
+            .Select((u, index) => new { User = u, Index = index })
             .Single(x => x.User.Id == id)
             .Index;
 
-         // set the care user's id to the given id 
+         // set the care user's id to the given id
          user.Id = id;
          if (propertiesToUpdate == null)
          {
@@ -134,7 +134,7 @@ namespace Singer.Services
       {
          // get the index of the care user with the given id
          var i = _mockData
-            .Select((user, index) => new {User = user, Index = index})
+            .Select((user, index) => new { User = user, Index = index })
             .Single(x => x.User.Id == id)
             .Index;
 

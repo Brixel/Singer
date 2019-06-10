@@ -70,7 +70,7 @@ namespace Singer.Services
          throw new NotImplementedException();
       }
 
-      public Task<PaginationModel<T>> GetUsersAsync<T>(int page = 0, Filter<T> filter = null, string sortPropertyName = null) where T : UserDTO
+      public Task<PaginationModel<T>> GetUsersAsync<T>(int page = 0, Filter<T> filter = null, Sorter<T> sorter = null) where T : UserDTO
       {
          throw new NotImplementedException();
       }
