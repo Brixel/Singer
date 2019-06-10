@@ -2,12 +2,6 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort } from '@angular/material';
 import { OverviewDataSource } from './overview-datasource';
 import { CareUsersAPIService } from 'src/app/modules/core/services/care-users-api/care-users-api.service';
-import {
-   Overlay,
-   NoopScrollStrategy,
-   OverlayContainer,
-} from '@angular/cdk/overlay';
-import { ComponentPortal } from '@angular/cdk/portal';
 import { CareUserDetailsComponent } from '../care-user-details/care-user-details.component';
 
 @Component({
@@ -18,8 +12,16 @@ import { CareUserDetailsComponent } from '../care-user-details/care-user-details
 export class OverviewComponent implements AfterViewInit {
    @ViewChild(MatPaginator) paginator: MatPaginator;
    @ViewChild(MatSort) sort: MatSort;
+   @ViewChild(CareUserDetailsComponent)
+   careUserDetailsForm: CareUserDetailsComponent;
+
+   // Table Data source
    dataSource: OverviewDataSource;
 
+   // Boolean value to check if a row is selected and the details form should be shown
+   isRowSelected: Boolean;
+
+   // API to retrieve user data
    careUsersAPI: CareUsersAPIService = new CareUsersAPIService();
 
    /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
@@ -47,10 +49,13 @@ export class OverviewComponent implements AfterViewInit {
       );
    }
 
-   onClick() {
-      // const overlayRef = this.overlay.create();
-      // const CareUserDetailsPortal = new ComponentPortal(CareUserDetailsComponent);
-      // overlayRef.attach(CareUserDetailsPortal);
+   selectRow(row) {
+
+      // Show careUserDetailsForm
+      this.isRowSelected = true;
+
+      // pass selected careUser to details form (row contains a careUser object)
+      this.careUserDetailsForm.updateCareUser(row);
    }
 
    applyFilter(filterValue: string) {

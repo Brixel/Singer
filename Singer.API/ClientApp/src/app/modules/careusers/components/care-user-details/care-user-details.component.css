@@ -10,10 +10,10 @@
    margin: 10px auto;
    display: flex;
    flex-direction: column;
-   width: 75%;
+   width: 73%;
  }
 
  /* GLOBAL FORM ELEMENTS STYLING */
  .details-form-container > * {
-   width: 20%;
+   width: 200px;
  }

@@ -12,6 +12,14 @@ h1 {
    display: block;
  }
 
+ tr.selectable:not(.example-expanded-row):hover {
+   background: rgb(149, 190, 248);
+ }
+
+ tr.selectable:not(.example-expanded-row):active {
+   background: #efefef;
+ }
+
 /* MAIN TABLE STYLING */
 .overview-table {
    width: 75%;

@@ -3,23 +3,23 @@
    <div class="details-form-container">
       <!-- Lastname Field -->
       <mat-form-field>
-         <input matInput placeholder="Familienaam" [value]='lastNameField'/>
+         <input matInput [placeholder]="lastNameFieldPlaceholder" [value]='lastNameFieldValue'/>
       </mat-form-field>
 
       <!-- FirstName Field -->
       <mat-form-field>
-         <input matInput placeholder="Voornaam" [value]='firstNameField'/>
+         <input matInput [placeholder]="firstNameFieldPlaceholder" [value]='firstNameFieldValue'/>
       </mat-form-field>
 
       <!-- Birthday Field -->
       <mat-form-field>
          <input
             matInput
-            [value]="birthdayField"
+            [value]="birthdayFieldValue"
             [min]="birthdayDatePickerMinDate"
             [max]="birthdayDatePickerMaxDate"
             [matDatepicker]="picker"
-            placeholder="Selecteer een datum"
+            [placeholder]="birthdayFieldPlaceholder"
          />
          <mat-datepicker-toggle
             matSuffix
@@ -30,12 +30,12 @@
 
       <!-- CaseNumber Field -->
       <mat-form-field>
-         <input matInput placeholder="Dossiernr" [value]='caseNumberField'/>
+         <input matInput [placeholder]="caseNumberFieldPlaceholder" [value]='caseNumberFieldValue'/>
       </mat-form-field>
 
       <!-- AgeGroup Field -->
       <mat-form-field>
-         <mat-select placeholder="Leeftijdsgroep" [(value)]='ageGroupField'>
+         <mat-select [placeholder]="ageGroupFieldPlaceholder" [value]='ageGroupFieldValue'>
             <mat-option value="child">Kinderen</mat-option>
             <mat-option value="youngster">Jongeren</mat-option>
          </mat-select>
@@ -43,7 +43,7 @@
 
       <!-- IsExtern Field -->
       <mat-form-field>
-         <mat-select placeholder="Klas of extern" [(value)]='isExternField'>
+         <mat-select [placeholder]="isExternFieldPlaceholder" [value]='isExternFieldValue'>
             <mat-option value="false">Klas</mat-option>
             <mat-option value="true">Extern</mat-option>
          </mat-select>
@@ -51,7 +51,7 @@
 
       <!-- HasTrajectory Field -->
       <mat-form-field>
-         <mat-select placeholder="Trajectfunctie" [value]='hasTrajectoryField'>
+         <mat-select [placeholder]="hasTrajectoryFieldPlaceholder" [value]='hasTrajectoryFieldValue'>
             <mat-option value="true">Ja</mat-option>
             <mat-option value="false">Nee</mat-option>
          </mat-select>
@@ -59,7 +59,7 @@
 
       <!-- HasNormalDayCare Field -->
       <mat-form-field>
-         <mat-select placeholder="Opvang normaal" [value]='hasNormalDayCareField'>
+         <mat-select [placeholder]="hasNormalDayCareFieldPlaceholder" [value]='hasNormalDayCareFieldValue'>
             <mat-option value="true">Ja</mat-option>
             <mat-option value="false">Nee</mat-option>
          </mat-select>
@@ -67,7 +67,7 @@
 
       <!-- HasVacationDayCare Field -->
       <mat-form-field>
-         <mat-select placeholder="Opvang vakantie" [value]='hasVacationDayCareField'>
+         <mat-select [placeholder]="hasVacationDayCareFieldPlaceholder" [value]='hasVacationDayCareFieldValue'>
             <mat-option value="true">Ja</mat-option>
             <mat-option value="false">Nee</mat-option>
          </mat-select>
@@ -75,7 +75,7 @@
 
       <!-- HasResources Field -->
       <mat-form-field>
-         <mat-select placeholder="Voldoende middelen" [value]='hasResourcesField'>
+         <mat-select [placeholder]="hasResourcesFieldPlaceholder" [value]='hasResourcesFieldValue'>
             <mat-option value="true">Ja</mat-option>
             <mat-option value="false">Nee</mat-option>
          </mat-select>
@@ -88,5 +88,7 @@
       <!-- Coworkers Field -->
 
       <!-- Add Field -->
+
+      <!-- Save Button -->
    </div>
 </mat-card>
