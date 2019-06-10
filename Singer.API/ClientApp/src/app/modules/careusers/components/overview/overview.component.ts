@@ -18,8 +18,8 @@ export class OverviewComponent implements AfterViewInit {
    // Table Data source
    dataSource: OverviewDataSource;
 
-   // Boolean value to check if a row is selected and the details form should be shown
-   isRowSelected: Boolean;
+   // Boolean value to check if the details form should be shown
+   showDetailsForm: Boolean;
 
    // API to retrieve user data
    careUsersAPI: CareUsersAPIService = new CareUsersAPIService();
@@ -42,20 +42,37 @@ export class OverviewComponent implements AfterViewInit {
    ];
 
    ngAfterViewInit() {
+      // Load datasource
       this.dataSource = new OverviewDataSource(
          this.paginator,
          this.sort,
          this.careUsersAPI
       );
+
+      // Subscribe to paginator events
+      this.paginator.page.subscribe((page) => {
+         // console.log(page);
+         // API pagination calls go here
+      });
+
+      //Subscribe to details form events
+      this.careUserDetailsForm.closeFormEvent.subscribe((isFormClosedEvent) => {
+         this.showDetailsForm = !isFormClosedEvent;
+      })
    }
 
    selectRow(row) {
 
       // Show careUserDetailsForm
-      this.isRowSelected = true;
+      this.showDetailsForm = true;
 
       // pass selected careUser to details form (row contains a careUser object)
       this.careUserDetailsForm.updateCareUser(row);
+   }
+
+   addCareUser() {
+      // Show careUserDetailsForm
+      this.showDetailsForm = true;
    }
 
    applyFilter(filterValue: string) {

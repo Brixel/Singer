@@ -11,7 +11,12 @@
 
 <!-- Mat Table -->
 <div class="mat-elevation-z8 overview-table">
-   <table mat-table [dataSource]="dataSource" matSort aria-label="zorg-gebruikers">
+   <table
+      mat-table
+      [dataSource]="dataSource"
+      matSort
+      aria-label="zorg-gebruikers"
+   >
       <!-- Id Column -->
       <ng-container matColumnDef="id">
          <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
@@ -110,6 +115,31 @@
          </td>
       </ng-container>
 
+      <!-- AddButton column -->
+      <ng-container matColumnDef="addButton">
+         <td mat-footer-cell *matFooterCellDef>
+            <button mat-icon-button color="primary" (click)="addCareUser()" title="Zorggebruiker toevoegen" aria-label="Toevoegen knop">
+               <mat-icon>add</mat-icon>
+            </button>
+            <!-- <label class="tableButton">Toevoegen</label> -->
+         </td>
+      </ng-container>
+
+      <!-- Paginator column -->
+      <ng-container matColumnDef="paginator">
+         <td mat-footer-cell *matFooterCellDef colspan="20">
+               <mat-paginator
+               #paginator
+               [length]="dataSource?.data.length"
+               [pageIndex]="0"
+               [pageSize]="15"
+               [pageSizeOptions]="[1, 15, 25, 50, 100]"
+               showFirstLastButtons
+            >
+            </mat-paginator>
+         </td>
+      </ng-container>
+
       <!-- Header Row -->
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 
@@ -125,19 +155,11 @@
          class="selectable"
          (click)="selectRow(row)"
       ></tr>
-   </table>
 
-   <!-- Paginator -->
-   <mat-paginator
-      #paginator
-      [length]="dataSource?.data.length"
-      [pageIndex]="0"
-      [pageSize]="15"
-      [pageSizeOptions]="[1, 15, 25, 50, 100]"
-      showFirstLastButtons
-   >
-   </mat-paginator>
+      <!-- Footer Row -->
+      <tr mat-footer-row *matFooterRowDef="['addButton', 'paginator']"></tr>
+   </table>
 </div>
 
 <!-- Mat Form -->
-<app-care-user-details [hidden]="!isRowSelected"></app-care-user-details>
+<app-care-user-details [hidden]="!showDetailsForm"></app-care-user-details>

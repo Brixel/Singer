@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { CareUser } from 'src/app/modules/core/services/care-users-api/care-users-api.service';
 @Component({
    selector: 'app-care-user-details',
@@ -7,6 +7,8 @@ import { CareUser } from 'src/app/modules/core/services/care-users-api/care-user
 })
 
 export class CareUserDetailsComponent implements OnInit {
+
+   @Output() closeFormEvent = new EventEmitter<boolean>();
 
    careUser: CareUser;
 
@@ -46,17 +48,11 @@ export class CareUserDetailsComponent implements OnInit {
    constructor() {}
 
    ngOnInit() {
-      this.lastNameFieldValue = '';
-      this.firstNameFieldValue = '';
-      this.birthdayFieldValue = null;
-      this.caseNumberFieldValue = '';
-      this.ageGroupFieldValue =
-      this.careUser.ageGroup = '';
-      this.isExternFieldValue = '';
-      this.hasTrajectoryFieldValue = '';
-      this.hasNormalDayCareFieldValue = '';
-      this.hasVacationDayCareFieldValue = '';
-      this.hasResourcesFieldValue = '';
+      this.clearFormValues();
+   }
+
+   addNewCareUser() {
+      this.clearFormValues();
    }
 
    updateCareUser(careUser: CareUser){
@@ -64,7 +60,7 @@ export class CareUserDetailsComponent implements OnInit {
       this.updateFormValues();
    }
 
-   updateFormValues(){
+   private updateFormValues(){
       this.lastNameFieldValue = this.careUser.lastName;
       this.firstNameFieldValue = this.careUser.firstName;
       this.birthdayFieldValue = this.careUser.birthday;
@@ -80,5 +76,22 @@ export class CareUserDetailsComponent implements OnInit {
          ? 'true'
          : 'false';
       this.hasResourcesFieldValue = this.careUser.hasResources ? 'true' : 'false';
+   }
+
+   private clearFormValues() {
+      this.lastNameFieldValue = '';
+      this.firstNameFieldValue = '';
+      this.birthdayFieldValue = null;
+      this.caseNumberFieldValue = '';
+      this.ageGroupFieldValue = '';
+      this.isExternFieldValue = '';
+      this.hasTrajectoryFieldValue = '';
+      this.hasNormalDayCareFieldValue = '';
+      this.hasVacationDayCareFieldValue = '';
+      this.hasResourcesFieldValue = '';
+   }
+
+   private closeForm() {
+      this.closeFormEvent.emit(true);
    }
 }

@@ -12,14 +12,6 @@ h1 {
    display: block;
  }
 
- tr.selectable:not(.example-expanded-row):hover {
-   background: rgb(149, 190, 248);
- }
-
- tr.selectable:not(.example-expanded-row):active {
-   background: #efefef;
- }
-
 /* MAIN TABLE STYLING */
 .overview-table {
    width: 75%;
@@ -32,6 +24,15 @@ th {
    font-size: 0.9em;
    background-color: #3f51b5;
    color: white;
+}
+
+/* SELECTABLE ROW STYLING */
+tr.selectable:not(.example-expanded-row):hover {
+  background: rgb(149, 190, 248);
+}
+
+tr.selectable:not(.example-expanded-row):active {
+  background: #efefef;
 }
 
 /* INDIVIDUAL COLUMN STYLING */
@@ -85,4 +86,15 @@ th {
 
 .mat-column-hasResources {
    padding: 10px;
+}
+
+/* TABLE FOOTER STYLING */
+.tableButton {
+   font-family: Roboto, Arial, sans-serif;
+   font-size: 1em;
+   color: rgb(37, 37, 186);
+}
+
+.spacer {
+   flex: 1 1 auto;
 }

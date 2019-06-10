@@ -15,6 +15,8 @@ import {
    MatNativeDateModule,
    MatButtonModule,
    MatCardModule,
+   MatIconModule,
+   MatToolbarModule,
 } from '@angular/material';
 import { CareUserDetailsComponent } from './components/care-user-details/care-user-details.component';
 
@@ -35,6 +37,8 @@ import { CareUserDetailsComponent } from './components/care-user-details/care-us
       MatNativeDateModule,
       MatButtonModule,
       MatCardModule,
+      MatIconModule,
+      MatToolbarModule
    ],
 })
 export class CareUsersModule {}
