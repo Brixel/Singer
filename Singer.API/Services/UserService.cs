@@ -23,17 +23,14 @@ namespace Singer.Services
          _mapper = mapper;
       }
 
-      public async Task<T> CreateUserAsync<T>(T user) where T : UserDTO
+      public async Task<T2> CreateUserAsync<T1, T2>(T1 user)
+         where T1 : CreateUserDTO
+         where T2 : UserDTO
       {
-         if (user.Id != null)
-         {
-            throw new BadInputException("Id cannot be passed when creating new user!");
-         }
-
          User newUser = _mapper.Map<User>(user);
          _appContext.Users.Add(newUser);
          await _appContext.SaveChangesAsync();
-         T returnUser = _mapper.Map<T>(newUser);
+         T2 returnUser = _mapper.Map<T2>(newUser);
 
          return returnUser;
       }

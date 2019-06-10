@@ -49,13 +49,9 @@ namespace Singer.Controllers
       [HttpPost]
       [ProducesResponseType(StatusCodes.Status201Created)]
       [ProducesResponseType(StatusCodes.Status400BadRequest)]
-      public async Task<ActionResult<CareUserDTO>> CreateUser(CareUserDTO user)
+      public async Task<ActionResult<CareUserDTO>> CreateUser(CreateCareUserDTO user)
       {
-         if (user.Id != null)
-         {
-            return BadRequest();
-         }
-         var returnUser = await _userService.CreateUserAsync(user);
+         var returnUser = await _userService.CreateUserAsync<CreateCareUserDTO, CareUserDTO>(user);
          return Created(nameof(GetUser), returnUser);
       }
    }

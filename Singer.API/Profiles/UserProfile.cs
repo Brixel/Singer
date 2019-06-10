@@ -15,6 +15,7 @@ namespace Singer.Profiles
          CreateMap<CareUserDTO, User>().ForMember(
             x => x.Id, opt => opt.MapFrom(src => src.Id.ToString())
          );
+         CreateMap<CreateCareUserDTO, User>();
       }
    }
 }

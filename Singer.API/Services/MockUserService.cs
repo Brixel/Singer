@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 using Singer.Data.Models;
 using Singer.DTOs;
 using Singer.Services.Interfaces;
+using AutoMapper.QueryableExtensions;
+using AutoMapper;
 
 namespace Singer.Services
 {
    public class MockUserService : IUserService
    {
       #region FIELDS
-
+      private readonly IMapper _mapper;
       private readonly IList<UserDTO> _mockData = new List<UserDTO>
       {
          new CareUserDTO
@@ -57,14 +59,19 @@ namespace Singer.Services
 
       #region METHODS
 
-      public async Task<T> CreateUserAsync<T>(T careUser) where T : UserDTO
+      public MockUserService(IMapper mapper) => _mapper = mapper;
+      public async Task<T2> CreateUserAsync<T1, T2>(T1 careUser)
+         where T1 : CreateUserDTO
+         where T2 : UserDTO
       {
+         T2 returnUser = _mapper.Map<T2>(careUser);
          // generate new id
-         careUser.Id = Guid.NewGuid();
+
+         returnUser.Id = Guid.NewGuid();
          // add the new care user
-         _mockData.Add(careUser);
+         _mockData.Add(returnUser);
          // return the new created care user
-         return await Task.FromResult(careUser);
+         return await Task.FromResult(returnUser);
       }
 
       public async Task<IList<T>> GetAllUsersAsync<T>() where T : UserDTO

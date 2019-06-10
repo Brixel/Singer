@@ -8,7 +8,9 @@ namespace Singer.Services.Interfaces
 {
    public interface IUserService
    {
-      Task<T> CreateUserAsync<T>(T user) where T : UserDTO;
+      Task<T2> CreateUserAsync<T1, T2>(T1 user)
+         where T1 : CreateUserDTO
+         where T2 : UserDTO;
 
       Task<IList<T>> GetAllUsersAsync<T>() where T : UserDTO;
 
