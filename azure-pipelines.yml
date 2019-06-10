@@ -16,7 +16,7 @@ steps:
      inputs:
         command: 'custom'
         custom: 'msbuild'
-        arguments: '-restore -target:WriteVersionInfoToBuildLog -verbosity:n'
+        arguments: '-restore -target:WriteVersionInfoToBuildLog -verbosity:n Singer.API/Singer.csproj'
         feedsToUse: 'select'
         versioningScheme: 'off'
    - task: DotNetCoreCLI@2
