@@ -3,18 +3,19 @@
    <div class="details-form-container">
       <!-- Lastname Field -->
       <mat-form-field>
-         <input matInput placeholder="Familienaam" />
+         <input matInput placeholder="Familienaam" [value]='lastNameField'/>
       </mat-form-field>
 
       <!-- FirstName Field -->
       <mat-form-field>
-         <input matInput placeholder="Voornaam" />
+         <input matInput placeholder="Voornaam" [value]='firstNameField'/>
       </mat-form-field>
 
       <!-- Birthday Field -->
       <mat-form-field>
          <input
             matInput
+            [value]="birthdayField"
             [min]="birthdayDatePickerMinDate"
             [max]="birthdayDatePickerMaxDate"
             [matDatepicker]="picker"
@@ -29,12 +30,12 @@
 
       <!-- CaseNumber Field -->
       <mat-form-field>
-         <input matInput placeholder="Dossiernr" />
+         <input matInput placeholder="Dossiernr" [value]='caseNumberField'/>
       </mat-form-field>
 
       <!-- AgeGroup Field -->
       <mat-form-field>
-         <mat-select placeholder="Leeftijdsgroep">
+         <mat-select placeholder="Leeftijdsgroep" [(value)]='ageGroupField'>
             <mat-option value="child">Kinderen</mat-option>
             <mat-option value="youngster">Jongeren</mat-option>
          </mat-select>
@@ -42,7 +43,7 @@
 
       <!-- IsExtern Field -->
       <mat-form-field>
-         <mat-select placeholder="Klas of extern">
+         <mat-select placeholder="Klas of extern" [(value)]='isExternField'>
             <mat-option value="false">Klas</mat-option>
             <mat-option value="true">Extern</mat-option>
          </mat-select>
@@ -50,7 +51,7 @@
 
       <!-- HasTrajectory Field -->
       <mat-form-field>
-         <mat-select placeholder="Trajectfunctie">
+         <mat-select placeholder="Trajectfunctie" [value]='hasTrajectoryField'>
             <mat-option value="true">Ja</mat-option>
             <mat-option value="false">Nee</mat-option>
          </mat-select>
@@ -58,7 +59,7 @@
 
       <!-- HasNormalDayCare Field -->
       <mat-form-field>
-         <mat-select placeholder="Opvang normaal">
+         <mat-select placeholder="Opvang normaal" [value]='hasNormalDayCareField'>
             <mat-option value="true">Ja</mat-option>
             <mat-option value="false">Nee</mat-option>
          </mat-select>
@@ -66,7 +67,7 @@
 
       <!-- HasVacationDayCare Field -->
       <mat-form-field>
-         <mat-select placeholder="Opvang vakantie">
+         <mat-select placeholder="Opvang vakantie" [value]='hasVacationDayCareField'>
             <mat-option value="true">Ja</mat-option>
             <mat-option value="false">Nee</mat-option>
          </mat-select>
@@ -74,7 +75,7 @@
 
       <!-- HasResources Field -->
       <mat-form-field>
-         <mat-select placeholder="Voldoende middelen">
+         <mat-select placeholder="Voldoende middelen" [value]='hasResourcesField'>
             <mat-option value="true">Ja</mat-option>
             <mat-option value="false">Nee</mat-option>
          </mat-select>

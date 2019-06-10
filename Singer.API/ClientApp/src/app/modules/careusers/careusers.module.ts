@@ -17,7 +17,6 @@ import {
    MatCardModule,
 } from '@angular/material';
 import { CareUserDetailsComponent } from './components/care-user-details/care-user-details.component';
-import { OverlayModule } from '@angular/cdk/overlay';
 
 @NgModule({
    declarations: [OverviewComponent, CareUserDetailsComponent],
@@ -35,8 +34,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
       MatDatepickerModule,
       MatNativeDateModule,
       MatButtonModule,
-      OverlayModule,
-      MatCardModule
+      MatCardModule,
    ],
 })
 export class CareUsersModule {}
