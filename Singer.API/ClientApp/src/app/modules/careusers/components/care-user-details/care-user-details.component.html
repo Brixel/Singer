@@ -1,0 +1,91 @@
+<mat-card>
+   <!-- Details Form -->
+   <div class="details-form-container">
+      <!-- Lastname Field -->
+      <mat-form-field>
+         <input matInput placeholder="Familienaam" />
+      </mat-form-field>
+
+      <!-- FirstName Field -->
+      <mat-form-field>
+         <input matInput placeholder="Voornaam" />
+      </mat-form-field>
+
+      <!-- Birthday Field -->
+      <mat-form-field>
+         <input
+            matInput
+            [min]="birthdayDatePickerMinDate"
+            [max]="birthdayDatePickerMaxDate"
+            [matDatepicker]="picker"
+            placeholder="Selecteer een datum"
+         />
+         <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+         ></mat-datepicker-toggle>
+         <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <!-- CaseNumber Field -->
+      <mat-form-field>
+         <input matInput placeholder="Dossiernr" />
+      </mat-form-field>
+
+      <!-- AgeGroup Field -->
+      <mat-form-field>
+         <mat-select placeholder="Leeftijdsgroep">
+            <mat-option value="child">Kinderen</mat-option>
+            <mat-option value="youngster">Jongeren</mat-option>
+         </mat-select>
+      </mat-form-field>
+
+      <!-- IsExtern Field -->
+      <mat-form-field>
+         <mat-select placeholder="Klas of extern">
+            <mat-option value="false">Klas</mat-option>
+            <mat-option value="true">Extern</mat-option>
+         </mat-select>
+      </mat-form-field>
+
+      <!-- HasTrajectory Field -->
+      <mat-form-field>
+         <mat-select placeholder="Trajectfunctie">
+            <mat-option value="true">Ja</mat-option>
+            <mat-option value="false">Nee</mat-option>
+         </mat-select>
+      </mat-form-field>
+
+      <!-- HasNormalDayCare Field -->
+      <mat-form-field>
+         <mat-select placeholder="Opvang normaal">
+            <mat-option value="true">Ja</mat-option>
+            <mat-option value="false">Nee</mat-option>
+         </mat-select>
+      </mat-form-field>
+
+      <!-- HasVacationDayCare Field -->
+      <mat-form-field>
+         <mat-select placeholder="Opvang vakantie">
+            <mat-option value="true">Ja</mat-option>
+            <mat-option value="false">Nee</mat-option>
+         </mat-select>
+      </mat-form-field>
+
+      <!-- HasResources Field -->
+      <mat-form-field>
+         <mat-select placeholder="Voldoende middelen">
+            <mat-option value="true">Ja</mat-option>
+            <mat-option value="false">Nee</mat-option>
+         </mat-select>
+      </mat-form-field>
+
+      <!-- Email Field -->
+
+      <!-- Email Field -->
+
+      <!-- Coworkers Field -->
+
+      <!-- Add Field -->
+   </div>
+</mat-card>

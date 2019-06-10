@@ -8,11 +8,19 @@ import {
    MatSortModule,
    MatFormFieldModule,
    MatInputModule,
-   MatProgressSpinnerModule
+   MatOptionModule,
+   MatSelectModule,
+   MatProgressSpinnerModule,
+   MatDatepickerModule,
+   MatNativeDateModule,
+   MatButtonModule,
+   MatCardModule,
 } from '@angular/material';
+import { CareUserDetailsComponent } from './components/care-user-details/care-user-details.component';
+import { OverlayModule } from '@angular/cdk/overlay';
 
 @NgModule({
-   declarations: [OverviewComponent],
+   declarations: [OverviewComponent, CareUserDetailsComponent],
    imports: [
       CommonModule,
       CareUsersRoutingModule,
@@ -21,7 +29,14 @@ import {
       MatSortModule,
       MatFormFieldModule,
       MatInputModule,
+      MatOptionModule,
+      MatSelectModule,
       MatProgressSpinnerModule,
+      MatDatepickerModule,
+      MatNativeDateModule,
+      MatButtonModule,
+      OverlayModule,
+      MatCardModule
    ],
 })
 export class CareUsersModule {}

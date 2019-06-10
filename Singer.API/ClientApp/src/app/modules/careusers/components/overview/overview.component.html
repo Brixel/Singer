@@ -2,7 +2,11 @@
 
 <!-- Mat Form Field Filter -->
 <mat-form-field>
-   <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+   <input
+      matInput
+      (keyup)="applyFilter($event.target.value)"
+      placeholder="Filter"
+   />
 </mat-form-field>
 
 <!-- Mat Table -->
@@ -22,9 +26,9 @@
 
       <!-- LastName Column -->
       <ng-container matColumnDef="lastName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Familienaam</th>
-          <td mat-cell *matCellDef="let row">{{ row.lastName }}</td>
-       </ng-container>
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>Familienaam</th>
+         <td mat-cell *matCellDef="let row">{{ row.lastName }}</td>
+      </ng-container>
 
       <!-- Email Column -->
       <ng-container matColumnDef="email">
@@ -34,14 +38,20 @@
 
       <!-- UserName Column -->
       <ng-container matColumnDef="userName">
-         <th mat-header-cell *matHeaderCellDef mat-sort-header>Gebruikersnaam</th>
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Gebruikersnaam
+         </th>
          <td mat-cell *matCellDef="let row">{{ row.userName }}</td>
       </ng-container>
 
       <!-- Birthday Column -->
       <ng-container matColumnDef="birthday">
-         <th mat-header-cell *matHeaderCellDef mat-sort-header>Geboortedatum</th>
-         <td mat-cell *matCellDef="let row">{{ row.birthday | date:'shortDate' }}</td>
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Geboortedatum
+         </th>
+         <td mat-cell *matCellDef="let row">
+            {{ row.birthday | date: 'shortDate' }}
+         </td>
       </ng-container>
 
       <!-- CaseNumber Column -->
@@ -52,38 +62,52 @@
 
       <!-- AgeGroup Column -->
       <ng-container matColumnDef="ageGroup">
-         <th mat-header-cell *matHeaderCellDef mat-sort-header>Leeftijdsgroep</th>
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Leeftijdsgroep
+         </th>
          <td mat-cell *matCellDef="let row">{{ row.ageGroup }}</td>
       </ng-container>
 
       <!-- IsExtern Column -->
       <ng-container matColumnDef="isExtern">
          <th mat-header-cell *matHeaderCellDef mat-sort-header>Klas/Extern</th>
-         <td mat-cell *matCellDef="let row">{{ row.isExtern ? 'Extern':'Klas' }}</td>
+         <td mat-cell *matCellDef="let row">
+            {{ row.isExtern ? 'Extern' : 'Klas' }}
+         </td>
       </ng-container>
 
       <!-- HasTrajectory Column -->
       <ng-container matColumnDef="hasTrajectory">
          <th mat-header-cell *matHeaderCellDef mat-sort-header>Traject</th>
-         <td mat-cell *matCellDef="let row">{{ row.hasTrajectory ? 'Ja':'Neen' }}</td>
+         <td mat-cell *matCellDef="let row">
+            {{ row.hasTrajectory ? 'Ja' : 'Neen' }}
+         </td>
       </ng-container>
 
       <!-- HasNormalDayCare Column -->
       <ng-container matColumnDef="hasNormalDayCare">
          <th mat-header-cell *matHeaderCellDef mat-sort-header>Opv. normaal</th>
-         <td mat-cell *matCellDef="let row">{{ row.hasNormalDayCare ? 'Ja':'Neen' }}</td>
+         <td mat-cell *matCellDef="let row">
+            {{ row.hasNormalDayCare ? 'Ja' : 'Neen' }}
+         </td>
       </ng-container>
 
       <!-- HasVacationDayCare Column -->
       <ng-container matColumnDef="hasVacationDayCare">
-         <th mat-header-cell *matHeaderCellDef mat-sort-header>Opv. vakantie</th>
-         <td mat-cell *matCellDef="let row">{{ row.hasVacationDayCare ? 'Ja':'Neen' }}</td>
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Opv. vakantie
+         </th>
+         <td mat-cell *matCellDef="let row">
+            {{ row.hasVacationDayCare ? 'Ja' : 'Neen' }}
+         </td>
       </ng-container>
 
       <!-- HasResources Column -->
       <ng-container matColumnDef="hasResources">
          <th mat-header-cell *matHeaderCellDef mat-sort-header>Middelen</th>
-         <td mat-cell *matCellDef="let row">{{ row.hasResources ? 'Ja':'Neen' }}</td>
+         <td mat-cell *matCellDef="let row">
+            {{ row.hasResources ? 'Ja' : 'Neen' }}
+         </td>
       </ng-container>
 
       <!-- Header Row -->
@@ -104,8 +128,13 @@
       [length]="dataSource?.data.length"
       [pageIndex]="0"
       [pageSize]="15"
-      [pageSizeOptions]="[1,15, 25, 50, 100]"
+      [pageSizeOptions]="[1, 15, 25, 50, 100]"
       showFirstLastButtons
    >
    </mat-paginator>
 </div>
+
+<button mat-raised-button color="primary" (click)="onClick();">Open overview</button>
+
+<!-- Mat Form -->
+<app-care-user-details></app-care-user-details>
