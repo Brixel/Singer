@@ -77,5 +77,21 @@ namespace Singer.Controllers
             return BadRequest();
          }
       }
+
+      [HttpDelete("{id}")]
+      [ProducesResponseType(StatusCodes.Status204NoContent)]
+      [ProducesResponseType(StatusCodes.Status400BadRequest)]
+      public async Task<ActionResult> DeleteUser(string id)
+      {
+         try
+         {
+            await _userService.DeleteUserAsync(Guid.Parse(id));
+         }
+         catch
+         {
+            return BadRequest();
+         }
+         return NoContent();
+      }
    }
 }

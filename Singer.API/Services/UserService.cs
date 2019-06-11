@@ -69,14 +69,16 @@ namespace Singer.Services
          User dbUser;
          try
          {
-            //Check if id exists and ensure client is not trying to change the ID
+            //Check if id exists
             dbUser = _appContext.Users.Single(u => u.Id == id.ToString());
-            if (user.Id != id)
-            {
-               throw new BadInputException();
-            }
          }
          catch
+         {
+            throw new BadInputException();
+         }
+
+         //Ensure client is not trying to change the ID
+         if (user.Id != id)
          {
             throw new BadInputException();
          }
@@ -91,7 +93,19 @@ namespace Singer.Services
       }
       public async Task DeleteUserAsync(Guid id)
       {
-         throw new NotImplementedException();
+         User dbUser;
+         try
+         {
+            //Check if id exists
+            dbUser = _appContext.Users.Single(u => u.Id == id.ToString());
+         }
+         catch
+         {
+            throw new BadInputException();
+         }
+
+         _appContext.Users.Remove(dbUser);
+         await _appContext.SaveChangesAsync();
       }
    }
 }
