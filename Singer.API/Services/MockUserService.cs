@@ -6,15 +6,12 @@ using System.Threading.Tasks;
 using Singer.Data.Models;
 using Singer.DTOs;
 using Singer.Services.Interfaces;
-using AutoMapper;
 
 namespace Singer.Services
 {
    public class MockUserService : IUserService
    {
       #region FIELDS
-
-      private readonly IMapper _mapper;
 
       private readonly IList<IUserDTO> _mockData = new List<CareUserDTO>
          {
@@ -63,11 +60,6 @@ namespace Singer.Services
 
       #region CONSTRUCTOR
 
-      public MockUserService(IMapper mapper)
-      {
-         _mapper = mapper;
-      }
-
       #endregion CONSTRUCTOR
 
 
@@ -77,9 +69,12 @@ namespace Singer.Services
          where TCreate : CreateUserDTO
          where TReturn : IUserDTO, TCreate
       {
-         TReturn returnUser = _mapper.Map<TReturn>(careUser);
-         // generate new id
+         var returnUser = Activator.CreateInstance<TReturn>();
 
+         foreach (var prop in typeof(TCreate).GetProperties())
+            prop.SetValue(returnUser, prop.GetValue(careUser));
+
+         // generate new id
          returnUser.Id = Guid.NewGuid();
          // add the new care user
          _mockData.Add(returnUser);
