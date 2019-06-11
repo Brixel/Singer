@@ -10,6 +10,7 @@ using Singer.Data;
 using Singer.Models;
 using Singer.Helpers.Exceptions;
 using Singer.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Singer.Services
 {
@@ -58,11 +59,32 @@ namespace Singer.Services
          return userDTO;
       }
 
-      public async Task<T> UpdateUserAsync<T>(T user, Guid id, IList<string> propertiesToUpdate = null) where T : IUserDTO
+      public async Task<bool> UpdateUserAsync<T>(T user, Guid id) where T : IUserDTO
       {
-         throw new NotImplementedException();
+         User dbUser;
+         try
+         {
+            //Check if id exists and ensure client is not trying to change the ID
+            dbUser = _appContext.Users.Single(u => u.Id == id.ToString());
+            if (user.Id != id)
+            {
+               throw new BadInputException();
+            }
+         }
+         catch
+         {
+            throw new BadInputException();
+         }
+
+         //Convert user DTO to view
+         _mapper.Map(user, dbUser);
+
+         //And finally update database
+         _appContext.Users.Update(dbUser);
+         await _appContext.SaveChangesAsync();
+         return true;
       }
-      public async Task DeleteUserAsync(string id)
+      public async Task DeleteUserAsync(Guid id)
       {
          throw new NotImplementedException();
       }
@@ -72,7 +94,7 @@ namespace Singer.Services
          throw new NotImplementedException();
       }
 
-      public Task DeleteUserAsync(Guid id)
+      public Task<T> CreateUserAsync<T>(T user) where T : UserDTO
       {
          throw new NotImplementedException();
       }

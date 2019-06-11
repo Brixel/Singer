@@ -111,10 +111,9 @@ namespace Singer.Services
          );
       }
 
-      public async Task<T> UpdateUserAsync<T>(
+      public async Task<bool> UpdateUserAsync<T>(
          T user,
-         Guid id,
-         IList<string> propertiesToUpdate = null) where T : IUserDTO
+         Guid id) where T : IUserDTO
       {
          // get the index of the care user with the given id
          var i = _mockData
@@ -124,29 +123,10 @@ namespace Singer.Services
             .Index;
 
          // set the care user's id to the given id
-         user.Id = id;
-         if (propertiesToUpdate == null)
-         {
-            // update the complete care user
-            _mockData[i] = user;
-            // return the updated care user
-            return await Task.FromResult((T) _mockData[i]);
-         }
-
-         // get the properties of the CareUserDTO without the id property
-         var props = typeof(T)
-            .GetProperties()
-            .Where(x => x.Name != nameof(UserDTO.Id));
-
-         // update all the properties listed in the properties to update
-         foreach (var propertyInfo in props)
-         {
-            if (propertiesToUpdate.Any(x => x == propertyInfo.Name))
-               propertyInfo.SetValue(_mockData[i], propertyInfo.GetValue(user));
-         }
-
-         // return the new care user
-         return await Task.FromResult((T) _mockData[i]);
+         user.Id = id;// update the complete care user
+         _mockData[i] = user;
+         // return the updated care user
+         return true;
       }
 
       public async Task DeleteUserAsync(Guid id)
