@@ -17,20 +17,30 @@ namespace Singer.Controllers
    {
       private IUserService _userService;
       private ApplicationDbContext _appContext;
-      private readonly IMapper _mapper;
       public CareUserController(IUserService service, ApplicationDbContext appContext, IMapper mapper)
       {
          _userService = service;
          _appContext = appContext;
-         _mapper = mapper;
       }
 
       [HttpGet]
       [ProducesResponseType(StatusCodes.Status200OK)]
-      public async Task<ActionResult<IEnumerable<CareUserDTO>>> GetUsers()
+      public async Task<ActionResult<PaginationDTO<CareUserDTO>>> GetUsers(
+         [FromQuery]int StartAt = 0,
+         [FromQuery]int NumberOfItems = 15)
       {
-         var users = await _userService.GetAllUsersAsync<CareUserDTO>();
-         return Ok(users);
+         int TotalNumberOfItems = 0;
+         var users = await _userService.GetUsersAsync<CareUserDTO>(StartAt, NumberOfItems);
+         PaginationDTO<CareUserDTO> page = new PaginationDTO<CareUserDTO>();
+         page.Items = users;
+         page.NumberOfItems = NumberOfItems;
+         page.StartAt = StartAt;
+         page.CurrentPageUrl = $"{HttpContext.Request.Path}?{HttpContext.Request.QueryString.ToString()}";
+         page.NextPageUrl = $"{HttpContext.Request.Path}?StartAt={StartAt + NumberOfItems}&NumberOfItems={NumberOfItems}";
+         page.PreviousPageUrl = StartAt - NumberOfItems < 0 ? null : $"{HttpContext.Request.Path}?StartAt={StartAt - NumberOfItems}&NumberOfItems={NumberOfItems}";
+         //TODO: TotalNumberOfItems is not calculated currently
+         page.TotalNumberOfItems = TotalNumberOfItems;
+         return Ok(page);
       }
 
       [HttpGet("{id}")]

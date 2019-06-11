@@ -108,7 +108,7 @@ namespace Singer.Services
       public async Task<T> GetUserAsync<T>(Guid id) where T : IUserDTO
       {
          // return the care user with the given id
-         return await Task.FromResult((T) _mockData.Single(x => x.GetType() == typeof(T) && x.Id == id));
+         return await Task.FromResult((T)_mockData.Single(x => x.GetType() == typeof(T) && x.Id == id));
       }
 
       public async Task<bool> UpdateUserAsync<T>(
@@ -118,7 +118,7 @@ namespace Singer.Services
          // get the index of the care user with the given id
          var i = _mockData
             .Where(x => x.GetType() == typeof(T))
-            .Select((u, index) => new {User = u, Index = index})
+            .Select((u, index) => new { User = u, Index = index })
             .Single(x => x.User.Id == id)
             .Index;
 
@@ -133,7 +133,7 @@ namespace Singer.Services
       {
          // get the index of the care user with the given id
          var i = _mockData
-            .Select((user, index) => new {User = user, Index = index})
+            .Select((user, index) => new { User = user, Index = index })
             .Single(x => x.User.Id == id)
             .Index;
 

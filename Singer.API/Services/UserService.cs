@@ -45,12 +45,21 @@ namespace Singer.Services
          return users;
       }
 
-      public Task<IList<T>> GetUsersAsync<T>(int start = 0,
+      public async Task<IList<T>> GetUsersAsync<T>(
+         int start = 0,
          int numberOfElements = 15,
          Filter<T> filter = null,
          Sorter<T> sorter = null) where T : IUserDTO
       {
-         throw new NotImplementedException();
+         List<T> users = await Task.FromResult(
+            _appContext.Users
+               .Skip(start)
+               .Take(numberOfElements)
+               .AsQueryable()
+               .ProjectTo<T>(_mapper.ConfigurationProvider)
+               .ToList()
+         );
+         return users;
       }
 
       public async Task<T> GetUserAsync<T>(Guid id) where T : IUserDTO
