@@ -46,6 +46,11 @@ namespace Singer.Services
          return users;
       }
 
+      public Task<PaginationModel<T>> GetUsersAsync<T>(int page = 0, int elementsPerPage = 15, Filter<T> filter = null, Sorter<T> sorter = null) where T : IUserDTO
+      {
+         throw new NotImplementedException();
+      }
+
       public async Task<T> GetUserAsync<T>(Guid id) where T : IUserDTO
       {
          var user = await _appContext.Users.FindAsync(id);
@@ -63,11 +68,6 @@ namespace Singer.Services
          throw new NotImplementedException();
       }
       public async Task DeleteUserAsync(string id)
-      {
-         throw new NotImplementedException();
-      }
-
-      public Task<PaginationModel<T>> GetUsersAsync<T>(int page = 0, Filter<T> filter = null, Sorter<T> sorter = null) where T : IUserDTO
       {
          throw new NotImplementedException();
       }
