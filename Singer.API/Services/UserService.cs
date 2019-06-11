@@ -9,8 +9,6 @@ using AutoMapper;
 using Singer.Data;
 using Singer.Models;
 using Singer.Helpers.Exceptions;
-using Singer.Data.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace Singer.Services
 {
@@ -47,7 +45,10 @@ namespace Singer.Services
          return users;
       }
 
-      public Task<PaginationModel<T>> GetUsersAsync<T>(int page = 0, int elementsPerPage = 15, Filter<T> filter = null, Sorter<T> sorter = null) where T : IUserDTO
+      public Task<IList<T>> GetUsersAsync<T>(int start = 0,
+         int numberOfElements = 15,
+         Filter<T> filter = null,
+         Sorter<T> sorter = null) where T : IUserDTO
       {
          throw new NotImplementedException();
       }
