@@ -23,11 +23,11 @@ namespace Singer.Services
          _mapper = mapper;
       }
 
-      public async Task<TReturn> CreateUserAsync<TCreate, TReturn>(TCreate user)
+      public async Task<TReturn> CreateUserAsync<TCreate, TReturn>(TCreate createUser)
          where TCreate : CreateUserDTO
          where TReturn : IUserDTO, TCreate
       {
-         User newUser = _mapper.Map<User>(user);
+         User newUser = _mapper.Map<User>(createUser);
          _appContext.Users.Add(newUser);
          await _appContext.SaveChangesAsync();
          TReturn returnUser = _mapper.Map<TReturn>(newUser);

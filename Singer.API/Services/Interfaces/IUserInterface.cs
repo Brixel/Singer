@@ -8,7 +8,7 @@ namespace Singer.Services.Interfaces
 {
    public interface IUserService
    {
-      Task<TReturn> CreateUserAsync<TCreate, TReturn>(TCreate user)
+      Task<TReturn> CreateUserAsync<TCreate, TReturn>(TCreate createUser)
          where TCreate : CreateUserDTO
          where TReturn : IUserDTO, TCreate;
 

@@ -13,7 +13,7 @@ namespace Singer.Services
    {
       #region FIELDS
 
-      private readonly IList<IUserDTO> _mockData = new List<CareUserDTO>
+      private readonly IList<IUserDTO> _mockData = new List<IUserDTO>
          {
             new CareUserDTO
             {
@@ -51,9 +51,7 @@ namespace Singer.Services
                HasVacationDayCare = true,
                HasResources = false
             },
-         }
-         .Cast<IUserDTO>()
-         .ToList();
+         };
 
       #endregion FIELDS
 
@@ -65,14 +63,16 @@ namespace Singer.Services
 
       #region METHODS
 
-      public async Task<TReturn> CreateUserAsync<TCreate, TReturn>(TCreate careUser)
+      public async Task<TReturn> CreateUserAsync<TCreate, TReturn>(TCreate createUser)
          where TCreate : CreateUserDTO
          where TReturn : IUserDTO, TCreate
       {
+         // create new return value
          var returnUser = Activator.CreateInstance<TReturn>();
 
+         // copy the properties from the given user to the new user
          foreach (var prop in typeof(TCreate).GetProperties())
-            prop.SetValue(returnUser, prop.GetValue(careUser));
+            prop.SetValue(returnUser, prop.GetValue(createUser));
 
          // generate new id
          returnUser.Id = Guid.NewGuid();
@@ -102,8 +102,7 @@ namespace Singer.Services
       public async Task<T> GetUserAsync<T>(Guid id) where T : IUserDTO
       {
          // return the care user with the given id
-         return await Task.FromResult((T) _mockData.Single(x => x.GetType() == typeof(T) && x.Id == id)
-         );
+         return await Task.FromResult((T) _mockData.Single(x => x.GetType() == typeof(T) && x.Id == id));
       }
 
       public async Task<T> UpdateUserAsync<T>(
