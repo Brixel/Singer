@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Singer.Data.Models;
 using Singer.DTOs;
 using Singer.Services.Interfaces;
-using AutoMapper.QueryableExtensions;
 using AutoMapper;
 
 namespace Singer.Services
@@ -14,57 +13,71 @@ namespace Singer.Services
    public class MockUserService : IUserService
    {
       #region FIELDS
+
       private readonly IMapper _mapper;
-      private readonly IList<UserDTO> _mockData = new List<UserDTO>
-      {
-         new CareUserDTO
+
+      private readonly IList<IUserDTO> _mockData = new List<CareUserDTO>
          {
-            Name = "Joske Vermeulen",
-            BirthDay = DateTime.Parse("06/07/2008", CultureInfo.InvariantCulture),
-            CaseNumber = "0123456789",
-            AgeGroup = Models.AgeGroup.Child,
-            IsExtern = false,
-            HasTrajectory = true,
-            HasNormalDayCare = true,
-            HasVacationDayCare = true,
-            HasResources = true
-         },
-         new CareUserDTO
-         {
-            Name = "Kim Janssens",
-            BirthDay = DateTime.Parse("08/07/2006", CultureInfo.InvariantCulture),
-            CaseNumber = "9876543210",
-            AgeGroup = Models.AgeGroup.Child,
-            IsExtern = true,
-            HasTrajectory = true,
-            HasNormalDayCare = true,
-            HasVacationDayCare = true,
-            HasResources = true
-         },
-         new CareUserDTO
-         {
-            Name = "Benjamin Vermeulen",
-            BirthDay = DateTime.Parse("06/08/2010", CultureInfo.InvariantCulture),
-            CaseNumber = "091837465",
-            AgeGroup = Models.AgeGroup.Youngster,
-            IsExtern = false,
-            HasTrajectory = true,
-            HasNormalDayCare = true,
-            HasVacationDayCare = true,
-            HasResources = false
-         },
-      };
+            new CareUserDTO
+            {
+               Name = "Joske Vermeulen",
+               BirthDay = DateTime.Parse("06/07/2008", CultureInfo.InvariantCulture),
+               CaseNumber = "0123456789",
+               AgeGroup = Models.AgeGroup.Child,
+               IsExtern = false,
+               HasTrajectory = true,
+               HasNormalDayCare = true,
+               HasVacationDayCare = true,
+               HasResources = true
+            },
+            new CareUserDTO
+            {
+               Name = "Kim Janssens",
+               BirthDay = DateTime.Parse("08/07/2006", CultureInfo.InvariantCulture),
+               CaseNumber = "9876543210",
+               AgeGroup = Models.AgeGroup.Child,
+               IsExtern = true,
+               HasTrajectory = true,
+               HasNormalDayCare = true,
+               HasVacationDayCare = true,
+               HasResources = true
+            },
+            new CareUserDTO
+            {
+               Name = "Benjamin Vermeulen",
+               BirthDay = DateTime.Parse("06/08/2010", CultureInfo.InvariantCulture),
+               CaseNumber = "091837465",
+               AgeGroup = Models.AgeGroup.Youngster,
+               IsExtern = false,
+               HasTrajectory = true,
+               HasNormalDayCare = true,
+               HasVacationDayCare = true,
+               HasResources = false
+            },
+         }
+         .Cast<IUserDTO>()
+         .ToList();
 
       #endregion FIELDS
 
+
+      #region CONSTRUCTOR
+
+      public MockUserService(IMapper mapper)
+      {
+         _mapper = mapper;
+      }
+
+      #endregion CONSTRUCTOR
+
+
       #region METHODS
 
-      public MockUserService(IMapper mapper) => _mapper = mapper;
-      public async Task<T2> CreateUserAsync<T1, T2>(T1 careUser)
-         where T1 : CreateUserDTO
-         where T2 : UserDTO
+      public async Task<TReturn> CreateUserAsync<TCreate, TReturn>(TCreate careUser)
+         where TCreate : CreateUserDTO
+         where TReturn : IUserDTO, TCreate
       {
-         T2 returnUser = _mapper.Map<T2>(careUser);
+         TReturn returnUser = _mapper.Map<TReturn>(careUser);
          // generate new id
 
          returnUser.Id = Guid.NewGuid();
@@ -74,7 +87,7 @@ namespace Singer.Services
          return await Task.FromResult(returnUser);
       }
 
-      public async Task<IList<T>> GetAllUsersAsync<T>() where T : UserDTO
+      public async Task<IList<T>> GetAllUsersAsync<T>() where T : IUserDTO
       {
          // return all the mock data
          return await Task.FromResult(
@@ -85,29 +98,28 @@ namespace Singer.Services
          );
       }
 
-      public Task<PaginationModel<T>> GetUsersAsync<T>(int page = 0, Filter<T> filter = null, Sorter<T> sorter = null) where T : UserDTO
+      public Task<PaginationModel<T>> GetUsersAsync<T>(int page = 0, Filter<T> filter = null, Sorter<T> sorter = null)
+         where T : IUserDTO
       {
          throw new NotImplementedException();
       }
 
-      public async Task<T> GetUserAsync<T>(Guid id) where T : UserDTO
+      public async Task<T> GetUserAsync<T>(Guid id) where T : IUserDTO
       {
          // return the care user with the given id
-         return await Task.FromResult(
-            _mockData
-               .Single(x => x.GetType() == typeof(T) && x.Id == id) as T
+         return await Task.FromResult((T) _mockData.Single(x => x.GetType() == typeof(T) && x.Id == id)
          );
       }
 
       public async Task<T> UpdateUserAsync<T>(
          T user,
          Guid id,
-         IList<string> propertiesToUpdate = null) where T : UserDTO
+         IList<string> propertiesToUpdate = null) where T : IUserDTO
       {
          // get the index of the care user with the given id
          var i = _mockData
             .Where(x => x.GetType() == typeof(T))
-            .Select((u, index) => new { User = u, Index = index })
+            .Select((u, index) => new {User = u, Index = index})
             .Single(x => x.User.Id == id)
             .Index;
 
@@ -118,7 +130,7 @@ namespace Singer.Services
             // update the complete care user
             _mockData[i] = user;
             // return the updated care user
-            return await Task.FromResult(_mockData[i] as T);
+            return await Task.FromResult((T) _mockData[i]);
          }
 
          // get the properties of the CareUserDTO without the id property
@@ -134,14 +146,14 @@ namespace Singer.Services
          }
 
          // return the new care user
-         return await Task.FromResult(_mockData[i] as T);
+         return await Task.FromResult((T) _mockData[i]);
       }
 
       public async Task DeleteUserAsync(Guid id)
       {
          // get the index of the care user with the given id
          var i = _mockData
-            .Select((user, index) => new { User = user, Index = index })
+            .Select((user, index) => new {User = user, Index = index})
             .Single(x => x.User.Id == id)
             .Index;
 

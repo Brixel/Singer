@@ -1,17 +1,14 @@
-using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using Singer.Models;
 
 namespace Singer.DTOs
 {
    public class CreateUserDTO
    {
-
       [Required]
       [StringLength(maximumLength: 255,
-               ErrorMessage = "De {0} moet een lengte hebben van minstens {2} en maximum {1} karakters.",
-               MinimumLength = 3)]
+         ErrorMessage = "De {0} moet een lengte hebben van minstens {2} en maximum {1} karakters.",
+         MinimumLength = 3)]
       [DisplayName("Naam")]
       public string Name { get; set; }
 

@@ -23,19 +23,19 @@ namespace Singer.Services
          _mapper = mapper;
       }
 
-      public async Task<T2> CreateUserAsync<T1, T2>(T1 user)
-         where T1 : CreateUserDTO
-         where T2 : UserDTO
+      public async Task<TReturn> CreateUserAsync<TCreate, TReturn>(TCreate user)
+         where TCreate : CreateUserDTO
+         where TReturn : IUserDTO, TCreate
       {
          User newUser = _mapper.Map<User>(user);
          _appContext.Users.Add(newUser);
          await _appContext.SaveChangesAsync();
-         T2 returnUser = _mapper.Map<T2>(newUser);
+         TReturn returnUser = _mapper.Map<TReturn>(newUser);
 
          return returnUser;
       }
 
-      public async Task<IList<T>> GetAllUsersAsync<T>() where T : UserDTO
+      public async Task<IList<T>> GetAllUsersAsync<T>() where T : IUserDTO
       {
          List<T> users = await Task.FromResult(
             _appContext.Users
@@ -46,7 +46,7 @@ namespace Singer.Services
          return users;
       }
 
-      public async Task<T> GetUserAsync<T>(Guid id) where T : UserDTO
+      public async Task<T> GetUserAsync<T>(Guid id) where T : IUserDTO
       {
          var user = await _appContext.Users.FindAsync(id);
          if (user == null)
@@ -58,7 +58,7 @@ namespace Singer.Services
          return userDTO;
       }
 
-      public async Task<T> UpdateUserAsync<T>(T user, Guid id, IList<string> propertiesToUpdate = null) where T : UserDTO
+      public async Task<T> UpdateUserAsync<T>(T user, Guid id, IList<string> propertiesToUpdate = null) where T : IUserDTO
       {
          throw new NotImplementedException();
       }
@@ -67,7 +67,7 @@ namespace Singer.Services
          throw new NotImplementedException();
       }
 
-      public Task<PaginationModel<T>> GetUsersAsync<T>(int page = 0, Filter<T> filter = null, Sorter<T> sorter = null) where T : UserDTO
+      public Task<PaginationModel<T>> GetUsersAsync<T>(int page = 0, Filter<T> filter = null, Sorter<T> sorter = null) where T : IUserDTO
       {
          throw new NotImplementedException();
       }
