@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Singer.Data.Models;
 using Singer.DTOs;
 
 namespace Singer.Services.Interfaces
@@ -14,7 +13,7 @@ namespace Singer.Services.Interfaces
 
       Task<IList<T>> GetAllUsersAsync<T>() where T : IUserDTO;
 
-      Task<PaginationModel<T>> GetUsersAsync<T>(
+      Task<IList<T>> GetUsersAsync<T>(
          int page = 0,
          int elementsPerPage = 15,
          Filter<T> filter = null,

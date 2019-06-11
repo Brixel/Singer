@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using Singer.Data.Models;
 using Singer.DTOs;
 using Singer.Services.Interfaces;
 
@@ -14,44 +13,44 @@ namespace Singer.Services
       #region FIELDS
 
       private readonly IList<IUserDTO> _mockData = new List<IUserDTO>
+      {
+         new CareUserDTO
          {
-            new CareUserDTO
-            {
-               Name = "Joske Vermeulen",
-               BirthDay = DateTime.Parse("06/07/2008", CultureInfo.InvariantCulture),
-               CaseNumber = "0123456789",
-               AgeGroup = Models.AgeGroup.Child,
-               IsExtern = false,
-               HasTrajectory = true,
-               HasNormalDayCare = true,
-               HasVacationDayCare = true,
-               HasResources = true
-            },
-            new CareUserDTO
-            {
-               Name = "Kim Janssens",
-               BirthDay = DateTime.Parse("08/07/2006", CultureInfo.InvariantCulture),
-               CaseNumber = "9876543210",
-               AgeGroup = Models.AgeGroup.Child,
-               IsExtern = true,
-               HasTrajectory = true,
-               HasNormalDayCare = true,
-               HasVacationDayCare = true,
-               HasResources = true
-            },
-            new CareUserDTO
-            {
-               Name = "Benjamin Vermeulen",
-               BirthDay = DateTime.Parse("06/08/2010", CultureInfo.InvariantCulture),
-               CaseNumber = "091837465",
-               AgeGroup = Models.AgeGroup.Youngster,
-               IsExtern = false,
-               HasTrajectory = true,
-               HasNormalDayCare = true,
-               HasVacationDayCare = true,
-               HasResources = false
-            },
-         };
+            Name = "Joske Vermeulen",
+            BirthDay = DateTime.Parse("06/07/2008", CultureInfo.InvariantCulture),
+            CaseNumber = "0123456789",
+            AgeGroup = Models.AgeGroup.Child,
+            IsExtern = false,
+            HasTrajectory = true,
+            HasNormalDayCare = true,
+            HasVacationDayCare = true,
+            HasResources = true
+         },
+         new CareUserDTO
+         {
+            Name = "Kim Janssens",
+            BirthDay = DateTime.Parse("08/07/2006", CultureInfo.InvariantCulture),
+            CaseNumber = "9876543210",
+            AgeGroup = Models.AgeGroup.Child,
+            IsExtern = true,
+            HasTrajectory = true,
+            HasNormalDayCare = true,
+            HasVacationDayCare = true,
+            HasResources = true
+         },
+         new CareUserDTO
+         {
+            Name = "Benjamin Vermeulen",
+            BirthDay = DateTime.Parse("06/08/2010", CultureInfo.InvariantCulture),
+            CaseNumber = "091837465",
+            AgeGroup = Models.AgeGroup.Youngster,
+            IsExtern = false,
+            HasTrajectory = true,
+            HasNormalDayCare = true,
+            HasVacationDayCare = true,
+            HasResources = false
+         },
+      };
 
       #endregion FIELDS
 
@@ -93,9 +92,17 @@ namespace Singer.Services
          );
       }
 
-      public Task<PaginationModel<T>> GetUsersAsync<T>(int page = 0, int elementsPerPage = 15, Filter<T> filter = null, Sorter<T> sorter = null) where T : IUserDTO
+      public async Task<IList<T>> GetUsersAsync<T>(
+         int start = 0,
+         int numberOfElements = 15,
+         Filter<T> filter = null,
+         Sorter<T> sorter = null) where T : IUserDTO
       {
-         throw new NotImplementedException();
+         return _mockData
+            .Where(x => x.GetType() == typeof(T))
+            .Cast<T>()
+            .Where(x => filter == null || (filter.CheckAnd(x) && filter.CheckOr(x)))
+            .ToList();
       }
 
       public async Task<T> GetUserAsync<T>(Guid id) where T : IUserDTO
@@ -116,7 +123,7 @@ namespace Singer.Services
             .Index;
 
          // set the care user's id to the given id
-         user.Id = id;// update the complete care user
+         user.Id = id; // update the complete care user
          _mockData[i] = user;
          // return the updated care user
          return true;
