@@ -19,6 +19,7 @@ import {
    MatToolbarModule,
 } from '@angular/material';
 import { CareUserDetailsComponent } from './components/care-user-details/care-user-details.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
    declarations: [OverviewComponent, CareUserDetailsComponent],
@@ -38,7 +39,8 @@ import { CareUserDetailsComponent } from './components/care-user-details/care-us
       MatButtonModule,
       MatCardModule,
       MatIconModule,
-      MatToolbarModule
+      MatToolbarModule,
+      ReactiveFormsModule
    ],
 })
 export class CareUsersModule {}

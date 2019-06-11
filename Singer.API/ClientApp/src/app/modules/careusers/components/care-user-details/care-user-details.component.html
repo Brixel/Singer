@@ -47,8 +47,12 @@
             matInput
             [placeholder]="caseNumberFieldPlaceholder"
             [value]="caseNumberFieldValue"
+            [formControl]="caseNumberFieldControl"
             required
          />
+         <mat-error *ngIf="caseNumberFieldControl.invalid">{{
+            getCaseNumberFieldErrorMessage()
+         }}</mat-error>
       </mat-form-field>
 
       <!-- AgeGroup Field -->
@@ -118,6 +122,18 @@
       </mat-form-field>
 
       <!-- Email Field -->
+      <mat-form-field>
+         <input
+            matInput
+            [placeholder]="emailFieldPlaceholder"
+            [value]="emailFieldValue"
+            [formControl]="emailFieldControl"
+            required
+         />
+         <mat-error *ngIf="emailFieldControl.invalid">{{
+            getEmailFieldErrorMessage()
+         }}</mat-error>
+      </mat-form-field>
 
       <!-- Email Field -->
 
