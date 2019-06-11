@@ -51,11 +51,11 @@ export class CareUserDetailsComponent implements OnInit {
       this.clearFormValues();
    }
 
-   addNewCareUser() {
+   public addNewCareUser() {
       this.clearFormValues();
    }
 
-   updateCareUser(careUser: CareUser){
+   public showCareUser(careUser: CareUser){
       this.careUser = careUser;
       this.updateFormValues();
    }

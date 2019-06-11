@@ -1,15 +1,28 @@
 <mat-card>
    <!-- Details Form -->
    <div class="details-form-container">
-      <!-- Lastname Field -->
-      <mat-form-field>
-         <input matInput [placeholder]="lastNameFieldPlaceholder" [value]='lastNameFieldValue'/>
-      </mat-form-field>
+      <!-- FORM TITLE -->
+      <label class="form-title">Toevoegen/bewerken (enkel admin)</label>
 
-      <!-- FirstName Field -->
-      <mat-form-field>
-         <input matInput [placeholder]="firstNameFieldPlaceholder" [value]='firstNameFieldValue'/>
-      </mat-form-field>
+      <div class="name-fields">
+         <!-- Lastname Field -->
+         <mat-form-field>
+            <input
+               matInput
+               [placeholder]="lastNameFieldPlaceholder"
+               [value]="lastNameFieldValue"
+            />
+         </mat-form-field>
+
+         <!-- FirstName Field -->
+         <mat-form-field>
+            <input
+               matInput
+               [placeholder]="firstNameFieldPlaceholder"
+               [value]="firstNameFieldValue"
+            />
+         </mat-form-field>
+      </div>
 
       <!-- Birthday Field -->
       <mat-form-field>
@@ -30,12 +43,20 @@
 
       <!-- CaseNumber Field -->
       <mat-form-field>
-         <input matInput [placeholder]="caseNumberFieldPlaceholder" [value]='caseNumberFieldValue'/>
+         <input
+            matInput
+            [placeholder]="caseNumberFieldPlaceholder"
+            [value]="caseNumberFieldValue"
+            required
+         />
       </mat-form-field>
 
       <!-- AgeGroup Field -->
       <mat-form-field>
-         <mat-select [placeholder]="ageGroupFieldPlaceholder" [value]='ageGroupFieldValue'>
+         <mat-select
+            [placeholder]="ageGroupFieldPlaceholder"
+            [value]="ageGroupFieldValue"
+         >
             <mat-option value="child">Kinderen</mat-option>
             <mat-option value="youngster">Jongeren</mat-option>
          </mat-select>
@@ -43,7 +64,10 @@
 
       <!-- IsExtern Field -->
       <mat-form-field>
-         <mat-select [placeholder]="isExternFieldPlaceholder" [value]='isExternFieldValue'>
+         <mat-select
+            [placeholder]="isExternFieldPlaceholder"
+            [value]="isExternFieldValue"
+         >
             <mat-option value="false">Klas</mat-option>
             <mat-option value="true">Extern</mat-option>
          </mat-select>
@@ -51,7 +75,10 @@
 
       <!-- HasTrajectory Field -->
       <mat-form-field>
-         <mat-select [placeholder]="hasTrajectoryFieldPlaceholder" [value]='hasTrajectoryFieldValue'>
+         <mat-select
+            [placeholder]="hasTrajectoryFieldPlaceholder"
+            [value]="hasTrajectoryFieldValue"
+         >
             <mat-option value="true">Ja</mat-option>
             <mat-option value="false">Nee</mat-option>
          </mat-select>
@@ -59,7 +86,10 @@
 
       <!-- HasNormalDayCare Field -->
       <mat-form-field>
-         <mat-select [placeholder]="hasNormalDayCareFieldPlaceholder" [value]='hasNormalDayCareFieldValue'>
+         <mat-select
+            [placeholder]="hasNormalDayCareFieldPlaceholder"
+            [value]="hasNormalDayCareFieldValue"
+         >
             <mat-option value="true">Ja</mat-option>
             <mat-option value="false">Nee</mat-option>
          </mat-select>
@@ -67,7 +97,10 @@
 
       <!-- HasVacationDayCare Field -->
       <mat-form-field>
-         <mat-select [placeholder]="hasVacationDayCareFieldPlaceholder" [value]='hasVacationDayCareFieldValue'>
+         <mat-select
+            [placeholder]="hasVacationDayCareFieldPlaceholder"
+            [value]="hasVacationDayCareFieldValue"
+         >
             <mat-option value="true">Ja</mat-option>
             <mat-option value="false">Nee</mat-option>
          </mat-select>
@@ -75,7 +108,10 @@
 
       <!-- HasResources Field -->
       <mat-form-field>
-         <mat-select [placeholder]="hasResourcesFieldPlaceholder" [value]='hasResourcesFieldValue'>
+         <mat-select
+            [placeholder]="hasResourcesFieldPlaceholder"
+            [value]="hasResourcesFieldValue"
+         >
             <mat-option value="true">Ja</mat-option>
             <mat-option value="false">Nee</mat-option>
          </mat-select>
@@ -89,11 +125,29 @@
 
       <!-- Add Field -->
 
-      <!-- Save Button -->
-
-      <!-- Close Button -->
-      <button mat-icon-button color="primary" (click)="closeForm()" title="Formulier sluiten" aria-label="Formulier sluiten">
-            <mat-icon>close</mat-icon>
+      <!-- Button Row -->
+      <div class="button-row">
+         <!-- Save Button -->
+         <button
+            mat-raised-button
+            color="primary"
+            (click)="closeForm()"
+            title="Formulier sluiten"
+            aria-label="Formulier sluiten"
+         >
+            Opslaan
          </button>
+
+         <!-- Close Button -->
+         <button
+            mat-raised-button
+            color="primary"
+            (click)="closeForm()"
+            title="Formulier sluiten"
+            aria-label="Formulier sluiten"
+         >
+            Sluiten
+         </button>
+      </div>
    </div>
 </mat-card>

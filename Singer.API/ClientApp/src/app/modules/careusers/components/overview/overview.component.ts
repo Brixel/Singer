@@ -67,12 +67,14 @@ export class OverviewComponent implements AfterViewInit {
       this.showDetailsForm = true;
 
       // pass selected careUser to details form (row contains a careUser object)
-      this.careUserDetailsForm.updateCareUser(row);
+      this.careUserDetailsForm.showCareUser(row);
    }
 
    addCareUser() {
       // Show careUserDetailsForm
       this.showDetailsForm = true;
+
+      this.careUserDetailsForm.addNewCareUser();
    }
 
    applyFilter(filterValue: string) {
