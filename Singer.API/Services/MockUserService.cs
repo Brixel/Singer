@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Singer.DTOs;
+using Singer.Helpers.Extensions;
 using Singer.Services.Interfaces;
 
 namespace Singer.Services
@@ -98,11 +101,26 @@ namespace Singer.Services
          Filter<T> filter = null,
          Sorter<T> sorter = null) where T : IUserDTO
       {
-         return _mockData
+         var filteredElements = _mockData
             .Where(x => x.GetType() == typeof(T))
             .Cast<T>()
-            .Where(x => filter == null || (filter.CheckAnd(x) && filter.CheckOr(x)))
-            .ToList();
+            .Where(x => filter == null || filter.CheckAnd(x) && filter.CheckOr(x))
+            .AsQueryable();
+
+         if (sorter == null || sorter.Count < 1)
+            return await Task.FromResult(filteredElements.ToList());
+
+         var sortProperties = sorter.ToList();
+         var prop = sortProperties.First();
+         var orderedElements = filteredElements.OrderBy(prop);
+
+         if (sorter.Count <= 1)
+            return orderedElements.ToList();
+
+         for (var i = 1; i < sorter.Count; i++)
+            orderedElements.ThenBy(sortProperties[i]);
+
+         return orderedElements.ToList();
       }
 
       public async Task<T> GetUserAsync<T>(Guid id) where T : IUserDTO
@@ -111,9 +129,7 @@ namespace Singer.Services
          return await Task.FromResult((T)_mockData.Single(x => x.GetType() == typeof(T) && x.Id == id));
       }
 
-      public async Task<bool> UpdateUserAsync<T>(
-         T user,
-         Guid id) where T : IUserDTO
+      public async Task<bool> UpdateUserAsync<T>(T user, Guid id) where T : IUserDTO
       {
          // get the index of the care user with the given id
          var i = _mockData
@@ -126,7 +142,7 @@ namespace Singer.Services
          user.Id = id; // update the complete care user
          _mockData[i] = user;
          // return the updated care user
-         return true;
+         return await Task.FromResult(true);
       }
 
       public async Task DeleteUserAsync(Guid id)
