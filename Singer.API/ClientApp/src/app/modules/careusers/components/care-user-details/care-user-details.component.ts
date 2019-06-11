@@ -129,7 +129,7 @@ export class CareUserDetailsComponent implements OnInit {
       this.emailFieldControl.reset();
    }
 
-   private closeForm() {
+   closeForm() {
       this.closeFormEvent.emit(true);
    }
 }
