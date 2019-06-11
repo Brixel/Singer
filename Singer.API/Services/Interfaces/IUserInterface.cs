@@ -23,7 +23,7 @@ namespace Singer.Services.Interfaces
 
       Task<T> GetUserAsync<T>(Guid id) where T : IUserDTO;
 
-      Task<T> UpdateUserAsync<T>(T user, Guid id, IList<string> propertiesToUpdate = null) where T : IUserDTO;
+      Task<bool> UpdateUserAsync<T>(T user, Guid id) where T : IUserDTO;
 
       Task DeleteUserAsync(Guid id);
    }

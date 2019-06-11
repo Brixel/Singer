@@ -54,5 +54,28 @@ namespace Singer.Controllers
          var returnUser = await _userService.CreateUserAsync<CreateCareUserDTO, CareUserDTO>(user);
          return Created(nameof(GetUser), returnUser);
       }
+
+      [HttpPut("{id}")]
+      [ProducesResponseType(StatusCodes.Status204NoContent)]
+      [ProducesResponseType(StatusCodes.Status400BadRequest)]
+      public async Task<ActionResult> UpdateUser(string id, CareUserDTO user)
+      {
+         try
+         {
+            var result = await _userService.UpdateUserAsync<CareUserDTO>(user, Guid.Parse(id));
+            if (result)
+            {
+               return NoContent();
+            }
+            else
+            {
+               return BadRequest();
+            }
+         }
+         catch
+         {
+            return BadRequest();
+         }
+      }
    }
 }
