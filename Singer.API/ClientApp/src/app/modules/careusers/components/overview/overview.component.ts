@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { OverviewDataSource } from './overview-datasource';
 import { CareUsersAPIService } from 'src/app/modules/core/services/care-users-api/care-users-api.service';
-import { CareUserDetailsComponent } from "../care-user-details/care-user-details.component";
+import { CareUserDetailsComponent } from '../care-user-details/care-user-details.component';
 
 @Component({
    selector: 'app-overview',
@@ -58,8 +58,7 @@ export class OverviewComponent implements AfterViewInit {
 
    selectRow(row): void {
       const dialogRef = this.dialog.open(CareUserDetailsComponent, {
-         width: '1000px',
-         data: row,
+         data: { careUserInstance: row, isAdding: false },
       });
 
       dialogRef.afterClosed().subscribe(result => {
@@ -70,8 +69,7 @@ export class OverviewComponent implements AfterViewInit {
 
    addCareUser(): void {
       const dialogRef = this.dialog.open(CareUserDetailsComponent, {
-         width: '1000px',
-         data: null,
+         data: { careUserInstance: null, isAdding: true },
       });
 
       dialogRef.afterClosed().subscribe(result => {

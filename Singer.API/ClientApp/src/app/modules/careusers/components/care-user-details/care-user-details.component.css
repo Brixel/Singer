@@ -8,9 +8,9 @@
 
  /* GLOBAL FORM ELEMENTS STYLING */
  .details-form-container > mat-form-field {
-   min-width: 150px;
+   /* min-width: 150px;
    max-width: 200px;
-   margin: 3px 0px;
+   margin: 3px 0px; */
  }
 
  /* SPECIFIC ELEMENT STYLING */
