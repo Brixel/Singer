@@ -19,9 +19,6 @@ export class OverviewComponent implements AfterViewInit {
    // Boolean value to check if the details form should be shown
    showDetailsForm: Boolean;
 
-   // API to retrieve user data
-   careUsersAPI: CareUsersAPIService = new CareUsersAPIService();
-
    /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
    displayedColumns = [
       //'id',
@@ -39,7 +36,11 @@ export class OverviewComponent implements AfterViewInit {
       'hasResources',
    ];
 
-   constructor(public dialog: MatDialog) {}
+   constructor(
+      // Dialog to display form to add and edit care users
+      public dialog: MatDialog,
+      // API to retrieve user data
+      private careUsersAPI: CareUsersAPIService) {}
 
    ngAfterViewInit() {
       // Load datasource
@@ -62,8 +63,10 @@ export class OverviewComponent implements AfterViewInit {
       });
 
       dialogRef.afterClosed().subscribe(result => {
-         console.log('The dialog was closed');
+         console.log('The edit dialog was closed');
          console.log(result);
+
+         this.reloadTable();
       });
    }
 
@@ -73,8 +76,10 @@ export class OverviewComponent implements AfterViewInit {
       });
 
       dialogRef.afterClosed().subscribe(result => {
-         console.log('The dialog was closed');
+         console.log('The add dialog was closed');
          console.log(result);
+
+         this.reloadTable();
       });
    }
 
@@ -84,5 +89,9 @@ export class OverviewComponent implements AfterViewInit {
       if (this.paginator) {
          this.paginator.firstPage();
       }
+   }
+
+   private reloadTable() {
+      this.dataSource.reload();
    }
 }

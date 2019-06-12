@@ -143,13 +143,27 @@
 
       <!-- Button Row -->
       <mat-dialog-actions class="button-row">
+
+         <!-- Add Button -->
+         <button
+            mat-raised-button
+            color="primary"
+            (click)="submitForm()"
+            title="Formulier sluiten"
+            aria-label="Formulier sluiten"
+            *ngIf="isAdding"
+         >
+            Toevoegen
+         </button>
+
          <!-- Save Button -->
          <button
             mat-raised-button
             color="primary"
-            (click)="closeForm()"
+            (click)="submitForm()"
             title="Formulier sluiten"
             aria-label="Formulier sluiten"
+            *ngIf="!isAdding"
          >
             Opslaan
          </button>

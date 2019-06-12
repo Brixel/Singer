@@ -13,7 +13,6 @@ export interface CareUserDetailsFormData {
    templateUrl: './care-user-details.component.html',
    styleUrls: ['./care-user-details.component.css'],
 })
-
 export class CareUserDetailsComponent implements OnInit {
    // Boolean to decide if we are adding a new user or editing an existing one
    isAdding: boolean;
@@ -145,6 +144,29 @@ export class CareUserDetailsComponent implements OnInit {
    private resetFormControls() {
       this.emailFieldControl.reset();
       this.caseNumberFieldControl.reset();
+   }
+
+   private updateCurrentCareUserInstance() {
+      this.currentCareUserInstance = {
+         id: this.idFieldValue,
+         firstName: this.firstNameFieldValue,
+         lastName: this.lastNameFieldValue,
+         email: this.emailFieldValue,
+         userName: '',
+         birthday: this.birthdayFieldValue,
+         caseNumber: this.caseNumberFieldValue,
+         ageGroup: this.ageGroupFieldValue,
+         isExtern: this.isExternFieldValue === 'true' ? true : false,
+         hasTrajectory: this.hasTrajectoryFieldValue === 'true' ? true : false,
+         hasNormalDayCare: this.hasNormalDayCareFieldValue === 'true' ? true : false,
+         hasVacationDayCare: this.hasVacationDayCareFieldValue === 'true' ? true : false,
+         hasResources: this.hasResourcesFieldValue === 'true' ? true : false,
+      };
+   }
+
+   submitForm() {
+      this.updateCurrentCareUserInstance();
+      this.dialogRef.close(this.currentCareUserInstance);
    }
 
    closeForm() {

@@ -24,4 +24,8 @@ export class OverviewDataSource extends MatTableDataSource<CareUser> {
     * any open connections or free any held resources that were set up during connect.
     */
    disconnect() {}
+
+   reload(){
+      this.data = this.careUsersAPI.fetchCareUsersData();
+   }
 }
