@@ -1,8 +1,8 @@
-<mat-card>
+
    <!-- Details Form -->
-   <div class="details-form-container">
+   <mat-dialog-content class="details-form-container">
       <!-- FORM TITLE -->
-      <label class="form-title">Toevoegen/bewerken (enkel admin)</label>
+      <h2 mat-dialog-title>Toevoegen/bewerken (enkel admin)</h2>
 
       <div class="name-fields">
          <!-- Lastname Field -->
@@ -142,7 +142,7 @@
       <!-- Add Field -->
 
       <!-- Button Row -->
-      <div class="button-row">
+      <mat-dialog-actions class="button-row">
          <!-- Save Button -->
          <button
             mat-raised-button
@@ -164,6 +164,5 @@
          >
             Sluiten
          </button>
-      </div>
-   </div>
-</mat-card>
+      </mat-dialog-actions>
+   </mat-dialog-content>

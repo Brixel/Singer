@@ -1,23 +1,9 @@
 /* GLOBAL FORM STYLING */
-mat-card {
-   margin: 10px auto;
-   width: 73%;
- }
-
  .details-form-container {
    margin: 10px auto;
    display: flex;
    flex-direction: column;
-   width: 100%;
- }
-
-
- /* FORM TITLE STYLING */
- .form-title {
-   margin: 0px 0px;
-   margin-top: 10px;
-   margin-bottom: 50px;
-   font-size: 1.2em;
+   overflow: auto;
  }
 
  /* GLOBAL FORM ELEMENTS STYLING */
@@ -40,11 +26,6 @@ mat-card {
  }
 
  /* BUTTON ROW STYLING */
- .button-row {
-   display: flex;
-   flex-direction: row;
- }
-
  .button-row > *:not(:last-child){
-   margin-right: 50px;
+   margin-right: 30px;
  }

@@ -1,14 +1,13 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { CareUser } from 'src/app/modules/core/services/care-users-api/care-users-api.service';
 import { FormControl, Validators } from '@angular/forms';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 @Component({
    selector: 'app-care-user-details',
    templateUrl: './care-user-details.component.html',
    styleUrls: ['./care-user-details.component.css'],
 })
 export class CareUserDetailsComponent implements OnInit {
-   // Event emitters
-   @Output() closeFormEvent = new EventEmitter<boolean>();
 
    // Current care user displayed in form
    careUser: CareUser;
@@ -67,7 +66,8 @@ export class CareUserDetailsComponent implements OnInit {
 
    //#endregion
 
-   constructor() {}
+   constructor(public dialogRef: MatDialogRef<CareUserDetailsComponent>,
+      @Inject(MAT_DIALOG_DATA) public data: CareUser) {}
 
    ngOnInit() {
       this.clearFormValues();
@@ -130,6 +130,6 @@ export class CareUserDetailsComponent implements OnInit {
    }
 
    closeForm() {
-      this.closeFormEvent.emit(true);
+      this.dialogRef.close();
    }
 }

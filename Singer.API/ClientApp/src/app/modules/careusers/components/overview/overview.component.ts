@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { MatPaginator, MatSort } from '@angular/material';
+import { MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { OverviewDataSource } from './overview-datasource';
 import { CareUsersAPIService } from 'src/app/modules/core/services/care-users-api/care-users-api.service';
-import { CareUserDetailsComponent } from '../care-user-details/care-user-details.component';
+import { CareUserDetailsComponent } from "../care-user-details/care-user-details.component";
 
 @Component({
    selector: 'app-overview',
@@ -12,8 +12,6 @@ import { CareUserDetailsComponent } from '../care-user-details/care-user-details
 export class OverviewComponent implements AfterViewInit {
    @ViewChild(MatPaginator) paginator: MatPaginator;
    @ViewChild(MatSort) sort: MatSort;
-   @ViewChild(CareUserDetailsComponent)
-   careUserDetailsForm: CareUserDetailsComponent;
 
    // Table Data source
    dataSource: OverviewDataSource;
@@ -41,6 +39,8 @@ export class OverviewComponent implements AfterViewInit {
       'hasResources',
    ];
 
+   constructor(public dialog: MatDialog) {}
+
    ngAfterViewInit() {
       // Load datasource
       this.dataSource = new OverviewDataSource(
@@ -50,31 +50,34 @@ export class OverviewComponent implements AfterViewInit {
       );
 
       // Subscribe to paginator events
-      this.paginator.page.subscribe((page) => {
+      this.paginator.page.subscribe(page => {
          // console.log(page);
          // API pagination calls go here
       });
-
-      //Subscribe to details form events
-      this.careUserDetailsForm.closeFormEvent.subscribe((isFormClosedEvent) => {
-         this.showDetailsForm = !isFormClosedEvent;
-      })
    }
 
-   selectRow(row) {
+   selectRow(row): void {
+      const dialogRef = this.dialog.open(CareUserDetailsComponent, {
+         width: '1000px',
+         data: row,
+      });
 
-      // Show careUserDetailsForm
-      this.showDetailsForm = true;
-
-      // pass selected careUser to details form (row contains a careUser object)
-      this.careUserDetailsForm.showCareUser(row);
+      dialogRef.afterClosed().subscribe(result => {
+         console.log('The dialog was closed');
+         console.log(result);
+      });
    }
 
-   addCareUser() {
-      // Show careUserDetailsForm
-      this.showDetailsForm = true;
+   addCareUser(): void {
+      const dialogRef = this.dialog.open(CareUserDetailsComponent, {
+         width: '1000px',
+         data: null,
+      });
 
-      this.careUserDetailsForm.addNewCareUser();
+      dialogRef.afterClosed().subscribe(result => {
+         console.log('The dialog was closed');
+         console.log(result);
+      });
    }
 
    applyFilter(filterValue: string) {
