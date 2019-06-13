@@ -132,7 +132,7 @@ namespace Singer.Services
          result.Results = users;
          result.Start = start;
          result.Size = numberOfElements;
-         result.NumResults = filteredElements.Count();
+         result.TotalCount = filteredElements.Count();
 
          return result;
       }

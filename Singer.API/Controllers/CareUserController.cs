@@ -26,18 +26,26 @@ namespace Singer.Controllers
       [HttpGet]
       [ProducesResponseType(StatusCodes.Status200OK)]
       public async Task<ActionResult<PaginationDTO<CareUserDTO>>> GetUsers(
-         [FromQuery]int StartAt = 0,
-         [FromQuery]int NumberOfItems = 15)
+         [FromQuery]int pageIndex = 0,
+         [FromQuery]int pageSize = 15)
       {
-         var result = await _userService.GetUsersAsync<CareUserDTO>(StartAt, NumberOfItems);
-         PaginationDTO<CareUserDTO> page = new PaginationDTO<CareUserDTO>();
-         page.Items = result.Results;
-         page.NumberOfItems = NumberOfItems;
-         page.StartAt = StartAt;
-         page.CurrentPageUrl = $"{HttpContext.Request.Path}?{HttpContext.Request.QueryString.ToString()}";
-         page.NextPageUrl = $"{HttpContext.Request.Path}?StartAt={StartAt + NumberOfItems}&NumberOfItems={NumberOfItems}";
-         page.PreviousPageUrl = StartAt - NumberOfItems < 0 ? null : $"{HttpContext.Request.Path}?StartAt={StartAt - NumberOfItems}&NumberOfItems={NumberOfItems}";
-         page.TotalNumberOfItems = result.NumResults;
+         var result = await _userService.GetUsersAsync<CareUserDTO>(pageIndex, pageSize);
+         var requestPath = HttpContext.Request.Path;
+         var nextPage = (pageIndex * pageSize) + result.Size >= result.TotalCount
+            ? null
+            : $"{requestPath}?PageIndex={pageIndex + pageSize}&Size={pageSize}";
+         var page = new PaginationDTO<CareUserDTO>
+         {
+            Items = result.Items,
+            Size = result.Items.Count,
+            PageIndex = pageIndex,
+            CurrentPageUrl = $"{requestPath}?{HttpContext.Request.QueryString.ToString()}",
+            NextPageUrl = nextPage,
+            PreviousPageUrl = pageIndex == 0
+               ? null
+               : $"{requestPath}?PageIndex={pageIndex - pageSize}&Size={pageSize}",
+            TotalSize = result.TotalCount
+         };
          return Ok(page);
       }
 

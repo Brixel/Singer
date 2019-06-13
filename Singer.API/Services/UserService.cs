@@ -61,10 +61,10 @@ namespace Singer.Services
          );
 
          SearchResults<T> result = new SearchResults<T>();
-         result.Results = users;
+         result.Items = users;
          result.Start = start;
          result.Size = numberOfElements;
-         result.NumResults = _appContext.Users.Count();
+         result.TotalCount = _appContext.Users.Count();
          return result;
       }
 

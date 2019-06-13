@@ -27,17 +27,17 @@ namespace Singer.DTOs
       /// <summary>
       /// The number of items given with this response.
       /// </summary>
-      public int NumberOfItems { get; set; }
+      public int Size { get; set; }
 
       /// <summary>
       /// The index at which this section of values is located.
       /// </summary>
-      public int StartAt { get; set; }
+      public int PageIndex { get; set; }
 
       /// <summary>
       /// Total number of items in the data base.
       /// </summary>
-      public int TotalNumberOfItems { get; set; }
+      public int TotalSize { get; set; }
 
       /// <summary>
       /// The returned items.
