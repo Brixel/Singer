@@ -136,7 +136,8 @@ namespace Singer
 
          // Adds AutoMapper. Maps are defined as profiles in ./Profiles/*Profile.cs
          services.AddAutoMapper(typeof(Startup));
-         services.AddScoped<IUserService, UserService>();
+         services.AddScoped<IUserService, MockUserService>();
+
       }
 
       private static IIdentityServerBuilder AddIdentityService(IServiceCollection services, X509Certificate2 cert)

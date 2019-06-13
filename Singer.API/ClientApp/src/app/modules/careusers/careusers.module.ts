@@ -10,6 +10,9 @@ import {
    MatInputModule,
    MatProgressSpinnerModule
 } from '@angular/material';
+import { CareUserProxy } from '../core/services/care-users-api/careuser.proxy';
+import { CareUsersService as CareUsersService } from '../core/services/care-users-api/care-users-api.service';
+import { ApiService } from '../core/services/api.service';
 
 @NgModule({
    declarations: [OverviewComponent],
@@ -23,5 +26,6 @@ import {
       MatInputModule,
       MatProgressSpinnerModule,
    ],
+   providers:[CareUserProxy, CareUsersService, ApiService]
 })
 export class CareUsersModule {}

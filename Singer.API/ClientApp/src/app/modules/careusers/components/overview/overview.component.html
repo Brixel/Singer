@@ -101,9 +101,9 @@
    <!-- Paginator -->
    <mat-paginator
       #paginator
-      [length]="dataSource?.data.length"
-      [pageIndex]="0"
-      [pageSize]="15"
+      [length]="dataSource?.totalSize$ | async"
+      [pageIndex]="pageIndex"
+      [pageSize]="pageSize"
       [pageSizeOptions]="[1,15, 25, 50, 100]"
       showFirstLastButtons
    >

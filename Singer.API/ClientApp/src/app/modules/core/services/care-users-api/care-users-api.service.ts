@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
+import { CareUserProxy } from './careuser.proxy';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { PaginationDTO } from '../../models/careuser.model';
 
 @Injectable({
    providedIn: 'root',
 })
-export class CareUsersAPIService {
-   constructor() {}
+export class CareUsersService {
+   constructor(private careuserProxy: CareUserProxy) {}
 
-   fetchCareUsersData() {
-      return EXAMPLE_DATA;
+   fetchCareUsersData(sortDirection? :string, sortColumn?: string, pageIndex?:number, pageSize?:number):Observable<PaginationDTO> {
+      return this.careuserProxy.getCareUsers(sortDirection, sortColumn, pageIndex, pageSize).pipe(map((res) => res));
    }
 }
 

@@ -1,19 +1,21 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, OnInit } from '@angular/core';
 import { MatPaginator, MatSort } from '@angular/material';
 import { OverviewDataSource } from './overview-datasource';
-import { CareUsersAPIService } from 'src/app/modules/core/services/care-users-api/care-users-api.service';
+import { CareUsersService } from 'src/app/modules/core/services/care-users-api/care-users-api.service';
+import { DataSource } from '@angular/cdk/table';
 
 @Component({
    selector: 'app-overview',
    templateUrl: './overview.component.html',
    styleUrls: ['./overview.component.css'],
 })
-export class OverviewComponent implements AfterViewInit {
+export class OverviewComponent implements OnInit {
    @ViewChild(MatPaginator) paginator: MatPaginator;
    @ViewChild(MatSort) sort: MatSort;
    dataSource: OverviewDataSource;
 
-   careUsersAPI: CareUsersAPIService = new CareUsersAPIService();
+   pageSize = 15;
+   pageIndex = 0;
 
    /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
    displayedColumns = [
@@ -32,19 +34,18 @@ export class OverviewComponent implements AfterViewInit {
       'hasResources',
    ];
 
-   ngAfterViewInit() {
-      this.dataSource = new OverviewDataSource(
-         this.paginator,
-         this.sort,
-         this.careUsersAPI
-      );
+   constructor(private careUserService: CareUsersService){}
+
+   ngOnInit(){
+      this.dataSource = new OverviewDataSource(this.careUserService);
+      this.dataSource.loadCareUsers('', '', this.pageIndex, this.pageSize);
    }
 
    applyFilter(filterValue: string) {
-      this.dataSource.filter = filterValue.trim().toLowerCase();
+      // this.dataSource.filter = filterValue.trim().toLowerCase();
 
-      if (this.paginator) {
-         this.paginator.firstPage();
-       }
+      // if (this.paginator) {
+      //    this.paginator.firstPage();
+      //  }
     }
 }
