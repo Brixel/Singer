@@ -1,16 +1,16 @@
+<!-- Form Title -->
+<h2 mat-dialog-title>Toevoegen/bewerken (enkel admin)</h2>
 
-   <!-- Details Form -->
-   <mat-dialog-content class="details-form-container" (keyup)="onKeyUp()">
-      <!-- FORM TITLE -->
-      <h2 mat-dialog-title>Toevoegen/bewerken (enkel admin)</h2>
-
+<!-- Details Form -->
+<mat-dialog-content class="details-form-container" (keyup)="onKeyUp()">
+   <form [formGroup]="formControlGroup">
       <div class="name-fields">
          <!-- Lastname Field -->
          <mat-form-field>
             <input
                matInput
                [placeholder]="lastNameFieldPlaceholder"
-               [formControl]="lastNameFieldControl"
+               formControlName="lastNameFieldControl"
             />
          </mat-form-field>
 
@@ -19,7 +19,7 @@
             <input
                matInput
                [placeholder]="firstNameFieldPlaceholder"
-               [formControl]="firstNameFieldControl"
+               formControlName="firstNameFieldControl"
             />
          </mat-form-field>
       </div>
@@ -32,7 +32,7 @@
             [max]="birthdayDatePickerMaxDate"
             [matDatepicker]="picker"
             [placeholder]="birthdayFieldPlaceholder"
-            [formControl]="birthdayFieldControl"
+            formControlName="birthdayFieldControl"
          />
          <mat-datepicker-toggle
             matSuffix
@@ -46,19 +46,20 @@
          <input
             matInput
             [placeholder]="caseNumberFieldPlaceholder"
-            [formControl]="caseNumberFieldControl"
+            formControlName="caseNumberFieldControl"
             required
          />
-         <mat-error *ngIf="caseNumberFieldControl.invalid">{{
-            getCaseNumberFieldErrorMessage()
-         }}</mat-error>
+         <mat-error
+            *ngIf="formControlGroup.controls.caseNumberFieldControl.invalid"
+            >{{ getCaseNumberFieldErrorMessage() }}</mat-error
+         >
       </mat-form-field>
 
       <!-- AgeGroup Field -->
       <mat-form-field>
          <mat-select
             [placeholder]="ageGroupFieldPlaceholder"
-            [formControl]="ageGroupFieldControl"
+            formControlName="ageGroupFieldControl"
          >
             <mat-option value="child">Kinderen</mat-option>
             <mat-option value="youngster">Jongeren</mat-option>
@@ -69,7 +70,7 @@
       <mat-form-field>
          <mat-select
             [placeholder]="isExternFieldPlaceholder"
-            [formControl]="isExternFieldControl"
+            formControlName="isExternFieldControl"
          >
             <mat-option value="false">Klas</mat-option>
             <mat-option value="true">Extern</mat-option>
@@ -80,7 +81,7 @@
       <mat-form-field>
          <mat-select
             [placeholder]="hasTrajectoryFieldPlaceholder"
-            [formControl]="hasTrajectoryFieldControl"
+            formControlName="hasTrajectoryFieldControl"
          >
             <mat-option value="true">Ja</mat-option>
             <mat-option value="false">Nee</mat-option>
@@ -91,7 +92,7 @@
       <mat-form-field>
          <mat-select
             [placeholder]="hasNormalDayCareFieldPlaceholder"
-            [formControl]="hasNormalDayCareFieldControl"
+            formControlName="hasNormalDayCareFieldControl"
          >
             <mat-option value="true">Ja</mat-option>
             <mat-option value="false">Nee</mat-option>
@@ -102,7 +103,7 @@
       <mat-form-field>
          <mat-select
             [placeholder]="hasVacationDayCareFieldPlaceholder"
-            [formControl]="hasVacationDayCareFieldControl"
+            formControlName="hasVacationDayCareFieldControl"
          >
             <mat-option value="true">Ja</mat-option>
             <mat-option value="false">Nee</mat-option>
@@ -113,7 +114,7 @@
       <mat-form-field>
          <mat-select
             [placeholder]="hasResourcesFieldPlaceholder"
-            [formControl]="hasResourcesFieldControl"
+            formControlName="hasResourcesFieldControl"
          >
             <mat-option value="true">Ja</mat-option>
             <mat-option value="false">Nee</mat-option>
@@ -126,7 +127,7 @@
             matInput
             [placeholder]="emailFieldPlaceholder"
             [value]="emailFieldValue"
-            [formControl]="emailFieldControl"
+            formControlName="emailFieldControl"
             required
          />
          <mat-error *ngIf="emailFieldControl.invalid">{{
@@ -142,7 +143,6 @@
 
       <!-- Button Row -->
       <mat-dialog-actions class="button-row">
-
          <!-- Add Button -->
          <button
             mat-raised-button
@@ -179,4 +179,5 @@
             Sluiten
          </button>
       </mat-dialog-actions>
-   </mat-dialog-content>
+   </form>
+</mat-dialog-content>

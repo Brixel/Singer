@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { CareUser } from 'src/app/modules/core/services/care-users-api/care-users-api.service';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 export interface CareUserDetailsFormData {
@@ -25,7 +25,7 @@ export class CareUserDetailsComponent implements OnInit {
 
    //#region Binding properties for form:
 
-   // From placeholders
+   // Form placeholders
    idFieldPlaceholder: string = 'ID';
    firstNameFieldPlaceholder: string = 'Voornaam';
    lastNameFieldPlaceholder: string = 'Familienaam';
@@ -41,105 +41,111 @@ export class CareUserDetailsComponent implements OnInit {
    hasResourcesFieldPlaceholder: string = 'Voldoende middelen';
 
    // Min and Max dates for the birthday datepicker
-   birthdayDatePickerMinDate = new Date(1900, 0, 1);
-   birthdayDatePickerMaxDate = new Date();
+   birthdayDatePickerMinDate: Date = new Date(1900, 0, 1);
+   birthdayDatePickerMaxDate: Date = new Date();
 
-   // Form controls
-   idFieldControl = new FormControl('', [Validators.required]);
-   firstNameFieldControl = new FormControl('', [Validators.required]);
-   lastNameFieldControl = new FormControl('', [Validators.required]);
-   emailFieldControl = new FormControl('', [
+   // Form control group
+   formControlGroup: FormGroup = new FormGroup({
+
+      // Form controls
+   idFieldControl: new FormControl('', [Validators.required]),
+   firstNameFieldControl: new FormControl('', [Validators.required]),
+   lastNameFieldControl: new FormControl('', [Validators.required]),
+   emailFieldControl: new FormControl('', [
       Validators.required,
       Validators.email,
-   ]);
-   userNameFieldControl = new FormControl('', [Validators.required]);
-   birthdayFieldControl = new FormControl('', [Validators.required]);
-   caseNumberFieldControl = new FormControl('', [Validators.required]);
-   ageGroupFieldControl = new FormControl('', [Validators.required]);
-   isExternFieldControl = new FormControl('', [Validators.required]);
-   hasTrajectoryFieldControl = new FormControl('', [Validators.required]);
-   hasNormalDayCareFieldControl = new FormControl('', [Validators.required]);
-   hasVacationDayCareFieldControl = new FormControl('', [Validators.required]);
-   hasResourcesFieldControl = new FormControl('', [Validators.required]);
+   ]),
+   userNameFieldControl: new FormControl('', [Validators.required]),
+   birthdayFieldControl: new FormControl(null, [Validators.required]),
+   caseNumberFieldControl: new FormControl('', [Validators.required]),
+   ageGroupFieldControl: new FormControl('', [Validators.required]),
+   isExternFieldControl: new FormControl('', [Validators.required]),
+   hasTrajectoryFieldControl: new FormControl('', [Validators.required]),
+   hasNormalDayCareFieldControl: new FormControl('', [Validators.required]),
+   hasVacationDayCareFieldControl: new FormControl('', [Validators.required]),
+   hasResourcesFieldControl: new FormControl('', [Validators.required]),
+   })
+
+
 
    // Error messages for required fields
    getIdFieldErrorMessage() {
-      return this.idFieldControl.hasError('required')
+      return this.formControlGroup.controls.idFieldControl.hasError('required')
          ? 'You must enter a value'
          : '';
    }
 
    getFirstNameFieldErrorMessage() {
-      return this.firstNameFieldControl.hasError('required')
+      return this.formControlGroup.controls.firstNameFieldControl.hasError('required')
          ? 'You must enter a value'
          : '';
    }
 
    getLastNameFieldErrorMessage() {
-      return this.lastNameFieldControl.hasError('required')
+      return this.formControlGroup.controls.lastNameFieldControl.hasError('required')
          ? 'You must enter a value'
          : '';
    }
 
    getEmailFieldErrorMessage() {
-      return this.emailFieldControl.hasError('required')
+      return this.formControlGroup.controls.emailFieldControl.hasError('required')
          ? 'You must enter a value'
-         : this.emailFieldControl.hasError('email')
+         : this.formControlGroup.controls.emailFieldControl.hasError('email')
          ? 'Not a valid email'
          : '';
    }
 
    getUserNameFieldErrorMessage() {
-      return this.userNameFieldControl.hasError('required')
+      return this.formControlGroup.controls.userNameFieldControl.hasError('required')
          ? 'You must enter a value'
          : '';
    }
 
    getBirthdayErrorMessage() {
-      return this.birthdayFieldControl.hasError('required')
+      return this.formControlGroup.controls.birthdayFieldControl.hasError('required')
          ? 'You must enter a value'
          : '';
    }
 
 
    getCaseNumberFieldErrorMessage() {
-      return this.caseNumberFieldControl.hasError('required')
+      return this.formControlGroup.controls.caseNumberFieldControl.hasError('required')
          ? 'You must enter a value'
          : '';
    }
 
    getAgeGroupFieldErrorMessage() {
-      return this.ageGroupFieldControl.hasError('required')
+      return this.formControlGroup.controls.ageGroupFieldControl.hasError('required')
          ? 'You must enter a value'
          : '';
    }
 
    getIsExternFieldErrorMessage() {
-      return this.isExternFieldControl.hasError('required')
+      return this.formControlGroup.controls.isExternFieldControl.hasError('required')
          ? 'You must enter a value'
          : '';
    }
 
    getHasTrajectoryFieldErrorMessage() {
-      return this.hasTrajectoryFieldControl.hasError('required')
+      return this.formControlGroup.controls.hasTrajectoryFieldControl.hasError('required')
          ? 'You must enter a value'
          : '';
    }
 
    getHasNormalDayCareFieldErrorMessage() {
-      return this.hasNormalDayCareFieldControl.hasError('required')
+      return this.formControlGroup.controls.hasNormalDayCareFieldControl.hasError('required')
          ? 'You must enter a value'
          : '';
    }
 
    getHasVacationDayCareFieldErrorMessage() {
-      return this.hasVacationDayCareFieldControl.hasError('required')
+      return this.formControlGroup.controls.hasVacationDayCareFieldControl.hasError('required')
          ? 'You must enter a value'
          : '';
    }
 
    getHasResourcesFieldErrorMessage() {
-      return this.hasResourcesFieldControl.hasError('required')
+      return this.formControlGroup.controls.hasResourcesFieldControl.hasError('required')
          ? 'You must enter a value'
          : '';
    }
@@ -161,95 +167,95 @@ export class CareUserDetailsComponent implements OnInit {
    }
 
    private updateFormValues() {
-      this.idFieldControl.setValue(this.currentCareUserInstance.id);
-      this.firstNameFieldControl.setValue(this.currentCareUserInstance.firstName);
-      this.lastNameFieldControl.setValue(this.currentCareUserInstance.lastName);
-      this.emailFieldControl.setValue(this.currentCareUserInstance.email);
-      this.userNameFieldControl.setValue(this.currentCareUserInstance.userName);
-      this.birthdayFieldControl.setValue(this.currentCareUserInstance.birthday);
-      this.caseNumberFieldControl.setValue(this.currentCareUserInstance.caseNumber);
-      this.ageGroupFieldControl.setValue(
+      this.formControlGroup.controls.idFieldControl.setValue(this.currentCareUserInstance.id);
+      this.formControlGroup.controls.firstNameFieldControl.setValue(this.currentCareUserInstance.firstName);
+      this.formControlGroup.controls.lastNameFieldControl.setValue(this.currentCareUserInstance.lastName);
+      this.formControlGroup.controls.emailFieldControl.setValue(this.currentCareUserInstance.email);
+      this.formControlGroup.controls.userNameFieldControl.setValue(this.currentCareUserInstance.userName);
+      this.formControlGroup.controls.birthdayFieldControl.setValue(this.currentCareUserInstance.birthday);
+      this.formControlGroup.controls.caseNumberFieldControl.setValue(this.currentCareUserInstance.caseNumber);
+      this.formControlGroup.controls.ageGroupFieldControl.setValue(
          this.currentCareUserInstance.ageGroup === 'Kinderen'
             ? 'child'
             : 'youngster');
-      this.isExternFieldControl.setValue(this.currentCareUserInstance.isExtern
+      this.formControlGroup.controls.isExternFieldControl.setValue(this.currentCareUserInstance.isExtern
          ? 'true'
          : 'false');
-      this.hasTrajectoryFieldControl.setValue(this.currentCareUserInstance.hasTrajectory
+      this.formControlGroup.controls.hasTrajectoryFieldControl.setValue(this.currentCareUserInstance.hasTrajectory
          ? 'true'
          : 'false');
-      this.hasNormalDayCareFieldControl.setValue(this.currentCareUserInstance
+      this.formControlGroup.controls.hasNormalDayCareFieldControl.setValue(this.currentCareUserInstance
          .hasNormalDayCare
          ? 'true'
          : 'false');
-      this.hasVacationDayCareFieldControl.setValue(this.currentCareUserInstance
+      this.formControlGroup.controls.hasVacationDayCareFieldControl.setValue(this.currentCareUserInstance
          .hasVacationDayCare
          ? 'true'
          : 'false');
-      this.hasResourcesFieldControl.setValue(this.currentCareUserInstance.hasResources
+      this.formControlGroup.controls.hasResourcesFieldControl.setValue(this.currentCareUserInstance.hasResources
          ? 'true'
          : 'false');
    }
 
    private resetFormControls() {
       // Clear all form fields
-      this.idFieldControl.reset();
-      this.firstNameFieldControl.reset();
-      this.lastNameFieldControl.reset();
-      this.emailFieldControl.reset();
-      this.birthdayFieldControl.reset();
-      this.caseNumberFieldControl.reset();
-      this.ageGroupFieldControl.reset();
-      this.isExternFieldControl.reset();
-      this.hasTrajectoryFieldControl.reset();
-      this.hasNormalDayCareFieldControl.reset();
-      this.hasVacationDayCareFieldControl.reset();
-      this.hasResourcesFieldControl.reset();
+      this.formControlGroup.controls.idFieldControl.reset();
+      this.formControlGroup.controls.firstNameFieldControl.reset();
+      this.formControlGroup.controls.lastNameFieldControl.reset();
+      this.formControlGroup.controls.emailFieldControl.reset();
+      this.formControlGroup.controls.birthdayFieldControl.reset();
+      this.formControlGroup.controls.caseNumberFieldControl.reset();
+      this.formControlGroup.controls.ageGroupFieldControl.reset();
+      this.formControlGroup.controls.isExternFieldControl.reset();
+      this.formControlGroup.controls.hasTrajectoryFieldControl.reset();
+      this.formControlGroup.controls.hasNormalDayCareFieldControl.reset();
+      this.formControlGroup.controls.hasVacationDayCareFieldControl.reset();
+      this.formControlGroup.controls.hasResourcesFieldControl.reset();
    }
 
    checkForChanges(): boolean {
       debugger;
-      console.log(this.caseNumberFieldControl.value);
+      console.log(this.formControlGroup.controls.caseNumberFieldControl.value);
       //If we are editing an existing user and there are no changes return false
-      if (this.currentCareUserInstance.id !== this.idFieldControl.value) return true;
-      if (this.currentCareUserInstance.firstName !== this.firstNameFieldControl.value)
+      if (this.currentCareUserInstance.id !== this.formControlGroup.controls.idFieldControl.value) return true;
+      if (this.currentCareUserInstance.firstName !== this.formControlGroup.controls.firstNameFieldControl.value)
          return true;
-      if (this.currentCareUserInstance.lastName !== this.lastNameFieldControl.value)
+      if (this.currentCareUserInstance.lastName !== this.formControlGroup.controls.lastNameFieldControl.value)
          return true;
-      if (this.currentCareUserInstance.email !== this.emailFieldControl.value)
+      if (this.currentCareUserInstance.email !== this.formControlGroup.controls.emailFieldControl.value)
          return true;
-      if (this.currentCareUserInstance.birthday !== this.birthdayFieldControl.value)
+      if (this.currentCareUserInstance.birthday !== this.formControlGroup.controls.birthdayFieldControl.value)
          return true;
-      if (this.currentCareUserInstance.caseNumber !== this.caseNumberFieldControl.value)
+      if (this.currentCareUserInstance.caseNumber !== this.formControlGroup.controls.caseNumberFieldControl.value)
          return true;
       if (
          this.currentCareUserInstance.ageGroup !==
-         (this.ageGroupFieldControl.value === 'child' ? 'Kinderen' : 'Jongeren')
+         (this.formControlGroup.controls.ageGroupFieldControl.value === 'child' ? 'Kinderen' : 'Jongeren')
       )
          return true;
       if (
          this.currentCareUserInstance.isExtern !==
-         (this.isExternFieldControl.value === 'true' ? true : false)
+         (this.formControlGroup.controls.isExternFieldControl.value === 'true' ? true : false)
       )
          return true;
       if (
          this.currentCareUserInstance.hasTrajectory !==
-         (this.hasTrajectoryFieldControl.value === 'true' ? true : false)
+         (this.formControlGroup.controls.hasTrajectoryFieldControl.value === 'true' ? true : false)
       )
          return true;
       if (
          this.currentCareUserInstance.hasNormalDayCare !==
-         (this.hasNormalDayCareFieldControl.value === 'true' ? true : false)
+         (this.formControlGroup.controls.hasNormalDayCareFieldControl.value === 'true' ? true : false)
       )
          return true;
       if (
          this.currentCareUserInstance.hasVacationDayCare !==
-         (this.hasVacationDayCareFieldControl.value === 'true' ? true : false)
+         (this.formControlGroup.controls.hasVacationDayCareFieldControl.value === 'true' ? true : false)
       )
          return true;
       if (
          this.currentCareUserInstance.hasResources !==
-         (this.hasResourcesFieldControl.value === 'true' ? true : false)
+         (this.formControlGroup.controls.hasResourcesFieldControl.value === 'true' ? true : false)
       )
          return true;
       return false;
@@ -264,21 +270,21 @@ export class CareUserDetailsComponent implements OnInit {
 
    private updateCurrentCareUserInstance() {
       this.currentCareUserInstance = {
-         id: this.idFieldControl.value,
-         firstName: this.firstNameFieldControl.value,
-         lastName: this.lastNameFieldControl.value,
-         email: this.emailFieldControl.value,
+         id: this.formControlGroup.controls.idFieldControl.value,
+         firstName: this.formControlGroup.controls.firstNameFieldControl.value,
+         lastName: this.formControlGroup.controls.lastNameFieldControl.value,
+         email: this.formControlGroup.controls.emailFieldControl.value,
          userName: '',
-         birthday: this.birthdayFieldControl.value,
-         caseNumber: this.caseNumberFieldControl.value,
-         ageGroup: this.ageGroupFieldControl.value,
-         isExtern: this.isExternFieldControl.value === 'true' ? true : false,
-         hasTrajectory: this.hasTrajectoryFieldControl.value === 'true' ? true : false,
+         birthday: this.formControlGroup.controls.birthdayFieldControl.value,
+         caseNumber: this.formControlGroup.controls.caseNumberFieldControl.value,
+         ageGroup: this.formControlGroup.controls.ageGroupFieldControl.value,
+         isExtern: this.formControlGroup.controls.isExternFieldControl.value === 'true' ? true : false,
+         hasTrajectory: this.formControlGroup.controls.hasTrajectoryFieldControl.value === 'true' ? true : false,
          hasNormalDayCare:
-            this.hasNormalDayCareFieldControl.value === 'true' ? true : false,
+            this.formControlGroup.controls.hasNormalDayCareFieldControl.value === 'true' ? true : false,
          hasVacationDayCare:
-            this.hasVacationDayCareFieldControl.value === 'true' ? true : false,
-         hasResources: this.hasResourcesFieldControl.value === 'true' ? true : false,
+            this.formControlGroup.controls.hasVacationDayCareFieldControl.value === 'true' ? true : false,
+         hasResources: this.formControlGroup.controls.hasResourcesFieldControl.value === 'true' ? true : false,
       };
    }
 
