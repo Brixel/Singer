@@ -1,9 +1,11 @@
-<!-- Form Title -->
+<!-- Form Dialog Title -->
 <h2 mat-dialog-title>Toevoegen/bewerken (enkel admin)</h2>
 
-<!-- Details Form -->
-<mat-dialog-content class="details-form-container" (keyup)="onKeyUp()">
-   <form [formGroup]="formControlGroup">
+<!-- Form Dialog Content -->
+<mat-dialog-content (keyup)="onKeyUp()">
+   <!-- Details Form -->
+   <form [formGroup]="formControlGroup" class="details-form-container">
+      <!-- Name Fields -->
       <div class="name-fields">
          <!-- Lastname Field -->
          <mat-form-field>
