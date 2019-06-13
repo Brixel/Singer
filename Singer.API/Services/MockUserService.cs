@@ -100,7 +100,7 @@ namespace Singer.Services
       public async Task<SearchResults<T>> GetUsersAsync<T>(
          int start = 0,
          int numberOfElements = 15,
-         Filter<T> filter = null,
+         StringFilter<T> filter = null,
          Sorter<T> sorter = null) where T : IUserDTO
       {
          var usersQueryable = _mockData
@@ -108,8 +108,7 @@ namespace Singer.Services
             .OfType<T>();
 
          if (filter != null)
-            usersQueryable = usersQueryable
-               .Where(x => filter.CheckAnd(x));
+            usersQueryable = usersQueryable.Filter(filter);
 
          // Default ordering is by name
          var orderedQueryable = usersQueryable.OrderBy(x => x.Name);
