@@ -2,9 +2,13 @@
 <h2 mat-dialog-title>Toevoegen/bewerken (enkel admin)</h2>
 
 <!-- Form Dialog Content -->
-<mat-dialog-content (keyup)="onKeyUp()">
+<mat-dialog-content>
    <!-- Details Form -->
-   <form [formGroup]="formControlGroup" class="details-form-container">
+   <form
+      [formGroup]="formControlGroup"
+      class="details-form-container"
+      (click)="unsubscribeFromFormControlValueChanges()"
+   >
       <!-- Name Fields -->
       <div class="name-fields">
          <!-- Lastname Field -->
@@ -13,6 +17,7 @@
                matInput
                [placeholder]="lastNameFieldPlaceholder"
                formControlName="lastNameFieldControl"
+               (input)="onFormValueChanges()"
             />
          </mat-form-field>
 
@@ -22,6 +27,7 @@
                matInput
                [placeholder]="firstNameFieldPlaceholder"
                formControlName="firstNameFieldControl"
+               (input)="onFormValueChanges()"
             />
          </mat-form-field>
       </div>
@@ -35,6 +41,7 @@
             [matDatepicker]="picker"
             [placeholder]="birthdayFieldPlaceholder"
             formControlName="birthdayFieldControl"
+            (input)="onFormValueChanges()"
          />
          <mat-datepicker-toggle
             matSuffix
@@ -49,6 +56,7 @@
             matInput
             [placeholder]="caseNumberFieldPlaceholder"
             formControlName="caseNumberFieldControl"
+            (input)="onFormValueChanges()"
             required
          />
          <mat-error
@@ -60,8 +68,10 @@
       <!-- AgeGroup Field -->
       <mat-form-field>
          <mat-select
+            mat-input
             [placeholder]="ageGroupFieldPlaceholder"
             formControlName="ageGroupFieldControl"
+            (selectionChange)="onFormValueChanges()"
          >
             <mat-option value="child">Kinderen</mat-option>
             <mat-option value="youngster">Jongeren</mat-option>
@@ -71,8 +81,10 @@
       <!-- IsExtern Field -->
       <mat-form-field>
          <mat-select
+            mat-input
             [placeholder]="isExternFieldPlaceholder"
             formControlName="isExternFieldControl"
+            (selectionChange)="onFormValueChanges()"
          >
             <mat-option value="false">Klas</mat-option>
             <mat-option value="true">Extern</mat-option>
@@ -82,8 +94,10 @@
       <!-- HasTrajectory Field -->
       <mat-form-field>
          <mat-select
+            mat-input
             [placeholder]="hasTrajectoryFieldPlaceholder"
             formControlName="hasTrajectoryFieldControl"
+            (selectionChange)="onFormValueChanges()"
          >
             <mat-option value="true">Ja</mat-option>
             <mat-option value="false">Nee</mat-option>
@@ -93,8 +107,10 @@
       <!-- HasNormalDayCare Field -->
       <mat-form-field>
          <mat-select
+            mat-input
             [placeholder]="hasNormalDayCareFieldPlaceholder"
             formControlName="hasNormalDayCareFieldControl"
+            (selectionChange)="onFormValueChanges()"
          >
             <mat-option value="true">Ja</mat-option>
             <mat-option value="false">Nee</mat-option>
@@ -104,8 +120,10 @@
       <!-- HasVacationDayCare Field -->
       <mat-form-field>
          <mat-select
+            mat-input
             [placeholder]="hasVacationDayCareFieldPlaceholder"
             formControlName="hasVacationDayCareFieldControl"
+            (selectionChange)="onFormValueChanges()"
          >
             <mat-option value="true">Ja</mat-option>
             <mat-option value="false">Nee</mat-option>
@@ -115,8 +133,10 @@
       <!-- HasResources Field -->
       <mat-form-field>
          <mat-select
+            mat-input
             [placeholder]="hasResourcesFieldPlaceholder"
             formControlName="hasResourcesFieldControl"
+            (selectionChange)="onFormValueChanges()"
          >
             <mat-option value="true">Ja</mat-option>
             <mat-option value="false">Nee</mat-option>

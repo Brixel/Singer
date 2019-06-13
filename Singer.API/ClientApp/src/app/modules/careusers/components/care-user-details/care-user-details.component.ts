@@ -72,7 +72,7 @@ export class CareUserDetailsComponent implements OnInit {
       hasResourcesFieldControl: new FormControl('', [Validators.required]),
    });
 
-   // Error messages for required fields
+   //#region Error messages for required fields
    getIdFieldErrorMessage() {
       return this.formControlGroup.controls.idFieldControl.hasError('required')
          ? 'You must enter a value'
@@ -176,6 +176,7 @@ export class CareUserDetailsComponent implements OnInit {
          ? 'You must enter a value'
          : '';
    }
+   //#endregion
 
    //#endregion
 
@@ -199,45 +200,45 @@ export class CareUserDetailsComponent implements OnInit {
 
    // Fill in the data of the current care usrers instance
    private loadCurrentCareUserInstanceValues() {
-      this.formControlGroup.controls.idFieldControl.setValue(
+      this.formControlGroup.controls.idFieldControl.reset(
          this.currentCareUserInstance.id
       );
-      this.formControlGroup.controls.firstNameFieldControl.setValue(
+      this.formControlGroup.controls.firstNameFieldControl.reset(
          this.currentCareUserInstance.firstName
       );
-      this.formControlGroup.controls.lastNameFieldControl.setValue(
+      this.formControlGroup.controls.lastNameFieldControl.reset(
          this.currentCareUserInstance.lastName
       );
-      this.formControlGroup.controls.emailFieldControl.setValue(
+      this.formControlGroup.controls.emailFieldControl.reset(
          this.currentCareUserInstance.email
       );
-      this.formControlGroup.controls.userNameFieldControl.setValue(
+      this.formControlGroup.controls.userNameFieldControl.reset(
          this.currentCareUserInstance.userName
       );
-      this.formControlGroup.controls.birthdayFieldControl.setValue(
+      this.formControlGroup.controls.birthdayFieldControl.reset(
          this.currentCareUserInstance.birthday
       );
-      this.formControlGroup.controls.caseNumberFieldControl.setValue(
+      this.formControlGroup.controls.caseNumberFieldControl.reset(
          this.currentCareUserInstance.caseNumber
       );
-      this.formControlGroup.controls.ageGroupFieldControl.setValue(
+      this.formControlGroup.controls.ageGroupFieldControl.reset(
          this.currentCareUserInstance.ageGroup === 'Kinderen'
             ? 'child'
             : 'youngster'
       );
-      this.formControlGroup.controls.isExternFieldControl.setValue(
+      this.formControlGroup.controls.isExternFieldControl.reset(
          this.currentCareUserInstance.isExtern ? 'true' : 'false'
       );
-      this.formControlGroup.controls.hasTrajectoryFieldControl.setValue(
+      this.formControlGroup.controls.hasTrajectoryFieldControl.reset(
          this.currentCareUserInstance.hasTrajectory ? 'true' : 'false'
       );
-      this.formControlGroup.controls.hasNormalDayCareFieldControl.setValue(
+      this.formControlGroup.controls.hasNormalDayCareFieldControl.reset(
          this.currentCareUserInstance.hasNormalDayCare ? 'true' : 'false'
       );
-      this.formControlGroup.controls.hasVacationDayCareFieldControl.setValue(
+      this.formControlGroup.controls.hasVacationDayCareFieldControl.reset(
          this.currentCareUserInstance.hasVacationDayCare ? 'true' : 'false'
       );
-      this.formControlGroup.controls.hasResourcesFieldControl.setValue(
+      this.formControlGroup.controls.hasResourcesFieldControl.reset(
          this.currentCareUserInstance.hasResources ? 'true' : 'false'
       );
    }
@@ -339,11 +340,10 @@ export class CareUserDetailsComponent implements OnInit {
       return false;
    }
 
-   onKeyUp() {
+   private onFormValueChanges() {
       // If a key is lifted and we are editing an existing user then check for changes
-      if (!this.isAdding) this.isChangesMade = this.checkForChanges();
-      console.log('onKeyUp was fired');
-      console.log(this.isChangesMade);
+      if (!this.isAdding) this.checkForChanges() ? this.isChangesMade = true : this.isChangesMade = false;
+      console.log('changes made: ' + this.isChangesMade);
    }
 
    // Load form field values into current care user instance
