@@ -9,13 +9,13 @@ namespace Singer.Profiles
    {
       public UserProfile()
       {
-         CreateMap<User, CareUserDTO>().ForMember(
+         CreateMap<CareUser, CareUserDTO>().ForMember(
             x => x.Id, opt => opt.MapFrom(src => Guid.Parse(src.Id))
          );
-         CreateMap<CareUserDTO, User>().ForMember(
+         CreateMap<CareUserDTO, CareUser>().ForMember(
             x => x.Id, opt => opt.MapFrom(src => src.Id.ToString())
          );
-         CreateMap<CreateCareUserDTO, User>();
+         CreateMap<CreateCareUserDTO, CareUser>();
       }
    }
 }

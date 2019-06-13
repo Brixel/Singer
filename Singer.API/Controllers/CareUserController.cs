@@ -9,6 +9,7 @@ using Singer.Data;
 using Singer.DTOs;
 using Singer.Services.Interfaces;
 using Singer.Models;
+using Singer.Services;
 
 namespace Singer.Controllers
 {
@@ -28,9 +29,28 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status200OK)]
       public async Task<ActionResult<PaginationDTO<CareUserDTO>>> GetUsers(
          [FromQuery]int pageIndex = 0,
-         [FromQuery]int pageSize = 15)
+         [FromQuery]int pageSize = 15,
+         [FromQuery]string Filter = "",
+         [FromQuery]string SortBy = "")
       {
-         var result = await _userService.GetUsersAsync<CareUser>(pageIndex, pageSize);
+         Sorter<CareUser> sort = null;
+         if (SortBy.Length > 0)
+         {
+            new Sorter<CareUser>();
+            var SortColumns = SortBy.Split(",");
+            foreach (var column in SortColumns)
+            {
+               sort.Add(column);
+            }
+         }
+
+         StringFilter<CareUser> filter = null;
+         if (Filter.Length > 0)
+         {
+            filter = new StringFilter<CareUser>();
+            filter.FilterString = Filter;
+         }
+         var result = await _userService.GetUsersAsync<CareUser>(pageIndex, pageSize, filter, sort);
          var requestPath = HttpContext.Request.Path;
          var nextPage = (pageIndex * pageSize) + result.Size >= result.TotalCount
             ? null
