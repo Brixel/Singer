@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Singer.DTOs;
 using Singer.Helpers.Extensions;
 using Singer.Services.Interfaces;
@@ -101,36 +102,40 @@ namespace Singer.Services
          Filter<T> filter = null,
          Sorter<T> sorter = null) where T : IUserDTO
       {
-         var filteredElements = _mockData
-            .Where(x => x.GetType() == typeof(T))
-            .Cast<T>()
-            .Where(x => filter == null || filter.CheckAnd(x) && filter.CheckOr(x))
-            .AsQueryable();
+         var elements = _mockData
+            .AsQueryable()
+            .OfType<T>();
 
+         if (filter != null)
+            elements = elements
+               .Where(x => filter.CheckAnd(x));
+
+         
          if (sorter != null && sorter.Count >= 1)
          {
             var sortProperties = sorter.ToList();
             var prop = sortProperties.First();
-            var orderedElements = filteredElements.OrderBy(prop);
+            var orderedElements = elements.OrderBy(prop);
 
             if (sorter.Count <= 1)
                return orderedElements.ToList();
 
             for (var i = 1; i < sorter.Count; i++)
                orderedElements.ThenBy(sortProperties[i]);
+
+            elements = orderedElements;
          }
 
-         return await Task.FromResult(
-            filteredElements
+         return await elements
                .Skip(start)
                .Take(numberOfElements)
-               .ToList());
+               .ToListAsync();
       }
 
       public async Task<T> GetUserAsync<T>(Guid id) where T : IUserDTO
       {
          // return the care user with the given id
-         return await Task.FromResult((T)_mockData.Single(x => x.GetType() == typeof(T) && x.Id == id));
+         return await Task.FromResult((T) _mockData.Single(x => x.GetType() == typeof(T) && x.Id == id));
       }
 
       public async Task<bool> UpdateUserAsync<T>(T user, Guid id) where T : IUserDTO
@@ -138,7 +143,7 @@ namespace Singer.Services
          // get the index of the care user with the given id
          var i = _mockData
             .Where(x => x.GetType() == typeof(T))
-            .Select((u, index) => new { User = u, Index = index })
+            .Select((u, index) => new {User = u, Index = index})
             .Single(x => x.User.Id == id)
             .Index;
 
@@ -153,7 +158,7 @@ namespace Singer.Services
       {
          // get the index of the care user with the given id
          var i = _mockData
-            .Select((user, index) => new { User = user, Index = index })
+            .Select((user, index) => new {User = user, Index = index})
             .Single(x => x.User.Id == id)
             .Index;
 
