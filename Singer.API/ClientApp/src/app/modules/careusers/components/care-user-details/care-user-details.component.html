@@ -10,7 +10,7 @@
             <input
                matInput
                [placeholder]="lastNameFieldPlaceholder"
-               [(ngModel)]="lastNameFieldValue"
+               [formControl]="lastNameFieldControl"
             />
          </mat-form-field>
 
@@ -19,7 +19,7 @@
             <input
                matInput
                [placeholder]="firstNameFieldPlaceholder"
-               [(ngModel)]="firstNameFieldValue"
+               [formControl]="firstNameFieldControl"
             />
          </mat-form-field>
       </div>
@@ -28,11 +28,11 @@
       <mat-form-field>
          <input
             matInput
-            [(ngModel)]="birthdayFieldValue"
             [min]="birthdayDatePickerMinDate"
             [max]="birthdayDatePickerMaxDate"
             [matDatepicker]="picker"
             [placeholder]="birthdayFieldPlaceholder"
+            [formControl]="birthdayFieldControl"
          />
          <mat-datepicker-toggle
             matSuffix
@@ -46,7 +46,6 @@
          <input
             matInput
             [placeholder]="caseNumberFieldPlaceholder"
-            [(ngModel)]="caseNumberFieldValue"
             [formControl]="caseNumberFieldControl"
             required
          />
@@ -59,7 +58,7 @@
       <mat-form-field>
          <mat-select
             [placeholder]="ageGroupFieldPlaceholder"
-            [(ngModel)]="ageGroupFieldValue"
+            [formControl]="ageGroupFieldControl"
          >
             <mat-option value="child">Kinderen</mat-option>
             <mat-option value="youngster">Jongeren</mat-option>
@@ -70,7 +69,7 @@
       <mat-form-field>
          <mat-select
             [placeholder]="isExternFieldPlaceholder"
-            [(ngModel)]="isExternFieldValue"
+            [formControl]="isExternFieldControl"
          >
             <mat-option value="false">Klas</mat-option>
             <mat-option value="true">Extern</mat-option>
@@ -81,7 +80,7 @@
       <mat-form-field>
          <mat-select
             [placeholder]="hasTrajectoryFieldPlaceholder"
-            [(ngModel)]="hasTrajectoryFieldValue"
+            [formControl]="hasTrajectoryFieldControl"
          >
             <mat-option value="true">Ja</mat-option>
             <mat-option value="false">Nee</mat-option>
@@ -92,7 +91,7 @@
       <mat-form-field>
          <mat-select
             [placeholder]="hasNormalDayCareFieldPlaceholder"
-            [(ngModel)]="hasNormalDayCareFieldValue"
+            [formControl]="hasNormalDayCareFieldControl"
          >
             <mat-option value="true">Ja</mat-option>
             <mat-option value="false">Nee</mat-option>
@@ -103,7 +102,7 @@
       <mat-form-field>
          <mat-select
             [placeholder]="hasVacationDayCareFieldPlaceholder"
-            [(ngModel)]="hasVacationDayCareFieldValue"
+            [formControl]="hasVacationDayCareFieldControl"
          >
             <mat-option value="true">Ja</mat-option>
             <mat-option value="false">Nee</mat-option>
@@ -114,7 +113,7 @@
       <mat-form-field>
          <mat-select
             [placeholder]="hasResourcesFieldPlaceholder"
-            [(ngModel)]="hasResourcesFieldValue"
+            [formControl]="hasResourcesFieldControl"
          >
             <mat-option value="true">Ja</mat-option>
             <mat-option value="false">Nee</mat-option>
