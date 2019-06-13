@@ -1,0 +1,111 @@
+<h1>Overzicht zorg-gebruikers</h1>
+
+<!-- Mat Form Field Filter -->
+<mat-form-field>
+   <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+</mat-form-field>
+
+<!-- Mat Table -->
+<div class="mat-elevation-z8 overview-table">
+   <table mat-table [dataSource]="dataSource" matSort aria-label="Elements">
+      <!-- Id Column -->
+      <ng-container matColumnDef="id">
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
+         <td mat-cell *matCellDef="let row">{{ row.id }}</td>
+      </ng-container>
+
+      <!-- FirstName Column -->
+      <ng-container matColumnDef="firstName">
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>Voornaam</th>
+         <td mat-cell *matCellDef="let row">{{ row.firstName }}</td>
+      </ng-container>
+
+      <!-- LastName Column -->
+      <ng-container matColumnDef="lastName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Familienaam</th>
+          <td mat-cell *matCellDef="let row">{{ row.lastName }}</td>
+       </ng-container>
+
+      <!-- Email Column -->
+      <ng-container matColumnDef="email">
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>E-Mail</th>
+         <td mat-cell *matCellDef="let row">{{ row.email }}</td>
+      </ng-container>
+
+      <!-- UserName Column -->
+      <ng-container matColumnDef="userName">
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>Gebruikersnaam</th>
+         <td mat-cell *matCellDef="let row">{{ row.userName }}</td>
+      </ng-container>
+
+      <!-- Birthday Column -->
+      <ng-container matColumnDef="birthday">
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>Geboortedatum</th>
+         <td mat-cell *matCellDef="let row">{{ row.birthday | date:'shortDate' }}</td>
+      </ng-container>
+
+      <!-- CaseNumber Column -->
+      <ng-container matColumnDef="caseNumber">
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>Dossiernr</th>
+         <td mat-cell *matCellDef="let row">{{ row.caseNumber }}</td>
+      </ng-container>
+
+      <!-- AgeGroup Column -->
+      <ng-container matColumnDef="ageGroup">
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>Leeftijdsgroep</th>
+         <td mat-cell *matCellDef="let row">{{ row.ageGroup }}</td>
+      </ng-container>
+
+      <!-- IsExtern Column -->
+      <ng-container matColumnDef="isExtern">
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>Klas/Extern</th>
+         <td mat-cell *matCellDef="let row">{{ row.isExtern ? 'Extern':'Klas' }}</td>
+      </ng-container>
+
+      <!-- HasTrajectory Column -->
+      <ng-container matColumnDef="hasTrajectory">
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>Traject</th>
+         <td mat-cell *matCellDef="let row">{{ row.hasTrajectory ? 'Ja':'Neen' }}</td>
+      </ng-container>
+
+      <!-- HasNormalDayCare Column -->
+      <ng-container matColumnDef="hasNormalDayCare">
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>Opv. normaal</th>
+         <td mat-cell *matCellDef="let row">{{ row.hasNormalDayCare ? 'Ja':'Neen' }}</td>
+      </ng-container>
+
+      <!-- HasVacationDayCare Column -->
+      <ng-container matColumnDef="hasVacationDayCare">
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>Opv. vakantie</th>
+         <td mat-cell *matCellDef="let row">{{ row.hasVacationDayCare ? 'Ja':'Neen' }}</td>
+      </ng-container>
+
+      <!-- HasResources Column -->
+      <ng-container matColumnDef="hasResources">
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>Middelen</th>
+         <td mat-cell *matCellDef="let row">{{ row.hasResources ? 'Ja':'Neen' }}</td>
+      </ng-container>
+
+      <!-- Header Row -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+      <!-- Loading Indicator -->
+      <div class="spinner-container" *ngIf="dataSource?.loading$ | async">
+         <mat-spinner></mat-spinner>
+      </div>
+
+      <!-- Data Row -->
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+   </table>
+
+   <!-- Paginator -->
+   <mat-paginator
+      #paginator
+      [length]="dataSource?.data.length"
+      [pageIndex]="0"
+      [pageSize]="15"
+      [pageSizeOptions]="[1,15, 25, 50, 100]"
+      showFirstLastButtons
+   >
+   </mat-paginator>
+</div>

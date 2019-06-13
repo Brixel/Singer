@@ -12,6 +12,11 @@ const routes: Routes = [
       loadChildren: './modules/dashboard/dashboard.module#DashboardModule',
       component: MainComponent,
    },
+   {
+      path: 'zorggebruikers',
+      loadChildren: './modules/careusers/careusers.module#CareUsersModule',
+      component: MainComponent,
+   },
    { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
 ];
 
