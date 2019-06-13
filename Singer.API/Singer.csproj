@@ -42,6 +42,10 @@
    </ItemGroup>
 
    <ItemGroup>
+     <Compile Remove="Models\PaginationModel.cs" />
+   </ItemGroup>
+
+   <ItemGroup>
       <None Update="example.pfx">
          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
