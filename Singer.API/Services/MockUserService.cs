@@ -117,11 +117,8 @@ namespace Singer.Services
             var prop = sortProperties.First();
             var orderedElements = elements.OrderBy(prop);
 
-            if (sorter.Count <= 1)
-               return orderedElements.ToList();
-
             for (var i = 1; i < sorter.Count; i++)
-               orderedElements.ThenBy(sortProperties[i]);
+               orderedElements = orderedElements.ThenBy(sortProperties[i]);
 
             elements = orderedElements;
          }
