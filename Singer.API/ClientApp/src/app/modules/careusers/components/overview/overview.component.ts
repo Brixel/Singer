@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { OverviewDataSource } from './overview-datasource';
-import { CareUsersAPIService } from 'src/app/modules/core/services/care-users-api/care-users-api.service';
+import { CareUsersAPIService, CareUser } from 'src/app/modules/core/services/care-users-api/care-users-api.service';
 import { CareUserDetailsComponent } from '../care-user-details/care-user-details.component';
 
 @Component({
@@ -57,15 +57,14 @@ export class OverviewComponent implements AfterViewInit {
       });
    }
 
-   selectRow(row): void {
+   selectRow(row: CareUser): void {
       const dialogRef = this.dialog.open(CareUserDetailsComponent, {
          data: { careUserInstance: row, isAdding: false },
       });
 
-      dialogRef.afterClosed().subscribe(result => {
-         console.log('The edit dialog was closed');
+      dialogRef.componentInstance.submitEvent.subscribe((result: CareUser) => {
+         console.log('The dialog was closed');
          console.log(result);
-
          this.reloadTable();
       });
    }
@@ -75,10 +74,9 @@ export class OverviewComponent implements AfterViewInit {
          data: { careUserInstance: null, isAdding: true },
       });
 
-      dialogRef.afterClosed().subscribe(result => {
-         console.log('The add dialog was closed');
+      dialogRef.componentInstance.submitEvent.subscribe((result: CareUser) => {
+         console.log('The dialog was closed');
          console.log(result);
-
          this.reloadTable();
       });
    }

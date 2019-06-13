@@ -15,6 +15,10 @@ export interface CareUserDetailsFormData {
    styleUrls: ['./care-user-details.component.css'],
 })
 export class CareUserDetailsComponent implements OnInit {
+
+   // Submit event for when the user submits the form
+   @Output() submitEvent: EventEmitter<CareUser> = new EventEmitter();
+
    // Boolean to decide if we are adding a new user or editing an existing one
    isAdding: boolean;
 
@@ -384,7 +388,8 @@ export class CareUserDetailsComponent implements OnInit {
    // Submit the form
    submitForm() {
       this.updateCurrentCareUserInstance();
-      this.dialogRef.close(this.currentCareUserInstance);
+      this.submitEvent.emit(this.currentCareUserInstance);
+      this.closeForm();
    }
 
    // Close the form
