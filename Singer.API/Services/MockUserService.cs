@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Singer.DTOs;
 using Singer.Helpers.Extensions;
+using Singer.Models;
 using Singer.Services.Interfaces;
 
 namespace Singer.Services
@@ -95,12 +96,13 @@ namespace Singer.Services
          );
       }
 
-      public async Task<IList<T>> GetUsersAsync<T>(
+      public async Task<SearchResults<T>> GetUsersAsync<T>(
          int start = 0,
          int numberOfElements = 15,
          Filter<T> filter = null,
          Sorter<T> sorter = null) where T : IUserDTO
       {
+         List<T> users = new List<T>();
          var filteredElements = _mockData
             .Where(x => x.GetType() == typeof(T))
             .Cast<T>()
@@ -114,17 +116,25 @@ namespace Singer.Services
             var orderedElements = filteredElements.OrderBy(prop);
 
             if (sorter.Count <= 1)
-               return orderedElements.ToList();
+               users = orderedElements.ToList();
 
             for (var i = 1; i < sorter.Count; i++)
                orderedElements.ThenBy(sortProperties[i]);
          }
 
-         return await Task.FromResult(
+         users = await Task.FromResult(
             filteredElements
                .Skip(start)
                .Take(numberOfElements)
                .ToList());
+
+         SearchResults<T> result = new SearchResults<T>();
+         result.Results = users;
+         result.Start = start;
+         result.Size = numberOfElements;
+         result.NumResults = filteredElements.Count();
+
+         return result;
       }
 
       public async Task<T> GetUserAsync<T>(Guid id) where T : IUserDTO

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Singer.DTOs;
-
+using Singer.Models;
 namespace Singer.Services.Interfaces
 {
    public interface IUserService
@@ -13,7 +13,7 @@ namespace Singer.Services.Interfaces
 
       Task<IList<T>> GetAllUsersAsync<T>() where T : IUserDTO;
 
-      Task<IList<T>> GetUsersAsync<T>(
+      Task<SearchResults<T>> GetUsersAsync<T>(
          int page = 0,
          int elementsPerPage = 15,
          Filter<T> filter = null,
