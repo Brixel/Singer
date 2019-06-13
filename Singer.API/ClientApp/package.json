@@ -1,6 +1,6 @@
 {
   "name": "Singer",
-  "version": "0.1.0-issue-AB-12-users-controller.155",
+  "version": "0.1.0-issue-AB-12-users-controller.156",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
