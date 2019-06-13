@@ -18,6 +18,7 @@ import {
    MatIconModule,
    MatToolbarModule,
    MatDialogModule,
+   MatDividerModule,
 } from '@angular/material';
 import { CareUserDetailsComponent } from './components/care-user-details/care-user-details.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -44,6 +45,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
       ReactiveFormsModule,
       FormsModule,
       MatDialogModule,
+      MatDividerModule
    ],
    entryComponents: [
       CareUserDetailsComponent

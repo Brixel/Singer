@@ -9,6 +9,8 @@
       class="details-form-container"
       (click)="unsubscribeFromFormControlValueChanges()"
    >
+      <!-- Personal Fields Title -->
+      <h3 class="section-title">Persoonlijke gegevens</h3>
       <!-- Name Fields -->
       <div class="name-fields">
          <!-- Lastname Field -->
@@ -50,6 +52,12 @@
          <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
 
+      <!-- End Of Section -->
+      <mat-divider></mat-divider>
+
+      <!-- Administrative Fields Title -->
+      <h3  class="section-title">Administratieve gegevens</h3>
+
       <!-- CaseNumber Field -->
       <mat-form-field>
          <input
@@ -90,6 +98,12 @@
             <mat-option value="true">Extern</mat-option>
          </mat-select>
       </mat-form-field>
+
+      <!-- End Of Section -->
+      <mat-divider></mat-divider>
+
+      <!-- Care Fields Title -->
+      <h3  class="section-title">Zorg gegevens</h3>
 
       <!-- HasTrajectory Field -->
       <mat-form-field>
