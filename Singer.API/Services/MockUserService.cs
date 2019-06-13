@@ -103,46 +103,37 @@ namespace Singer.Services
          Filter<T> filter = null,
          Sorter<T> sorter = null) where T : IUserDTO
       {
-         var users = _mockData
+         var usersQueryable = _mockData
             .AsQueryable()
             .OfType<T>();
 
          if (filter != null)
-            users = users
+            usersQueryable = usersQueryable
                .Where(x => filter.CheckAnd(x));
-         
+
+         // Default ordering is by name
+         var orderedQueryable = usersQueryable.OrderBy(x => x.Name);
          if (sorter != null && sorter.Count >= 1)
          {
             var sortProperties = sorter.ToList();
             var prop = sortProperties.First();
-            var orderedElements = users.OrderBy(prop);
+            orderedQueryable = usersQueryable.OrderBy(prop);
 
             for (var i = 1; i < sorter.Count; i++)
-               orderedElements = orderedElements.ThenBy(sortProperties[i]);
-
-            users = orderedElements;
+               orderedQueryable = orderedQueryable.ThenBy(sortProperties[i]);
          }
 
-         users = await Task.FromResult(
-            filteredElements
-               .Skip(start)
-               .Take(numberOfElements)
-               .ToList());
+         var users = await orderedQueryable.TakePage(start, numberOfElements).ToListAsync();
 
-         SearchResults<T> result = new SearchResults<T>();
-         result.Results = users;
-         result.Start = start;
-         result.Size = numberOfElements;
-         result.TotalCount = filteredElements.Count();
-
-         return new SearchResults<T>
+         SearchResults<T> result = new SearchResults<T>
          {
-            Results = userList,
-            Start = start,
-            Size = numberOfElements,
-            NumResults = userList.Count
+            Items = users, Start = start, Size = numberOfElements, TotalCount = usersQueryable.Count()
          };
+
+         return result;
       }
+
+
 
       public async Task<T> GetUserAsync<T>(Guid id) where T : IUserDTO
       {

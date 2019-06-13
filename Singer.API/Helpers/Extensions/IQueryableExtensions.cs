@@ -28,5 +28,12 @@ namespace Singer.Helpers.Extensions
 
          return Expression.Lambda<Func<T, object>>(propAsObject, parameter);
       }
+
+      public static IQueryable<T> TakePage<T>(this IOrderedQueryable<T> orderedQueryable, int pageIndex, int pageSize)
+      {
+         return orderedQueryable
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize);
+      }
    }
 }
