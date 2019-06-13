@@ -20,7 +20,7 @@ import {
    MatDialogModule,
 } from '@angular/material';
 import { CareUserDetailsComponent } from './components/care-user-details/care-user-details.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @NgModule({
    declarations: [OverviewComponent, CareUserDetailsComponent],
@@ -42,7 +42,8 @@ import { ReactiveFormsModule } from '@angular/forms';
       MatIconModule,
       MatToolbarModule,
       ReactiveFormsModule,
-      MatDialogModule
+      FormsModule,
+      MatDialogModule,
    ],
    entryComponents: [
       CareUserDetailsComponent

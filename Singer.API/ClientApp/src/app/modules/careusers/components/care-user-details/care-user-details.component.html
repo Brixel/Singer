@@ -1,6 +1,6 @@
 
    <!-- Details Form -->
-   <mat-dialog-content class="details-form-container">
+   <mat-dialog-content class="details-form-container" (keyup)="onKeyUp()">
       <!-- FORM TITLE -->
       <h2 mat-dialog-title>Toevoegen/bewerken (enkel admin)</h2>
 
@@ -10,7 +10,7 @@
             <input
                matInput
                [placeholder]="lastNameFieldPlaceholder"
-               [value]="lastNameFieldValue"
+               [(ngModel)]="lastNameFieldValue"
             />
          </mat-form-field>
 
@@ -19,7 +19,7 @@
             <input
                matInput
                [placeholder]="firstNameFieldPlaceholder"
-               [value]="firstNameFieldValue"
+               [(ngModel)]="firstNameFieldValue"
             />
          </mat-form-field>
       </div>
@@ -28,7 +28,7 @@
       <mat-form-field>
          <input
             matInput
-            [value]="birthdayFieldValue"
+            [(ngModel)]="birthdayFieldValue"
             [min]="birthdayDatePickerMinDate"
             [max]="birthdayDatePickerMaxDate"
             [matDatepicker]="picker"
@@ -46,7 +46,7 @@
          <input
             matInput
             [placeholder]="caseNumberFieldPlaceholder"
-            [value]="caseNumberFieldValue"
+            [(ngModel)]="caseNumberFieldValue"
             [formControl]="caseNumberFieldControl"
             required
          />
@@ -59,7 +59,7 @@
       <mat-form-field>
          <mat-select
             [placeholder]="ageGroupFieldPlaceholder"
-            [value]="ageGroupFieldValue"
+            [(ngModel)]="ageGroupFieldValue"
          >
             <mat-option value="child">Kinderen</mat-option>
             <mat-option value="youngster">Jongeren</mat-option>
@@ -70,7 +70,7 @@
       <mat-form-field>
          <mat-select
             [placeholder]="isExternFieldPlaceholder"
-            [value]="isExternFieldValue"
+            [(ngModel)]="isExternFieldValue"
          >
             <mat-option value="false">Klas</mat-option>
             <mat-option value="true">Extern</mat-option>
@@ -81,7 +81,7 @@
       <mat-form-field>
          <mat-select
             [placeholder]="hasTrajectoryFieldPlaceholder"
-            [value]="hasTrajectoryFieldValue"
+            [(ngModel)]="hasTrajectoryFieldValue"
          >
             <mat-option value="true">Ja</mat-option>
             <mat-option value="false">Nee</mat-option>
@@ -92,7 +92,7 @@
       <mat-form-field>
          <mat-select
             [placeholder]="hasNormalDayCareFieldPlaceholder"
-            [value]="hasNormalDayCareFieldValue"
+            [(ngModel)]="hasNormalDayCareFieldValue"
          >
             <mat-option value="true">Ja</mat-option>
             <mat-option value="false">Nee</mat-option>
@@ -103,7 +103,7 @@
       <mat-form-field>
          <mat-select
             [placeholder]="hasVacationDayCareFieldPlaceholder"
-            [value]="hasVacationDayCareFieldValue"
+            [(ngModel)]="hasVacationDayCareFieldValue"
          >
             <mat-option value="true">Ja</mat-option>
             <mat-option value="false">Nee</mat-option>
@@ -114,7 +114,7 @@
       <mat-form-field>
          <mat-select
             [placeholder]="hasResourcesFieldPlaceholder"
-            [value]="hasResourcesFieldValue"
+            [(ngModel)]="hasResourcesFieldValue"
          >
             <mat-option value="true">Ja</mat-option>
             <mat-option value="false">Nee</mat-option>
@@ -163,6 +163,7 @@
             (click)="submitForm()"
             title="Formulier sluiten"
             aria-label="Formulier sluiten"
+            [disabled]="!isChangesMade"
             *ngIf="!isAdding"
          >
             Opslaan

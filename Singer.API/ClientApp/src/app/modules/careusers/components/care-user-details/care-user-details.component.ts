@@ -17,6 +17,9 @@ export class CareUserDetailsComponent implements OnInit {
    // Boolean to decide if we are adding a new user or editing an existing one
    isAdding: boolean;
 
+   // Boolean to check if changes have been made when editing a user
+   isChangesMade: boolean;
+
    // Current care user instance
    currentCareUserInstance: CareUser;
 
@@ -94,9 +97,11 @@ export class CareUserDetailsComponent implements OnInit {
    }
 
    private updateFormValues() {
+      this.idFieldValue = this.currentCareUserInstance.id;
       this.firstNameFieldValue = this.currentCareUserInstance.firstName;
       this.lastNameFieldValue = this.currentCareUserInstance.lastName;
       this.emailFieldValue = this.currentCareUserInstance.email;
+      this.userNameFieldValue = this.currentCareUserInstance.userName;
       this.birthdayFieldValue = this.currentCareUserInstance.birthday;
       this.caseNumberFieldValue = this.currentCareUserInstance.caseNumber;
       this.ageGroupFieldValue =
@@ -136,7 +141,6 @@ export class CareUserDetailsComponent implements OnInit {
       this.hasNormalDayCareFieldValue = '';
       this.hasVacationDayCareFieldValue = '';
       this.hasResourcesFieldValue = '';
-
       //Reset Form Controls
       this.resetFormControls();
    }
@@ -144,6 +148,61 @@ export class CareUserDetailsComponent implements OnInit {
    private resetFormControls() {
       this.emailFieldControl.reset();
       this.caseNumberFieldControl.reset();
+   }
+
+   checkForChanges(): boolean {
+      debugger;
+      console.log(this.caseNumberFieldControl.value);
+      //If we are editing an existing user and there are no changes return false
+      if (this.currentCareUserInstance.id !== this.idFieldValue) return true;
+      if (this.currentCareUserInstance.firstName !== this.firstNameFieldValue)
+         return true;
+      if (this.currentCareUserInstance.lastName !== this.lastNameFieldValue)
+         return true;
+      if (this.currentCareUserInstance.email !== this.emailFieldValue)
+         return true;
+      if (this.currentCareUserInstance.birthday !== this.birthdayFieldValue)
+         return true;
+      if (this.currentCareUserInstance.caseNumber !== this.caseNumberFieldValue)
+         return true;
+      if (
+         this.currentCareUserInstance.ageGroup !==
+         (this.ageGroupFieldValue === 'child' ? 'Kinderen' : 'Jongeren')
+      )
+         return true;
+      if (
+         this.currentCareUserInstance.isExtern !==
+         (this.isExternFieldValue === 'true' ? true : false)
+      )
+         return true;
+      if (
+         this.currentCareUserInstance.hasTrajectory !==
+         (this.hasTrajectoryFieldValue === 'true' ? true : false)
+      )
+         return true;
+      if (
+         this.currentCareUserInstance.hasNormalDayCare !==
+         (this.hasNormalDayCareFieldValue === 'true' ? true : false)
+      )
+         return true;
+      if (
+         this.currentCareUserInstance.hasVacationDayCare !==
+         (this.hasVacationDayCareFieldValue === 'true' ? true : false)
+      )
+         return true;
+      if (
+         this.currentCareUserInstance.hasResources !==
+         (this.hasResourcesFieldValue === 'true' ? true : false)
+      )
+         return true;
+      return false;
+   }
+
+   onKeyUp() {
+      // If a key is lifted and we are editing an existing user then check for changes
+      if (!this.isAdding) this.isChangesMade = this.checkForChanges();
+      console.log('onKeyUp was fired');
+      console.log(this.isChangesMade);
    }
 
    private updateCurrentCareUserInstance() {
@@ -158,8 +217,10 @@ export class CareUserDetailsComponent implements OnInit {
          ageGroup: this.ageGroupFieldValue,
          isExtern: this.isExternFieldValue === 'true' ? true : false,
          hasTrajectory: this.hasTrajectoryFieldValue === 'true' ? true : false,
-         hasNormalDayCare: this.hasNormalDayCareFieldValue === 'true' ? true : false,
-         hasVacationDayCare: this.hasVacationDayCareFieldValue === 'true' ? true : false,
+         hasNormalDayCare:
+            this.hasNormalDayCareFieldValue === 'true' ? true : false,
+         hasVacationDayCare:
+            this.hasVacationDayCareFieldValue === 'true' ? true : false,
          hasResources: this.hasResourcesFieldValue === 'true' ? true : false,
       };
    }
