@@ -122,7 +122,7 @@ namespace Singer.Services
                orderedQueryable = orderedQueryable.ThenBy(sortProperties[i]);
          }
 
-         var users = await orderedQueryable.TakePage(start, numberOfElements).ToListAsync();
+         var users = orderedQueryable.TakePage(start, numberOfElements).ToList();
 
          SearchResults<T> result = new SearchResults<T>
          {

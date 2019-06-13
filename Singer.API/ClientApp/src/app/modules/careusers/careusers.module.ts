@@ -8,7 +8,8 @@ import {
    MatSortModule,
    MatFormFieldModule,
    MatInputModule,
-   MatProgressSpinnerModule
+   MatProgressSpinnerModule,
+   MatCardModule
 } from '@angular/material';
 import { CareUserProxy } from '../core/services/care-users-api/careuser.proxy';
 import { CareUsersService as CareUsersService } from '../core/services/care-users-api/care-users-api.service';
@@ -24,6 +25,7 @@ import { ApiService } from '../core/services/api.service';
       MatSortModule,
       MatFormFieldModule,
       MatInputModule,
+      MatCardModule,
       MatProgressSpinnerModule,
    ],
    providers:[CareUserProxy, CareUsersService, ApiService]

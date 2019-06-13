@@ -13,6 +13,8 @@ export class CareUserProxy{
 
    getCareUsers(sortDirection?:string, sortColumn?:string, pageIndex?:number, pageSize?:number):Observable<PaginationDTO>{
       const searchParams = new HttpParams()
+      .set('sortDirection', sortDirection)
+      .set('sortColumn', sortColumn)
       .set('pageIndex', pageIndex.toString())
       .set('pageSize', pageSize.toString());
       return this.apiService.get('api/careuser', searchParams).pipe(map((res) => res));

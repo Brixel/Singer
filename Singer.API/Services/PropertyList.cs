@@ -152,7 +152,7 @@ namespace Singer.Services
             throw new ArgumentException("The property does not match the naming rules.");
 
          // the property must exist in the type
-         if (_properties.All(x => x != property))
+         if (_properties.All(x => !x.Equals(property, StringComparison.InvariantCultureIgnoreCase)))
             throw new ArgumentException("No property found with the given name.");
       }
 
