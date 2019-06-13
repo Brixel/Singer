@@ -340,7 +340,7 @@ export class CareUserDetailsComponent implements OnInit {
       return false;
    }
 
-   private onFormValueChanges() {
+   onFormValueChanges() {
       // If a key is lifted and we are editing an existing user then check for changes
       if (!this.isAdding) this.checkForChanges() ? this.isChangesMade = true : this.isChangesMade = false;
       console.log('changes made: ' + this.isChangesMade);
