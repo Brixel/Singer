@@ -29,17 +29,15 @@ namespace Singer.Controllers
          [FromQuery]int StartAt = 0,
          [FromQuery]int NumberOfItems = 15)
       {
-         int TotalNumberOfItems = 0;
-         var users = await _userService.GetUsersAsync<CareUserDTO>(StartAt, NumberOfItems);
+         var result = await _userService.GetUsersAsync<CareUserDTO>(StartAt, NumberOfItems);
          PaginationDTO<CareUserDTO> page = new PaginationDTO<CareUserDTO>();
-         page.Items = users;
+         page.Items = result.Results;
          page.NumberOfItems = NumberOfItems;
          page.StartAt = StartAt;
          page.CurrentPageUrl = $"{HttpContext.Request.Path}?{HttpContext.Request.QueryString.ToString()}";
          page.NextPageUrl = $"{HttpContext.Request.Path}?StartAt={StartAt + NumberOfItems}&NumberOfItems={NumberOfItems}";
          page.PreviousPageUrl = StartAt - NumberOfItems < 0 ? null : $"{HttpContext.Request.Path}?StartAt={StartAt - NumberOfItems}&NumberOfItems={NumberOfItems}";
-         //TODO: TotalNumberOfItems is not calculated currently
-         page.TotalNumberOfItems = TotalNumberOfItems;
+         page.TotalNumberOfItems = result.NumResults;
          return Ok(page);
       }
 

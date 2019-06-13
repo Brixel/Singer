@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Singer.DTOs;
 using Singer.Helpers.Extensions;
+using Singer.Models;
 using Singer.Services.Interfaces;
 
 namespace Singer.Services
@@ -96,37 +97,44 @@ namespace Singer.Services
          );
       }
 
-      public async Task<IList<T>> GetUsersAsync<T>(
+      public async Task<SearchResults<T>> GetUsersAsync<T>(
          int start = 0,
          int numberOfElements = 15,
          Filter<T> filter = null,
          Sorter<T> sorter = null) where T : IUserDTO
       {
-         var elements = _mockData
+         var users = _mockData
             .AsQueryable()
             .OfType<T>();
 
          if (filter != null)
-            elements = elements
+            users = users
                .Where(x => filter.CheckAnd(x));
-
          
          if (sorter != null && sorter.Count >= 1)
          {
             var sortProperties = sorter.ToList();
             var prop = sortProperties.First();
-            var orderedElements = elements.OrderBy(prop);
+            var orderedElements = users.OrderBy(prop);
 
             for (var i = 1; i < sorter.Count; i++)
                orderedElements = orderedElements.ThenBy(sortProperties[i]);
 
-            elements = orderedElements;
+            users = orderedElements;
          }
 
-         return await elements
-               .Skip(start)
-               .Take(numberOfElements)
-               .ToListAsync();
+         var userList = await users
+            .Skip(start)
+            .Take(numberOfElements)
+            .ToListAsync();
+
+         return new SearchResults<T>
+         {
+            Results = userList,
+            Start = start,
+            Size = numberOfElements,
+            NumResults = userList.Count
+         };
       }
 
       public async Task<T> GetUserAsync<T>(Guid id) where T : IUserDTO

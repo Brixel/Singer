@@ -45,7 +45,7 @@ namespace Singer.Services
          return users;
       }
 
-      public async Task<IList<T>> GetUsersAsync<T>(
+      public async Task<SearchResults<T>> GetUsersAsync<T>(
          int start = 0,
          int numberOfElements = 15,
          Filter<T> filter = null,
@@ -59,7 +59,13 @@ namespace Singer.Services
                .ProjectTo<T>(_mapper.ConfigurationProvider)
                .ToList()
          );
-         return users;
+
+         SearchResults<T> result = new SearchResults<T>();
+         result.Results = users;
+         result.Start = start;
+         result.Size = numberOfElements;
+         result.NumResults = _appContext.Users.Count();
+         return result;
       }
 
       public async Task<T> GetUserAsync<T>(Guid id) where T : IUserDTO
