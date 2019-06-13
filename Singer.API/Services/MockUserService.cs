@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Singer.DTOs;
 using Singer.Helpers.Extensions;
 using Singer.Models;
@@ -102,24 +103,24 @@ namespace Singer.Services
          Filter<T> filter = null,
          Sorter<T> sorter = null) where T : IUserDTO
       {
-         List<T> users = new List<T>();
-         var filteredElements = _mockData
-            .Where(x => x.GetType() == typeof(T))
-            .Cast<T>()
-            .Where(x => filter == null || filter.CheckAnd(x) && filter.CheckOr(x))
-            .AsQueryable();
+         var users = _mockData
+            .AsQueryable()
+            .OfType<T>();
 
+         if (filter != null)
+            users = users
+               .Where(x => filter.CheckAnd(x));
+         
          if (sorter != null && sorter.Count >= 1)
          {
             var sortProperties = sorter.ToList();
             var prop = sortProperties.First();
-            var orderedElements = filteredElements.OrderBy(prop);
-
-            if (sorter.Count <= 1)
-               users = orderedElements.ToList();
+            var orderedElements = users.OrderBy(prop);
 
             for (var i = 1; i < sorter.Count; i++)
-               orderedElements.ThenBy(sortProperties[i]);
+               orderedElements = orderedElements.ThenBy(sortProperties[i]);
+
+            users = orderedElements;
          }
 
          users = await Task.FromResult(
@@ -134,13 +135,19 @@ namespace Singer.Services
          result.Size = numberOfElements;
          result.TotalCount = filteredElements.Count();
 
-         return result;
+         return new SearchResults<T>
+         {
+            Results = userList,
+            Start = start,
+            Size = numberOfElements,
+            NumResults = userList.Count
+         };
       }
 
       public async Task<T> GetUserAsync<T>(Guid id) where T : IUserDTO
       {
          // return the care user with the given id
-         return await Task.FromResult((T)_mockData.Single(x => x.GetType() == typeof(T) && x.Id == id));
+         return await Task.FromResult((T) _mockData.Single(x => x.GetType() == typeof(T) && x.Id == id));
       }
 
       public async Task<bool> UpdateUserAsync<T>(T user, Guid id) where T : IUserDTO
@@ -148,7 +155,7 @@ namespace Singer.Services
          // get the index of the care user with the given id
          var i = _mockData
             .Where(x => x.GetType() == typeof(T))
-            .Select((u, index) => new { User = u, Index = index })
+            .Select((u, index) => new {User = u, Index = index})
             .Single(x => x.User.Id == id)
             .Index;
 
@@ -163,7 +170,7 @@ namespace Singer.Services
       {
          // get the index of the care user with the given id
          var i = _mockData
-            .Select((user, index) => new { User = user, Index = index })
+            .Select((user, index) => new {User = user, Index = index})
             .Single(x => x.User.Id == id)
             .Index;
 
