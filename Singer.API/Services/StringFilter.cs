@@ -32,18 +32,33 @@ namespace Singer.Services
       /// <returns>An expression that can be used to filter a collection.</returns>
       public Expression<Func<T, bool>> GetFilterExpression()
       {
+         // get the "ToString"-method of a object
+         var toStringMethod = typeof(object).GetMethod(nameof(ToString));
+         // get the "ToLower"-method of a string
+         var toLowerMethod = typeof(string).GetMethod(nameof(string.ToLowerInvariant));
+         // get the "Contains"-method of a string
+         var containsMethod = typeof(string).GetMethod(nameof(string.Contains), new[] {typeof(string)});
+
          // create the parameter of the expression "t =>" 
          var parameterExpression = Expression.Parameter(typeof(T), "t");
 
          // create the comparing constant of the expressions "FilterString"
          var stringExpression = Expression.Constant(FilterString);
+         var lowerStringExpression =
+            Expression.Call(stringExpression, typeof(string).GetMethod(nameof(string.ToLowerInvariant)));
+
          // convert the property list to expressions to get the properties 
          var propertyExpressions = PropertyList
-            .Select(propertyName => Expression.Property(parameterExpression, typeof(T).GetProperty(propertyName)));
+            .Select(propertyName =>
+            {
+               var propertyExpression = Expression.Property(parameterExpression, typeof(T).GetProperty(propertyName));
+               var stringPropertyExpression = Expression.Call(propertyExpression, toStringMethod);
+               return Expression.Call(stringPropertyExpression, toLowerMethod);
+            });
 
          // create equal expressions for all "t => $propertyName == $FilterString"
          var equalExpressions = propertyExpressions
-            .Select(pe => Expression.Equal(stringExpression, pe))
+            .Select(pe => Expression.Call(pe, containsMethod, lowerStringExpression))
             .ToList();
 
          // if there is only one property to filter on, return "t => $propertyName == $FilterString"
@@ -58,6 +73,5 @@ namespace Singer.Services
          // return the final expression
          return Expression.Lambda<Func<T, bool>>(finalExpression, parameterExpression);
       }
-
    }
 }

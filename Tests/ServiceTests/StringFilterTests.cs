@@ -178,7 +178,7 @@ namespace Tests.ServiceTests
          };
 
          list.AsQueryable().Filter(filter)
-            .Should().HaveCount(2);
+            .Should().HaveCount(1);
       }
 
       [Test]
