@@ -107,20 +107,24 @@ namespace Singer.Services
             .Where(x => filter == null || filter.CheckAnd(x) && filter.CheckOr(x))
             .AsQueryable();
 
-         if (sorter == null || sorter.Count < 1)
-            return await Task.FromResult(filteredElements.ToList());
+         if (sorter != null && sorter.Count >= 1)
+         {
+            var sortProperties = sorter.ToList();
+            var prop = sortProperties.First();
+            var orderedElements = filteredElements.OrderBy(prop);
 
-         var sortProperties = sorter.ToList();
-         var prop = sortProperties.First();
-         var orderedElements = filteredElements.OrderBy(prop);
+            if (sorter.Count <= 1)
+               return orderedElements.ToList();
 
-         if (sorter.Count <= 1)
-            return orderedElements.ToList();
+            for (var i = 1; i < sorter.Count; i++)
+               orderedElements.ThenBy(sortProperties[i]);
+         }
 
-         for (var i = 1; i < sorter.Count; i++)
-            orderedElements.ThenBy(sortProperties[i]);
-
-         return orderedElements.ToList();
+         return await Task.FromResult(
+            filteredElements
+               .Skip(start)
+               .Take(numberOfElements)
+               .ToList());
       }
 
       public async Task<T> GetUserAsync<T>(Guid id) where T : IUserDTO
