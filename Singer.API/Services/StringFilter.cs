@@ -47,7 +47,7 @@ namespace Singer.Services
          var lowerStringExpression =
             Expression.Call(stringExpression, typeof(string).GetMethod(nameof(string.ToLowerInvariant)));
 
-         // convert the property list to expressions to get the properties 
+         // convert the property list to expressions to get the properties as string in lowercase
          var propertyExpressions = PropertyList
             .Select(propertyName =>
             {

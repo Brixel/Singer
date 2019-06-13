@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Singer.Services.Interfaces;
-using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using Singer.Data;
 using Singer.Models;
@@ -42,18 +41,21 @@ namespace Singer.Services
          StringFilter<T> filter = null,
          Sorter<T> sorter = null) where T : CareUser
       {
-         var users = await _appContext.Users
+         SearchResults<T> result = new SearchResults<T>();
+         var users = _appContext.Users
             .OfType<T>()
-            .Filter(filter)
+            .Filter(filter);
+
+         result.TotalCount = users.Count();
+                          
+         result.Items = await users
             .Skip(start)
             .Take(userPerPage)
             .ToListAsync();
 
-         SearchResults<T> result = new SearchResults<T>();
-         result.Items = users;
          result.Start = start;
          result.Size = userPerPage;
-         result.TotalCount = _appContext.Users.Count();
+
          return result;
       }
 
