@@ -48,7 +48,7 @@ namespace Singer.Services
       public async Task<SearchResults<T>> GetUsersAsync<T>(
          int start = 0,
          int numberOfElements = 15,
-         Filter<T> filter = null,
+         StringFilter<T> filter = null,
          Sorter<T> sorter = null) where T : IUserDTO
       {
          List<T> users = await Task.FromResult(

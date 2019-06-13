@@ -16,7 +16,7 @@ namespace Singer.Services.Interfaces
       Task<SearchResults<T>> GetUsersAsync<T>(
          int page = 0,
          int elementsPerPage = 15,
-         Filter<T> filter = null,
+         StringFilter<T> filter = null,
          Sorter<T> sorter = null)
          where T : IUserDTO;
 
