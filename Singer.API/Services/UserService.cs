@@ -2,91 +2,79 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Singer.DTOs;
 using Singer.Services.Interfaces;
 using AutoMapper.QueryableExtensions;
-using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Singer.Data;
 using Singer.Models;
 using Singer.Helpers.Exceptions;
+using Singer.Helpers.Extensions;
 
 namespace Singer.Services
 {
    public class UserService : IUserService
    {
       private ApplicationDbContext _appContext;
-      private readonly IMapper _mapper;
-      public UserService(ApplicationDbContext appContext, IMapper mapper)
+
+      public UserService(ApplicationDbContext appContext)
       {
          _appContext = appContext;
-         _mapper = mapper;
       }
 
-      public async Task<TReturn> CreateUserAsync<TCreate, TReturn>(TCreate createUser)
-         where TCreate : CreateUserDTO
-         where TReturn : IUserDTO, TCreate
+      public async Task<T> CreateUserAsync<T>(T createUser) where T : CareUser
       {
-         User newUser = _mapper.Map<User>(createUser);
-         _appContext.Users.Add(newUser);
+         createUser.Id = Guid.NewGuid().ToString();
+         _appContext.Users.Add(createUser);
          await _appContext.SaveChangesAsync();
-         TReturn returnUser = _mapper.Map<TReturn>(newUser);
-
-         return returnUser;
+         return createUser;
       }
 
-      public async Task<IList<T>> GetAllUsersAsync<T>() where T : IUserDTO
+      public async Task<IList<T>> GetAllUsersAsync<T>() where T : CareUser
       {
-         List<T> users = await Task.FromResult(
-            _appContext.Users
-               .AsQueryable()
-               .ProjectTo<T>(_mapper.ConfigurationProvider)
-               .ToList()
-         );
-         return users;
+         return await _appContext.Users
+            .OfType<T>()
+            .ToListAsync();
       }
 
       public async Task<SearchResults<T>> GetUsersAsync<T>(
          int start = 0,
-         int numberOfElements = 15,
+         int userPerPage = 15,
          StringFilter<T> filter = null,
-         Sorter<T> sorter = null) where T : IUserDTO
+         Sorter<T> sorter = null) where T : CareUser
       {
-         List<T> users = await Task.FromResult(
-            _appContext.Users
-               .Skip(start)
-               .Take(numberOfElements)
-               .AsQueryable()
-               .ProjectTo<T>(_mapper.ConfigurationProvider)
-               .ToList()
-         );
+         var users = await _appContext.Users
+            .OfType<T>()
+            .Filter(filter)
+            .Skip(start)
+            .Take(userPerPage)
+            .ToListAsync();
 
          SearchResults<T> result = new SearchResults<T>();
          result.Items = users;
          result.Start = start;
-         result.Size = numberOfElements;
+         result.Size = userPerPage;
          result.TotalCount = _appContext.Users.Count();
          return result;
       }
 
-      public async Task<T> GetUserAsync<T>(Guid id) where T : IUserDTO
+      public async Task<T> GetUserAsync<T>(Guid id) where T : CareUser
       {
-         var user = await _appContext.Users.FindAsync(id);
+         var user = await _appContext.Users.FindAsync(id) as T;
          if (user == null)
          {
             throw new UserNotFoundException();
          }
 
-         var userDTO = _mapper.Map<T>(user);
-         return userDTO;
+         return user;
       }
 
-      public async Task<bool> UpdateUserAsync<T>(T user, Guid id) where T : IUserDTO
+      public async Task<bool> UpdateUserAsync<T>(T user, Guid id) where T : CareUser
       {
-         User dbUser;
+         User userToUpdate;
          try
          {
             //Check if id exists
-            dbUser = _appContext.Users.Single(u => u.Id == id.ToString());
+            userToUpdate = _appContext.Users.Single(u => u.Id == id.ToString());
          }
          catch
          {
@@ -94,19 +82,21 @@ namespace Singer.Services
          }
 
          //Ensure client is not trying to change the ID
-         if (user.Id != id)
+         if (user.Id != id.ToString())
          {
             throw new BadInputException();
          }
 
          //Convert user DTO to view
-         _mapper.Map(user, dbUser);
+         userToUpdate = user;
+         userToUpdate.Id = id.ToString();
 
          //And finally update database
-         _appContext.Users.Update(dbUser);
+         _appContext.Users.Update(userToUpdate);
          await _appContext.SaveChangesAsync();
          return true;
       }
+
       public async Task DeleteUserAsync(Guid id)
       {
          User dbUser;

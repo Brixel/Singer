@@ -1,14 +1,14 @@
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Singer.Data;
 using Singer.DTOs;
-using Singer.Services;
 using Singer.Services.Interfaces;
-using AutoMapper.QueryableExtensions;
+using Singer.Models;
 
 namespace Singer.Controllers
 {
@@ -16,11 +16,12 @@ namespace Singer.Controllers
    public class CareUserController : Controller
    {
       private IUserService _userService;
-      private ApplicationDbContext _appContext;
+      private readonly IMapper _mapper;
+
       public CareUserController(IUserService service, ApplicationDbContext appContext, IMapper mapper)
       {
          _userService = service;
-         _appContext = appContext;
+         _mapper = mapper;
       }
 
       [HttpGet]
@@ -29,14 +30,20 @@ namespace Singer.Controllers
          [FromQuery]int pageIndex = 0,
          [FromQuery]int pageSize = 15)
       {
-         var result = await _userService.GetUsersAsync<CareUserDTO>(pageIndex, pageSize);
+         var result = await _userService.GetUsersAsync<CareUser>(pageIndex, pageSize);
          var requestPath = HttpContext.Request.Path;
          var nextPage = (pageIndex * pageSize) + result.Size >= result.TotalCount
             ? null
             : $"{requestPath}?PageIndex={pageIndex + pageSize}&Size={pageSize}";
+
+         var careUserDTOs = result.Items
+            .AsQueryable()
+            .ProjectTo<CareUserDTO>(_mapper.ConfigurationProvider)
+            .ToList();
+
          var page = new PaginationDTO<CareUserDTO>
          {
-            Items = result.Items,
+            Items = careUserDTOs,
             Size = result.Items.Count,
             PageIndex = pageIndex,
             CurrentPageUrl = $"{requestPath}?{HttpContext.Request.QueryString.ToString()}",
@@ -54,7 +61,7 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status200OK)]
       public async Task<ActionResult<CareUserDTO>> GetUser(Guid id)
       {
-         var user = await _userService.GetUserAsync<CareUserDTO>(id);
+         var user = await _userService.GetUserAsync<CareUser>(id);
          if (user == null)
          {
             return NotFound();
@@ -67,7 +74,8 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status400BadRequest)]
       public async Task<ActionResult<CareUserDTO>> CreateUser(CreateCareUserDTO user)
       {
-         var returnUser = await _userService.CreateUserAsync<CreateCareUserDTO, CareUserDTO>(user);
+         var model = _mapper.Map<CareUser>(user);
+         var returnUser = await _userService.CreateUserAsync(model);
          return Created(nameof(GetUser), returnUser);
       }
 
@@ -78,7 +86,8 @@ namespace Singer.Controllers
       {
          try
          {
-            var result = await _userService.UpdateUserAsync<CareUserDTO>(user, Guid.Parse(id));
+            var model = _mapper.Map<CareUser>(user);
+            var result = await _userService.UpdateUserAsync<CareUser>(model, Guid.Parse(id));
             if (result)
             {
                return NoContent();
