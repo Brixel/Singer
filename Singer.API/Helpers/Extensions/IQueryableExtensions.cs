@@ -1,11 +1,16 @@
 using System;
 using System.Linq;
 using System.Linq.Expressions;
+using Singer.Services;
 
 namespace Singer.Helpers.Extensions
 {
+   // ReSharper disable once InconsistentNaming
    public static class IQueryableExtensions
    {
+      public static IQueryable<T> Filter<T>(this IQueryable<T> source, StringFilter<T> filter)
+         => source.Where(filter.GetFilterExpression());
+
       public static IOrderedQueryable<T> OrderBy<T>(this IQueryable<T> source, string propertyName)
       {
          return source.OrderBy(ToLambda<T>(propertyName));
