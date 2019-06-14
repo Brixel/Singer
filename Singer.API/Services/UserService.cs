@@ -20,7 +20,7 @@ namespace Singer.Services
          _appContext = appContext;
       }
 
-      public async Task<T> CreateUserAsync<T>(T createUser) where T : CareUser
+      public async Task<T> CreateUserAsync<T>(T createUser) where T : User
       {
          createUser.Id = Guid.NewGuid().ToString();
          _appContext.Users.Add(createUser);
@@ -28,7 +28,7 @@ namespace Singer.Services
          return createUser;
       }
 
-      public async Task<IList<T>> GetAllUsersAsync<T>() where T : CareUser
+      public async Task<IList<T>> GetAllUsersAsync<T>() where T : User
       {
          return await _appContext.Users
             .OfType<T>()
@@ -39,7 +39,7 @@ namespace Singer.Services
          int start = 0,
          int userPerPage = 15,
          StringFilter<T> filter = null,
-         Sorter<T> sorter = null) where T : CareUser
+         Sorter<T> sorter = null) where T : User
       {
          SearchResults<T> result = new SearchResults<T>();
          var users = _appContext.Users
@@ -59,7 +59,7 @@ namespace Singer.Services
          return result;
       }
 
-      public async Task<T> GetUserAsync<T>(Guid id) where T : CareUser
+      public async Task<T> GetUserAsync<T>(Guid id) where T : User
       {
          var user = await _appContext.Users.FindAsync(id.ToString()) as T;
          if (user == null)
@@ -70,7 +70,7 @@ namespace Singer.Services
          return user;
       }
 
-      public async Task<bool> UpdateUserAsync<T>(T user, Guid id) where T : CareUser
+      public async Task<bool> UpdateUserAsync<T>(T user, Guid id) where T : User
       {
          User userToUpdate;
          try

@@ -9,6 +9,8 @@ namespace Singer.Profiles
    {
       public UserProfile()
       {
+         CreateMap<User, CareUserDTO>().ForMember(
+            x => x.Id, opt => opt.MapFrom(src => Guid.Parse(src.Id)));
          CreateMap<CareUser, CareUserDTO>().ForMember(
             x => x.Id, opt => opt.MapFrom(src => Guid.Parse(src.Id))
          );

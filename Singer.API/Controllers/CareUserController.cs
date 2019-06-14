@@ -33,10 +33,10 @@ namespace Singer.Controllers
          [FromQuery]string filter = "",
          [FromQuery]string sortBy = "")
       {
-         Sorter<CareUser> sort = null;
-         if (sortBy.Length > 0)
+         Sorter<User> sort = null;
+         if (!string.IsNullOrEmpty(sortBy))
          {
-            sort = new Sorter<CareUser>();
+            sort = new Sorter<User>();
             var sortColumns = sortBy.Split(",");
             foreach (var column in sortColumns)
             {
@@ -44,12 +44,12 @@ namespace Singer.Controllers
             }
          }
 
-         StringFilter<CareUser> stringFilter = null;
-         if (filter.Length > 0)
+         StringFilter<User> stringFilter = null;
+         if (!string.IsNullOrEmpty(filter))
          {
-            stringFilter = new StringFilter<CareUser> {FilterString = filter};
+            stringFilter = new StringFilter<User> {FilterString = filter};
          }
-         var result = await _userService.GetUsersAsync<CareUser>(pageIndex, pageSize, stringFilter, sort);
+         var result = await _userService.GetUsersAsync<User>(pageIndex, pageSize, stringFilter, sort);
          var requestPath = HttpContext.Request.Path;
          var nextPage = (pageIndex * pageSize) + result.Size >= result.TotalCount
             ? null

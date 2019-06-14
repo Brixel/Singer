@@ -14,7 +14,7 @@ namespace Singer.Services
    {
       #region FIELDS
 
-      private readonly IList<CareUser> _mockData = new List<CareUser>
+      private readonly IList<User> _mockData = new List<User>
       {
          new CareUser
          {
@@ -67,7 +67,7 @@ namespace Singer.Services
 
       #region METHODS
 
-      public async Task<T> CreateUserAsync<T>(T createUser) where T : CareUser
+      public async Task<T> CreateUserAsync<T>(T createUser) where T : User
       {
          // create new return value
          var returnUser = Activator.CreateInstance<T>();
@@ -84,7 +84,7 @@ namespace Singer.Services
          return await Task.FromResult(returnUser);
       }
 
-      public async Task<IList<T>> GetAllUsersAsync<T>() where T : CareUser
+      public async Task<IList<T>> GetAllUsersAsync<T>() where T : User
       {
          // return all the mock data
          return await Task.FromResult(
@@ -99,7 +99,7 @@ namespace Singer.Services
          int start = 0,
          int userPerPage = 15,
          StringFilter<T> filter = null,
-         Sorter<T> sorter = null) where T : CareUser
+         Sorter<T> sorter = null) where T : User
       {
          var usersQueryable = _mockData
             .AsQueryable()
@@ -132,13 +132,13 @@ namespace Singer.Services
 
 
 
-      public async Task<T> GetUserAsync<T>(Guid id) where T : CareUser
+      public async Task<T> GetUserAsync<T>(Guid id) where T : User
       {
          // return the care user with the given id
          return await Task.FromResult((T) _mockData.Single(x => x.GetType() == typeof(T) && x.Id == id.ToString()));
       }
 
-      public async Task<bool> UpdateUserAsync<T>(T user, Guid id) where T : CareUser
+      public async Task<bool> UpdateUserAsync<T>(T user, Guid id) where T : User
       {
          // get the index of the care user with the given id
          var i = _mockData
