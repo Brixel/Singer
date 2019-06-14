@@ -75,7 +75,7 @@ export class CareUserDetailsComponent implements OnInit {
    //#region Error messages for required fields
    getIdFieldErrorMessage() {
       return this.formControlGroup.controls.idFieldControl.hasError('required')
-         ? 'You must enter a value'
+         ? 'Dit veld is verplicht'
          : '';
    }
 
@@ -83,7 +83,7 @@ export class CareUserDetailsComponent implements OnInit {
       return this.formControlGroup.controls.firstNameFieldControl.hasError(
          'required'
       )
-         ? 'You must enter a value'
+         ? 'Dit veld is verplicht'
          : '';
    }
 
@@ -91,7 +91,7 @@ export class CareUserDetailsComponent implements OnInit {
       return this.formControlGroup.controls.lastNameFieldControl.hasError(
          'required'
       )
-         ? 'You must enter a value'
+         ? 'Dit veld is verplicht'
          : '';
    }
 
@@ -99,9 +99,9 @@ export class CareUserDetailsComponent implements OnInit {
       return this.formControlGroup.controls.emailFieldControl.hasError(
          'required'
       )
-         ? 'You must enter a value'
+         ? 'Dit veld is verplicht'
          : this.formControlGroup.controls.emailFieldControl.hasError('email')
-         ? 'Not a valid email'
+         ? 'Dit is geen geldig email adres'
          : '';
    }
 
@@ -109,7 +109,7 @@ export class CareUserDetailsComponent implements OnInit {
       return this.formControlGroup.controls.userNameFieldControl.hasError(
          'required'
       )
-         ? 'You must enter a value'
+         ? 'Dit veld is verplicht'
          : '';
    }
 
@@ -117,7 +117,7 @@ export class CareUserDetailsComponent implements OnInit {
       return this.formControlGroup.controls.birthdayFieldControl.hasError(
          'required'
       )
-         ? 'You must enter a value'
+         ? 'Dit veld is verplicht'
          : '';
    }
 
@@ -125,7 +125,7 @@ export class CareUserDetailsComponent implements OnInit {
       return this.formControlGroup.controls.caseNumberFieldControl.hasError(
          'required'
       )
-         ? 'You must enter a value'
+         ? 'Dit veld is verplicht'
          : '';
    }
 
@@ -133,7 +133,7 @@ export class CareUserDetailsComponent implements OnInit {
       return this.formControlGroup.controls.ageGroupFieldControl.hasError(
          'required'
       )
-         ? 'You must enter a value'
+         ? 'Dit veld is verplicht'
          : '';
    }
 
@@ -141,7 +141,7 @@ export class CareUserDetailsComponent implements OnInit {
       return this.formControlGroup.controls.isExternFieldControl.hasError(
          'required'
       )
-         ? 'You must enter a value'
+         ? 'Dit veld is verplicht'
          : '';
    }
 
@@ -149,7 +149,7 @@ export class CareUserDetailsComponent implements OnInit {
       return this.formControlGroup.controls.hasTrajectoryFieldControl.hasError(
          'required'
       )
-         ? 'You must enter a value'
+         ? 'Dit veld is verplicht'
          : '';
    }
 
@@ -157,7 +157,7 @@ export class CareUserDetailsComponent implements OnInit {
       return this.formControlGroup.controls.hasNormalDayCareFieldControl.hasError(
          'required'
       )
-         ? 'You must enter a value'
+         ? 'Dit veld is verplicht'
          : '';
    }
 
@@ -165,7 +165,7 @@ export class CareUserDetailsComponent implements OnInit {
       return this.formControlGroup.controls.hasVacationDayCareFieldControl.hasError(
          'required'
       )
-         ? 'You must enter a value'
+         ? 'Dit veld is verplicht'
          : '';
    }
 
@@ -173,7 +173,7 @@ export class CareUserDetailsComponent implements OnInit {
       return this.formControlGroup.controls.hasResourcesFieldControl.hasError(
          'required'
       )
-         ? 'You must enter a value'
+         ? 'Dit veld is verplicht'
          : '';
    }
    //#endregion

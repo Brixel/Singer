@@ -20,6 +20,10 @@
                formControlName="lastNameFieldControl"
                (input)="onFormValueChanges()"
             />
+            <mat-error
+            *ngIf="formControlGroup.controls.lastNameFieldControl.invalid"
+            >{{ getLastNameFieldErrorMessage() }}</mat-error
+         >
          </mat-form-field>
 
          <!-- FirstName Field -->
@@ -30,6 +34,10 @@
                formControlName="firstNameFieldControl"
                (input)="onFormValueChanges()"
             />
+            <mat-error
+            *ngIf="formControlGroup.controls.firstNameFieldControl.invalid"
+            >{{ getFirstNameFieldErrorMessage() }}</mat-error
+         >
          </mat-form-field>
       </div>
 
@@ -44,6 +52,10 @@
             formControlName="birthdayFieldControl"
             (input)="onFormValueChanges()"
          />
+         <mat-error
+            *ngIf="formControlGroup.controls.birthdayFieldControl.invalid"
+            >{{ getBirthdayErrorMessage() }}</mat-error
+         >
          <mat-datepicker-toggle
             matSuffix
             [for]="picker"
@@ -83,6 +95,10 @@
             <mat-option value="child">Kinderen</mat-option>
             <mat-option value="youngster">Jongeren</mat-option>
          </mat-select>
+         <mat-error
+            *ngIf="formControlGroup.controls.ageGroupFieldControl.invalid"
+            >{{ getAgeGroupFieldErrorMessage() }}</mat-error
+         >
       </mat-form-field>
 
       <!-- IsExtern Field -->
@@ -96,6 +112,10 @@
             <mat-option value="false">Klas</mat-option>
             <mat-option value="true">Extern</mat-option>
          </mat-select>
+         <mat-error
+            *ngIf="formControlGroup.controls.isExternFieldControl.invalid"
+            >{{ getIsExternFieldErrorMessage() }}</mat-error
+         >
       </mat-form-field>
 
       <!-- End Of Section -->
@@ -115,6 +135,10 @@
             <mat-option value="true">Ja</mat-option>
             <mat-option value="false">Nee</mat-option>
          </mat-select>
+         <mat-error
+            *ngIf="formControlGroup.controls.hasTrajectoryFieldControl.invalid"
+            >{{ getHasTrajectoryFieldErrorMessage() }}</mat-error
+         >
       </mat-form-field>
 
       <!-- HasNormalDayCare Field -->
@@ -128,6 +152,10 @@
             <mat-option value="true">Ja</mat-option>
             <mat-option value="false">Nee</mat-option>
          </mat-select>
+         <mat-error
+            *ngIf="formControlGroup.controls.hasNormalDayCareFieldControl.invalid"
+            >{{ getHasNormalDayCareFieldErrorMessage() }}</mat-error
+         >
       </mat-form-field>
 
       <!-- HasVacationDayCare Field -->
@@ -141,6 +169,10 @@
             <mat-option value="true">Ja</mat-option>
             <mat-option value="false">Nee</mat-option>
          </mat-select>
+         <mat-error
+            *ngIf="formControlGroup.controls.hasVacationDayCareFieldControl.invalid"
+            >{{ getHasVacationDayCareFieldErrorMessage() }}</mat-error
+         >
       </mat-form-field>
 
       <!-- HasResources Field -->
@@ -154,6 +186,10 @@
             <mat-option value="true">Ja</mat-option>
             <mat-option value="false">Nee</mat-option>
          </mat-select>
+         <mat-error
+            *ngIf="formControlGroup.controls.hasResourcesFieldControl.invalid"
+            >{{ getHasResourcesFieldErrorMessage() }}</mat-error
+         >
       </mat-form-field>
 
       <!-- Email Field -->
