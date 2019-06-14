@@ -61,7 +61,7 @@ namespace Singer.Services
 
       public async Task<T> GetUserAsync<T>(Guid id) where T : CareUser
       {
-         var user = await _appContext.Users.FindAsync(id) as T;
+         var user = await _appContext.Users.FindAsync(id.ToString()) as T;
          if (user == null)
          {
             throw new UserNotFoundException();
