@@ -57,7 +57,7 @@ namespace Singer
          // with the connection string defined above.
          services
             .AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString))
-            .AddIdentity<User, IdentityRole>()
+            .AddIdentity<User, IdentityRole<Guid>>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 

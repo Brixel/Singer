@@ -20,15 +20,14 @@ namespace Singer.Services
          _appContext = appContext;
       }
 
-      public async Task<T> CreateUserAsync<T>(T createUser) where T : User
+      public async Task<T> CreateUserAsync<T>(T createUser) where T : CareUser
       {
-         createUser.Id = Guid.NewGuid().ToString();
-         _appContext.Users.Add(createUser);
-         await _appContext.SaveChangesAsync();
-         return createUser;
+         // TODO Use Usermanager
+         return null;
+         
       }
 
-      public async Task<IList<T>> GetAllUsersAsync<T>() where T : User
+      public async Task<IList<T>> GetAllUsersAsync<T>() where T : CareUser
       {
          return await _appContext.Users
             .OfType<T>()
@@ -39,7 +38,7 @@ namespace Singer.Services
          int start = 0,
          int userPerPage = 15,
          StringFilter<T> filter = null,
-         Sorter<T> sorter = null) where T : User
+         Sorter<T> sorter = null) where T : CareUser
       {
          SearchResults<T> result = new SearchResults<T>();
          var users = _appContext.Users
@@ -59,7 +58,7 @@ namespace Singer.Services
          return result;
       }
 
-      public async Task<T> GetUserAsync<T>(Guid id) where T : User
+      public async Task<T> GetUserAsync<T>(Guid id) where T : CareUser
       {
          var user = await _appContext.Users.FindAsync(id.ToString()) as T;
          if (user == null)
@@ -70,13 +69,13 @@ namespace Singer.Services
          return user;
       }
 
-      public async Task<bool> UpdateUserAsync<T>(T user, Guid id) where T : User
+      public async Task<bool> UpdateUserAsync<T>(T user, Guid id) where T : CareUser
       {
          User userToUpdate;
          try
          {
             //Check if id exists
-            userToUpdate = _appContext.Users.Single(u => u.Id == id.ToString());
+            userToUpdate = _appContext.Users.Single(u => u.Id == id);
          }
          catch
          {
@@ -84,14 +83,14 @@ namespace Singer.Services
          }
 
          //Ensure client is not trying to change the ID
-         if (user.Id != id.ToString())
+         if (user.Id != id)
          {
             throw new BadInputException();
          }
 
          //Convert user DTO to view
-         userToUpdate = user;
-         userToUpdate.Id = id.ToString();
+         userToUpdate = user.User;
+         //userToUpdate.Id = id.ToString();
 
          //And finally update database
          _appContext.Users.Update(userToUpdate);
@@ -105,7 +104,7 @@ namespace Singer.Services
          try
          {
             //Check if id exists
-            dbUser = _appContext.Users.Single(u => u.Id == id.ToString());
+            dbUser = _appContext.Users.Single(u => u.Id == id);
          }
          catch
          {

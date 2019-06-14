@@ -14,47 +14,47 @@ namespace Singer.Services
    {
       #region FIELDS
 
-      private readonly IList<User> _mockData = new List<User>
+      private readonly IList<CareUser> _mockData = new List<CareUser>
       {
-         new CareUser
-         {
-            Id = Guid.NewGuid().ToString(),
-            Name = "Joske Vermeulen",
-            BirthDay = DateTime.Parse("06/07/2008", CultureInfo.InvariantCulture),
-            CaseNumber = "0123456789",
-            AgeGroup = Models.AgeGroup.Child,
-            IsExtern = false,
-            HasTrajectory = true,
-            HasNormalDayCare = true,
-            HasVacationDayCare = true,
-            HasResources = true
-         },
-         new CareUser
-         {
-            Id = Guid.NewGuid().ToString(),
-            Name = "Kim Janssens",
-            BirthDay = DateTime.Parse("08/07/2006", CultureInfo.InvariantCulture),
-            CaseNumber = "9876543210",
-            AgeGroup = Models.AgeGroup.Child,
-            IsExtern = true,
-            HasTrajectory = true,
-            HasNormalDayCare = true,
-            HasVacationDayCare = true,
-            HasResources = true
-         },
-         new CareUser
-         {
-            Id = Guid.NewGuid().ToString(),
-            Name = "Benjamin Vermeulen",
-            BirthDay = DateTime.Parse("06/08/2010", CultureInfo.InvariantCulture),
-            CaseNumber = "091837465",
-            AgeGroup = Models.AgeGroup.Youngster,
-            IsExtern = false,
-            HasTrajectory = true,
-            HasNormalDayCare = true,
-            HasVacationDayCare = true,
-            HasResources = false
-         },
+         //new CareUser
+         //{
+         //   Id = Guid.NewGuid().ToString(),
+         //   Name = "Joske Vermeulen",
+         //   BirthDay = DateTime.Parse("06/07/2008", CultureInfo.InvariantCulture),
+         //   CaseNumber = "0123456789",
+         //   AgeGroup = Models.AgeGroup.Child,
+         //   IsExtern = false,
+         //   HasTrajectory = true,
+         //   HasNormalDayCare = true,
+         //   HasVacationDayCare = true,
+         //   HasResources = true
+         //},
+         //new CareUser
+         //{
+         //   Id = Guid.NewGuid().ToString(),
+         //   Name = "Kim Janssens",
+         //   BirthDay = DateTime.Parse("08/07/2006", CultureInfo.InvariantCulture),
+         //   CaseNumber = "9876543210",
+         //   AgeGroup = Models.AgeGroup.Child,
+         //   IsExtern = true,
+         //   HasTrajectory = true,
+         //   HasNormalDayCare = true,
+         //   HasVacationDayCare = true,
+         //   HasResources = true
+         //},
+         //new CareUser
+         //{
+         //   Id = Guid.NewGuid().ToString(),
+         //   Name = "Benjamin Vermeulen",
+         //   BirthDay = DateTime.Parse("06/08/2010", CultureInfo.InvariantCulture),
+         //   CaseNumber = "091837465",
+         //   AgeGroup = Models.AgeGroup.Youngster,
+         //   IsExtern = false,
+         //   HasTrajectory = true,
+         //   HasNormalDayCare = true,
+         //   HasVacationDayCare = true,
+         //   HasResources = false
+         //},
       };
 
       #endregion FIELDS
@@ -67,24 +67,14 @@ namespace Singer.Services
 
       #region METHODS
 
-      public async Task<T> CreateUserAsync<T>(T createUser) where T : User
+      public async Task<T> CreateUserAsync<T>(T createUser) where T : CareUser
       {
+         // TODO User UserManager
          // create new return value
-         var returnUser = Activator.CreateInstance<T>();
-
-         // copy the properties from the given user to the new user
-         foreach (var prop in typeof(T).GetProperties())
-            prop.SetValue(returnUser, prop.GetValue(createUser));
-
-         // generate new id
-         returnUser.Id = Guid.NewGuid().ToString();
-         // add the new care user
-         _mockData.Add(returnUser);
-         // return the new created care user
-         return await Task.FromResult(returnUser);
+         return null;
       }
 
-      public async Task<IList<T>> GetAllUsersAsync<T>() where T : User
+      public async Task<IList<T>> GetAllUsersAsync<T>() where T : CareUser
       {
          // return all the mock data
          return await Task.FromResult(
@@ -99,7 +89,7 @@ namespace Singer.Services
          int start = 0,
          int userPerPage = 15,
          StringFilter<T> filter = null,
-         Sorter<T> sorter = null) where T : User
+         Sorter<T> sorter = null) where T : CareUser
       {
          var usersQueryable = _mockData
             .AsQueryable()
@@ -109,7 +99,7 @@ namespace Singer.Services
             usersQueryable = usersQueryable.Filter(filter);
 
          // Default ordering is by name
-         var orderedQueryable = usersQueryable.OrderBy(x => x.Name);
+         var orderedQueryable = usersQueryable.OrderBy(x => x.User.Name);
          if (sorter != null && sorter.Count >= 1)
          {
             var sortProperties = sorter.ToList();
@@ -132,23 +122,23 @@ namespace Singer.Services
 
 
 
-      public async Task<T> GetUserAsync<T>(Guid id) where T : User
+      public async Task<T> GetUserAsync<T>(Guid id) where T : CareUser
       {
          // return the care user with the given id
-         return await Task.FromResult((T) _mockData.Single(x => x.GetType() == typeof(T) && x.Id == id.ToString()));
+         return await Task.FromResult((T) _mockData.Single(x => x.GetType() == typeof(T) && x.Id == id));
       }
 
-      public async Task<bool> UpdateUserAsync<T>(T user, Guid id) where T : User
+      public async Task<bool> UpdateUserAsync<T>(T user, Guid id) where T : CareUser
       {
          // get the index of the care user with the given id
          var i = _mockData
             .Where(x => x.GetType() == typeof(T))
             .Select((u, index) => new {User = u, Index = index})
-            .Single(x => x.User.Id == id.ToString())
+            .Single(x => x.User.Id == id)
             .Index;
 
          // set the care user's id to the given id
-         user.Id = id.ToString(); // update the complete care user
+         //user.Id = id.ToString(); // update the complete care user
          _mockData[i] = user;
          // return the updated care user
          return await Task.FromResult(true);
@@ -159,7 +149,7 @@ namespace Singer.Services
          // get the index of the care user with the given id
          var i = _mockData
             .Select((user, index) => new {User = user, Index = index})
-            .Single(x => x.User.Id == id.ToString())
+            .Single(x => x.User.Id == id)
             .Index;
 
          // remove the care user from the mock list
