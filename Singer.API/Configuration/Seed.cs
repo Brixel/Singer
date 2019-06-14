@@ -26,6 +26,10 @@ namespace Singer.Configuration
       private const string ROLE_SOCIALSERVICES = "SocialServices";
       private const string ROLE_CARETAKER = "Caretaker";
       private const string ROLE_CAREUSER = "CareUser";
+
+      private static List<string> _careUsers = new List<string>() {"user1", "user2", "user3"};
+
+
       private static List<string> ROLES = new List<string>()
       {
          ROLE_ADMINISTRATOR,
@@ -36,7 +40,7 @@ namespace Singer.Configuration
       public static void SeedUsers(IServiceScope serviceScope, ApplicationDbContext applicationDbContext, string initialAdminPassword)
       {
          var userMgr = serviceScope.ServiceProvider.GetRequiredService<UserManager<User>>();
-         var roleMgr = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+         var roleMgr = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
          var admin = userMgr.FindByNameAsync("admin").Result;
          var usersInDatabase = applicationDbContext.Users.Any();
          if (admin == null && !usersInDatabase)
@@ -71,6 +75,44 @@ namespace Singer.Configuration
             Console.WriteLine("admin already exists");
          }
          var _ = userMgr.AddToRoleAsync(admin, ROLE_ADMINISTRATOR).Result;
+
+         foreach (var careUser in _careUsers)
+         {
+            var user = userMgr.FindByNameAsync(careUser).Result;
+            if (user == null)
+            {
+               user = new User()
+               {
+                  UserName = careUser,
+                  Name = careUser
+               };
+
+               var __ = userMgr.CreateAsync(user).Result;
+               if (!__.Succeeded)
+               {
+                  throw new Exception(__.Errors.First().Description);
+
+               }
+               var roleTask = userMgr.AddToRoleAsync(user, ROLE_CAREUSER);
+               var careuser = new CareUser()
+               {
+                  User = user,
+                  AgeGroup = AgeGroup.Child,
+                  CaseNumber = new Random().Next(1000, 5000).ToString(),
+                  BirthDay = DateTime.UtcNow.AddYears(new Random().Next(-14, -5)),
+                  HasNormalDayCare = false,
+                  HasResources = false,
+                  HasTrajectory = false,
+                  HasVacationDayCare = false,
+                  IsExtern = false,
+                  UserId = user.Id
+               };
+               
+               applicationDbContext.CareUsers.Add(careuser);
+            }
+         }
+
+         //applicationDbContext.SaveChanges();
       }
 
       public static void SeedRoles(IServiceScope serviceScope, ApplicationDbContext applicationDbContext)
@@ -78,11 +120,11 @@ namespace Singer.Configuration
          foreach (var role in ROLES)
          {
 
-            var roleMgr = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var roleMgr = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
             var roleExists = roleMgr.RoleExistsAsync(role).Result;
             if (!roleExists)
             {
-               var _ = roleMgr.CreateAsync(new IdentityRole(role)).Result;
+               var _ = roleMgr.CreateAsync(new IdentityRole<Guid>(role)).Result;
                if (_.Succeeded)
                {
                   Console.WriteLine($"Added role {role}");
@@ -181,8 +223,6 @@ namespace Singer.Configuration
             singerApiClient = Config.GetClient().ToEntity();
             configrationDbContext.Clients.Add(singerApiClient);
          }
-
-         configrationDbContext.SaveChanges();
       }
    }
 }

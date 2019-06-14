@@ -219,6 +219,8 @@ namespace Singer
             Seed.SeedUsers(serviceScope, applicationDbContext, initialAdminPassword);
             Seed.CreateAPIAndClient(configrationDbContext);
             Seed.SeedIdentityResources(configrationDbContext);
+            configrationDbContext.SaveChanges();
+            applicationDbContext.SaveChanges();
          }
       }
    }

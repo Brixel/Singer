@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Singer.DTOs;
 using Singer.Helpers.Extensions;
 using Singer.Models;
 using Singer.Services.Interfaces;
@@ -85,7 +86,7 @@ namespace Singer.Services
          );
       }
 
-      public async Task<SearchResults<T>> GetUsersAsync<T>(
+      public async Task<SearchResults<CareUserDTO>> GetUsersAsync<T>(
          int start = 0,
          int userPerPage = 15,
          StringFilter<T> filter = null,
@@ -110,9 +111,9 @@ namespace Singer.Services
                orderedQueryable = orderedQueryable.ThenBy(sortProperties[i]);
          }
 
-         var users = await orderedQueryable.TakePage(start, userPerPage).ToListAsync();
+         var users = await orderedQueryable.TakePage(start, userPerPage).Select(x => new CareUserDTO()).ToListAsync();
 
-         SearchResults<T> result = new SearchResults<T>
+         SearchResults<CareUserDTO> result = new SearchResults<CareUserDTO>
          {
             Items = users, Start = start, Size = userPerPage, TotalCount = usersQueryable.Count()
          };

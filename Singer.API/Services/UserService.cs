@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Singer.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Singer.Data;
+using Singer.DTOs;
 using Singer.Models;
 using Singer.Helpers.Exceptions;
 using Singer.Helpers.Extensions;
@@ -34,22 +35,36 @@ namespace Singer.Services
             .ToListAsync();
       }
 
-      public async Task<SearchResults<T>> GetUsersAsync<T>(
+      public async Task<SearchResults<CareUserDTO>> GetUsersAsync<T>(
          int start = 0,
          int userPerPage = 15,
          StringFilter<T> filter = null,
          Sorter<T> sorter = null) where T : CareUser
       {
-         SearchResults<T> result = new SearchResults<T>();
-         var users = _appContext.Users
-            .OfType<T>()
-            .Filter(filter);
+         SearchResults<CareUserDTO> result = new SearchResults<CareUserDTO>();
+         var users = _appContext.CareUsers.AsQueryable();
 
          result.TotalCount = users.Count();
                           
-         result.Items = await users
+         result.Items = await users.OfType<T>()
             .Skip(start)
-            .Take(userPerPage)
+            .Take(userPerPage).Select(x => new CareUserDTO()
+            {
+               Id = x.Id,
+               UserId = x.UserId,
+               Name = x.User.Name,
+               AgeGroup = x.AgeGroup,
+               UserName = x.User.UserName,
+               HasTrajectory = x.HasTrajectory,
+               HasVacationDayCare = x.HasVacationDayCare,
+               BirthDay = x.BirthDay,
+               HasNormalDayCare = x.HasNormalDayCare,
+               HasResources = x.HasResources,
+               CaseNumber = x.CaseNumber,
+               IsExtern = x.IsExtern,
+               Email = x.User.Email
+
+            })
             .ToListAsync();
 
          result.Start = start;

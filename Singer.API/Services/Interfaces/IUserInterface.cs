@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Singer.DTOs;
 using Singer.Models;
 namespace Singer.Services.Interfaces
 {
@@ -10,7 +11,7 @@ namespace Singer.Services.Interfaces
 
       Task<IList<T>> GetAllUsersAsync<T>() where T : CareUser;
 
-      Task<SearchResults<T>> GetUsersAsync<T>(
+      Task<SearchResults<CareUserDTO>> GetUsersAsync<T>(
          int page = 0,
          int userPerPage = 15,
          StringFilter<T> filter = null,

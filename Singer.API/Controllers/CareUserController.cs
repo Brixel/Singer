@@ -34,21 +34,21 @@ namespace Singer.Controllers
          [FromQuery]string sortBy = "")
       {
          Sorter<CareUser> sort = null;
-         if (!string.IsNullOrEmpty(sortBy))
-         {
-            sort = new Sorter<CareUser>();
-            var sortColumns = sortBy.Split(",");
-            foreach (var column in sortColumns)
-            {
-               sort.Add(column);
-            }
-         }
+         //if (!string.IsNullOrEmpty(sortBy))
+         //{
+         //   sort = new Sorter<CareUser>();
+         //   var sortColumns = sortBy.Split(",");
+         //   foreach (var column in sortColumns)
+         //   {
+         //      sort.Add(column);
+         //   }
+         //}
 
          StringFilter<CareUser> stringFilter = null;
-         if (!string.IsNullOrEmpty(filter))
-         {
-            stringFilter = new StringFilter<CareUser> {FilterString = filter};
-         }
+         //if (!string.IsNullOrEmpty(filter))
+         //{
+         //   stringFilter = new StringFilter<CareUser> {FilterString = filter};
+         //}
          var result = await _userService.GetUsersAsync<CareUser>(pageIndex, pageSize, stringFilter, sort);
          var requestPath = HttpContext.Request.Path;
          var nextPage = (pageIndex * pageSize) + result.Size >= result.TotalCount
@@ -56,8 +56,7 @@ namespace Singer.Controllers
             : $"{requestPath}?PageIndex={pageIndex + pageSize}&Size={pageSize}";
 
          var careUserDTOs = result.Items
-            .AsQueryable()
-            .ProjectTo<CareUserDTO>(_mapper.ConfigurationProvider)
+            
             .ToList();
 
          var page = new PaginationDTO<CareUserDTO>
@@ -105,7 +104,8 @@ namespace Singer.Controllers
       {
          try
          {
-            var model = _mapper.Map<CareUser>(user);
+            var
+               model = _mapper.Map<CareUser>(user);
             var result = await _userService.UpdateUserAsync<CareUser>(model, Guid.Parse(id));
             if (result)
             {

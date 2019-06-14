@@ -7,5 +7,8 @@ namespace Singer.DTOs
    {
       [DisplayName("Id")]
       public Guid Id { get; set; }
+
+      [DisplayName("UserId")]
+      public Guid UserId { get; set; }
    }
 }
