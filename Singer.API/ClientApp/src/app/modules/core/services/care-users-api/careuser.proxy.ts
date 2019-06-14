@@ -11,12 +11,13 @@ import { PaginationDTO } from '../../models/careuser.model';
 export class CareUserProxy{
    constructor(private apiService: ApiService){}
 
-   getCareUsers(sortDirection?:string, sortColumn?:string, pageIndex?:number, pageSize?:number):Observable<PaginationDTO>{
+   getCareUsers(sortDirection?:string, sortColumn?:string, pageIndex?:number, pageSize?:number, filter?:string):Observable<PaginationDTO>{
       const searchParams = new HttpParams()
       .set('sortDirection', sortDirection)
-      .set('sortColumn', sortColumn)
+      .set('sortBy', sortColumn)
       .set('pageIndex', pageIndex.toString())
-      .set('pageSize', pageSize.toString());
+      .set('pageSize', pageSize.toString())
+      .set('filter', filter);
       return this.apiService.get('api/careuser', searchParams).pipe(map((res) => res));
    }
 

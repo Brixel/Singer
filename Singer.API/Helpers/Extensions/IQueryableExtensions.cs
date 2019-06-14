@@ -9,12 +9,17 @@ namespace Singer.Helpers.Extensions
    public static class IQueryableExtensions
    {
       public static IQueryable<T> Filter<T>(this IQueryable<T> source, StringFilter<T> filter)
-         => source.Where(filter.GetFilterExpression());
+      {
+         return filter == null || filter.PropertyList.Count == 0
+            ? source
+            : source.Where(filter.GetFilterExpression());
+      }
 
       public static IOrderedQueryable<T> OrderBy<T>(this IQueryable<T> source, string propertyName)
       {
          return source.OrderBy(ToLambda<T>(propertyName));
       }
+
       public static IOrderedQueryable<T> ThenBy<T>(this IOrderedQueryable<T> source, string propertyName)
       {
          return source.ThenBy(ToLambda<T>(propertyName));

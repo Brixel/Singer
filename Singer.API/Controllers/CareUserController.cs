@@ -1,14 +1,15 @@
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Singer.Data;
 using Singer.DTOs;
-using Singer.Services;
 using Singer.Services.Interfaces;
-using AutoMapper.QueryableExtensions;
+using Singer.Models;
+using Singer.Services;
 
 namespace Singer.Controllers
 {
@@ -16,30 +17,52 @@ namespace Singer.Controllers
    public class CareUserController : Controller
    {
       private IUserService _userService;
-      private ApplicationDbContext _appContext;
+      private readonly IMapper _mapper;
+
       public CareUserController(IUserService service, ApplicationDbContext appContext, IMapper mapper)
       {
          _userService = service;
-         _appContext = appContext;
+         _mapper = mapper;
       }
 
       [HttpGet]
       [ProducesResponseType(StatusCodes.Status200OK)]
       public async Task<ActionResult<PaginationDTO<CareUserDTO>>> GetUsers(
-         string sortDirection = "asc",
-         string sortColumn = "name",
-         int pageIndex = 0,
-         int pageSize = 15)
+         [FromQuery]int pageIndex = 0,
+         [FromQuery]int pageSize = 15,
+         [FromQuery]string filter = "",
+         [FromQuery]string sortBy = "")
       {
-         var sorter = new Sorter<CareUserDTO>(){sortColumn};
-         var result = await _userService.GetUsersAsync<CareUserDTO>(pageIndex, pageSize, null, sorter);
+         Sorter<CareUser> sort = null;
+         if (sortBy.Length > 0)
+         {
+            sort = new Sorter<CareUser>();
+            var sortColumns = sortBy.Split(",");
+            foreach (var column in sortColumns)
+            {
+               sort.Add(column);
+            }
+         }
+
+         StringFilter<CareUser> stringFilter = null;
+         if (filter.Length > 0)
+         {
+            stringFilter = new StringFilter<CareUser> {FilterString = filter};
+         }
+         var result = await _userService.GetUsersAsync<CareUser>(pageIndex, pageSize, stringFilter, sort);
          var requestPath = HttpContext.Request.Path;
          var nextPage = (pageIndex * pageSize) + result.Size >= result.TotalCount
             ? null
             : $"{requestPath}?PageIndex={pageIndex + pageSize}&Size={pageSize}";
+
+         var careUserDTOs = result.Items
+            .AsQueryable()
+            .ProjectTo<CareUserDTO>(_mapper.ConfigurationProvider)
+            .ToList();
+
          var page = new PaginationDTO<CareUserDTO>
          {
-            Items = result.Items,
+            Items = careUserDTOs,
             Size = result.Items.Count,
             PageIndex = pageIndex,
             CurrentPageUrl = $"{requestPath}?{HttpContext.Request.QueryString.ToString()}",
@@ -57,7 +80,7 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status200OK)]
       public async Task<ActionResult<CareUserDTO>> GetUser(Guid id)
       {
-         var user = await _userService.GetUserAsync<CareUserDTO>(id);
+         var user = await _userService.GetUserAsync<CareUser>(id);
          if (user == null)
          {
             return NotFound();
@@ -70,7 +93,8 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status400BadRequest)]
       public async Task<ActionResult<CareUserDTO>> CreateUser(CreateCareUserDTO user)
       {
-         var returnUser = await _userService.CreateUserAsync<CreateCareUserDTO, CareUserDTO>(user);
+         var model = _mapper.Map<CareUser>(user);
+         var returnUser = await _userService.CreateUserAsync(model);
          return Created(nameof(GetUser), returnUser);
       }
 
@@ -81,7 +105,8 @@ namespace Singer.Controllers
       {
          try
          {
-            var result = await _userService.UpdateUserAsync<CareUserDTO>(user, Guid.Parse(id));
+            var model = _mapper.Map<CareUser>(user);
+            var result = await _userService.UpdateUserAsync<CareUser>(model, Guid.Parse(id));
             if (result)
             {
                return NoContent();
