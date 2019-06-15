@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Singer.Data;
 using Singer.DTOs;
+using Singer.Helpers;
 using Singer.Helpers.Exceptions;
 using Singer.Helpers.Extensions;
 using Singer.Models;
@@ -36,7 +37,7 @@ namespace Singer.Services
             .ToListAsync();
       }
 
-      public async Task<SearchResults<CareUserDTO>> GetUsersAsync<T>(Expression<Func<CareUserDTO, object>> orderByExpression,
+      public async Task<SearchResults<CareUserDTO>> GetUsersAsync<T>(string sortColumn,
          string sortDirection,
          string filter,
          int page = 0,
@@ -44,8 +45,10 @@ namespace Singer.Services
       {
          var users = _appContext.CareUsers.AsQueryable();
 
+         var orderByLambda = PropertyHelpers.GetPropertySelector<CareUserDTO>(sortColumn);
+
          var result = users.ToPagedList(Filter(filter), ProjectToCareUserDTO(),
-            orderByExpression, sortDirection, page,
+            orderByLambda, sortDirection, page,
             userPerPage);
          return result;
       }
@@ -134,7 +137,10 @@ namespace Singer.Services
          {
             return o => true;
          }
-         Expression<Func<CareUser, bool>> filterExpression = f => f.User.Name.Contains(filter);
+         Expression<Func<CareUser, bool>> filterExpression =
+            f =>
+               f.User.Name.Contains(filter) ||
+               f.CaseNumber.Contains(filter);
          return filterExpression;
       }
    }

@@ -30,9 +30,8 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status200OK)]
       public async Task<ActionResult<PaginationDTO<CareUserDTO>>> GetUsers(string sortDirection, string sortColumn, int pageIndex, int pageSize, string filter)
       {
-         var orderByLambda = PropertyHelpers.GetPropertySelector<CareUserDTO>(sortColumn);
          pageIndex++;
-         var result = await _userService.GetUsersAsync<CareUser>(orderByLambda, sortDirection, filter, pageIndex, pageSize);
+         var result = await _userService.GetUsersAsync<CareUser>(sortColumn, sortDirection, filter, pageIndex, pageSize);
          var requestPath = HttpContext.Request.Path;
          var nextPage = (pageIndex * pageSize) + result.Size >= result.TotalCount
             ? null

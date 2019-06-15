@@ -14,7 +14,7 @@ namespace Singer.Services.Interfaces
 
       Task<IList<T>> GetAllUsersAsync<T>() where T : CareUser;
 
-      Task<SearchResults<CareUserDTO>> GetUsersAsync<T>(Expression<Func<CareUserDTO, object>> orderByExpression,
+      Task<SearchResults<CareUserDTO>> GetUsersAsync<T>(string sortColumn,
          string sortDirection,
          string filter,
          int page = 0,

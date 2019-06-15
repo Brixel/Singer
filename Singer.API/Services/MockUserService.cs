@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Singer.DTOs;
+using Singer.Helpers;
 using Singer.Helpers.Extensions;
 using Singer.Models;
 using Singer.Services.Interfaces;
@@ -88,13 +89,7 @@ namespace Singer.Services
          );
       }
 
-      public Task<SearchResults<CareUserDTO>> GetUsersAsync<T>(Expression<Func<CareUser, object>> orderByExpression, ListSortDirection sortDirection, int page = 0,
-         int userPerPage = 15) where T : CareUser
-      {
-         throw new NotImplementedException();
-      }
-
-      public async Task<SearchResults<CareUserDTO>> GetUsersAsync<T>(Expression<Func<CareUserDTO, object>> orderByExpression,
+      public async Task<SearchResults<CareUserDTO>> GetUsersAsync<T>(string sortColumn,
          string sortDirection,
          string filter,
          int page = 0,
@@ -103,9 +98,10 @@ namespace Singer.Services
          var usersQueryable = _mockData
             .AsQueryable()
             .OfType<T>();
-         
+
+         var orderByLambda = PropertyHelpers.GetPropertySelector<CareUserDTO>(sortColumn);
          var result = usersQueryable.ToPagedList(Filter(filter), ProjectToCareUserDTO(),
-            orderByExpression, sortDirection, page,
+            orderByLambda, sortDirection, page,
             userPerPage);
 
          return result;
