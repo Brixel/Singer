@@ -14,10 +14,13 @@ import {
 import { CareUserProxy } from '../core/services/care-users-api/careuser.proxy';
 import { CareUsersService as CareUsersService } from '../core/services/care-users-api/care-users-api.service';
 import { ApiService } from '../core/services/api.service';
+import { AgegroupPipe } from '../core/services/agegroup.pipe';
+import { CoreModule } from '../core/core.module';
 
 @NgModule({
    declarations: [OverviewComponent],
    imports: [
+      CoreModule,
       CommonModule,
       CareUsersRoutingModule,
       MatTableModule,
@@ -28,6 +31,6 @@ import { ApiService } from '../core/services/api.service';
       MatCardModule,
       MatProgressSpinnerModule,
    ],
-   providers:[CareUserProxy, CareUsersService, ApiService]
+   providers:[CareUserProxy, CareUsersService, ApiService, AgegroupPipe]
 })
 export class CareUsersModule {}

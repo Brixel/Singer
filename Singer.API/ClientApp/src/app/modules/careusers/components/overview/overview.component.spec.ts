@@ -4,29 +4,58 @@ import {
    MatPaginatorModule,
    MatSortModule,
    MatTableModule,
+   MatFormFieldModule,
+   MatSpinner,
+   MatInputModule,
+   MatCardModule,
+   MatProgressSpinnerModule,
 } from '@angular/material';
 
 import { OverviewComponent } from './overview.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { AgegroupPipe } from 'src/app/modules/core/services/agegroup.pipe';
+import { CoreModule } from 'src/app/modules/core/core.module';
+import { CommonModule } from '@angular/common';
+import { CareUsersRoutingModule } from '../../careusers-routing.module';
+import { CareUserProxy } from 'src/app/modules/core/services/care-users-api/careuser.proxy';
+import { CareUsersService } from 'src/app/modules/core/services/care-users-api/care-users-api.service';
+import { ApiService } from 'src/app/modules/core/services/api.service';
+import { HttpClient } from '@angular/common/http';
+import { MockHttpClient } from 'testing/mock-http-client.helper';
+import { apiServiceMock } from 'testing/api.service.mock';
+import { of } from 'rxjs';
 
 describe('OverviewComponent', () => {
    let component: OverviewComponent;
    let fixture: ComponentFixture<OverviewComponent>;
-
+   let careUserService: CareUsersService;
    beforeEach(async(() => {
       TestBed.configureTestingModule({
          declarations: [OverviewComponent],
          imports: [
             NoopAnimationsModule,
+            CoreModule,
+            CommonModule,
+            CareUsersRoutingModule,
+            MatTableModule,
             MatPaginatorModule,
             MatSortModule,
-            MatTableModule,
+            MatFormFieldModule,
+            MatInputModule,
+            MatCardModule,
+            MatProgressSpinnerModule
+
          ],
+         providers:[AgegroupPipe, { provide: ApiService, useValue: apiServiceMock }, {provide: HttpClient, useValue: MockHttpClient}, {provide: 'BASE_URL', useValue: 'http://'}, CareUserProxy, CareUsersService]
       }).compileComponents();
    }));
 
    beforeEach(() => {
       fixture = TestBed.createComponent(OverviewComponent);
       component = fixture.componentInstance;
+      careUserService = TestBed.get(CareUsersService);
+
+      spyOn(careUserService, 'fetchCareUsersData').and.returnValue(of({}))
       fixture.detectChanges();
    });
 
