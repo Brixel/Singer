@@ -31,10 +31,10 @@ export class OverviewDataSource extends DataSource<CareUser> {
       sortDirection?: string,
       sortColumn?: string,
       pageIndex?:number,
-      pageSize?: number){
+      pageSize?: number, filter?: string){
 
       this.loadingSubject$.next(true);
-         this.careUserService.fetchCareUsersData(sortDirection, sortColumn, pageIndex, pageSize, '').subscribe((res) => {
+         this.careUserService.fetchCareUsersData(sortDirection, sortColumn, pageIndex, pageSize, filter).subscribe((res) => {
             this.careUsersSubject$.next(res.items as CareUser[]);
             this.totalSizeSubject$.next(res.totalSize);
             this.queryCountSubject$.next(res.size);

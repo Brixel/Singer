@@ -2,12 +2,12 @@
 
 <!-- Mat Form Field Filter -->
 <mat-form-field>
-   <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+   <input matInput #filterInput placeholder="Filter">
 </mat-form-field>
 
 <!-- Mat Table -->
 <div class="mat-elevation-z8 overview-table">
-   <table mat-table [dataSource]="dataSource" matSort aria-label="Elements">
+   <table mat-table [dataSource]="dataSource" matSort aria-label="Elements" >
 
       <!-- FirstName Column -->
       <ng-container matColumnDef="name">
