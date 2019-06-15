@@ -1,14 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Singer.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Singer.Data;
 using Singer.DTOs;
-using Singer.Models;
 using Singer.Helpers.Exceptions;
 using Singer.Helpers.Extensions;
+using Singer.Models;
+using Singer.Services.Interfaces;
 
 namespace Singer.Services
 {
@@ -35,42 +36,39 @@ namespace Singer.Services
             .ToListAsync();
       }
 
-      public async Task<SearchResults<CareUserDTO>> GetUsersAsync<T>(
-         int start = 0,
-         int userPerPage = 15,
-         StringFilter<T> filter = null,
-         Sorter<T> sorter = null) where T : CareUser
+      public async Task<SearchResults<CareUserDTO>> GetUsersAsync<T>(Expression<Func<CareUserDTO, object>> orderByExpression,
+         string sortDirection,
+         string filter,
+         int page = 0,
+         int userPerPage = 15) where T : CareUser
       {
-         SearchResults<CareUserDTO> result = new SearchResults<CareUserDTO>();
          var users = _appContext.CareUsers.AsQueryable();
 
-         result.TotalCount = users.Count();
-                          
-         result.Items = await users.OfType<T>()
-            .Skip(start)
-            .Take(userPerPage).Select(x => new CareUserDTO()
-            {
-               Id = x.Id,
-               UserId = x.UserId,
-               Name = x.User.Name,
-               AgeGroup = x.AgeGroup,
-               UserName = x.User.UserName,
-               HasTrajectory = x.HasTrajectory,
-               HasVacationDayCare = x.HasVacationDayCare,
-               BirthDay = x.BirthDay,
-               HasNormalDayCare = x.HasNormalDayCare,
-               HasResources = x.HasResources,
-               CaseNumber = x.CaseNumber,
-               IsExtern = x.IsExtern,
-               Email = x.User.Email
-
-            })
-            .ToListAsync();
-
-         result.Start = start;
-         result.Size = userPerPage;
-
+         var result = users.ToPagedList(Filter(filter), ProjectToCareUserDTO(),
+            orderByExpression, sortDirection, page,
+            userPerPage);
          return result;
+      }
+
+      private static Expression<Func<CareUser, CareUserDTO>> ProjectToCareUserDTO()
+      {
+         return x => new CareUserDTO
+         {
+            Id = x.Id,
+            UserId = x.UserId,
+            Name = x.User.Name,
+            AgeGroup = x.AgeGroup,
+            UserName = x.User.UserName,
+            HasTrajectory = x.HasTrajectory,
+            HasVacationDayCare = x.HasVacationDayCare,
+            BirthDay = x.BirthDay,
+            HasNormalDayCare = x.HasNormalDayCare,
+            HasResources = x.HasResources,
+            CaseNumber = x.CaseNumber,
+            IsExtern = x.IsExtern,
+            Email = x.User.Email
+
+         };
       }
 
       public async Task<T> GetUserAsync<T>(Guid id) where T : CareUser
@@ -128,6 +126,16 @@ namespace Singer.Services
 
          _appContext.Users.Remove(dbUser);
          await _appContext.SaveChangesAsync();
+      }
+
+      private static Expression<Func<CareUser, bool>> Filter(string filter)
+      {
+         if (string.IsNullOrWhiteSpace(filter))
+         {
+            return o => true;
+         }
+         Expression<Func<CareUser, bool>> filterExpression = f => f.User.Name.Contains(filter);
+         return filterExpression;
       }
    }
 }

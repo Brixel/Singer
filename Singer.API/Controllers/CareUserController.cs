@@ -1,12 +1,13 @@
 using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Singer.Data;
 using Singer.DTOs;
+using Singer.Helpers;
 using Singer.Services.Interfaces;
 using Singer.Models;
 using Singer.Services;
@@ -16,10 +17,10 @@ namespace Singer.Controllers
    [Route("api/[controller]")]
    public class CareUserController : Controller
    {
-      private IUserService _userService;
+      private readonly IUserService _userService;
       private readonly IMapper _mapper;
 
-      public CareUserController(IUserService service, ApplicationDbContext appContext, IMapper mapper)
+      public CareUserController(IUserService service, IMapper mapper)
       {
          _userService = service;
          _mapper = mapper;
@@ -27,41 +28,20 @@ namespace Singer.Controllers
 
       [HttpGet]
       [ProducesResponseType(StatusCodes.Status200OK)]
-      public async Task<ActionResult<PaginationDTO<CareUserDTO>>> GetUsers(
-         [FromQuery]int pageIndex = 0,
-         [FromQuery]int pageSize = 15,
-         [FromQuery]string filter = "",
-         [FromQuery]string sortBy = "")
+      public async Task<ActionResult<PaginationDTO<CareUserDTO>>> GetUsers(string sortDirection, string sortColumn, int pageIndex, int pageSize, string filter)
       {
-         Sorter<CareUser> sort = null;
-         //if (!string.IsNullOrEmpty(sortBy))
-         //{
-         //   sort = new Sorter<CareUser>();
-         //   var sortColumns = sortBy.Split(",");
-         //   foreach (var column in sortColumns)
-         //   {
-         //      sort.Add(column);
-         //   }
-         //}
-
-         StringFilter<CareUser> stringFilter = null;
-         //if (!string.IsNullOrEmpty(filter))
-         //{
-         //   stringFilter = new StringFilter<CareUser> {FilterString = filter};
-         //}
-         var result = await _userService.GetUsersAsync<CareUser>(pageIndex, pageSize, stringFilter, sort);
+         var orderByLambda = PropertyHelpers.GetPropertySelector<CareUserDTO>(sortColumn);
+         pageIndex++;
+         var result = await _userService.GetUsersAsync<CareUser>(orderByLambda, sortDirection, filter, pageIndex, pageSize);
          var requestPath = HttpContext.Request.Path;
          var nextPage = (pageIndex * pageSize) + result.Size >= result.TotalCount
             ? null
             : $"{requestPath}?PageIndex={pageIndex + pageSize}&Size={pageSize}";
 
-         var careUserDTOs = result.Items
-            
-            .ToList();
 
          var page = new PaginationDTO<CareUserDTO>
          {
-            Items = careUserDTOs,
+            Items = result.Items,
             Size = result.Items.Count,
             PageIndex = pageIndex,
             CurrentPageUrl = $"{requestPath}?{HttpContext.Request.QueryString.ToString()}",

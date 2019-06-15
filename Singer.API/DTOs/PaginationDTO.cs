@@ -42,6 +42,6 @@ namespace Singer.DTOs
       /// <summary>
       /// The returned items.
       /// </summary>
-      public IList<T> Items { get; set; }
+      public IReadOnlyList<T> Items { get; set; }
    }
 }

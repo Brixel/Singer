@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Singer.DTOs;
 using Singer.Models;
+
 namespace Singer.Services.Interfaces
 {
    public interface IUserService
@@ -11,11 +14,11 @@ namespace Singer.Services.Interfaces
 
       Task<IList<T>> GetAllUsersAsync<T>() where T : CareUser;
 
-      Task<SearchResults<CareUserDTO>> GetUsersAsync<T>(
+      Task<SearchResults<CareUserDTO>> GetUsersAsync<T>(Expression<Func<CareUserDTO, object>> orderByExpression,
+         string sortDirection,
+         string filter,
          int page = 0,
-         int userPerPage = 15,
-         StringFilter<T> filter = null,
-         Sorter<T> sorter = null)
+         int userPerPage = 15)
          where T : CareUser;
 
       Task<T> GetUserAsync<T>(Guid id) where T : CareUser;

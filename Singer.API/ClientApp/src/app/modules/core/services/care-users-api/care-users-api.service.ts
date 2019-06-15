@@ -10,7 +10,12 @@ import { PaginationDTO } from '../../models/careuser.model';
 export class CareUsersService {
    constructor(private careuserProxy: CareUserProxy) {}
 
-   fetchCareUsersData(sortDirection? :string, sortColumn?: string, pageIndex?:number, pageSize?:number, filter?:string):Observable<PaginationDTO> {
+   fetchCareUsersData(
+      sortDirection? :string,
+      sortColumn?: string,
+      pageIndex?:number,
+      pageSize?:number,
+      filter?:string):Observable<PaginationDTO> {
       return this.careuserProxy.getCareUsers(sortDirection, sortColumn, pageIndex, pageSize, filter).pipe(map((res) => res));
    }
 }

@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Singer.DTOs;
@@ -86,41 +88,54 @@ namespace Singer.Services
          );
       }
 
-      public async Task<SearchResults<CareUserDTO>> GetUsersAsync<T>(
-         int start = 0,
-         int userPerPage = 15,
-         StringFilter<T> filter = null,
-         Sorter<T> sorter = null) where T : CareUser
+      public Task<SearchResults<CareUserDTO>> GetUsersAsync<T>(Expression<Func<CareUser, object>> orderByExpression, ListSortDirection sortDirection, int page = 0,
+         int userPerPage = 15) where T : CareUser
+      {
+         throw new NotImplementedException();
+      }
+
+      public async Task<SearchResults<CareUserDTO>> GetUsersAsync<T>(Expression<Func<CareUserDTO, object>> orderByExpression,
+         string sortDirection,
+         string filter,
+         int page = 0,
+         int userPerPage = 15) where T : CareUser
       {
          var usersQueryable = _mockData
             .AsQueryable()
             .OfType<T>();
-
-         if (filter != null)
-            usersQueryable = usersQueryable.Filter(filter);
-
-         // Default ordering is by name
-         var orderedQueryable = usersQueryable.OrderBy(x => x.User.Name);
-         if (sorter != null && sorter.Count >= 1)
-         {
-            var sortProperties = sorter.ToList();
-            var prop = sortProperties.First();
-            orderedQueryable = usersQueryable.OrderBy(prop);
-
-            for (var i = 1; i < sorter.Count; i++)
-               orderedQueryable = orderedQueryable.ThenBy(sortProperties[i]);
-         }
-
-         var users = await orderedQueryable.TakePage(start, userPerPage).Select(x => new CareUserDTO()).ToListAsync();
-
-         SearchResults<CareUserDTO> result = new SearchResults<CareUserDTO>
-         {
-            Items = users, Start = start, Size = userPerPage, TotalCount = usersQueryable.Count()
-         };
+         
+         var result = usersQueryable.ToPagedList(Filter(filter), ProjectToCareUserDTO(),
+            orderByExpression, sortDirection, page,
+            userPerPage);
 
          return result;
       }
+      private static Expression<Func<CareUser, bool>> Filter(string filter)
+      {
+         Expression<Func<CareUser, bool>> filterExpression = f => f.User.Name.Contains(filter);
+         return filterExpression;
+      }
 
+      private static Expression<Func<CareUser, CareUserDTO>> ProjectToCareUserDTO()
+      {
+         return x => new CareUserDTO
+         {
+            Id = x.Id,
+            UserId = x.UserId,
+            Name = x.User.Name,
+            AgeGroup = x.AgeGroup,
+            UserName = x.User.UserName,
+            HasTrajectory = x.HasTrajectory,
+            HasVacationDayCare = x.HasVacationDayCare,
+            BirthDay = x.BirthDay,
+            HasNormalDayCare = x.HasNormalDayCare,
+            HasResources = x.HasResources,
+            CaseNumber = x.CaseNumber,
+            IsExtern = x.IsExtern,
+            Email = x.User.Email
+
+         };
+      }
 
 
       public async Task<T> GetUserAsync<T>(Guid id) where T : CareUser
@@ -161,4 +176,5 @@ namespace Singer.Services
 
       #endregion METHODS
    }
+
 }

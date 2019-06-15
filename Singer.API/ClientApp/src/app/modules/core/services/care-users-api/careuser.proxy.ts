@@ -14,7 +14,7 @@ export class CareUserProxy{
    getCareUsers(sortDirection?:string, sortColumn?:string, pageIndex?:number, pageSize?:number, filter?:string):Observable<PaginationDTO>{
       const searchParams = new HttpParams()
       .set('sortDirection', sortDirection)
-      .set('sortBy', sortColumn)
+      .set('sortColumn', sortColumn)
       .set('pageIndex', pageIndex.toString())
       .set('pageSize', pageSize.toString())
       .set('filter', filter);

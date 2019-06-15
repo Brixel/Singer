@@ -8,9 +8,18 @@ namespace Singer.Models
 {
    public class SearchResults<T>
    {
-      public int TotalCount { get; set; }
-      public int Start { get; set; }
-      public int Size { get; set; }
-      public List<T> Items { get; set; }
+
+      public SearchResults(IReadOnlyList<T> items, int totalItemsCount, int pageIndex)
+      {
+         Items = items;
+         TotalCount = totalItemsCount;
+         Start = pageIndex;
+         Size = items.Count;
+      }
+
+      public int TotalCount { get;  }
+      public int Start { get;  }
+      public int Size { get; }
+      public IReadOnlyList<T> Items { get; }
    }
 }

@@ -39,6 +39,8 @@ export class OverviewComponent implements OnInit, AfterViewInit {
 
    ngOnInit(){
       this.dataSource = new OverviewDataSource(this.careUserService);
+      this.sort.active = 'name';
+      this.sort.direction = 'asc';
       this.loadCareUsers();
    }
 
