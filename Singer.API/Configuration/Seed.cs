@@ -93,7 +93,11 @@ namespace Singer.Configuration
                   throw new Exception(__.Errors.First().Description);
 
                }
-               var roleTask = userMgr.AddToRoleAsync(user, ROLE_CAREUSER);
+               var roleTask = userMgr.AddToRoleAsync(user, ROLE_CAREUSER).Result;
+               if (!roleTask.Succeeded)
+               {
+                  throw new Exception(roleTask.Errors.First().Description);
+               }
                var careuser = new CareUser()
                {
                   User = user,
