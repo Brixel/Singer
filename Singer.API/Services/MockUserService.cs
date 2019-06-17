@@ -20,45 +20,52 @@ namespace Singer.Services
 
       private readonly IList<CareUser> _mockData = new List<CareUser>
       {
-         //new CareUser
-         //{
-         //   Id = Guid.NewGuid().ToString(),
-         //   Name = "Joske Vermeulen",
-         //   BirthDay = DateTime.Parse("06/07/2008", CultureInfo.InvariantCulture),
-         //   CaseNumber = "0123456789",
-         //   AgeGroup = Models.AgeGroup.Child,
-         //   IsExtern = false,
-         //   HasTrajectory = true,
-         //   HasNormalDayCare = true,
-         //   HasVacationDayCare = true,
-         //   HasResources = true
-         //},
-         //new CareUser
-         //{
-         //   Id = Guid.NewGuid().ToString(),
-         //   Name = "Kim Janssens",
-         //   BirthDay = DateTime.Parse("08/07/2006", CultureInfo.InvariantCulture),
-         //   CaseNumber = "9876543210",
-         //   AgeGroup = Models.AgeGroup.Child,
-         //   IsExtern = true,
-         //   HasTrajectory = true,
-         //   HasNormalDayCare = true,
-         //   HasVacationDayCare = true,
-         //   HasResources = true
-         //},
-         //new CareUser
-         //{
-         //   Id = Guid.NewGuid().ToString(),
-         //   Name = "Benjamin Vermeulen",
-         //   BirthDay = DateTime.Parse("06/08/2010", CultureInfo.InvariantCulture),
-         //   CaseNumber = "091837465",
-         //   AgeGroup = Models.AgeGroup.Youngster,
-         //   IsExtern = false,
-         //   HasTrajectory = true,
-         //   HasNormalDayCare = true,
-         //   HasVacationDayCare = true,
-         //   HasResources = false
-         //},
+         new CareUser
+         {
+            Id = Guid.NewGuid(),
+            User = new User() {
+               Name = "Joske Vermeulen"
+
+            },
+            BirthDay = DateTime.Parse("06/07/2008", CultureInfo.InvariantCulture),
+            CaseNumber = "0123456789",
+            AgeGroup = Models.AgeGroup.Child,
+            IsExtern = false,
+            HasTrajectory = true,
+            HasNormalDayCare = true,
+            HasVacationDayCare = true,
+            HasResources = true
+         },
+         new CareUser
+         {
+            Id = Guid.NewGuid(),
+            User = new User(){
+            Name = "Kim Janssens"},
+            BirthDay = DateTime.Parse("08/07/2006", CultureInfo.InvariantCulture),
+            CaseNumber = "9876543210",
+            AgeGroup = Models.AgeGroup.Child,
+            IsExtern = true,
+            HasTrajectory = true,
+            HasNormalDayCare = true,
+            HasVacationDayCare = true,
+            HasResources = true
+         },
+         new CareUser
+         {
+            Id = Guid.NewGuid(),
+            User = new User()
+            {Name = "Benjamin Vermeulen"
+            }
+,
+            BirthDay = DateTime.Parse("06/08/2010", CultureInfo.InvariantCulture),
+            CaseNumber = "091837465",
+            AgeGroup = Models.AgeGroup.Youngster,
+            IsExtern = false,
+            HasTrajectory = true,
+            HasNormalDayCare = true,
+            HasVacationDayCare = true,
+            HasResources = false
+         },
       };
 
       #endregion FIELDS
@@ -74,8 +81,7 @@ namespace Singer.Services
       public async Task<T> CreateUserAsync<T>(T createUser) where T : CareUser
       {
          // TODO User UserManager
-         // create new return value
-         return null;
+         throw new NotImplementedException();
       }
 
       public async Task<IList<T>> GetAllUsersAsync<T>() where T : CareUser

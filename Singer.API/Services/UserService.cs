@@ -26,8 +26,7 @@ namespace Singer.Services
       public async Task<T> CreateUserAsync<T>(T createUser) where T : CareUser
       {
          // TODO Use Usermanager
-         return null;
-         
+         throw new NotImplementedException();
       }
 
       public async Task<IList<T>> GetAllUsersAsync<T>() where T : CareUser
@@ -94,12 +93,6 @@ namespace Singer.Services
             userToUpdate = _appContext.Users.Single(u => u.Id == id);
          }
          catch
-         {
-            throw new BadInputException();
-         }
-
-         //Ensure client is not trying to change the ID
-         if (user.Id != id)
          {
             throw new BadInputException();
          }
