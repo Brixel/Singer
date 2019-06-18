@@ -394,6 +394,7 @@ export class CareUserDetailsComponent implements OnInit {
 
    // Submit the form
    submitForm() {
+      if (this.formControlGroup.invalid) return;
       this.updateCurrentCareUserInstance();
       this.submitEvent.emit(this.currentCareUserInstance);
       this.closeForm();
