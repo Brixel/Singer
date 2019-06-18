@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { CareUserProxy } from './careuser.proxy';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { PaginationDTO } from '../../models/careuser.model';
+import { PaginationDTO, UpdateCareUserDTO } from '../../models/careuser.model';
 
 @Injectable({
    providedIn: 'root',
 })
 export class CareUsersService {
+
    constructor(private careuserProxy: CareUserProxy) {}
 
    fetchCareUsersData(
@@ -17,6 +18,23 @@ export class CareUsersService {
       pageSize?:number,
       filter?:string):Observable<PaginationDTO> {
       return this.careuserProxy.getCareUsers(sortDirection, sortColumn, pageIndex, pageSize, filter).pipe(map((res) => res));
+   }
+
+   updateUser(result: CareUser) {
+      const updateCareUserDTo = <UpdateCareUserDTO>{
+         ageGroup: result.ageGroup,
+         birthday: result.birthDay,
+         caseNumber: result.caseNumber,
+         email: result.email,
+         firstName:result.firstName,
+         lastName:result.lastName,
+         hasNormalDayCare: result.hasNormalDayCare,
+         hasResources: result.hasResources,
+         hasTrajectory: result.hasTrajectory,
+         hasVacationDayCare: result.hasVacationDayCare,
+         isExtern: result.isExtern
+      }
+      return this.careuserProxy.updateCareUser(result.id, updateCareUserDTo).pipe(map((res) => res));
    }
 }
 
