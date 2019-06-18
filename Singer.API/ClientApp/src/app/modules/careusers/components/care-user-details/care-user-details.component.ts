@@ -15,7 +15,6 @@ export interface CareUserDetailsFormData {
    styleUrls: ['./care-user-details.component.css'],
 })
 export class CareUserDetailsComponent implements OnInit {
-
    // Submit event for when the user submits the form
    @Output() submitEvent: EventEmitter<CareUser> = new EventEmitter();
 
@@ -282,8 +281,14 @@ export class CareUserDetailsComponent implements OnInit {
       )
          return true;
       if (
-         this.currentCareUserInstance.birthday !==
-         this.formControlGroup.controls.birthdayFieldControl.value
+         this.currentCareUserInstance.birthday.getFullYear() !==
+            this.formControlGroup.controls.birthdayFieldControl.value
+               .getFullYear() ||
+         this.currentCareUserInstance.birthday.getMonth() !==
+            this.formControlGroup.controls.birthdayFieldControl.value
+               .getMonth() ||
+         this.currentCareUserInstance.birthday.getDay() !==
+            this.formControlGroup.controls.birthdayFieldControl.value.getDay()
       )
          return true;
       if (
@@ -342,8 +347,10 @@ export class CareUserDetailsComponent implements OnInit {
 
    onFormValueChanges() {
       // If a key is lifted and we are editing an existing user then check for changes
-      if (!this.isAdding) this.checkForChanges() ? this.isChangesMade = true : this.isChangesMade = false;
-      console.log('changes made: ' + this.isChangesMade);
+      if (!this.isAdding)
+         this.checkForChanges()
+            ? (this.isChangesMade = true)
+            : (this.isChangesMade = false);
    }
 
    // Load form field values into current care user instance

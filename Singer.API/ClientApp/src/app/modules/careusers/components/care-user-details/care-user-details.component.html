@@ -4,10 +4,7 @@
 <!-- Form Dialog Content -->
 <mat-dialog-content>
    <!-- Details Form -->
-   <form
-      [formGroup]="formControlGroup"
-      class="details-form-container"
-   >
+   <form [formGroup]="formControlGroup" class="details-form-container">
       <!-- Personal Fields Title -->
       <h3 class="section-title">Persoonlijke gegevens</h3>
       <!-- Name Fields -->
@@ -21,9 +18,9 @@
                (input)="onFormValueChanges()"
             />
             <mat-error
-            *ngIf="formControlGroup.controls.lastNameFieldControl.invalid"
-            >{{ getLastNameFieldErrorMessage() }}</mat-error
-         >
+               *ngIf="formControlGroup.controls.lastNameFieldControl.invalid"
+               >{{ getLastNameFieldErrorMessage() }}</mat-error
+            >
          </mat-form-field>
 
          <!-- FirstName Field -->
@@ -35,9 +32,9 @@
                (input)="onFormValueChanges()"
             />
             <mat-error
-            *ngIf="formControlGroup.controls.firstNameFieldControl.invalid"
-            >{{ getFirstNameFieldErrorMessage() }}</mat-error
-         >
+               *ngIf="formControlGroup.controls.firstNameFieldControl.invalid"
+               >{{ getFirstNameFieldErrorMessage() }}</mat-error
+            >
          </mat-form-field>
       </div>
 
@@ -50,7 +47,8 @@
             [matDatepicker]="picker"
             [placeholder]="birthdayFieldPlaceholder"
             formControlName="birthdayFieldControl"
-            (input)="onFormValueChanges()"
+            (dateChange)="onFormValueChanges()"
+            (dateInput)="onFormValueChanges()"
          />
          <mat-error
             *ngIf="formControlGroup.controls.birthdayFieldControl.invalid"
@@ -67,7 +65,7 @@
       <mat-divider></mat-divider>
 
       <!-- Administrative Fields Title -->
-      <h3  class="section-title">Administratieve gegevens</h3>
+      <h3 class="section-title">Administratieve gegevens</h3>
 
       <!-- CaseNumber Field -->
       <mat-form-field>
@@ -122,7 +120,7 @@
       <mat-divider></mat-divider>
 
       <!-- Care Fields Title -->
-      <h3  class="section-title">Zorg gegevens</h3>
+      <h3 class="section-title">Zorg gegevens</h3>
 
       <!-- HasTrajectory Field -->
       <mat-form-field>
@@ -153,7 +151,9 @@
             <mat-option value="false">Nee</mat-option>
          </mat-select>
          <mat-error
-            *ngIf="formControlGroup.controls.hasNormalDayCareFieldControl.invalid"
+            *ngIf="
+               formControlGroup.controls.hasNormalDayCareFieldControl.invalid
+            "
             >{{ getHasNormalDayCareFieldErrorMessage() }}</mat-error
          >
       </mat-form-field>
@@ -170,7 +170,9 @@
             <mat-option value="false">Nee</mat-option>
          </mat-select>
          <mat-error
-            *ngIf="formControlGroup.controls.hasVacationDayCareFieldControl.invalid"
+            *ngIf="
+               formControlGroup.controls.hasVacationDayCareFieldControl.invalid
+            "
             >{{ getHasVacationDayCareFieldErrorMessage() }}</mat-error
          >
       </mat-form-field>
