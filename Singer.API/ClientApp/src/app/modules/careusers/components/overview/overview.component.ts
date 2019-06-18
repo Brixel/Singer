@@ -24,7 +24,8 @@ export class OverviewComponent implements OnInit, AfterViewInit {
    /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
    displayedColumns = [
       //'id',
-      'name',
+      'firstName',
+      'lastName',
       //'email',
       //'userName',
       'birthDay',
@@ -42,7 +43,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
 
    ngOnInit(){
       this.dataSource = new OverviewDataSource(this.careUserService);
-      this.sort.active = 'name';
+      this.sort.active = 'lastName';
       this.sort.direction = 'asc';
       this.loadCareUsers();
    }

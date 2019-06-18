@@ -24,7 +24,7 @@ namespace Singer.Services
          {
             Id = Guid.NewGuid(),
             User = new User() {
-               Name = "Joske Vermeulen"
+               LastName = "Joske Vermeulen"
 
             },
             BirthDay = DateTime.Parse("06/07/2008", CultureInfo.InvariantCulture),
@@ -40,7 +40,7 @@ namespace Singer.Services
          {
             Id = Guid.NewGuid(),
             User = new User(){
-            Name = "Kim Janssens"},
+            LastName = "Kim Janssens"},
             BirthDay = DateTime.Parse("08/07/2006", CultureInfo.InvariantCulture),
             CaseNumber = "9876543210",
             AgeGroup = Models.AgeGroup.Child,
@@ -54,7 +54,7 @@ namespace Singer.Services
          {
             Id = Guid.NewGuid(),
             User = new User()
-            {Name = "Benjamin Vermeulen"
+            {LastName = "Benjamin Vermeulen"
             }
 ,
             BirthDay = DateTime.Parse("06/08/2010", CultureInfo.InvariantCulture),
@@ -114,7 +114,7 @@ namespace Singer.Services
       }
       private static Expression<Func<CareUser, bool>> Filter(string filter)
       {
-         Expression<Func<CareUser, bool>> filterExpression = f => f.User.Name.Contains(filter);
+         Expression<Func<CareUser, bool>> filterExpression = f => f.User.LastName.Contains(filter);
          return filterExpression;
       }
 
@@ -124,7 +124,7 @@ namespace Singer.Services
          {
             Id = x.Id,
             UserId = x.UserId,
-            Name = x.User.Name,
+            LastName = x.User.LastName,
             AgeGroup = x.AgeGroup,
             UserName = x.User.UserName,
             HasTrajectory = x.HasTrajectory,

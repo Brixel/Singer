@@ -9,7 +9,8 @@ export interface PaginationDTO{
 
 export interface CareUserDTO {
    id: string;
-   name:string;
+   firstName:string;
+   lastName: string;
    email: string;
    userName: string;
    birthday: Date;

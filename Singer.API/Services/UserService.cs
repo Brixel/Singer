@@ -49,6 +49,7 @@ namespace Singer.Services
          var result = users.ToPagedList(Filter(filter), ProjectToCareUserDTO(),
             orderByLambda, sortDirection, page,
             userPerPage);
+
          return result;
       }
 
@@ -58,7 +59,8 @@ namespace Singer.Services
          {
             Id = x.Id,
             UserId = x.UserId,
-            Name = x.User.Name,
+
+            LastName = x.User.LastName,
             AgeGroup = x.AgeGroup,
             UserName = x.User.UserName,
             HasTrajectory = x.HasTrajectory,
@@ -132,7 +134,8 @@ namespace Singer.Services
          }
          Expression<Func<CareUser, bool>> filterExpression =
             f =>
-               f.User.Name.Contains(filter) ||
+               f.User.FirstName.Contains(filter) ||
+               f.User.LastName.Contains(filter) ||
                f.CaseNumber.Contains(filter);
          return filterExpression;
       }

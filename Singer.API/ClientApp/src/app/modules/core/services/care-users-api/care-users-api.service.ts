@@ -23,7 +23,7 @@ export class CareUsersService {
 //http://api/carusers?filter="filterValue";sort="sortProperty";page=0
 
 // Care User class
-export interface CareUser {
+export class CareUser {
    id: string;
    firstName: string;
    lastName: string;

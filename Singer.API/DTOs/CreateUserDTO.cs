@@ -5,12 +5,19 @@ namespace Singer.DTOs
 {
    public class CreateUserDTO
    {
+
       [Required]
       [StringLength(maximumLength: 255,
          ErrorMessage = "De {0} moet een lengte hebben van minstens {2} en maximum {1} karakters.",
          MinimumLength = 3)]
-      [DisplayName("Naam")]
-      public string Name { get; set; }
+      [DisplayName("FirstName")]
+      public string FirstName { get; set; }
+      [Required]
+      [StringLength(maximumLength: 255,
+         ErrorMessage = "De {0} moet een lengte hebben van minstens {2} en maximum {1} karakters.",
+         MinimumLength = 3)]
+      [DisplayName("LastName")]
+      public string LastName { get; set; }
 
       [Required]
       [EmailAddress]

@@ -23,7 +23,7 @@ namespace Tests.ServiceTests
                User = new User()
                {
                   Email = "email@test.com",
-                  Name = "user",
+                  LastName = "user",
                   UserName = "user"
                },
                AgeGroup = AgeGroup.Child,
@@ -54,7 +54,7 @@ namespace Tests.ServiceTests
                User = new User()
                {
                   Email = "email@test.com",
-                  Name = "user",
+                  LastName = "user",
                   UserName = "user"
                },
                AgeGroup = AgeGroup.Child,
@@ -71,7 +71,7 @@ namespace Tests.ServiceTests
                User = new User()
                {
                   Email = "email@test.com",
-                  Name = "user3",
+                  LastName = "user3",
                   UserName = "user3"
                },
                AgeGroup = AgeGroup.Child,
@@ -88,7 +88,7 @@ namespace Tests.ServiceTests
                User = new User()
                {
                   Email = "email@test.com",
-                  Name = "user2",
+                  LastName = "user2",
                   UserName = "user2"
                },
                AgeGroup = AgeGroup.Child,
@@ -107,7 +107,7 @@ namespace Tests.ServiceTests
          var service = new UserService(TestDataContext);
          var result = await service.GetUsersAsync<CareUser>("name", "asc", "44", 1, 10);
          result.Items.Should().HaveCount(1);
-         result.Items[0].Name.Should().Be("user2");
+         result.Items[0].LastName.Should().Be("user2");
       }
 
       [Test]
