@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
+using AutoMapper;
 using IdentityModel;
 using IdentityServer4.AccessTokenValidation;
 using IdentityServer4.EntityFramework.DbContexts;
@@ -31,6 +32,7 @@ using Singer.IdentityService;
 using Singer.Models;
 using Singer.Services;
 using Singer.Services.Utils;
+using Singer.Services.Interfaces;
 using ApiResource = IdentityServer4.EntityFramework.Entities.ApiResource;
 
 namespace Singer
@@ -55,7 +57,7 @@ namespace Singer
          // with the connection string defined above.
          services
             .AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString))
-            .AddIdentity<User, IdentityRole>()
+            .AddIdentity<User, IdentityRole<Guid>>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 
@@ -99,7 +101,7 @@ namespace Singer
                // this enables automatic token cleanup. this is optional.
                options.EnableTokenCleanup = true;
             });
-            //.AddResourceOwnerValidator<ResourceOwnerPasswordValidator<User>>();
+         //.AddResourceOwnerValidator<ResourceOwnerPasswordValidator<User>>();
 
          var authority = applicationConfig.Authority;
 
@@ -131,6 +133,11 @@ namespace Singer
 
          // Register the Swagger services
          services.AddSwaggerDocument();
+
+         // Adds AutoMapper. Maps are defined as profiles in ./Profiles/*Profile.cs
+         services.AddAutoMapper(typeof(Startup));
+         services.AddScoped<IUserService, UserService>();
+
       }
 
       private static IIdentityServerBuilder AddIdentityService(IServiceCollection services, X509Certificate2 cert)
@@ -207,11 +214,13 @@ namespace Singer
 
             var persistedGrantDbContext = serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>();
             persistedGrantDbContext.Database.Migrate();
-                       
+
             Seed.SeedRoles(serviceScope, applicationDbContext);
             Seed.SeedUsers(serviceScope, applicationDbContext, initialAdminPassword);
             Seed.CreateAPIAndClient(configrationDbContext);
             Seed.SeedIdentityResources(configrationDbContext);
+            configrationDbContext.SaveChanges();
+            applicationDbContext.SaveChanges();
          }
       }
    }
