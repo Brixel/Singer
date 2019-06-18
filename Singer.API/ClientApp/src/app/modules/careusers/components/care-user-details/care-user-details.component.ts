@@ -215,7 +215,7 @@ export class CareUserDetailsComponent implements OnInit {
          this.currentCareUserInstance.userName
       );
       this.formControlGroup.controls.birthdayFieldControl.reset(
-         this.currentCareUserInstance.birthday
+         this.currentCareUserInstance.birthDay
       );
       this.formControlGroup.controls.caseNumberFieldControl.reset(
          this.currentCareUserInstance.caseNumber
@@ -281,13 +281,13 @@ export class CareUserDetailsComponent implements OnInit {
       )
          return true;
       if (
-         this.currentCareUserInstance.birthday.getFullYear() !==
+         this.currentCareUserInstance.birthDay.getFullYear() !==
             this.formControlGroup.controls.birthdayFieldControl.value
                .getFullYear() ||
-         this.currentCareUserInstance.birthday.getMonth() !==
+         this.currentCareUserInstance.birthDay.getMonth() !==
             this.formControlGroup.controls.birthdayFieldControl.value
                .getMonth() ||
-         this.currentCareUserInstance.birthday.getDay() !==
+         this.currentCareUserInstance.birthDay.getDay() !==
             this.formControlGroup.controls.birthdayFieldControl.value.getDay()
       )
          return true;
@@ -361,7 +361,7 @@ export class CareUserDetailsComponent implements OnInit {
          lastName: this.formControlGroup.controls.lastNameFieldControl.value,
          email: this.formControlGroup.controls.emailFieldControl.value,
          userName: '',
-         birthday: this.formControlGroup.controls.birthdayFieldControl.value,
+         birthDay: this.formControlGroup.controls.birthdayFieldControl.value,
          caseNumber: this.formControlGroup.controls.caseNumberFieldControl
             .value,
          ageGroup: this.formControlGroup.controls.ageGroupFieldControl.value,

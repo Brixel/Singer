@@ -1,13 +1,22 @@
 import { Injectable } from '@angular/core';
+import { CareUserProxy } from './careuser.proxy';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { PaginationDTO } from '../../models/careuser.model';
 
 @Injectable({
    providedIn: 'root',
 })
-export class CareUsersAPIService {
-   constructor() {}
+export class CareUsersService {
+   constructor(private careuserProxy: CareUserProxy) {}
 
-   fetchCareUsersData() {
-      return EXAMPLE_DATA;
+   fetchCareUsersData(
+      sortDirection? :string,
+      sortColumn?: string,
+      pageIndex?:number,
+      pageSize?:number,
+      filter?:string):Observable<PaginationDTO> {
+      return this.careuserProxy.getCareUsers(sortDirection, sortColumn, pageIndex, pageSize, filter).pipe(map((res) => res));
    }
 }
 
@@ -20,7 +29,7 @@ export interface CareUser {
    lastName: string;
    email: string;
    userName: string;
-   birthday: Date;
+   birthDay: Date;
    caseNumber: string;
    ageGroup: string; //Maybe replace by own class?
    isExtern: boolean;
@@ -38,7 +47,7 @@ const EXAMPLE_DATA: CareUser[] = [
       lastName: 'Vermeulen',
       email: 'joske.vermeulen@gmail.com',
       userName: 'joske',
-      birthday: new Date('2008-07-06'),
+      birthDay: new Date('2008-07-06'),
       caseNumber: '0123456789',
       ageGroup: 'Kinderen',
       isExtern: false,
@@ -53,7 +62,7 @@ const EXAMPLE_DATA: CareUser[] = [
       lastName: 'Janssens',
       email: 'kim.janssens@gmail.com',
       userName: 'kim',
-      birthday: new Date('2006-07-08'),
+      birthDay: new Date('2006-07-08'),
       caseNumber: '9876543210',
       ageGroup: 'Kinderen',
       isExtern: true,
@@ -68,7 +77,7 @@ const EXAMPLE_DATA: CareUser[] = [
       lastName: 'Vermeulen',
       email: 'benjamin.vermeulen@gmail.com',
       userName: 'benjamin',
-      birthday: new Date('2010-08-06'),
+      birthDay: new Date('2010-08-06'),
       caseNumber: '091837465',
       ageGroup: 'Jongeren',
       isExtern: false,

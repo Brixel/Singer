@@ -1,38 +1,18 @@
 <h1>Overzicht zorg-gebruikers</h1>
 
-<!-- Mat Form Field Filter -->
-<mat-form-field>
-   <input
-      matInput
-      (keyup)="applyFilter($event.target.value)"
-      placeholder="Filter"
-   />
-</mat-form-field>
-
 <!-- Mat Table -->
-<div class="mat-elevation-z8 overview-table">
-   <table
-      mat-table
-      [dataSource]="dataSource"
-      matSort
-      aria-label="zorg-gebruikers"
-   >
-      <!-- Id Column -->
-      <ng-container matColumnDef="id">
-         <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
-         <td mat-cell *matCellDef="let row">{{ row.id }}</td>
-      </ng-container>
+<mat-card>
+
+   <!-- Mat Form Field Filter -->
+   <mat-form-field>
+      <input matInput #filterInput placeholder="Filter">
+   </mat-form-field>
+   <table mat-table [dataSource]="dataSource" matSort aria-label="zorg-gebruikers" >
 
       <!-- FirstName Column -->
-      <ng-container matColumnDef="firstName">
-         <th mat-header-cell *matHeaderCellDef mat-sort-header>Voornaam</th>
-         <td mat-cell *matCellDef="let row">{{ row.firstName }}</td>
-      </ng-container>
-
-      <!-- LastName Column -->
-      <ng-container matColumnDef="lastName">
-         <th mat-header-cell *matHeaderCellDef mat-sort-header>Familienaam</th>
-         <td mat-cell *matCellDef="let row">{{ row.lastName }}</td>
+      <ng-container matColumnDef="name">
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>Naam</th>
+         <td mat-cell *matCellDef="let row">{{ row.name }}</td>
       </ng-container>
 
       <!-- Email Column -->
@@ -50,13 +30,9 @@
       </ng-container>
 
       <!-- Birthday Column -->
-      <ng-container matColumnDef="birthday">
-         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            Geboortedatum
-         </th>
-         <td mat-cell *matCellDef="let row">
-            {{ row.birthday | date: 'shortDate' }}
-         </td>
+      <ng-container matColumnDef="birthDay">
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>Geboortedatum</th>
+         <td mat-cell *matCellDef="let row">{{ row.birthDay | date:'dd-MM-yyyy' }}</td>
       </ng-container>
 
       <!-- CaseNumber Column -->
@@ -67,10 +43,8 @@
 
       <!-- AgeGroup Column -->
       <ng-container matColumnDef="ageGroup">
-         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            Leeftijdsgroep
-         </th>
-         <td mat-cell *matCellDef="let row">{{ row.ageGroup }}</td>
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>Leeftijdsgroep</th>
+         <td mat-cell *matCellDef="let row">{{ row.ageGroup | agegroupPipe }}</td>
       </ng-container>
 
       <!-- IsExtern Column -->
@@ -114,7 +88,6 @@
             {{ row.hasResources ? 'Ja' : 'Neen' }}
          </td>
       </ng-container>
-
       <!-- AddButton column -->
       <ng-container matColumnDef="addButton">
          <td mat-footer-cell *matFooterCellDef>
@@ -130,25 +103,24 @@
             <!-- <label class="tableButton">Toevoegen</label> -->
          </td>
       </ng-container>
-
       <!-- Paginator column -->
       <ng-container matColumnDef="paginator">
          <td mat-footer-cell *matFooterCellDef colspan="20">
-            <mat-paginator
-               #paginator
-               [length]="dataSource?.data.length"
-               [pageIndex]="0"
-               [pageSize]="15"
-               [pageSizeOptions]="[1, 15, 25, 50, 100]"
-               showFirstLastButtons
-            >
-            </mat-paginator>
+
+   <!-- Paginator -->
+   <mat-paginator
+   #paginator
+   [length]="dataSource?.totalSize$ | async"
+   [pageIndex]="pageIndex"
+   [pageSize]="pageSize"
+   [pageSizeOptions]="[1,15, 25, 50, 100]"
+   showFirstLastButtons
+>
+</mat-paginator>
          </td>
       </ng-container>
-
       <!-- Header Row -->
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-
       <!-- Data Row -->
       <tr
          mat-row
@@ -156,8 +128,8 @@
          class="selectable"
          (click)="selectRow(row)"
       ></tr>
-
       <!-- Footer Row -->
       <tr mat-footer-row *matFooterRowDef="['addButton', 'paginator']"></tr>
-   </table>
-</div>
+      </table>
+
+</mat-card>

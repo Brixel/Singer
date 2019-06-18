@@ -1,7 +1,10 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, OnInit, ElementRef } from '@angular/core';
 import { MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { OverviewDataSource } from './overview-datasource';
-import { CareUsersAPIService, CareUser } from 'src/app/modules/core/services/care-users-api/care-users-api.service';
+import { CareUsersService, CareUser } from 'src/app/modules/core/services/care-users-api/care-users-api.service';
+import { DataSource } from '@angular/cdk/table';
+import { merge, fromEvent } from 'rxjs';
+import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { CareUserDetailsComponent } from '../care-user-details/care-user-details.component';
 
 @Component({
@@ -9,24 +12,22 @@ import { CareUserDetailsComponent } from '../care-user-details/care-user-details
    templateUrl: './overview.component.html',
    styleUrls: ['./overview.component.css'],
 })
-export class OverviewComponent implements AfterViewInit {
+export class OverviewComponent implements OnInit, AfterViewInit {
    @ViewChild(MatPaginator) paginator: MatPaginator;
    @ViewChild(MatSort) sort: MatSort;
-
-   // Table Data source
+   @ViewChild('filterInput') filterInput: ElementRef;
    dataSource: OverviewDataSource;
 
-   // Boolean value to check if the details form should be shown
-   showDetailsForm: Boolean;
+   pageSize = 15;
+   pageIndex = 0;
 
    /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
    displayedColumns = [
       //'id',
-      'lastName',
-      'firstName',
+      'name',
       //'email',
       //'userName',
-      'birthday',
+      'birthDay',
       'caseNumber',
       'ageGroup',
       'isExtern',
@@ -35,26 +36,15 @@ export class OverviewComponent implements AfterViewInit {
       'hasVacationDayCare',
       'hasResources',
    ];
+   filter: string;
 
-   constructor(
-      // Dialog to display form to add and edit care users
-      public dialog: MatDialog,
-      // API to retrieve user data
-      private careUsersAPI: CareUsersAPIService) {}
+    constructor(public dialog: MatDialog, private careUserService: CareUsersService){}
 
-   ngAfterViewInit() {
-      // Load datasource
-      this.dataSource = new OverviewDataSource(
-         this.paginator,
-         this.sort,
-         this.careUsersAPI
-      );
-
-      // Subscribe to paginator events
-      this.paginator.page.subscribe(page => {
-         // console.log(page);
-         // API pagination calls go here
-      });
+   ngOnInit(){
+      this.dataSource = new OverviewDataSource(this.careUserService);
+      this.sort.active = 'name';
+      this.sort.direction = 'asc';
+      this.loadCareUsers();
    }
 
    selectRow(row: CareUser): void {
@@ -65,7 +55,7 @@ export class OverviewComponent implements AfterViewInit {
       dialogRef.componentInstance.submitEvent.subscribe((result: CareUser) => {
          console.log('The dialog was closed');
          console.log(result);
-         this.reloadTable();
+         this.loadCareUsers();
       });
    }
 
@@ -77,19 +67,38 @@ export class OverviewComponent implements AfterViewInit {
       dialogRef.componentInstance.submitEvent.subscribe((result: CareUser) => {
          console.log('The dialog was closed');
          console.log(result);
-         this.reloadTable();
+         this.loadCareUsers();
       });
    }
 
-   applyFilter(filterValue: string) {
-      this.dataSource.filter = filterValue.trim().toLowerCase();
-
-      if (this.paginator) {
-         this.paginator.firstPage();
-      }
+   private loadCareUsers(){
+      const sortDirection = this.sort.direction;
+      const sortColumn = this.sort.active;
+      this.filter = this.filterInput.nativeElement.value;
+      this.dataSource.loadCareUsers(sortDirection, sortColumn, this.pageIndex, this.pageSize, this.filter);
    }
 
-   private reloadTable() {
-      this.dataSource.reload();
-   }
+   ngAfterViewInit() {
+      fromEvent(this.filterInput.nativeElement, 'keyup')
+            .pipe(
+                debounceTime(400),
+                distinctUntilChanged(),
+                tap(() => {
+                    this.paginator.pageIndex = 0;
+                    this.loadCareUsers();
+                })
+            )
+            .subscribe();
+      this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+      merge(this.sort.sortChange, this.paginator.page)
+          .pipe(
+              tap(() => {
+                 this.pageIndex = this.paginator.pageIndex;
+                 this.pageSize = this.paginator.pageSize;
+                  this.loadCareUsers();
+              })
+          )
+          .subscribe();
+  }
+
 }
