@@ -23,7 +23,7 @@ namespace Singer.Services.Interfaces
 
       Task<T> GetUserAsync<T>(Guid id) where T : CareUser;
 
-      Task<bool> UpdateUserAsync<T>(T user, Guid id) where T : CareUser;
+      Task<CareUserDTO> UpdateUserAsync(CreateCareUserDTO user, Guid id);
 
       Task DeleteUserAsync(Guid id);
    }

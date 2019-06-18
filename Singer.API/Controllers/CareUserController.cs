@@ -79,16 +79,14 @@ namespace Singer.Controllers
       [HttpPut("{id}")]
       [ProducesResponseType(StatusCodes.Status204NoContent)]
       [ProducesResponseType(StatusCodes.Status400BadRequest)]
-      public async Task<ActionResult> UpdateUser(string id, CareUserDTO user)
+      public async Task<ActionResult> UpdateUser(Guid id, [FromBody]CreateCareUserDTO user)
       {
          try
          {
-            var
-               model = _mapper.Map<CareUser>(user);
-            var result = await _userService.UpdateUserAsync<CareUser>(model, Guid.Parse(id));
-            if (result)
+            var result = await _userService.UpdateUserAsync(user, id);
+            if (result != null)
             {
-               return NoContent();
+               return Ok(result);
             }
             else
             {

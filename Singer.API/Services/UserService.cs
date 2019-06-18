@@ -59,7 +59,7 @@ namespace Singer.Services
          {
             Id = x.Id,
             UserId = x.UserId,
-
+            FirstName = x.User.FirstName,
             LastName = x.User.LastName,
             AgeGroup = x.AgeGroup,
             UserName = x.User.UserName,
@@ -86,13 +86,13 @@ namespace Singer.Services
          return user;
       }
 
-      public async Task<bool> UpdateUserAsync<T>(T user, Guid id) where T : CareUser
+      public async Task<CareUserDTO> UpdateUserAsync(CreateCareUserDTO user, Guid id)
       {
-         User userToUpdate;
+         CareUser userToUpdate;
          try
          {
             //Check if id exists
-            userToUpdate = _appContext.Users.Single(u => u.Id == id);
+            userToUpdate = _appContext.CareUsers.Include(x => x.User).Single(u => u.Id == id);
          }
          catch
          {
@@ -100,13 +100,33 @@ namespace Singer.Services
          }
 
          //Convert user DTO to view
-         userToUpdate = user.User;
-         //userToUpdate.Id = id.ToString();
+         userToUpdate.AgeGroup = user.AgeGroup;
+         userToUpdate.User.FirstName = user.FirstName;
+         userToUpdate.User.LastName = user.LastName;
+         userToUpdate.BirthDay = user.BirthDay;
+         userToUpdate.CaseNumber = user.CaseNumber;
+         userToUpdate.HasNormalDayCare = user.HasNormalDayCare;
+         userToUpdate.HasResources = user.HasResources;
+         userToUpdate.HasTrajectory = user.HasTrajectory;
+         userToUpdate.HasVacationDayCare = user.HasVacationDayCare;
+         userToUpdate.IsExtern = user.IsExtern;
 
          //And finally update database
-         _appContext.Users.Update(userToUpdate);
          await _appContext.SaveChangesAsync();
-         return true;
+         return new CareUserDTO()
+         {
+            Id = userToUpdate.Id,
+            AgeGroup = user.AgeGroup,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            BirthDay = user.BirthDay,
+            CaseNumber = user.CaseNumber,
+            HasNormalDayCare = user.HasNormalDayCare,
+            HasResources = user.HasResources,
+            HasTrajectory = user.HasTrajectory,
+            HasVacationDayCare = user.HasVacationDayCare,
+            IsExtern = user.IsExtern
+         };
       }
 
       public async Task DeleteUserAsync(Guid id)

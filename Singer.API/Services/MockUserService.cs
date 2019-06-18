@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Singer.DTOs;
 using Singer.Helpers;
+using Singer.Helpers.Exceptions;
 using Singer.Helpers.Extensions;
 using Singer.Models;
 using Singer.Services.Interfaces;
@@ -146,20 +147,47 @@ namespace Singer.Services
          return await Task.FromResult((T) _mockData.Single(x => x.GetType() == typeof(T) && x.Id == id));
       }
 
-      public async Task<bool> UpdateUserAsync<T>(T user, Guid id) where T : CareUser
+      public async Task<CareUserDTO> UpdateUserAsync(CreateCareUserDTO user, Guid id)
       {
-         // get the index of the care user with the given id
-         var i = _mockData
-            .Where(x => x.GetType() == typeof(T))
-            .Select((u, index) => new {User = u, Index = index})
-            .Single(x => x.User.Id == id)
-            .Index;
+         CareUser userToUpdate;
+         try
+         {
+            //Check if id exists
+            userToUpdate = _mockData
+               .Single(u => u.Id == id);
+         }
+         catch
+         {
+            throw new BadInputException();
+         }
 
-         // set the care user's id to the given id
-         //user.Id = id.ToString(); // update the complete care user
-         _mockData[i] = user;
-         // return the updated care user
-         return await Task.FromResult(true);
+         //Convert user DTO to view
+         userToUpdate.AgeGroup = user.AgeGroup;
+         userToUpdate.User.FirstName = user.FirstName;
+         userToUpdate.User.LastName = user.LastName;
+         userToUpdate.BirthDay = user.BirthDay;
+         userToUpdate.CaseNumber = user.CaseNumber;
+         userToUpdate.HasNormalDayCare = user.HasNormalDayCare;
+         userToUpdate.HasResources = user.HasResources;
+         userToUpdate.HasTrajectory = user.HasTrajectory;
+         userToUpdate.HasVacationDayCare = user.HasVacationDayCare;
+         userToUpdate.IsExtern = user.IsExtern;
+
+         //And finally update database
+         return new CareUserDTO()
+         {
+            Id = userToUpdate.Id,
+            AgeGroup = user.AgeGroup,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            BirthDay = user.BirthDay,
+            CaseNumber = user.CaseNumber,
+            HasNormalDayCare = user.HasNormalDayCare,
+            HasResources = user.HasResources,
+            HasTrajectory = user.HasTrajectory,
+            HasVacationDayCare = user.HasVacationDayCare,
+            IsExtern = user.IsExtern
+         };
       }
 
       public async Task DeleteUserAsync(Guid id)
