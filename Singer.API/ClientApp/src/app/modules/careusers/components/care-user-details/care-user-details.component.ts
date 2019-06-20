@@ -351,7 +351,10 @@ export class CareUserDetailsComponent implements OnInit {
 
    // Submit the form
    submitForm() {
+      // Check if form is valid
       if (this.formControlGroup.invalid) return;
+
+      // Check for changes and determine of an API call is necesarry
       if (this.checkForChanges()) {
          this.updateCurrentCareUserInstance();
          this.submitEvent.emit(this.currentCareUserInstance);
