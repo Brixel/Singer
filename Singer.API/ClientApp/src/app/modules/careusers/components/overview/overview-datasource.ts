@@ -1,10 +1,9 @@
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
-import { CareUsersService as CareUserService } from 'src/app/modules/core/services/care-users-api/care-users-api.service';
-import { CareUser } from 'src/app/modules/core/services/care-users-api/care-users-api.service';
+import { CareUserService } from "src/app/modules/core/services/care-users-api/careusers.service";
 import { DataSource } from '@angular/cdk/table';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CollectionViewer } from '@angular/cdk/collections';
-import { CareUserDTO } from 'src/app/modules/core/models/careuser.model';
+import { CareUserDTO, CareUser } from 'src/app/modules/core/models/careuser.model';
 
 /**
  * Data source for the Overview view. This class should

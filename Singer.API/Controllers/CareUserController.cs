@@ -69,10 +69,9 @@ namespace Singer.Controllers
       [HttpPost]
       [ProducesResponseType(StatusCodes.Status201Created)]
       [ProducesResponseType(StatusCodes.Status400BadRequest)]
-      public async Task<ActionResult<CareUserDTO>> CreateUser(CreateCareUserDTO user)
+      public async Task<ActionResult<CareUserDTO>> CreateUser([FromBody]CreateCareUserDTO user)
       {
-         var model = _mapper.Map<CareUser>(user);
-         var returnUser = await _userService.CreateUserAsync(model);
+         var returnUser = await _userService.CreateUserAsync<CareUserDTO, CreateCareUserDTO>(user);
          return Created(nameof(GetUser), returnUser);
       }
 

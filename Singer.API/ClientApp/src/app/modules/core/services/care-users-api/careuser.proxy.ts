@@ -3,7 +3,7 @@ import { Inject, Injectable } from '@angular/core';
 import { ApiService } from '../api.service';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { PaginationDTO, UpdateCareUserDTO } from '../../models/careuser.model';
+import { PaginationDTO, UpdateCareUserDTO, CreateCareUserDTO, CareUserDTO } from '../../models/careuser.model';
 
 @Injectable({
    providedIn: 'root'
@@ -22,8 +22,12 @@ export class CareUserProxy{
       return this.apiService.get('api/careuser', searchParams).pipe(map((res) => res));
    }
 
-   updateCareUser(id: string, updateCareUserDTo: UpdateCareUserDTO) {
-   return this.apiService.put(`api/careuser/${id}`, updateCareUserDTo).pipe(map((res) => res));
+   updateCareUser(id: string, updateCareUserDTO: UpdateCareUserDTO) {
+   return this.apiService.put(`api/careuser/${id}`, updateCareUserDTO).pipe(map((res) => res));
+   }
+
+   createCareuser(createCareUserDTO: CreateCareUserDTO):Observable<CareUserDTO>{
+      return this.apiService.post('api/careuser', createCareUserDTO).pipe(map((res) => res));
    }
 
 }
