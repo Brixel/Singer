@@ -1,6 +1,6 @@
 {
   "name": "Singer",
-  "version": "0.1.0-issue-service-abstraction.213",
+  "version": "0.1.0-issue-service-abstraction.216",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
