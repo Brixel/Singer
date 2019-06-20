@@ -5,7 +5,7 @@ using Singer.Helpers;
 
 namespace Singer.Services.Interfaces
 {
-   public interface IService<TEntity, TDTO>
+   public interface IDatabaseService<TEntity, TDTO>
       where TEntity : IIdentifiable
    {
       Task<TDTO> CreateAsync(TDTO dto);
