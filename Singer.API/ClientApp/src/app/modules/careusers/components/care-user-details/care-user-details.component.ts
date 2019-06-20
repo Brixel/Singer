@@ -310,14 +310,6 @@ export class CareUserDetailsComponent implements OnInit {
       return false;
    }
 
-   onFormValueChanges() {
-      // If a key is lifted and we are editing an existing user then check for changes
-      // if (!this.isAdding)
-      //    this.checkForChanges()
-      //       ? (this.isChangesMade = true)
-      //       : (this.isChangesMade = false);
-   }
-
    // Load form field values into current care user instance
    private updateCurrentCareUserInstance() {
       this.currentCareUserInstance = {

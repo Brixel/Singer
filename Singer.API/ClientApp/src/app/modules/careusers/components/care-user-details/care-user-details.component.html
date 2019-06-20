@@ -15,7 +15,6 @@
                matInput
                [placeholder]="lastNameFieldPlaceholder"
                formControlName="lastNameFieldControl"
-               (input)="onFormValueChanges()"
             />
             <mat-error
                *ngIf="formControlGroup.controls.lastNameFieldControl.invalid"
@@ -29,7 +28,6 @@
                matInput
                [placeholder]="firstNameFieldPlaceholder"
                formControlName="firstNameFieldControl"
-               (input)="onFormValueChanges()"
             />
             <mat-error
                *ngIf="formControlGroup.controls.firstNameFieldControl.invalid"
@@ -47,8 +45,6 @@
             [matDatepicker]="picker"
             [placeholder]="birthdayFieldPlaceholder"
             formControlName="birthdayFieldControl"
-            (dateChange)="onFormValueChanges()"
-            (dateInput)="onFormValueChanges()"
          />
          <mat-error
             *ngIf="formControlGroup.controls.birthdayFieldControl.invalid"
@@ -73,7 +69,6 @@
             matInput
             [placeholder]="caseNumberFieldPlaceholder"
             formControlName="caseNumberFieldControl"
-            (input)="onFormValueChanges()"
          />
          <mat-error
             *ngIf="formControlGroup.controls.caseNumberFieldControl.invalid"
@@ -87,8 +82,6 @@
             mat-input
             [placeholder]="ageGroupFieldPlaceholder"
             formControlName="ageGroupFieldControl"
-            (openedChange)="onFormValueChanges()"
-            (selectionChange)="onFormValueChanges()"
          >
             <mat-option value="1">Kinderen</mat-option>
             <mat-option value="2">Jongeren</mat-option>
@@ -105,8 +98,6 @@
             mat-input
             [placeholder]="isExternFieldPlaceholder"
             formControlName="isExternFieldControl"
-            (openedChange)="onFormValueChanges()"
-            (selectionChange)="onFormValueChanges()"
          >
             <mat-option value="false">Klas</mat-option>
             <mat-option value="true">Extern</mat-option>
@@ -129,8 +120,6 @@
             mat-input
             [placeholder]="hasTrajectoryFieldPlaceholder"
             formControlName="hasTrajectoryFieldControl"
-            (openedChange)="onFormValueChanges()"
-            (selectionChange)="onFormValueChanges()"
          >
             <mat-option value="true">Ja</mat-option>
             <mat-option value="false">Nee</mat-option>
@@ -147,8 +136,6 @@
             mat-input
             [placeholder]="hasNormalDayCareFieldPlaceholder"
             formControlName="hasNormalDayCareFieldControl"
-            (openedChange)="onFormValueChanges()"
-            (selectionChange)="onFormValueChanges()"
          >
             <mat-option value="true">Ja</mat-option>
             <mat-option value="false">Nee</mat-option>
@@ -167,8 +154,6 @@
             mat-input
             [placeholder]="hasVacationDayCareFieldPlaceholder"
             formControlName="hasVacationDayCareFieldControl"
-            (openedChange)="onFormValueChanges()"
-            (selectionChange)="onFormValueChanges()"
          >
             <mat-option value="true">Ja</mat-option>
             <mat-option value="false">Nee</mat-option>
@@ -187,8 +172,6 @@
             mat-input
             [placeholder]="hasResourcesFieldPlaceholder"
             formControlName="hasResourcesFieldControl"
-            (openedChange)="onFormValueChanges()"
-            (selectionChange)="onFormValueChanges()"
          >
             <mat-option value="true">Ja</mat-option>
             <mat-option value="false">Nee</mat-option>
