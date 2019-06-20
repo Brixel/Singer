@@ -240,7 +240,6 @@
             (click)="submitForm()"
             title="Formulier sluiten"
             aria-label="Formulier sluiten"
-            [disabled]="!isChangesMade"
             *ngIf="!isAdding"
          >
             Opslaan
@@ -249,7 +248,7 @@
          <!-- Close Button -->
          <button
             mat-raised-button
-            color="primary"
+            color="accent"
             (click)="closeForm()"
             title="Formulier sluiten"
             aria-label="Formulier sluiten"

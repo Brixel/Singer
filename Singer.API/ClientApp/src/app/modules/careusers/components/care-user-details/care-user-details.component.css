@@ -23,6 +23,11 @@
  }
 
  /* BUTTON ROW STYLING */
- .button-row > *:not(:last-child){
-   margin-right: 30px;
+ .button-row {
+   margin-left: auto;
+   margin-right: 10px;
+ }
+
+ .button-row *:last-child {
+   margin-right: 0px;
  }
