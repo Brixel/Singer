@@ -30,11 +30,8 @@ export class CareUserDetailsComponent implements OnInit {
    //#region Binding properties for form:
 
    // Form placeholders
-   idFieldPlaceholder: string = 'ID';
    firstNameFieldPlaceholder: string = 'Voornaam';
    lastNameFieldPlaceholder: string = 'Familienaam';
-   emailFieldPlaceholder: string = 'email';
-   userNameFieldPlaceholder: string = 'Gebruikersnaam';
    birthdayFieldPlaceholder: string = 'Geboortedatum';
    caseNumberFieldPlaceholder: string = 'Dossiernr';
    ageGroupFieldPlaceholder: string = 'Leeftijdsgroep';
@@ -51,14 +48,8 @@ export class CareUserDetailsComponent implements OnInit {
    // Form control group
    formControlGroup: FormGroup = new FormGroup({
       // Form controls
-      idFieldControl: new FormControl('', [Validators.required]),
       firstNameFieldControl: new FormControl('', [Validators.required]),
       lastNameFieldControl: new FormControl('', [Validators.required]),
-      emailFieldControl: new FormControl('', [
-         Validators.required,
-         Validators.email,
-      ]),
-      userNameFieldControl: new FormControl('', [Validators.required]),
       birthdayFieldControl: new FormControl(null, [Validators.required]),
       caseNumberFieldControl: new FormControl('', [Validators.required]),
       ageGroupFieldControl: new FormControl('', [Validators.required]),
@@ -199,31 +190,22 @@ export class CareUserDetailsComponent implements OnInit {
 
    // Fill in the data of the current care usrers instance
    private loadCurrentCareUserInstanceValues() {
-      this.formControlGroup.controls.idFieldControl.reset(
-         this.currentCareUserInstance.id
-      );
       this.formControlGroup.controls.firstNameFieldControl.reset(
          this.currentCareUserInstance.firstName
       );
       this.formControlGroup.controls.lastNameFieldControl.reset(
          this.currentCareUserInstance.lastName
       );
-      this.formControlGroup.controls.emailFieldControl.reset(
-         this.currentCareUserInstance.email
-      );
-      this.formControlGroup.controls.userNameFieldControl.reset(
-         this.currentCareUserInstance.userName
-      );
       this.formControlGroup.controls.birthdayFieldControl.reset(
-         this.currentCareUserInstance.birthDay
+         new Date(this.currentCareUserInstance.birthDay)
       );
       this.formControlGroup.controls.caseNumberFieldControl.reset(
          this.currentCareUserInstance.caseNumber
       );
       this.formControlGroup.controls.ageGroupFieldControl.reset(
-         this.currentCareUserInstance.ageGroup === 'Kinderen'
-            ? 'child'
-            : 'youngster'
+         this.currentCareUserInstance.ageGroup == '1'
+            ? '1'
+            : '2'
       );
       this.formControlGroup.controls.isExternFieldControl.reset(
          this.currentCareUserInstance.isExtern ? 'true' : 'false'
@@ -244,10 +226,8 @@ export class CareUserDetailsComponent implements OnInit {
 
    // Clear all form fields
    private resetFormControls() {
-      this.formControlGroup.controls.idFieldControl.reset();
       this.formControlGroup.controls.firstNameFieldControl.reset();
       this.formControlGroup.controls.lastNameFieldControl.reset();
-      this.formControlGroup.controls.emailFieldControl.reset();
       this.formControlGroup.controls.birthdayFieldControl.reset();
       this.formControlGroup.controls.caseNumberFieldControl.reset();
       this.formControlGroup.controls.ageGroupFieldControl.reset();
@@ -260,11 +240,8 @@ export class CareUserDetailsComponent implements OnInit {
 
    //If we are editing an existing user and there are no changes return false
    checkForChanges(): boolean {
-      if (
-         this.currentCareUserInstance.id !==
-         this.formControlGroup.controls.idFieldControl.value
-      )
-         return true;
+      console.log('event fired');
+      debugger;
       if (
          this.currentCareUserInstance.firstName !==
          this.formControlGroup.controls.firstNameFieldControl.value
@@ -273,34 +250,44 @@ export class CareUserDetailsComponent implements OnInit {
       if (
          this.currentCareUserInstance.lastName !==
          this.formControlGroup.controls.lastNameFieldControl.value
-      )
+      ) {
          return true;
-      if (
-         this.currentCareUserInstance.email !==
-         this.formControlGroup.controls.emailFieldControl.value
-      )
+      }
+
+      var instanceDate = new Date(this.currentCareUserInstance.birthDay);
+      var formDate = new Date(
+         this.formControlGroup.controls.birthdayFieldControl.value
+      );
+
+      if (instanceDate.getFullYear() !== formDate.getFullYear()) {
          return true;
-      if (
-         this.currentCareUserInstance.birthDay.getFullYear() !==
-            this.formControlGroup.controls.birthdayFieldControl.value
-               .getFullYear() ||
-         this.currentCareUserInstance.birthDay.getMonth() !==
-            this.formControlGroup.controls.birthdayFieldControl.value
-               .getMonth() ||
-         this.currentCareUserInstance.birthDay.getDay() !==
-            this.formControlGroup.controls.birthdayFieldControl.value.getDay()
-      )
+      }
+      if (instanceDate.getMonth() !== formDate.getMonth()) {
          return true;
+      }
+      if (instanceDate.getDay() !== formDate.getDay()) {
+         return true;
+      }
+
+      // if (
+      //    new Date(this.currentCareUserInstance.birthDay).getFullYear() !==
+      //       new Date(
+      //          this.formControlGroup.controls.birthdayFieldControl.value
+      //       ).getFullYear() ||
+      //     new Date(this.currentCareUserInstance.birthDay).getMonth() !==
+      //       new Date(this.formControlGroup.controls.birthdayFieldControl.value).getMonth() ||
+      //    new Date(this.currentCareUserInstance.birthDay).getDay() !==
+      //      new Date(this.formControlGroup.controls.birthdayFieldControl.value).getDay()
+      // )
+      //    return true;
       if (
          this.currentCareUserInstance.caseNumber !==
          this.formControlGroup.controls.caseNumberFieldControl.value
       )
          return true;
       if (
-         this.currentCareUserInstance.ageGroup !==
-         (this.formControlGroup.controls.ageGroupFieldControl.value === 'child'
-            ? 'Kinderen'
-            : 'Jongeren')
+         this.currentCareUserInstance.ageGroup !=
+         (this.formControlGroup.controls.ageGroupFieldControl.value)
       )
          return true;
       if (
@@ -356,11 +343,11 @@ export class CareUserDetailsComponent implements OnInit {
    // Load form field values into current care user instance
    private updateCurrentCareUserInstance() {
       this.currentCareUserInstance = {
-         id: this.formControlGroup.controls.idFieldControl.value,
+         id: this.currentCareUserInstance.id,
          firstName: this.formControlGroup.controls.firstNameFieldControl.value,
          lastName: this.formControlGroup.controls.lastNameFieldControl.value,
-         email: this.formControlGroup.controls.emailFieldControl.value,
-         userName: '',
+         email: this.currentCareUserInstance.email,
+         userName: this.currentCareUserInstance.userName,
          birthDay: this.formControlGroup.controls.birthdayFieldControl.value,
          caseNumber: this.formControlGroup.controls.caseNumberFieldControl
             .value,
@@ -394,7 +381,7 @@ export class CareUserDetailsComponent implements OnInit {
 
    // Submit the form
    submitForm() {
-      //if (this.formControlGroup.invalid) return;
+      if (this.formControlGroup.invalid) return;
       this.updateCurrentCareUserInstance();
       this.submitEvent.emit(this.currentCareUserInstance);
       this.closeForm();

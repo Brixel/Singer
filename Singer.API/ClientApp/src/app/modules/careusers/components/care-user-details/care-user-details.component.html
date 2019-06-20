@@ -87,10 +87,11 @@
             mat-input
             [placeholder]="ageGroupFieldPlaceholder"
             formControlName="ageGroupFieldControl"
+            (openedChange)="onFormValueChanges()"
             (selectionChange)="onFormValueChanges()"
          >
-            <mat-option value="child">Kinderen</mat-option>
-            <mat-option value="youngster">Jongeren</mat-option>
+            <mat-option value="1">Kinderen</mat-option>
+            <mat-option value="2">Jongeren</mat-option>
          </mat-select>
          <mat-error
             *ngIf="formControlGroup.controls.ageGroupFieldControl.invalid"
@@ -104,6 +105,7 @@
             mat-input
             [placeholder]="isExternFieldPlaceholder"
             formControlName="isExternFieldControl"
+            (openedChange)="onFormValueChanges()"
             (selectionChange)="onFormValueChanges()"
          >
             <mat-option value="false">Klas</mat-option>
@@ -127,6 +129,7 @@
             mat-input
             [placeholder]="hasTrajectoryFieldPlaceholder"
             formControlName="hasTrajectoryFieldControl"
+            (openedChange)="onFormValueChanges()"
             (selectionChange)="onFormValueChanges()"
          >
             <mat-option value="true">Ja</mat-option>
@@ -144,6 +147,7 @@
             mat-input
             [placeholder]="hasNormalDayCareFieldPlaceholder"
             formControlName="hasNormalDayCareFieldControl"
+            (openedChange)="onFormValueChanges()"
             (selectionChange)="onFormValueChanges()"
          >
             <mat-option value="true">Ja</mat-option>
@@ -163,6 +167,7 @@
             mat-input
             [placeholder]="hasVacationDayCareFieldPlaceholder"
             formControlName="hasVacationDayCareFieldControl"
+            (openedChange)="onFormValueChanges()"
             (selectionChange)="onFormValueChanges()"
          >
             <mat-option value="true">Ja</mat-option>
@@ -182,6 +187,7 @@
             mat-input
             [placeholder]="hasResourcesFieldPlaceholder"
             formControlName="hasResourcesFieldControl"
+            (openedChange)="onFormValueChanges()"
             (selectionChange)="onFormValueChanges()"
          >
             <mat-option value="true">Ja</mat-option>
