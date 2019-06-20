@@ -79,7 +79,7 @@ namespace Singer.Services
 
       #region METHODS
 
-      public async Task<T> CreateUserAsync<T>(T createUser) where T : CareUser
+      public Task<TOut> CreateUserAsync<TOut, TIn>(TIn createUser) where TOut : CareUserDTO where TIn : CreateCareUserDTO
       {
          // TODO User UserManager
          throw new NotImplementedException();

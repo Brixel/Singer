@@ -1,17 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 using AutoMapper;
-using IdentityModel;
 using IdentityServer4.AccessTokenValidation;
 using IdentityServer4.EntityFramework.DbContexts;
-using IdentityServer4.EntityFramework.Entities;
-using IdentityServer4.EntityFramework.Mappers;
-using IdentityServer4.Test;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -22,18 +15,13 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 using Singer.Configuration;
 using Singer.Data;
-using Singer.Data.Identity;
-using Singer.Data.Models;
 using Singer.Data.Models.Configuration;
-using Singer.IdentityService;
 using Singer.Models;
 using Singer.Services;
 using Singer.Services.Utils;
 using Singer.Services.Interfaces;
-using ApiResource = IdentityServer4.EntityFramework.Entities.ApiResource;
 
 namespace Singer
 {

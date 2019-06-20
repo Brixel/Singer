@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Singer.Data;
 using Singer.DTOs;
@@ -16,17 +17,62 @@ namespace Singer.Services
 {
    public class UserService : IUserService
    {
-      private ApplicationDbContext _appContext;
+      private readonly ApplicationDbContext _appContext;
+      private readonly UserManager<User> _userManager;
 
-      public UserService(ApplicationDbContext appContext)
+      public UserService(ApplicationDbContext appContext, UserManager<User> userManager)
       {
          _appContext = appContext;
+         _userManager = userManager;
       }
 
-      public async Task<T> CreateUserAsync<T>(T createUser) where T : CareUser
+      public async Task<TOut> CreateUserAsync<TOut, TIn>(TIn createUser)
+         where TIn : CreateCareUserDTO
+         where TOut: CareUserDTO
       {
-         // TODO Use Usermanager
-         throw new NotImplementedException();
+         var user = new User()
+         {
+            FirstName = createUser.FirstName,
+            LastName = createUser.LastName,
+            UserName = Guid.NewGuid().ToString()
+         };
+         var careUser = new CareUser()
+         {
+            User = user,
+            AgeGroup =  createUser.AgeGroup,
+            BirthDay = createUser.BirthDay,
+            CaseNumber = createUser.CaseNumber,
+            HasNormalDayCare = createUser.HasNormalDayCare,
+            HasResources = createUser.HasResources,
+            HasTrajectory = createUser.HasTrajectory,
+            HasVacationDayCare = createUser.HasVacationDayCare,
+            IsExtern = createUser.IsExtern
+         };
+         var userCreationResult = await _userManager.CreateAsync(user);
+         if (!userCreationResult.Succeeded)
+         {
+            throw new Exception($"User can not be created. {userCreationResult.Errors.First().Description}");
+         }
+
+         _appContext.CareUsers.Add(careUser);
+         _appContext.SaveChanges();
+
+         return (TOut) new CareUserDTO()
+         {
+            Id = careUser.Id,
+            HasNormalDayCare = careUser.HasNormalDayCare,
+            UserName = user.UserName,
+            AgeGroup = careUser.AgeGroup,
+            HasTrajectory = careUser.HasTrajectory,
+            HasVacationDayCare = careUser.HasVacationDayCare,
+            BirthDay = careUser.BirthDay,
+            HasResources = careUser.HasResources,
+            CaseNumber = careUser.CaseNumber,
+            IsExtern = careUser.IsExtern,
+            FirstName = user.FirstName,
+            UserId = user.Id,
+            LastName = user.LastName
+         };
       }
 
       public async Task<IList<T>> GetAllUsersAsync<T>() where T : CareUser
@@ -46,7 +92,7 @@ namespace Singer.Services
 
          var orderByLambda = PropertyHelpers.GetPropertySelector<CareUserDTO>(sortColumn);
 
-         var result = users.ToPagedList(Filter(filter), ProjectToCareUserDTO(),
+         var result = users.ToPagedList(Filter(filter), ProjectToCareUserDTO(), 
             orderByLambda, sortDirection, page,
             userPerPage);
 

@@ -21,7 +21,7 @@ import {
    MatDividerModule,
 } from '@angular/material';
 import { CareUserProxy } from '../core/services/care-users-api/careuser.proxy';
-import { CareUsersService as CareUsersService } from '../core/services/care-users-api/care-users-api.service';
+import { CareUserService as CareUserService } from "../core/services/care-users-api/careusers.service";
 import { ApiService } from '../core/services/api.service';
 import { AgegroupPipe } from '../core/services/agegroup.pipe';
 import { CoreModule } from '../core/core.module';
@@ -57,6 +57,6 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
    entryComponents: [
       CareUserDetailsComponent
    ],
-   providers:[CareUserProxy, CareUsersService, ApiService, AgegroupPipe]
+   providers:[CareUserProxy, CareUserService, ApiService, AgegroupPipe]
 })
 export class CareUsersModule {}

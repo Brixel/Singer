@@ -1,11 +1,12 @@
 import { AfterViewInit, Component, ViewChild, OnInit, ElementRef } from '@angular/core';
 import { MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { OverviewDataSource } from './overview-datasource';
-import { CareUsersService, CareUser } from 'src/app/modules/core/services/care-users-api/care-users-api.service';
 import { DataSource } from '@angular/cdk/table';
 import { merge, fromEvent } from 'rxjs';
 import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { CareUserDetailsComponent } from '../care-user-details/care-user-details.component';
+import { CareUserService } from 'src/app/modules/core/services/care-users-api/careusers.service';
+import { CareUser } from 'src/app/modules/core/models/careuser.model';
 
 @Component({
    selector: 'app-overview',
@@ -39,7 +40,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
    ];
    filter: string;
 
-    constructor(public dialog: MatDialog, private careUserService: CareUsersService){}
+    constructor(public dialog: MatDialog, private careUserService: CareUserService){}
 
    ngOnInit(){
       this.dataSource = new OverviewDataSource(this.careUserService);
@@ -69,9 +70,12 @@ export class OverviewComponent implements OnInit, AfterViewInit {
       });
 
       dialogRef.componentInstance.submitEvent.subscribe((result: CareUser) => {
-         console.log('The dialog was closed');
-         console.log(result);
-         this.loadCareUsers();
+         this.careUserService.createCareUser(result).subscribe((res) =>{
+
+            console.log('The dialog was closed');
+            console.log(result);
+            this.loadCareUsers();
+         })
       });
    }
 
