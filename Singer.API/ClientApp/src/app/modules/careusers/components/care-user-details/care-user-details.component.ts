@@ -203,9 +203,7 @@ export class CareUserDetailsComponent implements OnInit {
          this.currentCareUserInstance.caseNumber
       );
       this.formControlGroup.controls.ageGroupFieldControl.reset(
-         this.currentCareUserInstance.ageGroup == '1'
-            ? '1'
-            : '2'
+         this.currentCareUserInstance.ageGroup == '1' ? '1' : '2'
       );
       this.formControlGroup.controls.isExternFieldControl.reset(
          this.currentCareUserInstance.isExtern ? 'true' : 'false'
@@ -240,8 +238,6 @@ export class CareUserDetailsComponent implements OnInit {
 
    //If we are editing an existing user and there are no changes return false
    checkForChanges(): boolean {
-      console.log('event fired');
-      debugger;
       if (
          this.currentCareUserInstance.firstName !==
          this.formControlGroup.controls.firstNameFieldControl.value
@@ -259,27 +255,9 @@ export class CareUserDetailsComponent implements OnInit {
          this.formControlGroup.controls.birthdayFieldControl.value
       );
 
-      if (instanceDate.getFullYear() !== formDate.getFullYear()) {
-         return true;
-      }
-      if (instanceDate.getMonth() !== formDate.getMonth()) {
-         return true;
-      }
-      if (instanceDate.getDay() !== formDate.getDay()) {
-         return true;
-      }
-
-      // if (
-      //    new Date(this.currentCareUserInstance.birthDay).getFullYear() !==
-      //       new Date(
-      //          this.formControlGroup.controls.birthdayFieldControl.value
-      //       ).getFullYear() ||
-      //     new Date(this.currentCareUserInstance.birthDay).getMonth() !==
-      //       new Date(this.formControlGroup.controls.birthdayFieldControl.value).getMonth() ||
-      //    new Date(this.currentCareUserInstance.birthDay).getDay() !==
-      //      new Date(this.formControlGroup.controls.birthdayFieldControl.value).getDay()
-      // )
-      //    return true;
+      if (instanceDate.getFullYear() !== formDate.getFullYear()) return true;
+      if (instanceDate.getMonth() !== formDate.getMonth()) return true;
+      if (instanceDate.getDay() !== formDate.getDay()) return true;
       if (
          this.currentCareUserInstance.caseNumber !==
          this.formControlGroup.controls.caseNumberFieldControl.value
@@ -287,7 +265,7 @@ export class CareUserDetailsComponent implements OnInit {
          return true;
       if (
          this.currentCareUserInstance.ageGroup !=
-         (this.formControlGroup.controls.ageGroupFieldControl.value)
+         this.formControlGroup.controls.ageGroupFieldControl.value
       )
          return true;
       if (
@@ -334,10 +312,10 @@ export class CareUserDetailsComponent implements OnInit {
 
    onFormValueChanges() {
       // If a key is lifted and we are editing an existing user then check for changes
-      if (!this.isAdding)
-         this.checkForChanges()
-            ? (this.isChangesMade = true)
-            : (this.isChangesMade = false);
+      // if (!this.isAdding)
+      //    this.checkForChanges()
+      //       ? (this.isChangesMade = true)
+      //       : (this.isChangesMade = false);
    }
 
    // Load form field values into current care user instance
@@ -382,8 +360,10 @@ export class CareUserDetailsComponent implements OnInit {
    // Submit the form
    submitForm() {
       if (this.formControlGroup.invalid) return;
-      this.updateCurrentCareUserInstance();
-      this.submitEvent.emit(this.currentCareUserInstance);
+      if (this.checkForChanges()) {
+         this.updateCurrentCareUserInstance();
+         this.submitEvent.emit(this.currentCareUserInstance);
+      }
       this.closeForm();
    }
 
