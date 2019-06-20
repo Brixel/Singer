@@ -4,19 +4,37 @@ h1 {
    color: #3f51b5;
 }
 
+/* SMALL RESOLUTIONS */
+
 /* FILTER FORM FIELD STYLING */
 .mat-form-field {
    font-size: 14px;
-   width: 75%;
    margin: 10px auto;
    display: block;
- }
+}
 
 /* MAIN TABLE STYLING */
 .overview-table {
-   width: 75%;
    overflow: auto;
    margin: 10px auto;
+}
+
+/* MEDIUM - LARGE RESOLUTIONS */
+@media (min-width: 1150px) {
+   /* FILTER FORM FIELD STYLING */
+   .mat-form-field {
+      font-size: 14px;
+      width: 1135px;
+      margin: 10px auto;
+      display: block;
+   }
+
+   /* MAIN TABLE STYLING */
+   .overview-table {
+      width: 1135px;
+      overflow: auto;
+      margin: 10px auto;
+   }
 }
 
 /* TABLE HEADER STYLING */
@@ -28,11 +46,11 @@ th {
 
 /* SELECTABLE ROW STYLING */
 tr.selectable:not(.example-expanded-row):hover {
-  background: rgb(149, 190, 248);
+   background: rgb(149, 190, 248);
 }
 
 tr.selectable:not(.example-expanded-row):active {
-  background: #efefef;
+   background: #efefef;
 }
 
 /* INDIVIDUAL COLUMN STYLING */
