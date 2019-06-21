@@ -30,16 +30,16 @@ export class CareUserDetailsComponent implements OnInit {
    //#region Binding properties for form:
 
    // Form placeholders
-   firstNameFieldPlaceholder: string = 'Voornaam';
-   lastNameFieldPlaceholder: string = 'Familienaam';
-   birthdayFieldPlaceholder: string = 'Geboortedatum';
-   caseNumberFieldPlaceholder: string = 'Dossiernr';
-   ageGroupFieldPlaceholder: string = 'Leeftijdsgroep';
-   isExternFieldPlaceholder: string = 'Klas of extern';
-   hasTrajectoryFieldPlaceholder: string = 'Trajectfunctie';
-   hasNormalDayCareFieldPlaceholder: string = 'Opvang normaal';
-   hasVacationDayCareFieldPlaceholder: string = 'Opvang vakantie';
-   hasResourcesFieldPlaceholder: string = 'Voldoende middelen';
+   firstNameFieldPlaceholder = 'Voornaam';
+   lastNameFieldPlaceholder = 'Familienaam';
+   birthdayFieldPlaceholder = 'Geboortedatum';
+   caseNumberFieldPlaceholder = 'Dossiernr';
+   ageGroupFieldPlaceholder = 'Leeftijdsgroep';
+   isExternFieldPlaceholder = 'Klas of extern';
+   hasTrajectoryFieldPlaceholder = 'Trajectfunctie';
+   hasNormalDayCareFieldPlaceholder = 'Opvang normaal';
+   hasVacationDayCareFieldPlaceholder = 'Opvang vakantie';
+   hasResourcesFieldPlaceholder = 'Voldoende middelen';
 
    // Min and Max dates for the birthday datepicker
    birthdayDatePickerMinDate: Date = new Date(1900, 0, 1);
@@ -197,7 +197,7 @@ export class CareUserDetailsComponent implements OnInit {
          this.currentCareUserInstance.lastName
       );
       this.formControlGroup.controls.birthdayFieldControl.reset(
-         new Date(this.currentCareUserInstance.birthDay)
+         this.currentCareUserInstance.birthDay
       );
       this.formControlGroup.controls.caseNumberFieldControl.reset(
          this.currentCareUserInstance.caseNumber
@@ -236,13 +236,14 @@ export class CareUserDetailsComponent implements OnInit {
       this.formControlGroup.controls.hasResourcesFieldControl.reset();
    }
 
-   //If we are editing an existing user and there are no changes return false
+   // If we are editing an existing user and there are no changes return false
    checkForChanges(): boolean {
       if (
          this.currentCareUserInstance.firstName !==
          this.formControlGroup.controls.firstNameFieldControl.value
-      )
+      ) {
          return true;
+      }
       if (
          this.currentCareUserInstance.lastName !==
          this.formControlGroup.controls.lastNameFieldControl.value
@@ -250,68 +251,76 @@ export class CareUserDetailsComponent implements OnInit {
          return true;
       }
 
-      var instanceDate = new Date(this.currentCareUserInstance.birthDay);
-      var formDate = new Date(
+      const instanceDate = new Date(this.currentCareUserInstance.birthDay);
+      const formDate = new Date(
          this.formControlGroup.controls.birthdayFieldControl.value
       );
 
-      if (instanceDate.getFullYear() !== formDate.getFullYear()) return true;
-      if (instanceDate.getMonth() !== formDate.getMonth()) return true;
-      if (instanceDate.getDay() !== formDate.getDay()) return true;
+      if (instanceDate.getFullYear() !== formDate.getFullYear()) { return true; }
+      if (instanceDate.getMonth() !== formDate.getMonth()) { return true; }
+      if (instanceDate.getDay() !== formDate.getDay()) { return true; }
       if (
          this.currentCareUserInstance.caseNumber !==
          this.formControlGroup.controls.caseNumberFieldControl.value
-      )
+      ) {
          return true;
+      }
       if (
          this.currentCareUserInstance.ageGroup !=
          this.formControlGroup.controls.ageGroupFieldControl.value
-      )
+      ) {
          return true;
+      }
       if (
          this.currentCareUserInstance.isExtern !==
          (this.formControlGroup.controls.isExternFieldControl.value === 'true'
             ? true
             : false)
-      )
+      ) {
          return true;
+      }
       if (
          this.currentCareUserInstance.hasTrajectory !==
          (this.formControlGroup.controls.hasTrajectoryFieldControl.value ===
          'true'
             ? true
             : false)
-      )
+      ) {
          return true;
+      }
       if (
          this.currentCareUserInstance.hasNormalDayCare !==
          (this.formControlGroup.controls.hasNormalDayCareFieldControl.value ===
          'true'
             ? true
             : false)
-      )
+      ) {
          return true;
+      }
       if (
          this.currentCareUserInstance.hasVacationDayCare !==
          (this.formControlGroup.controls.hasVacationDayCareFieldControl
             .value === 'true'
             ? true
             : false)
-      )
+      ) {
          return true;
+      }
       if (
          this.currentCareUserInstance.hasResources !==
          (this.formControlGroup.controls.hasResourcesFieldControl.value ===
          'true'
             ? true
             : false)
-      )
+      ) {
          return true;
+      }
       return false;
    }
 
    // Load form field values into current care user instance
    private updateCurrentCareUserInstance() {
+      console.log(this.formControlGroup.controls.birthdayFieldControl.value);
       this.currentCareUserInstance = {
          id: this.currentCareUserInstance.id,
          firstName: this.formControlGroup.controls.firstNameFieldControl.value,
@@ -352,7 +361,7 @@ export class CareUserDetailsComponent implements OnInit {
    // Submit the form
    submitForm() {
       // Check if form is valid
-      if (this.formControlGroup.invalid) return;
+      if (this.formControlGroup.invalid) { return; }
 
       // Check for changes and determine of an API call is necesarry
       if (this.checkForChanges()) {
