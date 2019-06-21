@@ -27,6 +27,7 @@ import { CoreModule } from '../core/core.module';
 import { CareUserDetailsComponent } from './components/care-user-details/care-user-details.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import { KeysPipe } from '../core/services/keys.pipe';
 
 @NgModule({
    declarations: [OverviewComponent, CareUserDetailsComponent],
@@ -62,6 +63,7 @@ import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/m
       CareUserService,
       ApiService,
       AgegroupPipe,
+      KeysPipe,
       { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }]
 })
 export class CareUsersModule {}

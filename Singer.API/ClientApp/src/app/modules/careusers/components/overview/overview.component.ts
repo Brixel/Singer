@@ -70,9 +70,6 @@ export class OverviewComponent implements OnInit, AfterViewInit {
 
       dialogRef.componentInstance.submitEvent.subscribe((result: CareUser) => {
          this.careUserService.createCareUser(result).subscribe((res) =>{
-
-            console.log('The dialog was closed');
-            console.log(result);
             this.loadCareUsers();
          })
       });

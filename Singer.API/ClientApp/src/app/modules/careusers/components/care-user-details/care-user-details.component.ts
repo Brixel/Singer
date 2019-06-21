@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CareUser } from 'src/app/modules/core/models/careuser.model';
+import { AgeGroup } from 'src/app/modules/core/models/enum';
 
 // Data we pass along with the creation of the Mat-Dialog box
 export interface CareUserDetailsFormData {
@@ -23,6 +24,8 @@ export class CareUserDetailsComponent implements OnInit {
 
    // Boolean to check if changes have been made when editing a user
    isChangesMade: boolean;
+
+   ageGroups = AgeGroup;
 
    // Current care user instance
    currentCareUserInstance: CareUser;
@@ -61,6 +64,27 @@ export class CareUserDetailsComponent implements OnInit {
       ]),
       hasResourcesFieldControl: new FormControl('', [Validators.required]),
    });
+
+   //#endregion
+
+   constructor(
+      // dialogreference to close this dialog
+      public dialogRef: MatDialogRef<CareUserDetailsComponent>,
+      // Care user that we want to edit
+      @Inject(MAT_DIALOG_DATA) public data: CareUserDetailsFormData
+   ) {
+      this.currentCareUserInstance = data.careUserInstance;
+      this.isAdding = data.isAdding;
+   }
+
+   ngOnInit() {
+      // If we are adding a new user then clear all fields
+      // If we are editing an existing user then fill in his data
+
+      this.isAdding
+         ? this.resetFormControls()
+         : this.loadCurrentCareUserInstanceValues();
+   }
 
    //#region Error messages for required fields
    getIdFieldErrorMessage() {
@@ -168,26 +192,6 @@ export class CareUserDetailsComponent implements OnInit {
    }
    //#endregion
 
-   //#endregion
-
-   constructor(
-      // dialogreference to close this dialog
-      public dialogRef: MatDialogRef<CareUserDetailsComponent>,
-      // Care user that we want to edit
-      @Inject(MAT_DIALOG_DATA) public data: CareUserDetailsFormData
-   ) {
-      this.currentCareUserInstance = data.careUserInstance;
-      this.isAdding = data.isAdding;
-   }
-
-   ngOnInit() {
-      // If we are adding a new user then clear all fields
-      // If we are editing an existing user then fill in his data
-      this.isAdding
-         ? this.resetFormControls()
-         : this.loadCurrentCareUserInstanceValues();
-   }
-
    // Fill in the data of the current care usrers instance
    private loadCurrentCareUserInstanceValues() {
       this.formControlGroup.controls.firstNameFieldControl.reset(
@@ -202,8 +206,8 @@ export class CareUserDetailsComponent implements OnInit {
       this.formControlGroup.controls.caseNumberFieldControl.reset(
          this.currentCareUserInstance.caseNumber
       );
-      this.formControlGroup.controls.ageGroupFieldControl.reset(
-         this.currentCareUserInstance.ageGroup == '1' ? '1' : '2'
+      this.formControlGroup.controls.ageGroupFieldControl.setValue(
+         this.currentCareUserInstance.ageGroup
       );
       this.formControlGroup.controls.isExternFieldControl.reset(
          this.currentCareUserInstance.isExtern ? 'true' : 'false'
@@ -266,8 +270,7 @@ export class CareUserDetailsComponent implements OnInit {
          return true;
       }
       if (
-         this.currentCareUserInstance.ageGroup !=
-         this.formControlGroup.controls.ageGroupFieldControl.value
+         this.currentCareUserInstance.ageGroup !==         this.formControlGroup.controls.ageGroupFieldControl.value
       ) {
          return true;
       }
@@ -320,7 +323,6 @@ export class CareUserDetailsComponent implements OnInit {
 
    // Load form field values into current care user instance
    private updateCurrentCareUserInstance() {
-      console.log(this.formControlGroup.controls.birthdayFieldControl.value);
       this.currentCareUserInstance = {
          id: this.currentCareUserInstance.id,
          firstName: this.formControlGroup.controls.firstNameFieldControl.value,

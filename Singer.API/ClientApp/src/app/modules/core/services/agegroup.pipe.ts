@@ -8,14 +8,14 @@ export class AgegroupPipe implements PipeTransform {
 
   transform(value: AgeGroup | string): string {
    let ageGroup: AgeGroup;
-   if(typeof value === 'string'){
+   if (typeof value === 'string') {
       ageGroup = AgeGroup[value];
-   }else{
+   } else {
       ageGroup = value;
    }
 
    let result = '';
-   switch(ageGroup){
+   switch (ageGroup) {
       case AgeGroup.Toddler:
          result = 'Kleuters';
          break;
