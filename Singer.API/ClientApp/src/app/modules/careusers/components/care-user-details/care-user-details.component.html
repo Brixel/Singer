@@ -83,8 +83,8 @@
             [placeholder]="ageGroupFieldPlaceholder"
             formControlName="ageGroupFieldControl"
          >
-            <mat-option value="1">Kinderen</mat-option>
-            <mat-option value="2">Jongeren</mat-option>
+            <mat-option *ngFor="let ageGroup of ageGroups  | keys" [value]="ageGroup.key">{{ ageGroup.value | agegroupPipe }}</mat-option>
+
          </mat-select>
          <mat-error
             *ngIf="formControlGroup.controls.ageGroupFieldControl.invalid"

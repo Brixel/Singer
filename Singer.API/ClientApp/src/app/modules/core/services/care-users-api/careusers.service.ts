@@ -28,7 +28,7 @@ export class CareUserService {
       return this.careuserProxy.updateCareUser(updateUser.id, updateCareUserDTo).pipe(map((res) => res));
    }
 
-   createCareUser(createUser: CareUser){
+   createCareUser(createUser: CareUser) {
       const createCareUserDTO = <CreateCareUserDTO>{
          ageGroup: createUser.ageGroup,
          birthday: createUser.birthDay,

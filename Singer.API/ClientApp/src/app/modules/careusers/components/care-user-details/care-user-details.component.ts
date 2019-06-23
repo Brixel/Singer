@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CareUser } from 'src/app/modules/core/models/careuser.model';
+import { AgeGroup } from 'src/app/modules/core/models/enum';
 
 // Data we pass along with the creation of the Mat-Dialog box
 export interface CareUserDetailsFormData {
@@ -24,22 +25,24 @@ export class CareUserDetailsComponent implements OnInit {
    // Boolean to check if changes have been made when editing a user
    isChangesMade: boolean;
 
+   ageGroups = AgeGroup;
+
    // Current care user instance
    currentCareUserInstance: CareUser;
 
    //#region Binding properties for form:
 
    // Form placeholders
-   firstNameFieldPlaceholder: string = 'Voornaam';
-   lastNameFieldPlaceholder: string = 'Familienaam';
-   birthdayFieldPlaceholder: string = 'Geboortedatum';
-   caseNumberFieldPlaceholder: string = 'Dossiernr';
-   ageGroupFieldPlaceholder: string = 'Leeftijdsgroep';
-   isExternFieldPlaceholder: string = 'Klas of extern';
-   hasTrajectoryFieldPlaceholder: string = 'Trajectfunctie';
-   hasNormalDayCareFieldPlaceholder: string = 'Opvang normaal';
-   hasVacationDayCareFieldPlaceholder: string = 'Opvang vakantie';
-   hasResourcesFieldPlaceholder: string = 'Voldoende middelen';
+   firstNameFieldPlaceholder = 'Voornaam';
+   lastNameFieldPlaceholder = 'Familienaam';
+   birthdayFieldPlaceholder = 'Geboortedatum';
+   caseNumberFieldPlaceholder = 'Dossiernr';
+   ageGroupFieldPlaceholder = 'Leeftijdsgroep';
+   isExternFieldPlaceholder = 'Klas of extern';
+   hasTrajectoryFieldPlaceholder = 'Trajectfunctie';
+   hasNormalDayCareFieldPlaceholder = 'Opvang normaal';
+   hasVacationDayCareFieldPlaceholder = 'Opvang vakantie';
+   hasResourcesFieldPlaceholder = 'Voldoende middelen';
 
    // Min and Max dates for the birthday datepicker
    birthdayDatePickerMinDate: Date = new Date(1900, 0, 1);
@@ -61,6 +64,27 @@ export class CareUserDetailsComponent implements OnInit {
       ]),
       hasResourcesFieldControl: new FormControl('', [Validators.required]),
    });
+
+   //#endregion
+
+   constructor(
+      // dialogreference to close this dialog
+      public dialogRef: MatDialogRef<CareUserDetailsComponent>,
+      // Care user that we want to edit
+      @Inject(MAT_DIALOG_DATA) public data: CareUserDetailsFormData
+   ) {
+      this.currentCareUserInstance = data.careUserInstance;
+      this.isAdding = data.isAdding;
+   }
+
+   ngOnInit() {
+      // If we are adding a new user then clear all fields
+      // If we are editing an existing user then fill in his data
+
+      this.isAdding
+         ? this.resetFormControls()
+         : this.loadCurrentCareUserInstanceValues();
+   }
 
    //#region Error messages for required fields
    getIdFieldErrorMessage() {
@@ -168,26 +192,6 @@ export class CareUserDetailsComponent implements OnInit {
    }
    //#endregion
 
-   //#endregion
-
-   constructor(
-      // dialogreference to close this dialog
-      public dialogRef: MatDialogRef<CareUserDetailsComponent>,
-      // Care user that we want to edit
-      @Inject(MAT_DIALOG_DATA) public data: CareUserDetailsFormData
-   ) {
-      this.currentCareUserInstance = data.careUserInstance;
-      this.isAdding = data.isAdding;
-   }
-
-   ngOnInit() {
-      // If we are adding a new user then clear all fields
-      // If we are editing an existing user then fill in his data
-      this.isAdding
-         ? this.resetFormControls()
-         : this.loadCurrentCareUserInstanceValues();
-   }
-
    // Fill in the data of the current care usrers instance
    private loadCurrentCareUserInstanceValues() {
       this.formControlGroup.controls.firstNameFieldControl.reset(
@@ -197,13 +201,13 @@ export class CareUserDetailsComponent implements OnInit {
          this.currentCareUserInstance.lastName
       );
       this.formControlGroup.controls.birthdayFieldControl.reset(
-         new Date(this.currentCareUserInstance.birthDay)
+         this.currentCareUserInstance.birthDay
       );
       this.formControlGroup.controls.caseNumberFieldControl.reset(
          this.currentCareUserInstance.caseNumber
       );
-      this.formControlGroup.controls.ageGroupFieldControl.reset(
-         this.currentCareUserInstance.ageGroup == '1' ? '1' : '2'
+      this.formControlGroup.controls.ageGroupFieldControl.setValue(
+         this.currentCareUserInstance.ageGroup
       );
       this.formControlGroup.controls.isExternFieldControl.reset(
          this.currentCareUserInstance.isExtern ? 'true' : 'false'
@@ -236,13 +240,14 @@ export class CareUserDetailsComponent implements OnInit {
       this.formControlGroup.controls.hasResourcesFieldControl.reset();
    }
 
-   //If we are editing an existing user and there are no changes return false
+   // If we are editing an existing user and there are no changes return false
    checkForChanges(): boolean {
       if (
          this.currentCareUserInstance.firstName !==
          this.formControlGroup.controls.firstNameFieldControl.value
-      )
+      ) {
          return true;
+      }
       if (
          this.currentCareUserInstance.lastName !==
          this.formControlGroup.controls.lastNameFieldControl.value
@@ -250,63 +255,69 @@ export class CareUserDetailsComponent implements OnInit {
          return true;
       }
 
-      var instanceDate = new Date(this.currentCareUserInstance.birthDay);
-      var formDate = new Date(
+      const instanceDate = new Date(this.currentCareUserInstance.birthDay);
+      const formDate = new Date(
          this.formControlGroup.controls.birthdayFieldControl.value
       );
 
-      if (instanceDate.getFullYear() !== formDate.getFullYear()) return true;
-      if (instanceDate.getMonth() !== formDate.getMonth()) return true;
-      if (instanceDate.getDay() !== formDate.getDay()) return true;
+      if (instanceDate.getFullYear() !== formDate.getFullYear()) { return true; }
+      if (instanceDate.getMonth() !== formDate.getMonth()) { return true; }
+      if (instanceDate.getDay() !== formDate.getDay()) { return true; }
       if (
          this.currentCareUserInstance.caseNumber !==
          this.formControlGroup.controls.caseNumberFieldControl.value
-      )
+      ) {
          return true;
+      }
       if (
-         this.currentCareUserInstance.ageGroup !=
-         this.formControlGroup.controls.ageGroupFieldControl.value
-      )
+         this.currentCareUserInstance.ageGroup !==         this.formControlGroup.controls.ageGroupFieldControl.value
+      ) {
          return true;
+      }
       if (
          this.currentCareUserInstance.isExtern !==
          (this.formControlGroup.controls.isExternFieldControl.value === 'true'
             ? true
             : false)
-      )
+      ) {
          return true;
+      }
       if (
          this.currentCareUserInstance.hasTrajectory !==
          (this.formControlGroup.controls.hasTrajectoryFieldControl.value ===
          'true'
             ? true
             : false)
-      )
+      ) {
          return true;
+      }
       if (
          this.currentCareUserInstance.hasNormalDayCare !==
          (this.formControlGroup.controls.hasNormalDayCareFieldControl.value ===
          'true'
             ? true
             : false)
-      )
+      ) {
          return true;
+      }
       if (
          this.currentCareUserInstance.hasVacationDayCare !==
          (this.formControlGroup.controls.hasVacationDayCareFieldControl
             .value === 'true'
             ? true
             : false)
-      )
+      ) {
          return true;
+      }
       if (
          this.currentCareUserInstance.hasResources !==
          (this.formControlGroup.controls.hasResourcesFieldControl.value ===
          'true'
             ? true
             : false)
-      )
+      ) {
          return true;
+      }
       return false;
    }
 
@@ -352,7 +363,7 @@ export class CareUserDetailsComponent implements OnInit {
    // Submit the form
    submitForm() {
       // Check if form is valid
-      if (this.formControlGroup.invalid) return;
+      if (this.formControlGroup.invalid) { return; }
 
       // Check for changes and determine of an API call is necesarry
       if (this.checkForChanges()) {

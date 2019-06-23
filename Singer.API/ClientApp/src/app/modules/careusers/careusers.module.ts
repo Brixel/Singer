@@ -12,7 +12,6 @@ import {
    MatSelectModule,
    MatProgressSpinnerModule,
    MatDatepickerModule,
-   MatNativeDateModule,
    MatButtonModule,
    MatCardModule,
    MatIconModule,
@@ -21,12 +20,14 @@ import {
    MatDividerModule,
 } from '@angular/material';
 import { CareUserProxy } from '../core/services/care-users-api/careuser.proxy';
-import { CareUserService as CareUserService } from "../core/services/care-users-api/careusers.service";
+import { CareUserService as CareUserService } from '../core/services/care-users-api/careusers.service';
 import { ApiService } from '../core/services/api.service';
 import { AgegroupPipe } from '../core/services/agegroup.pipe';
 import { CoreModule } from '../core/core.module';
 import { CareUserDetailsComponent } from './components/care-user-details/care-user-details.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import { KeysPipe } from '../core/services/keys.pipe';
 
 @NgModule({
    declarations: [OverviewComponent, CareUserDetailsComponent],
@@ -44,7 +45,6 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
       MatCardModule,
       MatProgressSpinnerModule,
       MatDatepickerModule,
-      MatNativeDateModule,
       MatButtonModule,
       MatCardModule,
       MatIconModule,
@@ -52,11 +52,18 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
       ReactiveFormsModule,
       FormsModule,
       MatDialogModule,
-      MatDividerModule
+      MatDividerModule,
+      MatMomentDateModule
    ],
    entryComponents: [
       CareUserDetailsComponent
    ],
-   providers:[CareUserProxy, CareUserService, ApiService, AgegroupPipe]
+   providers: [
+      CareUserProxy,
+      CareUserService,
+      ApiService,
+      AgegroupPipe,
+      KeysPipe,
+      { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }]
 })
 export class CareUsersModule {}

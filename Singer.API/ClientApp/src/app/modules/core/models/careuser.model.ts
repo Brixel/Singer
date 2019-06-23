@@ -1,5 +1,7 @@
-export interface PaginationDTO{
-   previousPageUrl:string;
+import { AgeGroup } from './enum';
+
+export interface PaginationDTO {
+   previousPageUrl: string;
    nextPageUrl: string;
    currentPageUrl: string;
    size: number;
@@ -15,7 +17,7 @@ export interface CareUserDTO {
    userName: string;
    birthday: Date;
    caseNumber: string;
-   ageGroup: string; //Maybe replace by own class?
+   ageGroup: AgeGroup; //Maybe replace by own class?
    isExtern: boolean;
    hasTrajectory: boolean;
    hasNormalDayCare: boolean;
@@ -23,14 +25,14 @@ export interface CareUserDTO {
    hasResources: boolean;
 }
 
-export interface UpdateCareUserDTO{
-   firstName:string;
+export interface UpdateCareUserDTO {
+   firstName: string;
    lastName: string;
    email: string;
    userName: string;
    birthday: Date;
    caseNumber: string;
-   ageGroup: string; //Maybe replace by own class?
+   ageGroup: AgeGroup; //Maybe replace by own class?
    isExtern: boolean;
    hasTrajectory: boolean;
    hasNormalDayCare: boolean;
@@ -38,15 +40,15 @@ export interface UpdateCareUserDTO{
    hasResources: boolean;
 }
 
-export interface CreateCareUserDTO{
+export interface CreateCareUserDTO {
 
-   firstName:string;
+   firstName: string;
    lastName: string;
    email: string;
    userName: string;
    birthday: Date;
    caseNumber: string;
-   ageGroup: string; //Maybe replace by own class?
+   ageGroup: AgeGroup; //Maybe replace by own class?
    isExtern: boolean;
    hasTrajectory: boolean;
    hasNormalDayCare: boolean;
@@ -62,7 +64,7 @@ export class CareUser {
    userName: string;
    birthDay: Date;
    caseNumber: string;
-   ageGroup: string; //Maybe replace by own class?
+   ageGroup: AgeGroup; //Maybe replace by own class?
    isExtern: boolean;
    hasTrajectory: boolean;
    hasNormalDayCare: boolean;
