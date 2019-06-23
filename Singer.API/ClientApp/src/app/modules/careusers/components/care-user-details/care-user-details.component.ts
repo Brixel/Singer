@@ -81,9 +81,12 @@ export class CareUserDetailsComponent implements OnInit {
       // If we are adding a new user then clear all fields
       // If we are editing an existing user then fill in his data
 
-      this.isAdding
-         ? this.resetFormControls()
-         : this.loadCurrentCareUserInstanceValues();
+      if (this.isAdding) {
+         this.resetFormControls();
+         this.createEmptyUser();
+      } else {
+         this.loadCurrentCareUserInstanceValues();
+      }
    }
 
    //#region Error messages for required fields
@@ -240,8 +243,27 @@ export class CareUserDetailsComponent implements OnInit {
       this.formControlGroup.controls.hasResourcesFieldControl.reset();
    }
 
+   createEmptyUser() {
+      this.currentCareUserInstance = {
+         id: '',
+         firstName: '',
+         lastName: '',
+         email: '',
+         userName: '',
+         birthDay: new Date(),
+         caseNumber: '',
+         ageGroup: AgeGroup.Toddler,
+         isExtern: false,
+         hasTrajectory: false,
+         hasNormalDayCare: false,
+         hasVacationDayCare: false,
+         hasResources: false,
+      };
+   }
+
    // If we are editing an existing user and there are no changes return false
    checkForChanges(): boolean {
+      if (this.isAdding) return true;
       if (
          this.currentCareUserInstance.firstName !==
          this.formControlGroup.controls.firstNameFieldControl.value
@@ -323,41 +345,30 @@ export class CareUserDetailsComponent implements OnInit {
 
    // Load form field values into current care user instance
    private updateCurrentCareUserInstance() {
-      this.currentCareUserInstance = {
-         id: this.currentCareUserInstance.id,
-         firstName: this.formControlGroup.controls.firstNameFieldControl.value,
-         lastName: this.formControlGroup.controls.lastNameFieldControl.value,
-         email: this.currentCareUserInstance.email,
-         userName: this.currentCareUserInstance.userName,
-         birthDay: this.formControlGroup.controls.birthdayFieldControl.value,
-         caseNumber: this.formControlGroup.controls.caseNumberFieldControl
-            .value,
-         ageGroup: this.formControlGroup.controls.ageGroupFieldControl.value,
-         isExtern:
-            this.formControlGroup.controls.isExternFieldControl.value === 'true'
-               ? true
-               : false,
-         hasTrajectory:
-            this.formControlGroup.controls.hasTrajectoryFieldControl.value ===
-            'true'
-               ? true
-               : false,
-         hasNormalDayCare:
-            this.formControlGroup.controls.hasNormalDayCareFieldControl
-               .value === 'true'
-               ? true
-               : false,
-         hasVacationDayCare:
-            this.formControlGroup.controls.hasVacationDayCareFieldControl
-               .value === 'true'
-               ? true
-               : false,
-         hasResources:
-            this.formControlGroup.controls.hasResourcesFieldControl.value ===
-            'true'
-               ? true
-               : false,
-      };
+      this.currentCareUserInstance.firstName = this.formControlGroup.controls.firstNameFieldControl.value;
+      this.currentCareUserInstance.lastName = this.formControlGroup.controls.lastNameFieldControl.value;
+      this.currentCareUserInstance.birthDay = this.formControlGroup.controls.birthdayFieldControl.value;
+      this.currentCareUserInstance.caseNumber = this.formControlGroup.controls.caseNumberFieldControl.value;
+      this.currentCareUserInstance.ageGroup = this.formControlGroup.controls.ageGroupFieldControl.value;
+      this.currentCareUserInstance.isExtern = this.formControlGroup.controls.isExternFieldControl.value === 'true'
+      ? true
+      : false;
+      this.currentCareUserInstance.hasTrajectory = this.formControlGroup.controls.hasTrajectoryFieldControl.value ===
+      'true'
+         ? true
+         : false;
+      this.currentCareUserInstance.hasNormalDayCare = this.formControlGroup.controls.hasNormalDayCareFieldControl
+      .value === 'true'
+      ? true
+      : false;
+      this.currentCareUserInstance.hasVacationDayCare = this.formControlGroup.controls.hasVacationDayCareFieldControl
+      .value === 'true'
+      ? true
+      : false;
+      this.currentCareUserInstance.hasResources = this.formControlGroup.controls.hasResourcesFieldControl.value ===
+      'true'
+         ? true
+         : false;
    }
 
    // Submit the form
