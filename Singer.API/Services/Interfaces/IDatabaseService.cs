@@ -107,8 +107,8 @@ namespace Singer.Services.Interfaces
       /// <summary>
       /// Updates a single <see cref="TEntity"/> in the database. This <see cref="TEntity"/> is defined by the <paramref name="id"/>.
       /// </summary>
-      /// <param name="newValue">The new value for the <see cref="TEntity"/> with id <paramref name="id"/>.</param>
       /// <param name="id">The identifier of the <see cref="TEntity"/>.</param>
+      /// <param name="newValue">The new value for the <see cref="TEntity"/> with id <paramref name="id"/>.</param>
       /// <param name="dtoToEntityProjector">
       /// Expression to convert the given <see cref="TDTO"/> to an <see cref="TEntity"/>.
       /// If this value is null, the <see cref="DTOToEntityProjector"/> property is used.
@@ -120,8 +120,8 @@ namespace Singer.Services.Interfaces
       /// <returns>The updated <see cref="TEntity"/> converted to a <see cref="TDTO"/>.</returns>
       /// <exception cref="NotFoundException">There is no element found with the id <paramref name="id"/>.</exception>
       Task<TDTO> UpdateAsync(
-         TDTO newValue,
          Guid id,
+         TDTO newValue,
          Expression<Func<TDTO, TEntity>> dtoToEntityProjector = null,
          Expression<Func<TEntity, TDTO>> entityToDTOProjector = null);
 
