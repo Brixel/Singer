@@ -33,18 +33,18 @@
 /* TABLE HEADER STYLING */
 th {
    font-size: 0.9em;
-   background-color: #3f51b5;
-   color: white;
+   background-color: var(--color-singer-primary);
+   color: var(--color-singer-light-primary-text);
 }
 
 /* SORTING ARROW STYLING */
 ::ng-deep .mat-sort-header-arrow {
-   color: #ffffff;
+   color: var(--color-singer-light-primary-text);
 }
 
 /* SELECTABLE ROW STYLING */
 tr.selectable:not(.example-expanded-row):hover {
-   background: rgb(149, 190, 248);
+   background: var(--color-singer-accent-lighter);
 }
 
 tr.selectable:not(.example-expanded-row):active {
