@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace Singer.Controllers
 {
    /// <summary>
-   /// Abstract class that implements the basice CRUD operations for a controller.
+   /// Abstract class that implements the basic CRUD operations for a controller.
    /// </summary>
    /// <typeparam name="TEntity">The type of the entity to manipulate in the database.</typeparam>
    /// <typeparam name="TDTO">The type that will be exposed to the outside world.</typeparam>
@@ -27,29 +27,22 @@ namespace Singer.Controllers
       /// Constructs a new instance of the <see cref="DataControllerBase{TEntity, TDTO}"/> class.
       /// </summary>
       /// <param name="databaseService">Service to perform operations on the database.</param>
-      /// <param name="env">The environment the controller is hosted in.</param>
-      protected DataControllerBase(IDatabaseService<TEntity, TDTO> databaseService, IHostingEnvironment env)
+      protected DataControllerBase(IDatabaseService<TEntity, TDTO> databaseService)
       {
-         Env = env;
          DatabaseService = databaseService;
       }
 
       #endregion CONSTRUCTORS
 
 
-      #region PROPERTEIS
-
-      /// <summary>
-      /// The environment the controller is hosted in.
-      /// </summary>
-      protected IHostingEnvironment Env { get; }
+      #region PROPERTIES
 
       /// <summary>
       /// Service to perform operations on the database.
       /// </summary>
       protected IDatabaseService<TEntity, TDTO> DatabaseService { get; }
 
-      #endregion PROPERTEIS
+      #endregion PROPERTIES
 
 
       #region METHODS
@@ -66,17 +59,8 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
       public async Task<ActionResult<TDTO>> CreateUser(TDTO dto)
       {
-         try
-         {
-            var returnUser = await DatabaseService.CreateAsync(dto);
-            return Created(nameof(Get), returnUser);
-         }
-         catch (Exception e)
-         {
-            return Env.IsDevelopment()
-               ? StatusCode(StatusCodes.Status500InternalServerError, e.Message)
-               : StatusCode(StatusCodes.Status500InternalServerError, "An error happened");
-         }
+         var returnUser = await DatabaseService.CreateAsync(dto);
+         return Created(nameof(Get), returnUser);
       }
 
       #endregion post
@@ -106,44 +90,35 @@ namespace Singer.Controllers
 
          var orderByLambda = PropertyHelpers.GetPropertySelector<TDTO>(sortColumn);
 
-         try
+         // get the search results of the database query
+         var result = await DatabaseService.GetAsync(
+           filter: filter,
+           orderer: orderByLambda,
+           sortDirection: direction,
+           page: pageIndex,
+           itemsPerPage: pageSize);
+
+
+         var requestPath = HttpContext.Request.Path;
+         var nextPage = (pageIndex * pageSize) + result.Size >= result.TotalCount
+            ? null
+            : $"{requestPath}?PageIndex={pageIndex + pageSize}&Size={pageSize}";
+
+         // create object that holds the paginated elements
+         var page = new PaginationDTO<TDTO>
          {
-            // get the search results of the database query
-            var result = await DatabaseService.GetAsync(
-              filter: filter,
-              orderer: orderByLambda,
-              sortDirection: direction,
-              page: pageIndex,
-              itemsPerPage: pageSize);
-
-
-            var requestPath = HttpContext.Request.Path;
-            var nextPage = (pageIndex * pageSize) + result.Size >= result.TotalCount
+            Items = result.Items,
+            Size = result.Items.Count,
+            PageIndex = pageIndex,
+            CurrentPageUrl = $"{requestPath}?{HttpContext.Request.QueryString.ToString()}",
+            NextPageUrl = nextPage,
+            PreviousPageUrl = pageIndex == 0
                ? null
-               : $"{requestPath}?PageIndex={pageIndex + pageSize}&Size={pageSize}";
+               : $"{requestPath}?PageIndex={pageIndex - pageSize}&Size={pageSize}",
+            TotalSize = result.TotalCount
+         };
 
-            // create object that holds the paginated elements
-            var page = new PaginationDTO<TDTO>
-            {
-               Items = result.Items,
-               Size = result.Items.Count,
-               PageIndex = pageIndex,
-               CurrentPageUrl = $"{requestPath}?{HttpContext.Request.QueryString.ToString()}",
-               NextPageUrl = nextPage,
-               PreviousPageUrl = pageIndex == 0
-                  ? null
-                  : $"{requestPath}?PageIndex={pageIndex - pageSize}&Size={pageSize}",
-               TotalSize = result.TotalCount
-            };
-
-            return Ok(page);
-         }
-         catch (Exception e)
-         {
-            return Env.IsDevelopment()
-               ? StatusCode(StatusCodes.Status500InternalServerError, e.Message)
-               : StatusCode(StatusCodes.Status500InternalServerError, "An error happened");
-         }
+         return Ok(page);
       }
 
       /// <summary>
@@ -157,21 +132,8 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
       public virtual async Task<ActionResult<CareUserDTO>> GetOne(Guid id)
       {
-         try
-         {
-            var dto = await DatabaseService.GetOneAsync(id);
-            return Ok(dto);
-         }
-         catch (NotFoundException)
-         {
-            return NotFound("No entity found with the given id");
-         }
-         catch (Exception e)
-         {
-            return Env.IsDevelopment()
-               ? StatusCode(StatusCodes.Status500InternalServerError, e.Message)
-               : StatusCode(StatusCodes.Status500InternalServerError, "An error happened");
-         }
+         var dto = await DatabaseService.GetOneAsync(id);
+         return Ok(dto);
       }
 
       #endregion get
@@ -190,21 +152,8 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
       public async Task<ActionResult> UpdateUser(Guid id, TDTO dto)
       {
-         try
-         {
-            var result = await DatabaseService.UpdateAsync(id, dto);
-            return Ok(result);
-         }
-         catch (NotFoundException)
-         {
-            return NotFound("No entity found with the given id");
-         }
-         catch (Exception e)
-         {
-            return Env.IsDevelopment()
-               ? StatusCode(StatusCodes.Status500InternalServerError, e.Message)
-               : StatusCode(StatusCodes.Status500InternalServerError, "An error happened");
-         }
+         var result = await DatabaseService.UpdateAsync(id, dto);
+         return Ok(result);
       }
 
       #endregion put
@@ -221,21 +170,8 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
       public async Task<ActionResult> DeleteUser(Guid id)
       {
-         try
-         {
-            await DatabaseService.DeleteAsync(id);
-            return NoContent();
-         }
-         catch (NotFoundException)
-         {
-            return NotFound("No entity found with the given id");
-         }
-         catch (Exception e)
-         {
-            return Env.IsDevelopment()
-               ? StatusCode(StatusCodes.Status500InternalServerError, e.Message)
-               : StatusCode(StatusCodes.Status500InternalServerError, "An error happened");
-         }
+         await DatabaseService.DeleteAsync(id);
+         return NoContent();
       }
 
       #endregion delete
