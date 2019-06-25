@@ -18,7 +18,7 @@
             />
             <mat-error
                *ngIf="formControlGroup.controls.lastNameFieldControl.invalid"
-               >{{ getLastNameFieldErrorMessage() }}</mat-error
+               >{{ getRequiredFieldErrorMessage(formControlGroup.controls.lastNameFieldControl) }}</mat-error
             >
          </mat-form-field>
 
@@ -31,7 +31,7 @@
             />
             <mat-error
                *ngIf="formControlGroup.controls.firstNameFieldControl.invalid"
-               >{{ getFirstNameFieldErrorMessage() }}</mat-error
+               >{{ getRequiredFieldErrorMessage(formControlGroup.controls.firstNameFieldControl) }}</mat-error
             >
          </mat-form-field>
       </div>
@@ -48,7 +48,7 @@
          />
          <mat-error
             *ngIf="formControlGroup.controls.birthdayFieldControl.invalid"
-            >{{ getBirthdayErrorMessage() }}</mat-error
+            >{{ getRequiredFieldErrorMessage(formControlGroup.controls.birthdayFieldControl) }}</mat-error
          >
          <mat-datepicker-toggle
             matSuffix
@@ -72,7 +72,7 @@
          />
          <mat-error
             *ngIf="formControlGroup.controls.caseNumberFieldControl.invalid"
-            >{{ getCaseNumberFieldErrorMessage() }}</mat-error
+            >{{ getRequiredFieldErrorMessage(formControlGroup.controls.caseNumberFieldControl) }}</mat-error
          >
       </mat-form-field>
 
@@ -88,7 +88,7 @@
          </mat-select>
          <mat-error
             *ngIf="formControlGroup.controls.ageGroupFieldControl.invalid"
-            >{{ getAgeGroupFieldErrorMessage() }}</mat-error
+            >{{ getRequiredFieldErrorMessage(formControlGroup.controls.ageGroupFieldControl) }}</mat-error
          >
       </mat-form-field>
 
@@ -104,7 +104,7 @@
          </mat-select>
          <mat-error
             *ngIf="formControlGroup.controls.isExternFieldControl.invalid"
-            >{{ getIsExternFieldErrorMessage() }}</mat-error
+            >{{ getRequiredFieldErrorMessage(formControlGroup.controls.isExternFieldControl) }}</mat-error
          >
       </mat-form-field>
 
@@ -126,7 +126,7 @@
          </mat-select>
          <mat-error
             *ngIf="formControlGroup.controls.hasTrajectoryFieldControl.invalid"
-            >{{ getHasTrajectoryFieldErrorMessage() }}</mat-error
+            >{{ getRequiredFieldErrorMessage(formControlGroup.controls.hasTrajectoryFieldControl) }}</mat-error
          >
       </mat-form-field>
 
@@ -144,7 +144,7 @@
             *ngIf="
                formControlGroup.controls.hasNormalDayCareFieldControl.invalid
             "
-            >{{ getHasNormalDayCareFieldErrorMessage() }}</mat-error
+            >{{ getRequiredFieldErrorMessage(formControlGroup.controls.hasNormalDayCareFieldControl) }}</mat-error
          >
       </mat-form-field>
 
@@ -162,7 +162,7 @@
             *ngIf="
                formControlGroup.controls.hasVacationDayCareFieldControl.invalid
             "
-            >{{ getHasVacationDayCareFieldErrorMessage() }}</mat-error
+            >{{ getRequiredFieldErrorMessage(formControlGroup.controls.hasVacationDayCareFieldControl) }}</mat-error
          >
       </mat-form-field>
 
@@ -178,7 +178,7 @@
          </mat-select>
          <mat-error
             *ngIf="formControlGroup.controls.hasResourcesFieldControl.invalid"
-            >{{ getHasResourcesFieldErrorMessage() }}</mat-error
+            >{{ getRequiredFieldErrorMessage(formControlGroup.controls.hasResourcesFieldControl) }}</mat-error
          >
       </mat-form-field>
 
