@@ -1,6 +1,6 @@
 @import '../node_modules/@angular/material/theming';
 
-// Include the common styles for Angular Material.*/
+/* Include the common styles for Angular Material.*/
 @include mat-core();
 
 /* Define the palettes for your theme using the Material Design palettes available in palette.scss (palette, default, lighter, darker)*/
@@ -18,11 +18,11 @@ $sint-gerardus-theme: mat-light-theme(
 );
 
 /* Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.*/
+   Alternatively, you can import and @include the theme mixins for each component
+   that you are using.*/
 @include angular-material-theme($sint-gerardus-theme);
 
-//Define global CSS variables
+/* Define global CSS variables.*/
 :root {
    --color-singer-primary: #{mat-color($sint-gerardus-theme-primary)};
    --color-singer-primary-lighter: #{mat-color($sint-gerardus-theme-primary, lighter)};
