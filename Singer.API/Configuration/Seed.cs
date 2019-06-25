@@ -84,7 +84,7 @@ namespace Singer.Configuration
                user = new User()
                {
                   UserName = careUser,
-                  Name = careUser
+                  LastName = careUser
                };
 
                var __ = userMgr.CreateAsync(user).Result;

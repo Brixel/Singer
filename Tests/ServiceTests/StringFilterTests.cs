@@ -21,7 +21,7 @@ namespace Tests.ServiceTests
             new CareUser
             {
                Id = Guid.NewGuid(),
-               User = new User(){Name = "Joske Vermeulen"},
+               User = new User(){LastName = "Joske Vermeulen"},
                BirthDay = DateTime.Parse("06/07/2008", CultureInfo.InvariantCulture),
                CaseNumber = "0123456789",
                AgeGroup = AgeGroup.Child,
@@ -34,7 +34,7 @@ namespace Tests.ServiceTests
             new CareUser
             {
                Id = Guid.NewGuid(),
-               User = new User(){Name = "Kim Janssens"},
+               User = new User(){LastName = "Kim Janssens"},
                BirthDay = DateTime.Parse("08/07/2006", CultureInfo.InvariantCulture),
                CaseNumber = "9876543210",
                AgeGroup = AgeGroup.Child,
@@ -47,7 +47,7 @@ namespace Tests.ServiceTests
             new CareUser
             {
                Id = Guid.NewGuid(),
-               User = new User(){Name = "Benjammin Vermeulen"},
+               User = new User(){LastName = "Benjammin Vermeulen"},
                BirthDay = DateTime.Parse("06/08/2010", CultureInfo.InvariantCulture),
                CaseNumber = "091837465",
                AgeGroup = AgeGroup.Youngster,
@@ -77,7 +77,7 @@ namespace Tests.ServiceTests
             new CareUser
             {
                Id = Guid.NewGuid(),
-               User = new User(){Name = "Joske Vermeulen"},
+               User = new User(){LastName = "Joske Vermeulen"},
                BirthDay = DateTime.Parse("06/07/2008", CultureInfo.InvariantCulture),
                CaseNumber = "0123456789",
                AgeGroup = AgeGroup.Child,
@@ -91,7 +91,7 @@ namespace Tests.ServiceTests
             {
 
                Id = Guid.NewGuid(),
-               User = new User(){Name = "Kim Janssens"},
+               User = new User(){LastName = "Kim Janssens"},
                BirthDay = DateTime.Parse("08/07/2006", CultureInfo.InvariantCulture),
                CaseNumber = "9876543210",
                AgeGroup = AgeGroup.Child,
@@ -105,7 +105,7 @@ namespace Tests.ServiceTests
             {
 
                Id = Guid.NewGuid(),
-               User = new User(){Name = "Benjamin Vermeulen"},
+               User = new User(){LastName = "Benjamin Vermeulen"},
                BirthDay = DateTime.Parse("06/08/2010", CultureInfo.InvariantCulture),
                CaseNumber = "091837465",
                AgeGroup = AgeGroup.Youngster,
@@ -135,7 +135,7 @@ namespace Tests.ServiceTests
             new CareUser
             {
                Id = Guid.NewGuid(),
-               User = new User(){Name = "Joske Vermeulen"},
+               User = new User(){LastName = "Joske Vermeulen"},
                BirthDay = DateTime.Parse("06/07/2008", CultureInfo.InvariantCulture),
                CaseNumber = "0123456789",
                AgeGroup = AgeGroup.Child,
@@ -149,7 +149,7 @@ namespace Tests.ServiceTests
             {
 
                Id = Guid.NewGuid(),
-               User = new User(){Name = "Kim Janssens"},
+               User = new User(){LastName = "Kim Janssens"},
                BirthDay = DateTime.Parse("08/07/2006", CultureInfo.InvariantCulture),
                CaseNumber = "9876543210",
                AgeGroup = AgeGroup.Child,
@@ -162,7 +162,7 @@ namespace Tests.ServiceTests
             new CareUser
             {
                Id = Guid.NewGuid(),
-               User = new User(){Name = "Benjamin Vermeulen"},
+               User = new User(){LastName = "Benjamin Vermeulen"},
                BirthDay = DateTime.Parse("06/08/2010", CultureInfo.InvariantCulture),
                CaseNumber = "caseNumber",
                AgeGroup = AgeGroup.Youngster,
@@ -192,7 +192,7 @@ namespace Tests.ServiceTests
             new CareUser
             {
                Id = Guid.NewGuid(),
-               User = new User(){Name = "Joske Vermeulen"},
+               User = new User(){LastName = "Joske Vermeulen"},
                BirthDay = DateTime.Parse("06/07/2008", CultureInfo.InvariantCulture),
                CaseNumber = "0123456789",
                AgeGroup = AgeGroup.Child,
@@ -205,7 +205,7 @@ namespace Tests.ServiceTests
             new CareUser
             {
                Id = Guid.NewGuid(),
-               User = new User(){Name = "Kim Janssens"},
+               User = new User(){LastName = "Kim Janssens"},
                BirthDay = DateTime.Parse("08/07/2006", CultureInfo.InvariantCulture),
                CaseNumber = "caseNUMBER1",
                AgeGroup = AgeGroup.Child,
@@ -218,7 +218,7 @@ namespace Tests.ServiceTests
             new CareUser
             {
                Id = Guid.NewGuid(),
-               User = new User(){Name = "Benjammin Vermeulen"},
+               User = new User(){LastName = "Benjammin Vermeulen"},
                BirthDay = DateTime.Parse("06/08/2010", CultureInfo.InvariantCulture),
                CaseNumber = "caseNUMBER",
                AgeGroup = AgeGroup.Youngster,

@@ -18,7 +18,7 @@ import { CoreModule } from 'src/app/modules/core/core.module';
 import { CommonModule } from '@angular/common';
 import { CareUsersRoutingModule } from '../../careusers-routing.module';
 import { CareUserProxy } from 'src/app/modules/core/services/care-users-api/careuser.proxy';
-import { CareUsersService } from 'src/app/modules/core/services/care-users-api/care-users-api.service';
+import { CareUserService } from "src/app/modules/core/services/care-users-api/careusers.service";
 import { ApiService } from 'src/app/modules/core/services/api.service';
 import { HttpClient } from '@angular/common/http';
 import { MockHttpClient } from 'testing/mock-http-client.helper';
@@ -28,7 +28,7 @@ import { of } from 'rxjs';
 describe('OverviewComponent', () => {
    let component: OverviewComponent;
    let fixture: ComponentFixture<OverviewComponent>;
-   let careUserService: CareUsersService;
+   let careUserService: CareUserService;
    beforeEach(async(() => {
       TestBed.configureTestingModule({
          declarations: [OverviewComponent],
@@ -46,14 +46,14 @@ describe('OverviewComponent', () => {
             MatProgressSpinnerModule
 
          ],
-         providers:[AgegroupPipe, { provide: ApiService, useValue: apiServiceMock }, {provide: HttpClient, useValue: MockHttpClient}, {provide: 'BASE_URL', useValue: 'http://'}, CareUserProxy, CareUsersService]
+         providers:[AgegroupPipe, { provide: ApiService, useValue: apiServiceMock }, {provide: HttpClient, useValue: MockHttpClient}, {provide: 'BASE_URL', useValue: 'http://'}, CareUserProxy, CareUserService]
       }).compileComponents();
    }));
 
    beforeEach(() => {
       fixture = TestBed.createComponent(OverviewComponent);
       component = fixture.componentInstance;
-      careUserService = TestBed.get(CareUsersService);
+      careUserService = TestBed.get(CareUserService);
 
       spyOn(careUserService, 'fetchCareUsersData').and.returnValue(of({}))
       fixture.detectChanges();
