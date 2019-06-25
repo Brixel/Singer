@@ -2,23 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CareUsersRoutingModule } from './careusers-routing.module';
 import { OverviewComponent } from './components/overview/overview.component';
-import {
-   MatTableModule,
-   MatPaginatorModule,
-   MatSortModule,
-   MatFormFieldModule,
-   MatInputModule,
-   MatOptionModule,
-   MatSelectModule,
-   MatProgressSpinnerModule,
-   MatDatepickerModule,
-   MatButtonModule,
-   MatCardModule,
-   MatIconModule,
-   MatToolbarModule,
-   MatDialogModule,
-   MatDividerModule,
-} from '@angular/material';
+import { MaterialModule } from '../../material.module';
 import { CareUserProxy } from '../core/services/care-users-api/careuser.proxy';
 import { CareUserService as CareUserService } from '../core/services/care-users-api/careusers.service';
 import { ApiService } from '../core/services/api.service';
@@ -35,24 +19,9 @@ import { KeysPipe } from '../core/services/keys.pipe';
       CoreModule,
       CommonModule,
       CareUsersRoutingModule,
-      MatTableModule,
-      MatPaginatorModule,
-      MatSortModule,
-      MatFormFieldModule,
-      MatInputModule,
-      MatOptionModule,
-      MatSelectModule,
-      MatCardModule,
-      MatProgressSpinnerModule,
-      MatDatepickerModule,
-      MatButtonModule,
-      MatCardModule,
-      MatIconModule,
-      MatToolbarModule,
+      MaterialModule,
       ReactiveFormsModule,
       FormsModule,
-      MatDialogModule,
-      MatDividerModule,
       MatMomentDateModule
    ],
    entryComponents: [

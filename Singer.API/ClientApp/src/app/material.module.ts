@@ -9,6 +9,15 @@ import {
    MatListModule,
    MatTableModule,
    MatInputModule,
+   MatPaginatorModule,
+   MatSortModule,
+   MatFormFieldModule,
+   MatOptionModule,
+   MatSelectModule,
+   MatProgressSpinnerModule,
+   MatDatepickerModule,
+   MatDialogModule,
+   MatDividerModule,
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -21,7 +30,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       MatIconModule,
       MatCardModule,
       MatListModule,
-      MatTableModule
+      MatTableModule,
+      MatTableModule,
+      MatPaginatorModule,
+      MatSortModule,
+      MatFormFieldModule,
+      MatOptionModule,
+      MatSelectModule,
+      MatProgressSpinnerModule,
+      MatDatepickerModule,
+      MatDialogModule,
+      MatDividerModule,
    ],
    exports: [
       MatButtonModule,
@@ -31,7 +50,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       MatIconModule,
       MatCardModule,
       MatListModule,
-      MatTableModule
+      MatTableModule,
+      MatPaginatorModule,
+      MatSortModule,
+      MatFormFieldModule,
+      MatOptionModule,
+      MatSelectModule,
+      MatProgressSpinnerModule,
+      MatDatepickerModule,
+      MatDialogModule,
+      MatDividerModule,
    ],
 })
 export class MaterialModule {}
