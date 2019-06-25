@@ -17,7 +17,7 @@ export interface CareUserDTO {
    userName: string;
    birthday: Date;
    caseNumber: string;
-   ageGroup: AgeGroup; //Maybe replace by own class?
+   ageGroup: AgeGroup;
    isExtern: boolean;
    hasTrajectory: boolean;
    hasNormalDayCare: boolean;
@@ -32,7 +32,7 @@ export interface UpdateCareUserDTO {
    userName: string;
    birthday: Date;
    caseNumber: string;
-   ageGroup: AgeGroup; //Maybe replace by own class?
+   ageGroup: AgeGroup;
    isExtern: boolean;
    hasTrajectory: boolean;
    hasNormalDayCare: boolean;

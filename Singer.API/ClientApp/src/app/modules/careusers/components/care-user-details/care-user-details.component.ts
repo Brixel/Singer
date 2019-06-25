@@ -90,24 +90,8 @@ export class CareUserDetailsComponent implements OnInit {
    }
 
    //#region Error messages for required fields
-   getIdFieldErrorMessage() {
-      return this.formControlGroup.controls.idFieldControl.hasError('required')
-         ? 'Dit veld is verplicht'
-         : '';
-   }
-
-   getFirstNameFieldErrorMessage() {
-      return this.formControlGroup.controls.firstNameFieldControl.hasError(
-         'required'
-      )
-         ? 'Dit veld is verplicht'
-         : '';
-   }
-
-   getLastNameFieldErrorMessage() {
-      return this.formControlGroup.controls.lastNameFieldControl.hasError(
-         'required'
-      )
+   getRequiredFieldErrorMessage(formControl: FormControl) {
+      return formControl.hasError('required')
          ? 'Dit veld is verplicht'
          : '';
    }
@@ -119,78 +103,6 @@ export class CareUserDetailsComponent implements OnInit {
          ? 'Dit veld is verplicht'
          : this.formControlGroup.controls.emailFieldControl.hasError('email')
          ? 'Dit is geen geldig email adres'
-         : '';
-   }
-
-   getUserNameFieldErrorMessage() {
-      return this.formControlGroup.controls.userNameFieldControl.hasError(
-         'required'
-      )
-         ? 'Dit veld is verplicht'
-         : '';
-   }
-
-   getBirthdayErrorMessage() {
-      return this.formControlGroup.controls.birthdayFieldControl.hasError(
-         'required'
-      )
-         ? 'Dit veld is verplicht'
-         : '';
-   }
-
-   getCaseNumberFieldErrorMessage() {
-      return this.formControlGroup.controls.caseNumberFieldControl.hasError(
-         'required'
-      )
-         ? 'Dit veld is verplicht'
-         : '';
-   }
-
-   getAgeGroupFieldErrorMessage() {
-      return this.formControlGroup.controls.ageGroupFieldControl.hasError(
-         'required'
-      )
-         ? 'Dit veld is verplicht'
-         : '';
-   }
-
-   getIsExternFieldErrorMessage() {
-      return this.formControlGroup.controls.isExternFieldControl.hasError(
-         'required'
-      )
-         ? 'Dit veld is verplicht'
-         : '';
-   }
-
-   getHasTrajectoryFieldErrorMessage() {
-      return this.formControlGroup.controls.hasTrajectoryFieldControl.hasError(
-         'required'
-      )
-         ? 'Dit veld is verplicht'
-         : '';
-   }
-
-   getHasNormalDayCareFieldErrorMessage() {
-      return this.formControlGroup.controls.hasNormalDayCareFieldControl.hasError(
-         'required'
-      )
-         ? 'Dit veld is verplicht'
-         : '';
-   }
-
-   getHasVacationDayCareFieldErrorMessage() {
-      return this.formControlGroup.controls.hasVacationDayCareFieldControl.hasError(
-         'required'
-      )
-         ? 'Dit veld is verplicht'
-         : '';
-   }
-
-   getHasResourcesFieldErrorMessage() {
-      return this.formControlGroup.controls.hasResourcesFieldControl.hasError(
-         'required'
-      )
-         ? 'Dit veld is verplicht'
          : '';
    }
    //#endregion
