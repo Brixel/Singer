@@ -23,7 +23,7 @@ export class CareUserProxy{
    }
 
    updateCareUser(id: string, updateCareUserDTO: UpdateCareUserDTO) {
-   return this.apiService.put(`api/careuser/${id}`, updateCareUserDTO).pipe(map((res) => res));
+      return this.apiService.put(`api/careuser/${id}`, updateCareUserDTO).pipe(map((res) => res));
    }
 
    createCareuser(createCareUserDTO: CreateCareUserDTO):Observable<CareUserDTO>{
