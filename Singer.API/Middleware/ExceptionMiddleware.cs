@@ -27,8 +27,6 @@ namespace Singer.Middleware
          catch (HttpException e)
          {
             context.Response.StatusCode = e.StatusCode;
-            context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-
             await context.Response.WriteAsync(e.ClientMessage);
 
             if (_env.IsDevelopment())
