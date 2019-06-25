@@ -19,5 +19,6 @@ namespace Singer.Helpers.Exceptions
       }
 
       public override int StatusCode => 404;
+      public override string ClientMessage => "These are not the droids you're looking for";
    }
 }

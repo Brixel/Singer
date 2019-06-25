@@ -19,5 +19,6 @@ namespace Singer.Helpers.Exceptions
       }
 
       public override int StatusCode => 401;
+      public override string ClientMessage => "One does not simply make a request to this API and gets all the data.";
    }
 }

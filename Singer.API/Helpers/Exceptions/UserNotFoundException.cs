@@ -17,5 +17,7 @@ namespace Singer.Helpers.Exceptions
          : base(message, innerException)
       {
       }
+
+      public override string ClientMessage => "There is no user with the given id.";
    }
 }

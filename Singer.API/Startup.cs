@@ -28,6 +28,7 @@ using Singer.Data;
 using Singer.Data.Identity;
 using Singer.Data.Models;
 using Singer.Data.Models.Configuration;
+using Singer.Helpers.Extensions;
 using Singer.IdentityService;
 using Singer.Models;
 using Singer.Services;
@@ -168,6 +169,7 @@ namespace Singer
          app.UseStaticFiles();
          app.UseSpaStaticFiles();
 
+         app.UseExceptionMiddleware();
          app.UseIdentityServer();
 
 

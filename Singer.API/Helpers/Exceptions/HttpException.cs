@@ -20,5 +20,6 @@ namespace Singer.Helpers.Exceptions
 
 
       public abstract int StatusCode { get; }
+      public abstract string ClientMessage { get; }
    }
 }

@@ -19,5 +19,6 @@ namespace Singer.Helpers.Exceptions
       }
 
       public override int StatusCode => 403;
+      public override string ClientMessage => "You shall not pass!!";
    }
 }

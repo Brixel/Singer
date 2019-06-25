@@ -19,5 +19,6 @@ namespace Singer.Helpers.Exceptions
       }
 
       public override int StatusCode => 400;
+      public override string ClientMessage => "The arguments you passed just destroyed Lichtenstein...";
    }
 }
