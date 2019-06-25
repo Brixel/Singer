@@ -48,7 +48,7 @@ export interface CreateCareUserDTO {
    userName: string;
    birthday: Date;
    caseNumber: string;
-   ageGroup: AgeGroup; //Maybe replace by own class?
+   ageGroup: AgeGroup;
    isExtern: boolean;
    hasTrajectory: boolean;
    hasNormalDayCare: boolean;
@@ -64,7 +64,7 @@ export class CareUser {
    userName: string;
    birthDay: Date;
    caseNumber: string;
-   ageGroup: AgeGroup; //Maybe replace by own class?
+   ageGroup: AgeGroup;
    isExtern: boolean;
    hasTrajectory: boolean;
    hasNormalDayCare: boolean;

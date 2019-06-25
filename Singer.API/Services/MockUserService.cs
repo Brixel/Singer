@@ -25,8 +25,8 @@ namespace Singer.Services
          {
             Id = Guid.NewGuid(),
             User = new User() {
-               LastName = "Joske Vermeulen"
-
+               FirstName = "Joske",
+               LastName = "Vermeulen"
             },
             BirthDay = DateTime.Parse("06/07/2008", CultureInfo.InvariantCulture),
             CaseNumber = "0123456789",
@@ -41,7 +41,10 @@ namespace Singer.Services
          {
             Id = Guid.NewGuid(),
             User = new User(){
-            LastName = "Kim Janssens"},
+               FirstName = "Kim",
+            LastName = "Janssens"
+
+            },
             BirthDay = DateTime.Parse("08/07/2006", CultureInfo.InvariantCulture),
             CaseNumber = "9876543210",
             AgeGroup = Models.AgeGroup.Child,
@@ -55,7 +58,9 @@ namespace Singer.Services
          {
             Id = Guid.NewGuid(),
             User = new User()
-            {LastName = "Benjamin Vermeulen"
+            {
+               FirstName = "Benjamin",
+               LastName = "Vermeulen"
             }
 ,
             BirthDay = DateTime.Parse("06/08/2010", CultureInfo.InvariantCulture),
