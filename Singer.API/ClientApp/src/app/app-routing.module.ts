@@ -16,6 +16,7 @@ const routes: Routes = [
       path: 'zorggebruikers',
       loadChildren: './modules/careusers/careusers.module#CareUsersModule',
       component: MainComponent,
+      canActivate:[AuthGuard]
    },
    { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
 ];
