@@ -1,10 +1,6 @@
 {
   "name": "Singer",
-<<<<<<< HEAD
   "version": "0.1.0-singer-theme.270",
-=======
-  "version": "0.1.0-issue-AB-14-auth.269",
->>>>>>> develop
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
