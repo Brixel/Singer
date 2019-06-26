@@ -88,7 +88,7 @@ namespace Singer.Services
       /// Creates a <see cref="TDTO"/> in the database by converting it to a <see cref="TEntity"/>.
       /// It will automatically generate an id.
       /// </summary>
-      /// <param name="dto">The new value for the databse. This will be converted to an entity.</param>
+      /// <param name="dto">The new value for the database. This will be converted to an entity.</param>
       /// <param name="dtoToEntityProjector">
       /// Expression to convert the given <see cref="TDTO"/> to an <see cref="TEntity"/>.
       /// If this value is null, the <see cref="DTOToEntityProjector"/> property is used.
@@ -132,7 +132,7 @@ namespace Singer.Services
       /// <exception cref="NotFoundException">There is no element found with the id <paramref name="id"/>.</exception>
       public virtual async Task<TDTO> GetOneAsync(Guid id, Expression<Func<TEntity, TDTO>> projector = null)
       {
-         // set the projctor if it is null
+         // set the projector if it is null
          if (projector == null)
             projector = EntityToDTOProjector;
 
@@ -170,7 +170,7 @@ namespace Singer.Services
 
       /// <summary>
       /// Returns a selection of <see cref="TEntity"/>s, converted <see cref="TDTO"/>s. The selection is made by filtering the
-      /// in the database, ordering the collection and finaly selecting a page.
+      /// in the database, ordering the collection and finally selecting a page.
       /// <list type="number">
       ///   <item>
       ///      <term>Filtering</term>
@@ -186,7 +186,7 @@ namespace Singer.Services
       ///   </item>
       ///   <item>
       ///      <term>Paging</term>
-      ///      <description>Finaly a page will be selected from the collection so that not all elements should be returned.</description>
+      ///      <description>Finally a page will be selected from the collection so that not all elements should be returned.</description>
       ///   </item>
       /// </list>
       /// </summary>
@@ -194,8 +194,8 @@ namespace Singer.Services
       /// <param name="projector">The <see cref="Expression"/> to project the <see cref="TEntity"/>s to the <see cref="TDTO"/>s.</param>
       /// <param name="orderer">The column to sort the returned list on.</param>
       /// <param name="sortDirection">The direction to sort the column on.</param>
-      /// <param name="page">The pagenumber to return.</param>
-      /// <param name="entitiesPerPage">The number of enities on a page.</param>
+      /// <param name="page">The page-number to return.</param>
+      /// <param name="entitiesPerPage">The number of entities on a page.</param>
       /// <returns></returns>
       public virtual async Task<SearchResults<TDTO>> GetAsync(
          string filter = null,

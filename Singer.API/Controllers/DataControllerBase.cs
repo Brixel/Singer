@@ -56,7 +56,7 @@ namespace Singer.Controllers
       [HttpPost]
       [ProducesResponseType(StatusCodes.Status201Created)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public async Task<ActionResult<TDTO>> CreateUser(TDTO dto)
+      public async Task<ActionResult<TDTO>> Create(TDTO dto)
       {
          var returnUser = await DatabaseService.CreateAsync(dto);
          return Created(nameof(Get), returnUser);
@@ -85,7 +85,7 @@ namespace Singer.Controllers
          pageIndex++;
 
          if (!Enum.TryParse<ListSortDirection>(sortDirection, true, out var direction))
-            throw new BadInputException("The given sortdirection is unknown.");
+            throw new BadInputException("The given sort-direction is unknown.");
 
          var orderByLambda = PropertyHelpers.GetPropertySelector<TDTO>(sortColumn);
 
