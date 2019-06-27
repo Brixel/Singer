@@ -4,7 +4,9 @@ namespace Singer.DTOs
 {
    public interface IUserDTO : IIdentifiable 
    {
-      string Name { get; set; }
+      string FirstName { get; set; }
+
+      string LastName { get; set; }
 
       string Email { get; set; }
 

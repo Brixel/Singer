@@ -84,7 +84,7 @@ namespace Singer.Configuration
                user = new User()
                {
                   UserName = careUser,
-                  Name = careUser
+                  LastName = careUser
                };
 
                var __ = userMgr.CreateAsync(user).Result;
@@ -180,24 +180,6 @@ namespace Singer.Configuration
                      Name = "apiRead",
                      DisplayName = "Readonly scope for SingerAPI",
                      Required = true
-                  },
-                  new ApiScope()
-                  {
-                     Name = StandardScopes.OpenId,
-                     DisplayName ="OpenId",
-                     Required = false
-                  },
-                  new ApiScope()
-                  {
-                     Name = StandardScopes.Profile,
-                     DisplayName = "Profile",
-                     Required = false
-                  },
-                  new ApiScope()
-                  {
-                     Name = StandardScopes.Email,
-                     DisplayName = "Email",
-                     Required = false
                   }
                },
 

@@ -16,8 +16,13 @@ export class ApiService{
   }
 
   put(path: string, body: Object = {}): Observable<any> {
+   const httpOptions = {
+      headers: new HttpHeaders({
+          'Content-Type': 'application/json'
+      })
+  };
       return this.httpClient
-          .put(`${this.baseUrl}${path}`, JSON.stringify(body))
+          .put(`${this.baseUrl}${path}`, JSON.stringify(body),httpOptions)
           .pipe(catchError((error) => this.handleError(error)));
   }
 
