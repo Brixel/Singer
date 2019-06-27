@@ -149,7 +149,7 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status200OK)]
       [ProducesResponseType(StatusCodes.Status404NotFound)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public async Task<ActionResult> UpdateUser(Guid id, TDTO dto)
+      public async Task<ActionResult> Update(Guid id, TDTO dto)
       {
          var result = await DatabaseService.UpdateAsync(id, dto);
          return Ok(result);
@@ -167,7 +167,7 @@ namespace Singer.Controllers
       [HttpDelete("{id}")]
       [ProducesResponseType(StatusCodes.Status204NoContent)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public async Task<ActionResult> DeleteUser(Guid id)
+      public async Task<ActionResult> Delete(Guid id)
       {
          await DatabaseService.DeleteAsync(id);
          return NoContent();
