@@ -43,11 +43,12 @@ th {
 }
 
 /* SELECTABLE ROW STYLING */
-tr.selectable:not(.example-expanded-row):hover {
+tr.selectable:hover {
    background: rgb(149, 190, 248);
+   cursor: pointer;
 }
 
-tr.selectable:not(.example-expanded-row):active {
+tr.selectable:active {
    background: #efefef;
 }
 
