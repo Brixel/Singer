@@ -5,11 +5,12 @@ import { MaterialModule } from 'src/app/material.module';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { HomeComponent } from './components/home/home.component';
 import { AboutComponent } from './components/about/about.component';
+import {RouterModule} from '@angular/router';
 
 @NgModule({
   declarations: [DashboardComponent, HomeComponent, AboutComponent],
   imports: [
-    CommonModule, MaterialModule, DashboardRoutingModule
+    CommonModule, MaterialModule, DashboardRoutingModule, RouterModule
   ]
 })
 export class DashboardModule { }
