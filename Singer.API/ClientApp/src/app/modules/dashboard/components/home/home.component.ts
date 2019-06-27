@@ -6,17 +6,4 @@ import { AuthService } from 'src/app/modules/core/services/auth.service';
    templateUrl: './home.component.html',
 })
 
-export class HomeComponent implements OnInit {
-
-constructor(private authService: AuthService) {
-
-}
-
-ngOnInit(): void {
-   if (this.authService.isAuthenticated()) {
-      this.authService.getUserInfo().subscribe((res) => {
-         console.log(res);
-      });
-   }
-}
-}
+export class HomeComponent {}
