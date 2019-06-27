@@ -58,8 +58,8 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
       public async Task<ActionResult<TDTO>> Create(TDTO dto)
       {
-         var returnUser = await DatabaseService.CreateAsync(dto);
-         return Created(nameof(Get), returnUser);
+         var returnItem = await DatabaseService.CreateAsync(dto);
+         return Created(nameof(Get), returnItem);
       }
 
       #endregion post
@@ -129,7 +129,7 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status200OK)]
       [ProducesResponseType(StatusCodes.Status404NotFound)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public virtual async Task<ActionResult<CareUserDTO>> GetOne(Guid id)
+      public virtual async Task<ActionResult<TDTO>> GetOne(Guid id)
       {
          var dto = await DatabaseService.GetOneAsync(id);
          return Ok(dto);
