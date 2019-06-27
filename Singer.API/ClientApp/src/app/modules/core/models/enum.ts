@@ -1,7 +1,8 @@
 export enum AgeGroup{
    Toddler = 0,
-   Child = 1,
-   Youngster = 2,
-   Adult =3
+   Kindergartener = 1,
+   Child = 2,
+   Youngster = 3,
+   Adult = 4
 
 }
