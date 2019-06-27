@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Microsoft.AspNetCore.Identity;
 using NUnit.Framework;
 using Singer.DTOs;
 using Singer.Models;
@@ -23,7 +24,7 @@ namespace Tests.ServiceTests
                User = new User()
                {
                   Email = "email@test.com",
-                  Name = "user",
+                  LastName = "user",
                   UserName = "user"
                },
                AgeGroup = AgeGroup.Child,
@@ -39,8 +40,8 @@ namespace Tests.ServiceTests
          TestDataContext.CareUsers.AddRange(users);
          TestDataContext.SaveChanges();
 
-         var service = new UserService(TestDataContext);
-         var result = await service.GetUsersAsync<CareUser>("name", "asc", "", 1, 10);
+         var service = new UserService(TestDataContext, null);
+         var result = await service.GetUsersAsync<CareUser>("CaseNumber", "asc", "", 1, 10);
          result.Items.Should().HaveCount(1);
       }
 
@@ -54,7 +55,8 @@ namespace Tests.ServiceTests
                User = new User()
                {
                   Email = "email@test.com",
-                  Name = "user",
+                  FirstName = "firstName",
+                  LastName = "user",
                   UserName = "user"
                },
                AgeGroup = AgeGroup.Child,
@@ -70,8 +72,9 @@ namespace Tests.ServiceTests
             {
                User = new User()
                {
+                  FirstName = "firstName",
                   Email = "email@test.com",
-                  Name = "user3",
+                  LastName = "user3",
                   UserName = "user3"
                },
                AgeGroup = AgeGroup.Child,
@@ -87,8 +90,9 @@ namespace Tests.ServiceTests
             {
                User = new User()
                {
+                  FirstName = "firstName",
                   Email = "email@test.com",
-                  Name = "user2",
+                  LastName = "user2",
                   UserName = "user2"
                },
                AgeGroup = AgeGroup.Child,
@@ -104,20 +108,20 @@ namespace Tests.ServiceTests
          TestDataContext.CareUsers.AddRange(users);
          TestDataContext.SaveChanges();
 
-         var service = new UserService(TestDataContext);
-         var result = await service.GetUsersAsync<CareUser>("name", "asc", "44", 1, 10);
+         var service = new UserService(TestDataContext, null);
+         var result = await service.GetUsersAsync<CareUser>("CaseNumber", "asc", "44", 1, 10);
          result.Items.Should().HaveCount(1);
-         result.Items[0].Name.Should().Be("user2");
+         result.Items[0].LastName.Should().Be("user2");
       }
 
       [Test]
       public void GetUsersAsync_PageIndex0_Throws()
       {
-         var service = new UserService(TestDataContext);
+         var service = new UserService(TestDataContext, null);
 
          Func<Task> f = async () =>
          {
-            await service.GetUsersAsync<CareUser>("name", "asc", "", 0, 10);
+            await service.GetUsersAsync<CareUser>("CaseNumber", "asc", "", 0, 10);
          };
 
          f.Should()
@@ -129,11 +133,11 @@ namespace Tests.ServiceTests
       [Test]
       public void GetUsersAsync_PageSize0_Throws()
       {
-         var service = new UserService(TestDataContext);
+         var service = new UserService(TestDataContext, null);
 
          Func<Task> f = async () =>
          {
-            await service.GetUsersAsync<CareUser>("name", "asc", "", 1, 0);
+            await service.GetUsersAsync<CareUser>("CaseNumber", "asc", "", 1, 0);
          };
 
          f.Should()

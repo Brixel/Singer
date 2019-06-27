@@ -1,10 +1,12 @@
 import { AfterViewInit, Component, ViewChild, OnInit, ElementRef } from '@angular/core';
-import { MatPaginator, MatSort } from '@angular/material';
+import { MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { OverviewDataSource } from './overview-datasource';
-import { CareUsersService } from 'src/app/modules/core/services/care-users-api/care-users-api.service';
 import { DataSource } from '@angular/cdk/table';
 import { merge, fromEvent } from 'rxjs';
 import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { CareUserDetailsComponent } from '../care-user-details/care-user-details.component';
+import { CareUserService } from 'src/app/modules/core/services/care-users-api/careusers.service';
+import { CareUser } from 'src/app/modules/core/models/careuser.model';
 
 @Component({
    selector: 'app-overview',
@@ -23,7 +25,8 @@ export class OverviewComponent implements OnInit, AfterViewInit {
    /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
    displayedColumns = [
       //'id',
-      'name',
+      'firstName',
+      'lastName',
       //'email',
       //'userName',
       'birthDay',
@@ -37,13 +40,39 @@ export class OverviewComponent implements OnInit, AfterViewInit {
    ];
    filter: string;
 
-   constructor(private careUserService: CareUsersService){}
+    constructor(public dialog: MatDialog, private careUserService: CareUserService){}
 
    ngOnInit(){
       this.dataSource = new OverviewDataSource(this.careUserService);
-      this.sort.active = 'name';
+      this.sort.active = 'lastName';
       this.sort.direction = 'asc';
       this.loadCareUsers();
+   }
+
+   selectRow(row: CareUser): void {
+      const dialogRef = this.dialog.open(CareUserDetailsComponent, {
+         data: { careUserInstance: row, isAdding: false },
+      });
+
+      dialogRef.componentInstance.submitEvent.subscribe((result: CareUser) => {
+         // Update the Careuser
+         this.careUserService.updateUser(result).subscribe((res) => {
+            // Reload Careusers
+            this.loadCareUsers();
+         });
+      });
+   }
+
+   addCareUser(): void {
+      const dialogRef = this.dialog.open(CareUserDetailsComponent, {
+         data: { careUserInstance: null, isAdding: true },
+      });
+
+      dialogRef.componentInstance.submitEvent.subscribe((result: CareUser) => {
+         this.careUserService.createCareUser(result).subscribe((res) =>{
+            this.loadCareUsers();
+         })
+      });
    }
 
    private loadCareUsers(){

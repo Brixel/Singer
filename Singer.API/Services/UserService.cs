@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Singer.Data;
 using Singer.DTOs;
@@ -16,17 +17,62 @@ namespace Singer.Services
 {
    public class UserService : IUserService
    {
-      private ApplicationDbContext _appContext;
+      private readonly ApplicationDbContext _appContext;
+      private readonly UserManager<User> _userManager;
 
-      public UserService(ApplicationDbContext appContext)
+      public UserService(ApplicationDbContext appContext, UserManager<User> userManager)
       {
          _appContext = appContext;
+         _userManager = userManager;
       }
 
-      public async Task<T> CreateUserAsync<T>(T createUser) where T : CareUser
+      public async Task<TOut> CreateUserAsync<TOut, TIn>(TIn createUser)
+         where TIn : CreateCareUserDTO
+         where TOut: CareUserDTO
       {
-         // TODO Use Usermanager
-         throw new NotImplementedException();
+         var user = new User()
+         {
+            FirstName = createUser.FirstName,
+            LastName = createUser.LastName,
+            UserName = Guid.NewGuid().ToString()
+         };
+         var careUser = new CareUser()
+         {
+            User = user,
+            AgeGroup =  createUser.AgeGroup,
+            BirthDay = createUser.BirthDay,
+            CaseNumber = createUser.CaseNumber,
+            HasNormalDayCare = createUser.HasNormalDayCare,
+            HasResources = createUser.HasResources,
+            HasTrajectory = createUser.HasTrajectory,
+            HasVacationDayCare = createUser.HasVacationDayCare,
+            IsExtern = createUser.IsExtern
+         };
+         var userCreationResult = await _userManager.CreateAsync(user);
+         if (!userCreationResult.Succeeded)
+         {
+            throw new Exception($"User can not be created. {userCreationResult.Errors.First().Description}");
+         }
+
+         _appContext.CareUsers.Add(careUser);
+         _appContext.SaveChanges();
+
+         return (TOut) new CareUserDTO()
+         {
+            Id = careUser.Id,
+            HasNormalDayCare = careUser.HasNormalDayCare,
+            UserName = user.UserName,
+            AgeGroup = careUser.AgeGroup,
+            HasTrajectory = careUser.HasTrajectory,
+            HasVacationDayCare = careUser.HasVacationDayCare,
+            BirthDay = careUser.BirthDay,
+            HasResources = careUser.HasResources,
+            CaseNumber = careUser.CaseNumber,
+            IsExtern = careUser.IsExtern,
+            FirstName = user.FirstName,
+            UserId = user.Id,
+            LastName = user.LastName
+         };
       }
 
       public async Task<IList<T>> GetAllUsersAsync<T>() where T : CareUser
@@ -46,9 +92,10 @@ namespace Singer.Services
 
          var orderByLambda = PropertyHelpers.GetPropertySelector<CareUserDTO>(sortColumn);
 
-         var result = users.ToPagedList(Filter(filter), ProjectToCareUserDTO(),
+         var result = users.ToPagedList(Filter(filter), ProjectToCareUserDTO(), 
             orderByLambda, sortDirection, page,
             userPerPage);
+
          return result;
       }
 
@@ -58,7 +105,8 @@ namespace Singer.Services
          {
             Id = x.Id,
             UserId = x.UserId,
-            Name = x.User.Name,
+            FirstName = x.User.FirstName,
+            LastName = x.User.LastName,
             AgeGroup = x.AgeGroup,
             UserName = x.User.UserName,
             HasTrajectory = x.HasTrajectory,
@@ -84,13 +132,13 @@ namespace Singer.Services
          return user;
       }
 
-      public async Task<bool> UpdateUserAsync<T>(T user, Guid id) where T : CareUser
+      public async Task<CareUserDTO> UpdateUserAsync(CreateCareUserDTO user, Guid id)
       {
-         User userToUpdate;
+         CareUser userToUpdate;
          try
          {
             //Check if id exists
-            userToUpdate = _appContext.Users.Single(u => u.Id == id);
+            userToUpdate = _appContext.CareUsers.Include(x => x.User).Single(u => u.Id == id);
          }
          catch
          {
@@ -98,13 +146,33 @@ namespace Singer.Services
          }
 
          //Convert user DTO to view
-         userToUpdate = user.User;
-         //userToUpdate.Id = id.ToString();
+         userToUpdate.AgeGroup = user.AgeGroup;
+         userToUpdate.User.FirstName = user.FirstName;
+         userToUpdate.User.LastName = user.LastName;
+         userToUpdate.BirthDay = user.BirthDay;
+         userToUpdate.CaseNumber = user.CaseNumber;
+         userToUpdate.HasNormalDayCare = user.HasNormalDayCare;
+         userToUpdate.HasResources = user.HasResources;
+         userToUpdate.HasTrajectory = user.HasTrajectory;
+         userToUpdate.HasVacationDayCare = user.HasVacationDayCare;
+         userToUpdate.IsExtern = user.IsExtern;
 
          //And finally update database
-         _appContext.Users.Update(userToUpdate);
          await _appContext.SaveChangesAsync();
-         return true;
+         return new CareUserDTO()
+         {
+            Id = userToUpdate.Id,
+            AgeGroup = user.AgeGroup,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            BirthDay = user.BirthDay,
+            CaseNumber = user.CaseNumber,
+            HasNormalDayCare = user.HasNormalDayCare,
+            HasResources = user.HasResources,
+            HasTrajectory = user.HasTrajectory,
+            HasVacationDayCare = user.HasVacationDayCare,
+            IsExtern = user.IsExtern
+         };
       }
 
       public async Task DeleteUserAsync(Guid id)
@@ -132,7 +200,8 @@ namespace Singer.Services
          }
          Expression<Func<CareUser, bool>> filterExpression =
             f =>
-               f.User.Name.Contains(filter) ||
+               f.User.FirstName.Contains(filter) ||
+               f.User.LastName.Contains(filter) ||
                f.CaseNumber.Contains(filter);
          return filterExpression;
       }

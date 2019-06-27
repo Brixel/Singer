@@ -2,35 +2,37 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CareUsersRoutingModule } from './careusers-routing.module';
 import { OverviewComponent } from './components/overview/overview.component';
-import {
-   MatTableModule,
-   MatPaginatorModule,
-   MatSortModule,
-   MatFormFieldModule,
-   MatInputModule,
-   MatProgressSpinnerModule,
-   MatCardModule
-} from '@angular/material';
+import { MaterialModule } from '../../material.module';
 import { CareUserProxy } from '../core/services/care-users-api/careuser.proxy';
-import { CareUsersService as CareUsersService } from '../core/services/care-users-api/care-users-api.service';
+import { CareUserService as CareUserService } from '../core/services/care-users-api/careusers.service';
 import { ApiService } from '../core/services/api.service';
 import { AgegroupPipe } from '../core/services/agegroup.pipe';
 import { CoreModule } from '../core/core.module';
+import { CareUserDetailsComponent } from './components/care-user-details/care-user-details.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import { KeysPipe } from '../core/services/keys.pipe';
 
 @NgModule({
-   declarations: [OverviewComponent],
+   declarations: [OverviewComponent, CareUserDetailsComponent],
    imports: [
       CoreModule,
       CommonModule,
       CareUsersRoutingModule,
-      MatTableModule,
-      MatPaginatorModule,
-      MatSortModule,
-      MatFormFieldModule,
-      MatInputModule,
-      MatCardModule,
-      MatProgressSpinnerModule,
+      MaterialModule,
+      ReactiveFormsModule,
+      FormsModule,
+      MatMomentDateModule
    ],
-   providers:[CareUserProxy, CareUsersService, ApiService, AgegroupPipe]
+   entryComponents: [
+      CareUserDetailsComponent
+   ],
+   providers: [
+      CareUserProxy,
+      CareUserService,
+      ApiService,
+      AgegroupPipe,
+      KeysPipe,
+      { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }]
 })
 export class CareUsersModule {}

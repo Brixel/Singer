@@ -1,18 +1,26 @@
-<h1>Overzicht zorg-gebruikers</h1>
-
 <!-- Mat Form Field Filter -->
 <mat-form-field>
-   <input matInput #filterInput placeholder="Filter">
+   <input matInput #filterInput placeholder="Filter" />
 </mat-form-field>
 
 <!-- Mat Table -->
 <div class="mat-elevation-z8 overview-table">
-   <table mat-table [dataSource]="dataSource" matSort aria-label="Elements" >
+   <table
+      mat-table
+      [dataSource]="dataSource"
+      matSort
+      aria-label="zorg-gebruikers"
+   >
+      <!-- FirstName Column -->
+      <ng-container matColumnDef="firstName">
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>Voornaam</th>
+         <td mat-cell *matCellDef="let row">{{ row.firstName }}</td>
+      </ng-container>
 
       <!-- FirstName Column -->
-      <ng-container matColumnDef="name">
-         <th mat-header-cell *matHeaderCellDef mat-sort-header>Naam</th>
-         <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+      <ng-container matColumnDef="lastName">
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>Achternaam</th>
+         <td mat-cell *matCellDef="let row">{{ row.lastName }}</td>
       </ng-container>
 
       <!-- Email Column -->
@@ -23,14 +31,20 @@
 
       <!-- UserName Column -->
       <ng-container matColumnDef="userName">
-         <th mat-header-cell *matHeaderCellDef mat-sort-header>Gebruikersnaam</th>
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Gebruikersnaam
+         </th>
          <td mat-cell *matCellDef="let row">{{ row.userName }}</td>
       </ng-container>
 
       <!-- Birthday Column -->
       <ng-container matColumnDef="birthDay">
-         <th mat-header-cell *matHeaderCellDef mat-sort-header>Geboortedatum</th>
-         <td mat-cell *matCellDef="let row">{{ row.birthDay | date:'dd-MM-yyyy' }}</td>
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Geboortedatum
+         </th>
+         <td mat-cell *matCellDef="let row">
+            {{ row.birthDay | date: 'dd-MM-yyyy' }}
+         </td>
       </ng-container>
 
       <!-- CaseNumber Column -->
@@ -41,60 +55,95 @@
 
       <!-- AgeGroup Column -->
       <ng-container matColumnDef="ageGroup">
-         <th mat-header-cell *matHeaderCellDef mat-sort-header>Leeftijdsgroep</th>
-         <td mat-cell *matCellDef="let row">{{ row.ageGroup | agegroupPipe }}</td>
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Leeftijdsgroep
+         </th>
+         <td mat-cell *matCellDef="let row">
+            {{ row.ageGroup | agegroupPipe }}
+         </td>
       </ng-container>
 
       <!-- IsExtern Column -->
       <ng-container matColumnDef="isExtern">
          <th mat-header-cell *matHeaderCellDef mat-sort-header>Klas/Extern</th>
-         <td mat-cell *matCellDef="let row">{{ row.isExtern ? 'Extern':'Klas' }}</td>
+         <td mat-cell *matCellDef="let row">
+            {{ row.isExtern ? 'Extern' : 'Klas' }}
+         </td>
       </ng-container>
 
       <!-- HasTrajectory Column -->
       <ng-container matColumnDef="hasTrajectory">
          <th mat-header-cell *matHeaderCellDef mat-sort-header>Traject</th>
-         <td mat-cell *matCellDef="let row">{{ row.hasTrajectory ? 'Ja':'Neen' }}</td>
+         <td mat-cell *matCellDef="let row">
+            {{ row.hasTrajectory ? 'Ja' : 'Neen' }}
+         </td>
       </ng-container>
 
       <!-- HasNormalDayCare Column -->
       <ng-container matColumnDef="hasNormalDayCare">
          <th mat-header-cell *matHeaderCellDef mat-sort-header>Opv. normaal</th>
-         <td mat-cell *matCellDef="let row">{{ row.hasNormalDayCare ? 'Ja':'Neen' }}</td>
+         <td mat-cell *matCellDef="let row">
+            {{ row.hasNormalDayCare ? 'Ja' : 'Neen' }}
+         </td>
       </ng-container>
 
       <!-- HasVacationDayCare Column -->
       <ng-container matColumnDef="hasVacationDayCare">
-         <th mat-header-cell *matHeaderCellDef mat-sort-header>Opv. vakantie</th>
-         <td mat-cell *matCellDef="let row">{{ row.hasVacationDayCare ? 'Ja':'Neen' }}</td>
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Opv. vakantie
+         </th>
+         <td mat-cell *matCellDef="let row">
+            {{ row.hasVacationDayCare ? 'Ja' : 'Neen' }}
+         </td>
       </ng-container>
 
       <!-- HasResources Column -->
       <ng-container matColumnDef="hasResources">
          <th mat-header-cell *matHeaderCellDef mat-sort-header>Middelen</th>
-         <td mat-cell *matCellDef="let row">{{ row.hasResources ? 'Ja':'Neen' }}</td>
+         <td mat-cell *matCellDef="let row">
+            {{ row.hasResources ? 'Ja' : 'Neen' }}
+         </td>
       </ng-container>
-
+      <!-- AddButton column -->
+      <ng-container matColumnDef="addButton">
+         <td mat-footer-cell *matFooterCellDef>
+            <button
+               mat-icon-button
+               color="primary"
+               (click)="addCareUser()"
+               title="Zorggebruiker toevoegen"
+               aria-label="Toevoegen knop"
+            >
+               <mat-icon>add_box</mat-icon>
+            </button>
+            <!-- <label class="tableButton">Toevoegen</label> -->
+         </td>
+      </ng-container>
+      <!-- Paginator column -->
+      <ng-container matColumnDef="paginator">
+         <td mat-footer-cell *matFooterCellDef colspan="20">
+            <!-- Paginator -->
+            <mat-paginator
+               #paginator
+               [length]="dataSource?.totalSize$ | async"
+               [pageIndex]="pageIndex"
+               [pageSize]="pageSize"
+               [pageSizeOptions]="[1, 15, 25, 50, 100]"
+               showFirstLastButtons
+            >
+            </mat-paginator>
+         </td>
+      </ng-container>
       <!-- Header Row -->
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-
-      <!-- Loading Indicator -->
-      <div class="spinner-container" *ngIf="dataSource?.loading$ | async">
-         <mat-spinner></mat-spinner>
-      </div>
-
       <!-- Data Row -->
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <tr
+         mat-row
+         *matRowDef="let row; columns: displayedColumns"
+         class="selectable"
+         (click)="selectRow(row)"
+      ></tr>
+      <!-- Footer Row -->
+      <tr mat-footer-row *matFooterRowDef="['addButton', 'paginator']"></tr>
    </table>
-
-   <!-- Paginator -->
-   <mat-paginator
-      #paginator
-      [length]="dataSource?.totalSize$ | async"
-      [pageIndex]="pageIndex"
-      [pageSize]="pageSize"
-      [pageSizeOptions]="[1,15, 25, 50, 100]"
-      showFirstLastButtons
-   >
-   </mat-paginator>
 </div>

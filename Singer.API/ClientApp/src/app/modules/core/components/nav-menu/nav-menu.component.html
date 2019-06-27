@@ -4,18 +4,25 @@
       <span class="fill-remaining-space"></span>
       <a
          mat-raised-button
-         [routerLink]="['/']"
+         [routerLink]="['/dashboard']"
          [routerLinkActiveOptions]="{ exact: true }"
-         routerLinkActive="mat - accent"
+         routerLinkActive="mat-accent"
       >
-         Home
+         Start
       </a>
       <a
          mat-raised-button
          [routerLink]="['/dashboard/about']"
          routerLinkActive="mat-accent"
       >
-         About
+         Over
+      </a>
+      <a
+         mat-raised-button
+         [routerLink]="['/zorggebruikers']"
+         routerLinkActive="mat-accent"
+      >
+         Zorg gebruikers
       </a>
       <a
          *ngIf="!isAuthenticated()"
@@ -26,9 +33,10 @@
          Login
       </a>
       <button
-      *ngIf="isAuthenticated()"
+         *ngIf="isAuthenticated()"
          mat-raised-button
-         (click)="onLogoutClicked()"      >
+         (click)="onLogoutClicked()"
+      >
          Logout
       </button>
    </mat-toolbar>

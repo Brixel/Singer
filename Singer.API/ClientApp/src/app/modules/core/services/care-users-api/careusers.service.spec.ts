@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CareUsersService } from './care-users-api.service';
+import { CareUserService } from "./careusers.service";
 
 describe('CareUsersAPIService', () => {
    beforeEach(() => TestBed.configureTestingModule({}));
 
    it('should be created', () => {
-      const service: CareUsersService = TestBed.get(CareUsersService);
+      const service: CareUserService = TestBed.get(CareUserService);
       expect(service).toBeTruthy();
    });
 });
