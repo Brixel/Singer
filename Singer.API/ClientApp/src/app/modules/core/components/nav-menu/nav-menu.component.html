@@ -11,18 +11,20 @@
          Start
       </a>
       <a
-         mat-raised-button
-         [routerLink]="['/dashboard/about']"
-         routerLinkActive="mat-accent"
-      >
-         Over
-      </a>
-      <a
+         *ngIf="isAuthenticated()"
          mat-raised-button
          [routerLink]="['/zorggebruikers']"
          routerLinkActive="mat-accent"
       >
          Zorg gebruikers
+      </a>
+      <a
+         *ngIf="isAuthenticated()"
+         mat-raised-button
+         [routerLink]="['/dashboard/about']"
+         routerLinkActive="mat-accent"
+      >
+         Over
       </a>
       <a
          *ngIf="!isAuthenticated()"
