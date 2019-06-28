@@ -18,8 +18,13 @@
             />
             <mat-error
                *ngIf="formControlGroup.controls.lastNameFieldControl.invalid"
-               >{{ getRequiredFieldErrorMessage(formControlGroup.controls.lastNameFieldControl) }}</mat-error
             >
+               {{
+                  getRequiredFieldErrorMessage(
+                     formControlGroup.controls.lastNameFieldControl
+                  )
+               }}
+            </mat-error>
          </mat-form-field>
 
          <!-- FirstName Field -->
@@ -31,8 +36,13 @@
             />
             <mat-error
                *ngIf="formControlGroup.controls.firstNameFieldControl.invalid"
-               >{{ getRequiredFieldErrorMessage(formControlGroup.controls.firstNameFieldControl) }}</mat-error
             >
+               {{
+                  getRequiredFieldErrorMessage(
+                     formControlGroup.controls.firstNameFieldControl
+                  )
+               }}
+            </mat-error>
          </mat-form-field>
       </div>
 
@@ -48,8 +58,13 @@
          />
          <mat-error
             *ngIf="formControlGroup.controls.birthdayFieldControl.invalid"
-            >{{ getRequiredFieldErrorMessage(formControlGroup.controls.birthdayFieldControl) }}</mat-error
          >
+            {{
+               getRequiredFieldErrorMessage(
+                  formControlGroup.controls.birthdayFieldControl
+               )
+            }}
+         </mat-error>
          <mat-datepicker-toggle
             matSuffix
             [for]="picker"
@@ -73,8 +88,13 @@
          />
          <mat-error
             *ngIf="formControlGroup.controls.caseNumberFieldControl.invalid"
-            >{{ getRequiredFieldErrorMessage(formControlGroup.controls.caseNumberFieldControl) }}</mat-error
          >
+            {{
+               getRequiredFieldErrorMessage(
+                  formControlGroup.controls.caseNumberFieldControl
+               )
+            }}
+         </mat-error>
       </mat-form-field>
 
       <!-- AgeGroup Field -->
@@ -84,13 +104,22 @@
             [placeholder]="ageGroupFieldPlaceholder"
             formControlName="ageGroupFieldControl"
          >
-            <mat-option *ngFor="let ageGroup of ageGroups  | keys" [value]="ageGroup.key">{{ ageGroup.value | agegroupPipe }}</mat-option>
-
+            <mat-option
+               *ngFor="let ageGroup of ageGroups | keys"
+               [value]="ageGroup.key"
+            >
+               {{ ageGroup.value | agegroupPipe }}
+            </mat-option>
          </mat-select>
          <mat-error
             *ngIf="formControlGroup.controls.ageGroupFieldControl.invalid"
-            >{{ getRequiredFieldErrorMessage(formControlGroup.controls.ageGroupFieldControl) }}</mat-error
          >
+            {{
+               getRequiredFieldErrorMessage(
+                  formControlGroup.controls.ageGroupFieldControl
+               )
+            }}
+         </mat-error>
       </mat-form-field>
 
       <!-- IsExtern Field -->
@@ -105,8 +134,13 @@
          </mat-select>
          <mat-error
             *ngIf="formControlGroup.controls.isExternFieldControl.invalid"
-            >{{ getRequiredFieldErrorMessage(formControlGroup.controls.isExternFieldControl) }}</mat-error
          >
+            {{
+               getRequiredFieldErrorMessage(
+                  formControlGroup.controls.isExternFieldControl
+               )
+            }}
+         </mat-error>
       </mat-form-field>
 
       <!-- End Of Section -->
@@ -127,8 +161,13 @@
          </mat-select>
          <mat-error
             *ngIf="formControlGroup.controls.hasTrajectoryFieldControl.invalid"
-            >{{ getRequiredFieldErrorMessage(formControlGroup.controls.hasTrajectoryFieldControl) }}</mat-error
          >
+            {{
+               getRequiredFieldErrorMessage(
+                  formControlGroup.controls.hasTrajectoryFieldControl
+               )
+            }}
+         </mat-error>
       </mat-form-field>
 
       <!-- HasNormalDayCare Field -->
@@ -145,8 +184,13 @@
             *ngIf="
                formControlGroup.controls.hasNormalDayCareFieldControl.invalid
             "
-            >{{ getRequiredFieldErrorMessage(formControlGroup.controls.hasNormalDayCareFieldControl) }}</mat-error
          >
+            {{
+               getRequiredFieldErrorMessage(
+                  formControlGroup.controls.hasNormalDayCareFieldControl
+               )
+            }}
+         </mat-error>
       </mat-form-field>
 
       <!-- HasVacationDayCare Field -->
@@ -163,8 +207,13 @@
             *ngIf="
                formControlGroup.controls.hasVacationDayCareFieldControl.invalid
             "
-            >{{ getRequiredFieldErrorMessage(formControlGroup.controls.hasVacationDayCareFieldControl) }}</mat-error
          >
+            {{
+               getRequiredFieldErrorMessage(
+                  formControlGroup.controls.hasVacationDayCareFieldControl
+               )
+            }}
+         </mat-error>
       </mat-form-field>
 
       <!-- HasResources Field -->
@@ -179,8 +228,13 @@
          </mat-select>
          <mat-error
             *ngIf="formControlGroup.controls.hasResourcesFieldControl.invalid"
-            >{{ getRequiredFieldErrorMessage(formControlGroup.controls.hasResourcesFieldControl) }}</mat-error
          >
+            {{
+               getRequiredFieldErrorMessage(
+                  formControlGroup.controls.hasResourcesFieldControl
+               )
+            }}
+         </mat-error>
       </mat-form-field>
 
       <!-- Email Field -->
@@ -205,6 +259,16 @@
 
       <!-- Button Row -->
       <mat-dialog-actions class="button-row">
+         <!-- Close Button -->
+         <button
+            mat-raised-button
+            (click)="closeForm()"
+            title="Formulier sluiten"
+            aria-label="Formulier sluiten"
+         >
+            Sluiten
+         </button>
+
          <!-- Add Button -->
          <button
             mat-raised-button
@@ -227,17 +291,6 @@
             *ngIf="!isAdding"
          >
             Opslaan
-         </button>
-
-         <!-- Close Button -->
-         <button
-            mat-raised-button
-            color="accent"
-            (click)="closeForm()"
-            title="Formulier sluiten"
-            aria-label="Formulier sluiten"
-         >
-            Sluiten
          </button>
       </mat-dialog-actions>
    </form>
