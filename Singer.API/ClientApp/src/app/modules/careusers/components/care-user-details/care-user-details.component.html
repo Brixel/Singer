@@ -18,12 +18,13 @@
             />
             <mat-error
                *ngIf="formControlGroup.controls.lastNameFieldControl.invalid"
-               >{{
+            >
+               {{
                   getRequiredFieldErrorMessage(
                      formControlGroup.controls.lastNameFieldControl
                   )
-               }}</mat-error
-            >
+               }}
+            </mat-error>
          </mat-form-field>
 
          <!-- FirstName Field -->
@@ -35,12 +36,13 @@
             />
             <mat-error
                *ngIf="formControlGroup.controls.firstNameFieldControl.invalid"
-               >{{
+            >
+               {{
                   getRequiredFieldErrorMessage(
                      formControlGroup.controls.firstNameFieldControl
                   )
-               }}</mat-error
-            >
+               }}
+            </mat-error>
          </mat-form-field>
       </div>
 
@@ -56,12 +58,13 @@
          />
          <mat-error
             *ngIf="formControlGroup.controls.birthdayFieldControl.invalid"
-            >{{
+         >
+            {{
                getRequiredFieldErrorMessage(
                   formControlGroup.controls.birthdayFieldControl
                )
-            }}</mat-error
-         >
+            }}
+         </mat-error>
          <mat-datepicker-toggle
             matSuffix
             [for]="picker"
@@ -85,12 +88,13 @@
          />
          <mat-error
             *ngIf="formControlGroup.controls.caseNumberFieldControl.invalid"
-            >{{
+         >
+            {{
                getRequiredFieldErrorMessage(
                   formControlGroup.controls.caseNumberFieldControl
                )
-            }}</mat-error
-         >
+            }}
+         </mat-error>
       </mat-form-field>
 
       <!-- AgeGroup Field -->
@@ -103,17 +107,19 @@
             <mat-option
                *ngFor="let ageGroup of ageGroups | keys"
                [value]="ageGroup.key"
-               >{{ ageGroup.value | agegroupPipe }}</mat-option
             >
+               {{ ageGroup.value | agegroupPipe }}
+            </mat-option>
          </mat-select>
          <mat-error
             *ngIf="formControlGroup.controls.ageGroupFieldControl.invalid"
-            >{{
+         >
+            {{
                getRequiredFieldErrorMessage(
                   formControlGroup.controls.ageGroupFieldControl
                )
-            }}</mat-error
-         >
+            }}
+         </mat-error>
       </mat-form-field>
 
       <!-- IsExtern Field -->
@@ -128,12 +134,13 @@
          </mat-select>
          <mat-error
             *ngIf="formControlGroup.controls.isExternFieldControl.invalid"
-            >{{
+         >
+            {{
                getRequiredFieldErrorMessage(
                   formControlGroup.controls.isExternFieldControl
                )
-            }}</mat-error
-         >
+            }}
+         </mat-error>
       </mat-form-field>
 
       <!-- End Of Section -->
@@ -154,12 +161,13 @@
          </mat-select>
          <mat-error
             *ngIf="formControlGroup.controls.hasTrajectoryFieldControl.invalid"
-            >{{
+         >
+            {{
                getRequiredFieldErrorMessage(
                   formControlGroup.controls.hasTrajectoryFieldControl
                )
-            }}</mat-error
-         >
+            }}
+         </mat-error>
       </mat-form-field>
 
       <!-- HasNormalDayCare Field -->
@@ -176,12 +184,13 @@
             *ngIf="
                formControlGroup.controls.hasNormalDayCareFieldControl.invalid
             "
-            >{{
+         >
+            {{
                getRequiredFieldErrorMessage(
                   formControlGroup.controls.hasNormalDayCareFieldControl
                )
-            }}</mat-error
-         >
+            }}
+         </mat-error>
       </mat-form-field>
 
       <!-- HasVacationDayCare Field -->
@@ -198,12 +207,13 @@
             *ngIf="
                formControlGroup.controls.hasVacationDayCareFieldControl.invalid
             "
-            >{{
+         >
+            {{
                getRequiredFieldErrorMessage(
                   formControlGroup.controls.hasVacationDayCareFieldControl
                )
-            }}</mat-error
-         >
+            }}
+         </mat-error>
       </mat-form-field>
 
       <!-- HasResources Field -->
@@ -218,12 +228,13 @@
          </mat-select>
          <mat-error
             *ngIf="formControlGroup.controls.hasResourcesFieldControl.invalid"
-            >{{
+         >
+            {{
                getRequiredFieldErrorMessage(
                   formControlGroup.controls.hasResourcesFieldControl
                )
-            }}</mat-error
-         >
+            }}
+         </mat-error>
       </mat-form-field>
 
       <!-- Email Field -->
