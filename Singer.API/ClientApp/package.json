@@ -1,6 +1,6 @@
 {
   "name": "Singer",
-  "version": "0.1.0-singer-theme.295",
+  "version": "0.1.0-singer-theme.303",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
