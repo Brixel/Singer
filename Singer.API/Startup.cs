@@ -208,14 +208,15 @@ namespace Singer
          var initialAdminPassword = Configuration.GetSection("Application").Get<ApplicationConfig>().InitialAdminUserPassword;
          using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
          {
-            var applicationDbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-            applicationDbContext.Database.Migrate();
 
             var configrationDbContext = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
             configrationDbContext.Database.Migrate();
 
             var persistedGrantDbContext = serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>();
             persistedGrantDbContext.Database.Migrate();
+
+            var applicationDbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            applicationDbContext.Database.Migrate();
 
             Seed.SeedRoles(serviceScope, applicationDbContext);
             Seed.SeedUsers(serviceScope, applicationDbContext, initialAdminPassword);
