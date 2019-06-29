@@ -30,11 +30,11 @@ namespace Singer.Services
       /// <summary>
       /// Constructs a new instance of the <see cref="DatabaseService{TEntity, TDTO}"/> class.
       /// </summary>
-      /// <param name="appDbContext">The context in which the database is approachable.</param>
+      /// <param name="context">The context in which the database is approachable.</param>
       /// <param name="mapper">The mapper to map the <see cref="TEntity"/>s to <see cref="TDTO"/>s and vice versa.</param>
-      protected DatabaseService(ApplicationDbContext appDbContext, IMapper mapper)
+      protected DatabaseService(ApplicationDbContext context, IMapper mapper)
       {
-         AppDbContext = appDbContext;
+         Context = context;
          Mapper = mapper;
       }
 
@@ -51,7 +51,7 @@ namespace Singer.Services
       /// <summary>
       /// The context in which the database is approachable.
       /// </summary>
-      protected ApplicationDbContext AppDbContext { get; }
+      protected ApplicationDbContext Context { get; }
 
       /// <summary>
       /// The mapper to map the <see cref="TEntity"/>s to <see cref="TDTO"/>s and vice versa.
@@ -114,7 +114,7 @@ namespace Singer.Services
 
          // add the entity to the database
          var changeTracker = DbSet.Add(entity);
-         await AppDbContext.SaveChangesAsync();
+         await Context.SaveChangesAsync();
 
          // return the new created entity
          return entityToDTOProjector.Compile()(changeTracker.Entity);
@@ -257,7 +257,7 @@ namespace Singer.Services
          itemToUpdate = dtoToEntityProjector.Compile()(newValue);
          itemToUpdate.Id = id;
          var tracker = DbSet.Update(itemToUpdate);
-         await AppDbContext.SaveChangesAsync();
+         await Context.SaveChangesAsync();
 
          //return the updated entity
          return entityToDTOProjector.Compile()(tracker.Entity);
@@ -278,7 +278,7 @@ namespace Singer.Services
 
          // delete the entity
          DbSet.Remove(itemToDelete);
-         await AppDbContext.SaveChangesAsync();
+         await Context.SaveChangesAsync();
       }
 
       #endregion METHODS

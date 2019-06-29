@@ -95,8 +95,7 @@ namespace Singer.Helpers.Extensions
             items = orderedQueryable.TakePage(pageIndex, pageSize).ToList();
          }
 
-         var result = new SearchResults<TProjection>(items, totalItemsCount, pageIndex);
-         return result;
+         return new SearchResults<TProjection>(items, totalItemsCount, pageIndex);
       }
 
       public static async Task<SearchResults<TProjection>> ToPagedListAsync<TEntity, TProjection>(
