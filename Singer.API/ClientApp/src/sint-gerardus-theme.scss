@@ -4,8 +4,8 @@
 @include mat-core();
 
 /* Define the palettes for your theme using the Material Design palettes available in palette.scss (palette, default, lighter, darker)*/
-$sint-gerardus-theme-primary: mat-palette($mat-red, 500);
-$sint-gerardus-theme-accent: mat-palette($mat-deep-orange, 200);
+$sint-gerardus-theme-primary: mat-palette($mat-indigo, 500);
+$sint-gerardus-theme-accent: mat-palette($mat-blue, 200);
 
 /* The warn palette is optional (defaults to red).*/
 $sint-gerardus-theme-warn: mat-palette($mat-red);
