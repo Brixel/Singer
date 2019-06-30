@@ -32,13 +32,13 @@ steps:
         publishWebProjects: true
         arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
         zipAfterPublish: true   
-   - task: MSBuild@1
-     displayName: 'Publish with msbuild'
+   - task: VSBuild@1
+     displayName: 'Build solution **\*.sln'
      inputs:
-        solution: '**/*.sln'
-        platform: '$(BuildPlatform)'
-        configuration: '$(BuildConfiguration)'
-        msbuildArguments: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactstagingdirectory)/zip\\" /p:DeployIisAppPath="__SiteName__"'
+      solution: '$(Parameters.solution)'
+      msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactstagingdirectory)\\" /p:DeployIisAppPath="__SiteName__"'
+      platform: '$(BuildPlatform)'
+      configuration: '$(BuildConfiguration)'
    - script: 'echo "##vso[build.updatebuildnumber]$(GitVersion.SemVer)+build$(Build.BuildId)"'
      displayName: 'Set Build.BuildNumber'
    - task: PublishBuildArtifacts@1
