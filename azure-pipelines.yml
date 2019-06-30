@@ -29,7 +29,7 @@ steps:
      inputs:
         command: 'custom'
         custom: 'msbuild'
-        arguments: '/p:Configuration=Release /p:DeployOnBuild=true -p:WebPublishMethod=package'
+        arguments: '/p:Configuration=Release /p:DeployOnBuild=true /p:WebPublishMethod=package'
    - script: 'echo "##vso[build.updatebuildnumber]$(GitVersion.SemVer)+build$(Build.BuildId)"'
      displayName: 'Set Build.BuildNumber'
    - task: PublishBuildArtifacts@1
