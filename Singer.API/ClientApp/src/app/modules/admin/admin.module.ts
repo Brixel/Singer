@@ -22,7 +22,7 @@ import { KeysPipe } from '../core/services/keys.pipe';
       MaterialModule,
       ReactiveFormsModule,
       FormsModule,
-      MatMomentDateModule
+      MatMomentDateModule,
    ],
    entryComponents: [
       CareUserDetailsComponent

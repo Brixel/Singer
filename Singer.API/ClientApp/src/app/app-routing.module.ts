@@ -13,7 +13,7 @@ const routes: Routes = [
       component: MainComponent,
    },
    {
-      path: 'zorggebruikers',
+      path: 'admin',
       loadChildren: './modules/admin/admin.module#AdminModule',
       component: MainComponent,
       canActivate:[AuthGuard]
