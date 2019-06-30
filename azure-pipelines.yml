@@ -25,15 +25,8 @@ steps:
         command: build
         projects: '**/*.csproj'
         configuration: $(buildConfiguration)
-    #  - task: DotNetCoreCLI@2
-    #    displayName: 'Publish'
-    #  inputs:
-    #     command: custom
-    #     publishWebProjects: true
-    #     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
-    #     zipAfterPublish: true
-    - task: DotNetCoreCLI@2
-      inputs:
+   - task: DotNetCoreCLI@2
+     inputs:
         command: 'custom'
         custom: 'msbuild'
         arguments: '/p:Configuration=Release /p:DeployOnBuild=true -p:WebPublishMethod=package'
