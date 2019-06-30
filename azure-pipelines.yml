@@ -35,6 +35,7 @@ steps:
    - task: MSBuild@1
      displayName: 'Publish with msbuild'
      inputs:
+        solution: '**/Singer.sln'
         msbuildArguments: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactstagingdirectory)\\" /p:DeployIisAppPath="__SiteName__"'
         platform: '$(BuildPlatform)'
         configuration: '$(BuildConfiguration)'
