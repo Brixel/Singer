@@ -4,7 +4,7 @@ export interface LegalGuardianDTO {
    lastName: string;
    email: string;
    userName: string;
-   birthday: Date;
+   birthDate: Date;
    address: string;
    phoneNumber: string;
    gsm: string;
@@ -15,7 +15,7 @@ export interface UpdateLegalGuardianDTO {
    lastName: string;
    email: string;
    userName: string;
-   birthday: Date;
+   birthDate: Date;
    address: string;
    phoneNumber: string;
    gsm: string;
@@ -26,7 +26,7 @@ export interface CreateLegalGuardianDTO {
    lastName: string;
    email: string;
    userName: string;
-   birthday: Date;
+   birthDate: Date;
    address: string;
    phoneNumber: string;
    gsm: string;
@@ -38,7 +38,7 @@ export class LegalGuardian {
    lastName: string;
    email: string;
    userName: string;
-   birthday: Date;
+   birthDate: Date;
    address: string;
    phoneNumber: string;
    gsm: string;
