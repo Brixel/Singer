@@ -1,14 +1,5 @@
 import { AgeGroup } from './enum';
 
-export interface PaginationDTO {
-   previousPageUrl: string;
-   nextPageUrl: string;
-   currentPageUrl: string;
-   size: number;
-   totalSize: number;
-   items: any[];
-}
-
 export interface CareUserDTO {
    id: string;
    firstName: string;
@@ -41,7 +32,6 @@ export interface UpdateCareUserDTO {
 }
 
 export interface CreateCareUserDTO {
-
    firstName: string;
    lastName: string;
    email: string;

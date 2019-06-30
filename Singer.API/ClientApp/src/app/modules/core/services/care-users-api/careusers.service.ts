@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { CareUserProxy } from './careuser.proxy';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { PaginationDTO, UpdateCareUserDTO, CareUser, CreateCareUserDTO } from '../../models/careuser.model';
+import { UpdateCareUserDTO, CareUser, CreateCareUserDTO } from '../../models/careuser.model';
+import { PaginationDTO } from '../../models/pagination.model';
 @Injectable({
    providedIn: 'root',
 })
