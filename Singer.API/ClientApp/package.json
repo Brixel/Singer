@@ -1,6 +1,6 @@
 {
   "name": "Singer",
-  "version": "0.1.0-angular-project-restructure.314",
+  "version": "0.1.0-angular-project-restructure.315",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
