@@ -9,6 +9,8 @@
 /* MAIN TABLE STYLING */
 .overview-table {
    overflow: auto;
+   /* Hide Vertical scroll bar */
+   overflow-y: hidden;
    margin: 10px auto;
 }
 
@@ -17,15 +19,17 @@
    /* FILTER FORM FIELD STYLING */
    .mat-form-field {
       font-size: 14px;
-      width: 1135px;
+      width: 1134px;
       margin: 10px auto;
       display: block;
    }
 
    /* MAIN TABLE STYLING */
    .overview-table {
-      width: 1135px;
+      width: 1134px;
       overflow: auto;
+      /* Hide Vertical scroll bar */
+      overflow-y: hidden;
       margin: 10px auto;
    }
 }
@@ -43,11 +47,12 @@ th {
 }
 
 /* SELECTABLE ROW STYLING */
-tr.selectable:not(.example-expanded-row):hover {
+tr.selectable:hover {
    background: rgb(149, 190, 248);
+   cursor: pointer;
 }
 
-tr.selectable:not(.example-expanded-row):active {
+tr.selectable:active {
    background: #efefef;
 }
 

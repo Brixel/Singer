@@ -17,6 +17,9 @@ export class AgegroupPipe implements PipeTransform {
    let result = '';
    switch (ageGroup) {
       case AgeGroup.Toddler:
+         result = 'Peuters';
+         break;
+      case AgeGroup.Kindergartener:
          result = 'Kleuters';
          break;
       case AgeGroup.Child:

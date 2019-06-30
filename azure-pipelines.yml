@@ -26,12 +26,10 @@ steps:
         projects: '**/*.csproj'
         configuration: $(buildConfiguration)
    - task: DotNetCoreCLI@2
-     displayName: 'Publish'
      inputs:
-        command: publish
-        publishWebProjects: true
-        arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
-        zipAfterPublish: true
+        command: 'custom'
+        custom: 'msbuild'
+        arguments: '/p:Configuration=Release /p:DeployOnBuild=true /p:WebPublishMethod=package'
    - script: 'echo "##vso[build.updatebuildnumber]$(GitVersion.SemVer)+build$(Build.BuildId)"'
      displayName: 'Set Build.BuildNumber'
    - task: PublishBuildArtifacts@1
