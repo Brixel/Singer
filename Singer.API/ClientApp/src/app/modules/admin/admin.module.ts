@@ -12,9 +12,10 @@ import { CareUserDetailsComponent } from './components/careusers/care-user-detai
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { KeysPipe } from '../core/services/keys.pipe';
 import { LegalguardianOverviewComponent } from './components/legalguardians/legalguardian-overview/legalguardian-overview.component';
+import { LegalguardianDetailsComponent } from './components/legalguardians/legalguardian-details/legalguardian-details.component';
 
 @NgModule({
-   declarations: [OverviewComponent, CareUserDetailsComponent, LegalguardianOverviewComponent],
+   declarations: [OverviewComponent, CareUserDetailsComponent, LegalguardianOverviewComponent, LegalguardianDetailsComponent],
    imports: [
       CoreModule,
       CommonModule,
