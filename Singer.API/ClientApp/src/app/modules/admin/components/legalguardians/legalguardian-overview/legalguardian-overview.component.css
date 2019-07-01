@@ -77,12 +77,15 @@ tr.selectable:active {
    padding: 10px;
 }
 
-.mat-column-birthday {
+.mat-column-birthDate {
    padding: 10px;
 }
 
 .mat-column-address {
    padding: 10px;
+   /* Disable content wrapping */
+   flex-wrap: nowrap;
+   white-space: nowrap;
 }
 
 .mat-column-phoneNumber {
