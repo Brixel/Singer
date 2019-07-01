@@ -40,7 +40,7 @@ export class LegalguardianDetailsComponent implements OnInit {
    phoneNumberFieldPlaceholder = 'Telefoon nr.';
    gsmFieldPlaceholder = 'Gsm nr.';
 
-   // Min and Max dates for the birthday datepicker
+   // Min and Max dates for the birthDate datepicker
    birthDateDatePickerMinDate: Date = new Date(1900, 0, 1);
    birthDateDatePickerMaxDate: Date = new Date();
 
@@ -73,6 +73,7 @@ export class LegalguardianDetailsComponent implements OnInit {
    }
 
    ngOnInit() {
+
       // If we are adding a new user then clear all fields
       // If we are editing an existing user then fill in his data
 
@@ -100,7 +101,7 @@ export class LegalguardianDetailsComponent implements OnInit {
    }
    //#endregion
 
-   // Fill in the data of the current care usrers instance
+   // Fill in the data of the current legal guardian instance
    private loadCurrentLegalGuardianInstanceValues() {
       this.formControlGroup.controls.firstNameFieldControl.reset(
          this.currentLegalGuardianInstance.firstName
@@ -108,7 +109,7 @@ export class LegalguardianDetailsComponent implements OnInit {
       this.formControlGroup.controls.lastNameFieldControl.reset(
          this.currentLegalGuardianInstance.lastName
       );
-      this.formControlGroup.controls.birthdayFieldControl.reset(
+      this.formControlGroup.controls.birthDateFieldControl.reset(
          this.currentLegalGuardianInstance.birthDate
       );
       this.formControlGroup.controls.addressFieldControl.reset(
@@ -132,7 +133,7 @@ export class LegalguardianDetailsComponent implements OnInit {
    private resetFormControls() {
       this.formControlGroup.controls.firstNameFieldControl.reset();
       this.formControlGroup.controls.lastNameFieldControl.reset();
-      this.formControlGroup.controls.birthdayFieldControl.reset();
+      this.formControlGroup.controls.birthDateFieldControl.reset();
       this.formControlGroup.controls.addressFieldControl.reset();
       this.formControlGroup.controls.userNameFieldControl.reset();
       this.formControlGroup.controls.emailFieldControl.reset();

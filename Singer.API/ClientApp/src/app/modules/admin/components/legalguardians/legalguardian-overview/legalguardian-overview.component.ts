@@ -1,10 +1,11 @@
 import { AfterViewInit, Component, ViewChild, ElementRef } from '@angular/core';
-import { MatPaginator, MatSort } from '@angular/material';
+import { MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { LegalguardianOverviewDataSource } from './legalguardian-overview-datasource';
 import { LegalguardiansService } from 'src/app/modules/core/services/legal-guardians-api/legalguardians.service';
 import { LegalGuardian } from 'src/app/modules/core/models/legalguardian.model';
 import { fromEvent, merge } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
+import { LegalguardianDetailsComponent } from '../legalguardian-details/legalguardian-details.component';
 
 @Component({
    selector: 'app-legalguardian-overview',
@@ -35,7 +36,7 @@ export class LegalguardianOverviewComponent implements AfterViewInit {
       'gsm',
    ];
 
-   constructor(private legalguardiansService: LegalguardiansService) {}
+   constructor(public dialog: MatDialog, private legalguardiansService: LegalguardiansService) {}
 
    ngOnInit(){
       this.dataSource = new LegalguardianOverviewDataSource(this.legalguardiansService);
@@ -45,11 +46,36 @@ export class LegalguardianOverviewComponent implements AfterViewInit {
    }
 
    selectRow(row: LegalGuardian): void {
+      const dialogRef = this.dialog.open(LegalguardianDetailsComponent, {
+         data: { legalGuardianInstance: row, isAdding: false },
+      });
 
+      dialogRef.componentInstance.submitEvent.subscribe((result: LegalGuardian) => {
+         // Update the legal guardian
+         // this.legalguardiansService.updateLegalGuardian(result).subscribe((res) => {
+         //    // Reload LegalGuardian
+         //    this.loadLegalGuardians();
+         // });
+
+         this.legalguardiansService.updateLegalGuardian(result)
+         this.loadLegalGuardians();
+      });
    }
 
    addLegalGuardian(): void {
+      const dialogRef = this.dialog.open(LegalguardianDetailsComponent, {
+         data: { careUserInstance: null, isAdding: true },
+      });
 
+      dialogRef.componentInstance.submitEvent.subscribe((result: LegalGuardian) => {
+         // Add the legal guardian
+         // this.legalguardiansService.createLegalGuardian(result).subscribe((res) =>{
+         //    this.loadLegalGuardians();
+         // })
+
+         this.legalguardiansService.createLegalGuardian(result)
+         this.loadLegalGuardians();
+      });
    }
 
    private loadLegalGuardians(){

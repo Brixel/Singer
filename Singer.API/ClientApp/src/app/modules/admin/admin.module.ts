@@ -25,7 +25,7 @@ import { LegalguardianDetailsComponent } from './components/legalguardians/legal
       FormsModule,
    ],
    entryComponents: [
-      CareUserDetailsComponent
+      CareUserDetailsComponent, LegalguardianDetailsComponent
    ],
    providers: [
       CareUserProxy,
