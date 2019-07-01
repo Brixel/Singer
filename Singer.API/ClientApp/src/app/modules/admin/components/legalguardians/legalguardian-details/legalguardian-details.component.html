@@ -1,3 +1,206 @@
-<p>
-  legalguardian-details works!
-</p>
+<!-- Form Dialog Title -->
+<h2 mat-dialog-title>Toevoegen/bewerken (enkel admin)</h2>
+
+<!-- Form Dialog Content -->
+<mat-dialog-content>
+   <!-- Details Form -->
+   <form [formGroup]="formControlGroup" class="details-form-container">
+      <!-- Personal Fields Title -->
+      <h3 class="section-title">Persoonlijke gegevens</h3>
+      <!-- Name Fields -->
+      <div class="name-fields">
+         <!-- Lastname Field -->
+         <mat-form-field>
+            <input
+               matInput
+               [placeholder]="lastNameFieldPlaceholder"
+               formControlName="lastNameFieldControl"
+            />
+            <mat-error
+               *ngIf="formControlGroup.controls.lastNameFieldControl.invalid"
+            >
+               {{
+                  getRequiredFieldErrorMessage(
+                     formControlGroup.controls.lastNameFieldControl
+                  )
+               }}
+            </mat-error>
+         </mat-form-field>
+
+         <!-- FirstName Field -->
+         <mat-form-field>
+            <input
+               matInput
+               [placeholder]="firstNameFieldPlaceholder"
+               formControlName="firstNameFieldControl"
+            />
+            <mat-error
+               *ngIf="formControlGroup.controls.firstNameFieldControl.invalid"
+            >
+               {{
+                  getRequiredFieldErrorMessage(
+                     formControlGroup.controls.firstNameFieldControl
+                  )
+               }}
+            </mat-error>
+         </mat-form-field>
+      </div>
+
+      <!-- birthDate Field -->
+      <mat-form-field>
+         <input
+            matInput
+            [min]="birthDateDatePickerMinDate"
+            [max]="birthDateDatePickerMaxDate"
+            [matDatepicker]="picker"
+            [placeholder]="birthDateFieldPlaceholder"
+            formControlName="birthDateFieldControl"
+         />
+         <mat-error
+            *ngIf="formControlGroup.controls.birthDateFieldControl.invalid"
+         >
+            {{
+               getRequiredFieldErrorMessage(
+                  formControlGroup.controls.birthDateFieldControl
+               )
+            }}
+         </mat-error>
+         <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+         ></mat-datepicker-toggle>
+         <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <!-- End Of Section -->
+      <mat-divider></mat-divider>
+
+      <!-- Administrative Fields Title -->
+      <h3 class="section-title">Administratieve gegevens</h3>
+
+      <!-- Address Field -->
+      <mat-form-field>
+         <input
+            matInput
+            [placeholder]="addressFieldPlaceholder"
+            formControlName="addressFieldControl"
+         />
+         <mat-error
+            *ngIf="formControlGroup.controls.addressFieldControl.invalid"
+         >
+            {{
+               getRequiredFieldErrorMessage(
+                  formControlGroup.controls.caseNumberFieldControl
+               )
+            }}
+         </mat-error>
+      </mat-form-field>
+
+      <!-- UserName Field -->
+      <mat-form-field>
+         <input
+            matInput
+            [placeholder]="userNameFieldPlaceholder"
+            formControlName="userNameFieldControl"
+         />
+         <mat-error
+            *ngIf="formControlGroup.controls.userNameFieldControl.invalid"
+         >
+            {{
+               getRequiredFieldErrorMessage(
+                  formControlGroup.controls.userNameFieldControl
+               )
+            }}
+         </mat-error>
+      </mat-form-field>
+
+      <!-- End Of Section -->
+      <mat-divider></mat-divider>
+
+      <!-- Contact Fields Title -->
+      <h3 class="section-title">Contact gegevens</h3>
+
+      <!-- Email Field -->
+      <mat-form-field>
+         <input
+            matInput
+            [placeholder]="emailFieldPlaceholder"
+            formControlName="emailFieldControl"
+         />
+         <mat-error *ngIf="formControlGroup.controls.emailFieldControl.invalid">
+            {{ getEmailFieldErrorMessage() }}
+         </mat-error>
+      </mat-form-field>
+
+      <!-- PhoneNumber Field -->
+      <mat-form-field>
+         <input
+            matInput
+            [placeholder]="phoneNumberFieldPlaceholder"
+            formControlName="phoneNumberFieldControl"
+         />
+         <mat-error
+            *ngIf="formControlGroup.controls.phoneNumberFieldControl.invalid"
+         >
+            {{
+               getRequiredFieldErrorMessage(
+                  formControlGroup.controls.phoneNumberFieldControl
+               )
+            }}
+         </mat-error>
+      </mat-form-field>
+
+      <!-- GSM Field -->
+      <mat-form-field>
+         <input
+            matInput
+            [placeholder]="gsmFieldPlaceholder"
+            formControlName="gsmFieldControl"
+         />
+         <mat-error *ngIf="formControlGroup.controls.gsmFieldControl.invalid">
+            {{
+               getRequiredFieldErrorMessage(
+                  formControlGroup.controls.gsmFieldControl
+               )
+            }}
+         </mat-error>
+      </mat-form-field>
+
+      <!-- Button Row -->
+      <mat-dialog-actions class="button-row">
+         <!-- Close Button -->
+         <button
+            mat-raised-button
+            (click)="closeForm()"
+            title="Formulier sluiten"
+            aria-label="Formulier sluiten"
+         >
+            Sluiten
+         </button>
+
+         <!-- Add Button -->
+         <button
+            mat-raised-button
+            color="primary"
+            (click)="submitForm()"
+            title="Formulier sluiten"
+            aria-label="Formulier sluiten"
+            *ngIf="isAdding"
+         >
+            Toevoegen
+         </button>
+
+         <!-- Save Button -->
+         <button
+            mat-raised-button
+            color="primary"
+            (click)="submitForm()"
+            title="Formulier sluiten"
+            aria-label="Formulier sluiten"
+            *ngIf="!isAdding"
+         >
+            Opslaan
+         </button>
+      </mat-dialog-actions>
+   </form>
+</mat-dialog-content>
