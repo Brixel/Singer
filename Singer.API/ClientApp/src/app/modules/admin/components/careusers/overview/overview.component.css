@@ -110,12 +110,6 @@ tr.selectable:active {
 }
 
 /* TABLE FOOTER STYLING */
-.tableButton {
-   font-family: Roboto, Arial, sans-serif;
-   font-size: 1em;
-   color: rgb(37, 37, 186);
-}
-
 .spacer {
    flex: 1 1 auto;
 }
