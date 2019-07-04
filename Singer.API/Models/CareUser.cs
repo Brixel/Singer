@@ -2,14 +2,13 @@ using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Singer.Helpers;
 
-namespace Singer.Models
-{
-   public class CareUser
-   {
+namespace Singer.Models {
+   public class CareUser : IIdentifiable {
       public Guid Id { get; set; }
 
-      [ForeignKey(nameof(User))]
+      [ForeignKey (nameof (User))]
       public Guid UserId { get; set; }
 
       public User User { get; set; }

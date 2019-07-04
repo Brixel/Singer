@@ -11,15 +11,13 @@ using Singer.Services.Interfaces;
 
 namespace Singer.Controllers {
    [Route ("api/[controller]")]
-   public class LegalGuardianUserController : Controller {
+   public class LegalGuardianUserController : DataControllerBase<LegalGuardianUser, LegalGuardianUserDTO> {
       private readonly IUserService _userService;
       private readonly IMapper _mapper;
       private readonly List<LegalGuardianUserDTO> _mockData = new List<LegalGuardianUserDTO> () {
          new LegalGuardianUserDTO {
          Id = Guid.NewGuid (),
          UserId = Guid.NewGuid (),
-         /* FirstName = "Papa",
-         LastName = "Van Joske", */
          FirstName = "Papa",
          LastName = "Van Joske",
          Email = "papa.vanjoske@me.be",
@@ -32,8 +30,6 @@ namespace Singer.Controllers {
          new LegalGuardianUserDTO {
          Id = Guid.NewGuid (),
          UserId = Guid.NewGuid (),
-         /* FirstName = "Mama",
-         LastName = "Van Joske", */
          FirstName = "Mama",
          LastName = "Van Joske",
          Email = "mama.vanjoske@me.be",
@@ -46,8 +42,6 @@ namespace Singer.Controllers {
          new LegalGuardianUserDTO {
          Id = Guid.NewGuid (),
          UserId = Guid.NewGuid (),
-         /* FirstName = "Voogd",
-         LastName = "Van Bram", */
          FirstName = "Voogd",
          LastName = "Van Bram",
          Email = "voogd.vanbram@me.be",
