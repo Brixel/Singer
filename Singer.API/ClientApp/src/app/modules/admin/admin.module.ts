@@ -12,9 +12,11 @@ import { CareUserDetailsComponent } from './components/careusers/care-user-detai
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { KeysPipe } from '../core/services/keys.pipe';
+import { EventsOverviewComponent } from './components/events/events-overview/events-overview.component';
+import { MatTableModule, MatPaginatorModule, MatSortModule } from '@angular/material';
 
 @NgModule({
-   declarations: [OverviewComponent, CareUserDetailsComponent],
+   declarations: [OverviewComponent, CareUserDetailsComponent, EventsOverviewComponent],
    imports: [
       CoreModule,
       CommonModule,
@@ -23,6 +25,9 @@ import { KeysPipe } from '../core/services/keys.pipe';
       ReactiveFormsModule,
       FormsModule,
       MatMomentDateModule,
+      MatTableModule,
+      MatPaginatorModule,
+      MatSortModule,
    ],
    entryComponents: [
       CareUserDetailsComponent
