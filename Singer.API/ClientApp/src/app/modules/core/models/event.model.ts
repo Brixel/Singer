@@ -1,4 +1,5 @@
 import { AgeGroup } from './enum';
+import { Time } from '@angular/common';
 
 export interface SingerEventDTO {
    id: string;
@@ -6,7 +7,8 @@ export interface SingerEventDTO {
    description: string;
    location: string;
    ageGroups: AgeGroup[];
-   size: number;
+   totalSize: number;
+   currentSize: number;
    price: number;
    startRegistrationDate: Date;
    endRegistrationDate: Date;
@@ -15,42 +17,20 @@ export interface SingerEventDTO {
    startDate: Date;
    endDate: Date;
    hasDayCareBefore: boolean;
-   dayCareBeforeStartDate: Date;
-   dayCareBeforeEndDate: Date;
+   dayCareBeforeStartTime: Time;
+   dayCareBeforeEndTime: Time;
    hasDayCareAfter: boolean;
-   dayCareAfterStartDate: Date;
-   dayCareAfterEndDate: Date;
+   dayCareAfterStartTime: Time;
+   dayCareAfterEndTime: Time;
 }
 
 export interface UpdateSingerEventDTO {
-
    name: string;
    description: string;
    location: string;
    ageGroups: AgeGroup[];
-   size: number;
-   price: number;
-   startRegistrationDate: Date;
-   endRegistrationDate: Date;S
-   finalCancelationDate: Date;
-   registrationOnDailyBasis: boolean;
-   startDate: Date;
-   endDate: Date;
-   hasDayCareBefore: boolean;
-   dayCareBeforeStartDate: Date;
-   dayCareBeforeEndDate: Date;
-   hasDayCareAfter: boolean;
-   dayCareAfterStartDate: Date;
-   dayCareAfterEndDate: Date;
-}
-
-export interface CreateSingerEventDTO {
-
-   name: string;
-   description: string;
-   location: string;
-   ageGroups: AgeGroup[];
-   size: number;
+   totalSize: number;
+   currentSize: number;
    price: number;
    startRegistrationDate: Date;
    endRegistrationDate: Date;
@@ -59,11 +39,33 @@ export interface CreateSingerEventDTO {
    startDate: Date;
    endDate: Date;
    hasDayCareBefore: boolean;
-   dayCareBeforeStartDate: Date;
-   dayCareBeforeEndDate: Date;
+   dayCareBeforeStartTime: Time;
+   dayCareBeforeEndTime: Time;
    hasDayCareAfter: boolean;
-   dayCareAfterStartDate: Date;
-   dayCareAfterEndDate: Date;
+   dayCareAfterStartTime: Time;
+   dayCareAfterEndTime: Time;
+}
+
+export interface CreateSingerEventDTO {
+   name: string;
+   description: string;
+   location: string;
+   ageGroups: AgeGroup[];
+   totalSize: number;
+   currentSize: number;
+   price: number;
+   startRegistrationDate: Date;
+   endRegistrationDate: Date;
+   finalCancelationDate: Date;
+   registrationOnDailyBasis: boolean;
+   startDate: Date;
+   endDate: Date;
+   hasDayCareBefore: boolean;
+   dayCareBeforeStartTime: Time;
+   dayCareBeforeEndTime: Time;
+   hasDayCareAfter: boolean;
+   dayCareAfterStartTime: Time;
+   dayCareAfterEndTime: Time;
 }
 
 export class SingerEvent {
@@ -72,7 +74,8 @@ export class SingerEvent {
    description: string;
    location: string;
    ageGroups: AgeGroup[];
-   size: number;
+   totalSize: number;
+   currentSize: number;
    price: number;
    startRegistrationDate: Date;
    endRegistrationDate: Date;
@@ -81,9 +84,9 @@ export class SingerEvent {
    startDate: Date;
    endDate: Date;
    hasDayCareBefore: boolean;
-   dayCareBeforeStartDate: Date;
-   dayCareBeforeEndDate: Date;
+   dayCareBeforeStartTime: Time;
+   dayCareBeforeEndTime: Time;
    hasDayCareAfter: boolean;
-   dayCareAfterStartDate: Date;
-   dayCareAfterEndDate: Date;
+   dayCareAfterStartTime: Time;
+   dayCareAfterEndTime: Time;
 }

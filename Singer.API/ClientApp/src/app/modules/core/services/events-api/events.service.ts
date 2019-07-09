@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
-import { SingerEvent, UpdateSingerEventDTO, CreateSingerEventDTO } from '../../models/event.model';
+import {
+   SingerEvent,
+   UpdateSingerEventDTO,
+   CreateSingerEventDTO,
+} from '../../models/event.model';
 import { AgeGroup } from '../../models/enum';
+import { Time } from '@angular/common';
 
 const EXAMPLE_SINGER_EVENTS: SingerEvent[] = [
    {
@@ -8,8 +13,9 @@ const EXAMPLE_SINGER_EVENTS: SingerEvent[] = [
       name: 'Introduction',
       description: 'Meetup between parents and teachers',
       location: 'Sint-Gerardusdreef 1 3590 Diepenbeek',
-      ageGroups: [AgeGroup.Adult,AgeGroup.Child],
-      size: 15,
+      ageGroups: [AgeGroup.Adult, AgeGroup.Child],
+      totalSize: 15,
+      currentSize: 0,
       price: 26.95,
       startRegistrationDate: new Date(),
       endRegistrationDate: new Date(),
@@ -18,11 +24,11 @@ const EXAMPLE_SINGER_EVENTS: SingerEvent[] = [
       startDate: new Date(),
       endDate: new Date(),
       hasDayCareBefore: false,
-      dayCareBeforeStartDate: new Date(),
-      dayCareBeforeEndDate: new Date(),
+      dayCareBeforeStartTime: { hours: 0, minutes: 0 },
+      dayCareBeforeEndTime: { hours: 0, minutes: 0 },
       hasDayCareAfter: false,
-      dayCareAfterStartDate: new Date(),
-      dayCareAfterEndDate: new Date(),
+      dayCareAfterStartTime: { hours: 0, minutes: 0 },
+      dayCareAfterEndTime: { hours: 0, minutes: 0 },
    },
    {
       id: '2',
@@ -30,7 +36,8 @@ const EXAMPLE_SINGER_EVENTS: SingerEvent[] = [
       description: 'A lovely picknick for ourstudents',
       location: 'Sint-Gerardusdreef 1 3590 Diepenbeek',
       ageGroups: [AgeGroup.Toddler, AgeGroup.Child, AgeGroup.Youngster],
-      size: 35,
+      totalSize: 35,
+      currentSize: 0,
       price: 3.5,
       startRegistrationDate: new Date(),
       endRegistrationDate: new Date(),
@@ -39,18 +46,17 @@ const EXAMPLE_SINGER_EVENTS: SingerEvent[] = [
       startDate: new Date(),
       endDate: new Date(),
       hasDayCareBefore: true,
-      dayCareBeforeStartDate: new Date(),
-      dayCareBeforeEndDate: new Date(),
+      dayCareBeforeStartTime: { hours: 0, minutes: 0 },
+      dayCareBeforeEndTime: { hours: 0, minutes: 0 },
       hasDayCareAfter: true,
-      dayCareAfterStartDate: new Date(),
-      dayCareAfterEndDate: new Date(),
-   }
+      dayCareAfterStartTime: { hours: 0, minutes: 0 },
+      dayCareAfterEndTime: { hours: 0, minutes: 0 },
+   },
 ];
 
 @Injectable({
    providedIn: 'root',
 })
-
 export class EventsService {
    constructor() {}
 
@@ -64,16 +70,11 @@ export class EventsService {
       return EXAMPLE_SINGER_EVENTS;
    }
    updateSingerEvent(updateSingerEvent: SingerEvent) {
-      const updateSingerEventDTO = <UpdateSingerEventDTO>{
-
-      };
-
+      const updateSingerEventDTO = <UpdateSingerEventDTO>{};
    }
 
    createSingerEvent(createSingerEvent: SingerEvent) {
-      const createSingerEventDTO = <CreateSingerEventDTO>{
-
-      };
+      const createSingerEventDTO = <CreateSingerEventDTO>{};
       EXAMPLE_SINGER_EVENTS.push(createSingerEvent);
    }
 }
