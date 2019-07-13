@@ -15,18 +15,18 @@
 }
 
 /* MEDIUM - LARGE RESOLUTIONS */
-@media (min-width: 1040px) {
+@media (min-width: 1065px) {
    /* FILTER FORM FIELD STYLING */
    .mat-form-field {
       font-size: 14px;
-      width: 1020px;
+      width: 1050px;
       margin: 10px auto;
       display: block;
    }
 
    /* MAIN TABLE STYLING */
    .overview-table {
-      width: 1020px;
+      width: 1050px;
       overflow: auto;
       /* Hide Vertical scroll bar */
       overflow-y: hidden;
