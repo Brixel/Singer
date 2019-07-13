@@ -1,11 +1,13 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Singer.Helpers;
 
 namespace Singer.Models
 {
-   public class CareUser
+   public class CareUser : IIdentifiable
    {
       public Guid Id { get; set; }
 
@@ -13,6 +15,7 @@ namespace Singer.Models
       public Guid UserId { get; set; }
 
       public User User { get; set; }
+      public List<LegalGuardianCareUser> LegalGuardianCareUsers { get; set; }
 
       [PersonalData]
       public DateTime BirthDay { get; set; }
