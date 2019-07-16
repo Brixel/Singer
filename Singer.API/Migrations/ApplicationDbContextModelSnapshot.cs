@@ -156,41 +156,6 @@ namespace Singer.Migrations
                     b.ToTable("CareUsers");
                 });
 
-            modelBuilder.Entity("Singer.Models.LegalGuardianCareUser", b =>
-                {
-                    b.Property<Guid>("CareUserId");
-
-                    b.Property<Guid>("LegalGuardianId");
-
-                    b.HasKey("CareUserId", "LegalGuardianId");
-
-                    b.HasIndex("LegalGuardianId");
-
-                    b.ToTable("LegalGuardianCareUser");
-                });
-
-            modelBuilder.Entity("Singer.Models.LegalGuardianUser", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Address");
-
-                    b.Property<string>("City");
-
-                    b.Property<string>("Country");
-
-                    b.Property<string>("PostalCode");
-
-                    b.Property<Guid>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("LegalGuardianUser");
-                });
-
             modelBuilder.Entity("Singer.Models.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -292,27 +257,6 @@ namespace Singer.Migrations
                 });
 
             modelBuilder.Entity("Singer.Models.CareUser", b =>
-                {
-                    b.HasOne("Singer.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Singer.Models.LegalGuardianCareUser", b =>
-                {
-                    b.HasOne("Singer.Models.CareUser", "CareUser")
-                        .WithMany("LegalGuardianCareUsers")
-                        .HasForeignKey("CareUserId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("Singer.Models.LegalGuardianUser", "LegalGuardian")
-                        .WithMany("LegalGuardianCareUsers")
-                        .HasForeignKey("LegalGuardianId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("Singer.Models.LegalGuardianUser", b =>
                 {
                     b.HasOne("Singer.Models.User", "User")
                         .WithMany()
