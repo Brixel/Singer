@@ -17,6 +17,8 @@ using static IdentityServer4.IdentityServerConstants;
 using ApiResource = IdentityServer4.EntityFramework.Entities.ApiResource;
 using ClaimValueTypes = System.Security.Claims.ClaimValueTypes;
 using IdentityResource = IdentityServer4.EntityFramework.Entities.IdentityResource;
+using Singer.Services;
+using Singer.DTOs;
 
 namespace Singer.Configuration
 {
@@ -27,7 +29,20 @@ namespace Singer.Configuration
       private const string ROLE_CARETAKER = "Caretaker";
       private const string ROLE_CAREUSER = "CareUser";
 
-      private static List<string> _careUsers = new List<string>() {"user1", "user2", "user3"};
+      private static List<string> _careUsers = new List<string>() { "user1", "user2", "user3" };
+      private static List<LegalGuardianUserDTO> _legalGuardianUsers = new List<LegalGuardianUserDTO>(){
+         new LegalGuardianUserDTO{
+            Id = Guid.NewGuid(),
+            Country = "Belgie",
+            Address = "Leuvensesteenweg 12",
+            City = "Lummen",
+            PostalCode = "1234",
+            FirstName = "Jan",
+            LastName = "Janssens",
+            Email = "jan.janssens@janneman.jan",
+            UserName = "janneman"
+         }
+      };
 
 
       private static List<string> ROLES = new List<string>()
@@ -111,8 +126,24 @@ namespace Singer.Configuration
                   IsExtern = false,
                   UserId = user.Id
                };
-               
+
                applicationDbContext.CareUsers.Add(careuser);
+            }
+         }
+
+         // Add LegalGuardian users
+         foreach (var user in _legalGuardianUsers)
+         {
+            var userMan = serviceScope.ServiceProvider.GetRequiredService<LegalGuardianUserService>();
+            var existingUser = userMan.GetAsync($"{user.FirstName} {user.LastName}");
+            continue;
+            if (existingUser.Result.Size == 0)
+            {
+               var result = userMan.CreateAsync(user);
+               if (!result.IsCompletedSuccessfully)
+               {
+                  throw new Exception(result.Exception.Message);
+               }
             }
          }
 
@@ -144,7 +175,7 @@ namespace Singer.Configuration
 
       public static void SeedIdentityResources(ConfigurationDbContext configrationDbContext)
       {
-         var identityResources= new List<IdentityResource>
+         var identityResources = new List<IdentityResource>
          {
             new IdentityResources.OpenId().ToEntity(),
             new IdentityResources.Email().ToEntity(),
@@ -154,10 +185,10 @@ namespace Singer.Configuration
          };
 
 
-        foreach(var identityResource in identityResources)
+         foreach (var identityResource in identityResources)
          {
             var identityResourceInDb = configrationDbContext.IdentityResources.SingleOrDefault(x => x.Name == identityResource.Name);
-            if(identityResourceInDb == null)
+            if (identityResourceInDb == null)
             {
                configrationDbContext.IdentityResources.Add(identityResource);
             }
@@ -193,7 +224,7 @@ namespace Singer.Configuration
                   {
                      Type = ClaimTypes.Email
                   },
-                  
+
                }
             };
 
