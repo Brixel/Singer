@@ -15,6 +15,8 @@ namespace Singer.Profiles
          );
          CreateMap<CreateCareUserDTO, CareUser>();
          CreateMap<LegalGuardianUserDTO, LegalGuardianUser>();
+         CreateMap<CreateLegalGuardianUserDTO, LegalGuardianUser>();
+         CreateMap<LegalGuardianUser, LegalGuardianUserDTO>();
       }
    }
 }

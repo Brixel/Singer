@@ -41,10 +41,13 @@ namespace Singer.Services
          {
             Debug.WriteLine($"User can not be created. {userCreationResult.Errors.First().Code}");
             throw new InternalServerException($"User can not be created. {userCreationResult.Errors.First().Description}");
-
          }
 
-         return await base.CreateAsync(dto, dtoToEntityProjector, entityToDTOProjector);
+         var createdUser = await UserManager.FindByEmailAsync(dto.Email);
+         var entity = Mapper.Map<TUserEntity>(dto);
+         entity.UserId = createdUser.Id;
+
+         return await base.CreateAsync(dto, _ => entity, entityToDTOProjector);
       }
    }
 
