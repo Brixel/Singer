@@ -22,8 +22,10 @@ namespace Singer.Services
    /// </summary>
    /// <typeparam name="TEntity">The type of the entity to manipulate in the database.</typeparam>
    /// <typeparam name="TDTO">The type that will be exposed to the outside world.</typeparam>
-   public abstract class DatabaseService<TEntity, TDTO> : IDatabaseService<TEntity, TDTO>
+   /// <typeparam name="TCreateDTO">The type that is used to create new entities in the database.</typeparam>
+   public abstract class DatabaseService<TEntity, TDTO, TCreateDTO> : IDatabaseService<TEntity, TDTO, TCreateDTO>
       where TEntity : class, IIdentifiable
+      where TCreateDTO : class
    {
       #region CONSTRUCTOR
 
@@ -72,6 +74,12 @@ namespace Singer.Services
       public virtual Expression<Func<TDTO, TEntity>> DTOToEntityProjector
          => x => Mapper.Map<TEntity>(x);
 
+      /// <summary>
+      /// Expression that is used to convert a <see cref="TCreateDTO"/> to an <see cref="TEntity"/> when creating entities in the database.
+      /// </summary>
+      public virtual Expression<Func<TCreateDTO, TEntity>> CreateDTOToEntityProjector
+         => x => Mapper.Map<TEntity>(x);
+
       #endregion PROPERTIES
 
 
@@ -99,15 +107,15 @@ namespace Singer.Services
       /// </param>
       /// <returns>The new created <see cref="TEntity"/> converted to a <see cref="TDTO"/>.</returns>
       public virtual async Task<TDTO> CreateAsync(
-         TDTO dto,
-         Expression<Func<TDTO, TEntity>> dtoToEntityProjector = null,
+         TCreateDTO dto,
+         Expression<Func<TCreateDTO, TEntity>> dtoToEntityProjector = null,
          Expression<Func<TEntity, TDTO>> entityToDTOProjector = null)
       {
          // set the projectors to the default values if they are null.
          if (entityToDTOProjector == null)
             entityToDTOProjector = EntityToDTOProjector;
          if (dtoToEntityProjector == null)
-            dtoToEntityProjector = DTOToEntityProjector;
+            dtoToEntityProjector = CreateDTOToEntityProjector;
 
          // project the DTO to an entity
          var entity = dtoToEntityProjector.Compile()(dto);

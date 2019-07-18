@@ -16,9 +16,10 @@ namespace Singer.Controllers
    /// <typeparam name="TEntity">The type of the entity to manipulate in the database.</typeparam>
    /// <typeparam name="TDTO">The type that will be exposed to the outside world.</typeparam>
    [Route("api/[controller]")]
-   public abstract class DataControllerBase<TEntity, TDTO> : Controller
+   public abstract class DataControllerBase<TEntity, TDTO, TCreateDTO> : Controller
       where TEntity : class, IIdentifiable
       where TDTO : class
+      where TCreateDTO : class
    {
       #region CONSTRUCTORS
 
@@ -26,7 +27,7 @@ namespace Singer.Controllers
       /// Constructs a new instance of the <see cref="DataControllerBase{TEntity, TDTO}"/> class.
       /// </summary>
       /// <param name="databaseService">Service to perform operations on the database.</param>
-      protected DataControllerBase(IDatabaseService<TEntity, TDTO> databaseService)
+      protected DataControllerBase(IDatabaseService<TEntity, TDTO, TCreateDTO> databaseService)
       {
          DatabaseService = databaseService;
       }
@@ -39,7 +40,7 @@ namespace Singer.Controllers
       /// <summary>
       /// Service to perform operations on the database.
       /// </summary>
-      protected IDatabaseService<TEntity, TDTO> DatabaseService { get; }
+      protected IDatabaseService<TEntity, TDTO, TCreateDTO> DatabaseService { get; }
 
       #endregion PROPERTIES
 
@@ -56,7 +57,7 @@ namespace Singer.Controllers
       [HttpPost]
       [ProducesResponseType(StatusCodes.Status201Created)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public async Task<ActionResult<TDTO>> Create(TDTO dto)
+      public async Task<ActionResult<TDTO>> Create(TCreateDTO dto)
       {
          var returnItem = await DatabaseService.CreateAsync(dto);
          return Created(nameof(Get), returnItem);
