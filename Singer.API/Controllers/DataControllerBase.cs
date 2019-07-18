@@ -18,7 +18,7 @@ namespace Singer.Controllers
    [Route("api/[controller]")]
    public abstract class DataControllerBase<TEntity, TDTO, TCreateDTO> : Controller
       where TEntity : class, IIdentifiable
-      where TDTO : class
+      where TDTO : class, IIdentifiable
       where TCreateDTO : class
    {
       #region CONSTRUCTORS

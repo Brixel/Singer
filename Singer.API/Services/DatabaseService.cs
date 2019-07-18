@@ -25,6 +25,7 @@ namespace Singer.Services
    /// <typeparam name="TCreateDTO">The type that is used to create new entities in the database.</typeparam>
    public abstract class DatabaseService<TEntity, TDTO, TCreateDTO> : IDatabaseService<TEntity, TDTO, TCreateDTO>
       where TEntity : class, IIdentifiable
+      where TDTO : class, IIdentifiable
       where TCreateDTO : class
    {
       #region CONSTRUCTOR

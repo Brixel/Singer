@@ -8,7 +8,7 @@ using Singer.Services;
 namespace Singer.Controllers
 {
    [Route("api/[controller]")]
-   public class LegalGuardianUserController : DataControllerBase<LegalGuardianUser, LegalGuardianUserDTO>
+   public class LegalGuardianUserController : DataControllerBase<LegalGuardianUser, LegalGuardianUserDTO, CreateLegalGuardianUserDTO>
    {
       public LegalGuardianUserController(LegalGuardianUserService databaseService) : base(databaseService)
       {

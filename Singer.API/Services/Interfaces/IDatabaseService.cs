@@ -17,6 +17,7 @@ namespace Singer.Services.Interfaces
    /// <typeparam name="TCreateDTO">The type that is used to create new entities in the database.</typeparam>
    public interface IDatabaseService<TEntity, TDTO, TCreateDTO>
       where TEntity : class, IIdentifiable
+      where TDTO : class, IIdentifiable
       where TCreateDTO : class
    {
       /// <summary>

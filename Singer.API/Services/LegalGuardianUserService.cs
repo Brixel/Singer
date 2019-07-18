@@ -8,7 +8,7 @@ using Singer.Models;
 
 namespace Singer.Services
 {
-   public class LegalGuardianUserService : DatabaseService<LegalGuardianUser, LegalGuardianUserDTO>
+   public class LegalGuardianUserService : DatabaseService<LegalGuardianUser, LegalGuardianUserDTO, CreateLegalGuardianUserDTO>
    {
       public LegalGuardianUserService(ApplicationDbContext context, IMapper mapper) : base(context, mapper)
       {
