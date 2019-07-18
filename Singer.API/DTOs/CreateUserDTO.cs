@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Singer.DTOs
 {
-   public class CreateUserDTO
+   public class CreateUserDTO : ICreateUserDTO
    {
 
       [Required]

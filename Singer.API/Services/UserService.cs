@@ -1,209 +1,52 @@
 using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Singer.Data;
 using Singer.DTOs;
-using Singer.Helpers;
 using Singer.Helpers.Exceptions;
-using Singer.Helpers.Extensions;
 using Singer.Models;
-using Singer.Services.Interfaces;
 
 namespace Singer.Services
 {
-   public class UserService : IUserService
+   public abstract class UserService<TUserEntity, TUserDTO, TCreateUserDTO> : DatabaseService<TUserEntity, TUserDTO, TCreateUserDTO>
+      where TUserEntity : User
+      where TUserDTO : class, IUserDTO
+      where TCreateUserDTO : class, ICreateUserDTO
    {
-      private readonly ApplicationDbContext _appContext;
       private readonly UserManager<User> _userManager;
-
-      public UserService(ApplicationDbContext appContext, UserManager<User> userManager)
+      protected UserService(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager) : base(context, mapper)
       {
-         _appContext = appContext;
          _userManager = userManager;
       }
 
-      public async Task<TOut> CreateUserAsync<TOut, TIn>(TIn createUser)
-         where TIn : CreateCareUserDTO
-         where TOut: CareUserDTO
+      public override async Task<TUserDTO> CreateAsync(
+         TCreateUserDTO dto,
+         Expression<Func<TCreateUserDTO, TUserEntity>> dtoToEntityProjector = null,
+         Expression<Func<TUserEntity, TUserDTO>> entityToDTOProjector = null)
       {
-         var user = new User()
+         var baseUser = new User()
          {
-            FirstName = createUser.FirstName,
-            LastName = createUser.LastName,
-            UserName = Guid.NewGuid().ToString()
+            FirstName = dto.FirstName,
+            LastName = dto.LastName,
+            Email = dto.Email,
+            UserName = dto.Email
          };
-         var careUser = new CareUser()
-         {
-            User = user,
-            AgeGroup =  createUser.AgeGroup,
-            BirthDay = createUser.BirthDay,
-            CaseNumber = createUser.CaseNumber,
-            HasNormalDayCare = createUser.HasNormalDayCare,
-            HasResources = createUser.HasResources,
-            HasTrajectory = createUser.HasTrajectory,
-            HasVacationDayCare = createUser.HasVacationDayCare,
-            IsExtern = createUser.IsExtern
-         };
-         var userCreationResult = await _userManager.CreateAsync(user);
+
+         var userCreationResult = await _userManager.CreateAsync(baseUser);
          if (!userCreationResult.Succeeded)
          {
-            throw new Exception($"User can not be created. {userCreationResult.Errors.First().Description}");
+            Debug.WriteLine($"User can not be created. {userCreationResult.Errors.First().Code}");
+            throw new InternalServerException($"User can not be created. {userCreationResult.Errors.First().Description}");
+
          }
 
-         _appContext.CareUsers.Add(careUser);
-         _appContext.SaveChanges();
-
-         return (TOut) new CareUserDTO()
-         {
-            Id = careUser.Id,
-            HasNormalDayCare = careUser.HasNormalDayCare,
-            UserName = user.UserName,
-            AgeGroup = careUser.AgeGroup,
-            HasTrajectory = careUser.HasTrajectory,
-            HasVacationDayCare = careUser.HasVacationDayCare,
-            BirthDay = careUser.BirthDay,
-            HasResources = careUser.HasResources,
-            CaseNumber = careUser.CaseNumber,
-            IsExtern = careUser.IsExtern,
-            FirstName = user.FirstName,
-            UserId = user.Id,
-            LastName = user.LastName
-         };
-      }
-
-      public async Task<IList<T>> GetAllUsersAsync<T>() where T : CareUser
-      {
-         return await _appContext.Users
-            .OfType<T>()
-            .ToListAsync();
-      }
-
-      public async Task<SearchResults<CareUserDTO>> GetUsersAsync<T>(string sortColumn,
-         string sortDirection,
-         string filter,
-         int page = 0,
-         int userPerPage = 15) where T : CareUser
-      {
-         var users = _appContext.CareUsers.AsQueryable();
-
-         var orderByLambda = PropertyHelpers.GetPropertySelector<CareUserDTO>(sortColumn);
-
-         var result = users.ToPagedList(Filter(filter), ProjectToCareUserDTO(), 
-            orderByLambda, sortDirection, page,
-            userPerPage);
-
-         return result;
-      }
-
-      private static Expression<Func<CareUser, CareUserDTO>> ProjectToCareUserDTO()
-      {
-         return x => new CareUserDTO
-         {
-            Id = x.Id,
-            UserId = x.UserId,
-            FirstName = x.User.FirstName,
-            LastName = x.User.LastName,
-            AgeGroup = x.AgeGroup,
-            UserName = x.User.UserName,
-            HasTrajectory = x.HasTrajectory,
-            HasVacationDayCare = x.HasVacationDayCare,
-            BirthDay = x.BirthDay,
-            HasNormalDayCare = x.HasNormalDayCare,
-            HasResources = x.HasResources,
-            CaseNumber = x.CaseNumber,
-            IsExtern = x.IsExtern,
-            Email = x.User.Email
-
-         };
-      }
-
-      public async Task<T> GetUserAsync<T>(Guid id) where T : CareUser
-      {
-         var user = await _appContext.Users.FindAsync(id.ToString()) as T;
-         if (user == null)
-         {
-            throw new UserNotFoundException();
-         }
-
-         return user;
-      }
-
-      public async Task<CareUserDTO> UpdateUserAsync(CreateCareUserDTO user, Guid id)
-      {
-         CareUser userToUpdate;
-         try
-         {
-            //Check if id exists
-            userToUpdate = _appContext.CareUsers.Include(x => x.User).Single(u => u.Id == id);
-         }
-         catch
-         {
-            throw new BadInputException();
-         }
-
-         //Convert user DTO to view
-         userToUpdate.AgeGroup = user.AgeGroup;
-         userToUpdate.User.FirstName = user.FirstName;
-         userToUpdate.User.LastName = user.LastName;
-         userToUpdate.BirthDay = user.BirthDay;
-         userToUpdate.CaseNumber = user.CaseNumber;
-         userToUpdate.HasNormalDayCare = user.HasNormalDayCare;
-         userToUpdate.HasResources = user.HasResources;
-         userToUpdate.HasTrajectory = user.HasTrajectory;
-         userToUpdate.HasVacationDayCare = user.HasVacationDayCare;
-         userToUpdate.IsExtern = user.IsExtern;
-
-         //And finally update database
-         await _appContext.SaveChangesAsync();
-         return new CareUserDTO()
-         {
-            Id = userToUpdate.Id,
-            AgeGroup = user.AgeGroup,
-            FirstName = user.FirstName,
-            LastName = user.LastName,
-            BirthDay = user.BirthDay,
-            CaseNumber = user.CaseNumber,
-            HasNormalDayCare = user.HasNormalDayCare,
-            HasResources = user.HasResources,
-            HasTrajectory = user.HasTrajectory,
-            HasVacationDayCare = user.HasVacationDayCare,
-            IsExtern = user.IsExtern
-         };
-      }
-
-      public async Task DeleteUserAsync(Guid id)
-      {
-         User dbUser;
-         try
-         {
-            //Check if id exists
-            dbUser = _appContext.Users.Single(u => u.Id == id);
-         }
-         catch
-         {
-            throw new BadInputException();
-         }
-
-         _appContext.Users.Remove(dbUser);
-         await _appContext.SaveChangesAsync();
-      }
-
-      private static Expression<Func<CareUser, bool>> Filter(string filter)
-      {
-         if (string.IsNullOrWhiteSpace(filter))
-         {
-            return o => true;
-         }
-         Expression<Func<CareUser, bool>> filterExpression =
-            f =>
-               f.User.FirstName.Contains(filter) ||
-               f.User.LastName.Contains(filter) ||
-               f.CaseNumber.Contains(filter);
-         return filterExpression;
+         return await base.CreateAsync(dto, dtoToEntityProjector, entityToDTOProjector);
       }
    }
+
 }

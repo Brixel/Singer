@@ -40,7 +40,7 @@ namespace Tests.ServiceTests
          TestDataContext.CareUsers.AddRange(users);
          TestDataContext.SaveChanges();
 
-         var service = new UserService(TestDataContext, null);
+         var service = new CareUserService(TestDataContext, null);
          var result = await service.GetUsersAsync<CareUser>("CaseNumber", "asc", "", 1, 10);
          result.Items.Should().HaveCount(1);
       }
@@ -108,7 +108,7 @@ namespace Tests.ServiceTests
          TestDataContext.CareUsers.AddRange(users);
          TestDataContext.SaveChanges();
 
-         var service = new UserService(TestDataContext, null);
+         var service = new CareUserService(TestDataContext, null);
          var result = await service.GetUsersAsync<CareUser>("CaseNumber", "asc", "44", 1, 10);
          result.Items.Should().HaveCount(1);
          result.Items[0].LastName.Should().Be("user2");
@@ -117,7 +117,7 @@ namespace Tests.ServiceTests
       [Test]
       public void GetUsersAsync_PageIndex0_Throws()
       {
-         var service = new UserService(TestDataContext, null);
+         var service = new CareUserService(TestDataContext, null);
 
          Func<Task> f = async () =>
          {
@@ -133,7 +133,7 @@ namespace Tests.ServiceTests
       [Test]
       public void GetUsersAsync_PageSize0_Throws()
       {
-         var service = new UserService(TestDataContext, null);
+         var service = new CareUserService(TestDataContext, null);
 
          Func<Task> f = async () =>
          {
