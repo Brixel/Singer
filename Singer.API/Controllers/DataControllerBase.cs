@@ -80,10 +80,8 @@ namespace Singer.Controllers
       [HttpGet]
       [ProducesResponseType(StatusCodes.Status200OK)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public virtual async Task<ActionResult<TDTO>> Get(string sortDirection, string sortColumn, int pageIndex, int pageSize, string filter)
+      public virtual async Task<ActionResult<TDTO>> Get(string sortDirection = "0", string sortColumn = "Id", int pageIndex = 1, int pageSize = 15, string filter = "")
       {
-         pageIndex++;
-
          if (!Enum.TryParse<ListSortDirection>(sortDirection, true, out var direction))
             throw new BadInputException("The given sort-direction is unknown.");
 
@@ -101,7 +99,7 @@ namespace Singer.Controllers
          var requestPath = HttpContext.Request.Path;
          var nextPage = (pageIndex * pageSize) + result.Size >= result.TotalCount
             ? null
-            : $"{requestPath}?PageIndex={pageIndex + pageSize}&Size={pageSize}";
+            : $"{requestPath}?PageIndex={pageIndex++}&Size={pageSize}";
 
          // create object that holds the paginated elements
          var page = new PaginationDTO<TDTO>
@@ -113,7 +111,7 @@ namespace Singer.Controllers
             NextPageUrl = nextPage,
             PreviousPageUrl = pageIndex == 0
                ? null
-               : $"{requestPath}?PageIndex={pageIndex - pageSize}&Size={pageSize}",
+               : $"{requestPath}?PageIndex={pageIndex--}&Size={pageSize}",
             TotalSize = result.TotalCount
          };
 
