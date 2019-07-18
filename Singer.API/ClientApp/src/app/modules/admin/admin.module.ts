@@ -12,9 +12,13 @@ import { CareUserDetailsComponent } from './components/careusers/care-user-detai
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { KeysPipe } from '../core/services/keys.pipe';
+import { AdminListComponent } from './components/admin-users/admin-list/admin-list.component';
+import { AdminDetailsComponent } from './components/admin-users/admin-details/admin-details.component';
+import { AdminUserProxy } from './services/adminuser.proxy';
+import { AdminUserService } from './services/admin-user.service';
 
 @NgModule({
-   declarations: [OverviewComponent, CareUserDetailsComponent],
+   declarations: [OverviewComponent, CareUserDetailsComponent, AdminListComponent, AdminDetailsComponent],
    imports: [
       CoreModule,
       CommonModule,
@@ -30,6 +34,8 @@ import { KeysPipe } from '../core/services/keys.pipe';
    providers: [
       CareUserProxy,
       CareUserService,
+      AdminUserProxy,
+      AdminUserService,
       ApiService,
       AgegroupPipe,
       KeysPipe,
