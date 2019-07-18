@@ -1,16 +1,18 @@
 using System;
 using System.Linq.Expressions;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Singer.Data;
-using Singer.DTOs;
-using Singer.Models;
+using Singer.DTOs.Users;
+using Singer.Models.Users;
 
 namespace Singer.Services
 {
-   public class LegalGuardianUserService : DatabaseService<LegalGuardianUser, LegalGuardianUserDTO, CreateLegalGuardianUserDTO>
+   public class LegalGuardianUserService : UserService<LegalGuardianUser, LegalGuardianUserDTO, CreateLegalGuardianUserDTO>
    {
-      public LegalGuardianUserService(ApplicationDbContext context, IMapper mapper) : base(context, mapper)
+      public LegalGuardianUserService(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager)
+      : base(context, mapper, userManager)
       {
       }
 

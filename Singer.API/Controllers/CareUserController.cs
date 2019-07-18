@@ -1,16 +1,12 @@
 using System;
-using System.ComponentModel;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Singer.DTOs.Users;
 using Singer.DTOs;
-using Singer.Helpers;
-using Singer.Services.Interfaces;
-using Singer.Models;
+using Singer.Models.Users;
 using Singer.Services;
 
 namespace Singer.Controllers
@@ -19,10 +15,10 @@ namespace Singer.Controllers
    [Authorize()]
    public class CareUserController : Controller
    {
-      private readonly IUserService _userService;
+      private readonly CareUserService _userService;
       private readonly IMapper _mapper;
 
-      public CareUserController(IUserService service, IMapper mapper)
+      public CareUserController(CareUserService service, IMapper mapper)
       {
          _userService = service;
          _mapper = mapper;

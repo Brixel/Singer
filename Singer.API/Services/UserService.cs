@@ -5,23 +5,22 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Singer.Data;
-using Singer.DTOs;
+using Singer.DTOs.Users;
 using Singer.Helpers.Exceptions;
-using Singer.Models;
+using Singer.Models.Users;
 
 namespace Singer.Services
 {
    public abstract class UserService<TUserEntity, TUserDTO, TCreateUserDTO> : DatabaseService<TUserEntity, TUserDTO, TCreateUserDTO>
-      where TUserEntity : User
+      where TUserEntity : class, IUser
       where TUserDTO : class, IUserDTO
       where TCreateUserDTO : class, ICreateUserDTO
    {
-      private readonly UserManager<User> _userManager;
+      protected UserManager<User> UserManager { get; }
       protected UserService(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager) : base(context, mapper)
       {
-         _userManager = userManager;
+         UserManager = userManager;
       }
 
       public override async Task<TUserDTO> CreateAsync(
@@ -37,7 +36,7 @@ namespace Singer.Services
             UserName = dto.Email
          };
 
-         var userCreationResult = await _userManager.CreateAsync(baseUser);
+         var userCreationResult = await UserManager.CreateAsync(baseUser);
          if (!userCreationResult.Succeeded)
          {
             Debug.WriteLine($"User can not be created. {userCreationResult.Errors.First().Code}");

@@ -1,6 +1,6 @@
 using System;
 
-namespace Singer.Models
+namespace Singer.Models.Users
 {
    public class LegalGuardianCareUser
    {

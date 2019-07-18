@@ -3,27 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Singer.Data;
-using Singer.DTOs;
+using Singer.DTOs.Users;
 using Singer.Helpers;
 using Singer.Helpers.Exceptions;
 using Singer.Helpers.Extensions;
 using Singer.Models;
-using Singer.Services.Interfaces;
+using Singer.Models.Users;
 
 namespace Singer.Services
 {
-   public class CareUserService : IUserService
+   public class CareUserService : UserService<CareUser, CareUserDTO, CreateCareUserDTO>
    {
-      private readonly ApplicationDbContext _appContext;
-      private readonly UserManager<User> _userManager;
+      protected override DbSet<CareUser> DbSet => Context.CareUsers;
 
-      public CareUserService(ApplicationDbContext appContext, UserManager<User> userManager)
+      public CareUserService(ApplicationDbContext appContext, IMapper mapper, UserManager<User> userManager)
+      : base(appContext, mapper, userManager)
       {
-         _appContext = appContext;
-         _userManager = userManager;
       }
 
       public async Task<TOut> CreateUserAsync<TOut, TIn>(TIn createUser)
@@ -48,20 +47,19 @@ namespace Singer.Services
             HasVacationDayCare = createUser.HasVacationDayCare,
             IsExtern = createUser.IsExtern
          };
-         var userCreationResult = await _userManager.CreateAsync(user);
+         var userCreationResult = await UserManager.CreateAsync(user);
          if (!userCreationResult.Succeeded)
          {
             throw new Exception($"User can not be created. {userCreationResult.Errors.First().Description}");
          }
 
-         _appContext.CareUsers.Add(careUser);
-         _appContext.SaveChanges();
+         DbSet.Add(careUser);
+         Context.SaveChanges();
 
          return (TOut)new CareUserDTO()
          {
             Id = careUser.Id,
             HasNormalDayCare = careUser.HasNormalDayCare,
-            UserName = user.UserName,
             AgeGroup = careUser.AgeGroup,
             HasTrajectory = careUser.HasTrajectory,
             HasVacationDayCare = careUser.HasVacationDayCare,
@@ -70,14 +68,13 @@ namespace Singer.Services
             CaseNumber = careUser.CaseNumber,
             IsExtern = careUser.IsExtern,
             FirstName = user.FirstName,
-            UserId = user.Id,
             LastName = user.LastName
          };
       }
 
       public async Task<IList<T>> GetAllUsersAsync<T>() where T : CareUser
       {
-         return await _appContext.Users
+         return await Context.Users
             .OfType<T>()
             .ToListAsync();
       }
@@ -88,7 +85,7 @@ namespace Singer.Services
          int page = 0,
          int userPerPage = 15) where T : CareUser
       {
-         var users = _appContext.CareUsers.AsQueryable();
+         var users = Context.CareUsers.AsQueryable();
 
          var orderByLambda = PropertyHelpers.GetPropertySelector<CareUserDTO>(sortColumn);
 
@@ -104,11 +101,9 @@ namespace Singer.Services
          return x => new CareUserDTO
          {
             Id = x.Id,
-            UserId = x.UserId,
             FirstName = x.User.FirstName,
             LastName = x.User.LastName,
             AgeGroup = x.AgeGroup,
-            UserName = x.User.UserName,
             HasTrajectory = x.HasTrajectory,
             HasVacationDayCare = x.HasVacationDayCare,
             BirthDay = x.BirthDay,
@@ -123,7 +118,7 @@ namespace Singer.Services
 
       public async Task<T> GetUserAsync<T>(Guid id) where T : CareUser
       {
-         var user = await _appContext.Users.FindAsync(id.ToString()) as T;
+         var user = await Context.Users.FindAsync(id.ToString()) as T;
          if (user == null)
          {
             throw new UserNotFoundException();
@@ -138,7 +133,7 @@ namespace Singer.Services
          try
          {
             //Check if id exists
-            userToUpdate = _appContext.CareUsers.Include(x => x.User).Single(u => u.Id == id);
+            userToUpdate = Context.CareUsers.Include(x => x.User).Single(u => u.Id == id);
          }
          catch
          {
@@ -158,7 +153,7 @@ namespace Singer.Services
          userToUpdate.IsExtern = user.IsExtern;
 
          //And finally update database
-         await _appContext.SaveChangesAsync();
+         await Context.SaveChangesAsync();
          return new CareUserDTO()
          {
             Id = userToUpdate.Id,
@@ -181,18 +176,18 @@ namespace Singer.Services
          try
          {
             //Check if id exists
-            dbUser = _appContext.Users.Single(u => u.Id == id);
+            dbUser = Context.Users.Single(u => u.Id == id);
          }
          catch
          {
             throw new BadInputException();
          }
 
-         _appContext.Users.Remove(dbUser);
-         await _appContext.SaveChangesAsync();
+         Context.Users.Remove(dbUser);
+         await Context.SaveChangesAsync();
       }
 
-      private static Expression<Func<CareUser, bool>> Filter(string filter)
+      protected override Expression<Func<CareUser, bool>> Filter(string filter)
       {
          if (string.IsNullOrWhiteSpace(filter))
          {

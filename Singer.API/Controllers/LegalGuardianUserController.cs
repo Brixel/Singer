@@ -1,8 +1,6 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using Singer.DTOs;
-using Singer.Models;
+using Singer.DTOs.Users;
+using Singer.Models.Users;
 using Singer.Services;
 
 namespace Singer.Controllers

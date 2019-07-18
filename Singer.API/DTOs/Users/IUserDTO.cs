@@ -1,15 +1,13 @@
 using Singer.Helpers;
 
-namespace Singer.DTOs
+namespace Singer.DTOs.Users
 {
-   public interface IUserDTO : IIdentifiable 
+   public interface IUserDTO : IIdentifiable
    {
       string FirstName { get; set; }
 
       string LastName { get; set; }
 
       string Email { get; set; }
-
-      string UserName { get; set; }
    }
 }

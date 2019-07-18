@@ -1,8 +1,6 @@
-using System;
 using AutoMapper;
-using Microsoft.AspNetCore.Routing.Constraints;
-using Singer.DTOs;
-using Singer.Models;
+using Singer.DTOs.Users;
+using Singer.Models.Users;
 
 namespace Singer.Profiles
 {

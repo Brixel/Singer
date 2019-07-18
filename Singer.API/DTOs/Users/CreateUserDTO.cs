@@ -1,11 +1,10 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Singer.DTOs
+namespace Singer.DTOs.Users
 {
    public class CreateUserDTO : ICreateUserDTO
    {
-
       [Required]
       [StringLength(maximumLength: 255,
          ErrorMessage = "De {0} moet een lengte hebben van minstens {2} en maximum {1} karakters.",
@@ -23,13 +22,5 @@ namespace Singer.DTOs
       [EmailAddress]
       [DisplayName("E-mail adres")]
       public string Email { get; set; }
-
-      [Required]
-      [StringLength(maximumLength: 50,
-         ErrorMessage = "De {0} moet een lengte hebben van minstens {2} en maximum {1} karakters.",
-         MinimumLength = 3)]
-      [RegularExpression(@"^[a-zA-Z0-9]+$", ErrorMessage = "De {0} mag alleen letters en cijfers bevatten.")]
-      [DisplayName("Gebruikersnaam")]
-      public string UserName { get; set; }
    }
 }

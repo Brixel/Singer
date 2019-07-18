@@ -11,14 +11,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using Singer.Data.Models;
-using Singer.Models;
-using static IdentityServer4.IdentityServerConstants;
+using Singer.Models.Users;
 using ApiResource = IdentityServer4.EntityFramework.Entities.ApiResource;
 using ClaimValueTypes = System.Security.Claims.ClaimValueTypes;
 using IdentityResource = IdentityServer4.EntityFramework.Entities.IdentityResource;
 using Singer.Services;
-using Singer.DTOs;
+using Singer.DTOs.Users;
+using Singer.Models;
 
 namespace Singer.Configuration
 {
@@ -30,20 +29,6 @@ namespace Singer.Configuration
       private const string ROLE_CAREUSER = "CareUser";
 
       private static List<string> _careUsers = new List<string>() { "user1", "user2", "user3" };
-      private static List<LegalGuardianUserDTO> _legalGuardianUsers = new List<LegalGuardianUserDTO>(){
-         new LegalGuardianUserDTO{
-            Id = Guid.NewGuid(),
-            Country = "Belgie",
-            Address = "Leuvensesteenweg 12",
-            City = "Lummen",
-            PostalCode = "1234",
-            FirstName = "Jan",
-            LastName = "Janssens",
-            Email = "jan.janssens@janneman.jan",
-            UserName = "janneman"
-         }
-      };
-
 
       private static List<string> ROLES = new List<string>()
       {
@@ -128,22 +113,6 @@ namespace Singer.Configuration
                };
 
                applicationDbContext.CareUsers.Add(careuser);
-            }
-         }
-
-         // Add LegalGuardian users
-         foreach (var user in _legalGuardianUsers)
-         {
-            var userMan = serviceScope.ServiceProvider.GetRequiredService<LegalGuardianUserService>();
-            var existingUser = userMan.GetAsync($"{user.FirstName} {user.LastName}");
-            continue;
-            if (existingUser.Result.Size == 0)
-            {
-               var result = userMan.CreateAsync(user);
-               if (!result.IsCompletedSuccessfully)
-               {
-                  throw new Exception(result.Exception.Message);
-               }
             }
          }
 

@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Singer.Helpers;
 
-namespace Singer.Models
+namespace Singer.Models.Users
 {
-   public class LegalGuardianUser : IIdentifiable
+   public class LegalGuardianUser : IUser
    {
       public Guid Id { get; set; }
 

@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Singer.Helpers;
 
-namespace Singer.Models
+namespace Singer.Models.Users
 {
-   public class CareUser : IIdentifiable
+   public class CareUser : IUser
    {
       public Guid Id { get; set; }
 
