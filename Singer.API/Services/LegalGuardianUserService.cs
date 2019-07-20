@@ -32,18 +32,18 @@ namespace Singer.Services
       }
 
       // TODO: Should fix automapper config so this custom mapper is not needed
-      public override Expression<Func<LegalGuardianUser, LegalGuardianUserDTO>> EntityToDTOProjector
-         => x => new LegalGuardianUserDTO
-         {
-            Id = x.Id,
-            FirstName = x.User.FirstName,
-            LastName = x.User.LastName,
-            Email = x.User.Email,
-            Address = x.Address,
-            PostalCode = x.PostalCode,
-            City = x.City,
-            Country = x.Country,
-            CareUsers = null
-         };
+      //public override Expression<Func<LegalGuardianUser, LegalGuardianUserDTO>> EntityToDTOProjector
+      //   => x => new LegalGuardianUserDTO
+      //   {
+      //      Id = x.Id,
+      //      FirstName = x.User.FirstName,
+      //      LastName = x.User.LastName,
+      //      Email = x.User.Email,
+      //      Address = x.Address,
+      //      PostalCode = x.PostalCode,
+      //      City = x.City,
+      //      Country = x.Country,
+      //      CareUsers = null
+      //   };
    }
 }
