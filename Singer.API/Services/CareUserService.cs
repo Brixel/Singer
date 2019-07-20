@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using Singer.Data;
 using Singer.DTOs.Users;
 using Singer.Helpers;
@@ -19,6 +20,8 @@ namespace Singer.Services
    public class CareUserService : UserService<CareUser, CareUserDTO, CreateCareUserDTO>
    {
       protected override DbSet<CareUser> DbSet => Context.CareUsers;
+
+      protected override IQueryable<CareUser> Queryable => Context.CareUsers.Include(x => x.User);
 
       public CareUserService(ApplicationDbContext appContext, IMapper mapper, UserManager<User> userManager)
       : base(appContext, mapper, userManager)

@@ -1,8 +1,10 @@
 using System;
+using System.Linq;
 using System.Linq.Expressions;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using Singer.Data;
 using Singer.DTOs.Users;
 using Singer.Models.Users;
@@ -17,6 +19,8 @@ namespace Singer.Services
       }
 
       protected override DbSet<LegalGuardianUser> DbSet => Context.LegalGuardianUsers;
+
+      protected override IQueryable<LegalGuardianUser> Queryable => Context.LegalGuardianUsers.Include( x=>x.User);
 
       protected override Expression<Func<LegalGuardianUser, bool>> Filter(string filter)
       {

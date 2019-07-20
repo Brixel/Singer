@@ -47,9 +47,14 @@ namespace Singer.Services
       #region PROPERTIES
 
       /// <summary>
-      /// Set that contains the entities in the database.
+      /// Set that contains the entities in the database. Use this to operate on the database.
       /// </summary>
       protected abstract DbSet<TEntity> DbSet { get; }
+
+      /// <summary>
+      /// Queryable object to allow direct querying on the database. Typically has the required Includes
+      /// </summary>
+      protected abstract IQueryable<TEntity> Queryable { get; }
 
       /// <summary>
       /// The context in which the database is approachable.
@@ -219,8 +224,7 @@ namespace Singer.Services
             projector = EntityToDTOProjector;
 
          // return the paged results
-         return await DbSet
-            .AsQueryable()
+         return await Queryable
             .ToPagedListAsync(
                filterExpression: Filter(filter),
                projectionExpression: projector,
