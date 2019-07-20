@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Singer.Data;
 using Singer.DTOs.Users;
 using Singer.Helpers.Exceptions;
@@ -49,6 +50,22 @@ namespace Singer.Services
 
          return await base.CreateAsync(dto, _ => entity, entityToDTOProjector);
       }
+
+      public override async Task<TUserDTO> GetOneAsync(Guid id, Expression<Func<TUserEntity, TUserDTO>> projector = null)
+      {
+         // set the projector if it is null
+         if (projector == null)
+            projector = EntityToDTOProjector;
+
+         // search for the entity with the given id in the database
+         var item = await DbSet.Select(projector).Where(x => x.Id == id).SingleAsync();
+         if (item == null)
+            throw new NotFoundException();
+
+         // return the found entity projected to it's DTO
+         return item;
+      }
+
    }
 
 }
