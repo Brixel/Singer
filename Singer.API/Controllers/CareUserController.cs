@@ -26,14 +26,13 @@ namespace Singer.Controllers
 
       [HttpGet]
       [ProducesResponseType(StatusCodes.Status200OK)]
-      public async Task<ActionResult<PaginationDTO<CareUserDTO>>> GetUsers(string sortDirection, string sortColumn, int pageIndex, int pageSize, string filter)
+      public async Task<ActionResult<PaginationDTO<CareUserDTO>>> GetUsers(string sortDirection = "0", string sortColumn = "FirstName", int pageIndex = 1, int pageSize = 15, string filter = "")
       {
-         pageIndex++;
          var result = await _userService.GetUsersAsync<CareUser>(sortColumn, sortDirection, filter, pageIndex, pageSize);
          var requestPath = HttpContext.Request.Path;
          var nextPage = (pageIndex * pageSize) + result.Size >= result.TotalCount
             ? null
-            : $"{requestPath}?PageIndex={pageIndex + pageSize}&Size={pageSize}";
+            : $"{requestPath}?PageIndex={pageIndex++}&Size={pageSize}";
 
 
          var page = new PaginationDTO<CareUserDTO>
@@ -43,9 +42,9 @@ namespace Singer.Controllers
             PageIndex = pageIndex,
             CurrentPageUrl = $"{requestPath}?{HttpContext.Request.QueryString.ToString()}",
             NextPageUrl = nextPage,
-            PreviousPageUrl = pageIndex == 0
+            PreviousPageUrl = pageIndex == 1
                ? null
-               : $"{requestPath}?PageIndex={pageIndex - pageSize}&Size={pageSize}",
+               : $"{requestPath}?PageIndex={pageIndex--}&Size={pageSize}",
             TotalSize = result.TotalCount
          };
          return Ok(page);
