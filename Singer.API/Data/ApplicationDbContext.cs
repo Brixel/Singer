@@ -28,7 +28,6 @@ namespace Singer.Data
             .HasOne(x => x.CareUser)
             .WithMany(x => x.LegalGuardianCareUsers)
             .OnDelete(DeleteBehavior.Restrict);
-
       }
    }
 }

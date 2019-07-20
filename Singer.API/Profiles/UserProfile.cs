@@ -8,15 +8,24 @@ namespace Singer.Profiles
    {
       public UserProfile()
       {
-         CreateMap<User, CareUserDTO>();
-         CreateMap<CareUser, CareUserDTO>().ForMember(x => x.Id, opt => opt.MapFrom(src => src.Id));
-         CreateMap<CareUserDTO, CareUser>().ForMember(
-            x => x.Id, opt => opt.MapFrom(src => src.Id.ToString())
-         );
-         CreateMap<CreateCareUserDTO, CareUser>();
-         CreateMap<LegalGuardianUserDTO, LegalGuardianUser>();
-         CreateMap<CreateLegalGuardianUserDTO, LegalGuardianUser>();
-         CreateMap<LegalGuardianUser, LegalGuardianUserDTO>();
+         // CareUsers
+         CreateMap<CareUser, CareUserDTO>()
+            .ForMember(x => x.FirstName, opt => opt.MapFrom(src => src.User.FirstName))
+            .ForMember(x => x.LastName, opt => opt.MapFrom(src => src.User.LastName));
+         CreateMap<CareUserDTO, CareUser>()
+            .ForMember(x => x.User, opt => opt.MapFrom(src => new User { FirstName = src.FirstName, LastName = src.LastName }));
+         CreateMap<CreateCareUserDTO, CareUser>()
+            .ForMember(x => x.User, opt => opt.MapFrom(src => new User { FirstName = src.FirstName, LastName = src.LastName }));
+
+         //LegalGuardianUsers
+         CreateMap<LegalGuardianUserDTO, LegalGuardianUser>()
+            .ForMember(x => x.User, opt => opt.MapFrom(src => new User { FirstName = src.FirstName, LastName = src.LastName, Email = src.Email }));
+         CreateMap<CreateLegalGuardianUserDTO, LegalGuardianUser>()
+            .ForMember(x => x.User, opt => opt.MapFrom(src => new User { FirstName = src.FirstName, LastName = src.LastName, Email = src.Email }));
+         CreateMap<LegalGuardianUser, LegalGuardianUserDTO>()
+            .ForMember(x => x.FirstName, opt => opt.MapFrom(src => src.User.FirstName))
+            .ForMember(x => x.LastName, opt => opt.MapFrom(src => src.User.LastName))
+            .ForMember(x => x.Email, opt => opt.MapFrom(src => src.User.Email));
       }
    }
 }
