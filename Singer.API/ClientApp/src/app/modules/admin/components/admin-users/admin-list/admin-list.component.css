@@ -13,6 +13,9 @@
    overflow-y: hidden;
    margin: 10px auto;
 }
+table{
+   width: 100%;
+}
 
 /* MEDIUM - LARGE RESOLUTIONS */
 @media (min-width: 1150px) {

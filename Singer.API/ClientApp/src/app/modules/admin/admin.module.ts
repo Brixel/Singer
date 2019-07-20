@@ -29,7 +29,8 @@ import { AdminUserService } from './services/admin-user.service';
       MatMomentDateModule,
    ],
    entryComponents: [
-      CareUserDetailsComponent
+      CareUserDetailsComponent,
+      AdminDetailsComponent
    ],
    providers: [
       CareUserProxy,

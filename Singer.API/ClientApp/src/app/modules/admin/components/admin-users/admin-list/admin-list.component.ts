@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { MatPaginator, MatSort } from '@angular/material';
+import { MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { AdminDatasource } from '../../../services/admin.datasource';
 import { AdminUserService } from '../../../services/admin-user.service';
 import { fromEvent, merge } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
+import { AdminUser } from 'src/app/modules/core/models/adminuser.model';
+import { AdminDetailsComponent } from '../admin-details/admin-details.component';
 
 @Component({
   selector: 'app-admin-list',
@@ -27,20 +29,36 @@ export class AdminListComponent implements OnInit, AfterViewInit {
    ];
    filter: string;
    dataSource: AdminDatasource;
-  constructor(private adminUserService: AdminUserService) { }
+  constructor(public dialog: MatDialog, private adminUserService: AdminUserService) { }
 
   ngOnInit() {
    this.dataSource = new AdminDatasource(this.adminUserService);
    this.sort.active = 'lastName';
    this.sort.direction = 'asc';
-   this.loadCareUsers();
+   this.loadAdmins();
   }
-   loadCareUsers() {
+   loadAdmins() {
       const sortDirection = this.sort.direction;
       const sortColumn = this.sort.active;
       this.filter = this.filterInput.nativeElement.value;
       this.dataSource.loadAdmins(sortDirection, sortColumn, this.pageIndex, this.pageSize, this.filter);
    }
+
+
+   selectRow(row: AdminUser): void {
+      const dialogRef = this.dialog.open(AdminDetailsComponent, {
+         data: { careUserInstance: row, isAdding: false },
+      });
+
+      dialogRef.componentInstance.submitEvent.subscribe((result: AdminUser) => {
+         // Update the Careuser
+         // this.adminUserService.updateUser(result).subscribe((res) => {
+         //    // Reload Careusers
+         //    this.loadCareUsers();
+         // });
+      });
+   }
+
    ngAfterViewInit() {
       fromEvent(this.filterInput.nativeElement, 'keyup')
             .pipe(
@@ -48,7 +66,7 @@ export class AdminListComponent implements OnInit, AfterViewInit {
                 distinctUntilChanged(),
                 tap(() => {
                     this.paginator.pageIndex = 0;
-                    this.loadCareUsers();
+                    this.loadAdmins();
                 })
             )
             .subscribe();
@@ -58,7 +76,7 @@ export class AdminListComponent implements OnInit, AfterViewInit {
               tap(() => {
                  this.pageIndex = this.paginator.pageIndex;
                  this.pageSize = this.paginator.pageSize;
-                  this.loadCareUsers();
+                  this.loadAdmins();
               })
           )
           .subscribe();
