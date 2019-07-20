@@ -78,9 +78,8 @@ namespace Singer.Services
             throw new NotFoundException();
 
          //Since users are entities based on the `User` entity, we must delete the User isntead of the specific entity
-         var userToDelete = await Context.Users.FindAsync(itemToDelete.Id);
+         var userToDelete = await Context.Users.FindAsync(itemToDelete.UserId);
          Context.Users.Remove(userToDelete);
-         DbSet.Remove(itemToDelete);
          await Context.SaveChangesAsync();
       }
 
