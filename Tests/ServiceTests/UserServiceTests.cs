@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using NUnit.Framework;
 using Singer.DTOs;
 using Singer.Models;
+using Singer.Models.Users;
 using Singer.Services;
 using Tests.TestData;
 

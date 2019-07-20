@@ -61,7 +61,9 @@ namespace Singer.Services
             projector = EntityToDTOProjector;
 
          // search for the entity with the given id in the database
-         var item = await DbSet.Include(x => x.User).Select(projector).Where(x => x.Id == id).SingleOrDefaultAsync();
+         var item = await DbSet
+            .Include(x => x.User) //Explicitly load the user entity
+            .Select(projector).SingleOrDefaultAsync(x => x.Id == id);
          if (item == null)
             throw new NotFoundException();
 
