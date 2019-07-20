@@ -263,6 +263,7 @@ namespace Singer.Services
             throw new NotFoundException();
 
          // update the item
+         Context.Entry(itemToUpdate).State = EntityState.Detached;
          itemToUpdate = dtoToEntityProjector.Compile()(newValue);
          itemToUpdate.Id = id;
          var tracker = DbSet.Update(itemToUpdate);
