@@ -38,11 +38,12 @@ export class LegalguardiansService {
          firstName: updateLegalGuardian.firstName,
          lastName: updateLegalGuardian.lastName,
          email: updateLegalGuardian.email,
-         userName: updateLegalGuardian.userName,
-         birthDate: updateLegalGuardian.birthDate,
          address: updateLegalGuardian.address,
+         postalCode: updateLegalGuardian.postalCode,
+         city: updateLegalGuardian.city,
+         country: updateLegalGuardian.country,
          phoneNumber: updateLegalGuardian.phoneNumber,
-         gsm: updateLegalGuardian.gsm,
+         mobilePhoneNumber: updateLegalGuardian.mobilePhoneNumber,
       };
       return this.legalguardianProxy
          .updateLegalGuardian(updateLegalGuardian.id, updateLegalGuardianDTO)
@@ -54,11 +55,12 @@ export class LegalguardiansService {
          firstName: createLegalGuardian.firstName,
          lastName: createLegalGuardian.lastName,
          email: createLegalGuardian.email,
-         userName: createLegalGuardian.userName,
-         birthDate: createLegalGuardian.birthDate,
          address: createLegalGuardian.address,
+         postalCode: createLegalGuardian.postalCode,
+         city: createLegalGuardian.city,
+         country: createLegalGuardian.country,
          phoneNumber: createLegalGuardian.phoneNumber,
-         gsm: createLegalGuardian.gsm,
+         mobilePhoneNumber: createLegalGuardian.mobilePhoneNumber,
       };
       return this.legalguardianProxy
          .createLegalGuardian(createLegalGuardianDTO)

@@ -1,35 +1,40 @@
+import { CareUserDTO } from './careuser.model';
+
 export interface LegalGuardianDTO {
    id: string;
    firstName: string;
    lastName: string;
    email: string;
-   userName: string;
-   birthDate: Date;
    address: string;
+   postalCode: string;
+   city: string;
+   country: string;
    phoneNumber: string;
-   gsm: string;
+   mobilePhoneNumber: string;
 }
 
 export interface UpdateLegalGuardianDTO {
    firstName: string;
    lastName: string;
    email: string;
-   userName: string;
-   birthDate: Date;
    address: string;
+   postalCode: string;
+   city: string;
+   country: string;
    phoneNumber: string;
-   gsm: string;
+   mobilePhoneNumber: string;
 }
 
 export interface CreateLegalGuardianDTO {
    firstName: string;
    lastName: string;
    email: string;
-   userName: string;
-   birthDate: Date;
    address: string;
+   postalCode: string;
+   city: string;
+   country: string;
    phoneNumber: string;
-   gsm: string;
+   mobilePhoneNumber: string;
 }
 
 export class LegalGuardian {
@@ -37,9 +42,10 @@ export class LegalGuardian {
    firstName: string;
    lastName: string;
    email: string;
-   userName: string;
-   birthDate: Date;
    address: string;
+   postalCode: string;
+   city: string;
+   country: string;
    phoneNumber: string;
-   gsm: string;
+   mobilePhoneNumber: string;
 }
