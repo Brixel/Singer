@@ -3,32 +3,51 @@ import { Inject, Injectable } from '@angular/core';
 import { ApiService } from '../api.service';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { UpdateLegalGuardianDTO, CreateLegalGuardianDTO, LegalGuardianDTO } from '../../models/legalguardian.model';
+import {
+   UpdateLegalGuardianDTO,
+   CreateLegalGuardianDTO,
+   LegalGuardianDTO,
+} from '../../models/legalguardian.model';
 import { PaginationDTO } from '../../models/pagination.model';
 
 @Injectable({
-   providedIn: 'root'
+   providedIn: 'root',
 })
-export class LegalGuardianProxy{
+export class LegalGuardianProxy {
+   constructor(private apiService: ApiService) {}
 
-   constructor(private apiService: ApiService){}
-
-   getLegalGuardians(sortDirection?:string, sortColumn?:string, pageIndex?:number, pageSize?:number, filter?:string):Observable<PaginationDTO>{
+   getLegalGuardians(
+      sortDirection?: string,
+      sortColumn?: string,
+      pageIndex?: number,
+      pageSize?: number,
+      filter?: string
+   ): Observable<PaginationDTO> {
       const searchParams = new HttpParams()
-      .set('sortDirection', sortDirection)
-      .set('sortColumn', sortColumn)
-      .set('pageIndex', pageIndex.toString())
-      .set('pageSize', pageSize.toString())
-      .set('filter', filter);
-      return this.apiService.get('api/legalguardianuser').pipe(map((res) => res));
+         .set('sortDirection', sortDirection)
+         .set('sortColumn', sortColumn)
+         .set('pageIndex', pageIndex.toString())
+         .set('pageSize', pageSize.toString())
+         .set('filter', filter);
+      return this.apiService
+         .get('api/legalguardianuser', searchParams)
+         .pipe(map(res => res));
    }
 
-   updateLegalGuardian(id: string, updateLegalGuardianDTO: UpdateLegalGuardianDTO) {
-      return this.apiService.put(`api/legalguardianuser/${id}`, updateLegalGuardianDTO).pipe(map((res) => res));
+   updateLegalGuardian(
+      id: string,
+      updateLegalGuardianDTO: UpdateLegalGuardianDTO
+   ) {
+      return this.apiService
+         .put(`api/legalguardianuser/${id}`, updateLegalGuardianDTO)
+         .pipe(map(res => res));
    }
 
-   createLegalGuardian(createLegalGuardianDTO: CreateLegalGuardianDTO):Observable<LegalGuardianDTO>{
-      return this.apiService.post('api/legalguardianuser', createLegalGuardianDTO).pipe(map((res) => res));
+   createLegalGuardian(
+      createLegalGuardianDTO: CreateLegalGuardianDTO
+   ): Observable<LegalGuardianDTO> {
+      return this.apiService
+         .post('api/legalguardianuser', createLegalGuardianDTO)
+         .pipe(map(res => res));
    }
-
 }

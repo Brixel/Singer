@@ -19,7 +19,7 @@ export class LegalguardianOverviewComponent implements AfterViewInit {
    dataSource: LegalguardianOverviewDataSource;
 
    pageSize = 15;
-   pageIndex = 0;
+   pageIndex = 1;
 
    filter: string;
 
@@ -102,12 +102,12 @@ export class LegalguardianOverviewComponent implements AfterViewInit {
             debounceTime(400),
             distinctUntilChanged(),
             tap(() => {
-               this.paginator.pageIndex = 0;
+               this.paginator.pageIndex = 1;
                this.loadLegalGuardians();
             })
          )
          .subscribe();
-      this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+      this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 1));
       merge(this.sort.sortChange, this.paginator.page)
          .pipe(
             tap(() => {
