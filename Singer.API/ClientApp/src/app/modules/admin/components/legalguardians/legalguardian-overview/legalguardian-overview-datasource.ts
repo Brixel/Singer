@@ -26,15 +26,16 @@ export class LegalguardianOverviewDataSource extends DataSource<LegalGuardian> {
    public loadLegalGuardians(
       sortDirection?: string,
       sortColumn?: string,
-      pageIndex?: number,
-      pageSize?: number,
-      filter?: string
-   ) {
+      pageIndex?:number,
+      pageSize?: number, filter?: string){
+
       this.loadingSubject$.next(true);
-      this.legalGuardiansSubject$.next(this.legalguardiansService.fetchLegalGuardiansData());
-      this.totalSizeSubject$.next(this.legalguardiansService.fetchLegalGuardiansData().length);
-      this.queryCountSubject$.next(pageSize);
-      this.loadingSubject$.next(false);
+         this.legalguardiansService.fetchLegalGuardiansData(sortDirection, sortColumn, pageIndex, pageSize, filter).subscribe((res) => {
+            this.legalGuardiansSubject$.next(res.items as LegalGuardian[]);
+            this.totalSizeSubject$.next(res.totalSize);
+            this.queryCountSubject$.next(res.size);
+            this.loadingSubject$.next(false);
+         });
    }
 
    connect(collectionViewer: CollectionViewer): Observable<LegalGuardian[]> {

@@ -13,6 +13,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { KeysPipe } from '../core/services/keys.pipe';
 import { LegalguardianOverviewComponent } from './components/legalguardians/legalguardian-overview/legalguardian-overview.component';
 import { LegalguardianDetailsComponent } from './components/legalguardians/legalguardian-details/legalguardian-details.component';
+import { LegalGuardianProxy } from '../core/services/legal-guardians-api/legalguardians.proxy';
+import { LegalguardiansService } from '../core/services/legal-guardians-api/legalguardians.service';
 
 @NgModule({
    declarations: [OverviewComponent, CareUserDetailsComponent, LegalguardianOverviewComponent, LegalguardianDetailsComponent],
@@ -29,7 +31,9 @@ import { LegalguardianDetailsComponent } from './components/legalguardians/legal
    ],
    providers: [
       CareUserProxy,
+      LegalGuardianProxy,
       CareUserService,
+      LegalguardiansService,
       ApiService,
       AgegroupPipe,
       KeysPipe,

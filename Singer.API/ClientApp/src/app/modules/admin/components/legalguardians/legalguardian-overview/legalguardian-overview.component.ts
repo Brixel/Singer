@@ -51,14 +51,11 @@ export class LegalguardianOverviewComponent implements AfterViewInit {
       });
 
       dialogRef.componentInstance.submitEvent.subscribe((result: LegalGuardian) => {
-         // Update the legal guardian
-         // this.legalguardiansService.updateLegalGuardian(result).subscribe((res) => {
-         //    // Reload LegalGuardian
-         //    this.loadLegalGuardians();
-         // });
-
-         this.legalguardiansService.updateLegalGuardian(result)
-         this.loadLegalGuardians();
+         //Update the legal guardian
+         this.legalguardiansService.updateLegalGuardian(result).subscribe((res) => {
+            // Reload LegalGuardian
+            this.loadLegalGuardians();
+         });
       });
    }
 
@@ -69,12 +66,9 @@ export class LegalguardianOverviewComponent implements AfterViewInit {
 
       dialogRef.componentInstance.submitEvent.subscribe((result: LegalGuardian) => {
          // Add the legal guardian
-         // this.legalguardiansService.createLegalGuardian(result).subscribe((res) =>{
-         //    this.loadLegalGuardians();
-         // })
-
-         this.legalguardiansService.createLegalGuardian(result)
-         this.loadLegalGuardians();
+         this.legalguardiansService.createLegalGuardian(result).subscribe((res) =>{
+            this.loadLegalGuardians();
+         })
       });
    }
 

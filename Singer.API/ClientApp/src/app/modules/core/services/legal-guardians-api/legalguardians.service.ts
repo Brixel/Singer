@@ -1,52 +1,67 @@
 import { Injectable } from '@angular/core';
-import { LegalGuardian } from '../../models/legalguardian.model';
+import { LegalGuardianProxy } from '../../services/legal-guardians-api/legalguardians.proxy';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import {
+   UpdateLegalGuardianDTO,
+   CreateLegalGuardianDTO,
+   LegalGuardian,
+} from '../../models/legalguardian.model';
+import { PaginationDTO } from '../../models/pagination.model';
 
 @Injectable({
    providedIn: 'root',
 })
 export class LegalguardiansService {
-   constructor() {}
+   constructor(private legalguardianProxy: LegalGuardianProxy) {}
 
-   fetchLegalGuardiansData() {
-      return LEGALGUARDIANS_DATA;
+   fetchLegalGuardiansData(
+      sortDirection?: string,
+      sortColumn?: string,
+      pageIndex?: number,
+      pageSize?: number,
+      filter?: string
+   ): Observable<PaginationDTO> {
+      return this.legalguardianProxy
+         .getLegalGuardians(
+            sortDirection,
+            sortColumn,
+            pageIndex,
+            pageSize,
+            filter
+         )
+         .pipe(map(res => res));
    }
 
    updateLegalGuardian(updateLegalGuardian: LegalGuardian) {
-      for (let index = 0; index < LEGALGUARDIANS_DATA.length; index++) {
-         if(LEGALGUARDIANS_DATA[index].id === updateLegalGuardian.id)
-         {
-            LEGALGUARDIANS_DATA[index] = updateLegalGuardian;
-            return;
-         }
-      }
+      const updateLegalGuardianDTO = <UpdateLegalGuardianDTO>{
+         firstName: updateLegalGuardian.firstName,
+         lastName: updateLegalGuardian.lastName,
+         email: updateLegalGuardian.email,
+         userName: updateLegalGuardian.userName,
+         birthDate: updateLegalGuardian.birthDate,
+         address: updateLegalGuardian.address,
+         phoneNumber: updateLegalGuardian.phoneNumber,
+         gsm: updateLegalGuardian.gsm,
+      };
+      return this.legalguardianProxy
+         .updateLegalGuardian(updateLegalGuardian.id, updateLegalGuardianDTO)
+         .pipe(map(res => res));
    }
 
    createLegalGuardian(createLegalGuardian: LegalGuardian) {
-      LEGALGUARDIANS_DATA.push(createLegalGuardian);
+      const createLegalGuardianDTO = <CreateLegalGuardianDTO>{
+         firstName: createLegalGuardian.firstName,
+         lastName: createLegalGuardian.lastName,
+         email: createLegalGuardian.email,
+         userName: createLegalGuardian.userName,
+         birthDate: createLegalGuardian.birthDate,
+         address: createLegalGuardian.address,
+         phoneNumber: createLegalGuardian.phoneNumber,
+         gsm: createLegalGuardian.gsm,
+      };
+      return this.legalguardianProxy
+         .createLegalGuardian(createLegalGuardianDTO)
+         .pipe(map(res => res));
    }
 }
-
-const LEGALGUARDIANS_DATA: LegalGuardian[] = [
-   {
-      id: '1',
-      firstName: 'Jaak',
-      lastName: 'Lambrechts',
-      email: 'jaak.lambrechts@gmail.com',
-      userName: 'jaak_lambrechts',
-      birthDate: new Date('02/02/1984'),
-      address: 'spalbeekstraat 31',
-      phoneNumber: '0895555',
-      gsm: '04945555',
-   },
-   {
-      id: '2',
-      firstName: 'Miranda',
-      lastName: 'Voorpijl',
-      email: 'miranda.voorpijl@hotmail.com',
-      userName: 'miranda_voorpijl',
-      birthDate: new Date('03/03/1984'),
-      address: 'ketelstraat 25',
-      phoneNumber: '0896666',
-      gsm: '04946666',
-   },
-];
