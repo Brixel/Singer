@@ -3,9 +3,9 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Singer.Models;
 
-namespace Singer.DTOs
+namespace Singer.DTOs.Users
 {
-   public class CreateCareUserDTO : CreateUserDTO
+   public class CareUserDTO : UserDTO
    {
       [Required]
       [DataType(DataType.Date)]

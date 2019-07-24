@@ -16,9 +16,10 @@ namespace Singer.Controllers
    /// <typeparam name="TEntity">The type of the entity to manipulate in the database.</typeparam>
    /// <typeparam name="TDTO">The type that will be exposed to the outside world.</typeparam>
    [Route("api/[controller]")]
-   public abstract class DataControllerBase<TEntity, TDTO> : Controller
+   public abstract class DataControllerBase<TEntity, TDTO, TCreateDTO> : Controller
       where TEntity : class, IIdentifiable
-      where TDTO : class
+      where TDTO : class, IIdentifiable
+      where TCreateDTO : class
    {
       #region CONSTRUCTORS
 
@@ -26,7 +27,7 @@ namespace Singer.Controllers
       /// Constructs a new instance of the <see cref="DataControllerBase{TEntity, TDTO}"/> class.
       /// </summary>
       /// <param name="databaseService">Service to perform operations on the database.</param>
-      protected DataControllerBase(IDatabaseService<TEntity, TDTO> databaseService)
+      protected DataControllerBase(IDatabaseService<TEntity, TDTO, TCreateDTO> databaseService)
       {
          DatabaseService = databaseService;
       }
@@ -39,7 +40,7 @@ namespace Singer.Controllers
       /// <summary>
       /// Service to perform operations on the database.
       /// </summary>
-      protected IDatabaseService<TEntity, TDTO> DatabaseService { get; }
+      protected IDatabaseService<TEntity, TDTO, TCreateDTO> DatabaseService { get; }
 
       #endregion PROPERTIES
 
@@ -56,7 +57,7 @@ namespace Singer.Controllers
       [HttpPost]
       [ProducesResponseType(StatusCodes.Status201Created)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public async Task<ActionResult<TDTO>> Create(TDTO dto)
+      public async Task<ActionResult<TDTO>> Create([FromBody]TCreateDTO dto)
       {
          var returnItem = await DatabaseService.CreateAsync(dto);
          return Created(nameof(Get), returnItem);
@@ -80,10 +81,10 @@ namespace Singer.Controllers
       [HttpGet]
       [ProducesResponseType(StatusCodes.Status200OK)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public virtual async Task<ActionResult<TDTO>> Get(string sortDirection, string sortColumn, int pageIndex, int pageSize, string filter)
+      public virtual async Task<ActionResult<TDTO>> Get(string sortDirection = "0", string sortColumn = "Id", int pageIndex = 1, int pageSize = 15, string filter = "")
       {
-         pageIndex++;
-
+         if (sortDirection == "asc") sortDirection = "0";
+         if (sortDirection == "desc") sortDirection = "1";
          if (!Enum.TryParse<ListSortDirection>(sortDirection, true, out var direction))
             throw new BadInputException("The given sort-direction is unknown.");
 
@@ -101,7 +102,7 @@ namespace Singer.Controllers
          var requestPath = HttpContext.Request.Path;
          var nextPage = (pageIndex * pageSize) + result.Size >= result.TotalCount
             ? null
-            : $"{requestPath}?PageIndex={pageIndex + pageSize}&Size={pageSize}";
+            : $"{requestPath}?PageIndex={pageIndex++}&Size={pageSize}";
 
          // create object that holds the paginated elements
          var page = new PaginationDTO<TDTO>
@@ -113,7 +114,7 @@ namespace Singer.Controllers
             NextPageUrl = nextPage,
             PreviousPageUrl = pageIndex == 0
                ? null
-               : $"{requestPath}?PageIndex={pageIndex - pageSize}&Size={pageSize}",
+               : $"{requestPath}?PageIndex={pageIndex--}&Size={pageSize}",
             TotalSize = result.TotalCount
          };
 
@@ -149,7 +150,7 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status200OK)]
       [ProducesResponseType(StatusCodes.Status404NotFound)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public async Task<ActionResult> Update(Guid id, TDTO dto)
+      public async Task<ActionResult> Update(Guid id, [FromBody]TDTO dto)
       {
          var result = await DatabaseService.UpdateAsync(id, dto);
          return Ok(result);

@@ -11,12 +11,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using Singer.Data.Models;
-using Singer.Models;
-using static IdentityServer4.IdentityServerConstants;
+using Singer.Models.Users;
 using ApiResource = IdentityServer4.EntityFramework.Entities.ApiResource;
 using ClaimValueTypes = System.Security.Claims.ClaimValueTypes;
 using IdentityResource = IdentityServer4.EntityFramework.Entities.IdentityResource;
+using Singer.Services;
+using Singer.DTOs.Users;
+using Singer.Models;
 
 namespace Singer.Configuration
 {
@@ -27,8 +28,7 @@ namespace Singer.Configuration
       private const string ROLE_CARETAKER = "Caretaker";
       private const string ROLE_CAREUSER = "CareUser";
 
-      private static List<string> _careUsers = new List<string>() {"user1", "user2", "user3"};
-
+      private static List<string> _careUsers = new List<string>() { "user1", "user2", "user3" };
 
       private static List<string> ROLES = new List<string>()
       {
@@ -111,7 +111,7 @@ namespace Singer.Configuration
                   IsExtern = false,
                   UserId = user.Id
                };
-               
+
                applicationDbContext.CareUsers.Add(careuser);
             }
          }
@@ -144,7 +144,7 @@ namespace Singer.Configuration
 
       public static void SeedIdentityResources(ConfigurationDbContext configrationDbContext)
       {
-         var identityResources= new List<IdentityResource>
+         var identityResources = new List<IdentityResource>
          {
             new IdentityResources.OpenId().ToEntity(),
             new IdentityResources.Email().ToEntity(),
@@ -154,10 +154,10 @@ namespace Singer.Configuration
          };
 
 
-        foreach(var identityResource in identityResources)
+         foreach (var identityResource in identityResources)
          {
             var identityResourceInDb = configrationDbContext.IdentityResources.SingleOrDefault(x => x.Name == identityResource.Name);
-            if(identityResourceInDb == null)
+            if (identityResourceInDb == null)
             {
                configrationDbContext.IdentityResources.Add(identityResource);
             }
@@ -193,7 +193,7 @@ namespace Singer.Configuration
                   {
                      Type = ClaimTypes.Email
                   },
-                  
+
                }
             };
 

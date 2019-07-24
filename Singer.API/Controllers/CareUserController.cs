@@ -1,16 +1,12 @@
 using System;
-using System.ComponentModel;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Singer.DTOs.Users;
 using Singer.DTOs;
-using Singer.Helpers;
-using Singer.Services.Interfaces;
-using Singer.Models;
+using Singer.Models.Users;
 using Singer.Services;
 
 namespace Singer.Controllers
@@ -19,10 +15,10 @@ namespace Singer.Controllers
    [Authorize()]
    public class CareUserController : Controller
    {
-      private readonly IUserService _userService;
+      private readonly CareUserService _userService;
       private readonly IMapper _mapper;
 
-      public CareUserController(IUserService service, IMapper mapper)
+      public CareUserController(CareUserService service, IMapper mapper)
       {
          _userService = service;
          _mapper = mapper;
@@ -30,14 +26,13 @@ namespace Singer.Controllers
 
       [HttpGet]
       [ProducesResponseType(StatusCodes.Status200OK)]
-      public async Task<ActionResult<PaginationDTO<CareUserDTO>>> GetUsers(string sortDirection, string sortColumn, int pageIndex, int pageSize, string filter)
+      public async Task<ActionResult<PaginationDTO<CareUserDTO>>> GetUsers(string sortDirection = "0", string sortColumn = "FirstName", int pageIndex = 1, int pageSize = 15, string filter = "")
       {
-         pageIndex++;
          var result = await _userService.GetUsersAsync<CareUser>(sortColumn, sortDirection, filter, pageIndex, pageSize);
          var requestPath = HttpContext.Request.Path;
          var nextPage = (pageIndex * pageSize) + result.Size >= result.TotalCount
             ? null
-            : $"{requestPath}?PageIndex={pageIndex + pageSize}&Size={pageSize}";
+            : $"{requestPath}?PageIndex={pageIndex++}&Size={pageSize}";
 
 
          var page = new PaginationDTO<CareUserDTO>
@@ -47,9 +42,9 @@ namespace Singer.Controllers
             PageIndex = pageIndex,
             CurrentPageUrl = $"{requestPath}?{HttpContext.Request.QueryString.ToString()}",
             NextPageUrl = nextPage,
-            PreviousPageUrl = pageIndex == 0
+            PreviousPageUrl = pageIndex == 1
                ? null
-               : $"{requestPath}?PageIndex={pageIndex - pageSize}&Size={pageSize}",
+               : $"{requestPath}?PageIndex={pageIndex--}&Size={pageSize}",
             TotalSize = result.TotalCount
          };
          return Ok(page);

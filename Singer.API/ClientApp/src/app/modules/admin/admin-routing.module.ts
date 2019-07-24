@@ -2,7 +2,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { AuthGuard } from '../core/services/auth.guard';
 import { OverviewComponent } from './components/careusers/overview/overview.component';
-import { FullscreenOverlayContainer } from '@angular/cdk/overlay';
+import { LegalguardianOverviewComponent } from './components/legalguardians/legalguardian-overview/legalguardian-overview.component';
 
 const routes: Routes = [
    {
@@ -13,6 +13,10 @@ const routes: Routes = [
    {
       path: 'zorggebruikers',
       component: OverviewComponent,
+   },
+   {
+      path: 'voogden',
+      component: LegalguardianOverviewComponent,
    },
 ];
 @NgModule({
