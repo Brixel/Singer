@@ -40,7 +40,7 @@ namespace Singer.Services
             UserName = dto.Email
          };
 
-         var userCreationResult = await UserManager.CreateAsync(baseUser);
+         var userCreationResult = await UserManager.CreateAsync(baseUser, "Testpassword123!");
          if (!userCreationResult.Succeeded)
          {
             Debug.WriteLine($"User can not be created. {userCreationResult.Errors.First().Code}");

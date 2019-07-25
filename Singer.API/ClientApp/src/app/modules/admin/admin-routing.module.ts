@@ -14,7 +14,7 @@ const routes: Routes = [
    },
    {
       path:'beheerders',
-      component: AdminListComponent
+      component: AdminListComponent,
    },
    {
       path: 'zorggebruikers',

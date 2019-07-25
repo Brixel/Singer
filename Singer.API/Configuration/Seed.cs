@@ -23,20 +23,6 @@ namespace Singer.Configuration
 {
    public static class Seed
    {
-      private const string ROLE_ADMINISTRATOR = "Administrator";
-      private const string ROLE_SOCIALSERVICES = "SocialServices";
-      private const string ROLE_CARETAKER = "Caretaker";
-      private const string ROLE_CAREUSER = "CareUser";
-
-      private static List<string> _careUsers = new List<string>() { "user1", "user2", "user3" };
-
-      private static List<string> ROLES = new List<string>()
-      {
-         ROLE_ADMINISTRATOR,
-         ROLE_SOCIALSERVICES,
-         ROLE_CARETAKER,
-         ROLE_CAREUSER
-      };
       public static void SeedUsers(IServiceScope serviceScope, ApplicationDbContext applicationDbContext, string initialAdminPassword)
       {
          var userMgr = serviceScope.ServiceProvider.GetRequiredService<UserManager<User>>();
@@ -84,9 +70,9 @@ namespace Singer.Configuration
          {
             Console.WriteLine("admin already exists");
          }
-         var _ = userMgr.AddToRoleAsync(admin, ROLE_ADMINISTRATOR).Result;
+         var _ = userMgr.AddToRoleAsync(admin, Roles.ROLE_ADMINISTRATOR).Result;
 
-         foreach (var careUser in _careUsers)
+         foreach (var careUser in Roles._careUsers)
          {
             var user = userMgr.FindByNameAsync(careUser).Result;
             if (user == null)
@@ -103,7 +89,7 @@ namespace Singer.Configuration
                   throw new Exception(__.Errors.First().Description);
 
                }
-               var roleTask = userMgr.AddToRoleAsync(user, ROLE_CAREUSER).Result;
+               var roleTask = userMgr.AddToRoleAsync(user, Roles.ROLE_CAREUSER).Result;
                if (!roleTask.Succeeded)
                {
                   throw new Exception(roleTask.Errors.First().Description);
@@ -131,7 +117,7 @@ namespace Singer.Configuration
 
       public static void SeedRoles(IServiceScope serviceScope, ApplicationDbContext applicationDbContext)
       {
-         foreach (var role in ROLES)
+         foreach (var role in Roles.ROLES)
          {
 
             var roleMgr = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
