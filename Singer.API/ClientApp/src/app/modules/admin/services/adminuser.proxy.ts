@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { PaginationDTO } from '../../core/models/pagination.model';
+import { post } from 'selenium-webdriver/http';
+import { UpdateAdminUserDTO, CreateAdminUserDTO, AdminUserDTO } from '../../core/models/adminuser.model';
 
 @Injectable({
   providedIn: 'root'
@@ -22,4 +24,11 @@ export class AdminUserProxy {
    .set('filter', filter);
    return this.apiService.get('api/admin', searchParams).pipe(map((res) => res));
 }
+ updateAdmin(id: string, admin: AdminUserDTO){
+    return this.apiService.put(`api/admin/${id}`, admin).pipe(map((res) => res));
+ }
+
+ createAdmin(admin: CreateAdminUserDTO){
+    return this.apiService.post('api/admin', admin).pipe(map((res) => res));
+ }
 }

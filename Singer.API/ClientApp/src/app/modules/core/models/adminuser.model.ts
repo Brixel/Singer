@@ -6,6 +6,19 @@ export interface AdminUserDTO{
    userName: string;
 }
 
+export interface UpdateAdminUserDTO {
+   firstName: string;
+   lastName: string;
+   email: string;
+   id: string;
+}
+
+export interface CreateAdminUserDTO {
+   firstName: string;
+   lastName: string;
+   email: string;
+}
+
 export class AdminUser{
    id: string;
    firstName: string;

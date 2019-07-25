@@ -47,15 +47,24 @@ export class AdminListComponent implements OnInit, AfterViewInit {
 
    selectRow(row: AdminUser): void {
       const dialogRef = this.dialog.open(AdminDetailsComponent, {
-         data: { careUserInstance: row, isAdding: false },
+         data: row,
       });
 
       dialogRef.componentInstance.submitEvent.subscribe((result: AdminUser) => {
-         // Update the Careuser
-         // this.adminUserService.updateUser(result).subscribe((res) => {
-         //    // Reload Careusers
-         //    this.loadCareUsers();
-         // });
+         //Update the Careuser
+         this.adminUserService.update(result).subscribe((res) => {
+            // Reload Careusers
+            this.loadAdmins();
+         });
+      });
+   }
+   addAdmin(){
+      const dialogRef = this.dialog.open(AdminDetailsComponent);
+
+      dialogRef.componentInstance.submitEvent.subscribe((result: AdminUser)=>{
+         this.adminUserService.create(result).subscribe((res) => {
+            this.loadAdmins();
+         });
       });
    }
 

@@ -31,11 +31,12 @@ namespace Singer.Profiles
          // AdminUser
          CreateMap<AdminUser, AdminUserDTO>()
             .ForMember(x => x.FirstName, opt => opt.MapFrom(src => src.User.FirstName))
-            .ForMember(x => x.LastName, opt => opt.MapFrom(src => src.User.LastName));
+            .ForMember(x => x.LastName, opt => opt.MapFrom(src => src.User.LastName))
+            .ForMember(x => x.Email, opt => opt.MapFrom(src => src.User.Email));
          CreateMap<AdminUserDTO, AdminUser>()
-            .ForMember(x => x.User, opt => opt.MapFrom(src => new User { FirstName = src.FirstName, LastName = src.LastName }));
+            .ForMember(x => x.User, opt => opt.MapFrom(src => new User { FirstName = src.FirstName, LastName = src.LastName , Email = src.Email}));
          CreateMap<CreateAdminUserDTO, AdminUser>()
-            .ForMember(x => x.User, opt => opt.MapFrom(src => new User { FirstName = src.FirstName, LastName = src.LastName }));
+            .ForMember(x => x.User, opt => opt.MapFrom(src => new User { FirstName = src.FirstName, LastName = src.LastName, Email = src.Email}));
       }
    }
 }
