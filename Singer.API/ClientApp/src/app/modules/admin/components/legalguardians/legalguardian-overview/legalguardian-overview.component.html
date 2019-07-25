@@ -1,0 +1,90 @@
+<!-- Mat Form Field Filter -->
+<mat-form-field>
+   <input matInput #filterInput placeholder="Filter" />
+</mat-form-field>
+
+<!-- Mat Table -->
+<div class="mat-elevation-z8 overview-table">
+   <table mat-table [dataSource]="dataSource" matSort aria-label="voogden">
+      <!-- FirstName Column -->
+      <ng-container matColumnDef="firstName">
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>Voornaam</th>
+         <td mat-cell *matCellDef="let row">{{ row.firstName }}</td>
+      </ng-container>
+
+      <!-- FirstName Column -->
+      <ng-container matColumnDef="lastName">
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>Achternaam</th>
+         <td mat-cell *matCellDef="let row">{{ row.lastName }}</td>
+      </ng-container>
+
+      <!-- Email Column -->
+      <ng-container matColumnDef="email">
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>E-Mail</th>
+         <td mat-cell *matCellDef="let row">{{ row.email }}</td>
+      </ng-container>
+
+      <!-- Address Column -->
+      <ng-container matColumnDef="address">
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>Adres</th>
+         <td mat-cell *matCellDef="let row">
+            {{ row.address }}, {{ row.postalCode }} {{ row.city }},
+            {{ row.country }}
+         </td>
+      </ng-container>
+
+      <!-- PhoneNumber Column -->
+      <ng-container matColumnDef="phoneNumber">
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>Telefoon nr.</th>
+         <td mat-cell *matCellDef="let row">{{ row.phoneNumber }}</td>
+      </ng-container>
+
+      <!-- Mobile phone number Column -->
+      <ng-container matColumnDef="mobilePhoneNumber">
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>GSM</th>
+         <td mat-cell *matCellDef="let row">{{ row.mobilePhoneNumber }}</td>
+      </ng-container>
+
+      <!-- AddButton column -->
+      <ng-container matColumnDef="addButton">
+         <td mat-footer-cell *matFooterCellDef>
+            <button
+               mat-icon-button
+               color="primary"
+               (click)="addLegalGuardian()"
+               title="Voogd toevoegen"
+               aria-label="Toevoegen knop"
+            >
+               <mat-icon>add_box</mat-icon>
+            </button>
+            <!-- <label class="tableButton">Toevoegen</label> -->
+         </td>
+      </ng-container>
+      <!-- Paginator column -->
+      <ng-container matColumnDef="paginator">
+         <td mat-footer-cell *matFooterCellDef colspan="20">
+            <!-- Paginator -->
+            <mat-paginator
+               #paginator
+               [length]="dataSource?.totalSize$ | async"
+               [pageIndex]="pageIndex"
+               [pageSize]="pageSize"
+               [pageSizeOptions]="[1, 15, 25, 50, 100]"
+               showFirstLastButtons
+            >
+            </mat-paginator>
+         </td>
+      </ng-container>
+      <!-- Header Row -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <!-- Data Row -->
+      <tr
+         mat-row
+         *matRowDef="let row; columns: displayedColumns"
+         class="selectable"
+         (click)="selectRow(row)"
+      ></tr>
+      <!-- Footer Row -->
+      <tr mat-footer-row *matFooterRowDef="['addButton', 'paginator']"></tr>
+   </table>
+</div>

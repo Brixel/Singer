@@ -14,8 +14,11 @@ namespace Singer.Services.Interfaces
    /// </summary>
    /// <typeparam name="TEntity">The type of the entity to manipulate in the database.</typeparam>
    /// <typeparam name="TDTO">The type that will be exposed to the outside world.</typeparam>
-   public interface IDatabaseService<TEntity, TDTO>
+   /// <typeparam name="TCreateDTO">The type that is used to create new entities in the database.</typeparam>
+   public interface IDatabaseService<TEntity, TDTO, TCreateDTO>
       where TEntity : class, IIdentifiable
+      where TDTO : class, IIdentifiable
+      where TCreateDTO : class
    {
       /// <summary>
       /// Expression that is used to convert an <see cref="TEntity"/> to a <see cref="TDTO"/> when returning values from the database.
@@ -26,6 +29,12 @@ namespace Singer.Services.Interfaces
       /// Expression that is used to convert a <see cref="TDTO"/> to an <see cref="TEntity"/> when manipulating values in the database.
       /// </summary>
       Expression<Func<TDTO, TEntity>> DTOToEntityProjector { get; }
+
+      /// <summary>
+      /// Expression that is used to convert a <see cref="TCreateDTO"/> to an <see cref="TEntity"/> when creating entities in the database.
+      /// </summary>
+      Expression<Func<TCreateDTO, TEntity>> CreateDTOToEntityProjector { get; }
+
 
       /// <summary>
       /// Creates a <see cref="TDTO"/> in the database by converting it to a <see cref="TEntity"/>.
@@ -41,8 +50,8 @@ namespace Singer.Services.Interfaces
       /// If this value is null, the <see cref="EntityToDTOProjector"/> property is used.
       /// </param>
       /// <returns>The new created <see cref="TEntity"/> converted to a <see cref="TDTO"/>.</returns>
-      Task<TDTO> CreateAsync(TDTO dto,
-         Expression<Func<TDTO, TEntity>> dtoToEntityProjector = null,
+      Task<TDTO> CreateAsync(TCreateDTO dto,
+         Expression<Func<TCreateDTO, TEntity>> dtoToEntityProjector = null,
          Expression<Func<TEntity, TDTO>> entityToDTOProjector = null);
 
       /// <summary>
