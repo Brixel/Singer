@@ -10,13 +10,17 @@ import { AgegroupPipe } from '../core/services/agegroup.pipe';
 import { CoreModule } from '../core/core.module';
 import { CareUserDetailsComponent } from './components/careusers/care-user-details/care-user-details.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { KeysPipe } from '../core/services/keys.pipe';
 import { EventsOverviewComponent } from './components/events/events-overview/events-overview.component';
 import { MatTableModule, MatPaginatorModule, MatSortModule } from '@angular/material';
+import { MatMomentDateModule } from '@angular/material-moment-adapter'
+import { LegalguardianOverviewComponent } from './components/legalguardians/legalguardian-overview/legalguardian-overview.component';
+import { LegalguardianDetailsComponent } from './components/legalguardians/legalguardian-details/legalguardian-details.component';
+import { LegalGuardianProxy } from '../core/services/legal-guardians-api/legalguardians.proxy';
+import { LegalguardiansService } from '../core/services/legal-guardians-api/legalguardians.service';
 
 @NgModule({
-   declarations: [OverviewComponent, CareUserDetailsComponent, EventsOverviewComponent],
+   declarations: [OverviewComponent, CareUserDetailsComponent, LegalguardianOverviewComponent, LegalguardianDetailsComponent, EventsOverviewComponent,],
    imports: [
       CoreModule,
       CommonModule,
@@ -30,14 +34,16 @@ import { MatTableModule, MatPaginatorModule, MatSortModule } from '@angular/mate
       MatSortModule,
    ],
    entryComponents: [
-      CareUserDetailsComponent
+      CareUserDetailsComponent, LegalguardianDetailsComponent
    ],
    providers: [
       CareUserProxy,
+      LegalGuardianProxy,
       CareUserService,
+      LegalguardiansService,
       ApiService,
       AgegroupPipe,
       KeysPipe,
-      { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }]
+   ]
 })
 export class AdminModule { }

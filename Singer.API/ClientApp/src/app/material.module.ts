@@ -20,6 +20,7 @@ import {
    MatDividerModule,
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 
 @NgModule({
    imports: [
@@ -31,7 +32,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       MatCardModule,
       MatListModule,
       MatTableModule,
-      MatTableModule,
       MatPaginatorModule,
       MatSortModule,
       MatFormFieldModule,
@@ -41,6 +41,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       MatDatepickerModule,
       MatDialogModule,
       MatDividerModule,
+      MatMomentDateModule,
    ],
    exports: [
       MatButtonModule,
@@ -60,6 +61,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       MatDatepickerModule,
       MatDialogModule,
       MatDividerModule,
+      MatMomentDateModule,
+   ],
+   providers: [
+      { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }
    ],
 })
 export class MaterialModule {}
