@@ -18,10 +18,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Singer.Configuration;
 using Singer.Data;
 using Singer.Data.Models.Configuration;
+using Singer.DTOs;
+using Singer.DTOs.Users;
 using Singer.Helpers.Extensions;
 using Singer.Services;
 using Singer.Services.Utils;
 using Singer.Models.Users;
+using Singer.Services.Interfaces;
 
 namespace Singer
 {
@@ -126,6 +129,10 @@ namespace Singer
          services.AddAutoMapper(typeof(Startup));
          services.AddScoped<CareUserService>();
          services.AddScoped<LegalGuardianUserService>();
+         //services.AddScoped<IDatabaseService<CareUser, CareUserDTO, CreateCareUserDTO>, CareUserService>();
+         //services.AddScoped<IDatabaseService<LegalGuardianUser, LegalGuardianUserDTO, CreateLegalGuardianUserDTO>, LegalGuardianUserService>();
+         // Scoped resolving has some quirks, this seems to work...
+         services.AddScoped<IDatabaseService<AdminUser, AdminUserDTO,CreateAdminUserDTO>, AdminUserService>();
 
       }
 
@@ -186,7 +193,8 @@ namespace Singer
 
             if (env.IsDevelopment())
             {
-               spa.UseAngularCliServer(npmScript: "start");
+
+               spa.UseAngularCliServer("start");
             }
          });
       }

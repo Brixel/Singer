@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../../core/services/api.service';
 import { Observable } from 'rxjs';
-import { PaginationDTO } from '../../core/models/careuser.model';
 import { HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { PaginationDTO } from '../../core/models/pagination.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminUserProxy {
 
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService) {
+  }
 
   get(sortDirection?:string, sortColumn?:string, pageIndex?:number, pageSize?:number, filter?:string):Observable<PaginationDTO>{
    const searchParams = new HttpParams()

@@ -10,7 +10,8 @@ namespace Singer.Data
    {
       public DbSet<CareUser> CareUsers { get; set; }
       public DbSet<LegalGuardianUser> LegalGuardianUsers { get; set; }
-      //public DbSet<LegalGuardianUser> LegalGuardians { get; set; }
+
+      public DbSet<AdminUser> AdminUsers { get; set; }
       public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
       {
       }
@@ -28,6 +29,7 @@ namespace Singer.Data
             .HasOne(x => x.CareUser)
             .WithMany(x => x.LegalGuardianCareUsers)
             .OnDelete(DeleteBehavior.Restrict);
+
       }
    }
 }

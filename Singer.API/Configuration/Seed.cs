@@ -42,32 +42,42 @@ namespace Singer.Configuration
          var userMgr = serviceScope.ServiceProvider.GetRequiredService<UserManager<User>>();
          var roleMgr = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
          var admin = userMgr.FindByNameAsync("admin").Result;
-         var usersInDatabase = applicationDbContext.Users.Any();
-         if (admin == null && !usersInDatabase)
+         var adminUsersInDatabase = applicationDbContext.AdminUsers.Any();
+         if (!adminUsersInDatabase)
          {
-            admin = new User
+            if (admin == null)
             {
-               UserName = "admin"
-            };
-            var result = userMgr.CreateAsync(admin, initialAdminPassword).Result;
-            if (!result.Succeeded)
-            {
-               throw new Exception(result.Errors.First().Description);
+               admin = new User
+               {
+                  UserName = "admin"
+               };
+               var result = userMgr.CreateAsync(admin, initialAdminPassword).Result;
+               if (!result.Succeeded)
+               {
+                  throw new Exception(result.Errors.First().Description);
+               }
+               result = userMgr.AddClaimsAsync(admin, new Claim[]{
+                  new Claim(JwtClaimTypes.Name, "Admin"),
+                  new Claim(JwtClaimTypes.GivenName, "GivenName"),
+                  new Claim(JwtClaimTypes.FamilyName, "FamilyName"),
+                  new Claim(JwtClaimTypes.Email, "email@host.example"),
+                  new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
+                  new Claim(JwtClaimTypes.WebSite, "http://host.example"),
+                  new Claim(JwtClaimTypes.Address, @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }", IdentityServer4.IdentityServerConstants.ClaimValueTypes.Json)
+               }).Result;
+               if (!result.Succeeded)
+               {
+                  throw new Exception(result.Errors.First().Description);
+               }
             }
 
-            result = userMgr.AddClaimsAsync(admin, new Claim[]{
-               new Claim(JwtClaimTypes.Name, "Admin"),
-               new Claim(JwtClaimTypes.GivenName, "GivenName"),
-               new Claim(JwtClaimTypes.FamilyName, "FamilyName"),
-               new Claim(JwtClaimTypes.Email, "email@host.example"),
-               new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
-               new Claim(JwtClaimTypes.WebSite, "http://host.example"),
-               new Claim(JwtClaimTypes.Address, @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }", IdentityServer4.IdentityServerConstants.ClaimValueTypes.Json)
-            }).Result;
-            if (!result.Succeeded)
+            var adminUser = new AdminUser()
             {
-               throw new Exception(result.Errors.First().Description);
-            }
+               User = admin,
+               UserId = admin.Id
+            };
+            applicationDbContext.AdminUsers.Add(adminUser);
+
             Console.WriteLine("admin created");
          }
          else
