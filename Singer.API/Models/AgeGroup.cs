@@ -1,5 +1,8 @@
+using System;
+
 namespace Singer.Models
 {
+   [Flags]
    public enum AgeGroup
    {
       Toddler = 0,
