@@ -46,32 +46,6 @@
          </mat-form-field>
       </div>
 
-      <!-- birthDate Field -->
-      <mat-form-field>
-         <input
-            matInput
-            [min]="birthDateDatePickerMinDate"
-            [max]="birthDateDatePickerMaxDate"
-            [matDatepicker]="picker"
-            [placeholder]="birthDateFieldPlaceholder"
-            formControlName="birthDateFieldControl"
-         />
-         <mat-error
-            *ngIf="formControlGroup.controls.birthDateFieldControl.invalid"
-         >
-            {{
-               getRequiredFieldErrorMessage(
-                  formControlGroup.controls.birthDateFieldControl
-               )
-            }}
-         </mat-error>
-         <mat-datepicker-toggle
-            matSuffix
-            [for]="picker"
-         ></mat-datepicker-toggle>
-         <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-
       <!-- End Of Section -->
       <mat-divider></mat-divider>
 
@@ -96,19 +70,53 @@
          </mat-error>
       </mat-form-field>
 
-      <!-- UserName Field -->
+      <!-- PostalCode Field -->
       <mat-form-field>
          <input
             matInput
-            [placeholder]="userNameFieldPlaceholder"
-            formControlName="userNameFieldControl"
+            [placeholder]="postalCodeFieldPlaceholder"
+            formControlName="postalCodeFieldControl"
          />
          <mat-error
-            *ngIf="formControlGroup.controls.userNameFieldControl.invalid"
+            *ngIf="formControlGroup.controls.postalCodeFieldControl.invalid"
          >
             {{
                getRequiredFieldErrorMessage(
-                  formControlGroup.controls.userNameFieldControl
+                  formControlGroup.controls.postalCodeFieldControl
+               )
+            }}
+         </mat-error>
+      </mat-form-field>
+
+      <!-- city Field -->
+      <mat-form-field>
+         <input
+            matInput
+            [placeholder]="cityFieldPlaceholder"
+            formControlName="cityFieldControl"
+         />
+         <mat-error *ngIf="formControlGroup.controls.cityFieldControl.invalid">
+            {{
+               getRequiredFieldErrorMessage(
+                  formControlGroup.controls.cityFieldControl
+               )
+            }}
+         </mat-error>
+      </mat-form-field>
+
+      <!-- country Field -->
+      <mat-form-field>
+         <input
+            matInput
+            [placeholder]="countryFieldPlaceholder"
+            formControlName="countryFieldControl"
+         />
+         <mat-error
+            *ngIf="formControlGroup.controls.countryFieldControl.invalid"
+         >
+            {{
+               getRequiredFieldErrorMessage(
+                  formControlGroup.controls.countryFieldControl
                )
             }}
          </mat-error>
@@ -150,17 +158,21 @@
          </mat-error>
       </mat-form-field>
 
-      <!-- GSM Field -->
+      <!-- Mobile phone number Field -->
       <mat-form-field>
          <input
             matInput
-            [placeholder]="gsmFieldPlaceholder"
-            formControlName="gsmFieldControl"
+            [placeholder]="mobilePhoneNumberFieldPlaceholder"
+            formControlName="mobilePhoneNumberFieldControl"
          />
-         <mat-error *ngIf="formControlGroup.controls.gsmFieldControl.invalid">
+         <mat-error
+            *ngIf="
+               formControlGroup.controls.mobilePhoneNumberFieldControl.invalid
+            "
+         >
             {{
                getRequiredFieldErrorMessage(
-                  formControlGroup.controls.gsmFieldControl
+                  formControlGroup.controls.mobilePhoneNumberFieldControl
                )
             }}
          </mat-error>

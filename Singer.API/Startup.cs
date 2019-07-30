@@ -41,6 +41,11 @@ namespace Singer
          var connectionString = Configuration.GetSection("ConnectionStrings").GetChildren().Single(x => x.Key == "Application").Value;
          var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
+         if (string.IsNullOrWhiteSpace(connectionString))
+         {
+            throw new Exception("No connectionString found");
+         }
+
          // This line uses 'UseSqlServer' in the 'options' parameter
          // with the connection string defined above.
          services

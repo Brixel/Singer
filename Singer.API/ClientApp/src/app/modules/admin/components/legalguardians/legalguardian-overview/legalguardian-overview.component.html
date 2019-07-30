@@ -5,12 +5,7 @@
 
 <!-- Mat Table -->
 <div class="mat-elevation-z8 overview-table">
-   <table
-      mat-table
-      [dataSource]="dataSource"
-      matSort
-      aria-label="voogden"
-   >
+   <table mat-table [dataSource]="dataSource" matSort aria-label="voogden">
       <!-- FirstName Column -->
       <ng-container matColumnDef="firstName">
          <th mat-header-cell *matHeaderCellDef mat-sort-header>Voornaam</th>
@@ -23,34 +18,19 @@
          <td mat-cell *matCellDef="let row">{{ row.lastName }}</td>
       </ng-container>
 
-      <!-- Birthday Column -->
-      <ng-container matColumnDef="birthDate">
-         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            Geboortedatum
-         </th>
-         <td mat-cell *matCellDef="let row">
-            {{ row.birthDate | date: 'dd-MM-yyyy' }}
-         </td>
-      </ng-container>
-
       <!-- Email Column -->
       <ng-container matColumnDef="email">
          <th mat-header-cell *matHeaderCellDef mat-sort-header>E-Mail</th>
          <td mat-cell *matCellDef="let row">{{ row.email }}</td>
       </ng-container>
 
-      <!-- UserName Column -->
-      <ng-container matColumnDef="userName">
-         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            Gebruikersnaam
-         </th>
-         <td mat-cell *matCellDef="let row">{{ row.userName }}</td>
-      </ng-container>
-
       <!-- Address Column -->
       <ng-container matColumnDef="address">
          <th mat-header-cell *matHeaderCellDef mat-sort-header>Adres</th>
-         <td mat-cell *matCellDef="let row">{{ row.address }}</td>
+         <td mat-cell *matCellDef="let row">
+            {{ row.address }}, {{ row.postalCode }} {{ row.city }},
+            {{ row.country }}
+         </td>
       </ng-container>
 
       <!-- PhoneNumber Column -->
@@ -59,10 +39,10 @@
          <td mat-cell *matCellDef="let row">{{ row.phoneNumber }}</td>
       </ng-container>
 
-      <!-- GSM Column -->
-      <ng-container matColumnDef="gsm">
+      <!-- Mobile phone number Column -->
+      <ng-container matColumnDef="mobilePhoneNumber">
          <th mat-header-cell *matHeaderCellDef mat-sort-header>GSM</th>
-         <td mat-cell *matCellDef="let row">{{ row.gsm }}</td>
+         <td mat-cell *matCellDef="let row">{{ row.mobilePhoneNumber }}</td>
       </ng-container>
 
       <!-- AddButton column -->

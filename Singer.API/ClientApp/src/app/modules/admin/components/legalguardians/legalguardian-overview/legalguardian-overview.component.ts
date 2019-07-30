@@ -19,7 +19,7 @@ export class LegalguardianOverviewComponent implements AfterViewInit {
    dataSource: LegalguardianOverviewDataSource;
 
    pageSize = 15;
-   pageIndex = 0;
+   pageIndex = 1;
 
    filter: string;
 
@@ -28,18 +28,21 @@ export class LegalguardianOverviewComponent implements AfterViewInit {
       //'id',
       'firstName',
       'lastName',
-      'birthDate',
       'email',
-      'userName',
       'address',
       'phoneNumber',
-      'gsm',
+      'mobilePhoneNumber',
    ];
 
-   constructor(public dialog: MatDialog, private legalguardiansService: LegalguardiansService) {}
+   constructor(
+      public dialog: MatDialog,
+      private legalguardiansService: LegalguardiansService
+   ) {}
 
-   ngOnInit(){
-      this.dataSource = new LegalguardianOverviewDataSource(this.legalguardiansService);
+   ngOnInit() {
+      this.dataSource = new LegalguardianOverviewDataSource(
+         this.legalguardiansService
+      );
       this.sort.active = 'lastName';
       this.sort.direction = 'asc';
       this.loadLegalGuardians();
@@ -50,13 +53,17 @@ export class LegalguardianOverviewComponent implements AfterViewInit {
          data: { legalGuardianInstance: row, isAdding: false },
       });
 
-      dialogRef.componentInstance.submitEvent.subscribe((result: LegalGuardian) => {
-         //Update the legal guardian
-         this.legalguardiansService.updateLegalGuardian(result).subscribe((res) => {
-            // Reload LegalGuardian
-            this.loadLegalGuardians();
-         });
-      });
+      dialogRef.componentInstance.submitEvent.subscribe(
+         (result: LegalGuardian) => {
+            //Update the legal guardian
+            this.legalguardiansService
+               .updateLegalGuardian(result)
+               .subscribe(res => {
+                  // Reload LegalGuardian
+                  this.loadLegalGuardians();
+               });
+         }
+      );
    }
 
    addLegalGuardian(): void {
@@ -64,41 +71,51 @@ export class LegalguardianOverviewComponent implements AfterViewInit {
          data: { careUserInstance: null, isAdding: true },
       });
 
-      dialogRef.componentInstance.submitEvent.subscribe((result: LegalGuardian) => {
-         // Add the legal guardian
-         this.legalguardiansService.createLegalGuardian(result).subscribe((res) =>{
-            this.loadLegalGuardians();
-         })
-      });
+      dialogRef.componentInstance.submitEvent.subscribe(
+         (result: LegalGuardian) => {
+            // Add the legal guardian
+            this.legalguardiansService
+               .createLegalGuardian(result)
+               .subscribe(res => {
+                  this.loadLegalGuardians();
+               });
+         }
+      );
    }
 
-   private loadLegalGuardians(){
+   private loadLegalGuardians() {
       const sortDirection = this.sort.direction;
       const sortColumn = this.sort.active;
       this.filter = this.filterInput.nativeElement.value;
-      this.dataSource.loadLegalGuardians(sortDirection, sortColumn, this.pageIndex, this.pageSize, this.filter);
+      this.dataSource.loadLegalGuardians(
+         sortDirection,
+         sortColumn,
+         this.pageIndex,
+         this.pageSize,
+         this.filter
+      );
    }
 
    ngAfterViewInit() {
       fromEvent(this.filterInput.nativeElement, 'keyup')
-            .pipe(
-                debounceTime(400),
-                distinctUntilChanged(),
-                tap(() => {
-                    this.paginator.pageIndex = 0;
-                    this.loadLegalGuardians();
-                })
-            )
-            .subscribe();
-      this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+         .pipe(
+            debounceTime(400),
+            distinctUntilChanged(),
+            tap(() => {
+               this.paginator.pageIndex = 1;
+               this.loadLegalGuardians();
+            })
+         )
+         .subscribe();
+      this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 1));
       merge(this.sort.sortChange, this.paginator.page)
-          .pipe(
-              tap(() => {
-                 this.pageIndex = this.paginator.pageIndex;
-                 this.pageSize = this.paginator.pageSize;
-                  this.loadLegalGuardians();
-              })
-          )
-          .subscribe();
-  }
+         .pipe(
+            tap(() => {
+               this.pageIndex = this.paginator.pageIndex;
+               this.pageSize = this.paginator.pageSize;
+               this.loadLegalGuardians();
+            })
+         )
+         .subscribe();
+   }
 }

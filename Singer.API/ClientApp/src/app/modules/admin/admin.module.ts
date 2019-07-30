@@ -17,11 +17,14 @@ import {
    MatPaginatorModule,
    MatSortModule,
 } from '@angular/material';
-import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { LegalguardianOverviewComponent } from './components/legalguardians/legalguardian-overview/legalguardian-overview.component';
 import { LegalguardianDetailsComponent } from './components/legalguardians/legalguardian-details/legalguardian-details.component';
 import { LegalGuardianProxy } from '../core/services/legal-guardians-api/legalguardians.proxy';
 import { LegalguardiansService } from '../core/services/legal-guardians-api/legalguardians.service';
+import {
+   MatMomentDateModule,
+   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+} from '@angular/material-moment-adapter';
 
 @NgModule({
    declarations: [
@@ -52,6 +55,7 @@ import { LegalguardiansService } from '../core/services/legal-guardians-api/lega
       ApiService,
       AgegroupPipe,
       KeysPipe,
+      { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
    ],
 })
 export class AdminModule {}

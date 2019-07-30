@@ -57,7 +57,7 @@ namespace Singer.Controllers
       [HttpPost]
       [ProducesResponseType(StatusCodes.Status201Created)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public async Task<ActionResult<TDTO>> Create(TCreateDTO dto)
+      public async Task<ActionResult<TDTO>> Create([FromBody]TCreateDTO dto)
       {
          var returnItem = await DatabaseService.CreateAsync(dto);
          return Created(nameof(Get), returnItem);
@@ -83,6 +83,8 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
       public virtual async Task<ActionResult<TDTO>> Get(string sortDirection = "0", string sortColumn = "Id", int pageIndex = 1, int pageSize = 15, string filter = "")
       {
+         if (sortDirection == "asc") sortDirection = "0";
+         if (sortDirection == "desc") sortDirection = "1";
          if (!Enum.TryParse<ListSortDirection>(sortDirection, true, out var direction))
             throw new BadInputException("The given sort-direction is unknown.");
 
@@ -148,7 +150,7 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status200OK)]
       [ProducesResponseType(StatusCodes.Status404NotFound)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public async Task<ActionResult> Update(Guid id, TDTO dto)
+      public async Task<ActionResult> Update(Guid id, [FromBody]TDTO dto)
       {
          var result = await DatabaseService.UpdateAsync(id, dto);
          return Ok(result);

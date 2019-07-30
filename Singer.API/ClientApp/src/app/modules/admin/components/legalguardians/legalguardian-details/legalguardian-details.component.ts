@@ -33,31 +33,29 @@ export class LegalguardianDetailsComponent implements OnInit {
    // Form placeholders
    firstNameFieldPlaceholder = 'Voornaam';
    lastNameFieldPlaceholder = 'Familienaam';
-   birthDateFieldPlaceholder = 'Geboortedatum';
    addressFieldPlaceholder = 'Adres';
-   userNameFieldPlaceholder = 'Gebruikersnaam';
+   postalCodeFieldPlaceholder = 'Postcode';
+   cityFieldPlaceholder = 'Gemeente';
+   countryFieldPlaceholder = 'Land';
    emailFieldPlaceholder = 'E-mail';
    phoneNumberFieldPlaceholder = 'Telefoon nr.';
-   gsmFieldPlaceholder = 'Gsm nr.';
-
-   // Min and Max dates for the birthDate datepicker
-   birthDateDatePickerMinDate: Date = new Date(1900, 0, 1);
-   birthDateDatePickerMaxDate: Date = new Date();
+   mobilePhoneNumberFieldPlaceholder = 'Gsm nr.';
 
    // Form control group
    formControlGroup: FormGroup = new FormGroup({
       // Form controls
       firstNameFieldControl: new FormControl('', [Validators.required]),
       lastNameFieldControl: new FormControl('', [Validators.required]),
-      birthDateFieldControl: new FormControl(null, [Validators.required]),
       addressFieldControl: new FormControl('', [Validators.required]),
-      userNameFieldControl: new FormControl('', [Validators.required]),
+      postalCodeFieldControl: new FormControl('', [Validators.required]),
+      cityFieldControl: new FormControl('', [Validators.required]),
+      countryFieldControl: new FormControl('', [Validators.required]),
       emailFieldControl: new FormControl('', [
          Validators.required,
          Validators.email,
       ]),
       phoneNumberFieldControl: new FormControl('', [Validators.required]),
-      gsmFieldControl: new FormControl('', []),
+      mobilePhoneNumberFieldControl: new FormControl('', []),
    });
 
    //#endregion
@@ -73,7 +71,6 @@ export class LegalguardianDetailsComponent implements OnInit {
    }
 
    ngOnInit() {
-
       // If we are adding a new user then clear all fields
       // If we are editing an existing user then fill in his data
 
@@ -109,14 +106,17 @@ export class LegalguardianDetailsComponent implements OnInit {
       this.formControlGroup.controls.lastNameFieldControl.reset(
          this.currentLegalGuardianInstance.lastName
       );
-      this.formControlGroup.controls.birthDateFieldControl.reset(
-         this.currentLegalGuardianInstance.birthDate
-      );
       this.formControlGroup.controls.addressFieldControl.reset(
          this.currentLegalGuardianInstance.address
       );
-      this.formControlGroup.controls.userNameFieldControl.reset(
-         this.currentLegalGuardianInstance.userName
+      this.formControlGroup.controls.postalCodeFieldControl.reset(
+         this.currentLegalGuardianInstance.postalCode
+      );
+      this.formControlGroup.controls.cityFieldControl.reset(
+         this.currentLegalGuardianInstance.city
+      );
+      this.formControlGroup.controls.countryFieldControl.reset(
+         this.currentLegalGuardianInstance.country
       );
       this.formControlGroup.controls.emailFieldControl.reset(
          this.currentLegalGuardianInstance.email
@@ -124,8 +124,8 @@ export class LegalguardianDetailsComponent implements OnInit {
       this.formControlGroup.controls.phoneNumberFieldControl.reset(
          this.currentLegalGuardianInstance.phoneNumber
       );
-      this.formControlGroup.controls.gsmFieldControl.reset(
-         this.currentLegalGuardianInstance.gsm
+      this.formControlGroup.controls.mobilePhoneNumberFieldControl.reset(
+         this.currentLegalGuardianInstance.mobilePhoneNumber
       );
    }
 
@@ -133,12 +133,13 @@ export class LegalguardianDetailsComponent implements OnInit {
    private resetFormControls() {
       this.formControlGroup.controls.firstNameFieldControl.reset();
       this.formControlGroup.controls.lastNameFieldControl.reset();
-      this.formControlGroup.controls.birthDateFieldControl.reset();
       this.formControlGroup.controls.addressFieldControl.reset();
-      this.formControlGroup.controls.userNameFieldControl.reset();
+      this.formControlGroup.controls.postalCodeFieldControl.reset();
+      this.formControlGroup.controls.cityFieldControl.reset();
+      this.formControlGroup.controls.countryFieldControl.reset();
       this.formControlGroup.controls.emailFieldControl.reset();
       this.formControlGroup.controls.phoneNumberFieldControl.reset();
-      this.formControlGroup.controls.gsmFieldControl.reset();
+      this.formControlGroup.controls.mobilePhoneNumberFieldControl.reset();
    }
 
    createEmptyGuardian() {
@@ -147,11 +148,12 @@ export class LegalguardianDetailsComponent implements OnInit {
          firstName: '',
          lastName: '',
          email: '',
-         userName: '',
-         birthDate: new Date(),
          address: '',
+         postalCode: '',
+         city: '',
+         country: '',
          phoneNumber: '',
-         gsm: '',
+         mobilePhoneNumber: '',
       };
    }
 
@@ -172,33 +174,27 @@ export class LegalguardianDetailsComponent implements OnInit {
          return true;
       }
 
-      const instanceDate = new Date(
-         this.currentLegalGuardianInstance.birthDate
-      );
-      const formDate = new Date(
-         this.formControlGroup.controls.birthDateFieldControl.value
-      );
-
-      if (instanceDate.getFullYear() !== formDate.getFullYear()) {
-         return true;
-      }
-      if (instanceDate.getMonth() !== formDate.getMonth()) {
-         return true;
-      }
-      if (instanceDate.getDay() !== formDate.getDay()) {
-         return true;
-      }
-
       if (
          this.currentLegalGuardianInstance.address !==
          this.formControlGroup.controls.addressFieldControl.value
       ) {
          return true;
       }
-
       if (
-         this.currentLegalGuardianInstance.userName !==
-         this.formControlGroup.controls.userNameFieldControl.value
+         this.currentLegalGuardianInstance.postalCode !==
+         this.formControlGroup.controls.postalCodeFieldControl.value
+      ) {
+         return true;
+      }
+      if (
+         this.currentLegalGuardianInstance.city !==
+         this.formControlGroup.controls.cityFieldControl.value
+      ) {
+         return true;
+      }
+      if (
+         this.currentLegalGuardianInstance.country !==
+         this.formControlGroup.controls.country.value
       ) {
          return true;
       }
@@ -218,8 +214,8 @@ export class LegalguardianDetailsComponent implements OnInit {
       }
 
       if (
-         this.currentLegalGuardianInstance.gsm !==
-         this.formControlGroup.controls.gsmFieldControl.value
+         this.currentLegalGuardianInstance.mobilePhoneNumber !==
+         this.formControlGroup.controls.mobilePhoneNumberFieldControl.value
       ) {
          return true;
       }
@@ -231,18 +227,21 @@ export class LegalguardianDetailsComponent implements OnInit {
    private updateCurrentLegalGuardianInstance() {
       this.currentLegalGuardianInstance.firstName = this.formControlGroup.controls.firstNameFieldControl.value;
       this.currentLegalGuardianInstance.lastName = this.formControlGroup.controls.lastNameFieldControl.value;
-      this.currentLegalGuardianInstance.birthDate = this.formControlGroup.controls.birthDateFieldControl.value;
       this.currentLegalGuardianInstance.address = this.formControlGroup.controls.addressFieldControl.value;
-      this.currentLegalGuardianInstance.userName = this.formControlGroup.controls.userNameFieldControl.value;
+      this.currentLegalGuardianInstance.postalCode = this.formControlGroup.controls.postalCodeFieldControl.value;
+      this.currentLegalGuardianInstance.city = this.formControlGroup.controls.cityFieldControl.value;
+      this.currentLegalGuardianInstance.country = this.formControlGroup.controls.countryFieldControl.value;
       this.currentLegalGuardianInstance.email = this.formControlGroup.controls.emailFieldControl.value;
       this.currentLegalGuardianInstance.phoneNumber = this.formControlGroup.controls.phoneNumberFieldControl.value;
-      this.currentLegalGuardianInstance.gsm = this.formControlGroup.controls.gsmFieldControl.value;
+      this.currentLegalGuardianInstance.mobilePhoneNumber = this.formControlGroup.controls.mobilePhoneNumberFieldControl.value;
    }
 
    // Submit the form
    submitForm() {
       // Check if form is valid
-      if (this.formControlGroup.invalid) { return; }
+      if (this.formControlGroup.invalid) {
+         return;
+      }
 
       // Check for changes and determine of an API call is necesarry
       if (this.checkForChanges()) {
