@@ -10,7 +10,7 @@ using Singer.Data;
 namespace Singer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190729214315_AddsEventsAndEventLocations")]
+    [Migration("20190730180657_AddsEventsAndEventLocations")]
     partial class AddsEventsAndEventLocations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -139,21 +139,21 @@ namespace Singer.Migrations
 
                     b.Property<decimal>("Cost");
 
-                    b.Property<DateTimeOffset>("DailyEndTime");
+                    b.Property<DateTime>("DailyEndTime");
 
-                    b.Property<DateTimeOffset>("DailyStartTime");
+                    b.Property<DateTime>("DailyStartTime");
 
                     b.Property<string>("Description");
 
                     b.Property<bool>("FullTimeSpanRegRequired");
 
-                    b.Property<DateTimeOffset>("LastCancellationDate");
+                    b.Property<DateTime>("LastCancellationDate");
 
                     b.Property<Guid>("LocationId");
 
                     b.Property<int>("MaxRegistrants");
 
-                    b.Property<DateTimeOffset>("StartDate");
+                    b.Property<DateTime>("StartDate");
 
                     b.Property<string>("Title");
 

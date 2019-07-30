@@ -12,10 +12,10 @@ namespace Singer.DTOs
       public string LocationId { get; set; }
       public int MaxRegistrants { get; set; }
       public decimal Cost { get; set; }
-      public DateTimeOffset StartDate { get; set; }
-      public DateTimeOffset DailyStartTime { get; set; }
-      public DateTimeOffset DailyEndTime { get; set; }
-      public DateTimeOffset LastCancellationDate { get; set; }
+      public DateTime StartDate { get; set; }
+      public DateTime DailyStartTime { get; set; }
+      public DateTime DailyEndTime { get; set; }
+      public DateTime LastCancellationDate { get; set; }
       public bool FullTimeSpanRegRequired { get; set; }
       public bool BeforeAndAfterCare { get; set; }
    }

@@ -137,21 +137,21 @@ namespace Singer.Migrations
 
                     b.Property<decimal>("Cost");
 
-                    b.Property<DateTimeOffset>("DailyEndTime");
+                    b.Property<DateTime>("DailyEndTime");
 
-                    b.Property<DateTimeOffset>("DailyStartTime");
+                    b.Property<DateTime>("DailyStartTime");
 
                     b.Property<string>("Description");
 
                     b.Property<bool>("FullTimeSpanRegRequired");
 
-                    b.Property<DateTimeOffset>("LastCancellationDate");
+                    b.Property<DateTime>("LastCancellationDate");
 
                     b.Property<Guid>("LocationId");
 
                     b.Property<int>("MaxRegistrants");
 
-                    b.Property<DateTimeOffset>("StartDate");
+                    b.Property<DateTime>("StartDate");
 
                     b.Property<string>("Title");
 
