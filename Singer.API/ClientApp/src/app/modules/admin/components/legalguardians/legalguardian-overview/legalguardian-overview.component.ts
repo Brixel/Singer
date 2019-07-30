@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild, ElementRef } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { LegalguardianOverviewDataSource } from './legalguardian-overview-datasource';
 import { LegalguardiansService } from 'src/app/modules/core/services/legal-guardians-api/legalguardians.service';
@@ -12,14 +12,14 @@ import { LegalguardianDetailsComponent } from '../legalguardian-details/legalgua
    templateUrl: './legalguardian-overview.component.html',
    styleUrls: ['./legalguardian-overview.component.css'],
 })
-export class LegalguardianOverviewComponent implements AfterViewInit {
+export class LegalguardianOverviewComponent implements  OnInit, AfterViewInit {
    @ViewChild(MatPaginator) paginator: MatPaginator;
    @ViewChild(MatSort) sort: MatSort;
    @ViewChild('filterInput') filterInput: ElementRef;
    dataSource: LegalguardianOverviewDataSource;
 
    pageSize = 15;
-   pageIndex = 1;
+   pageIndex = 0;
 
    filter: string;
 

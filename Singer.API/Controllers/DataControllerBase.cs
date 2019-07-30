@@ -74,14 +74,14 @@ namespace Singer.Controllers
       /// The direction in which the returned collection should be sorted (string version of the <see cref="ListSortDirection"/>)
       /// </param>
       /// <param name="sortColumn">Column on which the returned collection should be sorted.</param>
-      /// <param name="pageIndex">Index of the page of elements to be returned.</param>
-      /// <param name="pageSize">Number of elements on a page.</param>
+      /// <param name="pageIndex">Index of the pageIndex of elements to be returned.</param>
+      /// <param name="pageSize">Number of elements on a pageIndex.</param>
       /// <param name="filter">The filter that should be applied on the collection.</param>
       /// <returns>A selection of entities from the database.</returns>
       [HttpGet]
       [ProducesResponseType(StatusCodes.Status200OK)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public virtual async Task<ActionResult<TDTO>> Get(string sortDirection = "0", string sortColumn = "Id", int pageIndex = 1, int pageSize = 15, string filter = "")
+      public virtual async Task<ActionResult<TDTO>> Get(string sortDirection = "0", string sortColumn = "Id", int pageIndex = 0, int pageSize = 15, string filter = "")
       {
          if (sortDirection == "asc") sortDirection = "0";
          if (sortDirection == "desc") sortDirection = "1";
@@ -95,7 +95,7 @@ namespace Singer.Controllers
            filter: filter,
            orderer: orderByLambda,
            sortDirection: direction,
-           page: pageIndex,
+           pageIndex: pageIndex,
            itemsPerPage: pageSize);
 
 
