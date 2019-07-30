@@ -6,6 +6,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using Singer.Helpers.Extensions;
 using Singer.Models;
+using Singer.Models.Users;
 using Singer.Services;
 
 namespace Tests.ServiceTests
