@@ -3,15 +3,44 @@
 # Add steps that run tests, create a NuGet package, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
-trigger:
-- master
-
 pool:
-  vmImage: 'ubuntu-latest'
+   vmImage: 'vs2017-win2016'
 
 variables:
-  buildConfiguration: 'Release'
+   buildConfiguration: 'Release'
+   TF_BUILD: 1
 
 steps:
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
+   - task: DotNetCoreCLI@2
+     displayName: 'Populate gitversion variables'
+     inputs:
+        command: 'custom'
+        custom: 'msbuild'
+        arguments: '-restore -target:WriteVersionInfoToBuildLog -verbosity:n Singer.API/Singer.csproj'
+        feedsToUse: 'select'
+        versioningScheme: 'off'
+   - task: DotNetCoreCLI@2
+     displayName: 'Build $(buildConfiguration)'
+     inputs:
+        command: build
+        projects: '**/*.csproj'
+        configuration: $(buildConfiguration)
+   - task: DotNetCoreCLI@2
+     displayName: 'dotnet publish'
+     inputs:
+        command: publish
+        publishWebProjects: true
+        arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+        zipAfterPublish: true
+   - task: DotNetCoreCLI@2
+     displayName: 'dotnet custom msbuild'
+     inputs:
+      command: 'custom'
+      custom: 'msbuild'
+      arguments: 'Singer.sln /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(BuildConfiguration)/zip" /p:Platform="any cpu" /p:Configuration=Release'
+
+   - script: 'echo ##vso[build.updatebuildnumber]$(GitVersion.SemVer)+build$(Build.BuildId)'
+     displayName: 'Set Build.BuildNumber'
+   - task: PublishBuildArtifacts@1
+     inputs:
+        ArtifactName: $(System.TeamProject)-$(Build.BuildNumber)
