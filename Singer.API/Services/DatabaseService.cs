@@ -130,8 +130,10 @@ namespace Singer.Services
          var changeTracker = DbSet.Add(entity);
          await Context.SaveChangesAsync();
 
+         var returnEntity = await GetOneAsync(changeTracker.Entity.Id);
+
          // return the new created entity
-         return entityToDTOProjector.Compile()(changeTracker.Entity);
+         return returnEntity;
       }
 
       /// <summary>
@@ -151,7 +153,7 @@ namespace Singer.Services
             projector = EntityToDTOProjector;
 
          // search for the entity with the given id in the database
-         var item = await DbSet.FindAsync(id);
+         var item = await Queryable.SingleOrDefaultAsync(x => x.Id == id);
          if (item == null)
             throw new NotFoundException();
 

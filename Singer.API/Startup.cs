@@ -131,6 +131,8 @@ namespace Singer
          services.AddAutoMapper(typeof(Startup));
          services.AddScoped<CareUserService>();
          services.AddScoped<LegalGuardianUserService>();
+         services.AddScoped<EventLocationService>();
+         services.AddScoped<EventService>();
 
       }
 
