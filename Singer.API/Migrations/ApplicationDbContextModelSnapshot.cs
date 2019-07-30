@@ -167,7 +167,7 @@ namespace Singer.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Adress");
+                    b.Property<string>("Address");
 
                     b.Property<string>("City");
 

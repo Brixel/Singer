@@ -10,7 +10,7 @@ using Singer.Data;
 namespace Singer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190730180657_AddsEventsAndEventLocations")]
+    [Migration("20190730181802_AddsEventsAndEventLocations")]
     partial class AddsEventsAndEventLocations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -169,7 +169,7 @@ namespace Singer.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Adress");
+                    b.Property<string>("Address");
 
                     b.Property<string>("City");
 

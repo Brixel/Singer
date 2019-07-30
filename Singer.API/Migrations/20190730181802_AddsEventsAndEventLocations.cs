@@ -13,7 +13,7 @@ namespace Singer.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true),
-                    Adress = table.Column<string>(nullable: true),
+                    Address = table.Column<string>(nullable: true),
                     PostalCode = table.Column<string>(nullable: true),
                     City = table.Column<string>(nullable: true),
                     Country = table.Column<string>(nullable: true)

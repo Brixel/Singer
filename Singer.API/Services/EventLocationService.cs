@@ -27,7 +27,7 @@ namespace Singer.Services
          }
          Expression<Func<EventLocation, bool>> filterExpression =
             f =>
-               f.Adress.Contains(filter) ||
+               f.Address.Contains(filter) ||
                f.City.Contains(filter) ||
                f.Country.Contains(filter) ||
                f.Name.Contains(filter) ||
