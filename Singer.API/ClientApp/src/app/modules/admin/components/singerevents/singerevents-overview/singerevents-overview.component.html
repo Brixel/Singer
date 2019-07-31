@@ -6,39 +6,53 @@
 <!-- Mat Table -->
 <div class="mat-elevation-z8 overview-table">
    <table mat-table [dataSource]="dataSource" matSort aria-label="evenementen">
-      <!-- Name Column -->
-      <ng-container matColumnDef="name">
-         <th mat-header-cell *matHeaderCellDef mat-sort-header>Naam</th>
-         <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+      <!-- title Column -->
+      <ng-container matColumnDef="title">
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>Titel</th>
+         <td mat-cell *matCellDef="let row">{{ row.title }}</td>
       </ng-container>
 
       <!-- Location Column -->
       <ng-container matColumnDef="location">
          <th mat-header-cell *matHeaderCellDef mat-sort-header>Locatie</th>
-         <td mat-cell *matCellDef="let row">{{ row.location }}</td>
+         <td mat-cell *matCellDef="let row">
+            <h5>{{ row.location.name }}</h5>
+            <p>
+               {{ row.location.address }}, <br />
+               {{ row.location.postalCode }} {{ row.location.city }}
+            </p>
+         </td>
       </ng-container>
 
       <!-- AgeGroups Column -->
       <ng-container matColumnDef="ageGroups">
-         <th mat-header-cell *matHeaderCellDef mat-sort-header>Leeftijds Groepen</th>
-         <td mat-cell *matCellDef="let row">{{ row.ageGroups }}</td>
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Leeftijds Groepen
+         </th>
+         <td mat-cell *matCellDef="let row">
+            <ul>
+               <li *ngFor="let group of row.allowedAgeGroups">
+                  {{ group | agegroupPipe }}
+               </li>
+            </ul>
+         </td>
       </ng-container>
 
-      <!-- Size Column -->
-      <ng-container matColumnDef="size">
+      <!-- maxRegistrants Column -->
+      <ng-container matColumnDef="maxRegistrants">
          <th mat-header-cell *matHeaderCellDef mat-sort-header>
             Grootte
          </th>
-         <td mat-cell *matCellDef="let row">{{ row.size }}</td>
+         <td mat-cell *matCellDef="let row">{{ row.maxRegistrants }}</td>
       </ng-container>
 
-      <!-- Price Column -->
-      <ng-container matColumnDef="price">
+      <!-- cost Column -->
+      <ng-container matColumnDef="cost">
          <th mat-header-cell *matHeaderCellDef mat-sort-header>
             Prijs
          </th>
          <td mat-cell *matCellDef="let row">
-            {{ row.price }}
+            {{ row.cost | currency: 'EUR' }}
          </td>
       </ng-container>
 

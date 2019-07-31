@@ -31,11 +31,11 @@ export class SingerEventsOverviewComponent implements OnInit, AfterViewInit {
 
    /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
    displayedColumns = [
-      'name',
+      'title',
       'location',
       'ageGroups',
-      'size',
-      'price',
+      'maxRegistrants',
+      'cost',
       'startDate',
       'endDate',
       'hasDayCareBefore',
@@ -48,8 +48,10 @@ export class SingerEventsOverviewComponent implements OnInit, AfterViewInit {
    ) {}
 
    ngOnInit() {
-      this.dataSource = new SingerEventsOverviewDataSource(this.singerEventsService);
-      this.sort.active = 'name';
+      this.dataSource = new SingerEventsOverviewDataSource(
+         this.singerEventsService
+      );
+      this.sort.active = 'title';
       this.sort.direction = 'asc';
       this.loadSingerEvents();
    }
@@ -58,7 +60,6 @@ export class SingerEventsOverviewComponent implements OnInit, AfterViewInit {
       // const dialogRef = this.dialog.open(SingerEventsDetailsComponent, {
       //    data: { singerEventInstance: row, isAdding: false },
       // });
-
       // dialogRef.componentInstance.submitEvent.subscribe((result: SingerEvent) => {
       //    // Update the SingerEvent
       //    this.singerEventsService.updateSingerEvent(result).subscribe(res => {
@@ -72,7 +73,6 @@ export class SingerEventsOverviewComponent implements OnInit, AfterViewInit {
       // const dialogRef = this.dialog.open(SingerEventsDetailsComponent, {
       //    data: { singerEventInstance: null, isAdding: true },
       // });
-
       // dialogRef.componentInstance.submitEvent.subscribe((result: SingerEvent) => {
       //    this.singerEventsService.createSingerEvent(result).subscribe(res => {
       //       this.loadSingerEvents();

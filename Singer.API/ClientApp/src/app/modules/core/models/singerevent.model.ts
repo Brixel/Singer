@@ -3,19 +3,21 @@ import { Time } from '@angular/common';
 
 export interface SingerEventDTO {
    id: string;
-   name: string;
+   title: string;
    description: string;
-   location: string;
-   ageGroups: AgeGroup[];
-   totalSize: number;
-   currentSize: number;
-   price: number;
-   startRegistrationDate: Date;
-   endRegistrationDate: Date;
-   finalCancelationDate: Date;
-   registrationOnDailyBasis: boolean;
+   allowedAgeGroups: AgeGroup[];
+   location: SingerEventLocation;
+   maxRegistrants: number;
+   currentRegistrants: number;
+   cost: number;
    startDate: Date;
    endDate: Date;
+   startRegistrationDate: Date;
+   endRegistrationDate: Date;
+   dailyStartTime: Time;
+   dailyEndTime: Time;
+   finalCancelationDate: Date;
+   registrationOnDailyBasis: boolean;
    hasDayCareBefore: boolean;
    dayCareBeforeStartTime: Time;
    dayCareBeforeEndTime: Time;
@@ -25,19 +27,21 @@ export interface SingerEventDTO {
 }
 
 export interface UpdateSingerEventDTO {
-   name: string;
+   title: string;
    description: string;
-   location: string;
-   ageGroups: AgeGroup[];
-   totalSize: number;
-   currentSize: number;
-   price: number;
-   startRegistrationDate: Date;
-   endRegistrationDate: Date;
-   finalCancelationDate: Date;
-   registrationOnDailyBasis: boolean;
+   allowedAgeGroups: AgeGroup[];
+   location: SingerEventLocation;
+   maxRegistrants: number;
+   currentRegistrants: number;
+   cost: number;
    startDate: Date;
    endDate: Date;
+   startRegistrationDate: Date;
+   endRegistrationDate: Date;
+   dailyStartTime: Time;
+   dailyEndTime: Time;
+   finalCancelationDate: Date;
+   registrationOnDailyBasis: boolean;
    hasDayCareBefore: boolean;
    dayCareBeforeStartTime: Time;
    dayCareBeforeEndTime: Time;
@@ -47,19 +51,21 @@ export interface UpdateSingerEventDTO {
 }
 
 export interface CreateSingerEventDTO {
-   name: string;
+   title: string;
    description: string;
-   location: string;
-   ageGroups: AgeGroup[];
-   totalSize: number;
-   currentSize: number;
-   price: number;
-   startRegistrationDate: Date;
-   endRegistrationDate: Date;
-   finalCancelationDate: Date;
-   registrationOnDailyBasis: boolean;
+   allowedAgeGroups: AgeGroup[];
+   location: SingerEventLocation;
+   maxRegistrants: number;
+   currentRegistrants: number;
+   cost: number;
    startDate: Date;
    endDate: Date;
+   startRegistrationDate: Date;
+   endRegistrationDate: Date;
+   dailyStartTime: Time;
+   dailyEndTime: Time;
+   finalCancelationDate: Date;
+   registrationOnDailyBasis: boolean;
    hasDayCareBefore: boolean;
    dayCareBeforeStartTime: Time;
    dayCareBeforeEndTime: Time;
@@ -70,23 +76,59 @@ export interface CreateSingerEventDTO {
 
 export class SingerEvent {
    id: string;
-   name: string;
+   title: string;
    description: string;
-   location: string;
-   ageGroups: AgeGroup[];
-   totalSize: number;
-   currentSize: number;
-   price: number;
-   startRegistrationDate: Date;
-   endRegistrationDate: Date;
-   finalCancelationDate: Date;
-   registrationOnDailyBasis: boolean;
+   allowedAgeGroups: AgeGroup[];
+   location: SingerEventLocation;
+   maxRegistrants: number;
+   currentRegistrants: number;
+   cost: number;
    startDate: Date;
    endDate: Date;
+   startRegistrationDate: Date;
+   endRegistrationDate: Date;
+   dailyStartTime: Time;
+   dailyEndTime: Time;
+   finalCancelationDate: Date;
+   registrationOnDailyBasis: boolean;
    hasDayCareBefore: boolean;
    dayCareBeforeStartTime: Time;
    dayCareBeforeEndTime: Time;
    hasDayCareAfter: boolean;
    dayCareAfterStartTime: Time;
    dayCareAfterEndTime: Time;
+}
+
+export class SingerEventLocation {
+   id: string;
+   name: string;
+   address: string;
+   postalCode: string;
+   city: string;
+   country: string;
+}
+
+export interface SingerEventLocationDTO {
+   id: string;
+   name: string;
+   address: string;
+   postalCode: string;
+   city: string;
+   country: string;
+}
+
+export interface CreateSingerEventLocationDTO {
+   name: string;
+   address: string;
+   postalCode: string;
+   city: string;
+   country: string;
+}
+
+export interface UpdateSingerEventLocationDTO {
+   name: string;
+   address: string;
+   postalCode: string;
+   city: string;
+   country: string;
 }
