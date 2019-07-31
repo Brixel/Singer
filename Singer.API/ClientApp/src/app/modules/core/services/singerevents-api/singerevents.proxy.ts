@@ -30,7 +30,7 @@ export class SingerEventsProxy {
          .set('pageSize', pageSize.toString())
          .set('filter', filter);
       return this.apiService
-         .get('api/events', searchParams)
+         .get('api/event', searchParams)
          .pipe(map(res => res));
    }
 
@@ -39,7 +39,7 @@ export class SingerEventsProxy {
       updateSingerEventDTO: UpdateSingerEventDTO
    ) {
       return this.apiService
-         .put(`api/events/${id}`, updateSingerEventDTO)
+         .put(`api/event/${id}`, updateSingerEventDTO)
          .pipe(map(res => res));
    }
 
@@ -47,7 +47,7 @@ export class SingerEventsProxy {
       createSingerEventDTO: CreateSingerEventDTO
    ): Observable<SingerEventDTO> {
       return this.apiService
-         .post('api/events', createSingerEventDTO)
+         .post('api/event', createSingerEventDTO)
          .pipe(map(res => res));
    }
 }
