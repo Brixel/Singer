@@ -88,7 +88,7 @@ namespace Singer.Services
          Expression<Func<TUserEntity, TUserDTO>> projector = null,
          Expression<Func<TUserDTO, object>> orderer = null,
          ListSortDirection sortDirection = ListSortDirection.Ascending,
-         int page = 0,
+         int pageIndex = 0,
          int entitiesPerPage = 15)
       {
          // set the projector if it is null
@@ -104,7 +104,7 @@ namespace Singer.Services
                projectionExpression: projector,
                orderByLambda: orderer,
                sortDirection: sortDirection,
-               pageIndex: page,
+               pageIndex: pageIndex,
                pageSize: entitiesPerPage);
       }
 
