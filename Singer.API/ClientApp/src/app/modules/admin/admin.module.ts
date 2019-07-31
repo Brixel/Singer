@@ -11,7 +11,6 @@ import { CoreModule } from '../core/core.module';
 import { CareUserDetailsComponent } from './components/careusers/care-user-details/care-user-details.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { KeysPipe } from '../core/services/keys.pipe';
-import { SingerEventsOverviewComponent } from './components/singerevents/singerevents-overview/singerevents-overview.component';
 import {
    MatTableModule,
    MatPaginatorModule,
@@ -25,8 +24,10 @@ import {
    MatMomentDateModule,
    MAT_MOMENT_DATE_ADAPTER_OPTIONS,
 } from '@angular/material-moment-adapter';
+import { SingerEventsOverviewComponent } from './components/singerevents/singerevents-overview/singerevents-overview.component';
 import { SingerEventsProxy } from '../core/services/singerevents-api/singerevents.proxy';
 import { SingerEventsService } from '../core/services/singerevents-api/singerevents.service';
+import { SingereventDetailsComponent } from './components/singerevents/singerevent-details/singerevent-details.component';
 
 @NgModule({
    declarations: [
@@ -35,6 +36,7 @@ import { SingerEventsService } from '../core/services/singerevents-api/singereve
       LegalguardianOverviewComponent,
       LegalguardianDetailsComponent,
       SingerEventsOverviewComponent,
+      SingereventDetailsComponent,
    ],
    imports: [
       CoreModule,
@@ -48,7 +50,7 @@ import { SingerEventsService } from '../core/services/singerevents-api/singereve
       MatPaginatorModule,
       MatSortModule,
    ],
-   entryComponents: [CareUserDetailsComponent, LegalguardianDetailsComponent],
+   entryComponents: [CareUserDetailsComponent, LegalguardianDetailsComponent, SingereventDetailsComponent],
    providers: [
       CareUserProxy,
       LegalGuardianProxy,
