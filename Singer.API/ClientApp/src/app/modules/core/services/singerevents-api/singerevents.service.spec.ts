@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { EventsService } from './events.service';
+import { SingerEventsService } from './singerevents.service';
 
-describe('EventsService', () => {
+describe('SingerEventsService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: EventsService = TestBed.get(EventsService);
+    const service: SingerEventsService = TestBed.get(SingerEventsService);
     expect(service).toBeTruthy();
   });
 });

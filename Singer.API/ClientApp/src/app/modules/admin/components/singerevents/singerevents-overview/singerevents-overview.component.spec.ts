@@ -2,15 +2,15 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatPaginatorModule, MatSortModule, MatTableModule } from '@angular/material';
 
-import { EventsOverviewComponent } from './events-overview.component';
+import { SingerEventsOverviewComponent } from './singerevents-overview.component';
 
 describe('EventsOverviewComponent', () => {
-  let component: EventsOverviewComponent;
-  let fixture: ComponentFixture<EventsOverviewComponent>;
+  let component: SingerEventsOverviewComponent;
+  let fixture: ComponentFixture<SingerEventsOverviewComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EventsOverviewComponent ],
+      declarations: [ SingerEventsOverviewComponent ],
       imports: [
         NoopAnimationsModule,
         MatPaginatorModule,
@@ -21,7 +21,7 @@ describe('EventsOverviewComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EventsOverviewComponent);
+    fixture = TestBed.createComponent(SingerEventsOverviewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -11,7 +11,7 @@ import { CoreModule } from '../core/core.module';
 import { CareUserDetailsComponent } from './components/careusers/care-user-details/care-user-details.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { KeysPipe } from '../core/services/keys.pipe';
-import { EventsOverviewComponent } from './components/events/events-overview/events-overview.component';
+import { SingerEventsOverviewComponent } from './components/singerevents/singerevents-overview/singerevents-overview.component';
 import {
    MatTableModule,
    MatPaginatorModule,
@@ -32,7 +32,7 @@ import {
       CareUserDetailsComponent,
       LegalguardianOverviewComponent,
       LegalguardianDetailsComponent,
-      EventsOverviewComponent,
+      SingerEventsOverviewComponent,
    ],
    imports: [
       CoreModule,

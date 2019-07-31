@@ -3,9 +3,13 @@ import {
    SingerEvent,
    UpdateSingerEventDTO,
    CreateSingerEventDTO,
-} from '../../models/event.model';
+} from '../../models/singerevent.model';
+import { Observable } from 'rxjs';
 import { AgeGroup } from '../../models/enum';
 import { Time } from '@angular/common';
+import { SingerEventsProxy } from './singerevents.proxy';
+import { map } from 'rxjs/operators';
+import { PaginationDTO } from '../../models/pagination.model';
 
 const EXAMPLE_SINGER_EVENTS: SingerEvent[] = [
    {
@@ -57,18 +61,13 @@ const EXAMPLE_SINGER_EVENTS: SingerEvent[] = [
 @Injectable({
    providedIn: 'root',
 })
-export class EventsService {
-   constructor() {}
+export class SingerEventsService {
+   constructor(private singerEventsProxy: SingerEventsProxy) {}
 
-   fetchSingerEventsData(
-      sortDirection?: string,
-      sortColumn?: string,
-      pageIndex?: number,
-      pageSize?: number,
-      filter?: string
-   ) {
-      return EXAMPLE_SINGER_EVENTS;
+   fetchSingerEventsData(sortDirection?: string, sortColumn?: string, pageIndex?: number, pageSize?: number, filter?: string): Observable<PaginationDTO> {
+      return this.singerEventsProxy.getSingerEvents(sortDirection, sortColumn, pageIndex, pageSize, filter).pipe(map((res) => res));
    }
+
    updateSingerEvent(updateSingerEvent: SingerEvent) {
       const updateSingerEventDTO = <UpdateSingerEventDTO>{};
    }
