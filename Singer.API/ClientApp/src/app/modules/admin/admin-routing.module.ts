@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { AuthGuard } from '../core/services/auth.guard';
 import { OverviewComponent } from './components/careusers/overview/overview.component';
 import { LegalguardianOverviewComponent } from './components/legalguardians/legalguardian-overview/legalguardian-overview.component';
-import { SingerEventsOverviewComponent } from './components/singerevents/singerevents-overview/singerevents-overview.component'
+import { SingerEventOverviewComponent } from './components/singerevents/singerevent-overview/singerevent-overview.component'
 
 const routes: Routes = [
    {
@@ -21,7 +21,7 @@ const routes: Routes = [
    },
    {
       path: 'evenementen',
-      component: SingerEventsOverviewComponent,
+      component: SingerEventOverviewComponent,
    },
 ];
 @NgModule({

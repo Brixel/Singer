@@ -24,7 +24,7 @@ import {
    MatMomentDateModule,
    MAT_MOMENT_DATE_ADAPTER_OPTIONS,
 } from '@angular/material-moment-adapter';
-import { SingerEventsOverviewComponent } from './components/singerevents/singerevents-overview/singerevents-overview.component';
+import { SingerEventOverviewComponent } from './components/singerevents/singerevent-overview/singerevent-overview.component';
 import { SingerEventsProxy } from '../core/services/singerevents-api/singerevents.proxy';
 import { SingerEventsService } from '../core/services/singerevents-api/singerevents.service';
 import { SingereventDetailsComponent } from './components/singerevents/singerevent-details/singerevent-details.component';
@@ -35,7 +35,7 @@ import { SingereventDetailsComponent } from './components/singerevents/singereve
       CareUserDetailsComponent,
       LegalguardianOverviewComponent,
       LegalguardianDetailsComponent,
-      SingerEventsOverviewComponent,
+      SingerEventOverviewComponent,
       SingereventDetailsComponent,
    ],
    imports: [

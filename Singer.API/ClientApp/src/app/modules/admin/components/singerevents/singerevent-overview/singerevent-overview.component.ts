@@ -6,7 +6,7 @@ import {
    ElementRef,
 } from '@angular/core';
 import { MatPaginator, MatSort, MatDialog } from '@angular/material';
-import { SingerEventsOverviewDataSource } from './singerevents-overview-datasource';
+import { SingerEventOverviewDataSource } from './singerevent-overview-datasource';
 import { merge, fromEvent } from 'rxjs';
 import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 //import { SingerEventDetailsComponent } from '../events-details/events-details.component';
@@ -14,15 +14,15 @@ import { SingerEventsService } from 'src/app/modules/core/services/singerevents-
 import { SingerEvent } from 'src/app/modules/core/models/singerevent.model';
 
 @Component({
-   selector: 'app-singerevents-overview',
-   templateUrl: './singerevents-overview.component.html',
-   styleUrls: ['./singerevents-overview.component.css'],
+   selector: 'app-singerevent-overview',
+   templateUrl: './singerevent-overview.component.html',
+   styleUrls: ['./singerevent-overview.component.css'],
 })
-export class SingerEventsOverviewComponent implements OnInit, AfterViewInit {
+export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
    @ViewChild(MatPaginator) paginator: MatPaginator;
    @ViewChild(MatSort) sort: MatSort;
    @ViewChild('filterInput') filterInput: ElementRef;
-   dataSource: SingerEventsOverviewDataSource;
+   dataSource: SingerEventOverviewDataSource;
 
    filter: string;
 
@@ -48,7 +48,7 @@ export class SingerEventsOverviewComponent implements OnInit, AfterViewInit {
    ) {}
 
    ngOnInit() {
-      this.dataSource = new SingerEventsOverviewDataSource(this.singerEventsService);
+      this.dataSource = new SingerEventOverviewDataSource(this.singerEventsService);
       this.sort.active = 'name';
       this.sort.direction = 'asc';
       this.loadSingerEvents();

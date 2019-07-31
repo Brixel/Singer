@@ -13,7 +13,7 @@ import {
  * encapsulate all logic for fetching and manipulating the displayed data
  * (including sorting, pagination, and filtering).
  */
-export class SingerEventsOverviewDataSource extends DataSource<SingerEvent> {
+export class SingerEventOverviewDataSource extends DataSource<SingerEvent> {
    private singerEventsSubject$ = new BehaviorSubject<SingerEvent[]>([]);
    private totalSizeSubject$ = new BehaviorSubject<number>(0);
    private queryCountSubject$ = new BehaviorSubject<number>(0);
