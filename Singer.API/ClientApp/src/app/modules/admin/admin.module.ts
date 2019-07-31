@@ -25,6 +25,8 @@ import {
    MatMomentDateModule,
    MAT_MOMENT_DATE_ADAPTER_OPTIONS,
 } from '@angular/material-moment-adapter';
+import { SingerEventsProxy } from '../core/services/singerevents-api/singerevents.proxy';
+import { SingerEventsService } from '../core/services/singerevents-api/singerevents.service';
 
 @NgModule({
    declarations: [
@@ -50,8 +52,10 @@ import {
    providers: [
       CareUserProxy,
       LegalGuardianProxy,
+      SingerEventsProxy,
       CareUserService,
       LegalguardiansService,
+      SingerEventsService,
       ApiService,
       AgegroupPipe,
       KeysPipe,
