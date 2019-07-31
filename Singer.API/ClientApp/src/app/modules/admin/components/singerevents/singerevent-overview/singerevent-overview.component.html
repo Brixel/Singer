@@ -29,7 +29,7 @@
          <th mat-header-cell *matHeaderCellDef mat-sort-header>
             Grootte
          </th>
-         <td mat-cell *matCellDef="let row">{{ row.size }}</td>
+         <td mat-cell *matCellDef="let row">{{ row.currentSize + "/" + row.totalSize }}</td>
       </ng-container>
 
       <!-- Price Column -->
