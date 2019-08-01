@@ -30,6 +30,23 @@ namespace Singer.Configuration
 
       private static List<string> _careUsers = new List<string>() { "user1", "user2", "user3" };
 
+      private static List<EventLocation> _eventLocations = new List<EventLocation>() {
+         new EventLocation{
+            Name="Brixel",
+            Address= "Spalbeekstraat",
+            City="Spalbeek",
+            Country="Belgie",
+            PostalCode="3510"
+         },
+         new EventLocation{
+            Name="Sint-Gerardus",
+            Address= "Sint-Gerardusdreef 1",
+            City="Diepenbeek",
+            Country="Belgie",
+            PostalCode="3590"
+         }
+      };
+
       private static List<string> ROLES = new List<string>()
       {
          ROLE_ADMINISTRATOR,
@@ -208,6 +225,16 @@ namespace Singer.Configuration
          {
             singerApiClient = Config.GetClient().ToEntity();
             configrationDbContext.Clients.Add(singerApiClient);
+         }
+      }
+      public static void SeedEventLocations(ApplicationDbContext applicationDbContext)
+      {
+         if (applicationDbContext.EventLocations.Count() == 0)
+         {
+            foreach (var loc in _eventLocations)
+            {
+               applicationDbContext.Add(loc);
+            }
          }
       }
    }
