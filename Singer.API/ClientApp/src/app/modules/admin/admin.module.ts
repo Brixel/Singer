@@ -11,6 +11,11 @@ import { CoreModule } from '../core/core.module';
 import { CareUserDetailsComponent } from './components/careusers/care-user-details/care-user-details.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { KeysPipe } from '../core/services/keys.pipe';
+import {
+   MatTableModule,
+   MatPaginatorModule,
+   MatSortModule,
+} from '@angular/material';
 import { LegalguardianOverviewComponent } from './components/legalguardians/legalguardian-overview/legalguardian-overview.component';
 import { LegalguardianDetailsComponent } from './components/legalguardians/legalguardian-details/legalguardian-details.component';
 import { LegalGuardianProxy } from '../core/services/legal-guardians-api/legalguardians.proxy';
@@ -19,6 +24,10 @@ import {
    MatMomentDateModule,
    MAT_MOMENT_DATE_ADAPTER_OPTIONS,
 } from '@angular/material-moment-adapter';
+import { SingerEventOverviewComponent } from './components/singerevents/singerevent-overview/singerevent-overview.component';
+import { SingerEventsProxy } from '../core/services/singerevents-api/singerevents.proxy';
+import { SingerEventsService } from '../core/services/singerevents-api/singerevents.service';
+import { SingerEventDetailsComponent } from './components/singerevents/singerevent-details/singerevent-details.component';
 
 @NgModule({
    declarations: [
@@ -26,6 +35,8 @@ import {
       CareUserDetailsComponent,
       LegalguardianOverviewComponent,
       LegalguardianDetailsComponent,
+      SingerEventOverviewComponent,
+      SingerEventDetailsComponent,
    ],
    imports: [
       CoreModule,
@@ -35,13 +46,18 @@ import {
       ReactiveFormsModule,
       FormsModule,
       MatMomentDateModule,
+      MatTableModule,
+      MatPaginatorModule,
+      MatSortModule,
    ],
-   entryComponents: [CareUserDetailsComponent, LegalguardianDetailsComponent],
+   entryComponents: [CareUserDetailsComponent, LegalguardianDetailsComponent, SingerEventDetailsComponent],
    providers: [
       CareUserProxy,
       LegalGuardianProxy,
+      SingerEventsProxy,
       CareUserService,
       LegalguardiansService,
+      SingerEventsService,
       ApiService,
       AgegroupPipe,
       KeysPipe,

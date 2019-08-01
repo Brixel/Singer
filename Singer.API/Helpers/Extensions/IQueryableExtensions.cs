@@ -48,7 +48,7 @@ namespace Singer.Helpers.Extensions
       public static IQueryable<T> TakePage<T>(this IOrderedQueryable<T> orderedQueryable, int pageIndex, int pageSize)
       {
          return orderedQueryable
-            .Skip((pageIndex - 1) * pageSize)
+            .Skip(pageIndex * pageSize)
             .Take(pageSize);
       }
 
@@ -64,11 +64,6 @@ namespace Singer.Helpers.Extensions
          if (pageSize < 1)
          {
             throw new ArgumentException("pageSize should be positive");
-         }
-
-         if (pageIndex < 1)
-         {
-            throw new ArgumentException("pageIndex should be positive");
          }
          var filteredQueryable = queryable.Where(filterExpression);
          var totalItemsCount = filteredQueryable.Count();
@@ -104,13 +99,14 @@ namespace Singer.Helpers.Extensions
          Expression<Func<TEntity, TProjection>> projectionExpression,
          Expression<Func<TProjection, object>> orderByLambda,
          ListSortDirection sortDirection,
-         int pageIndex = 1,
-         int pageSize = 20)
+         int pageIndex = 0,
+         int pageSize = 15)
       {
+
          if (pageSize < 1)
-            throw new BadInputException("pageSize should be positive");
-         if (pageIndex < 1)
-            throw new BadInputException("pageIndex should be positive");
+         {
+            throw new BadInputException("Invalid pageSize provided");
+         }
 
          var filteredQueryable = queryable.Where(filterExpression);
          var totalItemsCount = filteredQueryable.Count();

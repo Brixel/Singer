@@ -186,7 +186,7 @@ namespace Singer.Services
 
       /// <summary>
       /// Returns a selection of <see cref="TEntity"/>s, converted <see cref="TDTO"/>s. The selection is made by filtering the
-      /// in the database, ordering the collection and finally selecting a page.
+      /// in the database, ordering the collection and finally selecting a pageIndex.
       /// <list type="number">
       ///   <item>
       ///      <term>Filtering</term>
@@ -202,7 +202,7 @@ namespace Singer.Services
       ///   </item>
       ///   <item>
       ///      <term>Paging</term>
-      ///      <description>Finally a page will be selected from the collection so that not all elements should be returned.</description>
+      ///      <description>Finally a pageIndex will be selected from the collection so that not all elements should be returned.</description>
       ///   </item>
       /// </list>
       /// </summary>
@@ -210,15 +210,15 @@ namespace Singer.Services
       /// <param name="projector">The <see cref="Expression"/> to project the <see cref="TEntity"/>s to the <see cref="TDTO"/>s.</param>
       /// <param name="orderer">The column to sort the returned list on.</param>
       /// <param name="sortDirection">The direction to sort the column on.</param>
-      /// <param name="page">The page-number to return.</param>
-      /// <param name="entitiesPerPage">The number of entities on a page.</param>
+      /// <param name="pageIndex">The pageIndex-number to return.</param>
+      /// <param name="entitiesPerPage">The number of entities on a pageIndex.</param>
       /// <returns></returns>
       public virtual async Task<SearchResults<TDTO>> GetAsync(
          string filter = null,
          Expression<Func<TEntity, TDTO>> projector = null,
          Expression<Func<TDTO, object>> orderer = null,
          ListSortDirection sortDirection = ListSortDirection.Ascending,
-         int page = 0,
+         int pageIndex = 0,
          int entitiesPerPage = 15)
       {
          // set the projector if it is null
@@ -232,7 +232,7 @@ namespace Singer.Services
                projectionExpression: projector,
                orderByLambda: orderer,
                sortDirection: sortDirection,
-               pageIndex: page,
+               pageIndex: pageIndex,
                pageSize: entitiesPerPage);
       }
 

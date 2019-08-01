@@ -78,7 +78,7 @@ namespace Singer.Services.Interfaces
 
       /// <summary>
       /// Returns a selection of <see cref="TEntity"/>s, converted <see cref="TDTO"/>s. The selection is made by filtering the
-      /// in the database, ordering the collection and finaly selecting a page.
+      /// in the database, ordering the collection and finaly selecting a pageIndex.
       /// <list type="number">
       ///   <item>
       ///      <term>Filtering</term>
@@ -94,7 +94,7 @@ namespace Singer.Services.Interfaces
       ///   </item>
       ///   <item>
       ///      <term>Paging</term>
-      ///      <description>Finaly a page will be selected from the collection so that not all elements should be returned.</description>
+      ///      <description>Finaly a pageIndex will be selected from the collection so that not all elements should be returned.</description>
       ///   </item>
       /// </list>
       /// </summary>
@@ -102,15 +102,15 @@ namespace Singer.Services.Interfaces
       /// <param name="projector">The <see cref="Expression"/> to project the <see cref="TEntity"/>s to the <see cref="TDTO"/>s.</param>
       /// <param name="orderer">The column to sort the returned list on.</param>
       /// <param name="sortDirection">The direction to sort the column on.</param>
-      /// <param name="page">The pagenumber to return.</param>
-      /// <param name="itemsPerPage">The number of items on a page.</param>
+      /// <param name="pageIndex">The pagenumber to return.</param>
+      /// <param name="itemsPerPage">The number of items on a pageIndex.</param>
       /// <returns></returns>
       Task<SearchResults<TDTO>> GetAsync(
          string filter = null,
          Expression<Func<TEntity, TDTO>> projector = null,
          Expression<Func<TDTO, object>> orderer = null,
          ListSortDirection sortDirection = ListSortDirection.Ascending,
-         int page = 0,
+         int pageIndex = 0,
          int itemsPerPage = 15);
 
       /// <summary>
