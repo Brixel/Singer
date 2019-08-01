@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { SingerEvent } from 'src/app/modules/core/models/singerevent.model';
+import { SingerEvent, SingerEventLocation } from 'src/app/modules/core/models/singerevent.model';
 import { AgeGroup } from 'src/app/modules/core/models/enum';
 
 // Data we pass along with the creation of the Mat-Dialog box
@@ -33,19 +33,21 @@ export class SingerEventDetailsComponent implements OnInit {
    //#region Binding properties for form:
 
    // Form placeholders
-   nameFieldPlaceholder = 'Naam evenement.';
+   titleFieldPlaceholder = 'Naam evenement.';
    descriptionFieldPlaceholder = 'Beschrijving evenement.';
    locationFieldPlaceholder = 'Locatie evenement';
-   ageGroupsFieldPlaceholder = 'Leeftijdsgroepen';
-   totalSizeFieldPlaceholder = 'Aantal toegelaten personen';
-   currentSizeFieldPlaceholder = 'Hoeveelheid ingeschreven personen';
-   priceFieldPlaceholder = 'Prijs';
+   allowedAgeGroupsFieldPlaceholder = 'Leeftijdsgroepen';
+   maxRegistrantsFieldPlaceholder = 'Aantal toegelaten personen';
+   currentRegistrantsFieldPlaceholder = 'Hoeveelheid ingeschreven personen';
+   costFieldPlaceholder = 'Prijs';
    startRegistrationDateFieldPlaceholder = 'Start Datum Registratie';
    endRegistrationDateFieldPlaceholder = 'Eind Datum Registratie';
    finalCancelationDateFieldPlaceholder = 'Eind Datum Anulering';
    registrationOnDailyBasisFieldPlaceholder = 'Registratie op dagelijkse basis';
    startDateFieldPlaceholder = 'Start Datum Evenement';
    endDateFieldPlaceholder = 'Eind Datum Evenement';
+   dailyStartTimePlaceholder = 'Start Tijd Evenement';
+   dailyEndTimePlaceholder = 'Eind Tijd Evenement';
    hasDayCareBeforeFieldPlaceholder = 'Opvang voor het evenement';
    dayCareBeforeStartTimeFieldPlaceholder = 'Start opvang voor het evenement';
    dayCareBeforeEndTimeFieldPlaceholder = 'Einde opvang voor het evenement';
@@ -56,13 +58,13 @@ export class SingerEventDetailsComponent implements OnInit {
    // Form control group
    formControlGroup: FormGroup = new FormGroup({
       // Form controls
-      nameFieldControl: new FormControl('', [Validators.required]),
+      titleFieldControl: new FormControl('', [Validators.required]),
       descriptionFieldControl: new FormControl('', [Validators.required]),
       locationFieldControl: new FormControl('', [Validators.required]),
-      ageGroupsFieldControl: new FormControl('', [Validators.required]),
-      totalSizeFieldControl: new FormControl('', [Validators.required]),
-      currentSizeFieldControl: new FormControl('', [Validators.required]),
-      priceFieldControl: new FormControl('', [Validators.required]),
+      allowedAgeGroupsFieldControl: new FormControl('', [Validators.required]),
+      maxRegistrantsFieldControl: new FormControl('', [Validators.required]),
+      currentRegistrantsFieldControl: new FormControl('', [Validators.required]),
+      costFieldControl: new FormControl('', [Validators.required]),
       startRegistrationDateFieldControl: new FormControl(null, [
          Validators.required,
       ]),
@@ -77,6 +79,8 @@ export class SingerEventDetailsComponent implements OnInit {
       ]),
       startDateFieldControl: new FormControl(null, [Validators.required]),
       endDateFieldControl: new FormControl(null, [Validators.required]),
+      dailyStartTimeFieldControl: new FormControl(null, [Validators.required]),
+      dailyEndTimeFieldControl: new FormControl(null, [Validators.required]),
       hasDayCareBeforeFieldControl: new FormControl('', [Validators.required]),
       dayCareBeforeStartTimeFieldControl: new FormControl('', [
          Validators.required,
@@ -123,8 +127,8 @@ export class SingerEventDetailsComponent implements OnInit {
 
    // Fill in the data of the current Singer Event instance
    private loadCurrentSingerEventInstanceValues() {
-      this.formControlGroup.controls.nameFieldControl.reset(
-         this.currentSingerEventInstance.name
+      this.formControlGroup.controls.titleFieldControl.reset(
+         this.currentSingerEventInstance.title
       );
       this.formControlGroup.controls.descriptionFieldControl.reset(
          this.currentSingerEventInstance.description
@@ -132,17 +136,17 @@ export class SingerEventDetailsComponent implements OnInit {
       this.formControlGroup.controls.locationFieldControl.reset(
          this.currentSingerEventInstance.location
       );
-      this.formControlGroup.controls.ageGroupsFieldControl.reset(
-         this.currentSingerEventInstance.ageGroups
+      this.formControlGroup.controls.allowedAgeGroupsFieldControl.reset(
+         this.currentSingerEventInstance.allowedAgeGroups
       );
-      this.formControlGroup.controls.totalSizeFieldControl.setValue(
-         this.currentSingerEventInstance.totalSize
+      this.formControlGroup.controls.maxRegistrantsFieldControl.setValue(
+         this.currentSingerEventInstance.maxRegistrants
       );
-      this.formControlGroup.controls.currentSizeFieldControl.reset(
-         this.currentSingerEventInstance.currentSize
+      this.formControlGroup.controls.currentRegistrantsFieldControl.reset(
+         this.currentSingerEventInstance.currentRegistrants
       );
-      this.formControlGroup.controls.priceFieldControl.reset(
-         this.currentSingerEventInstance.price
+      this.formControlGroup.controls.costFieldControl.reset(
+         this.currentSingerEventInstance.cost
       );
       this.formControlGroup.controls.startRegistrationDateFieldControl.reset(
          this.currentSingerEventInstance.startRegistrationDate
@@ -164,6 +168,12 @@ export class SingerEventDetailsComponent implements OnInit {
       this.formControlGroup.controls.endDateFieldControl.reset(
          this.currentSingerEventInstance.endDate
       );
+      this.formControlGroup.controls.dailyStartTimeFieldControl.reset(
+         this.currentSingerEventInstance.dailyStartTime
+      );
+      this.formControlGroup.controls.dailyEndTimeFieldControl.reset(
+         this.currentSingerEventInstance.dailyEndTime
+      );
       this.formControlGroup.controls.hasDayCareBeforeFieldControl.reset(
          this.currentSingerEventInstance.hasDayCareBefore ? 'true' : 'false'
       );
@@ -184,19 +194,21 @@ export class SingerEventDetailsComponent implements OnInit {
 
    // Clear all form fields
    private resetFormControls() {
-      this.formControlGroup.controls.nameFieldControl.reset();
+      this.formControlGroup.controls.titleFieldControl.reset();
       this.formControlGroup.controls.descriptionFieldControl.reset();
       this.formControlGroup.controls.locationFieldControl.reset();
-      this.formControlGroup.controls.ageGroupsFieldControl.reset();
-      this.formControlGroup.controls.totalSizeFieldControl.reset();
-      this.formControlGroup.controls.currentSizeFieldControl.reset();
-      this.formControlGroup.controls.priceFieldControl.reset();
+      this.formControlGroup.controls.allowedAgeGroupsFieldControl.reset();
+      this.formControlGroup.controls.maxRegistrantsFieldControl.reset();
+      this.formControlGroup.controls.currentRegistrantsFieldControl.reset();
+      this.formControlGroup.controls.costFieldControl.reset();
       this.formControlGroup.controls.startRegistrationDateFieldControl.reset();
       this.formControlGroup.controls.endRegistrationDateFieldControl.reset();
       this.formControlGroup.controls.finalCancelationDateFieldControl.reset();
       this.formControlGroup.controls.registrationOnDailyBasisFieldControl.reset();
       this.formControlGroup.controls.startDateFieldControl.reset();
       this.formControlGroup.controls.endDateFieldControl.reset();
+      this.formControlGroup.controls.dailyStartTimeFieldControl.reset();
+      this.formControlGroup.controls.dailyEndTimeFieldControl.reset();
       this.formControlGroup.controls.hasDayCareBeforeFieldControl.reset();
       this.formControlGroup.controls.dayCareBeforeStartTimeFieldControl.reset();
       this.formControlGroup.controls.dayCareBeforeEndTimeFieldControl.reset();
@@ -208,19 +220,21 @@ export class SingerEventDetailsComponent implements OnInit {
    createEmptySingerEvent() {
       this.currentSingerEventInstance = {
          id: '',
-         name: '',
+         title: '',
          description: '',
-         location: '',
-         ageGroups: [],
-         totalSize: 0,
-         currentSize: 0,
-         price: 0,
+         location: new SingerEventLocation(),
+         allowedAgeGroups: [],
+         maxRegistrants: 0,
+         currentRegistrants: 0,
+         cost: 0,
          startRegistrationDate: new Date(),
          endRegistrationDate: new Date(),
          finalCancelationDate: new Date(),
          registrationOnDailyBasis: false,
          startDate: new Date(),
          endDate: new Date(),
+         dailyStartTime: { hours: 0, minutes: 0 },
+         dailyEndTime: { hours: 0, minutes: 0 },
          hasDayCareBefore: false,
          dayCareBeforeStartTime: { hours: 0, minutes: 0 },
          dayCareBeforeEndTime: { hours: 0, minutes: 0 },
@@ -234,8 +248,8 @@ export class SingerEventDetailsComponent implements OnInit {
    checkForChanges(): boolean {
       if (this.isAdding) return true;
       if (
-         this.currentSingerEventInstance.name !==
-         this.formControlGroup.controls.nameFieldControl.value
+         this.currentSingerEventInstance.title !==
+         this.formControlGroup.controls.titleFieldControl.value
       ) {
          return true;
       }
@@ -252,26 +266,26 @@ export class SingerEventDetailsComponent implements OnInit {
          return true;
       }
       if (
-         this.currentSingerEventInstance.ageGroups !==
-         this.formControlGroup.controls.ageGroupsFieldControl.value
+         this.currentSingerEventInstance.allowedAgeGroups !==
+         this.formControlGroup.controls.allowedAgeGroupsFieldControl.value
       ) {
          return true;
       }
       if (
-         this.currentSingerEventInstance.totalSize !==
-         this.formControlGroup.controls.totalSizeFieldControl.value
+         this.currentSingerEventInstance.maxRegistrants !==
+         this.formControlGroup.controls.maxRegistrantsFieldControl.value
       ) {
          return true;
       }
       if (
-         this.currentSingerEventInstance.currentSize !==
-         this.formControlGroup.controls.currentSizeFieldControl.value
+         this.currentSingerEventInstance.currentRegistrants !==
+         this.formControlGroup.controls.currentRegistrantsFieldControl.value
       ) {
          return true;
       }
       if (
-         this.currentSingerEventInstance.price !==
-         this.formControlGroup.controls.priceFieldControl.value
+         this.currentSingerEventInstance.cost !==
+         this.formControlGroup.controls.costFieldControl.value
       ) {
          return true;
       }
@@ -363,6 +377,20 @@ export class SingerEventDetailsComponent implements OnInit {
       }
 
       if (
+         this.currentSingerEventInstance.dailyStartTime !==
+         this.formControlGroup.controls.dailyStartTimeFieldControl.value
+      ) {
+         return true;
+      }
+
+      if (
+         this.currentSingerEventInstance.dailyEndTime !==
+         this.formControlGroup.controls.dailyEndTimeFieldControl.value
+      ) {
+         return true;
+      }
+
+      if (
          this.currentSingerEventInstance.hasDayCareBefore !==
          (this.formControlGroup.controls.hasDayCareBeforeFieldControl.value ===
          'true'
@@ -413,13 +441,13 @@ export class SingerEventDetailsComponent implements OnInit {
 
    // Load form field values into current singer event instance
    private updateCurrentSingerEventInstance() {
-      this.currentSingerEventInstance.name = this.formControlGroup.controls.nameFieldControl.value;
+      this.currentSingerEventInstance.title = this.formControlGroup.controls.titleFieldControl.value;
       this.currentSingerEventInstance.description = this.formControlGroup.controls.descriptionFieldControl.value;
       this.currentSingerEventInstance.location = this.formControlGroup.controls.locationFieldControl.value;
-      this.currentSingerEventInstance.ageGroups = this.formControlGroup.controls.ageGroupsFieldControl.value;
-      this.currentSingerEventInstance.totalSize = this.formControlGroup.controls.totalSizeFieldControl.value;
-      this.currentSingerEventInstance.currentSize = this.formControlGroup.controls.currentSizeFieldControl.value;
-      this.currentSingerEventInstance.price = this.formControlGroup.controls.priceFieldControl.value;
+      this.currentSingerEventInstance.allowedAgeGroups = this.formControlGroup.controls.allowedAgeGroupsFieldControl.value;
+      this.currentSingerEventInstance.maxRegistrants = this.formControlGroup.controls.maxRegistrantsFieldControl.value;
+      this.currentSingerEventInstance.currentRegistrants = this.formControlGroup.controls.currentRegistrantsFieldControl.value;
+      this.currentSingerEventInstance.cost = this.formControlGroup.controls.costFieldControl.value;
       this.currentSingerEventInstance.startRegistrationDate = this.formControlGroup.controls.startRegistrationDateFieldControl.value;
       this.currentSingerEventInstance.endRegistrationDate = this.formControlGroup.controls.endRegistrationDateFieldControl.value;
       this.currentSingerEventInstance.finalCancelationDate = this.formControlGroup.controls.finalCancelationDateFieldControl.value;
@@ -430,6 +458,8 @@ export class SingerEventDetailsComponent implements OnInit {
             : false;
       this.currentSingerEventInstance.startDate = this.formControlGroup.controls.startDateFieldControl.value;
       this.currentSingerEventInstance.endDate = this.formControlGroup.controls.endDateFieldControl.value;
+      this.currentSingerEventInstance.dailyStartTime = this.formControlGroup.controls.dailyStartTimeFieldControl.value;
+      this.currentSingerEventInstance.dailyEndTime = this.formControlGroup.controls.dailyEndTimeFieldControl.value;
       this.currentSingerEventInstance.hasDayCareBefore =
          this.formControlGroup.controls.hasDayCareBeforeFieldControl.value ===
          'true'

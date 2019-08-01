@@ -8,17 +8,17 @@
       <!-- Event Fields Title -->
       <h3 class="section-title">Evenement</h3>
 
-      <!-- Name Field -->
+      <!-- Title Field -->
       <mat-form-field>
          <input
             matInput
-            [placeholder]="nameFieldPlaceholder"
-            formControlName="nameFieldControl"
+            [placeholder]="titleFieldPlaceholder"
+            formControlName="titleFieldControl"
          />
-         <mat-error *ngIf="formControlGroup.controls.nameFieldControl.invalid">
+         <mat-error *ngIf="formControlGroup.controls.titleFieldControl.invalid">
             {{
                getRequiredFieldErrorMessage(
-                  formControlGroup.controls.nameFieldControl
+                  formControlGroup.controls.titleFieldControl
                )
             }}
          </mat-error>
@@ -60,71 +60,71 @@
          </mat-error>
       </mat-form-field>
 
-      <!-- AgeGroups Field -->
+      <!-- AllowedAgeGroups Field -->
       <mat-form-field>
          <input
             matInput
-            [placeholder]="ageGroupsFieldPlaceholder"
-            formControlName="ageGroupsFieldControl"
+            [placeholder]="allowedAgeGroupsFieldPlaceholder"
+            formControlName="allowedAgeGroupsFieldControl"
          />
          <mat-error
-            *ngIf="formControlGroup.controls.ageGroupsFieldControl.invalid"
+            *ngIf="formControlGroup.controls.allowedAgeGroupsFieldControl.invalid"
          >
             {{
                getRequiredFieldErrorMessage(
-                  formControlGroup.controls.ageGroupsFieldControl
+                  formControlGroup.controls.allowedAgeGroupsFieldControl
                )
             }}
          </mat-error>
       </mat-form-field>
 
-      <!-- TotalSize Field -->
+      <!-- MaxRegistrants Field -->
       <mat-form-field>
          <input
             matInput
-            [placeholder]="totalSizeFieldPlaceholder"
-            formControlName="totalSizeFieldControl"
+            [placeholder]="maxRegistrantsFieldPlaceholder"
+            formControlName="maxRegistrantsFieldControl"
          />
          <mat-error
-            *ngIf="formControlGroup.controls.totalSizeFieldControl.invalid"
+            *ngIf="formControlGroup.controls.maxRegistrantsFieldControl.invalid"
          >
             {{
                getRequiredFieldErrorMessage(
-                  formControlGroup.controls.totalSizeFieldControl
+                  formControlGroup.controls.maxRegistrantsFieldControl
                )
             }}
          </mat-error>
       </mat-form-field>
 
-      <!-- CurrentSize Field -->
+      <!-- currentRegistrants Field -->
       <mat-form-field>
          <input
             matInput
-            [placeholder]="currentSizeFieldPlaceholder"
-            formControlName="currentSizeFieldControl"
+            [placeholder]="currentRegistrantsFieldPlaceholder"
+            formControlName="currentRegistrantsFieldControl"
          />
          <mat-error
-            *ngIf="formControlGroup.controls.currentSizeFieldControl.invalid"
+            *ngIf="formControlGroup.controls.currentRegistrantsFieldControl.invalid"
          >
             {{
                getRequiredFieldErrorMessage(
-                  formControlGroup.controls.currentSizeFieldControl
+                  formControlGroup.controls.currentRegistrantsFieldControl
                )
             }}
          </mat-error>
       </mat-form-field>
 
-      <!-- Price Field -->
+      <!-- Cost Field -->
       <mat-form-field>
          <input
             matInput
-            [placeholder]="priceFieldPlaceholder"
-            formControlName="priceFieldControl"
+            [placeholder]="costFieldPlaceholder"
+            formControlName="costFieldControl"
          />
-         <mat-error *ngIf="formControlGroup.controls.priceFieldControl.invalid">
+         <mat-error *ngIf="formControlGroup.controls.costFieldControl.invalid">
             {{
                getRequiredFieldErrorMessage(
-                  formControlGroup.controls.priceFieldControl
+                  formControlGroup.controls.costFieldControl
                )
             }}
          </mat-error>
@@ -286,6 +286,50 @@
             [for]="endDatePicker"
          ></mat-datepicker-toggle>
          <mat-datepicker #endDatePicker></mat-datepicker>
+      </mat-form-field>
+
+      <!-- dailyStartTime Field -->
+      <mat-form-field>
+         <input
+            matInput
+            type="number"
+            [placeholder]="dailyStartTimePlaceholder"
+            formControlName="dailyStartTimeFieldControl"
+         />
+         <mat-error
+            *ngIf="
+               formControlGroup.controls.dailyStartTimeFieldControl
+                  .invalid
+            "
+         >
+            {{
+               getRequiredFieldErrorMessage(
+                  formControlGroup.controls.dailyStartTimeFieldControl
+               )
+            }}
+         </mat-error>
+      </mat-form-field>
+
+      <!-- DailyEndTime Field -->
+      <mat-form-field>
+         <input
+            matInput
+            type="number"
+            [placeholder]="dailyEndTimePlaceholder"
+            formControlName="dailyEndTimeFieldControl"
+         />
+         <mat-error
+            *ngIf="
+               formControlGroup.controls.dailyEndTimeFieldControl
+                  .invalid
+            "
+         >
+            {{
+               getRequiredFieldErrorMessage(
+                  formControlGroup.controls.dailyEndTimeFieldControl
+               )
+            }}
+         </mat-error>
       </mat-form-field>
 
       <!-- End Of Section -->

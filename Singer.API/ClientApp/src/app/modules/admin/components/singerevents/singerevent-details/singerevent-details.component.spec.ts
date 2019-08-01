@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SingereventDetailsComponent } from './singerevent-details.component';
+import { SingerEventDetailsComponent } from './singerevent-details.component';
 
 describe('SingereventDetailsComponent', () => {
-  let component: SingereventDetailsComponent;
-  let fixture: ComponentFixture<SingereventDetailsComponent>;
+  let component: SingerEventDetailsComponent;
+  let fixture: ComponentFixture<SingerEventDetailsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SingereventDetailsComponent ]
+      declarations: [ SingerEventDetailsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SingereventDetailsComponent);
+    fixture = TestBed.createComponent(SingerEventDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
