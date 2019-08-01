@@ -38,8 +38,6 @@ export class LegalguardianDetailsComponent implements OnInit {
    cityFieldPlaceholder = 'Gemeente';
    countryFieldPlaceholder = 'Land';
    emailFieldPlaceholder = 'E-mail';
-   phoneNumberFieldPlaceholder = 'Telefoon nr.';
-   mobilePhoneNumberFieldPlaceholder = 'Gsm nr.';
 
    // Form control group
    formControlGroup: FormGroup = new FormGroup({
@@ -54,8 +52,6 @@ export class LegalguardianDetailsComponent implements OnInit {
          Validators.required,
          Validators.email,
       ]),
-      phoneNumberFieldControl: new FormControl('', [Validators.required]),
-      mobilePhoneNumberFieldControl: new FormControl('', []),
    });
 
    //#endregion
@@ -121,12 +117,6 @@ export class LegalguardianDetailsComponent implements OnInit {
       this.formControlGroup.controls.emailFieldControl.reset(
          this.currentLegalGuardianInstance.email
       );
-      this.formControlGroup.controls.phoneNumberFieldControl.reset(
-         this.currentLegalGuardianInstance.phoneNumber
-      );
-      this.formControlGroup.controls.mobilePhoneNumberFieldControl.reset(
-         this.currentLegalGuardianInstance.mobilePhoneNumber
-      );
    }
 
    // Clear all form fields
@@ -138,8 +128,6 @@ export class LegalguardianDetailsComponent implements OnInit {
       this.formControlGroup.controls.cityFieldControl.reset();
       this.formControlGroup.controls.countryFieldControl.reset();
       this.formControlGroup.controls.emailFieldControl.reset();
-      this.formControlGroup.controls.phoneNumberFieldControl.reset();
-      this.formControlGroup.controls.mobilePhoneNumberFieldControl.reset();
    }
 
    createEmptyGuardian() {
@@ -152,8 +140,6 @@ export class LegalguardianDetailsComponent implements OnInit {
          postalCode: '',
          city: '',
          country: '',
-         phoneNumber: '',
-         mobilePhoneNumber: '',
       };
    }
 
@@ -205,21 +191,6 @@ export class LegalguardianDetailsComponent implements OnInit {
       ) {
          return true;
       }
-
-      if (
-         this.currentLegalGuardianInstance.phoneNumber !==
-         this.formControlGroup.controls.phoneNumberFieldControl.value
-      ) {
-         return true;
-      }
-
-      if (
-         this.currentLegalGuardianInstance.mobilePhoneNumber !==
-         this.formControlGroup.controls.mobilePhoneNumberFieldControl.value
-      ) {
-         return true;
-      }
-
       return false;
    }
 
@@ -232,9 +203,6 @@ export class LegalguardianDetailsComponent implements OnInit {
       this.currentLegalGuardianInstance.city = this.formControlGroup.controls.cityFieldControl.value;
       this.currentLegalGuardianInstance.country = this.formControlGroup.controls.countryFieldControl.value;
       this.currentLegalGuardianInstance.email = this.formControlGroup.controls.emailFieldControl.value;
-      debugger;
-      this.currentLegalGuardianInstance.phoneNumber = this.formControlGroup.controls.phoneNumberFieldControl.value;
-      this.currentLegalGuardianInstance.mobilePhoneNumber = this.formControlGroup.controls.mobilePhoneNumberFieldControl.value;
    }
 
    // Submit the form

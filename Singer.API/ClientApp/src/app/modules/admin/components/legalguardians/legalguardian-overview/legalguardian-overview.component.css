@@ -13,7 +13,9 @@
    overflow-y: hidden;
    margin: 10px auto;
 }
-
+table {
+   width: 100%;
+}
 /* MEDIUM - LARGE RESOLUTIONS */
 @media (min-width: 1065px) {
    /* FILTER FORM FIELD STYLING */
@@ -82,14 +84,6 @@ tr.selectable:active {
    /* Disable content wrapping */
    flex-wrap: nowrap;
    white-space: nowrap;
-}
-
-.mat-column-phoneNumber {
-   padding: 10px;
-}
-
-.mat-column-mobilePhoneNumber {
-   padding: 10px;
 }
 
 /* TABLE FOOTER STYLING */

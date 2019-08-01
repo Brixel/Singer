@@ -140,44 +140,6 @@
          </mat-error>
       </mat-form-field>
 
-      <!-- PhoneNumber Field -->
-      <mat-form-field>
-         <input
-            matInput
-            [placeholder]="phoneNumberFieldPlaceholder"
-            formControlName="phoneNumberFieldControl"
-         />
-         <mat-error
-            *ngIf="formControlGroup.controls.phoneNumberFieldControl.invalid"
-         >
-            {{
-               getRequiredFieldErrorMessage(
-                  formControlGroup.controls.phoneNumberFieldControl
-               )
-            }}
-         </mat-error>
-      </mat-form-field>
-
-      <!-- Mobile phone number Field -->
-      <mat-form-field>
-         <input
-            matInput
-            [placeholder]="mobilePhoneNumberFieldPlaceholder"
-            formControlName="mobilePhoneNumberFieldControl"
-         />
-         <mat-error
-            *ngIf="
-               formControlGroup.controls.mobilePhoneNumberFieldControl.invalid
-            "
-         >
-            {{
-               getRequiredFieldErrorMessage(
-                  formControlGroup.controls.mobilePhoneNumberFieldControl
-               )
-            }}
-         </mat-error>
-      </mat-form-field>
-
       <!-- Button Row -->
       <mat-dialog-actions class="button-row">
          <!-- Close Button -->
