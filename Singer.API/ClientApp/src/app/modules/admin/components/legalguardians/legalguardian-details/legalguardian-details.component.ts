@@ -194,7 +194,7 @@ export class LegalguardianDetailsComponent implements OnInit {
       }
       if (
          this.currentLegalGuardianInstance.country !==
-         this.formControlGroup.controls.country.value
+         this.formControlGroup.controls.countryFieldControl.value
       ) {
          return true;
       }
@@ -232,6 +232,7 @@ export class LegalguardianDetailsComponent implements OnInit {
       this.currentLegalGuardianInstance.city = this.formControlGroup.controls.cityFieldControl.value;
       this.currentLegalGuardianInstance.country = this.formControlGroup.controls.countryFieldControl.value;
       this.currentLegalGuardianInstance.email = this.formControlGroup.controls.emailFieldControl.value;
+      debugger;
       this.currentLegalGuardianInstance.phoneNumber = this.formControlGroup.controls.phoneNumberFieldControl.value;
       this.currentLegalGuardianInstance.mobilePhoneNumber = this.formControlGroup.controls.mobilePhoneNumberFieldControl.value;
    }
