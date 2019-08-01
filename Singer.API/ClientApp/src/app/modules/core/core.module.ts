@@ -4,10 +4,8 @@ import { AgegroupPipe } from './services/agegroup.pipe';
 import { KeysPipe } from './services/keys.pipe';
 
 @NgModule({
-  declarations: [AgegroupPipe, KeysPipe],
-  imports: [
-    CommonModule
-  ],
-  exports: [AgegroupPipe, KeysPipe]
+   declarations: [AgegroupPipe, KeysPipe],
+   imports: [CommonModule],
+   exports: [AgegroupPipe, KeysPipe],
 })
-export class CoreModule { }
+export class CoreModule {}

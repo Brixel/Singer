@@ -27,15 +27,15 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
    filter: string;
 
    pageSize = 15;
-   pageIndex = 1;
+   pageIndex = 0;
 
    /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
    displayedColumns = [
-      'name',
+      'title',
       'location',
       'ageGroups',
-      'size',
-      'price',
+      'maxRegistrants',
+      'cost',
       'startDate',
       'endDate',
       'hasDayCareBefore',
@@ -48,8 +48,10 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
    ) {}
 
    ngOnInit() {
-      this.dataSource = new SingerEventOverviewDataSource(this.singerEventsService);
-      this.sort.active = 'name';
+      this.dataSource = new SingerEventOverviewDataSource(
+         this.singerEventsService
+      );
+      this.sort.active = 'title';
       this.sort.direction = 'asc';
       this.loadSingerEvents();
    }
