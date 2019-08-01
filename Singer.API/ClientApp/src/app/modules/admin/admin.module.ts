@@ -27,7 +27,7 @@ import {
 import { SingerEventOverviewComponent } from './components/singerevents/singerevent-overview/singerevent-overview.component';
 import { SingerEventsProxy } from '../core/services/singerevents-api/singerevents.proxy';
 import { SingerEventsService } from '../core/services/singerevents-api/singerevents.service';
-import { SingereventDetailsComponent } from './components/singerevents/singerevent-details/singerevent-details.component';
+import { SingerEventDetailsComponent } from './components/singerevents/singerevent-details/singerevent-details.component';
 
 @NgModule({
    declarations: [
@@ -36,7 +36,7 @@ import { SingereventDetailsComponent } from './components/singerevents/singereve
       LegalguardianOverviewComponent,
       LegalguardianDetailsComponent,
       SingerEventOverviewComponent,
-      SingereventDetailsComponent,
+      SingerEventDetailsComponent,
    ],
    imports: [
       CoreModule,
@@ -50,7 +50,7 @@ import { SingereventDetailsComponent } from './components/singerevents/singereve
       MatPaginatorModule,
       MatSortModule,
    ],
-   entryComponents: [CareUserDetailsComponent, LegalguardianDetailsComponent, SingereventDetailsComponent],
+   entryComponents: [CareUserDetailsComponent, LegalguardianDetailsComponent, SingerEventDetailsComponent],
    providers: [
       CareUserProxy,
       LegalGuardianProxy,

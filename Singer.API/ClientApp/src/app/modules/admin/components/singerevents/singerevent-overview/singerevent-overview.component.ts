@@ -9,7 +9,7 @@ import { MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { SingerEventOverviewDataSource } from './singerevent-overview-datasource';
 import { merge, fromEvent } from 'rxjs';
 import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
-//import { SingerEventDetailsComponent } from '../events-details/events-details.component';
+import { SingerEventDetailsComponent } from '../singerevent-details/singerevent-details.component';
 import { SingerEventsService } from 'src/app/modules/core/services/singerevents-api/singerevents.service';
 import { SingerEvent } from 'src/app/modules/core/models/singerevent.model';
 
@@ -55,29 +55,29 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
    }
 
    selectRow(row: SingerEvent): void {
-      // const dialogRef = this.dialog.open(SingerEventsDetailsComponent, {
-      //    data: { singerEventInstance: row, isAdding: false },
-      // });
+      const dialogRef = this.dialog.open(SingerEventDetailsComponent, {
+         data: { singerEventInstance: row, isAdding: false },
+      });
 
-      // dialogRef.componentInstance.submitEvent.subscribe((result: SingerEvent) => {
-      //    // Update the SingerEvent
-      //    this.singerEventsService.updateSingerEvent(result).subscribe(res => {
-      //       // Reload SingerEvents
-      //       this.loadSingerEvents();
-      //    });
-      // });
+      dialogRef.componentInstance.submitEvent.subscribe((result: SingerEvent) => {
+         // Update the SingerEvent
+         this.singerEventsService.updateSingerEvent(result).subscribe(res => {
+            // Reload SingerEvents
+            this.loadSingerEvents();
+         });
+      });
    }
 
    addSingerEvent(): void {
-      // const dialogRef = this.dialog.open(SingerEventsDetailsComponent, {
-      //    data: { singerEventInstance: null, isAdding: true },
-      // });
+      const dialogRef = this.dialog.open(SingerEventDetailsComponent, {
+         data: { singerEventInstance: null, isAdding: true },
+      });
 
-      // dialogRef.componentInstance.submitEvent.subscribe((result: SingerEvent) => {
-      //    this.singerEventsService.createSingerEvent(result).subscribe(res => {
-      //       this.loadSingerEvents();
-      //    });
-      // });
+      dialogRef.componentInstance.submitEvent.subscribe((result: SingerEvent) => {
+         this.singerEventsService.createSingerEvent(result).subscribe(res => {
+            this.loadSingerEvents();
+         });
+      });
    }
 
    private loadSingerEvents() {

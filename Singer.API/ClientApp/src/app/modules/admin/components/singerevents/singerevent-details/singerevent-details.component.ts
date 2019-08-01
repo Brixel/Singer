@@ -15,7 +15,7 @@ export interface SingerEventDetailsFormData {
    templateUrl: './singerevent-details.component.html',
    styleUrls: ['./singerevent-details.component.css'],
 })
-export class SingereventDetailsComponent implements OnInit {
+export class SingerEventDetailsComponent implements OnInit {
    // Submit event for when the user submits the form
    @Output() submitEvent: EventEmitter<SingerEvent> = new EventEmitter();
 
@@ -97,7 +97,7 @@ export class SingereventDetailsComponent implements OnInit {
 
    constructor(
       // dialogreference to close this dialog
-      public dialogRef: MatDialogRef<SingereventDetailsComponent>,
+      public dialogRef: MatDialogRef<SingerEventDetailsComponent>,
       // Singer event that we want to edit
       @Inject(MAT_DIALOG_DATA) public data: SingerEventDetailsFormData
    ) {

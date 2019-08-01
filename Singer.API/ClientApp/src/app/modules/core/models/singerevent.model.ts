@@ -25,6 +25,7 @@ export interface SingerEventDTO {
 }
 
 export interface UpdateSingerEventDTO {
+   id: string;
    name: string;
    description: string;
    location: string;

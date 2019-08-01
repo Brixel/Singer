@@ -69,11 +69,53 @@ export class SingerEventsService {
    }
 
    updateSingerEvent(updateSingerEvent: SingerEvent) {
-      const updateSingerEventDTO = <UpdateSingerEventDTO>{};
+      const updateSingerEventDTO = <UpdateSingerEventDTO>{
+         id: updateSingerEvent.id,
+         name: updateSingerEvent.name,
+         description: updateSingerEvent.description,
+         location: updateSingerEvent.location,
+         ageGroups: updateSingerEvent.ageGroups,
+         totalSize: updateSingerEvent.totalSize,
+         currentSize: updateSingerEvent.currentSize,
+         price: updateSingerEvent.price,
+         startRegistrationDate: updateSingerEvent.startRegistrationDate,
+         endRegistrationDate: updateSingerEvent.endRegistrationDate,
+         finalCancelationDate: updateSingerEvent.finalCancelationDate,
+         registrationOnDailyBasis: updateSingerEvent.registrationOnDailyBasis,
+         startDate: updateSingerEvent.startDate,
+         endDate: updateSingerEvent.endDate,
+         hasDayCareBefore: updateSingerEvent.hasDayCareBefore,
+         dayCareBeforeStartTime: updateSingerEvent.dayCareBeforeStartTime,
+         dayCareBeforeEndTime: updateSingerEvent.dayCareBeforeEndTime,
+         hasDayCareAfter: updateSingerEvent.hasDayCareAfter,
+         dayCareAfterStartTime: updateSingerEvent.dayCareAfterStartTime,
+         dayCareAfterEndTime: updateSingerEvent.dayCareAfterEndTime,
+      };
+      return this.singerEventsProxy.updateSingerEvents(updateSingerEventDTO.id, updateSingerEventDTO).pipe(map((res) => res));
    }
 
    createSingerEvent(createSingerEvent: SingerEvent) {
-      const createSingerEventDTO = <CreateSingerEventDTO>{};
-      EXAMPLE_SINGER_EVENTS.push(createSingerEvent);
+      const createSingerEventDTO = <CreateSingerEventDTO>{
+         name: createSingerEvent.name,
+         description: createSingerEvent.description,
+         location: createSingerEvent.location,
+         ageGroups: createSingerEvent.ageGroups,
+         totalSize: createSingerEvent.totalSize,
+         currentSize: createSingerEvent.currentSize,
+         price: createSingerEvent.price,
+         startRegistrationDate: createSingerEvent.startRegistrationDate,
+         endRegistrationDate: createSingerEvent.endRegistrationDate,
+         finalCancelationDate: createSingerEvent.finalCancelationDate,
+         registrationOnDailyBasis: createSingerEvent.registrationOnDailyBasis,
+         startDate: createSingerEvent.startDate,
+         endDate: createSingerEvent.endDate,
+         hasDayCareBefore: createSingerEvent.hasDayCareBefore,
+         dayCareBeforeStartTime: createSingerEvent.dayCareBeforeStartTime,
+         dayCareBeforeEndTime: createSingerEvent.dayCareBeforeEndTime,
+         hasDayCareAfter: createSingerEvent.hasDayCareAfter,
+         dayCareAfterStartTime: createSingerEvent.dayCareAfterStartTime,
+         dayCareAfterEndTime: createSingerEvent.dayCareAfterEndTime,
+      };
+      return this.singerEventsProxy.createSingerEvents(createSingerEventDTO).pipe(map((res) => res));
    }
 }
