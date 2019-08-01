@@ -26,11 +26,12 @@
 
       <!-- Description Field -->
       <mat-form-field>
-         <input
+         <textarea
             matInput
             [placeholder]="descriptionFieldPlaceholder"
             formControlName="descriptionFieldControl"
-         />
+            rows="4"
+         ></textarea>
          <mat-error
             *ngIf="formControlGroup.controls.descriptionFieldControl.invalid"
          >

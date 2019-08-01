@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
-import { FormControl, Validators, FormGroup } from '@angular/forms';
+import { FormControl, Validators, FormGroup, FormArray } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SingerEvent, SingerEventLocation } from 'src/app/modules/core/models/singerevent.model';
 import { AgeGroup } from 'src/app/modules/core/models/enum';
@@ -96,6 +96,18 @@ export class SingerEventDetailsComponent implements OnInit {
          Validators.required,
       ]),
    });
+
+   allowedAgeGroupsFormControlArray: FormArray = new FormArray([
+      new FormControl('', [Validators.required]),
+   ]);
+
+   addAllowedAgeGroupsFormControlArrayToFormGroup(){
+      this.formControlGroup.registerControl('allowedAgeGroupsFormControlArray', this.allowedAgeGroupsFormControlArray);
+   }
+
+   addFormControlToAllowedAgeGroupsFormControlArray() {
+      this.allowedAgeGroupsFormControlArray.push(new FormControl('', [Validators.required]));
+   }
 
    //#endregion
 
