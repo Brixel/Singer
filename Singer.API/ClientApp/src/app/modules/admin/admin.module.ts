@@ -50,7 +50,11 @@ import { SingerEventDetailsComponent } from './components/singerevents/singereve
       MatPaginatorModule,
       MatSortModule,
    ],
-   entryComponents: [CareUserDetailsComponent, LegalguardianDetailsComponent, SingerEventDetailsComponent],
+   entryComponents: [
+      CareUserDetailsComponent,
+      LegalguardianDetailsComponent,
+      SingerEventDetailsComponent,
+   ],
    providers: [
       CareUserProxy,
       LegalGuardianProxy,
@@ -61,7 +65,12 @@ import { SingerEventDetailsComponent } from './components/singerevents/singereve
       ApiService,
       AgegroupPipe,
       KeysPipe,
-      { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
+      {
+         provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+         useValue: {
+            useUtc: true,
+         },
+      },
    ],
 })
 export class AdminModule {}
