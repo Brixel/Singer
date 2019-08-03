@@ -69,6 +69,10 @@ tr.selectable:active {
    padding: 10px;
 }
 
+.mat-column-location .locationName {
+   font-weight: bold;
+}
+
 .mat-column-ageGroups {
    padding: 10px;
 }
