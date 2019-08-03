@@ -132,6 +132,7 @@
          mat-row
          *matRowDef="let row; columns: displayedColumns"
          class="selectable"
+         [ngClass]="{'maxRegistrantsExceeded': getMaxRegistrantsExceeded(row)}"
          (click)="selectRow(row)"
       ></tr>
 
