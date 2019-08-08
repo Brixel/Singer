@@ -12,7 +12,7 @@ using Singer.Services;
 namespace Singer.Controllers
 {
    [Route("api/[controller]")]
-   [Authorize()]
+   //[Authorize()]
    public class CareUserController : Controller
    {
       private readonly CareUserService _userService;
@@ -26,7 +26,7 @@ namespace Singer.Controllers
 
       [HttpGet]
       [ProducesResponseType(StatusCodes.Status200OK)]
-      public async Task<ActionResult<PaginationDTO<CareUserDTO>>> GetUsers(string sortDirection = "0", string sortColumn = "FirstName", int pageIndex = 1, int pageSize = 15, string filter = "")
+      public async Task<ActionResult<PaginationDTO<CareUserDTO>>> GetUsers(string sortDirection = "0", string sortColumn = "FirstName", int pageIndex = 0, int pageSize = 15, string filter = "")
       {
          var result = await _userService.GetUsersAsync<CareUser>(sortColumn, sortDirection, filter, pageIndex, pageSize);
          var requestPath = HttpContext.Request.Path;
