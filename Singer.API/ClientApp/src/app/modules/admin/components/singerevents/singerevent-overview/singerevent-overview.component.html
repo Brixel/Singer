@@ -47,7 +47,7 @@
             mat-cell
             *matCellDef="let row"
             [ngClass]="{
-               maxRegistrantsExceeded: getMaxRegistrantsExceeded(row)
+               maxRegistrantsExceeded: isMaxRegistrantsExceeded(row)
             }"
          >
             {{ row.currentRegistrants }}/{{ row.maxRegistrants }}
