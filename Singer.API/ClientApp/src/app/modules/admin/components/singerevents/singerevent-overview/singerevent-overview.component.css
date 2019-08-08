@@ -60,11 +60,6 @@ tr.selectable:active {
    background: #efefef;
 }
 
-/* ROW STYLING */
-.maxRegistrantsExceeded {
-   background-color: rgb(255, 211, 211);
-}
-
 /* INDIVIDUAL COLUMN STYLING */
 .mat-column-name {
    padding: 10px;
@@ -104,6 +99,12 @@ tr.selectable:active {
 
 .mat-column-hasDayCareAfter {
    padding: 10px;
+}
+
+/* MAXREGISTRANTS CELL STYLING */
+.maxRegistrantsExceeded {
+   color: rgb(253, 59, 59);
+   font-weight: bold;
 }
 
 /* TABLE FOOTER STYLING */

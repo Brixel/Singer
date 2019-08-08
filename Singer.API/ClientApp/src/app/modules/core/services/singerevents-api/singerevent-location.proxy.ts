@@ -30,7 +30,7 @@ export class SingerEventLocationProxy {
          .set('pageSize', pageSize.toString())
          .set('filter', filter);
       return this.apiService
-         .get('api/event', searchParams)
+         .get('api/eventlocation', searchParams)
          .pipe(map(res => res));
    }
 
@@ -39,7 +39,7 @@ export class SingerEventLocationProxy {
       updateSingerEventLocationDTO: UpdateSingerEventLocationDTO
    ) {
       return this.apiService
-         .put(`api/event/${id}`, updateSingerEventLocationDTO)
+         .put(`api/eventlocation/${id}`, updateSingerEventLocationDTO)
          .pipe(map(res => res));
    }
 
@@ -47,7 +47,7 @@ export class SingerEventLocationProxy {
       createSingerEventLocationDTO: CreateSingerEventLocationDTO
    ): Observable<SingerEventLocationDTO> {
       return this.apiService
-         .post('api/event', createSingerEventLocationDTO)
+         .post('apilocation/event', createSingerEventLocationDTO)
          .pipe(map(res => res));
    }
 }

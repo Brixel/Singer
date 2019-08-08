@@ -84,7 +84,7 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
 
    // Returns true if the max number of registrants for the event have been exceeded
    getMaxRegistrantsExceeded(row: SingerEvent):boolean {
-      return row.currentRegistrants > row.maxRegistrants ? true : false;
+      return row.currentRegistrants > row.maxRegistrants;
    }
 
    private loadSingerEvents() {
