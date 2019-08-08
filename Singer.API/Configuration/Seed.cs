@@ -6,7 +6,6 @@ using IdentityServer4.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Singer.Data;
-using Singer.Data.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +16,7 @@ using ClaimValueTypes = System.Security.Claims.ClaimValueTypes;
 using IdentityResource = IdentityServer4.EntityFramework.Entities.IdentityResource;
 using Singer.Services;
 using Singer.DTOs.Users;
+using Singer.Identity;
 using Singer.Models;
 
 namespace Singer.Configuration
@@ -146,7 +146,16 @@ namespace Singer.Configuration
             new IdentityResources.Email().ToEntity(),
             new IdentityResources.Profile().ToEntity(),
             new IdentityResources.Phone().ToEntity(),
-            new IdentityResources.Address().ToEntity()
+            new IdentityResources.Address().ToEntity(),
+            new IdentityResource(){
+               Name = "Role",
+               UserClaims = new List<IdentityClaim>()
+            {
+               new IdentityClaim()
+               {
+                  Type = JwtClaimTypes.Role
+               }
+            }}
          };
 
 

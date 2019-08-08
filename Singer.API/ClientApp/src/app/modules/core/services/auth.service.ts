@@ -38,6 +38,9 @@ export class AuthService {
             map(jwt => {
                if (jwt && jwt.access_token) {
                   localStorage.setItem('token', JSON.stringify(jwt));
+                  this.getUserInfo().subscribe(res => {
+                     localStorage.setItem('user', JSON.stringify(res));
+                  });
                }
             })
          );
@@ -46,6 +49,11 @@ export class AuthService {
    isAuthenticated() {
       const token = localStorage.getItem('token');
       return !this.jwtHelper.isTokenExpired(token);
+   }
+
+   isAdmin(){
+      const user = JSON.parse(localStorage.getItem('user'));
+      return user.role === 'Administrator';
    }
 
    getToken() {
