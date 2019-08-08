@@ -3,6 +3,7 @@ import { FormControl, Validators, FormGroup, FormArray } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SingerEvent, SingerEventLocation } from 'src/app/modules/core/models/singerevent.model';
 import { AgeGroup } from 'src/app/modules/core/models/enum';
+import { SingerEventLocationService } from 'src/app/modules/core/services/singerevents-api/singerevent-location.service';
 
 // Data we pass along with the creation of the Mat-Dialog box
 export interface SingerEventDetailsFormData {
@@ -60,7 +61,7 @@ export class SingerEventDetailsComponent implements OnInit {
       // Form controls
       titleFieldControl: new FormControl('', [Validators.required]),
       descriptionFieldControl: new FormControl('', [Validators.required]),
-      locationFieldControl: new FormControl('', [Validators.required]),
+      locationFieldControl: new FormControl(null, [Validators.required]),
       allowedAgeGroupsFieldControl: new FormControl('', [Validators.required]),
       maxRegistrantsFieldControl: new FormControl('', [Validators.required]),
       currentRegistrantsFieldControl: new FormControl('', [Validators.required]),
@@ -115,7 +116,9 @@ export class SingerEventDetailsComponent implements OnInit {
       // dialogreference to close this dialog
       public dialogRef: MatDialogRef<SingerEventDetailsComponent>,
       // Singer event that we want to edit
-      @Inject(MAT_DIALOG_DATA) public data: SingerEventDetailsFormData
+      @Inject(MAT_DIALOG_DATA) public data: SingerEventDetailsFormData,
+      // SingerEventLocation service to handle location requests
+      private singerEventLocationService: SingerEventLocationService
    ) {
       this.currentSingerEventInstance = data.singerEventInstance;
       this.isAdding = data.isAdding;
@@ -133,6 +136,10 @@ export class SingerEventDetailsComponent implements OnInit {
       }
    }
 
+   loadSingerEventLocations() {
+      //this.singerEventLocations = this.singerEventLocationService.fetchSingerEventsData();
+   }
+
    getRequiredFieldErrorMessage(formControl: FormControl) {
       return formControl.hasError('required') ? 'Dit veld is verplicht' : '';
    }
@@ -146,7 +153,7 @@ export class SingerEventDetailsComponent implements OnInit {
          this.currentSingerEventInstance.description
       );
       this.formControlGroup.controls.locationFieldControl.reset(
-         this.currentSingerEventInstance.location
+         this.currentSingerEventInstance.location.name
       );
       this.formControlGroup.controls.allowedAgeGroupsFieldControl.reset(
          this.currentSingerEventInstance.allowedAgeGroups
@@ -272,7 +279,7 @@ export class SingerEventDetailsComponent implements OnInit {
          return true;
       }
       if (
-         this.currentSingerEventInstance.location !==
+         this.currentSingerEventInstance.location.name !==
          this.formControlGroup.controls.locationFieldControl.value
       ) {
          return true;
