@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 using AutoMapper;
 using IdentityServer4.AccessTokenValidation;
@@ -96,8 +97,11 @@ namespace Singer
 
          var authority = applicationConfig.Authority;
 
-         services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-         services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+         services.AddAuthentication(options =>
+            {
+               options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+               options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
             .AddIdentityServerAuthentication(options =>
             {
 
@@ -105,7 +109,11 @@ namespace Singer
                options.ApiName = "singer.api";
                // URL of my authorization server
                options.Authority = authority;
+               options.RoleClaimType = ClaimTypes.Role;
+               options.RequireHttpsMetadata = false;
             });
+
+         services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
          // Making JWT authentication scheme the default
          services.AddAuthorization(options =>

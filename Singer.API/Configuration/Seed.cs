@@ -169,13 +169,26 @@ namespace Singer.Configuration
             apiResource = new ApiResource()
             {
                Name = singerApiResourceName,
+
+               
                Scopes = new List<ApiScope>()
                {
                   new ApiScope()
                   {
                      Name = "apiRead",
                      DisplayName = "Readonly scope for SingerAPI",
-                     Required = true
+                     Required = true,
+                     UserClaims = new List<ApiScopeClaim>()
+                     {
+                        new ApiScopeClaim()
+                        {
+                           Type = ClaimTypes.Role,
+                        },
+                        new ApiScopeClaim()
+                        {
+                           Type = ClaimTypes.Name
+                        }
+                     }
                   }
                },
 

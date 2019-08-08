@@ -4,5 +4,6 @@
       <mat-list-item>UI: {{ uiVersion }}</mat-list-item>
       <h3 mat-subheader>Backend</h3>
       <mat-list-item>API: {{ apiVersion$ | async }}</mat-list-item>
+      <mat-list-item>User is admin: {{ isAdmin$ | async }}</mat-list-item>
    </mat-list>
 </mat-card>

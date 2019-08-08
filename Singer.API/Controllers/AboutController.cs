@@ -1,6 +1,7 @@
 using System.Reflection;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Singer.Configuration;
 using Singer.DTOs;
 
 namespace Singer.Controllers
@@ -23,6 +24,10 @@ namespace Singer.Controllers
       {
          return new AboutDTO
          {
+            UserInfo = new UserInfoDTO()
+            {
+               IsAdmin = User.IsInRole(Roles.ROLE_ADMINISTRATOR)
+            },
             ApiVersion = _apiVersion
          };
       }

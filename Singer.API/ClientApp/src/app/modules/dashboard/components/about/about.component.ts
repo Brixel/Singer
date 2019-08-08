@@ -14,10 +14,14 @@ export class AboutComponent {
    private apiVersionSubject$ = new BehaviorSubject<string>(null);
    apiVersion$ = this.apiVersionSubject$.asObservable();
 
+   private isAdminSubject$ = new BehaviorSubject<boolean>(false);
+   isAdmin$ = this.isAdminSubject$.asObservable();
+
    constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
       http.get<AboutDTO>(baseUrl + 'api/about').subscribe(
          result => {
             this.apiVersionSubject$.next(result.apiVersion);
+            this.isAdminSubject$.next(result.userInfo.isAdmin);
          },
          error => console.error(error)
       );
@@ -26,4 +30,9 @@ export class AboutComponent {
 
 interface AboutDTO {
    apiVersion: string;
+   userInfo: UserInfoDTO;
+}
+
+interface UserInfoDTO{
+   isAdmin: true;
 }
