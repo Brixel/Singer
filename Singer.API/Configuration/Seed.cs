@@ -22,12 +22,7 @@ using Singer.Models;
 namespace Singer.Configuration
 {
    public static class Seed
-   {
-      private const string ROLE_ADMINISTRATOR = "Administrator";
-      private const string ROLE_SOCIALSERVICES = "SocialServices";
-      private const string ROLE_CARETAKER = "Caretaker";
-      private const string ROLE_CAREUSER = "CareUser";
-
+   { 
       private static List<string> _careUsers = new List<string>() { "user1", "user2", "user3" };
 
       private static List<EventLocation> _eventLocations = new List<EventLocation>() {
@@ -47,13 +42,6 @@ namespace Singer.Configuration
          }
       };
 
-      private static List<string> ROLES = new List<string>()
-      {
-         ROLE_ADMINISTRATOR,
-         ROLE_SOCIALSERVICES,
-         ROLE_CARETAKER,
-         ROLE_CAREUSER
-      };
       public static void SeedUsers(IServiceScope serviceScope, ApplicationDbContext applicationDbContext, string initialAdminPassword)
       {
          var userMgr = serviceScope.ServiceProvider.GetRequiredService<UserManager<User>>();
@@ -73,15 +61,7 @@ namespace Singer.Configuration
                {
                   throw new Exception(result.Errors.First().Description);
                }
-               result = userMgr.AddClaimsAsync(admin, new Claim[]{
-                  new Claim(JwtClaimTypes.Name, "Admin"),
-                  new Claim(JwtClaimTypes.GivenName, "GivenName"),
-                  new Claim(JwtClaimTypes.FamilyName, "FamilyName"),
-                  new Claim(JwtClaimTypes.Email, "email@host.example"),
-                  new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
-                  new Claim(JwtClaimTypes.WebSite, "http://host.example"),
-                  new Claim(JwtClaimTypes.Address, @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }", IdentityServer4.IdentityServerConstants.ClaimValueTypes.Json)
-               }).Result;
+
                if (!result.Succeeded)
                {
                   throw new Exception(result.Errors.First().Description);
@@ -93,7 +73,11 @@ namespace Singer.Configuration
                User = admin,
                UserId = admin.Id
             };
+
             applicationDbContext.AdminUsers.Add(adminUser);
+
+            _ = userMgr.AddToRoleAsync(admin, Roles.ROLE_ADMINISTRATOR).Result;
+            _ = userMgr.AddClaimAsync(admin, new Claim(ClaimTypes.Role, Roles.ROLE_ADMINISTRATOR));
 
             Console.WriteLine("admin created");
          }
@@ -101,7 +85,6 @@ namespace Singer.Configuration
          {
             Console.WriteLine("admin already exists");
          }
-         var _ = userMgr.AddToRoleAsync(admin, Roles.ROLE_ADMINISTRATOR).Result;
 
          foreach (var careUser in Roles._careUsers)
          {

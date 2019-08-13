@@ -10,7 +10,7 @@ using Singer.Data;
 namespace Singer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190725175026_Adds-AdminUsers")]
+    [Migration("20190813142428_AddsAdminUsers")]
     partial class AddsAdminUsers
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -126,6 +126,80 @@ namespace Singer.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("Singer.Models.Event", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AllowedAgeGroups");
+
+                    b.Property<decimal>("Cost");
+
+                    b.Property<DateTime>("DailyEndTime");
+
+                    b.Property<DateTime>("DailyStartTime");
+
+                    b.Property<DateTime>("DayCareAfterEndTime");
+
+                    b.Property<DateTime>("DayCareAfterStartTime");
+
+                    b.Property<DateTime>("DayCareBeforeEndTime");
+
+                    b.Property<DateTime>("DayCareBeforeStartTime");
+
+                    b.Property<string>("Description");
+
+                    b.Property<DateTime>("EndDate");
+
+                    b.Property<DateTime>("EndRegistrationDate");
+
+                    b.Property<DateTime>("FinalCancellationDate");
+
+                    b.Property<bool>("HasDayCareAfter");
+
+                    b.Property<bool>("HasDayCareBefore");
+
+                    b.Property<Guid>("LocationId");
+
+                    b.Property<int>("MaxRegistrants");
+
+                    b.Property<bool>("RegistrationOnDailyBasis");
+
+                    b.Property<DateTime>("StartDate");
+
+                    b.Property<DateTime>("StartRegistrationDate");
+
+                    b.Property<string>("Title");
+
+                    b.Property<int>("currentRegistrants");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LocationId");
+
+                    b.ToTable("Events");
+                });
+
+            modelBuilder.Entity("Singer.Models.EventLocation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Address");
+
+                    b.Property<string>("City");
+
+                    b.Property<string>("Country");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("PostalCode");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EventLocations");
                 });
 
             modelBuilder.Entity("Singer.Models.Users.AdminUser", b =>
@@ -304,6 +378,14 @@ namespace Singer.Migrations
                     b.HasOne("Singer.Models.Users.User")
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Singer.Models.Event", b =>
+                {
+                    b.HasOne("Singer.Models.EventLocation", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

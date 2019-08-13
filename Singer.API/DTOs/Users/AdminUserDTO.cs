@@ -1,13 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Singer.DTOs.Users;
-using Singer.Helpers;
-
-namespace Singer.DTOs
+namespace Singer.DTOs.Users
 {
    public class AdminUserDTO : UserDTO
    {
+      public string UserName { get; set; }
    }
 }
