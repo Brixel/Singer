@@ -40,7 +40,9 @@ import { AdminUserService } from './services/admin-user.service';
       LegalguardianOverviewComponent,
       LegalguardianDetailsComponent,
       SingerEventOverviewComponent,
-      SingerEventDetailsComponent,AdminListComponent, AdminDetailsComponent
+      SingerEventDetailsComponent,
+      AdminListComponent,
+      AdminDetailsComponent
    ],
    imports: [
       CoreModule,
@@ -54,7 +56,7 @@ import { AdminUserService } from './services/admin-user.service';
       MatPaginatorModule,
       MatSortModule,
    ],
-    entryComponents: [CareUserDetailsComponent, LegalguardianDetailsComponent, SingerEventDetailsComponet, AdminDetailsComponent],
+    entryComponents: [CareUserDetailsComponent, LegalguardianDetailsComponent, SingerEventDetailsComponent, AdminDetailsComponent],
    providers: [
       CareUserProxy,
       LegalGuardianProxy,

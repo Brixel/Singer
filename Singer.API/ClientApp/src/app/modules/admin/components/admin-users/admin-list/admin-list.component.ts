@@ -18,7 +18,7 @@ export class AdminListComponent implements OnInit, AfterViewInit {
    @ViewChild('filterInput') filterInput: ElementRef;
 
    pageSize = 15;
-   pageIndex = 1;
+   pageIndex = 0;
 
     /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
     displayedColumns = [
