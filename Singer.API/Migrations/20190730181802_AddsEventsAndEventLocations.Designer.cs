@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Singer.Data;
 
 namespace Singer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190730181802_AddsEventsAndEventLocations")]
+    partial class AddsEventsAndEventLocations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -133,45 +135,27 @@ namespace Singer.Migrations
 
                     b.Property<int>("AllowedAgeGroups");
 
+                    b.Property<bool>("BeforeAndAfterCare");
+
                     b.Property<decimal>("Cost");
 
                     b.Property<DateTime>("DailyEndTime");
 
                     b.Property<DateTime>("DailyStartTime");
 
-                    b.Property<DateTime>("DayCareAfterEndTime");
-
-                    b.Property<DateTime>("DayCareAfterStartTime");
-
-                    b.Property<DateTime>("DayCareBeforeEndTime");
-
-                    b.Property<DateTime>("DayCareBeforeStartTime");
-
                     b.Property<string>("Description");
 
-                    b.Property<DateTime>("EndDate");
+                    b.Property<bool>("FullTimeSpanRegRequired");
 
-                    b.Property<DateTime>("EndRegistrationDate");
-
-                    b.Property<DateTime>("FinalCancellationDate");
-
-                    b.Property<bool>("HasDayCareAfter");
-
-                    b.Property<bool>("HasDayCareBefore");
+                    b.Property<DateTime>("LastCancellationDate");
 
                     b.Property<Guid>("LocationId");
 
                     b.Property<int>("MaxRegistrants");
 
-                    b.Property<bool>("RegistrationOnDailyBasis");
-
                     b.Property<DateTime>("StartDate");
 
-                    b.Property<DateTime>("StartRegistrationDate");
-
                     b.Property<string>("Title");
-
-                    b.Property<int>("currentRegistrants");
 
                     b.HasKey("Id");
 

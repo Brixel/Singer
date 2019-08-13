@@ -45,6 +45,11 @@ namespace Singer
          var connectionString = Configuration.GetSection("ConnectionStrings").GetChildren().Single(x => x.Key == "Application").Value;
          var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
+         if (string.IsNullOrWhiteSpace(connectionString))
+         {
+            throw new Exception("No connectionString found");
+         }
+
          // This line uses 'UseSqlServer' in the 'options' parameter
          // with the connection string defined above.
          services
@@ -137,6 +142,8 @@ namespace Singer
          services.AddAutoMapper(typeof(Startup));
          services.AddScoped<CareUserService>();
          services.AddScoped<LegalGuardianUserService>();
+         services.AddScoped<EventLocationService>();
+         services.AddScoped<EventService>();
          //services.AddScoped<IDatabaseService<CareUser, CareUserDTO, CreateCareUserDTO>, CareUserService>();
          //services.AddScoped<IDatabaseService<LegalGuardianUser, LegalGuardianUserDTO, CreateLegalGuardianUserDTO>, LegalGuardianUserService>();
          // Scoped resolving has some quirks, this seems to work...
@@ -226,6 +233,7 @@ namespace Singer
             Seed.SeedUsers(serviceScope, applicationDbContext, initialAdminPassword);
             Seed.CreateAPIAndClient(configrationDbContext);
             Seed.SeedIdentityResources(configrationDbContext);
+            Seed.SeedEventLocations(applicationDbContext);
             configrationDbContext.SaveChanges();
             applicationDbContext.SaveChanges();
          }

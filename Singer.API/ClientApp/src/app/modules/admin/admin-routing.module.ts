@@ -5,6 +5,7 @@ import { OverviewComponent } from './components/careusers/overview/overview.comp
 import { FullscreenOverlayContainer } from '@angular/cdk/overlay';
 import { AdminListComponent } from './components/admin-users/admin-list/admin-list.component';
 import { LegalguardianOverviewComponent } from './components/legalguardians/legalguardian-overview/legalguardian-overview.component';
+import { SingerEventOverviewComponent } from './components/singerevents/singerevent-overview/singerevent-overview.component'
 
 const routes: Routes = [
    {
@@ -23,6 +24,10 @@ const routes: Routes = [
    {
       path: 'voogden',
       component: LegalguardianOverviewComponent,
+   },
+   {
+      path: 'evenementen',
+      component: SingerEventOverviewComponent,
    },
 ];
 @NgModule({

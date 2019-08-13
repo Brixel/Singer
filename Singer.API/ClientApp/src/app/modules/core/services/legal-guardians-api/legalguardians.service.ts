@@ -42,8 +42,6 @@ export class LegalguardiansService {
          postalCode: updateLegalGuardian.postalCode,
          city: updateLegalGuardian.city,
          country: updateLegalGuardian.country,
-         phoneNumber: updateLegalGuardian.phoneNumber,
-         mobilePhoneNumber: updateLegalGuardian.mobilePhoneNumber,
       };
       return this.legalguardianProxy
          .updateLegalGuardian(updateLegalGuardian.id, updateLegalGuardianDTO)
@@ -59,8 +57,6 @@ export class LegalguardiansService {
          postalCode: createLegalGuardian.postalCode,
          city: createLegalGuardian.city,
          country: createLegalGuardian.country,
-         phoneNumber: createLegalGuardian.phoneNumber,
-         mobilePhoneNumber: createLegalGuardian.mobilePhoneNumber,
       };
       return this.legalguardianProxy
          .createLegalGuardian(createLegalGuardianDTO)

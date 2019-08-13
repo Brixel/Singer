@@ -2,6 +2,7 @@ using System;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Singer.Models;
 using Singer.Models.Users;
 
 namespace Singer.Data
@@ -10,6 +11,8 @@ namespace Singer.Data
    {
       public DbSet<CareUser> CareUsers { get; set; }
       public DbSet<LegalGuardianUser> LegalGuardianUsers { get; set; }
+      public DbSet<EventLocation> EventLocations { get; set; }
+      public DbSet<Event> Events { get; set; }
 
       public DbSet<AdminUser> AdminUsers { get; set; }
       public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)

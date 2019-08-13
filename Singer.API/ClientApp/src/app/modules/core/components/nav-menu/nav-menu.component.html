@@ -37,6 +37,14 @@
       <a
          *ngIf="isAuthenticated()"
          mat-raised-button
+         [routerLink]="['/admin/evenementen']"
+         routerLinkActive="mat-accent"
+      >
+         Evenementen
+      </a>
+      <a
+         *ngIf="isAuthenticated()"
+         mat-raised-button
          [routerLink]="['/dashboard/about']"
          routerLinkActive="mat-accent"
       >
