@@ -27,6 +27,14 @@
          Zorg gebruikers
       </a>
       <a
+         *ngIf="isAuthenticated() && isAdmin()"
+         mat-raised-button
+         [routerLink]="['/admin/beheerders']"
+         routerLinkActive="mat-accent"
+      >
+         Beheerders
+      </a>
+      <a
          *ngIf="isAuthenticated()"
          mat-raised-button
          [routerLink]="['/admin/evenementen']"

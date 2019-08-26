@@ -1,6 +1,7 @@
 using System;
 using FluentAssertions;
 using NUnit.Framework;
+using Singer.DTOs;
 using Singer.DTOs.Users;
 using Singer.Services;
 

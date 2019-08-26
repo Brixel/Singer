@@ -85,7 +85,7 @@ namespace Singer.Services
       public async Task<SearchResults<CareUserDTO>> GetUsersAsync<T>(string sortColumn,
          string sortDirection,
          string filter,
-         int page = 0,
+         int page = 1,
          int userPerPage = 15) where T : CareUser
       {
          var users = Context.CareUsers.AsQueryable();

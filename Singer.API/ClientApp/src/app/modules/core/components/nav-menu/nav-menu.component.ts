@@ -19,6 +19,10 @@ export class NavMenuComponent {
       return this.authService.isAuthenticated();
    }
 
+   isAdmin(): boolean{
+      return this.authService.isAdmin();
+   }
+
    onLogoutClicked(){
       this.logoutEvent.emit();
    }
