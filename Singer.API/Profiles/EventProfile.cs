@@ -20,7 +20,7 @@ namespace Singer.Profiles
 
          CreateMap<CreateEventDTO, Event>()
             .ForMember(x => x.AllowedAgeGroups, opt => opt.MapFrom(src =>
-                src.AllowedAgeGroups.Sum(x => Convert.ToInt32(x))));
+               src.AllowedAgeGroups.Sum(x => Convert.ToInt32(x))));
       }
 
       private List<AgeGroup> ToAgeGroupList(AgeGroup bitmap)

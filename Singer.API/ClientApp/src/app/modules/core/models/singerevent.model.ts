@@ -55,24 +55,24 @@ export interface CreateSingerEventDTO {
    title: string;
    description: string;
    allowedAgeGroups: AgeGroup[];
-   location: SingerEventLocation;
-   maxRegistrants: number;
-   currentRegistrants: number;
-   cost: number;
-   startDate: Date;
-   endDate: Date;
-   startRegistrationDate: Date;
-   endRegistrationDate: Date;
-   dailyStartTime: Time;
-   dailyEndTime: Time;
-   finalCancelationDate: Date;
-   registrationOnDailyBasis: boolean;
-   hasDayCareBefore: boolean;
-   dayCareBeforeStartTime: Time;
-   dayCareBeforeEndTime: Time;
-   hasDayCareAfter: boolean;
-   dayCareAfterStartTime: Time;
-   dayCareAfterEndTime: Time;
+   locationId: string;
+   // maxRegistrants: number;
+   // currentRegistrants: number;
+   // cost: number;
+   // startDate: Date;
+   // endDate: Date;
+   // startRegistrationDate: Date;
+   // endRegistrationDate: Date;
+   // dailyStartTime: Time;
+   // dailyEndTime: Time;
+   // finalCancelationDate: Date;
+   // registrationOnDailyBasis: boolean;
+   // hasDayCareBefore: boolean;
+   // dayCareBeforeStartTime: Time;
+   // dayCareBeforeEndTime: Time;
+   // hasDayCareAfter: boolean;
+   // dayCareAfterStartTime: Time;
+   // dayCareAfterEndTime: Time;
 }
 
 export class SingerEvent {

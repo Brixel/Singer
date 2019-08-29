@@ -9,9 +9,10 @@ import { MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { SingerEventOverviewDataSource } from './singerevent-overview-datasource';
 import { merge, fromEvent } from 'rxjs';
 import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { SingerEventDetailsComponent } from '../singerevent-details/singerevent-details.component';
+import { SingerEventDetailsComponent, SingerEventDetailsFormData } from '../singerevent-details/singerevent-details.component';
 import { SingerEventsService } from 'src/app/modules/core/services/singerevents-api/singerevents.service';
-import { SingerEvent } from 'src/app/modules/core/models/singerevent.model';
+import { SingerEvent, SingerEventLocation } from 'src/app/modules/core/models/singerevent.model';
+import { SingerEventLocationService } from 'src/app/modules/core/services/singerevents-api/singerevent-location.service';
 
 @Component({
    selector: 'app-singerevent-overview',
@@ -41,15 +42,21 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
       'hasDayCareBefore',
       'hasDayCareAfter',
    ];
+   availableLocations: SingerEventLocation[];
 
    constructor(
       public dialog: MatDialog,
-      private singerEventsService: SingerEventsService
+      private singerEventsService: SingerEventsService,
+      private singerEventLocationService: SingerEventLocationService
    ) {}
 
    ngOnInit() {
       this.dataSource = new SingerEventOverviewDataSource(
          this.singerEventsService
+      );
+      this.singerEventLocationService.fetchSingerEventsData('asc', 'name', 0, 1000, '').subscribe(res =>{
+         this.availableLocations =  res.items as  SingerEventLocation[];
+         }
       );
       this.sort.active = 'title';
       this.sort.direction = 'asc';
@@ -58,7 +65,10 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
 
    selectRow(row: SingerEvent): void {
       const dialogRef = this.dialog.open(SingerEventDetailsComponent, {
-         data: { singerEventInstance: row, isAdding: false },
+         data: <SingerEventDetailsFormData>{
+            singerEventInstance: row,
+            isAdding: false,
+            availableLocations: this.availableLocations },
       });
 
       dialogRef.componentInstance.submitEvent.subscribe((result: SingerEvent) => {
@@ -72,7 +82,7 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
 
    addSingerEvent(): void {
       const dialogRef = this.dialog.open(SingerEventDetailsComponent, {
-         data: { singerEventInstance: null, isAdding: true },
+         data: { singerEventInstance: null, isAdding: true, availableLocations:  this.availableLocations },
       });
 
       dialogRef.componentInstance.submitEvent.subscribe((result: SingerEvent) => {

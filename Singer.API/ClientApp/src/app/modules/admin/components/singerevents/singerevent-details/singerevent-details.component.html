@@ -45,11 +45,12 @@
 
       <!-- Location Field -->
       <mat-form-field>
-         <input
-            matInput
-            [placeholder]="locationFieldPlaceholder"
-            formControlName="locationFieldControl"
-         />
+            <mat-label>Locatie evenement</mat-label>
+            <mat-select  [compareWith]="compareLocations"  formControlName="locationFieldControl" [(value)]="selectedLocation">
+               <mat-option *ngFor="let availableLocation of availableLocations" [value]="availableLocation">
+                 {{ availableLocation.name }}
+               </mat-option>
+             </mat-select>
          <mat-error
             *ngIf="formControlGroup.controls.locationFieldControl.invalid"
          >
@@ -63,11 +64,15 @@
 
       <!-- AllowedAgeGroups Field -->
       <mat-form-field>
-         <input
-            matInput
-            [placeholder]="allowedAgeGroupsFieldPlaceholder"
-            formControlName="allowedAgeGroupsFieldControl"
-         />
+         <mat-label>Leeftijdsgroepen</mat-label>
+         <mat-select
+         [compareWith]="compareAgeGroups"
+         formControlName="allowedAgeGroupsFieldControl" multiple
+         >
+            <mat-option *ngFor="let ageGroup of ageGroups" [value]="ageGroup">
+              {{ ageGroup | agegroupPipe}}
+            </mat-option>
+          </mat-select>
          <mat-error
             *ngIf="formControlGroup.controls.allowedAgeGroupsFieldControl.invalid"
          >

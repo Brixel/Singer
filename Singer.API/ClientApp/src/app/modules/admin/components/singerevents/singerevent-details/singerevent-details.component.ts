@@ -9,6 +9,7 @@ import { SingerEventLocationService } from 'src/app/modules/core/services/singer
 export interface SingerEventDetailsFormData {
    singerEventInstance: SingerEvent;
    isAdding: boolean;
+   availableLocations: SingerEventLocation[];
 }
 
 @Component({
@@ -26,10 +27,14 @@ export class SingerEventDetailsComponent implements OnInit {
    // Boolean to check if changes have been made when editing a user
    isChangesMade: boolean;
 
-   ageGroups = AgeGroup;
+   ageGroups = Object.keys(AgeGroup).filter(k => typeof AgeGroup[k as any] === 'number');
 
    // Current care user instance
    currentSingerEventInstance: SingerEvent;
+
+   selectedLocation: SingerEventLocation;
+
+   availableLocations: SingerEventLocation[];
 
    //#region Binding properties for form:
 
@@ -101,6 +106,7 @@ export class SingerEventDetailsComponent implements OnInit {
    allowedAgeGroupsFormControlArray: FormArray = new FormArray([
       new FormControl('', [Validators.required]),
    ]);
+   selectedAgeGroups: AgeGroup[];
 
    addAllowedAgeGroupsFormControlArrayToFormGroup(){
       this.formControlGroup.registerControl('allowedAgeGroupsFormControlArray', this.allowedAgeGroupsFormControlArray);
@@ -116,12 +122,11 @@ export class SingerEventDetailsComponent implements OnInit {
       // dialogreference to close this dialog
       public dialogRef: MatDialogRef<SingerEventDetailsComponent>,
       // Singer event that we want to edit
-      @Inject(MAT_DIALOG_DATA) public data: SingerEventDetailsFormData,
-      // SingerEventLocation service to handle location requests
-      private singerEventLocationService: SingerEventLocationService
+      @Inject(MAT_DIALOG_DATA) public data: SingerEventDetailsFormData
    ) {
       this.currentSingerEventInstance = data.singerEventInstance;
       this.isAdding = data.isAdding;
+      this.availableLocations = data.availableLocations;
    }
 
    ngOnInit() {
@@ -136,12 +141,18 @@ export class SingerEventDetailsComponent implements OnInit {
       }
    }
 
-   loadSingerEventLocations() {
-      //this.singerEventLocations = this.singerEventLocationService.fetchSingerEventsData();
-   }
-
    getRequiredFieldErrorMessage(formControl: FormControl) {
       return formControl.hasError('required') ? 'Dit veld is verplicht' : '';
+   }
+
+   compareLocations(locationX: SingerEventLocation, locationY: SingerEventLocation){
+      return locationX.id === locationY.id;
+   }
+   compareAgeGroups(ageGroupX: number, ageGroupY: number){
+      console.log('Compare agegroups');
+      console.log(AgeGroup[ageGroupX]);
+      console.log(ageGroupY);
+      return AgeGroup[ageGroupX] ===ageGroupY;
    }
 
    // Fill in the data of the current Singer Event instance
@@ -152,11 +163,16 @@ export class SingerEventDetailsComponent implements OnInit {
       this.formControlGroup.controls.descriptionFieldControl.reset(
          this.currentSingerEventInstance.description
       );
-      this.formControlGroup.controls.locationFieldControl.reset(
-         this.currentSingerEventInstance.location.name
+      this.selectedLocation = this.availableLocations.find(x => x.id === this.currentSingerEventInstance.location.id);
+      this.formControlGroup.controls.locationFieldControl.setValue(
+         this.selectedLocation
       );
-      this.formControlGroup.controls.allowedAgeGroupsFieldControl.reset(
-         this.currentSingerEventInstance.allowedAgeGroups
+      this.selectedAgeGroups = this
+         .currentSingerEventInstance
+         .allowedAgeGroups;
+         console.log(this.selectedAgeGroups);
+      this.formControlGroup.controls.allowedAgeGroupsFieldControl.setValue(
+         this.selectedAgeGroups
       );
       this.formControlGroup.controls.maxRegistrantsFieldControl.setValue(
          this.currentSingerEventInstance.maxRegistrants
@@ -265,7 +281,8 @@ export class SingerEventDetailsComponent implements OnInit {
 
    // If we are editing an existing user and there are no changes return false
    checkForChanges(): boolean {
-      if (this.isAdding) return true;
+      if (this.isAdding) { return true; }
+
       if (
          this.currentSingerEventInstance.title !==
          this.formControlGroup.controls.titleFieldControl.value
