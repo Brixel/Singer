@@ -10,10 +10,12 @@ using Singer.Data;
 using Singer.DTOs.Users;
 using Singer.Helpers.Exceptions;
 using Singer.Models.Users;
+using Singer.Services.Interfaces;
 
 namespace Singer.Services
 {
-   public class CareUserService : UserService<CareUser, CareUserDTO, CreateCareUserDTO, UpdateCareUserDTO>
+   public class CareUserService : UserService<CareUser, CareUserDTO, CreateCareUserDTO, UpdateCareUserDTO>,
+      ICareUserService<CareUser, CareUserDTO, CreateCareUserDTO, UpdateCareUserDTO>
    {
       protected override DbSet<CareUser> DbSet => Context.CareUsers;
 
