@@ -28,6 +28,8 @@ import { SingerEventOverviewComponent } from './components/singerevents/singerev
 import { SingerEventsProxy } from '../core/services/singerevents-api/singerevents.proxy';
 import { SingerEventsService } from '../core/services/singerevents-api/singerevents.service';
 import { SingerEventDetailsComponent } from './components/singerevents/singerevent-details/singerevent-details.component';
+import { SingerEventLocationService } from '../core/services/singerevents-api/singerevent-location.service';
+import { SingerEventLocationProxy } from '../core/services/singerevents-api/singerevent-location.proxy';
 
 @NgModule({
    declarations: [
@@ -59,9 +61,11 @@ import { SingerEventDetailsComponent } from './components/singerevents/singereve
       CareUserProxy,
       LegalGuardianProxy,
       SingerEventsProxy,
+      SingerEventLocationProxy,
       CareUserService,
       LegalguardiansService,
       SingerEventsService,
+      SingerEventLocationService,
       ApiService,
       AgegroupPipe,
       KeysPipe,

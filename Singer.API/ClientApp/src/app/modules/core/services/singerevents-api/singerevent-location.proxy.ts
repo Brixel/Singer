@@ -47,7 +47,7 @@ export class SingerEventLocationProxy {
       createSingerEventLocationDTO: CreateSingerEventLocationDTO
    ): Observable<SingerEventLocationDTO> {
       return this.apiService
-         .post('apilocation/event', createSingerEventLocationDTO)
+         .post('api/eventlocation', createSingerEventLocationDTO)
          .pipe(map(res => res));
    }
 }
