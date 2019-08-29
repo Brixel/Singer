@@ -52,7 +52,7 @@ namespace Singer.Services
             var CareUser = await Context.CareUsers.FirstOrDefaultAsync(c => c.Id == u);
             if (CareUser == null)
             {
-               throw new BadInputException($"Tried to link careuser which does not exist (id={u}");
+               throw new BadInputException($"Tried to link careuser which does not exist (id={u})");
             }
             var LinkedUserExists = await Context.LegalGuardianCareUsers.FirstOrDefaultAsync(
                x => x.CareUserId == u
@@ -65,6 +65,30 @@ namespace Singer.Services
             NewCareUsers.Add(new LegalGuardianCareUser() { CareUserId = u, LegalGuardianId = LegalGuardianUserId });
          }
          LegalGuardianUser.LegalGuardianCareUsers = NewCareUsers;
+         await Context.SaveChangesAsync();
+      }
+
+      public async Task RemoveLinkedUsers(Guid LegalGuardianUserId, List<Guid> UsersToRemove)
+      {
+         // First check if LGUser exists
+         var LegalGuardianUser = await Context.LegalGuardianUsers.FindAsync(LegalGuardianUserId);
+         if (LegalGuardianUser == null)
+         {
+            throw new BadInputException($"Tried to remove user link for non existing LG User with id {LegalGuardianUserId}");
+         }
+
+         foreach (var u in UsersToRemove)
+         {
+            var LinkedUserExists = await Context.LegalGuardianCareUsers.FirstOrDefaultAsync(
+               x => x.CareUserId == u
+               && x.LegalGuardianId == LegalGuardianUserId
+            );
+            if (LinkedUserExists == null)
+            {
+               throw new BadInputException($"You tried to remove a care user from an LG user which was not linked to begin with (CareUser ID: {u})");
+            }
+            LegalGuardianUser.LegalGuardianCareUsers.Remove(LinkedUserExists);
+         }
          await Context.SaveChangesAsync();
       }
    }

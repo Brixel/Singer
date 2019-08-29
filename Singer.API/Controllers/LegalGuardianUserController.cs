@@ -33,6 +33,11 @@ namespace Singer.Controllers
             await LegalGuardianUserService.AddLinkedUsers(id, dto.CareUsersToAdd);
          }
 
+         if (dto.CareUsersToRemove.Count > 0)
+         {
+            await LegalGuardianUserService.RemoveLinkedUsers(id, dto.CareUsersToRemove);
+         }
+
          var result = await DatabaseService.UpdateAsync(id, dto);
          return Ok(result);
       }
