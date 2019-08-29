@@ -13,10 +13,10 @@ namespace Singer.Controllers
    //[Authorize()]
    public class CareUserController : DataControllerBase<CareUser, CareUserDTO, CreateCareUserDTO, UpdateCareUserDTO>
    {
-      private readonly ICareUserService careUserService;
-      public CareUserController(ICareUserService databaseService) : base(databaseService)
+      private readonly ICareUserService _careUserService;
+      public CareUserController(ICareUserService careUserService) : base(careUserService)
       {
-         careUserService = databaseService;
+         _careUserService = careUserService;
       }
 
       [HttpPut("{id}")]
@@ -32,12 +32,12 @@ namespace Singer.Controllers
 
          if ((dto.LegalGuardianUsersToAdd?.Count ?? 0) > 0)
          {
-            await careUserService.AddLinkedUsers(id, dto.LegalGuardianUsersToAdd);
+            await _careUserService.AddLinkedUsers(id, dto.LegalGuardianUsersToAdd);
          }
 
          if ((dto.LegalGuardianUsersToRemove?.Count ?? 0) > 0)
          {
-            await careUserService.RemoveLinkedUsers(id, dto.LegalGuardianUsersToRemove);
+            await _careUserService.RemoveLinkedUsers(id, dto.LegalGuardianUsersToRemove);
          }
 
          var result = await DatabaseService.UpdateAsync(id, dto);

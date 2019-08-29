@@ -9,7 +9,7 @@ namespace Singer.Controllers
    [Route("api/[controller]")]
    public class EventLocationController : DataControllerBase<EventLocation, EventLocationDTO, CreateEventLocationDTO, UpdateEventLocationDTO>
    {
-      public EventLocationController(IEventLocationService databaseService) : base(databaseService)
+      public EventLocationController(IEventLocationService eventLocationService) : base(eventLocationService)
       {
       }
    }

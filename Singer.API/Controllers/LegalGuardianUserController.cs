@@ -13,10 +13,10 @@ namespace Singer.Controllers
    [Route("api/[controller]")]
    public class LegalGuardianUserController : DataControllerBase<LegalGuardianUser, LegalGuardianUserDTO, CreateLegalGuardianUserDTO, UpdateLegalGuardianUserDTO>
    {
-      private ILegalGuardianUserService LegalGuardianUserService;
-      public LegalGuardianUserController(ILegalGuardianUserService databaseService) : base(databaseService)
+      private readonly ILegalGuardianUserService _legalGuardianUserService;
+      public LegalGuardianUserController(ILegalGuardianUserService legalGuardianUserService) : base(legalGuardianUserService)
       {
-         LegalGuardianUserService = databaseService;
+         _legalGuardianUserService = legalGuardianUserService;
       }
       [HttpPut("{id}")]
       [ProducesResponseType(StatusCodes.Status200OK)]
@@ -31,12 +31,12 @@ namespace Singer.Controllers
 
          if ((dto.CareUsersToAdd?.Count ?? 0) > 0)
          {
-            await LegalGuardianUserService.AddLinkedUsers(id, dto.CareUsersToAdd);
+            await _legalGuardianUserService.AddLinkedUsers(id, dto.CareUsersToAdd);
          }
 
          if ((dto.CareUsersToRemove?.Count ?? 0) > 0)
          {
-            await LegalGuardianUserService.RemoveLinkedUsers(id, dto.CareUsersToRemove);
+            await _legalGuardianUserService.RemoveLinkedUsers(id, dto.CareUsersToRemove);
          }
 
          var result = await DatabaseService.UpdateAsync(id, dto);

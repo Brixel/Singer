@@ -6,7 +6,7 @@ namespace Singer.Controllers
 {
    public class EventController : DataControllerBase<Event, EventDTO, CreateEventDTO, UpdateEventDTO>
    {
-      public EventController(IEventService databaseService) : base(databaseService)
+      public EventController(IEventService eventService) : base(eventService)
       {
       }
    }
