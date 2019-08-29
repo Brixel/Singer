@@ -9,8 +9,6 @@ export interface LegalGuardianDTO {
    postalCode: string;
    city: string;
    country: string;
-   phoneNumber: string;
-   mobilePhoneNumber: string;
 }
 
 export interface UpdateLegalGuardianDTO {
@@ -21,8 +19,6 @@ export interface UpdateLegalGuardianDTO {
    postalCode: string;
    city: string;
    country: string;
-   phoneNumber: string;
-   mobilePhoneNumber: string;
 }
 
 export interface CreateLegalGuardianDTO {
@@ -33,8 +29,6 @@ export interface CreateLegalGuardianDTO {
    postalCode: string;
    city: string;
    country: string;
-   phoneNumber: string;
-   mobilePhoneNumber: string;
 }
 
 export class LegalGuardian {
@@ -46,6 +40,4 @@ export class LegalGuardian {
    postalCode: string;
    city: string;
    country: string;
-   phoneNumber: string;
-   mobilePhoneNumber: string;
 }

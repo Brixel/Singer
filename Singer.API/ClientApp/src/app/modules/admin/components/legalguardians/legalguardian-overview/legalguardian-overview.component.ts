@@ -25,13 +25,10 @@ export class LegalguardianOverviewComponent implements  OnInit, AfterViewInit {
 
    /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
    displayedColumns = [
-      //'id',
       'firstName',
       'lastName',
       'email',
       'address',
-      'phoneNumber',
-      'mobilePhoneNumber',
    ];
 
    constructor(
