@@ -14,6 +14,8 @@ namespace Singer.Data
       public DbSet<LegalGuardianCareUser> LegalGuardianCareUsers { get; set; }
       public DbSet<EventLocation> EventLocations { get; set; }
       public DbSet<Event> Events { get; set; }
+
+      public DbSet<AdminUser> AdminUsers { get; set; }
       public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
       {
       }
@@ -31,6 +33,7 @@ namespace Singer.Data
             .HasOne(x => x.CareUser)
             .WithMany(x => x.LegalGuardianCareUsers)
             .OnDelete(DeleteBehavior.Restrict);
+
       }
    }
 }

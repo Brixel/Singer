@@ -28,6 +28,10 @@ import { SingerEventOverviewComponent } from './components/singerevents/singerev
 import { SingerEventsProxy } from '../core/services/singerevents-api/singerevents.proxy';
 import { SingerEventsService } from '../core/services/singerevents-api/singerevents.service';
 import { SingerEventDetailsComponent } from './components/singerevents/singerevent-details/singerevent-details.component';
+import { AdminListComponent } from './components/admin-users/admin-list/admin-list.component';
+import { AdminDetailsComponent } from './components/admin-users/admin-details/admin-details.component';
+import { AdminUserProxy } from './services/adminuser.proxy';
+import { AdminUserService } from './services/admin-user.service';
 
 @NgModule({
    declarations: [
@@ -37,6 +41,8 @@ import { SingerEventDetailsComponent } from './components/singerevents/singereve
       LegalguardianDetailsComponent,
       SingerEventOverviewComponent,
       SingerEventDetailsComponent,
+      AdminListComponent,
+      AdminDetailsComponent
    ],
    imports: [
       CoreModule,
@@ -50,12 +56,14 @@ import { SingerEventDetailsComponent } from './components/singerevents/singereve
       MatPaginatorModule,
       MatSortModule,
    ],
-   entryComponents: [CareUserDetailsComponent, LegalguardianDetailsComponent, SingerEventDetailsComponent],
+    entryComponents: [CareUserDetailsComponent, LegalguardianDetailsComponent, SingerEventDetailsComponent, AdminDetailsComponent],
    providers: [
       CareUserProxy,
       LegalGuardianProxy,
       SingerEventsProxy,
       CareUserService,
+      AdminUserProxy,
+      AdminUserService,
       LegalguardiansService,
       SingerEventsService,
       ApiService,

@@ -39,8 +39,8 @@ namespace Singer.Services
             Email = dto.Email,
             UserName = dto.Email
          };
-
-         var userCreationResult = await UserManager.CreateAsync(baseUser);
+         // TODO Replace by better temporary password generation approach
+         var userCreationResult = await UserManager.CreateAsync(baseUser, "Testpassword123!");
          if (!userCreationResult.Succeeded)
          {
             Debug.WriteLine($"User can not be created. {userCreationResult.Errors.First().Code}");
