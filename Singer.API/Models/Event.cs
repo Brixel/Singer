@@ -31,5 +31,7 @@ namespace Singer.Models
       public bool HasDayCareAfter { get; set; }
       public DateTime DayCareAfterStartTime { get; set; }
       public DateTime DayCareAfterEndTime { get; set; }
+
+      public List<Guid> Registrations { get; set; }
    }
 }

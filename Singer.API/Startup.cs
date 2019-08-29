@@ -143,7 +143,8 @@ namespace Singer
          services.AddScoped<CareUserService>();
          services.AddScoped<LegalGuardianUserService>();
          services.AddScoped<EventLocationService>();
-         services.AddScoped<EventService>();
+         services.AddScoped<IEventService, EventService>();
+         services.AddScoped<IEventRegistrationService, EventRegistrationService>();
          //services.AddScoped<IDatabaseService<CareUser, CareUserDTO, CreateCareUserDTO>, CareUserService>();
          //services.AddScoped<IDatabaseService<LegalGuardianUser, LegalGuardianUserDTO, CreateLegalGuardianUserDTO>, LegalGuardianUserService>();
          // Scoped resolving has some quirks, this seems to work...

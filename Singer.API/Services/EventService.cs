@@ -6,10 +6,11 @@ using Microsoft.EntityFrameworkCore;
 using Singer.Data;
 using Singer.DTOs;
 using Singer.Models;
+using Singer.Services.Interfaces;
 
 namespace Singer.Services
 {
-   public class EventService : DatabaseService<Event, EventDTO, CreateEventDTO>
+   public class EventService : DatabaseService<Event, EventDTO, CreateEventDTO>, IEventService
    {
       public EventService(ApplicationDbContext context, IMapper mapper) : base(context, mapper)
       {
@@ -17,7 +18,9 @@ namespace Singer.Services
 
       protected override DbSet<Event> DbSet => Context.Events;
 
-      protected override IQueryable<Event> Queryable => Context.Events.Include(x => x.Location);
+      protected override IQueryable<Event> Queryable => Context.Events
+         .Include(x => x.Location)
+         .Include(x => x.Registrations);
 
       protected override Expression<Func<Event, bool>> Filter(string filter)
       {
