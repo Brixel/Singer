@@ -22,6 +22,7 @@ using Singer.Helpers.Extensions;
 using Singer.Services;
 using Singer.Services.Utils;
 using Singer.Models.Users;
+using Singer.Services.Interfaces;
 
 namespace Singer
 {
@@ -129,10 +130,10 @@ namespace Singer
 
          // Adds AutoMapper. Maps are defined as profiles in ./Profiles/*Profile.cs
          services.AddAutoMapper(typeof(Startup));
-         services.AddScoped<CareUserService>();
-         services.AddScoped<LegalGuardianUserService>();
-         services.AddScoped<EventLocationService>();
-         services.AddScoped<EventService>();
+         services.AddScoped<ICareUserService, CareUserService>();
+         services.AddScoped<ILegalGuardianUserService, LegalGuardianUserService>();
+         services.AddScoped<IEventLocationService, EventLocationService>();
+         services.AddScoped<IEventService, EventService>();
 
       }
 

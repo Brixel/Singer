@@ -6,14 +6,15 @@ using Singer.DTOs.Users;
 using Singer.Helpers.Exceptions;
 using Singer.Models.Users;
 using Singer.Services;
+using Singer.Services.Interfaces;
 
 namespace Singer.Controllers
 {
    [Route("api/[controller]")]
    public class LegalGuardianUserController : DataControllerBase<LegalGuardianUser, LegalGuardianUserDTO, CreateLegalGuardianUserDTO, UpdateLegalGuardianUserDTO>
    {
-      private LegalGuardianUserService LegalGuardianUserService;
-      public LegalGuardianUserController(LegalGuardianUserService databaseService) : base(databaseService)
+      private ILegalGuardianUserService LegalGuardianUserService;
+      public LegalGuardianUserController(ILegalGuardianUserService databaseService) : base(databaseService)
       {
          LegalGuardianUserService = databaseService;
       }
