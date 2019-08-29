@@ -28,6 +28,10 @@ import { SingerEventOverviewComponent } from './components/singerevents/singerev
 import { SingerEventsProxy } from '../core/services/singerevents-api/singerevents.proxy';
 import { SingerEventsService } from '../core/services/singerevents-api/singerevents.service';
 import { SingerEventDetailsComponent } from './components/singerevents/singerevent-details/singerevent-details.component';
+import { AdminListComponent } from './components/admin-users/admin-list/admin-list.component';
+import { AdminDetailsComponent } from './components/admin-users/admin-details/admin-details.component';
+import { AdminUserProxy } from './services/adminuser.proxy';
+import { AdminUserService } from './services/admin-user.service';
 import { SingerEventLocationService } from '../core/services/singerevents-api/singerevent-location.service';
 import { SingerEventLocationProxy } from '../core/services/singerevents-api/singerevent-location.proxy';
 
@@ -39,6 +43,8 @@ import { SingerEventLocationProxy } from '../core/services/singerevents-api/sing
       LegalguardianDetailsComponent,
       SingerEventOverviewComponent,
       SingerEventDetailsComponent,
+      AdminListComponent,
+      AdminDetailsComponent
    ],
    imports: [
       CoreModule,
@@ -51,11 +57,11 @@ import { SingerEventLocationProxy } from '../core/services/singerevents-api/sing
       MatTableModule,
       MatPaginatorModule,
       MatSortModule,
-   ],
-   entryComponents: [
+   ], entryComponents: [
       CareUserDetailsComponent,
       LegalguardianDetailsComponent,
-      SingerEventDetailsComponent,
+       SingerEventDetailsComponent,
+      , AdminDetailsComponent
    ],
    providers: [
       CareUserProxy,
@@ -63,6 +69,8 @@ import { SingerEventLocationProxy } from '../core/services/singerevents-api/sing
       SingerEventsProxy,
       SingerEventLocationProxy,
       CareUserService,
+      AdminUserProxy,
+      AdminUserService,
       LegalguardiansService,
       SingerEventsService,
       SingerEventLocationService,

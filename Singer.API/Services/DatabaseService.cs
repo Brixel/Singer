@@ -6,12 +6,14 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Singer.Data;
 using Singer.Helpers;
 using Singer.Helpers.Exceptions;
 using Singer.Helpers.Extensions;
 using Singer.Models;
+using Singer.Models.Users;
 using Singer.Services.Interfaces;
 
 namespace Singer.Services
@@ -41,6 +43,8 @@ namespace Singer.Services
          Mapper = mapper;
       }
 
+
+
       #endregion CONSTRUCTOR
 
 
@@ -65,6 +69,8 @@ namespace Singer.Services
       /// The mapper to map the <see cref="TEntity"/>s to <see cref="TDTO"/>s and vice versa.
       /// </summary>
       protected IMapper Mapper { get; }
+
+      protected RoleManager<User> RoleManager { get; }
 
       /// <summary>
       /// Expression that is used to convert an <see cref="TEntity"/> to a <see cref="TDTO"/> when returning values from the database.

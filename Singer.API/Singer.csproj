@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
    <PropertyGroup>
       <TargetFramework>netcoreapp2.2</TargetFramework>
@@ -47,6 +47,20 @@
 
    <ItemGroup>
      <Compile Remove="Models\PaginationModel.cs" />
+   </ItemGroup>
+
+   <ItemGroup>
+     <None Remove="Migrations\Sql\CleanAdmin.sql" />
+   </ItemGroup>
+
+   <ItemGroup>
+     <Content Include="Migrations\Sql\CleanAdmin.sql" />
+   </ItemGroup>
+
+   <ItemGroup>
+     <Content Update="Migrations\Sql\CleanAdmin.sql">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
    </ItemGroup>
 
    <ItemGroup>
