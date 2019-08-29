@@ -60,8 +60,8 @@ import { SingerEventLocationProxy } from '../core/services/singerevents-api/sing
    ], entryComponents: [
       CareUserDetailsComponent,
       LegalguardianDetailsComponent,
-       SingerEventDetailsComponent,
-      , AdminDetailsComponent
+      SingerEventDetailsComponent,
+      AdminDetailsComponent
    ],
    providers: [
       CareUserProxy,

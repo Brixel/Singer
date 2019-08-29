@@ -148,11 +148,11 @@ export class SingerEventDetailsComponent implements OnInit {
    compareLocations(locationX: SingerEventLocation, locationY: SingerEventLocation){
       return locationX.id === locationY.id;
    }
-   compareAgeGroups(ageGroupX: number, ageGroupY: number){
+   compareAgeGroups(ageGroupX: number, ageGroupY: string){
       console.log('Compare agegroups');
       console.log(AgeGroup[ageGroupX]);
       console.log(ageGroupY);
-      return AgeGroup[ageGroupX] ===ageGroupY;
+      return AgeGroup[ageGroupX] === ageGroupY;
    }
 
    // Fill in the data of the current Singer Event instance
