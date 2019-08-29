@@ -15,7 +15,7 @@ using Singer.Services.Interfaces;
 namespace Singer.Services
 {
    public class LegalGuardianUserService : UserService<LegalGuardianUser, LegalGuardianUserDTO, CreateLegalGuardianUserDTO, UpdateLegalGuardianUserDTO>,
-      ILegalGuardianUserService<LegalGuardianUser, LegalGuardianUserDTO, CreateLegalGuardianUserDTO, UpdateLegalGuardianUserDTO>
+      ILegalGuardianUserService
    {
       public LegalGuardianUserService(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager)
       : base(context, mapper, userManager)

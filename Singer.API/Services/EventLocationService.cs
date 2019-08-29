@@ -6,10 +6,12 @@ using Microsoft.EntityFrameworkCore;
 using Singer.Data;
 using Singer.DTOs;
 using Singer.Models;
+using Singer.Services.Interfaces;
 
 namespace Singer.Services
 {
-   public class EventLocationService : DatabaseService<EventLocation, EventLocationDTO, CreateEventLocationDTO, UpdateEventLocationDTO>
+   public class EventLocationService : DatabaseService<EventLocation, EventLocationDTO, CreateEventLocationDTO, UpdateEventLocationDTO>,
+      IEventLocationService
    {
       public EventLocationService(ApplicationDbContext context, IMapper mapper) : base(context, mapper)
       {

@@ -15,7 +15,7 @@ using Singer.Services.Interfaces;
 namespace Singer.Services
 {
    public class CareUserService : UserService<CareUser, CareUserDTO, CreateCareUserDTO, UpdateCareUserDTO>,
-      ICareUserService<CareUser, CareUserDTO, CreateCareUserDTO, UpdateCareUserDTO>
+      ICareUserService
    {
       protected override DbSet<CareUser> DbSet => Context.CareUsers;
 
