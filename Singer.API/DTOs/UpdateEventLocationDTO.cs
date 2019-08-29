@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
-
-namespace Singer.DTOs.Users
+namespace Singer.DTOs
 {
-   public class LegalGuardianUserDTO : UserDTO
+   public class UpdateEventLocationDTO
    {
-      public List<CareUserDTO> CareUsers { get; set; }
+      public string Name { get; set; }
       public string Address { get; set; }
       public string PostalCode { get; set; }
       public string City { get; set; }

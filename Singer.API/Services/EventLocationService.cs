@@ -9,7 +9,7 @@ using Singer.Models;
 
 namespace Singer.Services
 {
-   public class EventLocationService : DatabaseService<EventLocation, EventLocationDTO, CreateEventLocationDTO>
+   public class EventLocationService : DatabaseService<EventLocation, EventLocationDTO, CreateEventLocationDTO, UpdateEventLocationDTO>
    {
       public EventLocationService(ApplicationDbContext context, IMapper mapper) : base(context, mapper)
       {

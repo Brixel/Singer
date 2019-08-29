@@ -13,7 +13,7 @@ namespace Singer.Controllers
 {
    [Route("api/[controller]")]
    //[Authorize()]
-   public class CareUserController : DataControllerBase<CareUser, CareUserDTO, CreateCareUserDTO>
+   public class CareUserController : DataControllerBase<CareUser, CareUserDTO, CreateCareUserDTO, UpdateCareUserDTO>
    {
       private readonly CareUserService careUserService;
       public CareUserController(CareUserService databaseService) : base(databaseService)

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Singer.Controllers
 {
    [Route("api/[controller]")]
-   public class EventLocationController : DataControllerBase<EventLocation, EventLocationDTO, CreateEventLocationDTO>
+   public class EventLocationController : DataControllerBase<EventLocation, EventLocationDTO, CreateEventLocationDTO, UpdateEventLocationDTO>
    {
       public EventLocationController(EventLocationService databaseService) : base(databaseService)
       {

@@ -25,10 +25,11 @@ namespace Singer.Services
    /// <typeparam name="TEntity">The type of the entity to manipulate in the database.</typeparam>
    /// <typeparam name="TDTO">The type that will be exposed to the outside world.</typeparam>
    /// <typeparam name="TCreateDTO">The type that is used to create new entities in the database.</typeparam>
-   public abstract class DatabaseService<TEntity, TDTO, TCreateDTO> : IDatabaseService<TEntity, TDTO, TCreateDTO>
+   public abstract class DatabaseService<TEntity, TDTO, TCreateDTO, TUpdateDTO> : IDatabaseService<TEntity, TDTO, TCreateDTO, TUpdateDTO>
       where TEntity : class, IIdentifiable
       where TDTO : class, IIdentifiable
       where TCreateDTO : class
+      where TUpdateDTO : class
    {
       #region CONSTRUCTOR
 
@@ -80,10 +81,24 @@ namespace Singer.Services
          => x => Mapper.Map<TDTO>(x);
 
       /// <summary>
+      /// Expression that is used to convert an <see cref="TEntity"/> to a <see cref="TDTO"/> when returning values from the database.
+      /// By default this uses the <see cref="Mapper"/> property (<see cref="Mapper.Map{TDestination}(object)"/>).
+      /// </summary>
+      public virtual Expression<Func<TEntity, TUpdateDTO>> EntityToUpdateDTOProjector
+         => x => Mapper.Map<TUpdateDTO>(x);
+
+      /// <summary>
       /// Expression that is used to convert a <see cref="TDTO"/> to an <see cref="TEntity"/> when manipulating values in the database.
       /// By default this uses the <see cref="Mapper"/> property (<see cref="Mapper.Map{TDestination}(object)"/>).
       /// </summary>
       public virtual Expression<Func<TDTO, TEntity>> DTOToEntityProjector
+         => x => Mapper.Map<TEntity>(x);
+
+      /// <summary>
+      /// Expression that is used to convert a <see cref="TDTO"/> to an <see cref="TEntity"/> when manipulating values in the database.
+      /// By default this uses the <see cref="Mapper"/> property (<see cref="Mapper.Map{TDestination}(object)"/>).
+      /// </summary>
+      public virtual Expression<Func<TUpdateDTO, TEntity>> UpdateDTOToEntityProjector
          => x => Mapper.Map<TEntity>(x);
 
       /// <summary>
@@ -259,15 +274,15 @@ namespace Singer.Services
       /// <exception cref="NotFoundException">There is no element found with the id <paramref name="id"/>.</exception>
       public virtual async Task<TDTO> UpdateAsync(
          Guid id,
-         TDTO newValue,
-         Expression<Func<TDTO, TEntity>> dtoToEntityProjector = null,
+         TUpdateDTO newValue,
+         Expression<Func<TUpdateDTO, TEntity>> dtoToEntityProjector = null,
          Expression<Func<TEntity, TDTO>> entityToDTOProjector = null)
       {
          // set the projectors if they are null
          if (entityToDTOProjector == null)
             entityToDTOProjector = EntityToDTOProjector;
          if (dtoToEntityProjector == null)
-            dtoToEntityProjector = DTOToEntityProjector;
+            dtoToEntityProjector = UpdateDTOToEntityProjector;
 
          // search for the item to update
          var itemToUpdate = await DbSet.FindAsync(id);

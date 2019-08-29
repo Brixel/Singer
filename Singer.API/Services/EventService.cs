@@ -9,7 +9,7 @@ using Singer.Models;
 
 namespace Singer.Services
 {
-   public class EventService : DatabaseService<Event, EventDTO, CreateEventDTO>
+   public class EventService : DatabaseService<Event, EventDTO, CreateEventDTO, UpdateEventDTO>
    {
       public EventService(ApplicationDbContext context, IMapper mapper) : base(context, mapper)
       {

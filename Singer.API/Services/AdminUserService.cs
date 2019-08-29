@@ -15,7 +15,7 @@ using Singer.Models.Users;
 
 namespace Singer.Services
 {
-   public class AdminUserService : UserService<AdminUser, AdminUserDTO, CreateAdminUserDTO>
+   public class AdminUserService : UserService<AdminUser, AdminUserDTO, CreateAdminUserDTO, UpdateAdminUserDTO>
    {
       private readonly RoleManager<IdentityRole<Guid>> _roleManager;
 

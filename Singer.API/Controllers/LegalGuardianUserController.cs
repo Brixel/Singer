@@ -10,7 +10,7 @@ using Singer.Services;
 namespace Singer.Controllers
 {
    [Route("api/[controller]")]
-   public class LegalGuardianUserController : DataControllerBase<LegalGuardianUser, LegalGuardianUserDTO, CreateLegalGuardianUserDTO>
+   public class LegalGuardianUserController : DataControllerBase<LegalGuardianUser, LegalGuardianUserDTO, CreateLegalGuardianUserDTO, UpdateLegalGuardianUserDTO>
    {
       private LegalGuardianUserService LegalGuardianUserService;
       public LegalGuardianUserController(LegalGuardianUserService databaseService) : base(databaseService)
@@ -21,19 +21,19 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status200OK)]
       [ProducesResponseType(StatusCodes.Status404NotFound)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public override async Task<ActionResult> Update(Guid id, [FromBody]LegalGuardianUserDTO dto)
+      public override async Task<ActionResult> Update(Guid id, [FromBody]UpdateLegalGuardianUserDTO dto)
       {
          if (dto is null)
          {
             throw new BadInputException(nameof(dto));
          }
 
-         if (dto.CareUsersToAdd.Count > 0)
+         if ((dto.CareUsersToAdd?.Count ?? 0) > 0)
          {
             await LegalGuardianUserService.AddLinkedUsers(id, dto.CareUsersToAdd);
          }
 
-         if (dto.CareUsersToRemove.Count > 0)
+         if ((dto.CareUsersToRemove?.Count ?? 0) > 0)
          {
             await LegalGuardianUserService.RemoveLinkedUsers(id, dto.CareUsersToRemove);
          }

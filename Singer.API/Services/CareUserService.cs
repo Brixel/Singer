@@ -10,7 +10,7 @@ using Singer.Models.Users;
 
 namespace Singer.Services
 {
-   public class CareUserService : UserService<CareUser, CareUserDTO, CreateCareUserDTO>
+   public class CareUserService : UserService<CareUser, CareUserDTO, CreateCareUserDTO, UpdateCareUserDTO>
    {
       protected override DbSet<CareUser> DbSet => Context.CareUsers;
 

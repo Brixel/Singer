@@ -13,7 +13,7 @@ using Singer.Models.Users;
 
 namespace Singer.Services
 {
-   public class LegalGuardianUserService : UserService<LegalGuardianUser, LegalGuardianUserDTO, CreateLegalGuardianUserDTO>
+   public class LegalGuardianUserService : UserService<LegalGuardianUser, LegalGuardianUserDTO, CreateLegalGuardianUserDTO, UpdateLegalGuardianUserDTO>
    {
       public LegalGuardianUserService(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager)
       : base(context, mapper, userManager)
