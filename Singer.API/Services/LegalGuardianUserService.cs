@@ -73,8 +73,8 @@ namespace Singer.Services
       public async Task RemoveLinkedUsers(Guid LegalGuardianUserId, List<Guid> UsersToRemove)
       {
          // First check if LGUser exists
-         var LegalGuardianUser = await Context.LegalGuardianUsers.FindAsync(LegalGuardianUserId);
-         if (LegalGuardianUser == null)
+         var legalGuardianUser = await Context.LegalGuardianUsers.FindAsync(LegalGuardianUserId);
+         if (legalGuardianUser == null)
          {
             throw new BadInputException($"Tried to remove user link for non existing LG User with id {LegalGuardianUserId}");
          }
@@ -89,7 +89,7 @@ namespace Singer.Services
             {
                throw new BadInputException($"You tried to remove a care user from an LG user which was not linked to begin with (CareUser ID: {u})");
             }
-            LegalGuardianUser.LegalGuardianCareUsers.Remove(LinkedUserExists);
+            legalGuardianUser.LegalGuardianCareUsers.Remove(LinkedUserExists);
          }
          await Context.SaveChangesAsync();
       }
