@@ -133,3 +133,5 @@ export interface UpdateSingerEventLocationDTO {
    city: string;
    country: string;
 }
+
+export class EventDescription{}
