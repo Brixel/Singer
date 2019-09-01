@@ -137,4 +137,5 @@ export interface UpdateSingerEventLocationDTO {
 export class EventDescription{
    title: string;
    description: string;
+   ageGroups: AgeGroup[];
 }

@@ -1,4 +1,11 @@
 <mat-card>
    <mat-card-title>{{ event.title }}</mat-card-title>
-   <mat-card-content>{{ event.description }}</mat-card-content>
+   <mat-card-subtitle><app-agegroup-chips [agegroups]="event.ageGroups"></app-agegroup-chips></mat-card-subtitle>
+   <mat-card-content>
+      <p>{{ event.description }}</p>
+   </mat-card-content>
+   <mat-card-actions>
+      <button mat-stroked-button color="primary">Meer informatie</button>
+      <button mat-raised-button color="primary">Inschrijven</button>
+   </mat-card-actions>
 </mat-card>

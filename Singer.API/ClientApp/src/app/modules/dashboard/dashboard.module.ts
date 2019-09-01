@@ -8,11 +8,12 @@ import { AboutComponent } from './components/about/about.component';
 import {RouterModule} from '@angular/router';
 import { EventCardComponent } from './components/event-card/event-card.component';
 import { EventListComponent } from './components/event-list/event-list.component';
+import { CoreModule } from '../core/core.module';
 
 @NgModule({
   declarations: [DashboardComponent, HomeComponent, AboutComponent, EventListComponent, EventCardComponent],
   imports: [
-    CommonModule, MaterialModule, DashboardRoutingModule, RouterModule
+   CoreModule, CommonModule, MaterialModule, DashboardRoutingModule, RouterModule
   ]
 })
 export class DashboardModule { }

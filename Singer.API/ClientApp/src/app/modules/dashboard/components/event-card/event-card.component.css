@@ -1,0 +1,7 @@
+mat-card-content p{
+   max-height: 150px;
+   text-overflow: ellipsis;
+   overflow: hidden;
+}
+mat-card-actions{
+}

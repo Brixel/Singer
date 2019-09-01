@@ -19,6 +19,7 @@ import {
    MatDialogModule,
    MatDividerModule,
    MatGridListModule,
+   MatChipsModule,
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
@@ -49,6 +50,7 @@ import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/m
       MatInputModule,
       MatMenuModule,
       MatGridListModule,
+      MatChipsModule,
       MatToolbarModule,
       MatIconModule,
       MatCardModule,
