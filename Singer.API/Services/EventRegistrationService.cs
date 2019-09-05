@@ -13,7 +13,7 @@ using Singer.Services.Interfaces;
 
 namespace Singer.Services
 {
-   public class EventRegistrationService : DatabaseService<EventRegistration, EventRegistrationDTO, CreateEventRegistrationDTO>, IEventRegistrationService
+   public class EventRegistrationService : DatabaseService<EventRegistration, EventRegistrationDTO, CreateEventRegistrationDTO, UpdateEventRegistrationDTO>, IEventRegistrationService
    {
       public EventRegistrationService(ApplicationDbContext context, IMapper mapper) : base(context, mapper)
       {

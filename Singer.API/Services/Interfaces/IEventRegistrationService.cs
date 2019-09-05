@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Singer.Services.Interfaces
 {
-   public interface IEventRegistrationService : IDatabaseService<EventRegistration, EventRegistrationDTO, CreateEventRegistrationDTO>
+   public interface IEventRegistrationService : IDatabaseService<EventRegistration, EventRegistrationDTO, CreateEventRegistrationDTO, UpdateEventRegistrationDTO>
    {
       Task<SearchResults<EventRegistrationDTO>> GetAsync(
         Expression<Func<EventRegistration, bool>> filter = null,

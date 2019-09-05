@@ -4,7 +4,7 @@ using System;
 
 namespace Singer.DTOs
 {
-   public class CreateEventRegistrationDTO
+   public class UpdateEventRegistrationDTO
    {
       public Guid EventId { get; set; }
       public CareUserDTO CareUser { get; set; }
