@@ -134,6 +134,7 @@ namespace Singer
          services.AddScoped<ILegalGuardianUserService, LegalGuardianUserService>();
          services.AddScoped<IEventLocationService, EventLocationService>();
          services.AddScoped<IEventService, EventService>();
+         services.AddScoped<IEventRegistrationService, EventRegistrationService>();
 
       }
 
@@ -162,8 +163,8 @@ namespace Singer
          app.UseHttpsRedirection();
          app.UseAuthentication();
 
-         app.UseStaticFiles();
-         app.UseSpaStaticFiles();
+         //app.UseStaticFiles();
+         //app.UseSpaStaticFiles();
 
          app.UseExceptionMiddleware();
          app.UseIdentityServer();
@@ -185,19 +186,19 @@ namespace Singer
                    template: "{controller}/{action=GetAboutVersion}/{id?}");
          });
 
-         app.UseSpa(spa =>
-         {
-            // To learn more about options for serving an Angular SPA from ASP.NET Core,
-            // see https://go.microsoft.com/fwlink/?linkid=864501
+         //app.UseSpa(spa =>
+         //{
+         //   // To learn more about options for serving an Angular SPA from ASP.NET Core,
+         //   // see https://go.microsoft.com/fwlink/?linkid=864501
 
-            spa.Options.SourcePath = "ClientApp";
+         //   spa.Options.SourcePath = "ClientApp";
 
-            if (env.IsDevelopment())
-            {
-               spa.UseAngularCliServer(npmScript: "start");
-               //spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
-            }
-         });
+         //   if (env.IsDevelopment())
+         //   {
+         //      spa.UseAngularCliServer(npmScript: "start");
+         //      //spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
+         //   }
+         //});
       }
 
       private void MigrateContexts(IApplicationBuilder app)
