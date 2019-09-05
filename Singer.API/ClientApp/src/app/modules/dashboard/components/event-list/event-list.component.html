@@ -1,4 +1,4 @@
 
-<mat-grid-list [cols]="breakpoint" rowHeight="400px" gutterSize="20px" (window:resize)="onResize($event)">
+ <mat-grid-list [cols]="breakpoint" rowHeight="400px" gutterSize="20px" (window:resize)="onResize($event)">
    <mat-grid-tile *ngFor="let event of events"><app-event-card [event]="event" class="event-card"></app-event-card></mat-grid-tile>
 </mat-grid-list>

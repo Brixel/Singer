@@ -1,6 +1,6 @@
 {
   "name": "Singer",
-  "version": "0.1.0-issue-AB-20-event-list.440",
+  "version": "0.1.0-issue-AB-20-event-list.441",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

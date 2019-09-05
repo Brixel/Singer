@@ -9,9 +9,10 @@ import {RouterModule} from '@angular/router';
 import { EventCardComponent } from './components/event-card/event-card.component';
 import { EventListComponent } from './components/event-list/event-list.component';
 import { CoreModule } from '../core/core.module';
+import { EventSearchComponent } from './components/event-search/event-search.component';
 
 @NgModule({
-  declarations: [DashboardComponent, HomeComponent, AboutComponent, EventListComponent, EventCardComponent],
+  declarations: [DashboardComponent, HomeComponent, AboutComponent, EventListComponent, EventCardComponent, EventSearchComponent],
   imports: [
    CoreModule, CommonModule, MaterialModule, DashboardRoutingModule, RouterModule
   ]

@@ -9,6 +9,11 @@ namespace Singer.Controllers
    {
       public EventController(EventService databaseService) : base(databaseService)
       {
+         
+      }
+      public void GetPublicEvents()
+      {
+
       }
    }
 }

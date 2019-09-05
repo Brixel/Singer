@@ -20,6 +20,7 @@ import {
    MatDividerModule,
    MatGridListModule,
    MatChipsModule,
+   MatSidenavModule,
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
@@ -66,6 +67,7 @@ import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/m
       MatDialogModule,
       MatDividerModule,
       MatMomentDateModule,
+      MatSidenavModule
    ],
    providers: [
       { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }

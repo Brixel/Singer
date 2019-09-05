@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { EventDescription } from 'src/app/modules/core/models/singerevent.model';
+import { MatDrawer } from '@angular/material';
 
 @Component({
   selector: 'app-event-list',
@@ -9,6 +10,8 @@ import { EventDescription } from 'src/app/modules/core/models/singerevent.model'
 export class EventListComponent implements OnInit {
 
    @Input() events: EventDescription[];
+
+
    breakpoint: number;
 
   constructor() { }

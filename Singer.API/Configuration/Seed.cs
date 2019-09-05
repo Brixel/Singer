@@ -86,12 +86,21 @@ namespace Singer.Configuration
                throw new Exception(result.Errors.First().Description);
             }
             Console.WriteLine("admin created");
+            var _ = userMgr.AddToRoleAsync(admin, ROLE_ADMINISTRATOR).Result;
          }
          else
          {
             Console.WriteLine("admin already exists");
+            if (admin != null)
+            {
+               var hasRole = userMgr.IsInRoleAsync(admin, ROLE_ADMINISTRATOR).Result;
+               if (!hasRole)
+               {
+                  var _ = userMgr.AddToRoleAsync(admin, ROLE_ADMINISTRATOR).Result;
+               }
+            }
+            
          }
-         var _ = userMgr.AddToRoleAsync(admin, ROLE_ADMINISTRATOR).Result;
 
          foreach (var careUser in _careUsers)
          {

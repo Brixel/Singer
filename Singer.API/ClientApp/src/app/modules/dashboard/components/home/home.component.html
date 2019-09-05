@@ -16,5 +16,11 @@
       </mat-card-content>
    </mat-card>
 </div>
+<mat-drawer-container class="example-container" hasBackdrop="false">
+   <mat-drawer #drawer mode="over">
+      <app-event-search></app-event-search>
+   </mat-drawer>
 
-<app-event-list [events]="events"></app-event-list>
+   <app-event-list [events]="events"></app-event-list>
+
+ </mat-drawer-container>
