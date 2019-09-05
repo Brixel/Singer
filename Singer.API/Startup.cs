@@ -120,10 +120,10 @@ namespace Singer
 
 
          // In production, the Angular files will be served from this directory
-         services.AddSpaStaticFiles(configuration =>
-         {
-            configuration.RootPath = "ClientApp/dist";
-         });
+         //services.AddSpaStaticFiles(configuration =>
+         //{
+         //   configuration.RootPath = "ClientApp/dist";
+         //});
 
          // Register the Swagger services
          services.AddSwaggerDocument();
