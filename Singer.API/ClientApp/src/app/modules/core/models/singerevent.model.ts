@@ -1,5 +1,5 @@
 import { AgeGroup } from './enum';
-import { Time } from '@angular/common';
+import { Date } from '@angular/common';
 
 export interface SingerEventDTO {
    id: string;
@@ -14,16 +14,16 @@ export interface SingerEventDTO {
    endDate: Date;
    startRegistrationDate: Date;
    endRegistrationDate: Date;
-   dailyStartTime: Time;
-   dailyEndTime: Time;
-   finalCancelationDate: Date;
+   dailyStartTime: Date;
+   dailyEndTime: Date;
+   finalCancellationDate: Date;
    registrationOnDailyBasis: boolean;
    hasDayCareBefore: boolean;
-   dayCareBeforeStartTime: Time;
-   dayCareBeforeEndTime: Time;
+   dayCareBeforeStartTime: Date;
+   dayCareBeforeEndTime: Date;
    hasDayCareAfter: boolean;
-   dayCareAfterStartTime: Time;
-   dayCareAfterEndTime: Time;
+   dayCareAfterStartTime: Date;
+   dayCareAfterEndTime: Date;
 }
 
 export interface UpdateSingerEventDTO {
@@ -33,22 +33,21 @@ export interface UpdateSingerEventDTO {
    allowedAgeGroups: AgeGroup[];
    location: SingerEventLocation;
    maxRegistrants: number;
-   currentRegistrants: number;
    cost: number;
    startDate: Date;
    endDate: Date;
    startRegistrationDate: Date;
    endRegistrationDate: Date;
-   dailyStartTime: Time;
-   dailyEndTime: Time;
-   finalCancelationDate: Date;
+   dailyStartTime: Date;
+   dailyEndTime: Date;
+   finalCancellationDate: Date;
    registrationOnDailyBasis: boolean;
    hasDayCareBefore: boolean;
-   dayCareBeforeStartTime: Time;
-   dayCareBeforeEndTime: Time;
+   dayCareBeforeStartTime: Date;
+   dayCareBeforeEndTime: Date;
    hasDayCareAfter: boolean;
-   dayCareAfterStartTime: Time;
-   dayCareAfterEndTime: Time;
+   dayCareAfterStartTime: Date;
+   dayCareAfterEndTime: Date;
 }
 
 export interface CreateSingerEventDTO {
@@ -56,23 +55,22 @@ export interface CreateSingerEventDTO {
    description: string;
    allowedAgeGroups: AgeGroup[];
    locationId: string;
-   // maxRegistrants: number;
-   // currentRegistrants: number;
-   // cost: number;
-   // startDate: Date;
-   // endDate: Date;
-   // startRegistrationDate: Date;
-   // endRegistrationDate: Date;
-   // dailyStartTime: Time;
-   // dailyEndTime: Time;
-   // finalCancelationDate: Date;
-   // registrationOnDailyBasis: boolean;
-   // hasDayCareBefore: boolean;
-   // dayCareBeforeStartTime: Time;
-   // dayCareBeforeEndTime: Time;
-   // hasDayCareAfter: boolean;
-   // dayCareAfterStartTime: Time;
-   // dayCareAfterEndTime: Time;
+   maxRegistrants: number;
+   cost: number;
+   startDate: Date;
+   endDate: Date;
+   startRegistrationDate: Date;
+   endRegistrationDate: Date;
+   dailyStartTime: Date;
+   dailyEndTime: Date;
+   finalCancellationDate: Date;
+   registrationOnDailyBasis: boolean;
+   hasDayCareBefore: boolean;
+   dayCareBeforeStartTime: Date;
+   dayCareBeforeEndTime: Date;
+   hasDayCareAfter: boolean;
+   dayCareAfterStartTime: Date;
+   dayCareAfterEndTime: Date;
 }
 
 export class SingerEvent {
@@ -88,16 +86,16 @@ export class SingerEvent {
    endDate: Date;
    startRegistrationDate: Date;
    endRegistrationDate: Date;
-   dailyStartTime: Time;
-   dailyEndTime: Time;
-   finalCancelationDate: Date;
+   dailyStartTime: Date;
+   dailyEndTime: Date;
+   finalCancellationDate: Date;
    registrationOnDailyBasis: boolean;
    hasDayCareBefore: boolean;
-   dayCareBeforeStartTime: Time;
-   dayCareBeforeEndTime: Time;
+   dayCareBeforeStartTime: Date;
+   dayCareBeforeEndTime: Date;
    hasDayCareAfter: boolean;
-   dayCareAfterStartTime: Time;
-   dayCareAfterEndTime: Time;
+   dayCareAfterStartTime: Date;
+   dayCareAfterEndTime: Date;
 }
 
 export class SingerEventLocation {

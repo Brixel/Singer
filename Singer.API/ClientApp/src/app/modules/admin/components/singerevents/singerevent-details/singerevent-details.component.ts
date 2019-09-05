@@ -1,9 +1,11 @@
 import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { FormControl, Validators, FormGroup, FormArray } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { SingerEvent, SingerEventLocation } from 'src/app/modules/core/models/singerevent.model';
+import {
+   SingerEvent,
+   SingerEventLocation,
+} from 'src/app/modules/core/models/singerevent.model';
 import { AgeGroup } from 'src/app/modules/core/models/enum';
-import { SingerEventLocationService } from 'src/app/modules/core/services/singerevents-api/singerevent-location.service';
 
 // Data we pass along with the creation of the Mat-Dialog box
 export interface SingerEventDetailsFormData {
@@ -27,7 +29,9 @@ export class SingerEventDetailsComponent implements OnInit {
    // Boolean to check if changes have been made when editing a user
    isChangesMade: boolean;
 
-   ageGroups = Object.keys(AgeGroup).filter(k => typeof AgeGroup[k as any] === 'number');
+   ageGroups = Object.keys(AgeGroup).filter(
+      k => typeof AgeGroup[k as any] === 'number'
+   );
 
    // Current care user instance
    currentSingerEventInstance: SingerEvent;
@@ -44,11 +48,10 @@ export class SingerEventDetailsComponent implements OnInit {
    locationFieldPlaceholder = 'Locatie evenement';
    allowedAgeGroupsFieldPlaceholder = 'Leeftijdsgroepen';
    maxRegistrantsFieldPlaceholder = 'Aantal toegelaten personen';
-   currentRegistrantsFieldPlaceholder = 'Hoeveelheid ingeschreven personen';
    costFieldPlaceholder = 'Prijs';
    startRegistrationDateFieldPlaceholder = 'Start Datum Registratie';
    endRegistrationDateFieldPlaceholder = 'Eind Datum Registratie';
-   finalCancelationDateFieldPlaceholder = 'Eind Datum Anulering';
+   finalCancellationDateFieldPlaceholder = 'Eind Datum Anulering';
    registrationOnDailyBasisFieldPlaceholder = 'Registratie op dagelijkse basis';
    startDateFieldPlaceholder = 'Start Datum Evenement';
    endDateFieldPlaceholder = 'Eind Datum Evenement';
@@ -69,7 +72,6 @@ export class SingerEventDetailsComponent implements OnInit {
       locationFieldControl: new FormControl(null, [Validators.required]),
       allowedAgeGroupsFieldControl: new FormControl('', [Validators.required]),
       maxRegistrantsFieldControl: new FormControl('', [Validators.required]),
-      currentRegistrantsFieldControl: new FormControl('', [Validators.required]),
       costFieldControl: new FormControl('', [Validators.required]),
       startRegistrationDateFieldControl: new FormControl(null, [
          Validators.required,
@@ -77,7 +79,7 @@ export class SingerEventDetailsComponent implements OnInit {
       endRegistrationDateFieldControl: new FormControl(null, [
          Validators.required,
       ]),
-      finalCancelationDateFieldControl: new FormControl(null, [
+      finalCancellationDateFieldControl: new FormControl(null, [
          Validators.required,
       ]),
       registrationOnDailyBasisFieldControl: new FormControl('', [
@@ -88,32 +90,38 @@ export class SingerEventDetailsComponent implements OnInit {
       dailyStartTimeFieldControl: new FormControl(null, [Validators.required]),
       dailyEndTimeFieldControl: new FormControl(null, [Validators.required]),
       hasDayCareBeforeFieldControl: new FormControl('', [Validators.required]),
-      dayCareBeforeStartTimeFieldControl: new FormControl('', [
-         Validators.required,
-      ]),
-      dayCareBeforeEndTimeFieldControl: new FormControl('', [
-         Validators.required,
-      ]),
+      dayCareBeforeStartTimeFieldControl: new FormControl(),
+      dayCareBeforeEndTimeFieldControl: new FormControl(),
       hasDayCareAfterFieldControl: new FormControl('', [Validators.required]),
-      dayCareAfterStartTimeFieldControl: new FormControl('', [
-         Validators.required,
-      ]),
-      dayCareAfterEndTimeFieldControl: new FormControl('', [
-         Validators.required,
-      ]),
+      dayCareAfterStartTimeFieldControl: new FormControl(),
+      dayCareAfterEndTimeFieldControl: new FormControl(),
    });
+
+   careBeforeRequired() {
+      if (
+         this.formControlGroup.controls.hasDayCareBeforeFieldControl.value ===
+         'true'
+      ) {
+         return Validators.required;
+      }
+   }
 
    allowedAgeGroupsFormControlArray: FormArray = new FormArray([
       new FormControl('', [Validators.required]),
    ]);
    selectedAgeGroups: AgeGroup[];
 
-   addAllowedAgeGroupsFormControlArrayToFormGroup(){
-      this.formControlGroup.registerControl('allowedAgeGroupsFormControlArray', this.allowedAgeGroupsFormControlArray);
+   addAllowedAgeGroupsFormControlArrayToFormGroup() {
+      this.formControlGroup.registerControl(
+         'allowedAgeGroupsFormControlArray',
+         this.allowedAgeGroupsFormControlArray
+      );
    }
 
    addFormControlToAllowedAgeGroupsFormControlArray() {
-      this.allowedAgeGroupsFormControlArray.push(new FormControl('', [Validators.required]));
+      this.allowedAgeGroupsFormControlArray.push(
+         new FormControl('', [Validators.required])
+      );
    }
 
    //#endregion
@@ -139,19 +147,40 @@ export class SingerEventDetailsComponent implements OnInit {
       } else {
          this.loadCurrentSingerEventInstanceValues();
       }
+
+      // this.formControlGroup
+      //    .get('hasDayCareBeforeFieldControl')
+      //    .valueChanges.subscribe(hasDayCareBefore => {
+      //       console.log(hasDayCareBefore);
+      //       let before = this.formControlGroup.get(
+      //          'dayCareBeforeStartTimeFieldControl'
+      //       );
+      //       let after = this.formControlGroup.get(
+      //          'dayCareBeforeEndTimeFieldControl'
+      //       );
+      //       if (hasDayCareBefore) {
+      //          before.setValidators([Validators.required]);
+      //          after.setValidators([Validators.required]);
+      //       } else {
+      //          before.clearValidators();
+      //          after.clearValidators();
+      //       }
+      //       before.updateValueAndValidity();
+      //       after.updateValueAndValidity();
+      //    });
    }
 
    getRequiredFieldErrorMessage(formControl: FormControl) {
       return formControl.hasError('required') ? 'Dit veld is verplicht' : '';
    }
 
-   compareLocations(locationX: SingerEventLocation, locationY: SingerEventLocation){
+   compareLocations(
+      locationX: SingerEventLocation,
+      locationY: SingerEventLocation
+   ) {
       return locationX.id === locationY.id;
    }
-   compareAgeGroups(ageGroupX: number, ageGroupY: string){
-      console.log('Compare agegroups');
-      console.log(AgeGroup[ageGroupX]);
-      console.log(ageGroupY);
+   compareAgeGroups(ageGroupX: number, ageGroupY: string) {
       return AgeGroup[ageGroupX] === ageGroupY;
    }
 
@@ -163,22 +192,18 @@ export class SingerEventDetailsComponent implements OnInit {
       this.formControlGroup.controls.descriptionFieldControl.reset(
          this.currentSingerEventInstance.description
       );
-      this.selectedLocation = this.availableLocations.find(x => x.id === this.currentSingerEventInstance.location.id);
+      this.selectedLocation = this.availableLocations.find(
+         x => x.id === this.currentSingerEventInstance.location.id
+      );
       this.formControlGroup.controls.locationFieldControl.setValue(
          this.selectedLocation
       );
-      this.selectedAgeGroups = this
-         .currentSingerEventInstance
-         .allowedAgeGroups;
-         console.log(this.selectedAgeGroups);
+      this.selectedAgeGroups = this.currentSingerEventInstance.allowedAgeGroups;
       this.formControlGroup.controls.allowedAgeGroupsFieldControl.setValue(
          this.selectedAgeGroups
       );
       this.formControlGroup.controls.maxRegistrantsFieldControl.setValue(
          this.currentSingerEventInstance.maxRegistrants
-      );
-      this.formControlGroup.controls.currentRegistrantsFieldControl.reset(
-         this.currentSingerEventInstance.currentRegistrants
       );
       this.formControlGroup.controls.costFieldControl.reset(
          this.currentSingerEventInstance.cost
@@ -189,8 +214,8 @@ export class SingerEventDetailsComponent implements OnInit {
       this.formControlGroup.controls.endRegistrationDateFieldControl.reset(
          this.currentSingerEventInstance.endRegistrationDate
       );
-      this.formControlGroup.controls.finalCancelationDateFieldControl.reset(
-         this.currentSingerEventInstance.finalCancelationDate
+      this.formControlGroup.controls.finalCancellationDateFieldControl.reset(
+         this.currentSingerEventInstance.finalCancellationDate
       );
       this.formControlGroup.controls.registrationOnDailyBasisFieldControl.reset(
          this.currentSingerEventInstance.registrationOnDailyBasis
@@ -234,11 +259,10 @@ export class SingerEventDetailsComponent implements OnInit {
       this.formControlGroup.controls.locationFieldControl.reset();
       this.formControlGroup.controls.allowedAgeGroupsFieldControl.reset();
       this.formControlGroup.controls.maxRegistrantsFieldControl.reset();
-      this.formControlGroup.controls.currentRegistrantsFieldControl.reset();
       this.formControlGroup.controls.costFieldControl.reset();
       this.formControlGroup.controls.startRegistrationDateFieldControl.reset();
       this.formControlGroup.controls.endRegistrationDateFieldControl.reset();
-      this.formControlGroup.controls.finalCancelationDateFieldControl.reset();
+      this.formControlGroup.controls.finalCancellationDateFieldControl.reset();
       this.formControlGroup.controls.registrationOnDailyBasisFieldControl.reset();
       this.formControlGroup.controls.startDateFieldControl.reset();
       this.formControlGroup.controls.endDateFieldControl.reset();
@@ -264,24 +288,26 @@ export class SingerEventDetailsComponent implements OnInit {
          cost: 0,
          startRegistrationDate: new Date(),
          endRegistrationDate: new Date(),
-         finalCancelationDate: new Date(),
+         finalCancellationDate: new Date(),
          registrationOnDailyBasis: false,
          startDate: new Date(),
          endDate: new Date(),
-         dailyStartTime: { hours: 0, minutes: 0 },
-         dailyEndTime: { hours: 0, minutes: 0 },
+         dailyStartTime: new Date(),
+         dailyEndTime: new Date(),
          hasDayCareBefore: false,
-         dayCareBeforeStartTime: { hours: 0, minutes: 0 },
-         dayCareBeforeEndTime: { hours: 0, minutes: 0 },
+         dayCareBeforeStartTime: new Date(),
+         dayCareBeforeEndTime: new Date(),
          hasDayCareAfter: false,
-         dayCareAfterStartTime: { hours: 0, minutes: 0 },
-         dayCareAfterEndTime: { hours: 0, minutes: 0 },
+         dayCareAfterStartTime: new Date(),
+         dayCareAfterEndTime: new Date(),
       };
    }
 
    // If we are editing an existing user and there are no changes return false
    checkForChanges(): boolean {
-      if (this.isAdding) { return true; }
+      if (this.isAdding) {
+         return true;
+      }
 
       if (
          this.currentSingerEventInstance.title !==
@@ -310,12 +336,6 @@ export class SingerEventDetailsComponent implements OnInit {
       if (
          this.currentSingerEventInstance.maxRegistrants !==
          this.formControlGroup.controls.maxRegistrantsFieldControl.value
-      ) {
-         return true;
-      }
-      if (
-         this.currentSingerEventInstance.currentRegistrants !==
-         this.formControlGroup.controls.currentRegistrantsFieldControl.value
       ) {
          return true;
       }
@@ -359,10 +379,10 @@ export class SingerEventDetailsComponent implements OnInit {
       }
 
       instanceDate = new Date(
-         this.currentSingerEventInstance.finalCancelationDate
+         this.currentSingerEventInstance.finalCancellationDate
       );
       formDate = new Date(
-         this.formControlGroup.controls.finalCancelationDateFieldControl.value
+         this.formControlGroup.controls.finalCancellationDateFieldControl.value
       );
       if (instanceDate.getFullYear() !== formDate.getFullYear()) {
          return true;
@@ -482,11 +502,10 @@ export class SingerEventDetailsComponent implements OnInit {
       this.currentSingerEventInstance.location = this.formControlGroup.controls.locationFieldControl.value;
       this.currentSingerEventInstance.allowedAgeGroups = this.formControlGroup.controls.allowedAgeGroupsFieldControl.value;
       this.currentSingerEventInstance.maxRegistrants = this.formControlGroup.controls.maxRegistrantsFieldControl.value;
-      this.currentSingerEventInstance.currentRegistrants = this.formControlGroup.controls.currentRegistrantsFieldControl.value;
       this.currentSingerEventInstance.cost = this.formControlGroup.controls.costFieldControl.value;
       this.currentSingerEventInstance.startRegistrationDate = this.formControlGroup.controls.startRegistrationDateFieldControl.value;
       this.currentSingerEventInstance.endRegistrationDate = this.formControlGroup.controls.endRegistrationDateFieldControl.value;
-      this.currentSingerEventInstance.finalCancelationDate = this.formControlGroup.controls.finalCancelationDateFieldControl.value;
+      this.currentSingerEventInstance.finalCancellationDate = this.formControlGroup.controls.finalCancellationDateFieldControl.value;
       this.currentSingerEventInstance.registrationOnDailyBasis =
          this.formControlGroup.controls.registrationOnDailyBasisFieldControl
             .value === 'true'

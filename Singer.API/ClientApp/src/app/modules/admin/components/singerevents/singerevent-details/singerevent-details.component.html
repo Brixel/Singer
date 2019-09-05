@@ -45,12 +45,19 @@
 
       <!-- Location Field -->
       <mat-form-field>
-            <mat-label>Locatie evenement</mat-label>
-            <mat-select  [compareWith]="compareLocations"  formControlName="locationFieldControl" [(value)]="selectedLocation">
-               <mat-option *ngFor="let availableLocation of availableLocations" [value]="availableLocation">
-                 {{ availableLocation.name }}
-               </mat-option>
-             </mat-select>
+         <mat-label>Locatie evenement</mat-label>
+         <mat-select
+            [compareWith]="compareLocations"
+            formControlName="locationFieldControl"
+            [(value)]="selectedLocation"
+         >
+            <mat-option
+               *ngFor="let availableLocation of availableLocations"
+               [value]="availableLocation"
+            >
+               {{ availableLocation.name }}
+            </mat-option>
+         </mat-select>
          <mat-error
             *ngIf="formControlGroup.controls.locationFieldControl.invalid"
          >
@@ -66,15 +73,18 @@
       <mat-form-field>
          <mat-label>Leeftijdsgroepen</mat-label>
          <mat-select
-         [compareWith]="compareAgeGroups"
-         formControlName="allowedAgeGroupsFieldControl" multiple
+            [compareWith]="compareAgeGroups"
+            formControlName="allowedAgeGroupsFieldControl"
+            multiple
          >
             <mat-option *ngFor="let ageGroup of ageGroups" [value]="ageGroup">
-              {{ ageGroup | agegroupPipe}}
+               {{ ageGroup | agegroupPipe }}
             </mat-option>
-          </mat-select>
+         </mat-select>
          <mat-error
-            *ngIf="formControlGroup.controls.allowedAgeGroupsFieldControl.invalid"
+            *ngIf="
+               formControlGroup.controls.allowedAgeGroupsFieldControl.invalid
+            "
          >
             {{
                getRequiredFieldErrorMessage(
@@ -90,6 +100,7 @@
             matInput
             [placeholder]="maxRegistrantsFieldPlaceholder"
             formControlName="maxRegistrantsFieldControl"
+            type="number"
          />
          <mat-error
             *ngIf="formControlGroup.controls.maxRegistrantsFieldControl.invalid"
@@ -102,30 +113,13 @@
          </mat-error>
       </mat-form-field>
 
-      <!-- currentRegistrants Field -->
-      <mat-form-field>
-         <input
-            matInput
-            [placeholder]="currentRegistrantsFieldPlaceholder"
-            formControlName="currentRegistrantsFieldControl"
-         />
-         <mat-error
-            *ngIf="formControlGroup.controls.currentRegistrantsFieldControl.invalid"
-         >
-            {{
-               getRequiredFieldErrorMessage(
-                  formControlGroup.controls.currentRegistrantsFieldControl
-               )
-            }}
-         </mat-error>
-      </mat-form-field>
-
       <!-- Cost Field -->
       <mat-form-field>
          <input
             matInput
             [placeholder]="costFieldPlaceholder"
             formControlName="costFieldControl"
+            type="number"
          />
          <mat-error *ngIf="formControlGroup.controls.costFieldControl.invalid">
             {{
@@ -195,31 +189,31 @@
          <mat-datepicker #endRegistrationDatePicker></mat-datepicker>
       </mat-form-field>
 
-      <!-- FinalCancelationDate Field -->
+      <!-- finalCancellationDate Field -->
       <mat-form-field>
          <input
             matInput
-            [matDatepicker]="finalCancelationDatePicker"
-            [placeholder]="finalCancelationDateFieldPlaceholder"
-            formControlName="finalCancelationDateFieldControl"
+            [matDatepicker]="finalCancellationDatePicker"
+            [placeholder]="finalCancellationDateFieldPlaceholder"
+            formControlName="finalCancellationDateFieldControl"
          />
          <mat-error
             *ngIf="
-               formControlGroup.controls.finalCancelationDateFieldControl
+               formControlGroup.controls.finalCancellationDateFieldControl
                   .invalid
             "
          >
             {{
                getRequiredFieldErrorMessage(
-                  formControlGroup.controls.finalCancelationDateFieldControl
+                  formControlGroup.controls.finalCancellationDateFieldControl
                )
             }}
          </mat-error>
          <mat-datepicker-toggle
             matSuffix
-            [for]="finalCancelationDatePicker"
+            [for]="finalCancellationDatePicker"
          ></mat-datepicker-toggle>
-         <mat-datepicker #finalCancelationDatePicker></mat-datepicker>
+         <mat-datepicker #finalCancellationDatePicker></mat-datepicker>
       </mat-form-field>
 
       <!-- RegistrationOnDailyBasis Field -->
@@ -303,10 +297,7 @@
             formControlName="dailyStartTimeFieldControl"
          />
          <mat-error
-            *ngIf="
-               formControlGroup.controls.dailyStartTimeFieldControl
-                  .invalid
-            "
+            *ngIf="formControlGroup.controls.dailyStartTimeFieldControl.invalid"
          >
             {{
                getRequiredFieldErrorMessage(
@@ -325,10 +316,7 @@
             formControlName="dailyEndTimeFieldControl"
          />
          <mat-error
-            *ngIf="
-               formControlGroup.controls.dailyEndTimeFieldControl
-                  .invalid
-            "
+            *ngIf="formControlGroup.controls.dailyEndTimeFieldControl.invalid"
          >
             {{
                getRequiredFieldErrorMessage(
@@ -368,7 +356,12 @@
       </mat-form-field>
 
       <!-- DayCareBeforeStartTime Field -->
-      <mat-form-field>
+      <mat-form-field
+         *ngIf="
+            formControlGroup.controls.hasDayCareBeforeFieldControl.value ===
+            'true'
+         "
+      >
          <input
             matInput
             type="number"
@@ -390,7 +383,12 @@
       </mat-form-field>
 
       <!-- DayCareBeforeEndTime Field -->
-      <mat-form-field>
+      <mat-form-field
+         *ngIf="
+            formControlGroup.controls.hasDayCareBeforeFieldControl.value ===
+            'true'
+         "
+      >
          <input
             matInput
             type="number"
@@ -435,7 +433,12 @@
       </mat-form-field>
 
       <!-- DayCareAfterStartTime Field -->
-      <mat-form-field>
+      <mat-form-field
+         *ngIf="
+            formControlGroup.controls.hasDayCareAfterFieldControl.value ===
+            'true'
+         "
+      >
          <input
             matInput
             type="number"
@@ -457,7 +460,12 @@
       </mat-form-field>
 
       <!-- DayCareAfterEndTime Field -->
-      <mat-form-field>
+      <mat-form-field
+         *ngIf="
+            formControlGroup.controls.hasDayCareAfterFieldControl.value ===
+            'true'
+         "
+      >
          <input
             matInput
             type="number"

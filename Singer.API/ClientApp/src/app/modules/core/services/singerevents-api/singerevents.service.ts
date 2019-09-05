@@ -45,11 +45,10 @@ export class SingerEventsService {
          location: updateSingerEvent.location,
          allowedAgeGroups: updateSingerEvent.allowedAgeGroups,
          maxRegistrants: updateSingerEvent.maxRegistrants,
-         currentRegistrants: updateSingerEvent.currentRegistrants,
          cost: updateSingerEvent.cost,
          startRegistrationDate: updateSingerEvent.startRegistrationDate,
          endRegistrationDate: updateSingerEvent.endRegistrationDate,
-         finalCancelationDate: updateSingerEvent.finalCancelationDate,
+         finalCancellationDate: updateSingerEvent.finalCancellationDate,
          registrationOnDailyBasis: updateSingerEvent.registrationOnDailyBasis,
          startDate: updateSingerEvent.startDate,
          endDate: updateSingerEvent.endDate,
@@ -62,7 +61,9 @@ export class SingerEventsService {
          dayCareAfterStartTime: updateSingerEvent.dayCareAfterStartTime,
          dayCareAfterEndTime: updateSingerEvent.dayCareAfterEndTime,
       };
-      return this.singerEventsProxy.updateSingerEvents(updateSingerEventDTO.id, updateSingerEventDTO).pipe(map((res) => res));
+      return this.singerEventsProxy
+         .updateSingerEvents(updateSingerEventDTO.id, updateSingerEventDTO)
+         .pipe(map(res => res));
    }
 
    createSingerEvent(createSingerEvent: SingerEvent) {
@@ -70,17 +71,16 @@ export class SingerEventsService {
          title: createSingerEvent.title,
          description: createSingerEvent.description,
          locationId: createSingerEvent.location.id,
-         allowedAgeGroups: createSingerEvent.allowedAgeGroups
-         // maxRegistrants: createSingerEvent.maxRegistrants,
-         // currentRegistrants: createSingerEvent.currentRegistrants,
-         // cost: createSingerEvent.cost,
-         // startRegistrationDate: createSingerEvent.startRegistrationDate,
-         // endRegistrationDate: createSingerEvent.endRegistrationDate,
-         // finalCancelationDate: createSingerEvent.finalCancelationDate,
-         // registrationOnDailyBasis: createSingerEvent.registrationOnDailyBasis,
-         // startDate: createSingerEvent.startDate,
-         // endDate: createSingerEvent.endDate,
-         // dailyStartTime: createSingerEvent.dailyStartTime,
+         allowedAgeGroups: createSingerEvent.allowedAgeGroups,
+         maxRegistrants: createSingerEvent.maxRegistrants,
+         cost: createSingerEvent.cost,
+         startRegistrationDate: createSingerEvent.startRegistrationDate,
+         endRegistrationDate: createSingerEvent.endRegistrationDate,
+         finalCancellationDate: createSingerEvent.finalCancellationDate,
+         registrationOnDailyBasis: createSingerEvent.registrationOnDailyBasis,
+         startDate: createSingerEvent.startDate,
+         endDate: createSingerEvent.endDate,
+         dailyStartTime: createSingerEvent.dailyStartTime,
          // dailyEndTime: createSingerEvent.dailyEndTime,
          // hasDayCareBefore: createSingerEvent.hasDayCareBefore,
          // dayCareBeforeStartTime: createSingerEvent.dayCareBeforeStartTime,
@@ -89,6 +89,8 @@ export class SingerEventsService {
          // dayCareAfterStartTime: createSingerEvent.dayCareAfterStartTime,
          // dayCareAfterEndTime: createSingerEvent.dayCareAfterEndTime,
       };
-      return this.singerEventsProxy.createSingerEvents(createSingerEventDTO).pipe(map((res) => res));
+      return this.singerEventsProxy
+         .createSingerEvents(createSingerEventDTO)
+         .pipe(map(res => res));
    }
 }
