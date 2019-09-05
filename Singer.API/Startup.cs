@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Reflection;
-using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 using AutoMapper;
 using IdentityServer4.AccessTokenValidation;
@@ -19,8 +18,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Singer.Configuration;
 using Singer.Data;
 using Singer.Data.Models.Configuration;
-using Singer.DTOs;
-using Singer.DTOs.Users;
 using Singer.Helpers.Extensions;
 using Singer.Services;
 using Singer.Services.Utils;
@@ -102,11 +99,8 @@ namespace Singer
 
          var authority = applicationConfig.Authority;
 
-         services.AddAuthentication(options =>
-            {
-               options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-               options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
+         services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+         services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
             .AddIdentityServerAuthentication(options =>
             {
 
@@ -114,11 +108,7 @@ namespace Singer
                options.ApiName = "singer.api";
                // URL of my authorization server
                options.Authority = authority;
-               options.RoleClaimType = ClaimTypes.Role;
-               options.RequireHttpsMetadata = false;
             });
-
-         services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
          // Making JWT authentication scheme the default
          services.AddAuthorization(options =>
@@ -140,15 +130,10 @@ namespace Singer
 
          // Adds AutoMapper. Maps are defined as profiles in ./Profiles/*Profile.cs
          services.AddAutoMapper(typeof(Startup));
-         services.AddScoped<CareUserService>();
-         services.AddScoped<LegalGuardianUserService>();
-         services.AddScoped<EventLocationService>();
+         services.AddScoped<ICareUserService, CareUserService>();
+         services.AddScoped<ILegalGuardianUserService, LegalGuardianUserService>();
+         services.AddScoped<IEventLocationService, EventLocationService>();
          services.AddScoped<IEventService, EventService>();
-         services.AddScoped<IEventRegistrationService, EventRegistrationService>();
-         //services.AddScoped<IDatabaseService<CareUser, CareUserDTO, CreateCareUserDTO>, CareUserService>();
-         //services.AddScoped<IDatabaseService<LegalGuardianUser, LegalGuardianUserDTO, CreateLegalGuardianUserDTO>, LegalGuardianUserService>();
-         // Scoped resolving has some quirks, this seems to work...
-         services.AddScoped<IDatabaseService<AdminUser, AdminUserDTO,CreateAdminUserDTO>, AdminUserService>();
 
       }
 
@@ -209,8 +194,8 @@ namespace Singer
 
             if (env.IsDevelopment())
             {
-
-               spa.UseAngularCliServer("start");
+               spa.UseAngularCliServer(npmScript: "start");
+               //spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
             }
          });
       }

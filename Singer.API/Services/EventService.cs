@@ -10,7 +10,8 @@ using Singer.Services.Interfaces;
 
 namespace Singer.Services
 {
-   public class EventService : DatabaseService<Event, EventDTO, CreateEventDTO>, IEventService
+   public class EventService : DatabaseService<Event, EventDTO, CreateEventDTO, UpdateEventDTO>,
+      IEventService
    {
       public EventService(ApplicationDbContext context, IMapper mapper) : base(context, mapper)
       {
@@ -18,9 +19,7 @@ namespace Singer.Services
 
       protected override DbSet<Event> DbSet => Context.Events;
 
-      protected override IQueryable<Event> Queryable => Context.Events
-         .Include(x => x.Location)
-         .Include(x => x.Registrations);
+      protected override IQueryable<Event> Queryable => Context.Events.Include(x => x.Location);
 
       protected override Expression<Func<Event, bool>> Filter(string filter)
       {
