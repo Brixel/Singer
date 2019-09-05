@@ -16,10 +16,11 @@ using Singer.Models.Users;
 
 namespace Singer.Services
 {
-   public abstract class UserService<TUserEntity, TUserDTO, TCreateUserDTO> : DatabaseService<TUserEntity, TUserDTO, TCreateUserDTO>
+   public abstract class UserService<TUserEntity, TUserDTO, TCreateUserDTO, TUpdateUserDTO> : DatabaseService<TUserEntity, TUserDTO, TCreateUserDTO, TUpdateUserDTO>
       where TUserEntity : class, IUser
       where TUserDTO : class, IUserDTO
       where TCreateUserDTO : class, ICreateUserDTO
+      where TUpdateUserDTO : class, IUpdateUserDTO
    {
       protected UserManager<User> UserManager { get; }
       protected UserService(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager) : base(context, mapper)

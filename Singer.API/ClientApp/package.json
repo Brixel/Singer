@@ -1,6 +1,6 @@
 {
   "name": "Singer",
-  "version": "0.1.0-issue-AB-15-events.462",
+  "version": "0.1.0-issue-AB-22-link-careusers-legalguardianuser-backend.463",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

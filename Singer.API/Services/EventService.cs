@@ -6,10 +6,12 @@ using Microsoft.EntityFrameworkCore;
 using Singer.Data;
 using Singer.DTOs;
 using Singer.Models;
+using Singer.Services.Interfaces;
 
 namespace Singer.Services
 {
-   public class EventService : DatabaseService<Event, EventDTO, CreateEventDTO>
+   public class EventService : DatabaseService<Event, EventDTO, CreateEventDTO, UpdateEventDTO>,
+      IEventService
    {
       public EventService(ApplicationDbContext context, IMapper mapper) : base(context, mapper)
       {
