@@ -1,6 +1,7 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { EventDescription } from 'src/app/modules/core/models/singerevent.model';
+import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
+import { EventDescription, SingerEventLocation } from 'src/app/modules/core/models/singerevent.model';
 import { MatDrawer } from '@angular/material';
+import { SearchEventData } from '../event-search/event-search.component';
 
 @Component({
   selector: 'app-event-list',
@@ -10,8 +11,11 @@ import { MatDrawer } from '@angular/material';
 export class EventListComponent implements OnInit {
 
    @Input() events: EventDescription[];
+   @Input() availableLocations: SingerEventLocation[];
 
+   @Output() searchEvent: EventEmitter<SearchEventData> = new EventEmitter();
 
+   @ViewChild('drawer') drawer: MatDrawer;
    breakpoint: number;
 
   constructor() { }
@@ -24,4 +28,8 @@ export class EventListComponent implements OnInit {
       this.breakpoint = (event.target.innerWidth <= 500) ? 1 : 3;
    }
 
+
+   onSearchEvent(searchEvent: SearchEventData){
+      this.searchEvent.emit(searchEvent);
+   }
 }

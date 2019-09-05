@@ -135,6 +135,11 @@ export interface UpdateSingerEventLocationDTO {
 }
 
 export class EventDescription{
+   constructor(title: string, description: string, ageGroups: AgeGroup[]) {
+     this.title = title;
+     this.description = description;
+     this.ageGroups = ageGroups;
+   }
    title: string;
    description: string;
    ageGroups: AgeGroup[];

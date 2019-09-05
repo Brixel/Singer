@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using AutoMapper;
@@ -32,5 +33,31 @@ namespace Singer.Services
                f.Description.Contains(filter);
          return filterExpression;
       }
+
+      public IReadOnlyList<EventDescriptionDTO> GetPublicEvents(SearchEventParamsDTO searchEventParamsDto)
+      {
+         var today = DateTime.Today;
+         return Queryable.Where(x => x.StartDate >= today).Select(x => new EventDescriptionDTO()
+         {
+            AgeGroups = x.AllowedAgeGroups,
+            Description = x.Description,
+            Title = x.Title
+
+         }).ToList();
+      }
+   }
+
+   public class EventDescriptionDTO
+   {
+      public string Title { get; set; }
+      public string Description { get; set; }
+      public AgeGroup AgeGroups { get; set; }
+   }
+
+   public class SearchEventParamsDTO
+   {
+      public DateTime? StartDate { get; set; }
+      public DateTime? EndDate { get; set; }
+      public Guid? LocationId { get; set; }
    }
 }
