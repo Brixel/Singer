@@ -19,6 +19,10 @@ import {
    MatDatepickerModule,
    MatDialogModule,
    MatDividerModule,
+   MatGridListModule,
+   MatChipsModule,
+   MatSidenavModule,
+   MatTooltipModule,
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
@@ -46,12 +50,15 @@ import {
       MatDialogModule,
       MatDividerModule,
       MatMomentDateModule,
+      MatTooltipModule,
       NgxMaterialTimepickerModule,
    ],
    exports: [
       MatButtonModule,
       MatInputModule,
       MatMenuModule,
+      MatGridListModule,
+      MatChipsModule,
       MatToolbarModule,
       MatIconModule,
       MatCardModule,
@@ -67,6 +74,8 @@ import {
       MatDialogModule,
       MatDividerModule,
       MatMomentDateModule,
+      MatSidenavModule,
+      MatTooltipModule,
       NgxMaterialTimepickerModule,
    ],
    providers: [

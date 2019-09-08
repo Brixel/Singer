@@ -4,6 +4,7 @@ using System.Linq;
 using AutoMapper;
 using Singer.DTOs;
 using Singer.Models;
+using Singer.Services;
 
 namespace Singer.Profiles
 {
@@ -21,13 +22,17 @@ namespace Singer.Profiles
 
          CreateMap<CreateEventDTO, Event>()
             .ForMember(x => x.AllowedAgeGroups, opt => opt.MapFrom(src =>
-               src.AllowedAgeGroups.Sum(x => Convert.ToInt32(x))));
+                src.AllowedAgeGroups.Sum(x => Convert.ToInt32(x))));
          CreateMap<UpdateEventDTO, Event>()
             .ForMember(x => x.AllowedAgeGroups, opt => opt.MapFrom(src =>
-               src.AllowedAgeGroups.Sum(x => Convert.ToInt32(x))));
+                src.AllowedAgeGroups.Sum(x => Convert.ToInt32(x))));
+
+         CreateMap<Event, EventDescriptionDTO>()
+            .ForMember(x => x.AgeGroups, opt => opt.MapFrom(src =>
+               ToAgeGroupList(src.AllowedAgeGroups)));
       }
 
-      private List<AgeGroup> ToAgeGroupList(AgeGroup bitmap)
+      public static List<AgeGroup> ToAgeGroupList(AgeGroup bitmap)
       {
          var list = new List<AgeGroup>();
          foreach (AgeGroup group in Enum.GetValues(typeof(AgeGroup)))
