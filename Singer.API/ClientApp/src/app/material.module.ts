@@ -18,6 +18,10 @@ import {
    MatDatepickerModule,
    MatDialogModule,
    MatDividerModule,
+   MatGridListModule,
+   MatChipsModule,
+   MatSidenavModule,
+   MatTooltipModule,
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
@@ -42,11 +46,14 @@ import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/m
       MatDialogModule,
       MatDividerModule,
       MatMomentDateModule,
+      MatTooltipModule
    ],
    exports: [
       MatButtonModule,
       MatInputModule,
       MatMenuModule,
+      MatGridListModule,
+      MatChipsModule,
       MatToolbarModule,
       MatIconModule,
       MatCardModule,
@@ -62,6 +69,8 @@ import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/m
       MatDialogModule,
       MatDividerModule,
       MatMomentDateModule,
+      MatSidenavModule,
+      MatTooltipModule
    ],
    providers: [
       { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }

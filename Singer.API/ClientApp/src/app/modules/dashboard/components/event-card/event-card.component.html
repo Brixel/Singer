@@ -1,0 +1,19 @@
+<mat-card>
+   <mat-card-title>{{ event.title }}</mat-card-title>
+   <mat-card-subtitle>
+      <div class="event-subtitle">
+         <app-agegroup-chips [agegroups]="event.ageGroups"></app-agegroup-chips>
+
+      <div class="date-indicator" [matTooltip]="getDurationMessage(event)">
+         <mat-icon>access_time</mat-icon>{{ event.startDate | date : 'dd-M-yyyy' }}
+      </div>
+   </div>
+   </mat-card-subtitle>
+   <mat-card-content>
+      <p>{{ event.description }}</p>
+   </mat-card-content>
+   <mat-card-actions>
+      <button mat-stroked-button color="primary">Meer informatie</button>
+      <button mat-raised-button color="primary">Inschrijven</button>
+   </mat-card-actions>
+</mat-card>
