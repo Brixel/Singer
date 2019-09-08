@@ -148,6 +148,10 @@ export class SingerEventDetailsComponent implements OnInit {
          this.loadCurrentSingerEventInstanceValues();
       }
 
+      // TODO: The commented code below attempts to set the before/after
+      // start times of daycare as required fields, only when before/after
+      // daycare has been set to true, this is however not working.
+
       // this.formControlGroup
       //    .get('hasDayCareBeforeFieldControl')
       //    .valueChanges.subscribe(hasDayCareBefore => {
