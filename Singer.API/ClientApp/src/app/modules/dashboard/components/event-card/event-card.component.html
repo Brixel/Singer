@@ -1,6 +1,14 @@
 <mat-card>
    <mat-card-title>{{ event.title }}</mat-card-title>
-   <mat-card-subtitle><app-agegroup-chips [agegroups]="event.ageGroups"></app-agegroup-chips></mat-card-subtitle>
+   <mat-card-subtitle>
+      <div class="event-subtitle">
+         <app-agegroup-chips [agegroups]="event.ageGroups"></app-agegroup-chips>
+
+      <div class="date-indicator" [matTooltip]="getDurationMessage(event)">
+         <mat-icon>access_time</mat-icon>{{ event.startDate | date : 'dd-M-yyyy' }}
+      </div>
+   </div>
+   </mat-card-subtitle>
    <mat-card-content>
       <p>{{ event.description }}</p>
    </mat-card-content>

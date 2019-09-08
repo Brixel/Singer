@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Singer.Data;
 using Singer.DTOs;
 using Singer.Models;
+using Singer.Profiles;
 
 namespace Singer.Services
 {
@@ -37,12 +38,21 @@ namespace Singer.Services
       public IReadOnlyList<EventDescriptionDTO> GetPublicEvents(SearchEventParamsDTO searchEventParamsDto)
       {
          var today = DateTime.Today;
-         return Queryable.Where(x => x.StartDate >= today).Select(x => new EventDescriptionDTO()
-         {
-            AgeGroups = x.AllowedAgeGroups,
-            Description = x.Description,
-            Title = x.Title
 
+         Expression<Func<Event, bool>> useStartDate =
+            x => x.StartDate >= today &&
+                 (!searchEventParamsDto.StartDate.HasValue || x.StartDate == searchEventParamsDto.StartDate.Value) &&
+                 (!searchEventParamsDto.EndDate.HasValue || x.EndDate <= searchEventParamsDto.EndDate.Value) &&
+            (!searchEventParamsDto.LocationId.HasValue || x.LocationId == searchEventParamsDto.LocationId.Value);
+
+         var filteredEvents = Queryable.Where(useStartDate);
+         return filteredEvents.Select(x => new EventDescriptionDTO()
+         {
+            AgeGroups = EventProfile.ToAgeGroupList(x.AllowedAgeGroups),
+            Description = x.Description,
+            Title = x.Title,
+            StartDate = x.StartDate,
+            EndDate = x.EndDate
          }).ToList();
       }
    }
@@ -51,7 +61,9 @@ namespace Singer.Services
    {
       public string Title { get; set; }
       public string Description { get; set; }
-      public AgeGroup AgeGroups { get; set; }
+      public DateTime StartDate { get; set; }
+      public DateTime EndDate { get; set; }
+      public IReadOnlyList<AgeGroup> AgeGroups { get; set; }
    }
 
    public class SearchEventParamsDTO

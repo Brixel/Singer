@@ -22,6 +22,8 @@ export class EventListComponent implements OnInit {
 
    ngOnInit() {
       this.breakpoint = (window.innerWidth <= 500) ? 1 : 3;
+      const searchEvent = <SearchEventData>{}
+      this.searchEvent.emit(searchEvent);
    }
 
    onResize(event) {

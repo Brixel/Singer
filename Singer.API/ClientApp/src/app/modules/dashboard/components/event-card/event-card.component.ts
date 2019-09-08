@@ -15,4 +15,12 @@ export class EventCardComponent implements OnInit {
   ngOnInit() {
   }
 
+  getDurationMessage(event: EventDescription): string {
+     if (event.startDate === event.endDate) {
+        return 'Duurt 1 dag';
+     } else {
+        return 'Duurt meerdere dagen';
+     }
+  }
+
 }

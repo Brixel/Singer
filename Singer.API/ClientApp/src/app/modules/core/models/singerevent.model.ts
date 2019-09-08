@@ -135,12 +135,16 @@ export interface UpdateSingerEventLocationDTO {
 }
 
 export class EventDescription{
-   constructor(title: string, description: string, ageGroups: AgeGroup[]) {
+   constructor(title: string, description: string, ageGroups: AgeGroup[], startDate: Date, endDate: Date) {
      this.title = title;
      this.description = description;
      this.ageGroups = ageGroups;
+     this.startDate = startDate;
+     this.endDate = endDate;
    }
    title: string;
    description: string;
    ageGroups: AgeGroup[];
+   startDate: Date;
+   endDate: Date;
 }

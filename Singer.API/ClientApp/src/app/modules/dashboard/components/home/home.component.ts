@@ -17,7 +17,7 @@ import { SearchEventData } from '../event-search/event-search.component';
 
 export class HomeComponent implements OnInit{
 
-   @Input() events: EventDescription[] = [];
+   events: EventDescription[] = [];
    availableLocations: SingerEventLocation[];
    constructor(private apiService: ApiService) {
    }
@@ -60,7 +60,7 @@ export class HomeComponent implements OnInit{
    onSearchEvent(searchEventData: SearchEventData){
       this.getEvents(searchEventData).subscribe((res) =>
          this.events =
-            res.map(r => new EventDescription(r.title, r.description, r.ageGroups)));
+            res.map(r => new EventDescription(r.title, r.description, r.ageGroups, r.startDate, r.endDate)));
    }
 }
 
