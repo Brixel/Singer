@@ -16,10 +16,12 @@ namespace Singer.Controllers
    /// <typeparam name="TEntity">The type of the entity to manipulate in the database.</typeparam>
    /// <typeparam name="TDTO">The type that will be exposed to the outside world.</typeparam>
    [Route("api/[controller]")]
-   public abstract class DataControllerBase<TEntity, TDTO, TCreateDTO> : Controller
+   public abstract class DataControllerBase<TEntity, TDTO, TCreateDTO, TUpdateDTO> : Controller
       where TEntity : class, IIdentifiable
       where TDTO : class, IIdentifiable
       where TCreateDTO : class
+      where TUpdateDTO : class
+
    {
       #region CONSTRUCTORS
 
@@ -27,7 +29,7 @@ namespace Singer.Controllers
       /// Constructs a new instance of the <see cref="DataControllerBase{TEntity, TDTO}"/> class.
       /// </summary>
       /// <param name="databaseService">Service to perform operations on the database.</param>
-      protected DataControllerBase(IDatabaseService<TEntity, TDTO, TCreateDTO> databaseService)
+      protected DataControllerBase(IDatabaseService<TEntity, TDTO, TCreateDTO, TUpdateDTO> databaseService)
       {
          DatabaseService = databaseService;
       }
@@ -40,7 +42,7 @@ namespace Singer.Controllers
       /// <summary>
       /// Service to perform operations on the database.
       /// </summary>
-      protected IDatabaseService<TEntity, TDTO, TCreateDTO> DatabaseService { get; }
+      protected IDatabaseService<TEntity, TDTO, TCreateDTO, TUpdateDTO> DatabaseService { get; }
 
       #endregion PROPERTIES
 
@@ -150,7 +152,7 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status200OK)]
       [ProducesResponseType(StatusCodes.Status404NotFound)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public async Task<ActionResult> Update(Guid id, [FromBody]TDTO dto)
+      public virtual async Task<ActionResult> Update(Guid id, [FromBody]TUpdateDTO dto)
       {
          var result = await DatabaseService.UpdateAsync(id, dto);
          return Ok(result);
@@ -173,7 +175,6 @@ namespace Singer.Controllers
          await DatabaseService.DeleteAsync(id);
          return NoContent();
       }
-
       #endregion delete
 
       #endregion METHODS

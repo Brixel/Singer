@@ -14,12 +14,16 @@ namespace Singer.Profiles
       {
          CreateMap<EventLocation, EventLocationDTO>();
          CreateMap<CreateEventLocationDTO, EventLocation>();
+         CreateMap<UpdateEventLocationDTO, EventLocation>();
 
          CreateMap<Event, EventDTO>()
             .ForMember(x => x.AllowedAgeGroups, opt => opt.MapFrom(src =>
                ToAgeGroupList(src.AllowedAgeGroups)));
 
          CreateMap<CreateEventDTO, Event>()
+            .ForMember(x => x.AllowedAgeGroups, opt => opt.MapFrom(src =>
+                src.AllowedAgeGroups.Sum(x => Convert.ToInt32(x))));
+         CreateMap<UpdateEventDTO, Event>()
             .ForMember(x => x.AllowedAgeGroups, opt => opt.MapFrom(src =>
                 src.AllowedAgeGroups.Sum(x => Convert.ToInt32(x))));
 

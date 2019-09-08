@@ -7,18 +7,18 @@ using Singer.Services.Interfaces;
 
 namespace Singer.Controllers
 {
-   public class EventController : DataControllerBase<Event, EventDTO, CreateEventDTO>
+   public class EventController : DataControllerBase<Event, EventDTO, CreateEventDTO, UpdateEventDTO>
    {
-      private readonly EventService _databaseService;
+      private readonly IEventService _eventService;
 
-      public EventController(EventService databaseService) : base(databaseService)
+      public EventController(IEventService eventService) : base(eventService)
       {
-         _databaseService = databaseService;
+         _eventService = eventService;
       }
       [HttpPost("search")]
       public IReadOnlyList<EventDescriptionDTO> GetPublicEvents([FromBody] SearchEventParamsDTO searchEventParams)
       {
-         return _databaseService.GetPublicEvents(searchEventParams);
+         return _eventService.GetPublicEvents(searchEventParams);
       }
    }
 }

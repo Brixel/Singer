@@ -16,10 +16,11 @@ using Singer.Models.Users;
 
 namespace Singer.Services
 {
-   public abstract class UserService<TUserEntity, TUserDTO, TCreateUserDTO> : DatabaseService<TUserEntity, TUserDTO, TCreateUserDTO>
+   public abstract class UserService<TUserEntity, TUserDTO, TCreateUserDTO, TUpdateUserDTO> : DatabaseService<TUserEntity, TUserDTO, TCreateUserDTO, TUpdateUserDTO>
       where TUserEntity : class, IUser
       where TUserDTO : class, IUserDTO
       where TCreateUserDTO : class, ICreateUserDTO
+      where TUpdateUserDTO : class, IUpdateUserDTO
    {
       protected UserManager<User> UserManager { get; }
       protected UserService(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager) : base(context, mapper)
@@ -39,8 +40,8 @@ namespace Singer.Services
             Email = dto.Email,
             UserName = dto.Email
          };
-
-         var userCreationResult = await UserManager.CreateAsync(baseUser);
+         // TODO Replace by better temporary password generation approach
+         var userCreationResult = await UserManager.CreateAsync(baseUser, "Testpassword123!");
          if (!userCreationResult.Succeeded)
          {
             Debug.WriteLine($"User can not be created. {userCreationResult.Errors.First().Code}");
