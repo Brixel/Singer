@@ -7,7 +7,7 @@ namespace Singer.DTOs
    public class CreateEventRegistrationDTO
    {
       public Guid EventId { get; set; }
-      public CareUserDTO CareUser { get; set; }
+      public Guid CareUserId { get; set; }
       public RegistrationStatus Status { get; set; }
    }
 }

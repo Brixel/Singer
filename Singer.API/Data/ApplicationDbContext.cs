@@ -35,6 +35,15 @@ namespace Singer.Data
             .WithMany(x => x.LegalGuardianCareUsers)
             .OnDelete(DeleteBehavior.Restrict);
 
+         builder.Entity<Event>()
+            .HasMany(x => x.Registrations)
+            .WithOne(x => x.Event)
+            .OnDelete(DeleteBehavior.Restrict);
+         builder.Entity<CareUser>()
+            .HasMany(x => x.EventRegistrations)
+            .WithOne(x => x.CareUser)
+            .OnDelete(DeleteBehavior.Restrict);
+
       }
    }
 }

@@ -1,5 +1,6 @@
 using System;
 using Singer.Helpers;
+using Singer.Models.Users;
 
 namespace Singer.Models
 {
@@ -7,7 +8,11 @@ namespace Singer.Models
    {
       public Guid Id { get; set; }
       public Guid EventId { get; set; }
-      public Guid UserId { get; set; }
+
+      public Event Event { get; set; }
+      public Guid CareUserId { get; set; }
+
+      public CareUser CareUser { get; set; }
 
       public RegistrationStatus Status { get; set; }
    }

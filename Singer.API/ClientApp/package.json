@@ -1,6 +1,6 @@
 {
   "name": "Singer",
-  "version": "0.1.0-issue-add-user-to-event.472",
+  "version": "0.1.0-issue-add-user-to-event.473",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

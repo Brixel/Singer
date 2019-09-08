@@ -15,7 +15,7 @@ namespace Singer.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.2-servicing-10034")
+                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -205,13 +205,15 @@ namespace Singer.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<Guid>("CareUserId");
+
                     b.Property<Guid>("EventId");
 
                     b.Property<int>("Status");
 
-                    b.Property<Guid>("UserId");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("CareUserId");
 
                     b.HasIndex("EventId");
 
@@ -407,10 +409,15 @@ namespace Singer.Migrations
 
             modelBuilder.Entity("Singer.Models.EventRegistration", b =>
                 {
-                    b.HasOne("Singer.Models.Event")
+                    b.HasOne("Singer.Models.Users.CareUser", "CareUser")
+                        .WithMany("EventRegistrations")
+                        .HasForeignKey("CareUserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Singer.Models.Event", "Event")
                         .WithMany("Registrations")
                         .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Singer.Models.Users.AdminUser", b =>
