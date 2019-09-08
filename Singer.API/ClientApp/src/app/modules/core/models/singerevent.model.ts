@@ -148,3 +148,10 @@ export class EventDescription{
    startDate: Date;
    endDate: Date;
 }
+
+export class SearchEventDTO{
+   startDate: Date;
+   endDate: Date;
+   locationId: string;
+}
+

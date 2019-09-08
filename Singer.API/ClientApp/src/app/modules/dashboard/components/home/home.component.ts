@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { AuthService } from 'src/app/modules/core/services/auth.service';
-import { EventDescription, SingerEventLocation } from 'src/app/modules/core/models/singerevent.model';
+import { EventDescription, SingerEventLocation, SearchEventDTO } from 'src/app/modules/core/models/singerevent.model';
 import { MatDrawer } from '@angular/material';
 import { Observable } from 'rxjs';
 import { PaginationDTO } from 'src/app/modules/core/models/pagination.model';
@@ -62,11 +62,4 @@ export class HomeComponent implements OnInit{
          this.events =
             res.map(r => new EventDescription(r.title, r.description, r.ageGroups, r.startDate, r.endDate)));
    }
-}
-
-
-export class SearchEventDTO{
-   startDate: Date;
-   endDate: Date;
-   locationId: string;
 }
