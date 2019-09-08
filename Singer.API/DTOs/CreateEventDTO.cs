@@ -16,7 +16,7 @@ namespace Singer.DTOs
       public DateTime EndDate { get; set; }
       public DateTime StartRegistrationDate { get; set; }
       public DateTime EndRegistrationDate { get; set; }
-      public TimeSpan DailyStartTime { get; set; }
+      public DateTime DailyStartTime { get; set; }
       public DateTime DailyEndTime { get; set; }
       public DateTime FinalCancellationDate { get; set; }
       public bool RegistrationOnDailyBasis { get; set; }

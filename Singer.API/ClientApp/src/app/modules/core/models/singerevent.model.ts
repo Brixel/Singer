@@ -1,5 +1,4 @@
 import { AgeGroup } from './enum';
-import { Date } from '@angular/common';
 
 export interface SingerEventDTO {
    id: string;
@@ -31,7 +30,7 @@ export interface UpdateSingerEventDTO {
    title: string;
    description: string;
    allowedAgeGroups: AgeGroup[];
-   location: SingerEventLocation;
+   locationId: string;
    maxRegistrants: number;
    cost: number;
    startDate: Date;

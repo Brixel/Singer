@@ -87,7 +87,7 @@ export class SingerEventDetailsComponent implements OnInit {
       ]),
       startDateFieldControl: new FormControl(null, [Validators.required]),
       endDateFieldControl: new FormControl(null, [Validators.required]),
-      dailyStartTimeFieldControl: new FormControl(null, [Validators.required]),
+      dailyStartTimeFieldControl: new FormControl('', [Validators.required]),
       dailyEndTimeFieldControl: new FormControl(null, [Validators.required]),
       hasDayCareBeforeFieldControl: new FormControl('', [Validators.required]),
       dayCareBeforeStartTimeFieldControl: new FormControl(),
@@ -250,7 +250,9 @@ export class SingerEventDetailsComponent implements OnInit {
       this.formControlGroup.controls.hasDayCareAfterFieldControl.reset(
          this.currentSingerEventInstance.hasDayCareAfter ? 'true' : 'false'
       );
-      this.formControlGroup.controls.dayCareAfterStartTimeFieldControl.reset();
+      this.formControlGroup.controls.dayCareAfterStartTimeFieldControl.reset(
+         this.currentSingerEventInstance.dayCareAfterStartTime
+      );
       this.formControlGroup.controls.dayCareAfterEndTimeFieldControl.reset(
          this.currentSingerEventInstance.dayCareAfterEndTime
       );
