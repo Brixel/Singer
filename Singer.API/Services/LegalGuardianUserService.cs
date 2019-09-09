@@ -26,7 +26,9 @@ namespace Singer.Services
 
       protected override IQueryable<LegalGuardianUser> Queryable => Context.LegalGuardianUsers
          .Include(x => x.User)
-         .Include(x => x.LegalGuardianCareUsers).ThenInclude(x => x.CareUser).ThenInclude(x => x.User);
+         .Include(x => x.LegalGuardianCareUsers)
+            .ThenInclude(x => x.CareUser)
+            .ThenInclude(x => x.User);
 
 
       protected override Expression<Func<LegalGuardianUser, bool>> Filter(string filter)

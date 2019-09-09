@@ -119,7 +119,7 @@ namespace Singer.Helpers.Extensions
                ? projection.OrderBy(orderByLambda)
                : projection.OrderByDescending(orderByLambda);
 
-            items = await orderedQueryable.TakePage(pageIndex, pageSize).ToListAsync();
+            items = orderedQueryable.TakePage(pageIndex, pageSize).ToList();
          }
 
          var result = new SearchResults<TProjection>(items, totalItemsCount, pageIndex);
