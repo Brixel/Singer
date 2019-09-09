@@ -1,4 +1,4 @@
-import { CareUserDTO } from './careuser.model';
+import { CareUserDTO, CareUser } from './careuser.model';
 
 export interface LegalGuardianDTO {
    id: string;
@@ -9,6 +9,7 @@ export interface LegalGuardianDTO {
    postalCode: string;
    city: string;
    country: string;
+   careUsers: CareUserDTO[];
 }
 
 export interface UpdateLegalGuardianDTO {
@@ -19,6 +20,8 @@ export interface UpdateLegalGuardianDTO {
    postalCode: string;
    city: string;
    country: string;
+   careUsersToAdd: string[];
+   careUsersToRemove: string[];
 }
 
 export interface CreateLegalGuardianDTO {
@@ -40,4 +43,7 @@ export class LegalGuardian {
    postalCode: string;
    city: string;
    country: string;
+   careUsers: CareUser[];
+   careUsersToAdd: string[];
+   careUsersToRemove: string[];
 }
