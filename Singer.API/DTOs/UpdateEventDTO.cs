@@ -11,7 +11,6 @@ namespace Singer.DTOs
       public List<AgeGroup> AllowedAgeGroups { get; set; }
       public string LocationId { get; set; }
       public int MaxRegistrants { get; set; }
-      public int currentRegistrants { get; set; }
       public decimal Cost { get; set; }
       public DateTime StartDate { get; set; }
       public DateTime EndDate { get; set; }

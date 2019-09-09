@@ -69,6 +69,10 @@ tr.selectable:active {
    padding: 10px;
 }
 
+.mat-column-location .locationName {
+   font-weight: bold;
+}
+
 .mat-column-ageGroups {
    padding: 10px;
 }
@@ -95,6 +99,12 @@ tr.selectable:active {
 
 .mat-column-hasDayCareAfter {
    padding: 10px;
+}
+
+/* MAXREGISTRANTS CELL STYLING */
+.maxRegistrantsExceeded {
+   color: rgb(253, 59, 59);
+   font-weight: bold;
 }
 
 /* TABLE FOOTER STYLING */
