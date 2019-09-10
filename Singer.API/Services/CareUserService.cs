@@ -19,7 +19,9 @@ namespace Singer.Services
    {
       protected override DbSet<CareUser> DbSet => Context.CareUsers;
 
-      protected override IQueryable<CareUser> Queryable => Context.CareUsers.Include(x => x.User);
+      protected override IQueryable<CareUser> Queryable => Context.CareUsers
+         .Include(x => x.User)
+         .Include(x => x.LegalGuardianCareUsers).ThenInclude(x => x.LegalGuardian).ThenInclude(x => x.User);
 
       public CareUserService(ApplicationDbContext appContext, IMapper mapper, UserManager<User> userManager)
       : base(appContext, mapper, userManager)

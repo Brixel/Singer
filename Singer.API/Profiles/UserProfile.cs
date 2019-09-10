@@ -13,6 +13,10 @@ namespace Singer.Profiles
          // CareUsers
          CreateMap<CareUser, CareUserDTO>()
             .ForMember(x => x.FirstName, opt => opt.MapFrom(src => src.User.FirstName))
+            .ForMember(x => x.LastName, opt => opt.MapFrom(src => src.User.LastName))
+            .ForMember(x => x.LegalGuardianUsers, opt => opt.MapFrom(src => src.LegalGuardianCareUsers.Select(y => y.LegalGuardian).ToList()));
+         CreateMap<CareUser, LinkedCareUserDTO>()
+            .ForMember(x => x.FirstName, opt => opt.MapFrom(src => src.User.FirstName))
             .ForMember(x => x.LastName, opt => opt.MapFrom(src => src.User.LastName));
          CreateMap<CareUserDTO, CareUser>()
             .ForMember(x => x.User, opt => opt.MapFrom(src => new User { FirstName = src.FirstName, LastName = src.LastName }));
@@ -22,8 +26,6 @@ namespace Singer.Profiles
             .ForMember(x => x.User, opt => opt.MapFrom(src => new User { FirstName = src.FirstName, LastName = src.LastName }));
 
          //LegalGuardianUsers
-         CreateMap<LegalGuardianUserDTO, LegalGuardianUser>()
-            .ForMember(x => x.User, opt => opt.MapFrom(src => new User { FirstName = src.FirstName, LastName = src.LastName, Email = src.Email }));
          CreateMap<CreateLegalGuardianUserDTO, LegalGuardianUser>()
             .ForMember(x => x.User, opt => opt.MapFrom(src => new User { FirstName = src.FirstName, LastName = src.LastName, Email = src.Email }));
          CreateMap<UpdateLegalGuardianUserDTO, LegalGuardianUser>()
@@ -33,6 +35,10 @@ namespace Singer.Profiles
             .ForMember(x => x.LastName, opt => opt.MapFrom(src => src.User.LastName))
             .ForMember(x => x.Email, opt => opt.MapFrom(src => src.User.Email))
             .ForMember(x => x.CareUsers, opt => opt.MapFrom(src => src.LegalGuardianCareUsers.Select(y => y.CareUser).ToList()));
+         CreateMap<LegalGuardianUser, LinkedLegalGuardianDTO>()
+            .ForMember(x => x.FirstName, opt => opt.MapFrom(src => src.User.FirstName))
+            .ForMember(x => x.LastName, opt => opt.MapFrom(src => src.User.LastName))
+            .ForMember(x => x.Email, opt => opt.MapFrom(src => src.User.Email));
 
          // AdminUser
          CreateMap<AdminUser, AdminUserDTO>()
