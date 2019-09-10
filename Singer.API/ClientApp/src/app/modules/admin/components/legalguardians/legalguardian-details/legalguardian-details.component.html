@@ -148,7 +148,7 @@
          <p *ngIf="currentLegalGuardianInstance.careUsers?.length > 0">
             Deze persoon is voogd over volgende zorggebruikers:
          </p>
-         <p *ngIf="!currentLegalGuardianInstance.careUsers?.length > 0">
+         <p *ngIf="!(currentLegalGuardianInstance.careUsers?.length > 0)">
             Deze persoon heeft nog geen zorggebruikers gekoppeld.
          </p>
          <p>Gebruiker toevoegen:</p>

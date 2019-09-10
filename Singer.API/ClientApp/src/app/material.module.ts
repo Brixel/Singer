@@ -20,11 +20,15 @@ import {
    MatDividerModule,
    MatGridListModule,
    MatChipsModule,
-   MatSidenavModule,
    MatTooltipModule,
+   MatAutocompleteModule,
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import {
+   MatMomentDateModule,
+   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+} from '@angular/material-moment-adapter';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 @NgModule({
    imports: [
@@ -74,10 +78,9 @@ import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/m
       MatTooltipModule,
       NgxMaterialTimepickerModule,
       MatAutocompleteModule,
-
    ],
    providers: [
-      { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }
+      { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
    ],
 })
 export class MaterialModule {}
