@@ -11,4 +11,5 @@ mat-card-content p{
    display: flex;
    align-items: center;
    font-size: 12px;
+   min-width: 100px;
 }
