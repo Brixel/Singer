@@ -3,6 +3,17 @@ import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CareUser } from 'src/app/modules/core/models/careuser.model';
 import { AgeGroup } from 'src/app/modules/core/models/enum';
+import { CareUserService } from 'src/app/modules/core/services/care-users-api/careusers.service';
+import {
+   startWith,
+   debounceTime,
+   switchMap,
+   catchError,
+   map,
+} from 'rxjs/operators';
+import { of, Observable } from 'rxjs';
+import { LegalGuardian } from 'src/app/modules/core/models/legalguardian.model';
+import { LegalguardiansService } from 'src/app/modules/core/services/legal-guardians-api/legalguardians.service';
 
 // Data we pass along with the creation of the Mat-Dialog box
 export interface CareUserDetailsFormData {
@@ -63,7 +74,11 @@ export class CareUserDetailsComponent implements OnInit {
          Validators.required,
       ]),
       hasResourcesFieldControl: new FormControl('', [Validators.required]),
+      legalGuardianUsersSearchFieldcontrol: new FormControl(),
    });
+
+   public legalGuardianUsersAutoComplete$: Observable<LegalGuardian[]> = null;
+   breakpoint: number;
 
    //#endregion
 
@@ -71,7 +86,8 @@ export class CareUserDetailsComponent implements OnInit {
       // dialogreference to close this dialog
       public dialogRef: MatDialogRef<CareUserDetailsComponent>,
       // Care user that we want to edit
-      @Inject(MAT_DIALOG_DATA) public data: CareUserDetailsFormData
+      @Inject(MAT_DIALOG_DATA) public data: CareUserDetailsFormData,
+      private _legalGuardianUserService: LegalguardiansService
    ) {
       this.currentCareUserInstance = data.careUserInstance;
       this.isAdding = data.isAdding;
@@ -87,13 +103,38 @@ export class CareUserDetailsComponent implements OnInit {
       } else {
          this.loadCurrentCareUserInstanceValues();
       }
+
+      this.legalGuardianUsersAutoComplete$ = this.formControlGroup.controls[
+         'legalGuardianUsersSearchFieldcontrol'
+      ].valueChanges.pipe(
+         startWith(''),
+         debounceTime(300),
+         switchMap(value => {
+            if (typeof value === 'string') {
+               return this.legalGuardianUserLookup(value);
+            } else {
+               return of(null);
+            }
+         })
+      );
+      this.breakpoint = window.innerWidth <= 500 ? 1 : 3;
+
+      if (this.currentCareUserInstance.legalGuardianUsers === null) {
+         this.currentCareUserInstance.legalGuardianUsers = new Array<
+            LegalGuardian
+         >();
+      }
+      this.currentCareUserInstance.legalGuardianUsersToAdd = new Array<
+         string
+      >();
+      this.currentCareUserInstance.legalGuardianUsersToRemove = new Array<
+         string
+      >();
    }
 
    //#region Error messages for required fields
    getRequiredFieldErrorMessage(formControl: FormControl) {
-      return formControl.hasError('required')
-         ? 'Dit veld is verplicht'
-         : '';
+      return formControl.hasError('required') ? 'Dit veld is verplicht' : '';
    }
 
    getEmailFieldErrorMessage() {
@@ -170,6 +211,9 @@ export class CareUserDetailsComponent implements OnInit {
          hasNormalDayCare: false,
          hasVacationDayCare: false,
          hasResources: false,
+         legalGuardianUsersToAdd: [],
+         legalGuardianUsersToRemove: [],
+         legalGuardianUsers: [],
       };
    }
 
@@ -194,9 +238,15 @@ export class CareUserDetailsComponent implements OnInit {
          this.formControlGroup.controls.birthdayFieldControl.value
       );
 
-      if (instanceDate.getFullYear() !== formDate.getFullYear()) { return true; }
-      if (instanceDate.getMonth() !== formDate.getMonth()) { return true; }
-      if (instanceDate.getDay() !== formDate.getDay()) { return true; }
+      if (instanceDate.getFullYear() !== formDate.getFullYear()) {
+         return true;
+      }
+      if (instanceDate.getMonth() !== formDate.getMonth()) {
+         return true;
+      }
+      if (instanceDate.getDay() !== formDate.getDay()) {
+         return true;
+      }
       if (
          this.currentCareUserInstance.caseNumber !==
          this.formControlGroup.controls.caseNumberFieldControl.value
@@ -204,7 +254,8 @@ export class CareUserDetailsComponent implements OnInit {
          return true;
       }
       if (
-         this.currentCareUserInstance.ageGroup !==         this.formControlGroup.controls.ageGroupFieldControl.value
+         this.currentCareUserInstance.ageGroup !==
+         this.formControlGroup.controls.ageGroupFieldControl.value
       ) {
          return true;
       }
@@ -252,7 +303,88 @@ export class CareUserDetailsComponent implements OnInit {
       ) {
          return true;
       }
+      if (
+         (this.currentCareUserInstance.legalGuardianUsersToAdd !== undefined &&
+            this.currentCareUserInstance.legalGuardianUsersToAdd.length > 0) ||
+         (this.currentCareUserInstance.legalGuardianUsersToRemove !==
+            undefined &&
+            this.currentCareUserInstance.legalGuardianUsersToRemove.length > 0)
+      ) {
+         return true;
+      }
       return false;
+   }
+
+   legalGuardianUserLookup(value: string): Observable<LegalGuardian[]> {
+      return this._legalGuardianUserService
+         .fetchLegalGuardiansData('asc', 'firstName', 0, 15, value)
+         .pipe(
+            map(res =>
+               res.items.filter(
+                  i =>
+                     !this.currentCareUserInstance.legalGuardianUsers.some(
+                        u => u.id === i.id
+                     )
+               )
+            ),
+            catchError(_ => {
+               return of(null);
+            })
+         );
+   }
+
+   addLegalGuardianUser(legalGuardianUser: LegalGuardian, event: any = null) {
+      if (event === null || !event.isUserInput) {
+         return;
+      }
+      if (
+         this.currentCareUserInstance.legalGuardianUsersToRemove.indexOf(
+            legalGuardianUser.id
+         ) > -1
+      ) {
+         this.currentCareUserInstance.legalGuardianUsersToRemove.splice(
+            this.currentCareUserInstance.legalGuardianUsersToRemove.indexOf(
+               legalGuardianUser.id
+            )
+         );
+      } else {
+         this.currentCareUserInstance.legalGuardianUsersToAdd.push(
+            legalGuardianUser.id
+         );
+      }
+
+      this.currentCareUserInstance.legalGuardianUsers.push(legalGuardianUser);
+      this.formControlGroup.controls.legalGuardianUsersSearchFieldcontrol.reset();
+   }
+
+   deleteLegalGuardianUser(legalGuardianUser: LegalGuardian) {
+      if (
+         this.currentCareUserInstance.legalGuardianUsersToAdd.indexOf(
+            legalGuardianUser.id
+         ) > -1
+      ) {
+         this.currentCareUserInstance.legalGuardianUsersToAdd.splice(
+            this.currentCareUserInstance.legalGuardianUsersToAdd.indexOf(
+               legalGuardianUser.id
+            )
+         );
+      } else {
+         this.currentCareUserInstance.legalGuardianUsersToRemove.push(
+            legalGuardianUser.id
+         );
+      }
+
+      if (this.currentCareUserInstance.legalGuardianUsers !== null) {
+         this.currentCareUserInstance.legalGuardianUsers = this.currentCareUserInstance.legalGuardianUsers.filter(
+            u => u.id !== legalGuardianUser.id
+         );
+      }
+
+      this.formControlGroup.controls.legalGuardianUsersSearchFieldcontrol.reset();
+   }
+
+   onResize(event) {
+      this.breakpoint = event.target.innerWidth <= 500 ? 1 : 3;
    }
 
    // Load form field values into current care user instance
@@ -262,31 +394,38 @@ export class CareUserDetailsComponent implements OnInit {
       this.currentCareUserInstance.birthDay = this.formControlGroup.controls.birthdayFieldControl.value;
       this.currentCareUserInstance.caseNumber = this.formControlGroup.controls.caseNumberFieldControl.value;
       this.currentCareUserInstance.ageGroup = this.formControlGroup.controls.ageGroupFieldControl.value;
-      this.currentCareUserInstance.isExtern = this.formControlGroup.controls.isExternFieldControl.value === 'true'
-      ? true
-      : false;
-      this.currentCareUserInstance.hasTrajectory = this.formControlGroup.controls.hasTrajectoryFieldControl.value ===
-      'true'
-         ? true
-         : false;
-      this.currentCareUserInstance.hasNormalDayCare = this.formControlGroup.controls.hasNormalDayCareFieldControl
-      .value === 'true'
-      ? true
-      : false;
-      this.currentCareUserInstance.hasVacationDayCare = this.formControlGroup.controls.hasVacationDayCareFieldControl
-      .value === 'true'
-      ? true
-      : false;
-      this.currentCareUserInstance.hasResources = this.formControlGroup.controls.hasResourcesFieldControl.value ===
-      'true'
-         ? true
-         : false;
+      this.currentCareUserInstance.isExtern =
+         this.formControlGroup.controls.isExternFieldControl.value === 'true'
+            ? true
+            : false;
+      this.currentCareUserInstance.hasTrajectory =
+         this.formControlGroup.controls.hasTrajectoryFieldControl.value ===
+         'true'
+            ? true
+            : false;
+      this.currentCareUserInstance.hasNormalDayCare =
+         this.formControlGroup.controls.hasNormalDayCareFieldControl.value ===
+         'true'
+            ? true
+            : false;
+      this.currentCareUserInstance.hasVacationDayCare =
+         this.formControlGroup.controls.hasVacationDayCareFieldControl.value ===
+         'true'
+            ? true
+            : false;
+      this.currentCareUserInstance.hasResources =
+         this.formControlGroup.controls.hasResourcesFieldControl.value ===
+         'true'
+            ? true
+            : false;
    }
 
    // Submit the form
    submitForm() {
       // Check if form is valid
-      if (this.formControlGroup.invalid) { return; }
+      if (this.formControlGroup.invalid) {
+         return;
+      }
 
       // Check for changes and determine of an API call is necesarry
       if (this.checkForChanges()) {

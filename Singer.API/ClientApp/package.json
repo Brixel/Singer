@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.1.0-issue-AB-15-events.493",
+   "version": "0.1.0-issue-AB-64-link-users-frontend.504",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",

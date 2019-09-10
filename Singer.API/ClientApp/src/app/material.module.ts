@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 import {
    MatButtonModule,
@@ -21,14 +20,15 @@ import {
    MatDividerModule,
    MatGridListModule,
    MatChipsModule,
-   MatSidenavModule,
    MatTooltipModule,
+   MatAutocompleteModule,
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
    MatMomentDateModule,
    MAT_MOMENT_DATE_ADAPTER_OPTIONS,
 } from '@angular/material-moment-adapter';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 @NgModule({
    imports: [
@@ -52,6 +52,7 @@ import {
       MatMomentDateModule,
       MatTooltipModule,
       NgxMaterialTimepickerModule,
+      MatAutocompleteModule,
    ],
    exports: [
       MatButtonModule,
@@ -74,9 +75,9 @@ import {
       MatDialogModule,
       MatDividerModule,
       MatMomentDateModule,
-      MatSidenavModule,
       MatTooltipModule,
       NgxMaterialTimepickerModule,
+      MatAutocompleteModule,
    ],
    providers: [
       { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },

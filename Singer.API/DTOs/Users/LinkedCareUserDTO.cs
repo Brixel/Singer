@@ -6,7 +6,7 @@ using Singer.Models;
 
 namespace Singer.DTOs.Users
 {
-   public class CareUserDTO : UserDTO
+   public class LinkedCareUserDTO : UserDTO
    {
       [Required]
       [DataType(DataType.Date)]
@@ -38,6 +38,5 @@ namespace Singer.DTOs.Users
 
       [DisplayName("Middelen")]
       public bool HasResources { get; set; }
-      public List<LinkedLegalGuardianDTO> LegalGuardianUsers { get; set; }
    }
 }
