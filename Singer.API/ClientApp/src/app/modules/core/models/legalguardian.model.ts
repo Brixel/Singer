@@ -1,4 +1,9 @@
-import { CareUserDTO, CareUser } from './careuser.model';
+import {
+   CareUserDTO,
+   CareUser,
+   LinkedCareUserDTO,
+   LinkedCareUser,
+} from './careuser.model';
 
 export interface LegalGuardianDTO {
    id: string;
@@ -9,7 +14,17 @@ export interface LegalGuardianDTO {
    postalCode: string;
    city: string;
    country: string;
-   careUsers: CareUserDTO[];
+   careUsers: LinkedCareUserDTO[];
+}
+export interface LinkedLegalGuardianDTO {
+   id: string;
+   firstName: string;
+   lastName: string;
+   email: string;
+   address: string;
+   postalCode: string;
+   city: string;
+   country: string;
 }
 
 export interface UpdateLegalGuardianDTO {
@@ -43,7 +58,18 @@ export class LegalGuardian {
    postalCode: string;
    city: string;
    country: string;
-   careUsers: CareUser[];
+   careUsers: LinkedCareUser[];
    careUsersToAdd: string[];
    careUsersToRemove: string[];
+}
+
+export class LinkedLegalGuardian {
+   id: string;
+   firstName: string;
+   lastName: string;
+   email: string;
+   address: string;
+   postalCode: string;
+   city: string;
+   country: string;
 }

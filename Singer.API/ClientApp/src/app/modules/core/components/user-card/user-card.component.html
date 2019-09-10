@@ -1,12 +1,19 @@
 <mat-card>
    <mat-card-title>{{ user.firstName }} {{ user.lastName }}</mat-card-title>
    <mat-card-subtitle>
-      <div class="careuser-name" *ngIf="user.ageGroup">
+      <div class="user-agegroup" *ngIf="user.ageGroup">
          <app-agegroup-chips [agegroups]="[user.ageGroup]"></app-agegroup-chips>
+      </div>
+      <div class="user-address" *ngIf="user.address">
+         {{ user.address }}, {{ user.postalCode }} {{ user.city }},
+         {{ user.country }}
+      </div>
+      <div class="user-email" *ngIf="user.email">
+         <a href="mailto:{{ user.email }}">{{ user.email }}</a>
       </div>
    </mat-card-subtitle>
    <mat-card-content>
-      <div>Geboortedatum: {{ user.birthDay | date }}</div>
+      <div *ngIf="user.birthDay">Geboortedatum: {{ user.birthDay | date }}</div>
    </mat-card-content>
    <mat-card-actions>
       <button mat-stroked-button color="" (click)="deleteUser()">

@@ -53,7 +53,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
 
    ngOnInit() {
       this.dataSource = new OverviewDataSource(this.careUserService);
-      this.sort.active = 'lastName';
+      this.sort.active = 'id'; //TODO: Workaround for API sorting issue, when sorting on other columns, linked users are not always filled in
       this.sort.direction = 'asc';
       this.loadCareUsers();
    }
@@ -61,6 +61,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
    selectRow(row: CareUser): void {
       const dialogRef = this.dialog.open(CareUserDetailsComponent, {
          data: { careUserInstance: row, isAdding: false },
+         width: '80vw',
       });
 
       dialogRef.componentInstance.submitEvent.subscribe((result: CareUser) => {
@@ -75,6 +76,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
    addCareUser(): void {
       const dialogRef = this.dialog.open(CareUserDetailsComponent, {
          data: { careUserInstance: null, isAdding: true },
+         width: '80vw',
       });
 
       dialogRef.componentInstance.submitEvent.subscribe((result: CareUser) => {
