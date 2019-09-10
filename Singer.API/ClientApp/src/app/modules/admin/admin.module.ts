@@ -32,6 +32,8 @@ import { AdminListComponent } from './components/admin-users/admin-list/admin-li
 import { AdminDetailsComponent } from './components/admin-users/admin-details/admin-details.component';
 import { AdminUserProxy } from './services/adminuser.proxy';
 import { AdminUserService } from './services/admin-user.service';
+import { SingerEventLocationService } from '../core/services/singerevents-api/singerevent-location.service';
+import { SingerEventLocationProxy } from '../core/services/singerevents-api/singerevent-location.proxy';
 
 @NgModule({
    declarations: [
@@ -55,21 +57,32 @@ import { AdminUserService } from './services/admin-user.service';
       MatTableModule,
       MatPaginatorModule,
       MatSortModule,
+   ], entryComponents: [
+      CareUserDetailsComponent,
+      LegalguardianDetailsComponent,
+      SingerEventDetailsComponent,
+      AdminDetailsComponent
    ],
-    entryComponents: [CareUserDetailsComponent, LegalguardianDetailsComponent, SingerEventDetailsComponent, AdminDetailsComponent],
    providers: [
       CareUserProxy,
       LegalGuardianProxy,
       SingerEventsProxy,
+      SingerEventLocationProxy,
       CareUserService,
       AdminUserProxy,
       AdminUserService,
       LegalguardiansService,
       SingerEventsService,
+      SingerEventLocationService,
       ApiService,
       AgegroupPipe,
       KeysPipe,
-      { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
+      {
+         provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+         useValue: {
+            useUtc: true,
+         },
+      },
    ],
 })
 export class AdminModule {}
