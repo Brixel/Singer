@@ -273,6 +273,9 @@
                   "
                   [value]="legalGuardianUser.id"
                   (click)="addLegalGuardianUser(legalGuardianUser)"
+                  (onSelectionChange)="
+                     addLegalGuardianUser(legalGuardianUser, $event)
+                  "
                >
                   {{ legalGuardianUser.firstName }}
                   {{ legalGuardianUser.lastName }}

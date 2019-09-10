@@ -333,7 +333,10 @@ export class CareUserDetailsComponent implements OnInit {
          );
    }
 
-   addLegalGuardianUser(legalGuardianUser: LegalGuardian) {
+   addLegalGuardianUser(legalGuardianUser: LegalGuardian, event: any = null) {
+      if (event === null || !event.isUserInput) {
+         return;
+      }
       if (
          this.currentCareUserInstance.legalGuardianUsersToRemove.indexOf(
             legalGuardianUser.id
@@ -377,7 +380,7 @@ export class CareUserDetailsComponent implements OnInit {
          );
       }
 
-      this.formControlGroup.controls.careUsersSearchFieldcontrol.reset();
+      this.formControlGroup.controls.legalGuardianUsersSearchFieldcontrol.reset();
    }
 
    onResize(event) {

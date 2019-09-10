@@ -260,7 +260,10 @@ export class LegalguardianDetailsComponent implements OnInit {
          );
    }
 
-   addCareUser(careUser: CareUser) {
+   addCareUser(careUser: CareUser, event: any = null) {
+      if (event === null || !event.isUserInput) {
+         return;
+      }
       if (
          this.currentLegalGuardianInstance.careUsersToRemove.indexOf(
             careUser.id

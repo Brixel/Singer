@@ -166,6 +166,7 @@
                   *ngFor="let careUser of careUsersAutoComplete$ | async"
                   [value]="careUser.id"
                   (click)="addCareUser(careUser)"
+                  (onSelectionChange)="addCareUser(careUser, $event)"
                >
                   {{ careUser.firstName }} {{ careUser.lastName }}
                </mat-option>
