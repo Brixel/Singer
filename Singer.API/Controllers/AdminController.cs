@@ -14,7 +14,7 @@ using Singer.Services.Interfaces;
 namespace Singer.Controllers
 {
    [Route("api/[controller]")]
-   [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
+   [Authorize]
    public class AdminController : DataControllerBase<AdminUser, AdminUserDTO, CreateAdminUserDTO, UpdateAdminUserDTO>
    {
       public AdminController(IDatabaseService<AdminUser, AdminUserDTO, CreateAdminUserDTO, UpdateAdminUserDTO> adminUserService) : base(adminUserService)
