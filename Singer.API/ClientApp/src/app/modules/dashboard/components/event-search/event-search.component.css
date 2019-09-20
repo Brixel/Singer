@@ -1,0 +1,13 @@
+.container{
+   margin: 8px;
+}
+form{
+   display: flex;
+   justify-content: space-evenly;
+   flex-direction: row;
+   align-items: baseline;
+}
+.date-fields{
+   display: flex;
+   flex-direction: row;
+}

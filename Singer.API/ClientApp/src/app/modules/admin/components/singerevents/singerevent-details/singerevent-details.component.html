@@ -1,0 +1,590 @@
+<!-- Form Dialog Title -->
+<h2 mat-dialog-title>Toevoegen/bewerken (enkel admin)</h2>
+
+<!-- Form Dialog Content -->
+<mat-dialog-content>
+   <!-- Details Form -->
+   <form [formGroup]="formControlGroup" class="details-form-container">
+      <!-- Event Fields Title -->
+      <h3 class="section-title">Evenement</h3>
+
+      <!-- Title Field -->
+      <mat-form-field>
+         <input
+            matInput
+            [placeholder]="titleFieldPlaceholder"
+            formControlName="titleFieldControl"
+         />
+         <mat-error *ngIf="formControlGroup.controls.titleFieldControl.invalid">
+            {{
+               getRequiredFieldErrorMessage(
+                  formControlGroup.controls.titleFieldControl
+               )
+            }}
+         </mat-error>
+      </mat-form-field>
+
+      <!-- Description Field -->
+      <mat-form-field>
+         <textarea
+            matInput
+            [placeholder]="descriptionFieldPlaceholder"
+            formControlName="descriptionFieldControl"
+            rows="4"
+         ></textarea>
+         <mat-error
+            *ngIf="formControlGroup.controls.descriptionFieldControl.invalid"
+         >
+            {{
+               getRequiredFieldErrorMessage(
+                  formControlGroup.controls.descriptionFieldControl
+               )
+            }}
+         </mat-error>
+      </mat-form-field>
+      <div>
+         <!-- Location Field -->
+         <mat-form-field>
+            <mat-label>Locatie evenement</mat-label>
+            <mat-select
+               [compareWith]="compareLocations"
+               formControlName="locationFieldControl"
+               [(value)]="selectedLocation"
+            >
+               <mat-option
+                  *ngFor="let availableLocation of availableLocations"
+                  [value]="availableLocation"
+               >
+                  {{ availableLocation.name }}
+               </mat-option>
+            </mat-select>
+            <mat-error
+               *ngIf="formControlGroup.controls.locationFieldControl.invalid"
+            >
+               {{
+                  getRequiredFieldErrorMessage(
+                     formControlGroup.controls.locationFieldControl
+                  )
+               }}
+            </mat-error>
+         </mat-form-field>
+
+         <!-- AllowedAgeGroups Field -->
+         <mat-form-field>
+            <mat-label>Leeftijdsgroepen</mat-label>
+            <mat-select
+               [compareWith]="compareAgeGroups"
+               formControlName="allowedAgeGroupsFieldControl"
+               multiple
+            >
+               <mat-option
+                  *ngFor="let ageGroup of ageGroups"
+                  [value]="ageGroup"
+               >
+                  {{ ageGroup | agegroupPipe }}
+               </mat-option>
+            </mat-select>
+            <mat-error
+               *ngIf="
+                  formControlGroup.controls.allowedAgeGroupsFieldControl.invalid
+               "
+            >
+               {{
+                  getRequiredFieldErrorMessage(
+                     formControlGroup.controls.allowedAgeGroupsFieldControl
+                  )
+               }}
+            </mat-error>
+         </mat-form-field>
+
+         <!-- MaxRegistrants Field -->
+         <mat-form-field>
+            <input
+               matInput
+               [placeholder]="maxRegistrantsFieldPlaceholder"
+               formControlName="maxRegistrantsFieldControl"
+               type="number"
+            />
+            <mat-error
+               *ngIf="
+                  formControlGroup.controls.maxRegistrantsFieldControl.invalid
+               "
+            >
+               {{
+                  getRequiredFieldErrorMessage(
+                     formControlGroup.controls.maxRegistrantsFieldControl
+                  )
+               }}
+            </mat-error>
+         </mat-form-field>
+
+         <!-- Cost Field -->
+         <mat-form-field>
+            <input
+               matInput
+               [placeholder]="costFieldPlaceholder"
+               formControlName="costFieldControl"
+               type="number"
+            />
+            <mat-error
+               *ngIf="formControlGroup.controls.costFieldControl.invalid"
+            >
+               {{
+                  getRequiredFieldErrorMessage(
+                     formControlGroup.controls.costFieldControl
+                  )
+               }}
+            </mat-error>
+         </mat-form-field>
+      </div>
+      <!-- End Of Section -->
+      <mat-divider></mat-divider>
+
+      <!-- Date Fields Title -->
+      <h3 class="section-title">Datums</h3>
+
+      <div>
+         <!-- StartRegistrationDate Field -->
+         <mat-form-field>
+            <input
+               matInput
+               [matDatepicker]="startRegistrationDatePicker"
+               [placeholder]="startRegistrationDateFieldPlaceholder"
+               formControlName="startRegistrationDateFieldControl"
+            />
+            <mat-error
+               *ngIf="
+                  formControlGroup.controls.startRegistrationDateFieldControl
+                     .invalid
+               "
+            >
+               {{
+                  getRequiredFieldErrorMessage(
+                     formControlGroup.controls.startRegistrationDateFieldControl
+                  )
+               }}
+            </mat-error>
+            <mat-datepicker-toggle
+               matSuffix
+               [for]="startRegistrationDatePicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #startRegistrationDatePicker></mat-datepicker>
+         </mat-form-field>
+
+         <!-- EndRegistrationDate Field -->
+         <mat-form-field>
+            <input
+               matInput
+               [matDatepicker]="endRegistrationDatePicker"
+               [placeholder]="endRegistrationDateFieldPlaceholder"
+               formControlName="endRegistrationDateFieldControl"
+            />
+            <mat-error
+               *ngIf="
+                  formControlGroup.controls.endRegistrationDateFieldControl
+                     .invalid
+               "
+            >
+               {{
+                  getRequiredFieldErrorMessage(
+                     formControlGroup.controls.endRegistrationDateFieldControl
+                  )
+               }}
+            </mat-error>
+            <mat-datepicker-toggle
+               matSuffix
+               [for]="endRegistrationDatePicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #endRegistrationDatePicker></mat-datepicker>
+         </mat-form-field>
+
+         <!-- finalCancellationDate Field -->
+         <mat-form-field>
+            <input
+               matInput
+               [matDatepicker]="finalCancellationDatePicker"
+               [placeholder]="finalCancellationDateFieldPlaceholder"
+               formControlName="finalCancellationDateFieldControl"
+            />
+            <mat-error
+               *ngIf="
+                  formControlGroup.controls.finalCancellationDateFieldControl
+                     .invalid
+               "
+            >
+               {{
+                  getRequiredFieldErrorMessage(
+                     formControlGroup.controls.finalCancellationDateFieldControl
+                  )
+               }}
+            </mat-error>
+            <mat-datepicker-toggle
+               matSuffix
+               [for]="finalCancellationDatePicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #finalCancellationDatePicker></mat-datepicker>
+         </mat-form-field>
+      </div>
+      <!-- RegistrationOnDailyBasis Field -->
+      <mat-form-field>
+         <mat-select
+            mat-input
+            [placeholder]="registrationOnDailyBasisFieldPlaceholder"
+            formControlName="registrationOnDailyBasisFieldControl"
+         >
+            <mat-option value="true">Ja</mat-option>
+            <mat-option value="false">Nee</mat-option>
+         </mat-select>
+         <mat-error
+            *ngIf="
+               formControlGroup.controls.registrationOnDailyBasisFieldControl
+                  .invalid
+            "
+         >
+            {{
+               getRequiredFieldErrorMessage(
+                  formControlGroup.controls.registrationOnDailyBasisFieldControl
+               )
+            }}
+         </mat-error>
+      </mat-form-field>
+      <div>
+         <!-- StartDate Field -->
+         <mat-form-field>
+            <input
+               matInput
+               [matDatepicker]="startDatePicker"
+               [placeholder]="startDateFieldPlaceholder"
+               formControlName="startDateFieldControl"
+            />
+            <mat-error
+               *ngIf="formControlGroup.controls.startDateFieldControl.invalid"
+            >
+               {{
+                  getRequiredFieldErrorMessage(
+                     formControlGroup.controls.startDateFieldControl
+                  )
+               }}
+            </mat-error>
+            <mat-datepicker-toggle
+               matSuffix
+               [for]="startDatePicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #startDatePicker></mat-datepicker>
+         </mat-form-field>
+
+         <!-- EndDate Field -->
+         <mat-form-field>
+            <input
+               matInput
+               [matDatepicker]="endDatePicker"
+               [placeholder]="endDateFieldPlaceholder"
+               formControlName="endDateFieldControl"
+            />
+            <mat-error
+               *ngIf="formControlGroup.controls.endDateFieldControl.invalid"
+            >
+               {{
+                  getRequiredFieldErrorMessage(
+                     formControlGroup.controls.endDateFieldControl
+                  )
+               }}
+            </mat-error>
+            <mat-datepicker-toggle
+               matSuffix
+               [for]="endDatePicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #endDatePicker></mat-datepicker>
+         </mat-form-field>
+
+         <!-- dailyStartTime Field -->
+         <mat-form-field>
+            <input
+               matInput
+               [ngxTimepicker]="dailyStartTimePicker"
+               [format]="24"
+               [placeholder]="dailyStartTimePlaceholder"
+               formControlName="dailyStartTimeFieldControl"
+               [value]="
+                  formControlGroup.controls.dailyStartTimeFieldControl.value
+                     | date: 'HH:mm'
+               "
+            />
+            <mat-error
+               *ngIf="
+                  formControlGroup.controls.dailyStartTimeFieldControl.invalid
+               "
+            >
+               {{
+                  getRequiredFieldErrorMessage(
+                     formControlGroup.controls.dailyStartTimeFieldControl
+                  )
+               }}
+            </mat-error>
+            <ngx-material-timepicker
+               #dailyStartTimePicker
+            ></ngx-material-timepicker>
+         </mat-form-field>
+
+         <!-- DailyEndTime Field -->
+         <mat-form-field>
+            <input
+               matInput
+               [ngxTimepicker]="dailyEndTimePicker"
+               [format]="24"
+               [placeholder]="dailyEndTimePlaceholder"
+               formControlName="dailyEndTimeFieldControl"
+               [value]="
+                  formControlGroup.controls.dailyEndTimeFieldControl.value
+                     | date: 'HH:mm'
+               "
+            />
+            <mat-error
+               *ngIf="
+                  formControlGroup.controls.dailyEndTimeFieldControl.invalid
+               "
+            >
+               {{
+                  getRequiredFieldErrorMessage(
+                     formControlGroup.controls.dailyEndTimeFieldControl
+                  )
+               }}
+            </mat-error>
+            <ngx-material-timepicker
+               #dailyEndTimePicker
+            ></ngx-material-timepicker>
+         </mat-form-field>
+      </div>
+      <!-- End Of Section -->
+      <mat-divider></mat-divider>
+
+      <!-- Care Fields Title -->
+      <h3 class="section-title">Opvang</h3>
+
+      <div>
+         <!-- HasDayCareBefore Field -->
+         <mat-form-field>
+            <mat-select
+               mat-input
+               [placeholder]="hasDayCareBeforeFieldPlaceholder"
+               formControlName="hasDayCareBeforeFieldControl"
+            >
+               <mat-option value="true">Ja</mat-option>
+               <mat-option value="false">Nee</mat-option>
+            </mat-select>
+            <mat-error
+               *ngIf="
+                  formControlGroup.controls.hasDayCareBeforeFieldControl.invalid
+               "
+            >
+               {{
+                  getRequiredFieldErrorMessage(
+                     formControlGroup.controls.hasDayCareBeforeFieldControl
+                  )
+               }}
+            </mat-error>
+         </mat-form-field>
+
+         <!-- DayCareBeforeStartTime Field -->
+         <mat-form-field
+            *ngIf="
+               formControlGroup.controls.hasDayCareBeforeFieldControl.value ===
+               'true'
+            "
+         >
+            <input
+               matInput
+               [ngxTimepicker]="dayCareBeforeStartTimePicker"
+               [format]="24"
+               [placeholder]="dayCareBeforeStartTimeFieldPlaceholder"
+               formControlName="dayCareBeforeStartTimeFieldControl"
+               [value]="
+                  formControlGroup.controls.dayCareBeforeStartTimeFieldControl
+                     .value | date: 'HH:mm'
+               "
+            />
+            <mat-error
+               *ngIf="
+                  formControlGroup.controls.dayCareBeforeStartTimeFieldControl
+                     .invalid
+               "
+            >
+               {{
+                  getRequiredFieldErrorMessage(
+                     formControlGroup.controls
+                        .dayCareBeforeStartTimeFieldControl
+                  )
+               }}
+            </mat-error>
+            <ngx-material-timepicker
+               #dayCareBeforeStartTimePicker
+            ></ngx-material-timepicker>
+         </mat-form-field>
+
+         <!-- DayCareBeforeEndTime Field -->
+         <mat-form-field
+            *ngIf="
+               formControlGroup.controls.hasDayCareBeforeFieldControl.value ===
+               'true'
+            "
+         >
+            <input
+               matInput
+               [ngxTimepicker]="dayCareBeforeEndTimePicker"
+               [format]="24"
+               [placeholder]="dayCareBeforeEndTimeFieldPlaceholder"
+               formControlName="dayCareBeforeEndTimeFieldControl"
+               [value]="
+                  formControlGroup.controls.dayCareBeforeEndTimeFieldControl
+                     .value | date: 'HH:mm'
+               "
+            />
+            <mat-error
+               *ngIf="
+                  formControlGroup.controls.dayCareBeforeEndTimeFieldControl
+                     .invalid
+               "
+            >
+               {{
+                  getRequiredFieldErrorMessage(
+                     formControlGroup.controls.dayCareBeforeEndTimeFieldControl
+                  )
+               }}
+            </mat-error>
+            <ngx-material-timepicker
+               #dayCareBeforeEndTimePicker
+            ></ngx-material-timepicker>
+         </mat-form-field>
+      </div>
+      <div>
+         <!-- HasDayCareAfter Field -->
+         <mat-form-field>
+            <mat-select
+               mat-input
+               [placeholder]="hasDayCareAfterFieldPlaceholder"
+               formControlName="hasDayCareAfterFieldControl"
+            >
+               <mat-option value="true">Ja</mat-option>
+               <mat-option value="false">Nee</mat-option>
+            </mat-select>
+            <mat-error
+               *ngIf="
+                  formControlGroup.controls.hasDayCareAfterFieldControl.invalid
+               "
+            >
+               {{
+                  getRequiredFieldErrorMessage(
+                     formControlGroup.controls.hasDayCareAfterFieldControl
+                  )
+               }}
+            </mat-error>
+         </mat-form-field>
+
+         <!-- DayCareAfterStartTime Field -->
+         <mat-form-field
+            *ngIf="
+               formControlGroup.controls.hasDayCareAfterFieldControl.value ===
+               'true'
+            "
+         >
+            <input
+               matInput
+               [ngxTimepicker]="dayCareAfterStartTimePicker"
+               [format]="24"
+               [placeholder]="dayCareAfterStartTimeFieldPlaceholder"
+               formControlName="dayCareAfterStartTimeFieldControl"
+               [value]="
+                  formControlGroup.controls.dayCareAfterStartTimeFieldControl
+                     .value | date: 'HH:mm'
+               "
+            />
+            <mat-error
+               *ngIf="
+                  formControlGroup.controls.dayCareAfterStartTimeFieldControl
+                     .invalid
+               "
+            >
+               {{
+                  getRequiredFieldErrorMessage(
+                     formControlGroup.controls.dayCareAfterStartTimeFieldControl
+                  )
+               }}
+            </mat-error>
+            <ngx-material-timepicker
+               #dayCareAfterStartTimePicker
+            ></ngx-material-timepicker>
+         </mat-form-field>
+
+         <!-- DayCareAfterEndTime Field -->
+         <mat-form-field
+            *ngIf="
+               formControlGroup.controls.hasDayCareAfterFieldControl.value ===
+               'true'
+            "
+         >
+            <input
+               matInput
+               [ngxTimepicker]="dayCareAfterEndTimePicker"
+               [format]="24"
+               [placeholder]="dayCareAfterEndTimeFieldPlaceholder"
+               formControlName="dayCareAfterEndTimeFieldControl"
+               [value]="
+                  formControlGroup.controls.dayCareAfterEndTimeFieldControl
+                     .value | date: 'HH:mm'
+               "
+            />
+            <mat-error
+               *ngIf="
+                  formControlGroup.controls.dayCareAfterEndTimeFieldControl
+                     .invalid
+               "
+            >
+               {{
+                  getRequiredFieldErrorMessage(
+                     formControlGroup.controls.dayCareAfterEndTimeFieldControl
+                  )
+               }}
+            </mat-error>
+            <ngx-material-timepicker
+               #dayCareAfterEndTimePicker
+            ></ngx-material-timepicker>
+         </mat-form-field>
+      </div>
+      <!-- Button Row -->
+      <mat-dialog-actions class="button-row">
+         <!-- Close Button -->
+         <button
+            mat-raised-button
+            (click)="closeForm()"
+            title="Formulier sluiten"
+            aria-label="Formulier sluiten"
+         >
+            Sluiten
+         </button>
+
+         <!-- Add Button -->
+         <button
+            mat-raised-button
+            color="primary"
+            (click)="submitForm()"
+            title="Formulier sluiten"
+            aria-label="Formulier sluiten"
+            *ngIf="isAdding"
+         >
+            Toevoegen
+         </button>
+
+         <!-- Save Button -->
+         <button
+            mat-raised-button
+            color="primary"
+            (click)="submitForm()"
+            title="Formulier sluiten"
+            aria-label="Formulier sluiten"
+            *ngIf="!isAdding"
+         >
+            Opslaan
+         </button>
+      </mat-dialog-actions>
+   </form>
+</mat-dialog-content>

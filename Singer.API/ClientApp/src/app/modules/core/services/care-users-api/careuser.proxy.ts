@@ -3,7 +3,8 @@ import { Inject, Injectable } from '@angular/core';
 import { ApiService } from '../api.service';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { PaginationDTO, UpdateCareUserDTO, CreateCareUserDTO, CareUserDTO } from '../../models/careuser.model';
+import { UpdateCareUserDTO, CreateCareUserDTO, CareUserDTO } from '../../models/careuser.model';
+import { PaginationDTO } from '../../models/pagination.model';
 
 @Injectable({
    providedIn: 'root'

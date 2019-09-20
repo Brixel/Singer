@@ -6,77 +6,96 @@ using IdentityServer4.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Singer.Data;
-using Singer.Data.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using Singer.Data.Models;
-using Singer.Models;
-using static IdentityServer4.IdentityServerConstants;
+using Singer.Models.Users;
 using ApiResource = IdentityServer4.EntityFramework.Entities.ApiResource;
 using ClaimValueTypes = System.Security.Claims.ClaimValueTypes;
 using IdentityResource = IdentityServer4.EntityFramework.Entities.IdentityResource;
+using Singer.Services;
+using Singer.DTOs.Users;
+using Singer.Identity;
+using Singer.Models;
 
 namespace Singer.Configuration
 {
    public static class Seed
-   {
-      private const string ROLE_ADMINISTRATOR = "Administrator";
-      private const string ROLE_SOCIALSERVICES = "SocialServices";
-      private const string ROLE_CARETAKER = "Caretaker";
-      private const string ROLE_CAREUSER = "CareUser";
+   { 
+      private static List<string> _careUsers = new List<string>() { "user1", "user2", "user3" };
 
-      private static List<string> _careUsers = new List<string>() {"user1", "user2", "user3"};
-
-
-      private static List<string> ROLES = new List<string>()
-      {
-         ROLE_ADMINISTRATOR,
-         ROLE_SOCIALSERVICES,
-         ROLE_CARETAKER,
-         ROLE_CAREUSER
+      private static List<EventLocation> _eventLocations = new List<EventLocation>() {
+         new EventLocation{
+            Name="Brixel",
+            Address= "Spalbeekstraat",
+            City="Spalbeek",
+            Country="Belgie",
+            PostalCode="3510"
+         },
+         new EventLocation{
+            Name="Sint-Gerardus",
+            Address= "Sint-Gerardusdreef 1",
+            City="Diepenbeek",
+            Country="Belgie",
+            PostalCode="3590"
+         }
       };
+
       public static void SeedUsers(IServiceScope serviceScope, ApplicationDbContext applicationDbContext, string initialAdminPassword)
       {
          var userMgr = serviceScope.ServiceProvider.GetRequiredService<UserManager<User>>();
          var roleMgr = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
          var admin = userMgr.FindByNameAsync("admin").Result;
-         var usersInDatabase = applicationDbContext.Users.Any();
-         if (admin == null && !usersInDatabase)
+         var adminUsersInDatabase = applicationDbContext.AdminUsers.Any();
+         if (!adminUsersInDatabase)
          {
-            admin = new User
+            if (admin == null)
             {
-               UserName = "admin"
-            };
-            var result = userMgr.CreateAsync(admin, initialAdminPassword).Result;
-            if (!result.Succeeded)
-            {
-               throw new Exception(result.Errors.First().Description);
+               admin = new User
+               {
+                  UserName = "admin"
+               };
+               var result = userMgr.CreateAsync(admin, initialAdminPassword).Result;
+               if (!result.Succeeded)
+               {
+                  throw new Exception(result.Errors.First().Description);
+               }
+
+               if (!result.Succeeded)
+               {
+                  throw new Exception(result.Errors.First().Description);
+               }
             }
 
-            result = userMgr.AddClaimsAsync(admin, new Claim[]{
-               new Claim(JwtClaimTypes.Name, "Admin"),
-               new Claim(JwtClaimTypes.GivenName, "GivenName"),
-               new Claim(JwtClaimTypes.FamilyName, "FamilyName"),
-               new Claim(JwtClaimTypes.Email, "email@host.example"),
-               new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
-               new Claim(JwtClaimTypes.WebSite, "http://host.example"),
-               new Claim(JwtClaimTypes.Address, @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }", IdentityServer4.IdentityServerConstants.ClaimValueTypes.Json)
-            }).Result;
-            if (!result.Succeeded)
+            var adminUser = new AdminUser()
             {
-               throw new Exception(result.Errors.First().Description);
-            }
+               User = admin,
+               UserId = admin.Id
+            };
+
+            applicationDbContext.AdminUsers.Add(adminUser);
+
             Console.WriteLine("admin created");
+            var _ = userMgr.AddToRoleAsync(admin, Roles.ROLE_ADMINISTRATOR).Result;
+            _ = userMgr.AddClaimAsync(admin, new Claim(ClaimTypes.Role, Roles.ROLE_ADMINISTRATOR)).Result;
+
          }
          else
          {
             Console.WriteLine("admin already exists");
+            if (admin != null)
+            {
+               var hasRole = userMgr.IsInRoleAsync(admin, Roles.ROLE_ADMINISTRATOR).Result;
+               if (!hasRole)
+               {
+                  var _ = userMgr.AddToRoleAsync(admin, Roles.ROLE_ADMINISTRATOR).Result;
+               }
+            }
+            
          }
-         var _ = userMgr.AddToRoleAsync(admin, ROLE_ADMINISTRATOR).Result;
 
-         foreach (var careUser in _careUsers)
+         foreach (var careUser in Roles._careUsers)
          {
             var user = userMgr.FindByNameAsync(careUser).Result;
             if (user == null)
@@ -93,7 +112,7 @@ namespace Singer.Configuration
                   throw new Exception(__.Errors.First().Description);
 
                }
-               var roleTask = userMgr.AddToRoleAsync(user, ROLE_CAREUSER).Result;
+               var roleTask = userMgr.AddToRoleAsync(user, Roles.ROLE_CAREUSER).Result;
                if (!roleTask.Succeeded)
                {
                   throw new Exception(roleTask.Errors.First().Description);
@@ -111,7 +130,7 @@ namespace Singer.Configuration
                   IsExtern = false,
                   UserId = user.Id
                };
-               
+
                applicationDbContext.CareUsers.Add(careuser);
             }
          }
@@ -121,7 +140,7 @@ namespace Singer.Configuration
 
       public static void SeedRoles(IServiceScope serviceScope, ApplicationDbContext applicationDbContext)
       {
-         foreach (var role in ROLES)
+         foreach (var role in Roles.ROLES)
          {
 
             var roleMgr = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
@@ -144,20 +163,29 @@ namespace Singer.Configuration
 
       public static void SeedIdentityResources(ConfigurationDbContext configrationDbContext)
       {
-         var identityResources= new List<IdentityResource>
+         var identityResources = new List<IdentityResource>
          {
             new IdentityResources.OpenId().ToEntity(),
             new IdentityResources.Email().ToEntity(),
             new IdentityResources.Profile().ToEntity(),
             new IdentityResources.Phone().ToEntity(),
-            new IdentityResources.Address().ToEntity()
+            new IdentityResources.Address().ToEntity(),
+            new IdentityResource(){
+               Name = "Role",
+               UserClaims = new List<IdentityClaim>()
+            {
+               new IdentityClaim()
+               {
+                  Type = JwtClaimTypes.Role
+               }
+            }}
          };
 
 
-        foreach(var identityResource in identityResources)
+         foreach (var identityResource in identityResources)
          {
             var identityResourceInDb = configrationDbContext.IdentityResources.SingleOrDefault(x => x.Name == identityResource.Name);
-            if(identityResourceInDb == null)
+            if (identityResourceInDb == null)
             {
                configrationDbContext.IdentityResources.Add(identityResource);
             }
@@ -173,13 +201,26 @@ namespace Singer.Configuration
             apiResource = new ApiResource()
             {
                Name = singerApiResourceName,
+
+               
                Scopes = new List<ApiScope>()
                {
                   new ApiScope()
                   {
                      Name = "apiRead",
                      DisplayName = "Readonly scope for SingerAPI",
-                     Required = true
+                     Required = true,
+                     UserClaims = new List<ApiScopeClaim>()
+                     {
+                        new ApiScopeClaim()
+                        {
+                           Type = ClaimTypes.Role,
+                        },
+                        new ApiScopeClaim()
+                        {
+                           Type = ClaimTypes.Name
+                        }
+                     }
                   }
                },
 
@@ -193,7 +234,7 @@ namespace Singer.Configuration
                   {
                      Type = ClaimTypes.Email
                   },
-                  
+
                }
             };
 
@@ -208,6 +249,16 @@ namespace Singer.Configuration
          {
             singerApiClient = Config.GetClient().ToEntity();
             configrationDbContext.Clients.Add(singerApiClient);
+         }
+      }
+      public static void SeedEventLocations(ApplicationDbContext applicationDbContext)
+      {
+         if (applicationDbContext.EventLocations.Count() == 0)
+         {
+            foreach (var loc in _eventLocations)
+            {
+               applicationDbContext.Add(loc);
+            }
          }
       }
    }

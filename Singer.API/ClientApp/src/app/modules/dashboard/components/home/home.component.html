@@ -16,3 +16,5 @@
       </mat-card-content>
    </mat-card>
 </div>
+
+ <app-event-list [availableLocations]="availableLocations" [events]="events" (searchEvent)="onSearchEvent($event)"></app-event-list>

@@ -13,10 +13,34 @@
       <a
          *ngIf="isAuthenticated()"
          mat-raised-button
+         [routerLink]="['/admin/voogden']"
+         routerLinkActive="mat-accent"
+      >
+         Voogden
+      </a>
+      <a
+         *ngIf="isAuthenticated()"
+         mat-raised-button
          [routerLink]="['/admin/zorggebruikers']"
          routerLinkActive="mat-accent"
       >
          Zorg gebruikers
+      </a>
+      <a
+         *ngIf="isAuthenticated() && isAdmin()"
+         mat-raised-button
+         [routerLink]="['/admin/beheerders']"
+         routerLinkActive="mat-accent"
+      >
+         Beheerders
+      </a>
+      <a
+         *ngIf="isAuthenticated()"
+         mat-raised-button
+         [routerLink]="['/admin/evenementen']"
+         routerLinkActive="mat-accent"
+      >
+         Evenementen
       </a>
       <a
          *ngIf="isAuthenticated()"

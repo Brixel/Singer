@@ -126,7 +126,95 @@ namespace Singer.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Singer.Models.CareUser", b =>
+            modelBuilder.Entity("Singer.Models.Event", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AllowedAgeGroups");
+
+                    b.Property<decimal>("Cost");
+
+                    b.Property<DateTime>("DailyEndTime");
+
+                    b.Property<DateTime>("DailyStartTime");
+
+                    b.Property<DateTime>("DayCareAfterEndTime");
+
+                    b.Property<DateTime>("DayCareAfterStartTime");
+
+                    b.Property<DateTime>("DayCareBeforeEndTime");
+
+                    b.Property<DateTime>("DayCareBeforeStartTime");
+
+                    b.Property<string>("Description");
+
+                    b.Property<DateTime>("EndDate");
+
+                    b.Property<DateTime>("EndRegistrationDate");
+
+                    b.Property<DateTime>("FinalCancellationDate");
+
+                    b.Property<bool>("HasDayCareAfter");
+
+                    b.Property<bool>("HasDayCareBefore");
+
+                    b.Property<Guid>("LocationId");
+
+                    b.Property<int>("MaxRegistrants");
+
+                    b.Property<bool>("RegistrationOnDailyBasis");
+
+                    b.Property<DateTime>("StartDate");
+
+                    b.Property<DateTime>("StartRegistrationDate");
+
+                    b.Property<string>("Title");
+
+                    b.Property<int>("currentRegistrants");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LocationId");
+
+                    b.ToTable("Events");
+                });
+
+            modelBuilder.Entity("Singer.Models.EventLocation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Address");
+
+                    b.Property<string>("City");
+
+                    b.Property<string>("Country");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("PostalCode");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EventLocations");
+                });
+
+            modelBuilder.Entity("Singer.Models.Users.AdminUser", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AdminUsers");
+                });
+
+            modelBuilder.Entity("Singer.Models.Users.CareUser", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -156,7 +244,42 @@ namespace Singer.Migrations
                     b.ToTable("CareUsers");
                 });
 
-            modelBuilder.Entity("Singer.Models.User", b =>
+            modelBuilder.Entity("Singer.Models.Users.LegalGuardianCareUser", b =>
+                {
+                    b.Property<Guid>("CareUserId");
+
+                    b.Property<Guid>("LegalGuardianId");
+
+                    b.HasKey("CareUserId", "LegalGuardianId");
+
+                    b.HasIndex("LegalGuardianId");
+
+                    b.ToTable("LegalGuardianCareUsers");
+                });
+
+            modelBuilder.Entity("Singer.Models.Users.LegalGuardianUser", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Address");
+
+                    b.Property<string>("City");
+
+                    b.Property<string>("Country");
+
+                    b.Property<string>("PostalCode");
+
+                    b.Property<Guid>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("LegalGuardianUsers");
+                });
+
+            modelBuilder.Entity("Singer.Models.Users.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -221,7 +344,7 @@ namespace Singer.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
-                    b.HasOne("Singer.Models.User")
+                    b.HasOne("Singer.Models.Users.User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -229,7 +352,7 @@ namespace Singer.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
-                    b.HasOne("Singer.Models.User")
+                    b.HasOne("Singer.Models.Users.User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -242,7 +365,7 @@ namespace Singer.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Singer.Models.User")
+                    b.HasOne("Singer.Models.Users.User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -250,15 +373,52 @@ namespace Singer.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.HasOne("Singer.Models.User")
+                    b.HasOne("Singer.Models.Users.User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Singer.Models.CareUser", b =>
+            modelBuilder.Entity("Singer.Models.Event", b =>
                 {
-                    b.HasOne("Singer.Models.User", "User")
+                    b.HasOne("Singer.Models.EventLocation", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Singer.Models.Users.AdminUser", b =>
+                {
+                    b.HasOne("Singer.Models.Users.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Singer.Models.Users.CareUser", b =>
+                {
+                    b.HasOne("Singer.Models.Users.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Singer.Models.Users.LegalGuardianCareUser", b =>
+                {
+                    b.HasOne("Singer.Models.Users.CareUser", "CareUser")
+                        .WithMany("LegalGuardianCareUsers")
+                        .HasForeignKey("CareUserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Singer.Models.Users.LegalGuardianUser", "LegalGuardian")
+                        .WithMany("LegalGuardianCareUsers")
+                        .HasForeignKey("LegalGuardianId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("Singer.Models.Users.LegalGuardianUser", b =>
+                {
+                    b.HasOne("Singer.Models.Users.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);

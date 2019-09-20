@@ -14,8 +14,13 @@ namespace Singer.Services.Interfaces
    /// </summary>
    /// <typeparam name="TEntity">The type of the entity to manipulate in the database.</typeparam>
    /// <typeparam name="TDTO">The type that will be exposed to the outside world.</typeparam>
-   public interface IDatabaseService<TEntity, TDTO>
+   /// <typeparam name="TCreateDTO">The type that is used to create new entities in the database.</typeparam>
+   /// <typeparam name="TUpdateDTO">The type that is used to update entities in the database.</typeparam>
+   public interface IDatabaseService<TEntity, TDTO, TCreateDTO, TUpdateDTO>
       where TEntity : class, IIdentifiable
+      where TDTO : class, IIdentifiable
+      where TCreateDTO : class
+      where TUpdateDTO : class
    {
       /// <summary>
       /// Expression that is used to convert an <see cref="TEntity"/> to a <see cref="TDTO"/> when returning values from the database.
@@ -26,6 +31,12 @@ namespace Singer.Services.Interfaces
       /// Expression that is used to convert a <see cref="TDTO"/> to an <see cref="TEntity"/> when manipulating values in the database.
       /// </summary>
       Expression<Func<TDTO, TEntity>> DTOToEntityProjector { get; }
+
+      /// <summary>
+      /// Expression that is used to convert a <see cref="TCreateDTO"/> to an <see cref="TEntity"/> when creating entities in the database.
+      /// </summary>
+      Expression<Func<TCreateDTO, TEntity>> CreateDTOToEntityProjector { get; }
+
 
       /// <summary>
       /// Creates a <see cref="TDTO"/> in the database by converting it to a <see cref="TEntity"/>.
@@ -41,8 +52,8 @@ namespace Singer.Services.Interfaces
       /// If this value is null, the <see cref="EntityToDTOProjector"/> property is used.
       /// </param>
       /// <returns>The new created <see cref="TEntity"/> converted to a <see cref="TDTO"/>.</returns>
-      Task<TDTO> CreateAsync(TDTO dto,
-         Expression<Func<TDTO, TEntity>> dtoToEntityProjector = null,
+      Task<TDTO> CreateAsync(TCreateDTO dto,
+         Expression<Func<TCreateDTO, TEntity>> dtoToEntityProjector = null,
          Expression<Func<TEntity, TDTO>> entityToDTOProjector = null);
 
       /// <summary>
@@ -69,7 +80,7 @@ namespace Singer.Services.Interfaces
 
       /// <summary>
       /// Returns a selection of <see cref="TEntity"/>s, converted <see cref="TDTO"/>s. The selection is made by filtering the
-      /// in the database, ordering the collection and finaly selecting a page.
+      /// in the database, ordering the collection and finaly selecting a pageIndex.
       /// <list type="number">
       ///   <item>
       ///      <term>Filtering</term>
@@ -85,7 +96,7 @@ namespace Singer.Services.Interfaces
       ///   </item>
       ///   <item>
       ///      <term>Paging</term>
-      ///      <description>Finaly a page will be selected from the collection so that not all elements should be returned.</description>
+      ///      <description>Finaly a pageIndex will be selected from the collection so that not all elements should be returned.</description>
       ///   </item>
       /// </list>
       /// </summary>
@@ -93,15 +104,15 @@ namespace Singer.Services.Interfaces
       /// <param name="projector">The <see cref="Expression"/> to project the <see cref="TEntity"/>s to the <see cref="TDTO"/>s.</param>
       /// <param name="orderer">The column to sort the returned list on.</param>
       /// <param name="sortDirection">The direction to sort the column on.</param>
-      /// <param name="page">The pagenumber to return.</param>
-      /// <param name="itemsPerPage">The number of items on a page.</param>
+      /// <param name="pageIndex">The pagenumber to return.</param>
+      /// <param name="itemsPerPage">The number of items on a pageIndex.</param>
       /// <returns></returns>
       Task<SearchResults<TDTO>> GetAsync(
          string filter = null,
          Expression<Func<TEntity, TDTO>> projector = null,
          Expression<Func<TDTO, object>> orderer = null,
          ListSortDirection sortDirection = ListSortDirection.Ascending,
-         int page = 0,
+         int pageIndex = 0,
          int itemsPerPage = 15);
 
       /// <summary>
@@ -121,8 +132,8 @@ namespace Singer.Services.Interfaces
       /// <exception cref="NotFoundException">There is no element found with the id <paramref name="id"/>.</exception>
       Task<TDTO> UpdateAsync(
          Guid id,
-         TDTO newValue,
-         Expression<Func<TDTO, TEntity>> dtoToEntityProjector = null,
+         TUpdateDTO newValue,
+         Expression<Func<TUpdateDTO, TEntity>> dtoToEntityProjector = null,
          Expression<Func<TEntity, TDTO>> entityToDTOProjector = null);
 
       /// <summary>

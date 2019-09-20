@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, ViewChild, OnInit, ElementRef } from '@angular/core';
+import {
+   AfterViewInit,
+   Component,
+   ViewChild,
+   OnInit,
+   ElementRef,
+} from '@angular/core';
 import { MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { OverviewDataSource } from './overview-datasource';
 import { DataSource } from '@angular/cdk/table';
@@ -40,11 +46,14 @@ export class OverviewComponent implements OnInit, AfterViewInit {
    ];
    filter: string;
 
-    constructor(public dialog: MatDialog, private careUserService: CareUserService){}
+   constructor(
+      public dialog: MatDialog,
+      private careUserService: CareUserService
+   ) {}
 
-   ngOnInit(){
+   ngOnInit() {
       this.dataSource = new OverviewDataSource(this.careUserService);
-      this.sort.active = 'lastName';
+      this.sort.active = 'id'; //TODO: Workaround for API sorting issue, when sorting on other columns, linked users are not always filled in
       this.sort.direction = 'asc';
       this.loadCareUsers();
    }
@@ -52,11 +61,12 @@ export class OverviewComponent implements OnInit, AfterViewInit {
    selectRow(row: CareUser): void {
       const dialogRef = this.dialog.open(CareUserDetailsComponent, {
          data: { careUserInstance: row, isAdding: false },
+         width: '80vw',
       });
 
       dialogRef.componentInstance.submitEvent.subscribe((result: CareUser) => {
          // Update the Careuser
-         this.careUserService.updateUser(result).subscribe((res) => {
+         this.careUserService.updateUser(result).subscribe(res => {
             // Reload Careusers
             this.loadCareUsers();
          });
@@ -66,43 +76,49 @@ export class OverviewComponent implements OnInit, AfterViewInit {
    addCareUser(): void {
       const dialogRef = this.dialog.open(CareUserDetailsComponent, {
          data: { careUserInstance: null, isAdding: true },
+         width: '80vw',
       });
 
       dialogRef.componentInstance.submitEvent.subscribe((result: CareUser) => {
-         this.careUserService.createCareUser(result).subscribe((res) =>{
+         this.careUserService.createCareUser(result).subscribe(res => {
             this.loadCareUsers();
-         })
+         });
       });
    }
 
-   private loadCareUsers(){
+   private loadCareUsers() {
       const sortDirection = this.sort.direction;
       const sortColumn = this.sort.active;
       this.filter = this.filterInput.nativeElement.value;
-      this.dataSource.loadCareUsers(sortDirection, sortColumn, this.pageIndex, this.pageSize, this.filter);
+      this.dataSource.loadCareUsers(
+         sortDirection,
+         sortColumn,
+         this.pageIndex,
+         this.pageSize,
+         this.filter
+      );
    }
 
    ngAfterViewInit() {
       fromEvent(this.filterInput.nativeElement, 'keyup')
-            .pipe(
-                debounceTime(400),
-                distinctUntilChanged(),
-                tap(() => {
-                    this.paginator.pageIndex = 0;
-                    this.loadCareUsers();
-                })
-            )
-            .subscribe();
-      this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+         .pipe(
+            debounceTime(400),
+            distinctUntilChanged(),
+            tap(() => {
+               this.paginator.pageIndex = 1;
+               this.loadCareUsers();
+            })
+         )
+         .subscribe();
+      this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 1));
       merge(this.sort.sortChange, this.paginator.page)
-          .pipe(
-              tap(() => {
-                 this.pageIndex = this.paginator.pageIndex;
-                 this.pageSize = this.paginator.pageSize;
-                  this.loadCareUsers();
-              })
-          )
-          .subscribe();
-  }
-
+         .pipe(
+            tap(() => {
+               this.pageIndex = this.paginator.pageIndex;
+               this.pageSize = this.paginator.pageSize;
+               this.loadCareUsers();
+            })
+         )
+         .subscribe();
+   }
 }

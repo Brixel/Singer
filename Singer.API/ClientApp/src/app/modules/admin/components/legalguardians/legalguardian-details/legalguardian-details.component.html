@@ -1,0 +1,230 @@
+<!-- Form Dialog Title -->
+<h2 mat-dialog-title>Toevoegen/bewerken (enkel admin)</h2>
+
+<!-- Form Dialog Content -->
+<mat-dialog-content>
+   <!-- Details Form -->
+   <form [formGroup]="formControlGroup" class="details-form-container">
+      <!-- Personal Fields Title -->
+      <h3 class="section-title">Persoonlijke gegevens</h3>
+      <!-- Name Fields -->
+      <div class="name-fields">
+         <!-- Lastname Field -->
+         <mat-form-field>
+            <input
+               matInput
+               [placeholder]="lastNameFieldPlaceholder"
+               formControlName="lastNameFieldControl"
+            />
+            <mat-error
+               *ngIf="formControlGroup.controls.lastNameFieldControl.invalid"
+            >
+               {{
+                  getRequiredFieldErrorMessage(
+                     formControlGroup.controls.lastNameFieldControl
+                  )
+               }}
+            </mat-error>
+         </mat-form-field>
+
+         <!-- FirstName Field -->
+         <mat-form-field>
+            <input
+               matInput
+               [placeholder]="firstNameFieldPlaceholder"
+               formControlName="firstNameFieldControl"
+            />
+            <mat-error
+               *ngIf="formControlGroup.controls.firstNameFieldControl.invalid"
+            >
+               {{
+                  getRequiredFieldErrorMessage(
+                     formControlGroup.controls.firstNameFieldControl
+                  )
+               }}
+            </mat-error>
+         </mat-form-field>
+
+         <!-- Email Field -->
+         <mat-form-field>
+            <input
+               matInput
+               [placeholder]="emailFieldPlaceholder"
+               formControlName="emailFieldControl"
+            />
+            <mat-error
+               *ngIf="formControlGroup.controls.emailFieldControl.invalid"
+            >
+               {{ getEmailFieldErrorMessage() }}
+            </mat-error>
+         </mat-form-field>
+      </div>
+
+      <!-- End Of Section -->
+      <mat-divider></mat-divider>
+
+      <!-- Administrative Fields Title -->
+      <h3 class="section-title">Administratieve gegevens</h3>
+      <div>
+         <!-- Address Field -->
+         <mat-form-field>
+            <input
+               matInput
+               [placeholder]="addressFieldPlaceholder"
+               formControlName="addressFieldControl"
+            />
+            <mat-error
+               *ngIf="formControlGroup.controls.addressFieldControl.invalid"
+            >
+               {{
+                  getRequiredFieldErrorMessage(
+                     formControlGroup.controls.addressFieldControl
+                  )
+               }}
+            </mat-error>
+         </mat-form-field>
+
+         <!-- PostalCode Field -->
+         <mat-form-field>
+            <input
+               matInput
+               [placeholder]="postalCodeFieldPlaceholder"
+               formControlName="postalCodeFieldControl"
+            />
+            <mat-error
+               *ngIf="formControlGroup.controls.postalCodeFieldControl.invalid"
+            >
+               {{
+                  getRequiredFieldErrorMessage(
+                     formControlGroup.controls.postalCodeFieldControl
+                  )
+               }}
+            </mat-error>
+         </mat-form-field>
+
+         <!-- city Field -->
+         <mat-form-field>
+            <input
+               matInput
+               [placeholder]="cityFieldPlaceholder"
+               formControlName="cityFieldControl"
+            />
+            <mat-error
+               *ngIf="formControlGroup.controls.cityFieldControl.invalid"
+            >
+               {{
+                  getRequiredFieldErrorMessage(
+                     formControlGroup.controls.cityFieldControl
+                  )
+               }}
+            </mat-error>
+         </mat-form-field>
+
+         <!-- country Field -->
+         <mat-form-field>
+            <input
+               matInput
+               [placeholder]="countryFieldPlaceholder"
+               formControlName="countryFieldControl"
+            />
+            <mat-error
+               *ngIf="formControlGroup.controls.countryFieldControl.invalid"
+            >
+               {{
+                  getRequiredFieldErrorMessage(
+                     formControlGroup.controls.countryFieldControl
+                  )
+               }}
+            </mat-error>
+         </mat-form-field>
+      </div>
+
+      <!-- End Of Section -->
+      <mat-divider></mat-divider>
+
+      <!-- Contact Fields Title -->
+      <h3 class="section-title">Zorggebruikers</h3>
+      <div class="careusers-header">
+         <p *ngIf="currentLegalGuardianInstance.careUsers?.length > 0">
+            Deze persoon is voogd over volgende zorggebruikers:
+         </p>
+         <p *ngIf="!(currentLegalGuardianInstance.careUsers?.length > 0)">
+            Deze persoon heeft nog geen zorggebruikers gekoppeld.
+         </p>
+         <p>Gebruiker toevoegen:</p>
+         <mat-form-field>
+            <input
+               type="text"
+               matInput
+               placeholder="Zoek zorggebruiker"
+               aria-label="Zorggebruikers"
+               [matAutocomplete]="careUsersAutoComplete"
+               formControlName="careUsersSearchFieldcontrol"
+            />
+            <mat-autocomplete #careUsersAutoComplete="matAutocomplete">
+               <mat-option
+                  *ngFor="let careUser of careUsersAutoComplete$ | async"
+                  [value]="careUser.id"
+                  (click)="addCareUser(careUser)"
+                  (onSelectionChange)="addCareUser(careUser, $event)"
+               >
+                  {{ careUser.firstName }} {{ careUser.lastName }}
+               </mat-option>
+            </mat-autocomplete>
+         </mat-form-field>
+      </div>
+      <mat-grid-list
+         *ngIf="currentLegalGuardianInstance.careUsers?.length > 0"
+         [cols]="breakpoint"
+         rowHeight="300px"
+         gutterSize="20px"
+         (window:resize)="onResize($event)"
+      >
+         <mat-grid-tile
+            *ngFor="let careUser of currentLegalGuardianInstance.careUsers"
+         >
+            <app-user-card
+               [user]="careUser"
+               (delete)="deleteCareUser(careUser)"
+               class="user-card"
+            ></app-user-card>
+         </mat-grid-tile>
+      </mat-grid-list>
+      <!-- Button Row -->
+      <mat-dialog-actions class="button-row">
+         <!-- Close Button -->
+         <button
+            mat-raised-button
+            (click)="closeForm()"
+            title="Formulier sluiten"
+            aria-label="Formulier sluiten"
+         >
+            Sluiten
+         </button>
+
+         <!-- Add Button -->
+         <button
+            mat-raised-button
+            color="primary"
+            (click)="submitForm()"
+            title="Formulier sluiten"
+            aria-label="Formulier sluiten"
+            *ngIf="isAdding"
+         >
+            Toevoegen
+         </button>
+
+         <!-- Save Button -->
+         <button
+            mat-raised-button
+            color="primary"
+            (click)="submitForm()"
+            title="Formulier sluiten"
+            aria-label="Formulier sluiten"
+            *ngIf="!isAdding"
+         >
+            Opslaan
+         </button>
+      </mat-dialog-actions>
+   </form>
+</mat-dialog-content>

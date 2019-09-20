@@ -1,12 +1,8 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using IdentityModel;
 using IdentityServer4.Models;
-using static IdentityModel.OidcConstants;
 
-namespace Singer.Data.Identity
+namespace Singer.Identity
 {
    public static class Config
    {
@@ -16,10 +12,9 @@ namespace Singer.Data.Identity
          {
             ClientId = "singer.client",
             ClientName = "Singer JS Client",
-            AllowedGrantTypes = IdentityServer4.Models.GrantTypes.ResourceOwnerPassword,
+            AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
             RequirePkce = true,
             RequireClientSecret = true,
-
             ClientSecrets = new List<Secret>()
             {
                new Secret("secret".ToSha256())
@@ -31,9 +26,10 @@ namespace Singer.Data.Identity
             AllowedScopes =
             {
                "apiRead",
-               StandardScopes.OpenId,
-               StandardScopes.Email,
-               StandardScopes.Profile
+               OidcConstants.StandardScopes.OpenId,
+               OidcConstants.StandardScopes.Email,
+               OidcConstants.StandardScopes.Profile,
+               "Role"
             }
          };
       }

@@ -6,12 +6,14 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Singer.Data;
 using Singer.Helpers;
 using Singer.Helpers.Exceptions;
 using Singer.Helpers.Extensions;
 using Singer.Models;
+using Singer.Models.Users;
 using Singer.Services.Interfaces;
 
 namespace Singer.Services
@@ -22,8 +24,12 @@ namespace Singer.Services
    /// </summary>
    /// <typeparam name="TEntity">The type of the entity to manipulate in the database.</typeparam>
    /// <typeparam name="TDTO">The type that will be exposed to the outside world.</typeparam>
-   public abstract class DatabaseService<TEntity, TDTO> : IDatabaseService<TEntity, TDTO>
+   /// <typeparam name="TCreateDTO">The type that is used to create new entities in the database.</typeparam>
+   public abstract class DatabaseService<TEntity, TDTO, TCreateDTO, TUpdateDTO> : IDatabaseService<TEntity, TDTO, TCreateDTO, TUpdateDTO>
       where TEntity : class, IIdentifiable
+      where TDTO : class, IIdentifiable
+      where TCreateDTO : class
+      where TUpdateDTO : class
    {
       #region CONSTRUCTOR
 
@@ -38,15 +44,22 @@ namespace Singer.Services
          Mapper = mapper;
       }
 
+
+
       #endregion CONSTRUCTOR
 
 
       #region PROPERTIES
 
       /// <summary>
-      /// Set that contains the entities in the database.
+      /// Set that contains the entities in the database. Use this to operate on the database.
       /// </summary>
       protected abstract DbSet<TEntity> DbSet { get; }
+
+      /// <summary>
+      /// Queryable object to allow direct querying on the database. Typically has the required Includes
+      /// </summary>
+      protected abstract IQueryable<TEntity> Queryable { get; }
 
       /// <summary>
       /// The context in which the database is approachable.
@@ -58,6 +71,8 @@ namespace Singer.Services
       /// </summary>
       protected IMapper Mapper { get; }
 
+      protected RoleManager<User> RoleManager { get; }
+
       /// <summary>
       /// Expression that is used to convert an <see cref="TEntity"/> to a <see cref="TDTO"/> when returning values from the database.
       /// By default this uses the <see cref="Mapper"/> property (<see cref="Mapper.Map{TDestination}(object)"/>).
@@ -66,10 +81,30 @@ namespace Singer.Services
          => x => Mapper.Map<TDTO>(x);
 
       /// <summary>
+      /// Expression that is used to convert an <see cref="TEntity"/> to a <see cref="TDTO"/> when returning values from the database.
+      /// By default this uses the <see cref="Mapper"/> property (<see cref="Mapper.Map{TDestination}(object)"/>).
+      /// </summary>
+      public virtual Expression<Func<TEntity, TUpdateDTO>> EntityToUpdateDTOProjector
+         => x => Mapper.Map<TUpdateDTO>(x);
+
+      /// <summary>
       /// Expression that is used to convert a <see cref="TDTO"/> to an <see cref="TEntity"/> when manipulating values in the database.
       /// By default this uses the <see cref="Mapper"/> property (<see cref="Mapper.Map{TDestination}(object)"/>).
       /// </summary>
       public virtual Expression<Func<TDTO, TEntity>> DTOToEntityProjector
+         => x => Mapper.Map<TEntity>(x);
+
+      /// <summary>
+      /// Expression that is used to convert a <see cref="TDTO"/> to an <see cref="TEntity"/> when manipulating values in the database.
+      /// By default this uses the <see cref="Mapper"/> property (<see cref="Mapper.Map{TDestination}(object)"/>).
+      /// </summary>
+      public virtual Expression<Func<TUpdateDTO, TEntity>> UpdateDTOToEntityProjector
+         => x => Mapper.Map<TEntity>(x);
+
+      /// <summary>
+      /// Expression that is used to convert a <see cref="TCreateDTO"/> to an <see cref="TEntity"/> when creating entities in the database.
+      /// </summary>
+      public virtual Expression<Func<TCreateDTO, TEntity>> CreateDTOToEntityProjector
          => x => Mapper.Map<TEntity>(x);
 
       #endregion PROPERTIES
@@ -99,15 +134,15 @@ namespace Singer.Services
       /// </param>
       /// <returns>The new created <see cref="TEntity"/> converted to a <see cref="TDTO"/>.</returns>
       public virtual async Task<TDTO> CreateAsync(
-         TDTO dto,
-         Expression<Func<TDTO, TEntity>> dtoToEntityProjector = null,
+         TCreateDTO dto,
+         Expression<Func<TCreateDTO, TEntity>> dtoToEntityProjector = null,
          Expression<Func<TEntity, TDTO>> entityToDTOProjector = null)
       {
          // set the projectors to the default values if they are null.
          if (entityToDTOProjector == null)
             entityToDTOProjector = EntityToDTOProjector;
          if (dtoToEntityProjector == null)
-            dtoToEntityProjector = DTOToEntityProjector;
+            dtoToEntityProjector = CreateDTOToEntityProjector;
 
          // project the DTO to an entity
          var entity = dtoToEntityProjector.Compile()(dto);
@@ -116,8 +151,10 @@ namespace Singer.Services
          var changeTracker = DbSet.Add(entity);
          await Context.SaveChangesAsync();
 
+         var returnEntity = await GetOneAsync(changeTracker.Entity.Id);
+
          // return the new created entity
-         return entityToDTOProjector.Compile()(changeTracker.Entity);
+         return returnEntity;
       }
 
       /// <summary>
@@ -137,7 +174,7 @@ namespace Singer.Services
             projector = EntityToDTOProjector;
 
          // search for the entity with the given id in the database
-         var item = await DbSet.FindAsync(id);
+         var item = await Queryable.SingleOrDefaultAsync(x => x.Id == id);
          if (item == null)
             throw new NotFoundException();
 
@@ -170,7 +207,7 @@ namespace Singer.Services
 
       /// <summary>
       /// Returns a selection of <see cref="TEntity"/>s, converted <see cref="TDTO"/>s. The selection is made by filtering the
-      /// in the database, ordering the collection and finally selecting a page.
+      /// in the database, ordering the collection and finally selecting a pageIndex.
       /// <list type="number">
       ///   <item>
       ///      <term>Filtering</term>
@@ -186,7 +223,7 @@ namespace Singer.Services
       ///   </item>
       ///   <item>
       ///      <term>Paging</term>
-      ///      <description>Finally a page will be selected from the collection so that not all elements should be returned.</description>
+      ///      <description>Finally a pageIndex will be selected from the collection so that not all elements should be returned.</description>
       ///   </item>
       /// </list>
       /// </summary>
@@ -194,15 +231,15 @@ namespace Singer.Services
       /// <param name="projector">The <see cref="Expression"/> to project the <see cref="TEntity"/>s to the <see cref="TDTO"/>s.</param>
       /// <param name="orderer">The column to sort the returned list on.</param>
       /// <param name="sortDirection">The direction to sort the column on.</param>
-      /// <param name="page">The page-number to return.</param>
-      /// <param name="entitiesPerPage">The number of entities on a page.</param>
+      /// <param name="pageIndex">The pageIndex-number to return.</param>
+      /// <param name="entitiesPerPage">The number of entities on a pageIndex.</param>
       /// <returns></returns>
       public virtual async Task<SearchResults<TDTO>> GetAsync(
          string filter = null,
          Expression<Func<TEntity, TDTO>> projector = null,
          Expression<Func<TDTO, object>> orderer = null,
          ListSortDirection sortDirection = ListSortDirection.Ascending,
-         int page = 0,
+         int pageIndex = 0,
          int entitiesPerPage = 15)
       {
          // set the projector if it is null
@@ -210,14 +247,13 @@ namespace Singer.Services
             projector = EntityToDTOProjector;
 
          // return the paged results
-         return await DbSet
-            .AsQueryable()
+         return await Queryable
             .ToPagedListAsync(
                filterExpression: Filter(filter),
                projectionExpression: projector,
                orderByLambda: orderer,
                sortDirection: sortDirection,
-               pageIndex: page,
+               pageIndex: pageIndex,
                pageSize: entitiesPerPage);
       }
 
@@ -238,15 +274,15 @@ namespace Singer.Services
       /// <exception cref="NotFoundException">There is no element found with the id <paramref name="id"/>.</exception>
       public virtual async Task<TDTO> UpdateAsync(
          Guid id,
-         TDTO newValue,
-         Expression<Func<TDTO, TEntity>> dtoToEntityProjector = null,
+         TUpdateDTO newValue,
+         Expression<Func<TUpdateDTO, TEntity>> dtoToEntityProjector = null,
          Expression<Func<TEntity, TDTO>> entityToDTOProjector = null)
       {
          // set the projectors if they are null
          if (entityToDTOProjector == null)
             entityToDTOProjector = EntityToDTOProjector;
          if (dtoToEntityProjector == null)
-            dtoToEntityProjector = DTOToEntityProjector;
+            dtoToEntityProjector = UpdateDTOToEntityProjector;
 
          // search for the item to update
          var itemToUpdate = await DbSet.FindAsync(id);
@@ -254,6 +290,7 @@ namespace Singer.Services
             throw new NotFoundException();
 
          // update the item
+         Context.Entry(itemToUpdate).State = EntityState.Detached;
          itemToUpdate = dtoToEntityProjector.Compile()(newValue);
          itemToUpdate.Id = id;
          var tracker = DbSet.Update(itemToUpdate);

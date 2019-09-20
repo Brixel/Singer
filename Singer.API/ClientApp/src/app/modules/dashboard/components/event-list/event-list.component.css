@@ -1,0 +1,6 @@
+.event-card{
+  height: calc(100% - 60px);
+}
+mat-card{
+   padding: 0px;
+}

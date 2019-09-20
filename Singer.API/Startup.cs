@@ -1,17 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 using AutoMapper;
-using IdentityModel;
 using IdentityServer4.AccessTokenValidation;
 using IdentityServer4.EntityFramework.DbContexts;
-using IdentityServer4.EntityFramework.Entities;
-using IdentityServer4.EntityFramework.Mappers;
-using IdentityServer4.Test;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -22,19 +15,16 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 using Singer.Configuration;
+using Singer.Controllers;
 using Singer.Data;
-using Singer.Data.Identity;
-using Singer.Data.Models;
 using Singer.Data.Models.Configuration;
 using Singer.Helpers.Extensions;
-using Singer.IdentityService;
-using Singer.Models;
 using Singer.Services;
 using Singer.Services.Utils;
+using Singer.Models.Users;
 using Singer.Services.Interfaces;
-using ApiResource = IdentityServer4.EntityFramework.Entities.ApiResource;
+using AdminUserService = Singer.Controllers.AdminUserService;
 
 namespace Singer
 {
@@ -53,6 +43,11 @@ namespace Singer
       {
          var connectionString = Configuration.GetSection("ConnectionStrings").GetChildren().Single(x => x.Key == "Application").Value;
          var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+
+         if (string.IsNullOrWhiteSpace(connectionString))
+         {
+            throw new Exception("No connectionString found");
+         }
 
          // This line uses 'UseSqlServer' in the 'options' parameter
          // with the connection string defined above.
@@ -137,7 +132,11 @@ namespace Singer
 
          // Adds AutoMapper. Maps are defined as profiles in ./Profiles/*Profile.cs
          services.AddAutoMapper(typeof(Startup));
-         services.AddScoped<IUserService, UserService>();
+         services.AddScoped<ICareUserService, CareUserService>();
+         services.AddScoped<ILegalGuardianUserService, LegalGuardianUserService>();
+         services.AddScoped<IEventLocationService, EventLocationService>();
+         services.AddScoped<IAdminUserService, AdminUserService>();
+         services.AddScoped<IEventService, EventService>();
 
       }
 
@@ -199,6 +198,7 @@ namespace Singer
             if (env.IsDevelopment())
             {
                spa.UseAngularCliServer(npmScript: "start");
+               //spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
             }
          });
       }
@@ -222,6 +222,7 @@ namespace Singer
             Seed.SeedUsers(serviceScope, applicationDbContext, initialAdminPassword);
             Seed.CreateAPIAndClient(configrationDbContext);
             Seed.SeedIdentityResources(configrationDbContext);
+            Seed.SeedEventLocations(applicationDbContext);
             configrationDbContext.SaveChanges();
             applicationDbContext.SaveChanges();
          }
