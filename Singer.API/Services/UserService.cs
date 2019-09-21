@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Singer.Data;
@@ -58,8 +59,8 @@ namespace Singer.Services
       public override async Task<TUserDTO> GetOneAsync(Guid id, Expression<Func<TUserEntity, TUserDTO>> projector = null)
       {
          // set the projector if it is null
-         if (projector == null)
-            projector = EntityToDTOProjector;
+         //if (projector == null)
+         //   projector = EntityToDTOProjector;
 
          // search for the entity with the given id in the database
          var item = await Queryable //Explicitly load the user entity
@@ -93,14 +94,16 @@ namespace Singer.Services
          int entitiesPerPage = 15)
       {
          // set the projector if it is null
-         if (projector == null)
-            projector = EntityToDTOProjector;
+         //if (projector == null)
+         //   projector = EntityToDTOProjector;
+
+
+         //projector = Queryable.ProjectTo<TUserDTO>();
 
          // return the paged results
-         return await Queryable  // TODO: Unsure if this is OK, we used to have DBSet here, but that doesn't have the linked entities resolved :(
-            .Include(x => x.User)
-            .AsQueryable()
+         return await Queryable
             .ToPagedListAsync(
+               Mapper,
                filterExpression: Filter(filter),
                projectionExpression: projector,
                orderByLambda: orderer,

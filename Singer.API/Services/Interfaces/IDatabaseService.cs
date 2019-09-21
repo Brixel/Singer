@@ -25,12 +25,12 @@ namespace Singer.Services.Interfaces
       /// <summary>
       /// Expression that is used to convert an <see cref="TEntity"/> to a <see cref="TDTO"/> when returning values from the database.
       /// </summary>
-      Expression<Func<TEntity, TDTO>> EntityToDTOProjector { get; }
+      //Expression<Func<TEntity, TDTO>> EntityToDTOProjector { get; }
 
       /// <summary>
       /// Expression that is used to convert a <see cref="TDTO"/> to an <see cref="TEntity"/> when manipulating values in the database.
       /// </summary>
-      Expression<Func<TDTO, TEntity>> DTOToEntityProjector { get; }
+      //Expression<Func<TDTO, TEntity>> DTOToEntityProjector { get; }
 
       /// <summary>
       /// Expression that is used to convert a <see cref="TCreateDTO"/> to an <see cref="TEntity"/> when creating entities in the database.

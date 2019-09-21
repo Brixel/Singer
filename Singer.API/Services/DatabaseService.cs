@@ -77,29 +77,29 @@ namespace Singer.Services
       /// Expression that is used to convert an <see cref="TEntity"/> to a <see cref="TDTO"/> when returning values from the database.
       /// By default this uses the <see cref="Mapper"/> property (<see cref="Mapper.Map{TDestination}(object)"/>).
       /// </summary>
-      public virtual Expression<Func<TEntity, TDTO>> EntityToDTOProjector
-         => x => Mapper.Map<TDTO>(x);
+      //public virtual Expression<Func<TEntity, TDTO>> EntityToDTOProjector
+      //   => x => Mapper.Map<TDTO>(x);
 
       /// <summary>
       /// Expression that is used to convert an <see cref="TEntity"/> to a <see cref="TDTO"/> when returning values from the database.
       /// By default this uses the <see cref="Mapper"/> property (<see cref="Mapper.Map{TDestination}(object)"/>).
       /// </summary>
-      public virtual Expression<Func<TEntity, TUpdateDTO>> EntityToUpdateDTOProjector
-         => x => Mapper.Map<TUpdateDTO>(x);
+      //public virtual Expression<Func<TEntity, TUpdateDTO>> EntityToUpdateDTOProjector
+      //   => x => Mapper.Map<TUpdateDTO>(x);
 
       /// <summary>
       /// Expression that is used to convert a <see cref="TDTO"/> to an <see cref="TEntity"/> when manipulating values in the database.
       /// By default this uses the <see cref="Mapper"/> property (<see cref="Mapper.Map{TDestination}(object)"/>).
       /// </summary>
-      public virtual Expression<Func<TDTO, TEntity>> DTOToEntityProjector
-         => x => Mapper.Map<TEntity>(x);
+      //public virtual Expression<Func<TDTO, TEntity>> DTOToEntityProjector
+      //   => x => Mapper.Map<TEntity>(x);
 
       /// <summary>
       /// Expression that is used to convert a <see cref="TDTO"/> to an <see cref="TEntity"/> when manipulating values in the database.
       /// By default this uses the <see cref="Mapper"/> property (<see cref="Mapper.Map{TDestination}(object)"/>).
       /// </summary>
-      public virtual Expression<Func<TUpdateDTO, TEntity>> UpdateDTOToEntityProjector
-         => x => Mapper.Map<TEntity>(x);
+      //public virtual Expression<Func<TUpdateDTO, TEntity>> UpdateDTOToEntityProjector
+      //   => x => Mapper.Map<TEntity>(x);
 
       /// <summary>
       /// Expression that is used to convert a <see cref="TCreateDTO"/> to an <see cref="TEntity"/> when creating entities in the database.
@@ -139,8 +139,8 @@ namespace Singer.Services
          Expression<Func<TEntity, TDTO>> entityToDTOProjector = null)
       {
          // set the projectors to the default values if they are null.
-         if (entityToDTOProjector == null)
-            entityToDTOProjector = EntityToDTOProjector;
+         //if (entityToDTOProjector == null)
+         //   entityToDTOProjector = EntityToDTOProjector;
          if (dtoToEntityProjector == null)
             dtoToEntityProjector = CreateDTOToEntityProjector;
 
@@ -170,8 +170,8 @@ namespace Singer.Services
       public virtual async Task<TDTO> GetOneAsync(Guid id, Expression<Func<TEntity, TDTO>> projector = null)
       {
          // set the projector if it is null
-         if (projector == null)
-            projector = EntityToDTOProjector;
+         //if (projector == null)
+         //   projector = EntityToDTOProjector;
 
          // search for the entity with the given id in the database
          var item = await Queryable.SingleOrDefaultAsync(x => x.Id == id);
@@ -193,8 +193,8 @@ namespace Singer.Services
       public virtual async Task<IReadOnlyList<TDTO>> GetAllAsync(Expression<Func<TEntity, TDTO>> projector = null)
       {
          // set the projector if it is null
-         if (projector == null)
-            projector = EntityToDTOProjector;
+         //if (projector == null)
+         //   projector = EntityToDTOProjector;
 
          // fetch all the entities from the database
          var items = await DbSet
@@ -243,12 +243,13 @@ namespace Singer.Services
          int entitiesPerPage = 15)
       {
          // set the projector if it is null
-         if (projector == null)
-            projector = EntityToDTOProjector;
+         //if (projector == null)
+         //   projector = EntityToDTOProjector;
 
          // return the paged results
          return await Queryable
             .ToPagedListAsync(
+               Mapper,
                filterExpression: Filter(filter),
                projectionExpression: projector,
                orderByLambda: orderer,
@@ -279,10 +280,10 @@ namespace Singer.Services
          Expression<Func<TEntity, TDTO>> entityToDTOProjector = null)
       {
          // set the projectors if they are null
-         if (entityToDTOProjector == null)
-            entityToDTOProjector = EntityToDTOProjector;
-         if (dtoToEntityProjector == null)
-            dtoToEntityProjector = UpdateDTOToEntityProjector;
+         //if (entityToDTOProjector == null)
+         //   entityToDTOProjector = EntityToDTOProjector;
+         //if (dtoToEntityProjector == null)
+         //   dtoToEntityProjector = UpdateDTOToEntityProjector;
 
          // search for the item to update
          var itemToUpdate = await DbSet.FindAsync(id);
