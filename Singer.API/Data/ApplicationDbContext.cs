@@ -18,6 +18,7 @@ namespace Singer.Data
       public DbSet<LegalGuardianCareUser> LegalGuardianCareUsers { get; set; }
       public DbSet<EventLocation> EventLocations { get; set; }
       public DbSet<Event> Events { get; set; }
+      public DbSet<EventSlot> EventSlots { get; set; }
       public DbSet<EventRegistration> EventRegistrations { get; set; }
       public DbSet<AdminUser> AdminUsers { get; set; }
 
@@ -36,9 +37,14 @@ namespace Singer.Data
             .OnDelete(DeleteBehavior.Restrict);
 
          builder.Entity<Event>()
-            .HasMany(x => x.Registrations)
+            .HasMany(x => x.EventSlots)
             .WithOne(x => x.Event)
             .OnDelete(DeleteBehavior.Restrict);
+
+         builder.Entity<EventRegistration>()
+            .HasOne(x => x.EventSlot)
+            .WithMany(x => x.Registrations);
+
          builder.Entity<CareUser>()
             .HasMany(x => x.EventRegistrations)
             .WithOne(x => x.CareUser)

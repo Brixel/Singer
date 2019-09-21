@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
@@ -7,6 +8,7 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Singer.Data;
 using Singer.DTOs;
+using Singer.DTOs.Users;
 using Singer.Helpers.Extensions;
 using Singer.Models;
 using Singer.Services.Interfaces;
@@ -49,6 +51,39 @@ namespace Singer.Services
       protected override Expression<Func<EventRegistration, bool>> Filter(string filter)
       {
          return o => true;
+      }
+
+      public override async Task<EventRegistrationDTO> CreateAsync(CreateEventRegistrationDTO dto, Expression<Func<CreateEventRegistrationDTO, EventRegistration>> dtoToEntityProjector = null,
+         Expression<Func<EventRegistration, EventRegistrationDTO>> entityToDTOProjector = null)
+      {
+         var careUser = Context.CareUsers.Single(x => x.Id == dto.CareUserId);
+         var eventSlots = Context.EventSlots.Select(x => new
+            {
+               EventSlotId = x.Id,
+               x.EventId
+            }).Where(x => x.EventId == dto.EventId).ToList();
+         var registrations = new List<EventRegistration>();
+         foreach (var eventSlot in eventSlots)
+         {
+            registrations.Add(new EventRegistration()
+            {
+               CareUserId = dto.CareUserId,
+               EventSlotId = eventSlot.EventSlotId
+            });
+         }
+         DbSet.AddRange(registrations);
+         await Context.SaveChangesAsync();
+         return new EventRegistrationDTO()
+         {
+            CareUser = Mapper.Map<CareUserDTO>(careUser),
+            EventId = eventSlots.First().EventId,
+            EventSlots = registrations.Select(x => new EventRegistrationDTO.EventSlotRegistrationDTO()
+            {
+               EventSlotId = x.EventSlotId,
+               Id = x.Id,
+               Status = x.Status
+            }).ToList()
+         };
       }
    }
 }

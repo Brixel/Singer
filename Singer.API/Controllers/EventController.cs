@@ -155,7 +155,7 @@ namespace Singer.Controllers
 
       protected Expression<Func<EventRegistration, bool>> FilterEventRegistration(Guid eventId, string filter)
       {
-         return o => o.EventId == eventId;
+         return o => o.EventSlot.EventId == eventId;
       }
 
       #endregion METHODS

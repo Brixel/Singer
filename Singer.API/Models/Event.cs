@@ -15,14 +15,9 @@ namespace Singer.Models
       public Guid LocationId { get; set; }
       public EventLocation Location { get; set; }
       public int MaxRegistrants { get; set; }
-      public int currentRegistrants { get; set; }
       public decimal Cost { get; set; }
-      public DateTime StartDate { get; set; }
-      public DateTime EndDate { get; set; }
       public DateTime StartRegistrationDate { get; set; }
       public DateTime EndRegistrationDate { get; set; }
-      public DateTime DailyStartTime { get; set; }
-      public DateTime DailyEndTime { get; set; }
       public DateTime FinalCancellationDate { get; set; }
       public bool RegistrationOnDailyBasis { get; set; }
       public bool HasDayCareBefore { get; set; }
@@ -31,7 +26,17 @@ namespace Singer.Models
       public bool HasDayCareAfter { get; set; }
       public DateTime DayCareAfterStartTime { get; set; }
       public DateTime DayCareAfterEndTime { get; set; }
+      public IList<EventSlot> EventSlots { get; set; }
+   }
 
-      public List<EventRegistration> Registrations { get; set; }
+   public class EventSlot : IIdentifiable
+   {
+      public Guid Id { get; set; }
+      public Guid EventId { get; set; }
+      public Event Event { get; set; }
+      public DateTime StartDateTime { get; set; }
+      public DateTime EndDateTime { get; set; }
+
+      public IList<EventRegistration> Registrations { get; set; }
    }
 }

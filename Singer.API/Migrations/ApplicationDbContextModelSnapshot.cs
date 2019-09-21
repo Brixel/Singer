@@ -135,10 +135,6 @@ namespace Singer.Migrations
 
                     b.Property<decimal>("Cost");
 
-                    b.Property<DateTime>("DailyEndTime");
-
-                    b.Property<DateTime>("DailyStartTime");
-
                     b.Property<DateTime>("DayCareAfterEndTime");
 
                     b.Property<DateTime>("DayCareAfterStartTime");
@@ -148,8 +144,6 @@ namespace Singer.Migrations
                     b.Property<DateTime>("DayCareBeforeStartTime");
 
                     b.Property<string>("Description");
-
-                    b.Property<DateTime>("EndDate");
 
                     b.Property<DateTime>("EndRegistrationDate");
 
@@ -165,13 +159,9 @@ namespace Singer.Migrations
 
                     b.Property<bool>("RegistrationOnDailyBasis");
 
-                    b.Property<DateTime>("StartDate");
-
                     b.Property<DateTime>("StartRegistrationDate");
 
                     b.Property<string>("Title");
-
-                    b.Property<int>("currentRegistrants");
 
                     b.HasKey("Id");
 
@@ -207,7 +197,7 @@ namespace Singer.Migrations
 
                     b.Property<Guid>("CareUserId");
 
-                    b.Property<Guid>("EventId");
+                    b.Property<Guid>("EventSlotId");
 
                     b.Property<int>("Status");
 
@@ -215,9 +205,27 @@ namespace Singer.Migrations
 
                     b.HasIndex("CareUserId");
 
-                    b.HasIndex("EventId");
+                    b.HasIndex("EventSlotId");
 
                     b.ToTable("EventRegistrations");
+                });
+
+            modelBuilder.Entity("Singer.Models.EventSlot", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("EndDateTime");
+
+                    b.Property<Guid>("EventId");
+
+                    b.Property<DateTime>("StartDateTime");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.ToTable("EventSlots");
                 });
 
             modelBuilder.Entity("Singer.Models.Users.AdminUser", b =>
@@ -414,8 +422,16 @@ namespace Singer.Migrations
                         .HasForeignKey("CareUserId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("Singer.Models.Event", "Event")
+                    b.HasOne("Singer.Models.EventSlot", "EventSlot")
                         .WithMany("Registrations")
+                        .HasForeignKey("EventSlotId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Singer.Models.EventSlot", b =>
+                {
+                    b.HasOne("Singer.Models.Event", "Event")
+                        .WithMany("EventSlots")
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
