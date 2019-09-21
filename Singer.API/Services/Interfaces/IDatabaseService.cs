@@ -23,60 +23,26 @@ namespace Singer.Services.Interfaces
       where TUpdateDTO : class
    {
       /// <summary>
-      /// Expression that is used to convert an <see cref="TEntity"/> to a <see cref="TDTO"/> when returning values from the database.
-      /// </summary>
-      //Expression<Func<TEntity, TDTO>> EntityToDTOProjector { get; }
-
-      /// <summary>
-      /// Expression that is used to convert a <see cref="TDTO"/> to an <see cref="TEntity"/> when manipulating values in the database.
-      /// </summary>
-      //Expression<Func<TDTO, TEntity>> DTOToEntityProjector { get; }
-
-      /// <summary>
-      /// Expression that is used to convert a <see cref="TCreateDTO"/> to an <see cref="TEntity"/> when creating entities in the database.
-      /// </summary>
-      Expression<Func<TCreateDTO, TEntity>> CreateDTOToEntityProjector { get; }
-
-
-      /// <summary>
       /// Creates a <see cref="TDTO"/> in the database by converting it to a <see cref="TEntity"/>.
       /// It will automatically generate an id.
       /// </summary>
       /// <param name="dto">The new value for the databse. This will be converted to an entity.</param>
-      /// <param name="dtoToEntityProjector">
-      /// Expression to convert the given <see cref="TDTO"/> to an <see cref="TEntity"/>.
-      /// If this value is null, the <see cref="DTOToEntityProjector"/> property is used.
-      /// </param>
-      /// <param name="entityToDTOProjector">
-      /// Expression to convert the <see cref="TEntity"/> to return to a <see cref="TDTO"/>.
-      /// If this value is null, the <see cref="EntityToDTOProjector"/> property is used.
-      /// </param>
       /// <returns>The new created <see cref="TEntity"/> converted to a <see cref="TDTO"/>.</returns>
-      Task<TDTO> CreateAsync(TCreateDTO dto,
-         Expression<Func<TCreateDTO, TEntity>> dtoToEntityProjector = null,
-         Expression<Func<TEntity, TDTO>> entityToDTOProjector = null);
+      Task<TDTO> CreateAsync(TCreateDTO dto);
 
       /// <summary>
       /// Returns one <see cref="TEntity"/> from the database, converted to a <see cref="TDTO"/>.
       /// </summary>
       /// <param name="id">The id of the <see cref="TEntity"/> to get.</param>
-      /// <param name="projector">
-      /// Expression to convert the <see cref="TEntity"/> to return to a <see cref="TDTO"/>.
-      /// If this value is null, the <see cref="EntityToDTOProjector"/> property is used.
-      /// </param>
       /// <returns>The <see cref="TEntity"/> in the database with id <paramref name="id"/> converted to a <see cref="TDTO"/>.</returns>
       /// <exception cref="NotFoundException">There is no element found with the id <paramref name="id"/>.</exception>
-      Task<TDTO> GetOneAsync(Guid id, Expression<Func<TEntity, TDTO>> projector = null);
+      Task<TDTO> GetOneAsync(Guid id);
 
       /// <summary>
       /// Returns all the <see cref="TEntity"/>s stored in the database, converted to <see cref="TDTO"/>s.
       /// </summary>
-      /// <param name="projector">
-      /// Expression to convert the <see cref="TEntity"/> to return to a <see cref="TDTO"/>.
-      /// If this value is null, the <see cref="EntityToDTOProjector"/> property is used.
-      /// </param>
       /// <returns>All the <see cref="TEntity"/>s in the database, converted to <see cref="TDTO"/>s.</returns>
-      Task<IReadOnlyList<TDTO>> GetAllAsync(Expression<Func<TEntity, TDTO>> projector = null);
+      Task<IReadOnlyList<TDTO>> GetAllAsync();
 
       /// <summary>
       /// Returns a selection of <see cref="TEntity"/>s, converted <see cref="TDTO"/>s. The selection is made by filtering the
@@ -101,7 +67,6 @@ namespace Singer.Services.Interfaces
       /// </list>
       /// </summary>
       /// <param name="filter">The string value to compare to the properties of the <see cref="TEntity"/>s.</param>
-      /// <param name="projector">The <see cref="Expression"/> to project the <see cref="TEntity"/>s to the <see cref="TDTO"/>s.</param>
       /// <param name="orderer">The column to sort the returned list on.</param>
       /// <param name="sortDirection">The direction to sort the column on.</param>
       /// <param name="pageIndex">The pagenumber to return.</param>
@@ -109,7 +74,6 @@ namespace Singer.Services.Interfaces
       /// <returns></returns>
       Task<SearchResults<TDTO>> GetAsync(
          string filter = null,
-         Expression<Func<TEntity, TDTO>> projector = null,
          Expression<Func<TDTO, object>> orderer = null,
          ListSortDirection sortDirection = ListSortDirection.Ascending,
          int pageIndex = 0,
@@ -120,21 +84,11 @@ namespace Singer.Services.Interfaces
       /// </summary>
       /// <param name="id">The identifier of the <see cref="TEntity"/>.</param>
       /// <param name="newValue">The new value for the <see cref="TEntity"/> with id <paramref name="id"/>.</param>
-      /// <param name="dtoToEntityProjector">
-      /// Expression to convert the given <see cref="TDTO"/> to an <see cref="TEntity"/>.
-      /// If this value is null, the <see cref="DTOToEntityProjector"/> property is used.
-      /// </param>
-      /// <param name="entityToDTOProjector">
-      /// Expression to convert the <see cref="TEntity"/> to return to a <see cref="TDTO"/>.
-      /// If this value is null, the <see cref="EntityToDTOProjector"/> property is used.
-      /// </param>
       /// <returns>The updated <see cref="TEntity"/> converted to a <see cref="TDTO"/>.</returns>
       /// <exception cref="NotFoundException">There is no element found with the id <paramref name="id"/>.</exception>
       Task<TDTO> UpdateAsync(
          Guid id,
-         TUpdateDTO newValue,
-         Expression<Func<TUpdateDTO, TEntity>> dtoToEntityProjector = null,
-         Expression<Func<TEntity, TDTO>> entityToDTOProjector = null);
+         TUpdateDTO newValue);
 
       /// <summary>
       /// Deletes one <see cref="TEntity"/> from the database. This <see cref="TEntity"/> is defined by the <paramref name="id"/>.

@@ -40,11 +40,9 @@ namespace Singer.Services
       }
 
       public override async Task<AdminUserDTO> CreateAsync(
-         CreateAdminUserDTO dto,
-         Expression<Func<CreateAdminUserDTO, AdminUser>> dtoToEntityProjector = null,
-         Expression<Func<AdminUser, AdminUserDTO>> entityToDTOProjector = null)
+         CreateAdminUserDTO dto)
       {
-         var result = await base.CreateAsync(dto, dtoToEntityProjector, entityToDTOProjector);
+         var result = await base.CreateAsync(dto);
          var createdUser = await UserManager.FindByEmailAsync(result.Email);
          await UserManager.AddToRoleAsync(createdUser, Roles.ROLE_ADMINISTRATOR);
          await UserManager.AddClaimAsync(createdUser, new Claim(ClaimTypes.Role, Roles.ROLE_ADMINISTRATOR));

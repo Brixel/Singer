@@ -14,7 +14,7 @@ namespace Singer.Profiles
          CreateMap<CareUser, CareUserDTO>()
             .ForMember(x => x.FirstName, opt => opt.MapFrom(src => src.User.FirstName))
             .ForMember(x => x.LastName, opt => opt.MapFrom(src => src.User.LastName))
-            .ForMember(x => x.LegalGuardianUsers, opt => opt.MapFrom(src => src.LegalGuardianCareUsers.Select(y => y.LegalGuardian).ToList()));
+            .ForMember(x => x.LegalGuardianUsers, opt => opt.MapFrom(src => src.LegalGuardianCareUsers.Select(y => y.LegalGuardian)));
          CreateMap<CareUser, LinkedCareUserDTO>()
             .ForMember(x => x.FirstName, opt => opt.MapFrom(src => src.User.FirstName))
             .ForMember(x => x.LastName, opt => opt.MapFrom(src => src.User.LastName));
@@ -34,7 +34,7 @@ namespace Singer.Profiles
             .ForMember(x => x.FirstName, opt => opt.MapFrom(src => src.User.FirstName))
             .ForMember(x => x.LastName, opt => opt.MapFrom(src => src.User.LastName))
             .ForMember(x => x.Email, opt => opt.MapFrom(src => src.User.Email))
-            .ForMember(x => x.CareUsers, opt => opt.MapFrom(src => src.LegalGuardianCareUsers.Select(y => y.CareUser).ToList()));
+            .ForMember(x => x.CareUsers, opt => opt.MapFrom(src => src.LegalGuardianCareUsers.Select(y => y.CareUser)));
          CreateMap<LegalGuardianUser, LinkedLegalGuardianDTO>()
             .ForMember(x => x.FirstName, opt => opt.MapFrom(src => src.User.FirstName))
             .ForMember(x => x.LastName, opt => opt.MapFrom(src => src.User.LastName))

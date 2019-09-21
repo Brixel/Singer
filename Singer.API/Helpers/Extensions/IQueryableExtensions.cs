@@ -99,7 +99,6 @@ namespace Singer.Helpers.Extensions
          this IQueryable<TEntity> queryable,
          IMapper mapper,
          Expression<Func<TEntity, bool>> filterExpression,
-         Expression<Func<TEntity, TProjection>> projectionExpression,
          Expression<Func<TProjection, object>> orderByLambda,
          ListSortDirection sortDirection,
          int pageIndex = 0,
