@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Singer.DTOs;
 using Singer.Helpers;
 using Singer.Helpers.Exceptions;
 using Singer.Models;
+using Singer.Services;
 using Singer.Services.Interfaces;
 using System;
 using System.ComponentModel;
@@ -17,16 +19,18 @@ namespace Singer.Controllers
       #region FIELDS
 
       private readonly IEventRegistrationService _eventRegistrationService;
+      private readonly IEventService _eventService;
 
       #endregion FIELDS
 
 
       #region CONSTRUCTOR
 
-      public EventController(IEventService databaseService, IEventRegistrationService eventRegistrationService)
-         : base(databaseService)
+      public EventController(IEventService eventService, IEventRegistrationService eventRegistrationService)
+         : base(eventService)
       {
          _eventRegistrationService = eventRegistrationService;
+         _eventService = eventService;
       }
 
       #endregion CONSTRUCTOR
@@ -156,6 +160,11 @@ namespace Singer.Controllers
       protected Expression<Func<EventRegistration, bool>> FilterEventRegistration(Guid eventId, string filter)
       {
          return o => o.EventSlot.EventId == eventId;
+      }
+      [HttpPost("search")]
+      public IReadOnlyList<EventDescriptionDTO> GetPublicEvents([FromBody] SearchEventParamsDTO searchEventParams)
+      {
+         return _eventService.GetPublicEvents(searchEventParams);
       }
 
       #endregion METHODS

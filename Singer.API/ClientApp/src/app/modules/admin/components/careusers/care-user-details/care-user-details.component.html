@@ -10,253 +10,298 @@
       <!-- Name Fields -->
       <div class="name-fields">
          <!-- Lastname Field -->
+         <div>
+            <mat-form-field>
+               <input
+                  matInput
+                  [placeholder]="lastNameFieldPlaceholder"
+                  formControlName="lastNameFieldControl"
+               />
+               <mat-error
+                  *ngIf="formControlGroup.controls.lastNameFieldControl.invalid"
+               >
+                  {{
+                     getRequiredFieldErrorMessage(
+                        formControlGroup.controls.lastNameFieldControl
+                     )
+                  }}
+               </mat-error>
+            </mat-form-field>
+
+            <!-- FirstName Field -->
+            <mat-form-field>
+               <input
+                  matInput
+                  [placeholder]="firstNameFieldPlaceholder"
+                  formControlName="firstNameFieldControl"
+               />
+               <mat-error
+                  *ngIf="
+                     formControlGroup.controls.firstNameFieldControl.invalid
+                  "
+               >
+                  {{
+                     getRequiredFieldErrorMessage(
+                        formControlGroup.controls.firstNameFieldControl
+                     )
+                  }}
+               </mat-error>
+            </mat-form-field>
+         </div>
+
+         <!-- Birthday Field -->
          <mat-form-field>
             <input
                matInput
-               [placeholder]="lastNameFieldPlaceholder"
-               formControlName="lastNameFieldControl"
+               [min]="birthdayDatePickerMinDate"
+               [max]="birthdayDatePickerMaxDate"
+               [matDatepicker]="picker"
+               [placeholder]="birthdayFieldPlaceholder"
+               formControlName="birthdayFieldControl"
             />
             <mat-error
-               *ngIf="formControlGroup.controls.lastNameFieldControl.invalid"
+               *ngIf="formControlGroup.controls.birthdayFieldControl.invalid"
             >
                {{
                   getRequiredFieldErrorMessage(
-                     formControlGroup.controls.lastNameFieldControl
+                     formControlGroup.controls.birthdayFieldControl
+                  )
+               }}
+            </mat-error>
+            <mat-datepicker-toggle
+               matSuffix
+               [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+         </mat-form-field>
+      </div>
+      <!-- End Of Section -->
+      <mat-divider></mat-divider>
+
+      <!-- Administrative Fields Title -->
+      <h3 class="section-title">Administratieve gegevens</h3>
+      <div>
+         <!-- CaseNumber Field -->
+         <mat-form-field>
+            <input
+               matInput
+               type="number"
+               [placeholder]="caseNumberFieldPlaceholder"
+               formControlName="caseNumberFieldControl"
+            />
+            <mat-error
+               *ngIf="formControlGroup.controls.caseNumberFieldControl.invalid"
+            >
+               {{
+                  getRequiredFieldErrorMessage(
+                     formControlGroup.controls.caseNumberFieldControl
                   )
                }}
             </mat-error>
          </mat-form-field>
 
-         <!-- FirstName Field -->
+         <!-- AgeGroup Field -->
          <mat-form-field>
-            <input
-               matInput
-               [placeholder]="firstNameFieldPlaceholder"
-               formControlName="firstNameFieldControl"
-            />
+            <mat-select
+               mat-input
+               [placeholder]="ageGroupFieldPlaceholder"
+               formControlName="ageGroupFieldControl"
+            >
+               <mat-option
+                  *ngFor="let ageGroup of ageGroups | keys"
+                  [value]="ageGroup.key"
+               >
+                  {{ ageGroup.value | agegroupPipe }}
+               </mat-option>
+            </mat-select>
             <mat-error
-               *ngIf="formControlGroup.controls.firstNameFieldControl.invalid"
+               *ngIf="formControlGroup.controls.ageGroupFieldControl.invalid"
             >
                {{
                   getRequiredFieldErrorMessage(
-                     formControlGroup.controls.firstNameFieldControl
+                     formControlGroup.controls.ageGroupFieldControl
+                  )
+               }}
+            </mat-error>
+         </mat-form-field>
+
+         <!-- IsExtern Field -->
+         <mat-form-field>
+            <mat-select
+               mat-input
+               [placeholder]="isExternFieldPlaceholder"
+               formControlName="isExternFieldControl"
+            >
+               <mat-option value="false">Klas</mat-option>
+               <mat-option value="true">Extern</mat-option>
+            </mat-select>
+            <mat-error
+               *ngIf="formControlGroup.controls.isExternFieldControl.invalid"
+            >
+               {{
+                  getRequiredFieldErrorMessage(
+                     formControlGroup.controls.isExternFieldControl
+                  )
+               }}
+            </mat-error>
+         </mat-form-field>
+      </div>
+      <!-- End Of Section -->
+      <mat-divider></mat-divider>
+
+      <!-- Care Fields Title -->
+      <h3 class="section-title">Zorg gegevens</h3>
+      <div>
+         <!-- HasTrajectory Field -->
+         <mat-form-field>
+            <mat-select
+               mat-input
+               [placeholder]="hasTrajectoryFieldPlaceholder"
+               formControlName="hasTrajectoryFieldControl"
+            >
+               <mat-option value="true">Ja</mat-option>
+               <mat-option value="false">Nee</mat-option>
+            </mat-select>
+            <mat-error
+               *ngIf="
+                  formControlGroup.controls.hasTrajectoryFieldControl.invalid
+               "
+            >
+               {{
+                  getRequiredFieldErrorMessage(
+                     formControlGroup.controls.hasTrajectoryFieldControl
+                  )
+               }}
+            </mat-error>
+         </mat-form-field>
+
+         <!-- HasNormalDayCare Field -->
+         <mat-form-field>
+            <mat-select
+               mat-input
+               [placeholder]="hasNormalDayCareFieldPlaceholder"
+               formControlName="hasNormalDayCareFieldControl"
+            >
+               <mat-option value="true">Ja</mat-option>
+               <mat-option value="false">Nee</mat-option>
+            </mat-select>
+            <mat-error
+               *ngIf="
+                  formControlGroup.controls.hasNormalDayCareFieldControl.invalid
+               "
+            >
+               {{
+                  getRequiredFieldErrorMessage(
+                     formControlGroup.controls.hasNormalDayCareFieldControl
+                  )
+               }}
+            </mat-error>
+         </mat-form-field>
+
+         <!-- HasVacationDayCare Field -->
+         <mat-form-field>
+            <mat-select
+               mat-input
+               [placeholder]="hasVacationDayCareFieldPlaceholder"
+               formControlName="hasVacationDayCareFieldControl"
+            >
+               <mat-option value="true">Ja</mat-option>
+               <mat-option value="false">Nee</mat-option>
+            </mat-select>
+            <mat-error
+               *ngIf="
+                  formControlGroup.controls.hasVacationDayCareFieldControl
+                     .invalid
+               "
+            >
+               {{
+                  getRequiredFieldErrorMessage(
+                     formControlGroup.controls.hasVacationDayCareFieldControl
+                  )
+               }}
+            </mat-error>
+         </mat-form-field>
+
+         <!-- HasResources Field -->
+         <mat-form-field>
+            <mat-select
+               mat-input
+               [placeholder]="hasResourcesFieldPlaceholder"
+               formControlName="hasResourcesFieldControl"
+            >
+               <mat-option value="true">Ja</mat-option>
+               <mat-option value="false">Nee</mat-option>
+            </mat-select>
+            <mat-error
+               *ngIf="
+                  formControlGroup.controls.hasResourcesFieldControl.invalid
+               "
+            >
+               {{
+                  getRequiredFieldErrorMessage(
+                     formControlGroup.controls.hasResourcesFieldControl
                   )
                }}
             </mat-error>
          </mat-form-field>
       </div>
 
-      <!-- Birthday Field -->
-      <mat-form-field>
-         <input
-            matInput
-            [min]="birthdayDatePickerMinDate"
-            [max]="birthdayDatePickerMaxDate"
-            [matDatepicker]="picker"
-            [placeholder]="birthdayFieldPlaceholder"
-            formControlName="birthdayFieldControl"
-         />
-         <mat-error
-            *ngIf="formControlGroup.controls.birthdayFieldControl.invalid"
-         >
-            {{
-               getRequiredFieldErrorMessage(
-                  formControlGroup.controls.birthdayFieldControl
-               )
-            }}
-         </mat-error>
-         <mat-datepicker-toggle
-            matSuffix
-            [for]="picker"
-         ></mat-datepicker-toggle>
-         <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-
-      <!-- End Of Section -->
       <mat-divider></mat-divider>
-
-      <!-- Administrative Fields Title -->
-      <h3 class="section-title">Administratieve gegevens</h3>
-
-      <!-- CaseNumber Field -->
-      <mat-form-field>
-         <input
-            matInput
-            type="number"
-            [placeholder]="caseNumberFieldPlaceholder"
-            formControlName="caseNumberFieldControl"
-         />
-         <mat-error
-            *ngIf="formControlGroup.controls.caseNumberFieldControl.invalid"
-         >
-            {{
-               getRequiredFieldErrorMessage(
-                  formControlGroup.controls.caseNumberFieldControl
-               )
-            }}
-         </mat-error>
-      </mat-form-field>
-
-      <!-- AgeGroup Field -->
-      <mat-form-field>
-         <mat-select
-            mat-input
-            [placeholder]="ageGroupFieldPlaceholder"
-            formControlName="ageGroupFieldControl"
-         >
-            <mat-option
-               *ngFor="let ageGroup of ageGroups | keys"
-               [value]="ageGroup.key"
-            >
-               {{ ageGroup.value | agegroupPipe }}
-            </mat-option>
-         </mat-select>
-         <mat-error
-            *ngIf="formControlGroup.controls.ageGroupFieldControl.invalid"
-         >
-            {{
-               getRequiredFieldErrorMessage(
-                  formControlGroup.controls.ageGroupFieldControl
-               )
-            }}
-         </mat-error>
-      </mat-form-field>
-
-      <!-- IsExtern Field -->
-      <mat-form-field>
-         <mat-select
-            mat-input
-            [placeholder]="isExternFieldPlaceholder"
-            formControlName="isExternFieldControl"
-         >
-            <mat-option value="false">Klas</mat-option>
-            <mat-option value="true">Extern</mat-option>
-         </mat-select>
-         <mat-error
-            *ngIf="formControlGroup.controls.isExternFieldControl.invalid"
-         >
-            {{
-               getRequiredFieldErrorMessage(
-                  formControlGroup.controls.isExternFieldControl
-               )
-            }}
-         </mat-error>
-      </mat-form-field>
-
-      <!-- End Of Section -->
-      <mat-divider></mat-divider>
-
-      <!-- Care Fields Title -->
-      <h3 class="section-title">Zorg gegevens</h3>
-
-      <!-- HasTrajectory Field -->
-      <mat-form-field>
-         <mat-select
-            mat-input
-            [placeholder]="hasTrajectoryFieldPlaceholder"
-            formControlName="hasTrajectoryFieldControl"
-         >
-            <mat-option value="true">Ja</mat-option>
-            <mat-option value="false">Nee</mat-option>
-         </mat-select>
-         <mat-error
-            *ngIf="formControlGroup.controls.hasTrajectoryFieldControl.invalid"
-         >
-            {{
-               getRequiredFieldErrorMessage(
-                  formControlGroup.controls.hasTrajectoryFieldControl
-               )
-            }}
-         </mat-error>
-      </mat-form-field>
-
-      <!-- HasNormalDayCare Field -->
-      <mat-form-field>
-         <mat-select
-            mat-input
-            [placeholder]="hasNormalDayCareFieldPlaceholder"
-            formControlName="hasNormalDayCareFieldControl"
-         >
-            <mat-option value="true">Ja</mat-option>
-            <mat-option value="false">Nee</mat-option>
-         </mat-select>
-         <mat-error
-            *ngIf="
-               formControlGroup.controls.hasNormalDayCareFieldControl.invalid
+      <h3 class="section-title">Voogden</h3>
+      <div class="legalguardianusers-header">
+         <p *ngIf="currentCareUserInstance.legalGuardianUsers?.length > 0">
+            Deze zorggebruiker heeft volgende voogden:
+         </p>
+         <p *ngIf="!(currentCareUserInstance.legalGuardianUsers?.length > 0)">
+            Deze zorggebruiker heeft nog geen voogden gekoppeld.
+         </p>
+         <p>Voogd toevoegen:</p>
+         <mat-form-field>
+            <input
+               type="text"
+               matInput
+               placeholder="Zoek voogd"
+               aria-label="Voogden"
+               [matAutocomplete]="legalGuardianUsersAutoComplete"
+               formControlName="legalGuardianUsersSearchFieldcontrol"
+            />
+            <mat-autocomplete #legalGuardianUsersAutoComplete="matAutocomplete">
+               <mat-option
+                  *ngFor="
+                     let legalGuardianUser of legalGuardianUsersAutoComplete$
+                        | async
+                  "
+                  [value]="legalGuardianUser.id"
+                  (click)="addLegalGuardianUser(legalGuardianUser)"
+                  (onSelectionChange)="
+                     addLegalGuardianUser(legalGuardianUser, $event)
+                  "
+               >
+                  {{ legalGuardianUser.firstName }}
+                  {{ legalGuardianUser.lastName }}
+               </mat-option>
+            </mat-autocomplete>
+         </mat-form-field>
+      </div>
+      <mat-grid-list
+         *ngIf="currentCareUserInstance.legalGuardianUsers?.length > 0"
+         [cols]="breakpoint"
+         rowHeight="300px"
+         gutterSize="20px"
+         (window:resize)="onResize($event)"
+      >
+         <mat-grid-tile
+            *ngFor="
+               let legalGuardianUser of currentCareUserInstance.legalGuardianUsers
             "
          >
-            {{
-               getRequiredFieldErrorMessage(
-                  formControlGroup.controls.hasNormalDayCareFieldControl
-               )
-            }}
-         </mat-error>
-      </mat-form-field>
-
-      <!-- HasVacationDayCare Field -->
-      <mat-form-field>
-         <mat-select
-            mat-input
-            [placeholder]="hasVacationDayCareFieldPlaceholder"
-            formControlName="hasVacationDayCareFieldControl"
-         >
-            <mat-option value="true">Ja</mat-option>
-            <mat-option value="false">Nee</mat-option>
-         </mat-select>
-         <mat-error
-            *ngIf="
-               formControlGroup.controls.hasVacationDayCareFieldControl.invalid
-            "
-         >
-            {{
-               getRequiredFieldErrorMessage(
-                  formControlGroup.controls.hasVacationDayCareFieldControl
-               )
-            }}
-         </mat-error>
-      </mat-form-field>
-
-      <!-- HasResources Field -->
-      <mat-form-field>
-         <mat-select
-            mat-input
-            [placeholder]="hasResourcesFieldPlaceholder"
-            formControlName="hasResourcesFieldControl"
-         >
-            <mat-option value="true">Ja</mat-option>
-            <mat-option value="false">Nee</mat-option>
-         </mat-select>
-         <mat-error
-            *ngIf="formControlGroup.controls.hasResourcesFieldControl.invalid"
-         >
-            {{
-               getRequiredFieldErrorMessage(
-                  formControlGroup.controls.hasResourcesFieldControl
-               )
-            }}
-         </mat-error>
-      </mat-form-field>
-
-      <!-- Email Field -->
-      <!-- <mat-form-field>
-         <input
-            matInput
-            [placeholder]="emailFieldPlaceholder"
-            [value]="emailFieldValue"
-            formControlName="emailFieldControl"
-            required
-         />
-         <mat-error *ngIf="emailFieldControl.invalid">{{
-            getEmailFieldErrorMessage()
-         }}</mat-error>
-      </mat-form-field> -->
-
-      <!-- Email Field -->
-
-      <!-- Coworkers Field -->
-
-      <!-- Add Field -->
-
+            <app-user-card
+               [user]="legalGuardianUser"
+               (delete)="deleteLegalGuardianUser(legalGuardianUser)"
+               class="user-card"
+            ></app-user-card>
+         </mat-grid-tile>
+      </mat-grid-list>
       <!-- Button Row -->
       <mat-dialog-actions class="button-row">
          <!-- Close Button -->

@@ -42,6 +42,8 @@ export class LegalguardiansService {
          postalCode: updateLegalGuardian.postalCode,
          city: updateLegalGuardian.city,
          country: updateLegalGuardian.country,
+         careUsersToAdd: updateLegalGuardian.careUsersToAdd,
+         careUsersToRemove: updateLegalGuardian.careUsersToRemove,
       };
       return this.legalguardianProxy
          .updateLegalGuardian(updateLegalGuardian.id, updateLegalGuardianDTO)

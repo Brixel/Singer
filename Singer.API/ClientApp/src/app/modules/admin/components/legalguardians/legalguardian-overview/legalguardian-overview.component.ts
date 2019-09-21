@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+import {
+   AfterViewInit,
+   Component,
+   ViewChild,
+   ElementRef,
+   OnInit,
+} from '@angular/core';
 import { MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { LegalguardianOverviewDataSource } from './legalguardian-overview-datasource';
 import { LegalguardiansService } from 'src/app/modules/core/services/legal-guardians-api/legalguardians.service';
@@ -12,7 +18,7 @@ import { LegalguardianDetailsComponent } from '../legalguardian-details/legalgua
    templateUrl: './legalguardian-overview.component.html',
    styleUrls: ['./legalguardian-overview.component.css'],
 })
-export class LegalguardianOverviewComponent implements  OnInit, AfterViewInit {
+export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
    @ViewChild(MatPaginator) paginator: MatPaginator;
    @ViewChild(MatSort) sort: MatSort;
    @ViewChild('filterInput') filterInput: ElementRef;
@@ -24,12 +30,7 @@ export class LegalguardianOverviewComponent implements  OnInit, AfterViewInit {
    filter: string;
 
    /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-   displayedColumns = [
-      'firstName',
-      'lastName',
-      'email',
-      'address',
-   ];
+   displayedColumns = ['firstName', 'lastName', 'email', 'address'];
 
    constructor(
       public dialog: MatDialog,
@@ -40,7 +41,7 @@ export class LegalguardianOverviewComponent implements  OnInit, AfterViewInit {
       this.dataSource = new LegalguardianOverviewDataSource(
          this.legalguardiansService
       );
-      this.sort.active = 'lastName';
+      this.sort.active = 'id'; //TODO: Workaround for API sorting issue, when sorting on other columns, linked users are not always filled in
       this.sort.direction = 'asc';
       this.loadLegalGuardians();
    }
@@ -48,6 +49,7 @@ export class LegalguardianOverviewComponent implements  OnInit, AfterViewInit {
    selectRow(row: LegalGuardian): void {
       const dialogRef = this.dialog.open(LegalguardianDetailsComponent, {
          data: { legalGuardianInstance: row, isAdding: false },
+         width: '80vw',
       });
 
       dialogRef.componentInstance.submitEvent.subscribe(
@@ -66,6 +68,7 @@ export class LegalguardianOverviewComponent implements  OnInit, AfterViewInit {
    addLegalGuardian(): void {
       const dialogRef = this.dialog.open(LegalguardianDetailsComponent, {
          data: { careUserInstance: null, isAdding: true },
+         width: '80vw',
       });
 
       dialogRef.componentInstance.submitEvent.subscribe(

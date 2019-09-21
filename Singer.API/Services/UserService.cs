@@ -97,7 +97,7 @@ namespace Singer.Services
             projector = EntityToDTOProjector;
 
          // return the paged results
-         return await DbSet
+         return await Queryable  // TODO: Unsure if this is OK, we used to have DBSet here, but that doesn't have the linked entities resolved :(
             .Include(x => x.User)
             .AsQueryable()
             .ToPagedListAsync(

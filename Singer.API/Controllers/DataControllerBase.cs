@@ -61,8 +61,15 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
       public async Task<ActionResult<TDTO>> Create([FromBody]TCreateDTO dto)
       {
-         var returnItem = await DatabaseService.CreateAsync(dto);
-         return Created(nameof(Get), returnItem);
+         var model = ModelState;
+         if (model.IsValid)
+         {
+
+            var returnItem = await DatabaseService.CreateAsync(dto);
+            return Created(nameof(Get), returnItem);
+         }
+
+         return BadRequest(model);
       }
 
       #endregion post

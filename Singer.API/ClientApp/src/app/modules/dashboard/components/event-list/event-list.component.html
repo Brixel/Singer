@@ -1,0 +1,10 @@
+<mat-card>
+      <app-event-search
+      [availableLocations]="availableLocations"
+      (searchEvent)="onSearchEvent($event)"></app-event-search>
+</mat-card>
+<mat-grid-list [cols]="breakpoint" rowHeight="400px" gutterSize="20px" (window:resize)="onResize($event)">
+      <mat-grid-tile *ngFor="let event of events">
+         <app-event-card [event]="event" class="event-card"></app-event-card></mat-grid-tile>
+      <p *ngIf="events.length === 0">Geen evenementen gevonden voor deze dagen</p>
+   </mat-grid-list>

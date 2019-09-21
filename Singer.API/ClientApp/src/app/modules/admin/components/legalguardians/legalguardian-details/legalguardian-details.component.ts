@@ -3,6 +3,16 @@ import { LegalGuardian } from 'src/app/modules/core/models/legalguardian.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MaterialModule } from '../../../../../material.module';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { CareUserService } from 'src/app/modules/core/services/care-users-api/careusers.service';
+import { CareUser } from 'src/app/modules/core/models/careuser.model';
+import {
+   startWith,
+   debounceTime,
+   switchMap,
+   catchError,
+   map,
+} from 'rxjs/operators';
+import { of, Observable } from 'rxjs';
 
 // Data we pass along with the creation of the Mat-Dialog box
 export interface LegalGuardianDetailsFormData {
@@ -52,13 +62,18 @@ export class LegalguardianDetailsComponent implements OnInit {
          Validators.required,
          Validators.email,
       ]),
+      careUsersSearchFieldcontrol: new FormControl(),
    });
+
+   public careUsersAutoComplete$: Observable<CareUser[]> = null;
+   breakpoint: number;
 
    //#endregion
 
    constructor(
       // dialogreference to close this dialog
       public dialogRef: MatDialogRef<LegalguardianDetailsComponent>,
+      private _careUserService: CareUserService,
       // Care user that we want to edit
       @Inject(MAT_DIALOG_DATA) public data: LegalGuardianDetailsFormData
    ) {
@@ -76,6 +91,27 @@ export class LegalguardianDetailsComponent implements OnInit {
       } else {
          this.loadCurrentLegalGuardianInstanceValues();
       }
+
+      this.careUsersAutoComplete$ = this.formControlGroup.controls[
+         'careUsersSearchFieldcontrol'
+      ].valueChanges.pipe(
+         startWith(''),
+         debounceTime(300),
+         switchMap(value => {
+            if (typeof value === 'string') {
+               return this.careUserLookup(value);
+            } else {
+               return of(null);
+            }
+         })
+      );
+      this.breakpoint = window.innerWidth <= 500 ? 1 : 3;
+
+      if (this.currentLegalGuardianInstance.careUsers === null) {
+         this.currentLegalGuardianInstance.careUsers = new Array<CareUser>();
+      }
+      this.currentLegalGuardianInstance.careUsersToAdd = new Array<string>();
+      this.currentLegalGuardianInstance.careUsersToRemove = new Array<string>();
    }
 
    //#region Error messages for required fields
@@ -140,6 +176,9 @@ export class LegalguardianDetailsComponent implements OnInit {
          postalCode: '',
          city: '',
          country: '',
+         careUsersToAdd: [],
+         careUsersToRemove: [],
+         careUsers: [],
       };
    }
 
@@ -191,7 +230,83 @@ export class LegalguardianDetailsComponent implements OnInit {
       ) {
          return true;
       }
+
+      if (
+         (this.currentLegalGuardianInstance.careUsersToAdd !== undefined &&
+            this.currentLegalGuardianInstance.careUsersToAdd.length > 0) ||
+         (this.currentLegalGuardianInstance.careUsersToRemove !== undefined &&
+            this.currentLegalGuardianInstance.careUsersToRemove.length > 0)
+      ) {
+         return true;
+      }
       return false;
+   }
+
+   careUserLookup(value: string): Observable<CareUser[]> {
+      return this._careUserService
+         .fetchCareUsersData('asc', 'firstName', 0, 15, value)
+         .pipe(
+            map(res =>
+               res.items.filter(
+                  i =>
+                     !this.currentLegalGuardianInstance.careUsers.some(
+                        u => u.id === i.id
+                     )
+               )
+            ),
+            catchError(_ => {
+               return of(null);
+            })
+         );
+   }
+
+   addCareUser(careUser: CareUser, event: any = null) {
+      if (event === null || !event.isUserInput) {
+         return;
+      }
+      if (
+         this.currentLegalGuardianInstance.careUsersToRemove.indexOf(
+            careUser.id
+         ) > -1
+      ) {
+         this.currentLegalGuardianInstance.careUsersToRemove.splice(
+            this.currentLegalGuardianInstance.careUsersToRemove.indexOf(
+               careUser.id
+            )
+         );
+      } else {
+         this.currentLegalGuardianInstance.careUsersToAdd.push(careUser.id);
+      }
+
+      this.currentLegalGuardianInstance.careUsers.push(careUser);
+      this.formControlGroup.controls.careUsersSearchFieldcontrol.reset();
+   }
+
+   deleteCareUser(careUser: CareUser) {
+      if (
+         this.currentLegalGuardianInstance.careUsersToAdd.indexOf(careUser.id) >
+         -1
+      ) {
+         this.currentLegalGuardianInstance.careUsersToAdd.splice(
+            this.currentLegalGuardianInstance.careUsersToAdd.indexOf(
+               careUser.id
+            )
+         );
+      } else {
+         this.currentLegalGuardianInstance.careUsersToRemove.push(careUser.id);
+      }
+
+      if (this.currentLegalGuardianInstance.careUsers !== null) {
+         this.currentLegalGuardianInstance.careUsers = this.currentLegalGuardianInstance.careUsers.filter(
+            u => u.id !== careUser.id
+         );
+      }
+
+      this.formControlGroup.controls.careUsersSearchFieldcontrol.reset();
+   }
+
+   onResize(event) {
+      this.breakpoint = event.target.innerWidth <= 500 ? 1 : 3;
    }
 
    // Load form field values into current legal guardian instance

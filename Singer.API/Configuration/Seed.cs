@@ -76,14 +76,23 @@ namespace Singer.Configuration
 
             applicationDbContext.AdminUsers.Add(adminUser);
 
-            _ = userMgr.AddToRoleAsync(admin, Roles.ROLE_ADMINISTRATOR).Result;
-            _ = userMgr.AddClaimAsync(admin, new Claim(ClaimTypes.Role, Roles.ROLE_ADMINISTRATOR));
-
             Console.WriteLine("admin created");
+            var _ = userMgr.AddToRoleAsync(admin, Roles.ROLE_ADMINISTRATOR).Result;
+            _ = userMgr.AddClaimAsync(admin, new Claim(ClaimTypes.Role, Roles.ROLE_ADMINISTRATOR)).Result;
+
          }
          else
          {
             Console.WriteLine("admin already exists");
+            if (admin != null)
+            {
+               var hasRole = userMgr.IsInRoleAsync(admin, Roles.ROLE_ADMINISTRATOR).Result;
+               if (!hasRole)
+               {
+                  var _ = userMgr.AddToRoleAsync(admin, Roles.ROLE_ADMINISTRATOR).Result;
+               }
+            }
+            
          }
 
          foreach (var careUser in Roles._careUsers)

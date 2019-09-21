@@ -1,0 +1,15 @@
+mat-card-content p{
+   max-height: 150px;
+   text-overflow: ellipsis;
+   overflow: hidden;
+}
+.event-subtitle{
+   display: flex;
+   justify-content: space-between;
+}
+.date-indicator{
+   display: flex;
+   align-items: center;
+   font-size: 12px;
+   min-width: 100px;
+}

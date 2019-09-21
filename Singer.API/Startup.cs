@@ -16,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Singer.Configuration;
+using Singer.Controllers;
 using Singer.Data;
 using Singer.Data.Models.Configuration;
 using Singer.Helpers.Extensions;
@@ -23,6 +24,7 @@ using Singer.Services;
 using Singer.Services.Utils;
 using Singer.Models.Users;
 using Singer.Services.Interfaces;
+using AdminUserService = Singer.Controllers.AdminUserService;
 
 namespace Singer
 {
@@ -133,6 +135,7 @@ namespace Singer
          services.AddScoped<ICareUserService, CareUserService>();
          services.AddScoped<ILegalGuardianUserService, LegalGuardianUserService>();
          services.AddScoped<IEventLocationService, EventLocationService>();
+         services.AddScoped<IAdminUserService, AdminUserService>();
          services.AddScoped<IEventService, EventService>();
          services.AddScoped<IEventRegistrationService, EventRegistrationService>();
 

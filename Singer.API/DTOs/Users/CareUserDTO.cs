@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Singer.Models;
@@ -37,5 +38,6 @@ namespace Singer.DTOs.Users
 
       [DisplayName("Middelen")]
       public bool HasResources { get; set; }
+      public List<LinkedLegalGuardianDTO> LegalGuardianUsers { get; set; }
    }
 }

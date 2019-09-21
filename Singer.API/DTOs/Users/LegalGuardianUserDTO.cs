@@ -4,7 +4,7 @@ namespace Singer.DTOs.Users
 {
    public class LegalGuardianUserDTO : UserDTO
    {
-      public List<CareUserDTO> CareUsers { get; set; }
+      public List<LinkedCareUserDTO> CareUsers { get; set; }
       public string Address { get; set; }
       public string PostalCode { get; set; }
       public string City { get; set; }

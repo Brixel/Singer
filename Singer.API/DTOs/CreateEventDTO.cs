@@ -11,7 +11,6 @@ namespace Singer.DTOs
       public List<AgeGroup> AllowedAgeGroups { get; set; }
       public Guid LocationId { get; set; }
       public int MaxRegistrants { get; set; }
-      public int currentRegistrants { get; set; }
       public decimal Cost { get; set; }
       public DateTime StartDate { get; set; }
       public DateTime EndDate { get; set; }
@@ -22,10 +21,10 @@ namespace Singer.DTOs
       public DateTime FinalCancellationDate { get; set; }
       public bool RegistrationOnDailyBasis { get; set; }
       public bool HasDayCareBefore { get; set; }
-      public DateTime DayCareBeforeStartTime { get; set; }
-      public DateTime DayCareBeforeEndTime { get; set; }
+      public DateTime? DayCareBeforeStartTime { get; set; }
+      public DateTime? DayCareBeforeEndTime { get; set; }
       public bool HasDayCareAfter { get; set; }
-      public DateTime DayCareAfterStartTime { get; set; }
-      public DateTime DayCareAfterEndTime { get; set; }
+      public DateTime? DayCareAfterStartTime { get; set; }
+      public DateTime? DayCareAfterEndTime { get; set; }
    }
 }
