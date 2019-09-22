@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Inject, ViewChild } from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CareUser } from 'src/app/modules/core/models/careuser.model';
@@ -14,20 +14,30 @@ import {
 import { of, Observable } from 'rxjs';
 import { LegalGuardian } from 'src/app/modules/core/models/legalguardian.model';
 import { LegalguardiansService } from 'src/app/modules/core/services/legal-guardians-api/legalguardians.service';
+import { MatDatepicker, DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material';
+import { MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
+import { MY_FORMATS } from 'src/app/app.module';
 
 // Data we pass along with the creation of the Mat-Dialog box
 export interface CareUserDetailsFormData {
    careUserInstance: CareUser;
    isAdding: boolean;
 }
-
 @Component({
    selector: 'app-care-user-details',
    templateUrl: './care-user-details.component.html',
    styleUrls: ['./care-user-details.component.css'],
+   providers: [
+
+      {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+    ],
+
 })
 export class CareUserDetailsComponent implements OnInit {
    // Submit event for when the user submits the form
+
+   @ViewChild(MatDatepicker) picker: MatDatepicker<Date>;
+
    @Output() submitEvent: EventEmitter<CareUser> = new EventEmitter();
 
    // Boolean to decide if we are adding a new user or editing an existing one

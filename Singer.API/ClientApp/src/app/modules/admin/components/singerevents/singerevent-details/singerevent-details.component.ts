@@ -6,6 +6,8 @@ import {
    SingerEventLocation,
 } from 'src/app/modules/core/models/singerevent.model';
 import { AgeGroup } from 'src/app/modules/core/models/enum';
+import { MAT_DATE_FORMATS } from '@angular/material';
+import { MY_FORMATS } from 'src/app/app.module';
 
 // Data we pass along with the creation of the Mat-Dialog box
 export interface SingerEventDetailsFormData {
@@ -18,6 +20,11 @@ export interface SingerEventDetailsFormData {
    selector: 'app-singerevent-details',
    templateUrl: './singerevent-details.component.html',
    styleUrls: ['./singerevent-details.component.css'],
+   providers: [
+
+      {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+    ],
+
 })
 export class SingerEventDetailsComponent implements OnInit {
    // Submit event for when the user submits the form
