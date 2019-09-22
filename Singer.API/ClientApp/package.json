@@ -8,7 +8,8 @@
       "build:ssr": "ng run Singer:server:dev",
       "test": "ng test --code-coverage --source-map=false",
       "lint": "ng lint",
-      "e2e": "ng e2e"
+      "e2e": "ng e2e",
+      "release": "standard-version"
    },
    "private": true,
    "dependencies": {
@@ -51,6 +52,7 @@
       "karma-coverage-istanbul-reporter": "~1.4.2",
       "karma-jasmine": "~1.1.1",
       "karma-jasmine-html-reporter": "^0.2.2",
+      "standard-version": "^7.0.0",
       "typescript": "~3.2.4"
    },
    "optionalDependencies": {

@@ -1,13 +1,40 @@
 # Singer
 
+[English below]
+
 Inschrijvingssysteem voor Sint Gerardus
 
-# Setup (English only)
+## Functionaliteit
 
-## Code
+### Gebruikersbeheer
 
-The application is written in C#, using .NET Core 2.2 and Angular (?). It's is generated using a template provided by Visual Studio 2017.
+* Beheren van verschillende types gebruikers:
+  * Administrators
+  * Zorggebruikers
+  * Voogde
+  
+### Evenementenbeheer
+
+* Beheren van evenementen
+  * Zorggebruikers kunnen zich inschrijven voor evenementen
+  * Verschillende leeftijdsgroepen toekennen aan evenementen
+  * Evenementen kunnen over één of meerdere dagen plaatsvinden
+
+
+
+## Setup (English only)
+
+### Code
+
+1. Architecture
+
+The application is written in C#, using .NET Core 2.2 and Angular 7. It's is generated using a template provided by Visual Studio 2017.
 This template allows running the entire application (both the API and the webapp) in one executable.
+The data is stored in a SQL Server instance. Accessing the data is done via Entity Framework Core, using Automapper.
+
+
+2. Angular template in Visual Studio
+
 The magic is done in the `Startup.cs` file, especially the following part:
 
 ```C#
@@ -36,6 +63,8 @@ app.UseSpa(spa =>
 
 The `spa.UseAngularCliServer` line triggers the `npm start` for the webapp and starts a browser opening the page.
 
+
+
 ## Get the application running locally
 
 1. Clone this repository
@@ -47,3 +76,7 @@ The `spa.UseAngularCliServer` line triggers the `npm start` for the webapp and s
 ## Docker
 
 The application requires a MSSQL database. You can run it on your existing databaseserver or use the provided `docker-compose.yml` file to run a linux based MSSQL Server (it's using mcr.microsoft.com/mssql/server). Note that it also includes a mapped volume from the container's /var/opt/mssql/data to a folder in the root of the project.
+
+## Hosting and CI
+
+For development and demo purposes, we host our application in Azure. Using Azure DevOps we can quickly deploy the application to Azure, while it allows us to have finegrained control over what is being deployed to Sint Gerardus.
