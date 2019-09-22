@@ -41,7 +41,7 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
       this.dataSource = new LegalguardianOverviewDataSource(
          this.legalguardiansService
       );
-      this.sort.active = 'id'; //TODO: Workaround for API sorting issue, when sorting on other columns, linked users are not always filled in
+      this.sort.active = 'firstName';
       this.sort.direction = 'asc';
       this.loadLegalGuardians();
    }

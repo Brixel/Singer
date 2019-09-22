@@ -95,7 +95,6 @@ namespace Singer.Services
       public virtual async Task<TDTO> CreateAsync(
          TCreateDTO dto)
       {
-
          // project the DTO to an entity
          var entity = Mapper.Map<TEntity>(dto);
 
@@ -173,9 +172,6 @@ namespace Singer.Services
          int pageIndex = 0,
          int entitiesPerPage = 15)
       {
-         // set the projector if it is null
-         //if (projector == null)
-         //   projector = EntityToDTOProjector;
 
          // return the paged results
          return await Queryable
@@ -199,12 +195,6 @@ namespace Singer.Services
          Guid id,
          TUpdateDTO newValue)
       {
-         // set the projectors if they are null
-         //if (entityToDTOProjector == null)
-         //   entityToDTOProjector = EntityToDTOProjector;
-         //if (dtoToEntityProjector == null)
-         //   dtoToEntityProjector = UpdateDTOToEntityProjector;
-
          // search for the item to update
          var itemToUpdate = await DbSet.FindAsync(id);
          if (itemToUpdate == null)

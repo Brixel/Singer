@@ -53,7 +53,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
 
    ngOnInit() {
       this.dataSource = new OverviewDataSource(this.careUserService);
-      this.sort.active = 'firstName'; //TODO: Workaround for API sorting issue, when sorting on other columns, linked users are not always filled in
+      this.sort.active = 'firstName';
       this.sort.direction = 'asc';
       this.loadCareUsers();
    }

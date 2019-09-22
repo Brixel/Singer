@@ -56,7 +56,7 @@ namespace Singer.Services
 
       public override async Task<TUserDTO> GetOneAsync(Guid id)
       {
-         var item = await Queryable //Explicitly load the user entity
+         var item = await Queryable
             .ProjectTo<TUserDTO>(Mapper.ConfigurationProvider)
             .SingleOrDefaultAsync(x => x.Id == id);
          if (item == null)
@@ -73,7 +73,7 @@ namespace Singer.Services
          if (itemToDelete == null)
             throw new NotFoundException();
 
-         //Since users are entities based on the `User` entity, we must delete the User isntead of the specific entity
+         //Since users are entities based on the `User` entity, we must delete the User instead of the specific entity
          var userToDelete = await Context.Users.FindAsync(itemToDelete.UserId);
          Context.Users.Remove(userToDelete);
          await Context.SaveChangesAsync();
