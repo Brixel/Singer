@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Singer.DTOs;
 using Singer.Helpers;
 using Singer.Helpers.Exceptions;
@@ -59,12 +60,11 @@ namespace Singer.Controllers
       [HttpPost]
       [ProducesResponseType(StatusCodes.Status201Created)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public async Task<ActionResult<TDTO>> Create([FromBody]TCreateDTO dto)
+      public async Task<ActionResult<ModelStateDictionary>> Create([FromBody]TCreateDTO dto)
       {
          var model = ModelState;
          if (model.IsValid)
          {
-
             var returnItem = await DatabaseService.CreateAsync(dto);
             return Created(nameof(Get), returnItem);
          }
@@ -90,7 +90,7 @@ namespace Singer.Controllers
       [HttpGet]
       [ProducesResponseType(StatusCodes.Status200OK)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public virtual async Task<ActionResult<TDTO>> Get(string sortDirection = "0", string sortColumn = "Id", int pageIndex = 0, int pageSize = 15, string filter = "")
+      public virtual async Task<ActionResult<PaginationDTO<TDTO>>> Get(string sortDirection = "0", string sortColumn = "Id", int pageIndex = 0, int pageSize = 15, string filter = "")
       {
          if (sortDirection == "asc") sortDirection = "0";
          if (sortDirection == "desc") sortDirection = "1";
@@ -159,7 +159,7 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status200OK)]
       [ProducesResponseType(StatusCodes.Status404NotFound)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public virtual async Task<ActionResult> Update(Guid id, [FromBody]TUpdateDTO dto)
+      public virtual async Task<ActionResult<TDTO>> Update(Guid id, [FromBody]TUpdateDTO dto)
       {
          var result = await DatabaseService.UpdateAsync(id, dto);
          return Ok(result);
