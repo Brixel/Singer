@@ -41,7 +41,7 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
       this.dataSource = new LegalguardianOverviewDataSource(
          this.legalguardiansService
       );
-      this.sort.active = 'id'; //TODO: Workaround for API sorting issue, when sorting on other columns, linked users are not always filled in
+      this.sort.active = 'firstName';
       this.sort.direction = 'asc';
       this.loadLegalGuardians();
    }
@@ -102,12 +102,12 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
             debounceTime(400),
             distinctUntilChanged(),
             tap(() => {
-               this.paginator.pageIndex = 1;
+               this.paginator.pageIndex = 0;
                this.loadLegalGuardians();
             })
          )
          .subscribe();
-      this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 1));
+      this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
       merge(this.sort.sortChange, this.paginator.page)
          .pipe(
             tap(() => {
