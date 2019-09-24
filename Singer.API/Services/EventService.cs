@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Singer.Data;
@@ -37,7 +38,7 @@ namespace Singer.Services
          return filterExpression;
       }
 
-      public IReadOnlyList<EventDescriptionDTO> GetPublicEvents(SearchEventParamsDTO searchEventParamsDto)
+      public async Task<IReadOnlyList<EventDescriptionDTO>> GetPublicEventsAsync(SearchEventParamsDTO searchEventParamsDto)
       {
          var today = DateTime.Today;
 
@@ -48,14 +49,14 @@ namespace Singer.Services
             (!searchEventParamsDto.LocationId.HasValue || x.LocationId == searchEventParamsDto.LocationId.Value);
 
          var filteredEvents = Queryable.Where(useStartDate);
-         return filteredEvents.Select(x => new EventDescriptionDTO()
+         return await filteredEvents.Select(x => new EventDescriptionDTO()
          {
             AgeGroups = EventProfile.ToAgeGroupList(x.AllowedAgeGroups),
             Description = x.Description,
             Title = x.Title,
             StartDate = x.StartDate,
             EndDate = x.EndDate
-         }).ToList();
+         }).ToListAsync();
       }
    }
 

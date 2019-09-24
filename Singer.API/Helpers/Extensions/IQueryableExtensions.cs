@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using Singer.Helpers.Exceptions;
 using Singer.Models;
@@ -95,8 +97,8 @@ namespace Singer.Helpers.Extensions
 
       public static async Task<SearchResults<TProjection>> ToPagedListAsync<TEntity, TProjection>(
          this IQueryable<TEntity> queryable,
+         IMapper mapper,
          Expression<Func<TEntity, bool>> filterExpression,
-         Expression<Func<TEntity, TProjection>> projectionExpression,
          Expression<Func<TProjection, object>> orderByLambda,
          ListSortDirection sortDirection,
          int pageIndex = 0,
@@ -114,7 +116,7 @@ namespace Singer.Helpers.Extensions
          IReadOnlyList<TProjection> items = new List<TProjection>();
          if (totalItemsCount > 0)
          {
-            var projection = filteredQueryable.Select(projectionExpression);
+            var projection = filteredQueryable.ProjectTo<TProjection>(mapper.ConfigurationProvider);
             var orderedQueryable = sortDirection == ListSortDirection.Ascending
                ? projection.OrderBy(orderByLambda)
                : projection.OrderByDescending(orderByLambda);

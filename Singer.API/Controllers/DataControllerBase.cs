@@ -92,8 +92,16 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
       public virtual async Task<ActionResult<TDTO>> Get(string sortDirection = "0", string sortColumn = "Id", int pageIndex = 0, int pageSize = 15, string filter = "")
       {
-         if (sortDirection == "asc") sortDirection = "0";
-         if (sortDirection == "desc") sortDirection = "1";
+         switch (sortDirection)
+         {
+            default:
+            case "asc":
+               sortDirection = "0";
+               break;
+            case "desc":
+               sortDirection = "1";
+               break;
+         }
          if (!Enum.TryParse<ListSortDirection>(sortDirection, true, out var direction))
             throw new BadInputException("The given sort-direction is unknown.");
 
