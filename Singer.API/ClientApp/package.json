@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.1.0-bug-datacontroller-returntype.517",
+   "version": "0.1.0-bug-datacontroller-returntype.518",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",
