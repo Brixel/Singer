@@ -24,7 +24,7 @@ using Singer.Services;
 using Singer.Services.Utils;
 using Singer.Models.Users;
 using Singer.Services.Interfaces;
-using AdminUserService = Singer.Controllers.AdminUserService;
+using AdminUserService = Singer.Services.AdminUserService;
 
 namespace Singer
 {
