@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Singer.Data;
@@ -29,9 +30,7 @@ namespace Singer.Services
       }
 
       public override async Task<TUserDTO> CreateAsync(
-         TCreateUserDTO dto,
-         Expression<Func<TCreateUserDTO, TUserEntity>> dtoToEntityProjector = null,
-         Expression<Func<TUserEntity, TUserDTO>> entityToDTOProjector = null)
+         TCreateUserDTO dto)
       {
          var baseUser = new User()
          {
@@ -52,18 +51,14 @@ namespace Singer.Services
          var entity = Mapper.Map<TUserEntity>(dto);
          entity.UserId = createdUser.Id;
 
-         return await base.CreateAsync(dto, _ => entity, entityToDTOProjector);
+         return await base.CreateAsync(dto);
       }
 
-      public override async Task<TUserDTO> GetOneAsync(Guid id, Expression<Func<TUserEntity, TUserDTO>> projector = null)
+      public override async Task<TUserDTO> GetOneAsync(Guid id)
       {
-         // set the projector if it is null
-         if (projector == null)
-            projector = EntityToDTOProjector;
-
-         // search for the entity with the given id in the database
-         var item = await Queryable //Explicitly load the user entity
-            .Select(projector).SingleOrDefaultAsync(x => x.Id == id);
+         var item = await Queryable
+            .ProjectTo<TUserDTO>(Mapper.ConfigurationProvider)
+            .SingleOrDefaultAsync(x => x.Id == id);
          if (item == null)
             throw new NotFoundException();
 
@@ -78,7 +73,7 @@ namespace Singer.Services
          if (itemToDelete == null)
             throw new NotFoundException();
 
-         //Since users are entities based on the `User` entity, we must delete the User isntead of the specific entity
+         //Since users are entities based on the `User` entity, we must delete the User instead of the specific entity
          var userToDelete = await Context.Users.FindAsync(itemToDelete.UserId);
          Context.Users.Remove(userToDelete);
          await Context.SaveChangesAsync();
@@ -86,23 +81,16 @@ namespace Singer.Services
 
       public override async Task<SearchResults<TUserDTO>> GetAsync(
          string filter = null,
-         Expression<Func<TUserEntity, TUserDTO>> projector = null,
          Expression<Func<TUserDTO, object>> orderer = null,
          ListSortDirection sortDirection = ListSortDirection.Ascending,
          int pageIndex = 0,
          int entitiesPerPage = 15)
       {
-         // set the projector if it is null
-         if (projector == null)
-            projector = EntityToDTOProjector;
-
          // return the paged results
-         return await Queryable  // TODO: Unsure if this is OK, we used to have DBSet here, but that doesn't have the linked entities resolved :(
-            .Include(x => x.User)
-            .AsQueryable()
+         return await Queryable
             .ToPagedListAsync(
+               Mapper,
                filterExpression: Filter(filter),
-               projectionExpression: projector,
                orderByLambda: orderer,
                sortDirection: sortDirection,
                pageIndex: pageIndex,

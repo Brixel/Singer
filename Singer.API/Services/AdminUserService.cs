@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Security.Claims;
@@ -9,23 +8,20 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Singer.Configuration;
 using Singer.Data;
-using Singer.DTOs;
 using Singer.DTOs.Users;
 using Singer.Models.Users;
+using Singer.Services.Interfaces;
 
 namespace Singer.Services
 {
-   public class AdminUserService : UserService<AdminUser, AdminUserDTO, CreateAdminUserDTO, UpdateAdminUserDTO>
+   public class AdminUserService : UserService<AdminUser, AdminUserDTO, CreateAdminUserDTO, UpdateAdminUserDTO>, IAdminUserService
    {
-      private readonly RoleManager<IdentityRole<Guid>> _roleManager;
-
-      public AdminUserService(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager, RoleManager<IdentityRole<Guid>> roleManager) : base(context, mapper, userManager)
+      public AdminUserService(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager) : base(context, mapper, userManager)
       {
-         _roleManager = roleManager;
       }
 
       protected override DbSet<AdminUser> DbSet => Context.AdminUsers;
-      protected override IQueryable<AdminUser> Queryable => Context.AdminUsers.Include(x => x.User);
+      protected override IQueryable<AdminUser> Queryable => Context.AdminUsers;
       protected override Expression<Func<AdminUser, bool>> Filter(string filter)
       {
          if (string.IsNullOrWhiteSpace(filter))
@@ -40,11 +36,9 @@ namespace Singer.Services
       }
 
       public override async Task<AdminUserDTO> CreateAsync(
-         CreateAdminUserDTO dto,
-         Expression<Func<CreateAdminUserDTO, AdminUser>> dtoToEntityProjector = null,
-         Expression<Func<AdminUser, AdminUserDTO>> entityToDTOProjector = null)
+         CreateAdminUserDTO dto)
       {
-         var result = await base.CreateAsync(dto, dtoToEntityProjector, entityToDTOProjector);
+         var result = await base.CreateAsync(dto);
          var createdUser = await UserManager.FindByEmailAsync(result.Email);
          await UserManager.AddToRoleAsync(createdUser, Roles.ROLE_ADMINISTRATOR);
          await UserManager.AddClaimAsync(createdUser, new Claim(ClaimTypes.Role, Roles.ROLE_ADMINISTRATOR));
