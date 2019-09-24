@@ -11,7 +11,7 @@ using Singer.Services.Interfaces;
 
 namespace Singer.Services
 {
-   public class AdminUserService : UserService<AdminUser, AdminUserDTO, CreateAdminUserDTO, UpdateAdminUserDTO> ,IAdminUserService
+   public class AdminUserService : UserService<AdminUser, AdminUserDTO, CreateAdminUserDTO, UpdateAdminUserDTO>, IAdminUserService
    {
       public AdminUserService(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager) : base(context, mapper, userManager)
       {

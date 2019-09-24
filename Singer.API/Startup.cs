@@ -16,7 +16,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Singer.Configuration;
-using Singer.Controllers;
 using Singer.Data;
 using Singer.Data.Models.Configuration;
 using Singer.Helpers.Extensions;
@@ -24,7 +23,6 @@ using Singer.Services;
 using Singer.Services.Utils;
 using Singer.Models.Users;
 using Singer.Services.Interfaces;
-using AdminUserService = Singer.Services.AdminUserService;
 
 namespace Singer
 {
