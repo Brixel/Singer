@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Singer.DTOs;
 using Singer.Helpers;
 using Singer.Helpers.Exceptions;
@@ -59,12 +60,11 @@ namespace Singer.Controllers
       [HttpPost]
       [ProducesResponseType(StatusCodes.Status201Created)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public async Task<ActionResult<TDTO>> Create([FromBody]TCreateDTO dto)
+      public async Task<IActionResult> Create([FromBody]TCreateDTO dto)
       {
          var model = ModelState;
          if (model.IsValid)
          {
-
             var returnItem = await DatabaseService.CreateAsync(dto);
             return Created(nameof(Get), returnItem);
          }
@@ -90,7 +90,7 @@ namespace Singer.Controllers
       [HttpGet]
       [ProducesResponseType(StatusCodes.Status200OK)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public virtual async Task<ActionResult<TDTO>> Get(string sortDirection = "0", string sortColumn = "Id", int pageIndex = 0, int pageSize = 15, string filter = "")
+      public virtual async Task<IActionResult> Get(string sortDirection = "0", string sortColumn = "Id", int pageIndex = 0, int pageSize = 15, string filter = "")
       {
          switch (sortDirection)
          {
@@ -147,7 +147,7 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status200OK)]
       [ProducesResponseType(StatusCodes.Status404NotFound)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public virtual async Task<ActionResult<TDTO>> GetOne(Guid id)
+      public virtual async Task<IActionResult> GetOne(Guid id)
       {
          var dto = await DatabaseService.GetOneAsync(id);
          return Ok(dto);
@@ -167,7 +167,7 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status200OK)]
       [ProducesResponseType(StatusCodes.Status404NotFound)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public virtual async Task<ActionResult> Update(Guid id, [FromBody]TUpdateDTO dto)
+      public virtual async Task<IActionResult> Update(Guid id, [FromBody]TUpdateDTO dto)
       {
          var result = await DatabaseService.UpdateAsync(id, dto);
          return Ok(result);
@@ -185,7 +185,7 @@ namespace Singer.Controllers
       [HttpDelete("{id}")]
       [ProducesResponseType(StatusCodes.Status204NoContent)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public async Task<ActionResult> Delete(Guid id)
+      public async Task<IActionResult> Delete(Guid id)
       {
          await DatabaseService.DeleteAsync(id);
          return NoContent();
