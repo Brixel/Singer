@@ -38,7 +38,7 @@ namespace Singer.Services
          return filterExpression;
       }
 
-      public async Task<List<EventDescriptionDTO>> GetPublicEventsAsync(SearchEventParamsDTO searchEventParamsDto)
+      public async Task<IReadOnlyList<EventDescriptionDTO>> GetPublicEventsAsync(SearchEventParamsDTO searchEventParamsDto)
       {
          var today = DateTime.Today;
 
