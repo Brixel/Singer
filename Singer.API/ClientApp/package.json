@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.2.0-issue-adminservice.3",
+   "version": "0.2.0-dev.19",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",
