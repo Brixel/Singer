@@ -273,9 +273,7 @@ export class SingerEventDetailsComponent implements OnInit {
       this.formControlGroup.controls.dailyEndTimeFieldControl.reset();
       this.formControlGroup.controls.hasDayCareBeforeFieldControl.reset();
       this.formControlGroup.controls.dayCareBeforeStartTimeFieldControl.reset();
-      this.formControlGroup.controls.dayCareBeforeEndTimeFieldControl.reset();
       this.formControlGroup.controls.hasDayCareAfterFieldControl.reset();
-      this.formControlGroup.controls.dayCareAfterStartTimeFieldControl.reset();
       this.formControlGroup.controls.dayCareAfterEndTimeFieldControl.reset();
    }
 
