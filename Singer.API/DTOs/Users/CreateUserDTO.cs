@@ -3,7 +3,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Singer.DTOs.Users
 {
-   public class CreateUserDTO : ICreateUserDTO
+   public class
+      CreateUserDTO : ICreateUserDTO
    {
       [Required]
       [StringLength(maximumLength: 255,
@@ -21,6 +22,6 @@ namespace Singer.DTOs.Users
       [Required]
       [EmailAddress]
       [DisplayName("E-mail adres")]
-      public virtual string Email { get; set; }
+      public string Email { get; set; }
    }
 }

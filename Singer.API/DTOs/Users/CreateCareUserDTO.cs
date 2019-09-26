@@ -35,12 +35,14 @@ namespace Singer.DTOs.Users
       [DisplayName("Middelen")]
       public bool HasResources { get; set; }
 
+      [Required]
       [DisplayName("Voornaam")]
       public string FirstName { get; set; }
-
-
+      
+      [Required]
       [DisplayName("Achternaam")]
       public string LastName { get; set; }
+
 
       public string Email { get; set; }
    }
