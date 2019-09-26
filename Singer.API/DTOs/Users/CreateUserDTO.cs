@@ -21,6 +21,6 @@ namespace Singer.DTOs.Users
       [Required]
       [EmailAddress]
       [DisplayName("E-mail adres")]
-      public string Email { get; set; }
+      public virtual string Email { get; set; }
    }
 }
