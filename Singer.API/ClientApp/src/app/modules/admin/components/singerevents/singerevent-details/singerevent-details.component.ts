@@ -7,6 +7,7 @@ import {
 } from 'src/app/modules/core/models/singerevent.model';
 import { AgeGroup } from 'src/app/modules/core/models/enum';
 import * as moment from 'moment';
+import { isNullOrUndefined } from 'util';
 
 // Data we pass along with the creation of the Mat-Dialog box
 export interface SingerEventDetailsFormData {
@@ -70,30 +71,32 @@ export class SingerEventDetailsComponent implements OnInit {
       // Form controls
       titleFieldControl: new FormControl('', [Validators.required]),
       descriptionFieldControl: new FormControl('', [Validators.required]),
-      locationFieldControl: new FormControl(null, [Validators.required]),
+      locationFieldControl: new FormControl('', [Validators.required]),
       allowedAgeGroupsFieldControl: new FormControl('', [Validators.required]),
       maxRegistrantsFieldControl: new FormControl('', [Validators.required]),
       costFieldControl: new FormControl('', [Validators.required]),
-      startRegistrationDateFieldControl: new FormControl(null, [
+      startRegistrationDateFieldControl: new FormControl(new Date(), [
          Validators.required,
       ]),
-      endRegistrationDateFieldControl: new FormControl(null, [
+      endRegistrationDateFieldControl: new FormControl(new Date(), [
          Validators.required,
       ]),
-      finalCancellationDateFieldControl: new FormControl(null, [
+      finalCancellationDateFieldControl: new FormControl(new Date(), [
          Validators.required,
       ]),
       registrationOnDailyBasisFieldControl: new FormControl('', [
          Validators.required,
       ]),
-      startDateFieldControl: new FormControl(null, [Validators.required]),
-      endDateFieldControl: new FormControl(null, [Validators.required]),
-      dailyStartTimeFieldControl: new FormControl('', [Validators.required]),
-      dailyEndTimeFieldControl: new FormControl(null, [Validators.required]),
+      startDateFieldControl: new FormControl(new Date(), [Validators.required]),
+      endDateFieldControl: new FormControl(new Date(), [Validators.required]),
+      dailyStartTimeFieldControl: new FormControl('00:00', [
+         Validators.required,
+      ]),
+      dailyEndTimeFieldControl: new FormControl('00:00', [Validators.required]),
       hasDayCareBeforeFieldControl: new FormControl('', [Validators.required]),
-      dayCareBeforeStartTimeFieldControl: new FormControl(),
+      dayCareBeforeStartTimeFieldControl: new FormControl('00:00'),
       hasDayCareAfterFieldControl: new FormControl('', [Validators.required]),
-      dayCareAfterEndTimeFieldControl: new FormControl(),
+      dayCareAfterEndTimeFieldControl: new FormControl('00:00'),
    });
 
    careBeforeRequired() {
@@ -530,6 +533,9 @@ export class SingerEventDetailsComponent implements OnInit {
    }
 
    private _handleDateTimeFields(dateField: Date, timeField: string): Date {
+      if (isNullOrUndefined(dateField) || isNullOrUndefined(timeField)) {
+         return new Date();
+      }
       let timePieces = timeField.split(':');
       dateField.setHours(parseInt(timePieces[0]));
       dateField.setMinutes(parseInt(timePieces[1]));
