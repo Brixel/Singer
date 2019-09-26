@@ -532,8 +532,6 @@ export class SingerEventDetailsComponent implements OnInit {
    }
 
    private _handleDateTimeFields(dateField: Date, timeField: string): Date {
-      console.log(dateField);
-      console.log(typeof dateField);
       let timePieces = timeField.split(':');
       dateField.setHours(parseInt(timePieces[0]));
       dateField.setMinutes(parseInt(timePieces[1]));
@@ -551,7 +549,6 @@ export class SingerEventDetailsComponent implements OnInit {
       // Check for changes and determine of an API call is necesarry
       if (this.checkForChanges()) {
          this.updateCurrentSingerEventInstance();
-         console.log(this.currentSingerEventInstance);
          this.submitEvent.emit(this.currentSingerEventInstance);
       }
       this.closeForm();
