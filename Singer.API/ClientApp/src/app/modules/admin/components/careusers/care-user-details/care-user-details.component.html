@@ -245,63 +245,64 @@
             </mat-error>
          </mat-form-field>
       </div>
-
-      <mat-divider></mat-divider>
-      <h3 class="section-title">Voogden</h3>
-      <div class="legalguardianusers-header">
-         <p *ngIf="currentCareUserInstance.legalGuardianUsers?.length > 0">
-            Deze zorggebruiker heeft volgende voogden:
-         </p>
-         <p *ngIf="!(currentCareUserInstance.legalGuardianUsers?.length > 0)">
-            Deze zorggebruiker heeft nog geen voogden gekoppeld.
-         </p>
-         <p>Voogd toevoegen:</p>
-         <mat-form-field>
-            <input
-               type="text"
-               matInput
-               placeholder="Zoek voogd"
-               aria-label="Voogden"
-               [matAutocomplete]="legalGuardianUsersAutoComplete"
-               formControlName="legalGuardianUsersSearchFieldcontrol"
-            />
-            <mat-autocomplete #legalGuardianUsersAutoComplete="matAutocomplete">
-               <mat-option
-                  *ngFor="
-                     let legalGuardianUser of legalGuardianUsersAutoComplete$
-                        | async
-                  "
-                  [value]="legalGuardianUser.id"
-                  (click)="addLegalGuardianUser(legalGuardianUser)"
-                  (onSelectionChange)="
-                     addLegalGuardianUser(legalGuardianUser, $event)
-                  "
-               >
-                  {{ legalGuardianUser.firstName }}
-                  {{ legalGuardianUser.lastName }}
-               </mat-option>
-            </mat-autocomplete>
-         </mat-form-field>
-      </div>
-      <mat-grid-list
-         *ngIf="currentCareUserInstance.legalGuardianUsers?.length > 0"
-         [cols]="breakpoint"
-         rowHeight="300px"
-         gutterSize="20px"
-         (window:resize)="onResize($event)"
-      >
-         <mat-grid-tile
-            *ngFor="
-               let legalGuardianUser of currentCareUserInstance.legalGuardianUsers
-            "
+      <div *ngIf="!isAdding">
+         <mat-divider></mat-divider>
+         <h3 class="section-title">Voogden</h3>
+         <div class="legalguardianusers-header">
+            <p *ngIf="currentCareUserInstance.legalGuardianUsers?.length > 0">
+               Deze zorggebruiker heeft volgende voogden:
+            </p>
+            <p *ngIf="!(currentCareUserInstance.legalGuardianUsers?.length > 0)">
+               Deze zorggebruiker heeft nog geen voogden gekoppeld.
+            </p>
+            <p>Voogd toevoegen:</p>
+            <mat-form-field>
+               <input
+                  type="text"
+                  matInput
+                  placeholder="Zoek voogd"
+                  aria-label="Voogden"
+                  [matAutocomplete]="legalGuardianUsersAutoComplete"
+                  formControlName="legalGuardianUsersSearchFieldcontrol"
+               />
+               <mat-autocomplete #legalGuardianUsersAutoComplete="matAutocomplete">
+                  <mat-option
+                     *ngFor="
+                        let legalGuardianUser of legalGuardianUsersAutoComplete$
+                           | async
+                     "
+                     [value]="legalGuardianUser.id"
+                     (click)="addLegalGuardianUser(legalGuardianUser)"
+                     (onSelectionChange)="
+                        addLegalGuardianUser(legalGuardianUser, $event)
+                     "
+                  >
+                     {{ legalGuardianUser.firstName }}
+                     {{ legalGuardianUser.lastName }}
+                  </mat-option>
+               </mat-autocomplete>
+            </mat-form-field>
+         </div>
+         <mat-grid-list
+            *ngIf="currentCareUserInstance.legalGuardianUsers?.length > 0"
+            [cols]="breakpoint"
+            rowHeight="300px"
+            gutterSize="20px"
+            (window:resize)="onResize($event)"
          >
-            <app-user-card
-               [user]="legalGuardianUser"
-               (delete)="deleteLegalGuardianUser(legalGuardianUser)"
-               class="user-card"
-            ></app-user-card>
-         </mat-grid-tile>
-      </mat-grid-list>
+            <mat-grid-tile
+               *ngFor="
+                  let legalGuardianUser of currentCareUserInstance.legalGuardianUsers
+               "
+            >
+               <app-user-card
+                  [user]="legalGuardianUser"
+                  (delete)="deleteLegalGuardianUser(legalGuardianUser)"
+                  class="user-card"
+               ></app-user-card>
+            </mat-grid-tile>
+         </mat-grid-list>
+      </div>
       <!-- Button Row -->
       <mat-dialog-actions class="button-row">
          <!-- Close Button -->
