@@ -1,11 +1,18 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { SingerEventLocation } from 'src/app/modules/core/models/singerevent.model';
+import { MAT_DATE_FORMATS } from '@angular/material';
+import { MY_FORMATS } from 'src/app/app.module';
 
 @Component({
-   selector: 'app-event-search',
-   templateUrl: './event-search.component.html',
-   styleUrls: ['./event-search.component.css'],
+  selector: 'app-event-search',
+  templateUrl: './event-search.component.html',
+  styleUrls: ['./event-search.component.css'],
+  providers: [
+
+   {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+ ],
+
 })
 export class EventSearchComponent implements OnInit {
    @Input() availableLocations: SingerEventLocation[];

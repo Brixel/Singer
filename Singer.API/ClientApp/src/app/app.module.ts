@@ -14,7 +14,16 @@ import { AuthGuard } from './modules/core/services/auth.guard';
 import { AuthInterceptor } from './modules/core/services/auth-interceptor';
 import { NavMenuComponent } from './modules/core/components/nav-menu/nav-menu.component';
 import { DashboardComponent } from './modules/dashboard/pages/dashboard/dashboard.component';
+import { MAT_DATE_FORMATS, NativeDateModule } from '@angular/material';
 
+export const MY_FORMATS = {
+   parse: {
+     dateInput: 'D-MM-YYYY',
+   },
+   display: {
+     dateInput: 'D-MM-YYYY'
+   },
+ };
 export function tokenGetter():string {
    return localStorage.getItem('token');
  }
@@ -30,6 +39,7 @@ export function tokenGetter():string {
       HttpClientModule,
       MaterialModule,
       BrowserAnimationsModule,
+      NativeDateModule,
       JwtModule.forRoot({
          config: {
             tokenGetter: tokenGetter,
@@ -45,6 +55,7 @@ export function tokenGetter():string {
          useClass: AuthInterceptor,
          multi: true,
       },
+      {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
       BrowserAnimationsModule,
    ],
    bootstrap: [AppComponent],
