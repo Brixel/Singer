@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.2.0-issue-fix-create.22",
+   "version": "0.2.0-issue-fix-create.25",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",
