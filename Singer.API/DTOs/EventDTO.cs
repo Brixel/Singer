@@ -15,8 +15,6 @@ namespace Singer.DTOs
       public int MaxRegistrants { get; set; }
       public int currentRegistrants { get; set; }
       public decimal Cost { get; set; }
-      public DateTime StartDate { get; set; }
-      public DateTime EndDate { get; set; }
       public DateTime StartRegistrationDate { get; set; }
       public DateTime EndRegistrationDate { get; set; }
       public DateTime DailyStartTime { get; set; }
@@ -29,5 +27,7 @@ namespace Singer.DTOs
       public bool HasDayCareAfter { get; set; }
       public DateTime DayCareAfterStartTime { get; set; }
       public DateTime DayCareAfterEndTime { get; set; }
+
+      public IList<EventSlotDTO> EventSlots { get; set; }
    }
 }

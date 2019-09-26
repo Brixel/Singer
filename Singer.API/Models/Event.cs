@@ -28,15 +28,4 @@ namespace Singer.Models
       public DateTime DayCareAfterEndTime { get; set; }
       public IList<EventSlot> EventSlots { get; set; }
    }
-
-   public class EventSlot : IIdentifiable
-   {
-      public Guid Id { get; set; }
-      public Guid EventId { get; set; }
-      public Event Event { get; set; }
-      public DateTime StartDateTime { get; set; }
-      public DateTime EndDateTime { get; set; }
-
-      public IList<EventRegistration> Registrations { get; set; }
-   }
 }

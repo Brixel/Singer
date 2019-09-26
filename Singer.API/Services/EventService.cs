@@ -58,20 +58,4 @@ namespace Singer.Services
          }).ToList();
       }
    }
-
-   public class EventDescriptionDTO
-   {
-      public string Title { get; set; }
-      public string Description { get; set; }
-      public DateTime StartDate { get; set; }
-      public DateTime EndDate { get; set; }
-      public IReadOnlyList<AgeGroup> AgeGroups { get; set; }
-   }
-
-   public class SearchEventParamsDTO
-   {
-      public DateTime? StartDate { get; set; }
-      public DateTime? EndDate { get; set; }
-      public Guid? LocationId { get; set; }
-   }
 }
