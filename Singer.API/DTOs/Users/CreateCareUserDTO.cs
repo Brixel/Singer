@@ -48,7 +48,7 @@ namespace Singer.DTOs.Users
       [DisplayName("Achternaam")]
       public string LastName { get; set; }
 
-
+      // This field has no validation attributes because the careuser has no email
       public string Email { get; set; }
    }
 }
