@@ -1,6 +1,10 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { AuthService } from 'src/app/modules/core/services/auth.service';
-import { EventDescription, SingerEventLocation, SearchEventDTO } from 'src/app/modules/core/models/singerevent.model';
+import {
+   EventDescription,
+   SingerEventLocation,
+   SearchEventDTO,
+} from 'src/app/modules/core/models/singerevent.model';
 import { MatDrawer } from '@angular/material';
 import { Observable } from 'rxjs';
 import { PaginationDTO } from 'src/app/modules/core/models/pagination.model';
@@ -12,19 +16,17 @@ import { SearchEventData } from '../event-search/event-search.component';
 @Component({
    selector: 'app-home',
    templateUrl: './home.component.html',
-   styleUrls: ['./home.component.css']
+   styleUrls: ['./home.component.css'],
 })
-
-export class HomeComponent implements OnInit{
-
+export class HomeComponent implements OnInit {
    events: EventDescription[] = [];
    availableLocations: SingerEventLocation[];
-   constructor(private apiService: ApiService) {
-   }
+   constructor(private apiService: ApiService) {}
 
    ngOnInit(): void {
-      this.getSingerEventLocations('asc', 'name', 0, 1000, '').subscribe(res =>{
-         this.availableLocations =  res.items as  SingerEventLocation[];
+      this.getSingerEventLocations('asc', 'name', 0, 1000, '').subscribe(
+         res => {
+            this.availableLocations = res.items as SingerEventLocation[];
          }
       );
    }
@@ -47,19 +49,30 @@ export class HomeComponent implements OnInit{
          .pipe(map(res => res));
    }
 
-   getEvents(searchEventData: SearchEventData):
-      Observable<EventDescription[]>{
+   getEvents(searchEventData: SearchEventData): Observable<EventDescription[]> {
       const searchParams = <SearchEventDTO>{
-         startDate: searchEventData.startDate,
-         endDate: searchEventData.endDate,
-         locationId: searchEventData.locationId
-      }
-      return this.apiService.post('api/event/search', searchParams).pipe(map(res => res));
+         startDateTime: searchEventData.startDateTime,
+         endDateTime: searchEventData.endDateTime,
+         locationId: searchEventData.locationId,
+      };
+      return this.apiService
+         .post('api/event/search', searchParams)
+         .pipe(map(res => res));
    }
 
-   onSearchEvent(searchEventData: SearchEventData){
-      this.getEvents(searchEventData).subscribe((res) =>
-         this.events =
-            res.map(r => new EventDescription(r.title, r.description, r.ageGroups, r.startDate, r.endDate)));
+   onSearchEvent(searchEventData: SearchEventData) {
+      this.getEvents(searchEventData).subscribe(
+         res =>
+            (this.events = res.map(
+               r =>
+                  new EventDescription(
+                     r.title,
+                     r.description,
+                     r.ageGroups,
+                     r.startDateTime,
+                     r.endDateTime
+                  )
+            ))
+      );
    }
 }
