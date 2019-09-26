@@ -33,15 +33,11 @@ namespace Singer.Services
          int pageIndex = 0,
          int itemsPerPage = 15)
       {
-         // set the projector if it is null
-         if (projector == null)
-            projector = EntityToDTOProjector;
-
          // return the paged results
          return await Queryable
             .ToPagedListAsync(
                filterExpression: filter,
-               projectionExpression: projector,
+               mapper: Mapper,
                orderByLambda: orderer,
                sortDirection: sortDirection,
                pageIndex: pageIndex,
@@ -53,8 +49,7 @@ namespace Singer.Services
          return o => true;
       }
 
-      public override async Task<EventRegistrationDTO> CreateAsync(CreateEventRegistrationDTO dto, Expression<Func<CreateEventRegistrationDTO, EventRegistration>> dtoToEntityProjector = null,
-         Expression<Func<EventRegistration, EventRegistrationDTO>> entityToDTOProjector = null)
+      public override async Task<EventRegistrationDTO> CreateAsync(CreateEventRegistrationDTO dto)
       {
          var careUser = Context.CareUsers.Single(x => x.Id == dto.CareUserId);
          var eventSlots = Context.EventSlots.Select(x => new
