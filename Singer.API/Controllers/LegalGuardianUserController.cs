@@ -22,7 +22,7 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status200OK)]
       [ProducesResponseType(StatusCodes.Status404NotFound)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public override async Task<ActionResult> Update(Guid id, [FromBody]UpdateLegalGuardianUserDTO dto)
+      public override async Task<IActionResult> Update(Guid id, [FromBody]UpdateLegalGuardianUserDTO dto)
       {
          if (dto is null)
          {

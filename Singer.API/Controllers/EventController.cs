@@ -1,16 +1,14 @@
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Singer.DTOs;
 using Singer.Helpers;
 using Singer.Helpers.Exceptions;
 using Singer.Models;
-using Singer.Services;
 using Singer.Services.Interfaces;
 using System;
 using System.ComponentModel;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 
 namespace Singer.Controllers
 {
@@ -162,9 +160,16 @@ namespace Singer.Controllers
          return o => o.EventSlot.EventId == eventId;
       }
       [HttpPost("search")]
-      public IReadOnlyList<EventDescriptionDTO> GetPublicEvents([FromBody] SearchEventParamsDTO searchEventParams)
+      public async Task<IActionResult> GetPublicEvents([FromBody] SearchEventParamsDTO searchEventParams)
       {
-         return _eventService.GetPublicEvents(searchEventParams);
+         var model = ModelState;
+         if (model.IsValid)
+         {
+            var events = await _eventService.GetPublicEventsAsync(searchEventParams);
+            return Ok(events);
+         }
+
+         return BadRequest(model);
       }
 
       #endregion METHODS

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Singer.Data;
@@ -9,6 +10,7 @@ using Singer.DTOs;
 using Singer.Models;
 using Singer.Services.Interfaces;
 using Singer.Profiles;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace Singer.Services
 {
@@ -37,25 +39,24 @@ namespace Singer.Services
          return filterExpression;
       }
 
-      public IReadOnlyList<EventDescriptionDTO> GetPublicEvents(SearchEventParamsDTO searchEventParamsDto)
+      public async Task<IReadOnlyList<EventDescriptionDTO>> GetPublicEventsAsync(SearchEventParamsDTO searchEventParamsDto)
       {
-         var today = DateTime.Today;
-
-         Expression<Func<EventSlot, bool>> useStartDate =
-            x => x.StartDateTime >= today &&
-                 (!searchEventParamsDto.StartDate.HasValue || x.StartDateTime == searchEventParamsDto.StartDate.Value) &&
-                 (!searchEventParamsDto.EndDate.HasValue || x.EndDateTime <= searchEventParamsDto.EndDate.Value) &&
-            (!searchEventParamsDto.LocationId.HasValue || x.Event.LocationId == searchEventParamsDto.LocationId.Value);
-
-         var filteredEvents = Context.EventSlots.Where(useStartDate);
-         return filteredEvents.Select(x => new EventDescriptionDTO()
-         {
-            AgeGroups = EventProfile.ToAgeGroupList(x.Event.AllowedAgeGroups),
-            Description = x.Event.Description,
-            Title = x.Event.Title,
-            StartDate = x.StartDateTime,
-            EndDate = x.EndDateTime
-         }).ToList();
+         return await Queryable
+            .Where(x =>
+               // check location
+               (!searchEventParamsDto.LocationId.HasValue || x.LocationId == searchEventParamsDto.LocationId.Value) &&
+               // check start date
+               (!searchEventParamsDto.StartDate.HasValue || x.EventSlots.OrderBy(y => y.StartDateTime).First().StartDateTime == searchEventParamsDto.StartDate) &&
+               // check end date
+               (!searchEventParamsDto.EndDate.HasValue || x.EventSlots.OrderBy(y => y.EndDateTime).First().EndDateTime <= searchEventParamsDto.EndDate))
+            .Select(x => new EventDescriptionDTO
+            {
+               AgeGroups = EventProfile.ToAgeGroupList(x.AllowedAgeGroups),
+               Description = x.Description,
+               Title = x.Title,
+               StartDate = x.EventSlots.OrderBy(y => y.StartDateTime).First().StartDateTime,
+               EndDate = x.EventSlots.OrderByDescending(y => y.EndDateTime).First().EndDateTime
+            }).ToListAsync();
       }
    }
 }
