@@ -98,6 +98,8 @@ namespace Singer.Services
          // project the DTO to an entity
          var entity = Mapper.Map<TEntity>(dto);
 
+         Context.Add(entity);
+
          await Context.SaveChangesAsync();
 
          var returnEntity = await GetOneAsync(entity.Id);
