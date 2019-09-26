@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Singer.Data;
 
 namespace Singer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190926173214_RemovesSuperfluousDaycareFields")]
+    partial class RemovesSuperfluousDaycareFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -135,17 +137,21 @@ namespace Singer.Migrations
 
                     b.Property<decimal>("Cost");
 
-                    b.Property<DateTime>("DayCareAfterEndDateTime");
+                    b.Property<DateTime>("DailyEndTime");
 
-                    b.Property<DateTime>("DayCareBeforeStartDateTime");
+                    b.Property<DateTime>("DailyStartTime");
+
+                    b.Property<DateTime>("DayCareAfterEndTime");
+
+                    b.Property<DateTime>("DayCareBeforeStartTime");
 
                     b.Property<string>("Description");
 
-                    b.Property<DateTime>("EndDateTime");
+                    b.Property<DateTime>("EndDate");
 
-                    b.Property<DateTime>("EndRegistrationDateTime");
+                    b.Property<DateTime>("EndRegistrationDate");
 
-                    b.Property<DateTime>("FinalCancellationDateTime");
+                    b.Property<DateTime>("FinalCancellationDate");
 
                     b.Property<bool>("HasDayCareAfter");
 
@@ -157,9 +163,9 @@ namespace Singer.Migrations
 
                     b.Property<bool>("RegistrationOnDailyBasis");
 
-                    b.Property<DateTime>("StartDateTime");
+                    b.Property<DateTime>("StartDate");
 
-                    b.Property<DateTime>("StartRegistrationDateTime");
+                    b.Property<DateTime>("StartRegistrationDate");
 
                     b.Property<string>("Title");
 
