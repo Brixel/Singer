@@ -40,6 +40,8 @@ namespace Singer.Services
             UserName = dto.Email
          };
 
+         // We need usernames for AspNetUsers. However, careusers don't have an e-mail address, so no username can be generated
+         // For that reason, we generate a random username.
          if (string.IsNullOrEmpty(baseUser.UserName))
          {
             baseUser.UserName = GenerateRandomUserName(baseUser.FirstName, baseUser.LastName);
@@ -67,6 +69,7 @@ namespace Singer.Services
 
       public override async Task<TUserDTO> GetOneAsync(Guid id)
       {
+         // No async usage due to Automapper not being able to process IAsyncEnumerables
          var item = Queryable
             .ProjectTo<TUserDTO>(Mapper.ConfigurationProvider)
             .SingleOrDefault(x => x.Id == id);
