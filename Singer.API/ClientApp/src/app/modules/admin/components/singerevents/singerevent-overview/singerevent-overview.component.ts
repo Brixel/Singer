@@ -43,8 +43,8 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
       'ageGroups',
       'maxRegistrants',
       'cost',
-      'startDate',
-      'endDate',
+      'startDateTime',
+      'endDateTime',
       'hasDayCareBefore',
       'hasDayCareAfter',
    ];

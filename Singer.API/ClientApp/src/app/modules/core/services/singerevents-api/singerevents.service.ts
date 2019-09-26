@@ -3,15 +3,11 @@ import {
    SingerEvent,
    UpdateSingerEventDTO,
    CreateSingerEventDTO,
-   SingerEventLocation,
 } from '../../models/singerevent.model';
 import { Observable } from 'rxjs';
-import { AgeGroup } from '../../models/enum';
-import { Time } from '@angular/common';
 import { SingerEventsProxy } from './singerevents.proxy';
 import { map } from 'rxjs/operators';
 import { PaginationDTO } from '../../models/pagination.model';
-import { now } from 'moment';
 
 @Injectable({
    providedIn: 'root',
@@ -46,20 +42,17 @@ export class SingerEventsService {
          allowedAgeGroups: updateSingerEvent.allowedAgeGroups,
          maxRegistrants: updateSingerEvent.maxRegistrants,
          cost: updateSingerEvent.cost,
-         startRegistrationDate: updateSingerEvent.startRegistrationDate,
-         endRegistrationDate: updateSingerEvent.endRegistrationDate,
-         finalCancellationDate: updateSingerEvent.finalCancellationDate,
+         startRegistrationDateTime: updateSingerEvent.startRegistrationDateTime,
+         endRegistrationDateTime: updateSingerEvent.endRegistrationDateTime,
+         finalCancellationDateTime: updateSingerEvent.finalCancellationDateTime,
          registrationOnDailyBasis: updateSingerEvent.registrationOnDailyBasis,
-         startDate: updateSingerEvent.startDate,
-         endDate: updateSingerEvent.endDate,
-         dailyStartTime: updateSingerEvent.dailyStartTime,
-         dailyEndTime: updateSingerEvent.dailyEndTime,
+         startDateTime: updateSingerEvent.startDateTime,
+         endDateTime: updateSingerEvent.endDateTime,
          hasDayCareBefore: updateSingerEvent.hasDayCareBefore,
-         dayCareBeforeStartTime: updateSingerEvent.dayCareBeforeStartTime,
-         dayCareBeforeEndTime: updateSingerEvent.dayCareBeforeEndTime,
+         dayCareBeforeStartDateTime:
+            updateSingerEvent.dayCareBeforeStartDateTime,
          hasDayCareAfter: updateSingerEvent.hasDayCareAfter,
-         dayCareAfterStartTime: updateSingerEvent.dayCareAfterStartTime,
-         dayCareAfterEndTime: updateSingerEvent.dayCareAfterEndTime,
+         dayCareAfterEndDateTime: updateSingerEvent.dayCareAfterEndDateTime,
       };
       return this.singerEventsProxy
          .updateSingerEvents(updateSingerEventDTO.id, updateSingerEventDTO)
@@ -74,20 +67,17 @@ export class SingerEventsService {
          allowedAgeGroups: createSingerEvent.allowedAgeGroups,
          maxRegistrants: createSingerEvent.maxRegistrants,
          cost: createSingerEvent.cost,
-         startRegistrationDate: createSingerEvent.startRegistrationDate,
-         endRegistrationDate: createSingerEvent.endRegistrationDate,
-         finalCancellationDate: createSingerEvent.finalCancellationDate,
+         startRegistrationDateTime: createSingerEvent.startRegistrationDateTime,
+         endRegistrationDateTime: createSingerEvent.endRegistrationDateTime,
+         finalCancellationDateTime: createSingerEvent.finalCancellationDateTime,
          registrationOnDailyBasis: createSingerEvent.registrationOnDailyBasis,
-         startDate: createSingerEvent.startDate,
-         endDate: createSingerEvent.endDate,
-         dailyStartTime: createSingerEvent.dailyStartTime,
-         dailyEndTime: createSingerEvent.dailyEndTime,
+         startDateTime: createSingerEvent.startDateTime,
+         endDateTime: createSingerEvent.endDateTime,
          hasDayCareBefore: createSingerEvent.hasDayCareBefore,
-         dayCareBeforeStartTime: createSingerEvent.dayCareBeforeStartTime,
-         dayCareBeforeEndTime: createSingerEvent.dayCareBeforeEndTime,
+         dayCareBeforeStartDateTime:
+            createSingerEvent.dayCareBeforeStartDateTime,
          hasDayCareAfter: createSingerEvent.hasDayCareAfter,
-         dayCareAfterStartTime: createSingerEvent.dayCareAfterStartTime,
-         dayCareAfterEndTime: createSingerEvent.dayCareAfterEndTime,
+         dayCareAfterEndDateTime: createSingerEvent.dayCareAfterEndDateTime,
       };
       return this.singerEventsProxy
          .createSingerEvents(createSingerEventDTO)
