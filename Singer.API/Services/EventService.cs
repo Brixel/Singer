@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Singer.Data;
@@ -37,25 +38,25 @@ namespace Singer.Services
          return filterExpression;
       }
 
-      public IReadOnlyList<EventDescriptionDTO> GetPublicEvents(SearchEventParamsDTO searchEventParamsDto)
+      public async Task<IReadOnlyList<EventDescriptionDTO>> GetPublicEventsAsync(SearchEventParamsDTO searchEventParamsDto)
       {
          var today = DateTime.Today;
 
          Expression<Func<Event, bool>> useStartDate =
-            x => x.StartDate >= today &&
-                 (!searchEventParamsDto.StartDate.HasValue || x.StartDate == searchEventParamsDto.StartDate.Value) &&
-                 (!searchEventParamsDto.EndDate.HasValue || x.EndDate <= searchEventParamsDto.EndDate.Value) &&
+            x => x.StartDateTime >= today &&
+                 (!searchEventParamsDto.StartDate.HasValue || x.StartDateTime == searchEventParamsDto.StartDate.Value) &&
+                 (!searchEventParamsDto.EndDate.HasValue || x.EndDateTime <= searchEventParamsDto.EndDate.Value) &&
             (!searchEventParamsDto.LocationId.HasValue || x.LocationId == searchEventParamsDto.LocationId.Value);
 
          var filteredEvents = Queryable.Where(useStartDate);
-         return filteredEvents.Select(x => new EventDescriptionDTO()
+         return await filteredEvents.Select(x => new EventDescriptionDTO()
          {
             AgeGroups = EventProfile.ToAgeGroupList(x.AllowedAgeGroups),
             Description = x.Description,
             Title = x.Title,
-            StartDate = x.StartDate,
-            EndDate = x.EndDate
-         }).ToList();
+            StartDate = x.StartDateTime,
+            EndDate = x.EndDateTime
+         }).ToListAsync();
       }
    }
 

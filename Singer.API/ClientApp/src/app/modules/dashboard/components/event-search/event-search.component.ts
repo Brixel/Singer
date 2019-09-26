@@ -15,54 +15,51 @@ import { MY_FORMATS } from 'src/app/app.module';
 
 })
 export class EventSearchComponent implements OnInit {
-
    @Input() availableLocations: SingerEventLocation[];
    @Input() isOpen: boolean;
    @Output() searchEvent: EventEmitter<SearchEventData> = new EventEmitter();
-   @Output() toggleDrawerEvent: EventEmitter<boolean> = new EventEmitter(this.isOpen);
+   @Output() toggleDrawerEvent: EventEmitter<boolean> = new EventEmitter(
+      this.isOpen
+   );
    currentDate = new Date();
 
-  constructor() { }
+   constructor() {}
 
-  formControlGroup: FormGroup = new FormGroup({
+   formControlGroup: FormGroup = new FormGroup({
       // Form controls
-      startDateControl: new FormControl({value: '', disabled:true}),
-      endDateControl: new FormControl({value: '', disabled:true}),
-      locationControl: new FormControl('')
+      startDateControl: new FormControl({ value: '', disabled: true }),
+      endDateControl: new FormControl({ value: '', disabled: true }),
+      locationControl: new FormControl(''),
    });
 
-  ngOnInit() {
-  }
+   ngOnInit() {}
 
-  submitForm(){
-   if (this.formControlGroup.invalid) {
-      return;
+   submitForm() {
+      if (this.formControlGroup.invalid) {
+         return;
+      }
+      const location = this.formControlGroup.controls.locationControl
+         .value as SingerEventLocation;
+      const searchEventData = <SearchEventData>{
+         startDateTime: this.formControlGroup.controls.startDateControl.value,
+         endDateTime: this.formControlGroup.controls.endDateControl.value,
+         locationId: location.id,
+      };
+      this.searchEvent.emit(searchEventData);
    }
-   const location = this.formControlGroup.controls.locationControl.value as SingerEventLocation;
-   const searchEventData = <SearchEventData>{
-      startDate: this.formControlGroup.controls.startDateControl.value,
-      endDate: this.formControlGroup.controls.endDateControl.value,
-      locationId: location.id
 
+   toggleDrawer() {
+      this.isOpen = !this.isOpen;
+      this.toggleDrawerEvent.emit(this.isOpen);
    }
-   this.searchEvent.emit(searchEventData);
-  }
 
-  toggleDrawer(){
-     this.isOpen = !this.isOpen;
-     this.toggleDrawerEvent.emit(this.isOpen);
-  }
-
-
-  getRequiredFieldErrorMessage(formControl: FormControl) {
+   getRequiredFieldErrorMessage(formControl: FormControl) {
       return formControl.hasError('required') ? 'Dit veld is verplicht' : '';
    }
-
-
 }
 
-export class SearchEventData{
-   startDate: Date;
-   endDate: Date;
+export class SearchEventData {
+   startDateTime: Date;
+   endDateTime: Date;
    locationId: string;
 }

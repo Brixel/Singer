@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Singer.DTOs;
 using Singer.Models;
@@ -16,9 +17,16 @@ namespace Singer.Controllers
          _eventService = eventService;
       }
       [HttpPost("search")]
-      public IReadOnlyList<EventDescriptionDTO> GetPublicEvents([FromBody] SearchEventParamsDTO searchEventParams)
+      public async Task<IActionResult> GetPublicEvents([FromBody] SearchEventParamsDTO searchEventParams)
       {
-         return _eventService.GetPublicEvents(searchEventParams);
+         var model = ModelState;
+         if (model.IsValid)
+         {
+            var events = await _eventService.GetPublicEventsAsync(searchEventParams);
+            return Ok(events);
+         }
+
+         return BadRequest(model);
       }
    }
 }

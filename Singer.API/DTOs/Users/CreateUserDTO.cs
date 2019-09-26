@@ -3,7 +3,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Singer.DTOs.Users
 {
-   public class CreateUserDTO : ICreateUserDTO
+   public class
+      CreateUserDTO : ICreateUserDTO
    {
       [Required]
       [StringLength(maximumLength: 255,

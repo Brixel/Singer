@@ -5,7 +5,7 @@ using Singer.Models;
 
 namespace Singer.DTOs.Users
 {
-   public class CreateCareUserDTO : CreateUserDTO
+   public class CreateCareUserDTO : ICreateUserDTO
    {
       [Required]
       [DataType(DataType.Date)]
@@ -13,9 +13,6 @@ namespace Singer.DTOs.Users
       public DateTime BirthDay { get; set; }
 
       [Required]
-      [StringLength(maximumLength: 10,
-         ErrorMessage = "Het {0} moet een lengte hebben van {2} karakters.",
-         MinimumLength = 10)]
       [DisplayName("Dossiernummer")]
       public string CaseNumber { get; set; }
 
@@ -37,5 +34,21 @@ namespace Singer.DTOs.Users
 
       [DisplayName("Middelen")]
       public bool HasResources { get; set; }
+
+      [Required]
+      [StringLength(maximumLength: 255,
+         ErrorMessage = "De {0} moet een lengte hebben van minstens {2} en maximum {1} karakters.",
+         MinimumLength = 3)]
+      [DisplayName("Voornaam")]
+      public string FirstName { get; set; }
+      [Required]
+      [StringLength(maximumLength: 255,
+         ErrorMessage = "De {0} moet een lengte hebben van minstens {2} en maximum {1} karakters.",
+         MinimumLength = 3)]
+      [DisplayName("Achternaam")]
+      public string LastName { get; set; }
+
+      // This field has no validation attributes because the careuser has no email
+      public string Email { get; set; }
    }
 }
