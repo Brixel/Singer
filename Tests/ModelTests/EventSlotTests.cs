@@ -97,7 +97,7 @@ namespace Tests.ModelTests
 
          slots.Count
             .Should()
-            .Be(12, "The event should repeat from januari to december");
+            .Be(12, "The event should repeat from january to december");
 
          slots[0].StartDateTime.Should()
             .Be(start, "that is the start time");

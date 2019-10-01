@@ -79,7 +79,9 @@ namespace Singer.Services
                Title = x.Title,
                StartDate = x.EventSlots.OrderBy(y => y.StartDateTime).First().StartDateTime,
                EndDate = x.EventSlots.OrderByDescending(y => y.EndDateTime).First().EndDateTime
-            }).ToListAsync();
+            })
+            .ToListAsync()
+            .ConfigureAwait(false);
       }
 
       private IEnumerable<EventSlot> GenerateEventSlots(CreateEventDTO dto)
@@ -87,8 +89,6 @@ namespace Singer.Services
          if (dto.RepeatSettings == null)
             return null;
 
-         var slots = new List<EventSlot>();
-         
          switch (dto.RepeatSettings.RepeatType)
          {
             case RepeatType.OnDate:
@@ -105,7 +105,7 @@ namespace Singer.Services
                   dto.RepeatSettings.IntervalUnit);
          }
 
-         return slots;
+         return default;
       }
    }
 }
