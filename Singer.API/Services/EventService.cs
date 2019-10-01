@@ -29,30 +29,20 @@ namespace Singer.Services
 
       public override async Task<EventDTO> CreateAsync(CreateEventDTO dto)
       {
-         var start = dto.StartDate;
-         var end = dto.EndDate;
+         if (dto == null)
+            throw new Helpers.Exceptions.BadInputException("The value to create cannot be null");
 
          // add slots for all the days in the event
-         var slots = new List<EventSlot>();
-         var diff = end - start;
-         for (var i = 0; i <= diff.Days; i++)
-         {
-            var date = start + TimeSpan.FromDays(i);
-            slots.Add(new EventSlot
-            {
-               StartDateTime = date,
-               EndDateTime = date.SetTime(end),
-            });
-         }
+         var slots = GenerateEventSlots(dto).ToList();
 
          // project the DTO to an entity
          var entity = Mapper.Map<Event>(dto);
          entity.EventSlots = slots;
 
          Context.Add(entity);
-         await Context.SaveChangesAsync();
+         await Context.SaveChangesAsync().ConfigureAwait(false);
 
-         var returnEntity = await GetOneAsync(entity.Id);
+         var returnEntity = await GetOneAsync(entity.Id).ConfigureAwait(false);
 
          // return the new created entity
          return returnEntity;
@@ -90,6 +80,32 @@ namespace Singer.Services
                StartDate = x.EventSlots.OrderBy(y => y.StartDateTime).First().StartDateTime,
                EndDate = x.EventSlots.OrderByDescending(y => y.EndDateTime).First().EndDateTime
             }).ToListAsync();
+      }
+
+      private IEnumerable<EventSlot> GenerateEventSlots(CreateEventDTO dto)
+      {
+         if (dto.RepeatSettings == null)
+            return null;
+
+         var slots = new List<EventSlot>();
+         
+         switch (dto.RepeatSettings.RepeatType)
+         {
+            case RepeatType.OnDate:
+               return EventSlot.GenerateEventSlotsUntil(
+                  dto.StartDateTime,
+                  dto.EndDateTime,
+                  dto.RepeatSettings.StopRepeatDate,
+                  dto.RepeatSettings.IntervalUnit);
+            case RepeatType.AfterXTimes:
+               return EventSlot.GenerateNumberOfEventSlots(
+                  dto.StartDateTime,
+                  dto.EndDateTime,
+                  dto.RepeatSettings.NumberOfRepeats,
+                  dto.RepeatSettings.IntervalUnit);
+         }
+
+         return slots;
       }
    }
 }

@@ -12,8 +12,10 @@ namespace Singer.DTOs
       public Guid LocationId { get; set; }
       public int MaxRegistrants { get; set; }
       public decimal Cost { get; set; }
-      public DateTime StartDate { get; set; }
-      public DateTime EndDate { get; set; }
+      public DateTime StartDateTime { get; set; }
+      public DateTime EndDateTime { get; set; }
+      public RepeatSettings RepeatSettings { get; set; }
+
       public DateTime StartRegistrationDate { get; set; }
       public DateTime EndRegistrationDate { get; set; }
       public DateTime DailyStartTime { get; set; }
