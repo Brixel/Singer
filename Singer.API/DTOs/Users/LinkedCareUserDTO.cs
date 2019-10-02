@@ -31,10 +31,10 @@ namespace Singer.DTOs.Users
       public bool HasTrajectory { get; set; }
 
       [DisplayName("Opv. normaal")]
-      public bool HasNormalDayCare { get; set; }
+      public EventLocation NormalDaycareLocation { get; set; }
 
       [DisplayName("Opv. vakantie")]
-      public bool HasVacationDayCare { get; set; }
+      public EventLocation VacationDaycareLocation { get; set; }
 
       [DisplayName("Middelen")]
       public bool HasResources { get; set; }
