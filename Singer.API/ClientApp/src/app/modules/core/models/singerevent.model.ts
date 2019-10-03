@@ -1,4 +1,5 @@
 import { AgeGroup } from './enum';
+import { SingerEventLocation } from './singer-event-location';
 
 export interface SingerEventDTO {
    id: string;
@@ -79,40 +80,6 @@ export class SingerEvent {
    dayCareBeforeStartDateTime: Date;
    hasDayCareAfter: boolean;
    dayCareAfterEndDateTime: Date;
-}
-
-export class SingerEventLocation {
-   id: string;
-   name: string;
-   address: string;
-   postalCode: string;
-   city: string;
-   country: string;
-}
-
-export interface SingerEventLocationDTO {
-   id: string;
-   name: string;
-   address: string;
-   postalCode: string;
-   city: string;
-   country: string;
-}
-
-export interface CreateSingerEventLocationDTO {
-   name: string;
-   address: string;
-   postalCode: string;
-   city: string;
-   country: string;
-}
-
-export interface UpdateSingerEventLocationDTO {
-   name: string;
-   address: string;
-   postalCode: string;
-   city: string;
-   country: string;
 }
 
 export class EventDescription {

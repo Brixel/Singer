@@ -179,20 +179,21 @@
          <mat-form-field>
             <mat-select
                mat-input
-               [placeholder]="hasNormalDayCareFieldPlaceholder"
-               formControlName="hasNormalDayCareFieldControl"
+               [placeholder]="normalDaycareLocationFieldPlaceholder"
+               formControlName="normalDaycareLocationFieldControl"
             >
                <mat-option value="true">Ja</mat-option>
                <mat-option value="false">Nee</mat-option>
             </mat-select>
             <mat-error
                *ngIf="
-                  formControlGroup.controls.hasNormalDayCareFieldControl.invalid
+                  formControlGroup.controls.normalDaycareLocationFieldControl
+                     .invalid
                "
             >
                {{
                   getRequiredFieldErrorMessage(
-                     formControlGroup.controls.hasNormalDayCareFieldControl
+                     formControlGroup.controls.normalDaycareLocationFieldControl
                   )
                }}
             </mat-error>
@@ -202,21 +203,22 @@
          <mat-form-field>
             <mat-select
                mat-input
-               [placeholder]="hasVacationDayCareFieldPlaceholder"
-               formControlName="hasVacationDayCareFieldControl"
+               [placeholder]="vacationDaycareLocationFieldPlaceholder"
+               formControlName="vacationDaycareLocationFieldControl"
             >
                <mat-option value="true">Ja</mat-option>
                <mat-option value="false">Nee</mat-option>
             </mat-select>
             <mat-error
                *ngIf="
-                  formControlGroup.controls.hasVacationDayCareFieldControl
+                  formControlGroup.controls.vacationDaycareLocationFieldControl
                      .invalid
                "
             >
                {{
                   getRequiredFieldErrorMessage(
-                     formControlGroup.controls.hasVacationDayCareFieldControl
+                     formControlGroup.controls
+                        .vacationDaycareLocationFieldControl
                   )
                }}
             </mat-error>
@@ -252,7 +254,9 @@
             <p *ngIf="currentCareUserInstance.legalGuardianUsers?.length > 0">
                Deze zorggebruiker heeft volgende voogden:
             </p>
-            <p *ngIf="!(currentCareUserInstance.legalGuardianUsers?.length > 0)">
+            <p
+               *ngIf="!(currentCareUserInstance.legalGuardianUsers?.length > 0)"
+            >
                Deze zorggebruiker heeft nog geen voogden gekoppeld.
             </p>
             <p>Voogd toevoegen:</p>
@@ -265,7 +269,9 @@
                   [matAutocomplete]="legalGuardianUsersAutoComplete"
                   formControlName="legalGuardianUsersSearchFieldcontrol"
                />
-               <mat-autocomplete #legalGuardianUsersAutoComplete="matAutocomplete">
+               <mat-autocomplete
+                  #legalGuardianUsersAutoComplete="matAutocomplete"
+               >
                   <mat-option
                      *ngFor="
                         let legalGuardianUser of legalGuardianUsersAutoComplete$

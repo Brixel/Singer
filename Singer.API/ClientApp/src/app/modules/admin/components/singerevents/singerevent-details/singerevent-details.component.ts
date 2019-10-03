@@ -1,15 +1,13 @@
 import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { FormControl, Validators, FormGroup, FormArray } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import {
-   SingerEvent,
-   SingerEventLocation,
-} from 'src/app/modules/core/models/singerevent.model';
+import { SingerEvent } from 'src/app/modules/core/models/singerevent.model';
 import { AgeGroup } from 'src/app/modules/core/models/enum';
 import { MAT_DATE_FORMATS } from '@angular/material';
 import { MY_FORMATS } from 'src/app/app.module';
 import * as moment from 'moment';
 import { isNullOrUndefined } from 'util';
+import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location';
 
 // Data we pass along with the creation of the Mat-Dialog box
 export interface SingerEventDetailsFormData {
@@ -22,11 +20,7 @@ export interface SingerEventDetailsFormData {
    selector: 'app-singerevent-details',
    templateUrl: './singerevent-details.component.html',
    styleUrls: ['./singerevent-details.component.css'],
-   providers: [
-
-      {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
-    ],
-
+   providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }],
 })
 export class SingerEventDetailsComponent implements OnInit {
    // Submit event for when the user submits the form

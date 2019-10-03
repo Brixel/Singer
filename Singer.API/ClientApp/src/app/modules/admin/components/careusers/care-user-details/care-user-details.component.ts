@@ -1,4 +1,11 @@
-import { Component, OnInit, Output, EventEmitter, Inject, ViewChild } from '@angular/core';
+import {
+   Component,
+   OnInit,
+   Output,
+   EventEmitter,
+   Inject,
+   ViewChild,
+} from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CareUser } from 'src/app/modules/core/models/careuser.model';
@@ -14,9 +21,18 @@ import {
 import { of, Observable } from 'rxjs';
 import { LegalGuardian } from 'src/app/modules/core/models/legalguardian.model';
 import { LegalguardiansService } from 'src/app/modules/core/services/legal-guardians-api/legalguardians.service';
-import { MatDatepicker, DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material';
-import { MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
+import {
+   MatDatepicker,
+   DateAdapter,
+   MAT_DATE_LOCALE,
+   MAT_DATE_FORMATS,
+} from '@angular/material';
+import {
+   MomentDateAdapter,
+   MAT_MOMENT_DATE_FORMATS,
+} from '@angular/material-moment-adapter';
 import { MY_FORMATS } from 'src/app/app.module';
+import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location';
 
 // Data we pass along with the creation of the Mat-Dialog box
 export interface CareUserDetailsFormData {
@@ -27,11 +43,7 @@ export interface CareUserDetailsFormData {
    selector: 'app-care-user-details',
    templateUrl: './care-user-details.component.html',
    styleUrls: ['./care-user-details.component.css'],
-   providers: [
-
-      {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
-    ],
-
+   providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }],
 })
 export class CareUserDetailsComponent implements OnInit {
    // Submit event for when the user submits the form
@@ -51,6 +63,8 @@ export class CareUserDetailsComponent implements OnInit {
    // Current care user instance
    currentCareUserInstance: CareUser;
 
+   selectedLocation: SingerEventLocation;
+   availableLocations: SingerEventLocation[];
    //#region Binding properties for form:
 
    // Form placeholders
@@ -61,8 +75,8 @@ export class CareUserDetailsComponent implements OnInit {
    ageGroupFieldPlaceholder = 'Leeftijdsgroep';
    isExternFieldPlaceholder = 'Klas of extern';
    hasTrajectoryFieldPlaceholder = 'Trajectfunctie';
-   hasNormalDayCareFieldPlaceholder = 'Opvang normaal';
-   hasVacationDayCareFieldPlaceholder = 'Opvang vakantie';
+   normalDaycareLocationFieldPlaceholder = 'Opvang normaal';
+   vacationDaycareLocationFieldPlaceholder = 'Opvang vakantie';
    hasResourcesFieldPlaceholder = 'Voldoende middelen';
 
    // Min and Max dates for the birthday datepicker
@@ -79,8 +93,10 @@ export class CareUserDetailsComponent implements OnInit {
       ageGroupFieldControl: new FormControl('', [Validators.required]),
       isExternFieldControl: new FormControl('', [Validators.required]),
       hasTrajectoryFieldControl: new FormControl('', [Validators.required]),
-      hasNormalDayCareFieldControl: new FormControl('', [Validators.required]),
-      hasVacationDayCareFieldControl: new FormControl('', [
+      normalDaycareLocationFieldControl: new FormControl('', [
+         Validators.required,
+      ]),
+      vacationDaycareLocationFieldControl: new FormControl('', [
          Validators.required,
       ]),
       hasResourcesFieldControl: new FormControl('', [Validators.required]),
@@ -181,11 +197,11 @@ export class CareUserDetailsComponent implements OnInit {
       this.formControlGroup.controls.hasTrajectoryFieldControl.reset(
          this.currentCareUserInstance.hasTrajectory ? 'true' : 'false'
       );
-      this.formControlGroup.controls.hasNormalDayCareFieldControl.reset(
-         this.currentCareUserInstance.hasNormalDayCare ? 'true' : 'false'
+      this.formControlGroup.controls.normalDaycareLocationFieldControl.reset(
+         this.currentCareUserInstance.normalDaycareLocation
       );
-      this.formControlGroup.controls.hasVacationDayCareFieldControl.reset(
-         this.currentCareUserInstance.hasVacationDayCare ? 'true' : 'false'
+      this.formControlGroup.controls.vacationDaycareLocationFieldControl.reset(
+         this.currentCareUserInstance.vacationDaycareLocation
       );
       this.formControlGroup.controls.hasResourcesFieldControl.reset(
          this.currentCareUserInstance.hasResources ? 'true' : 'false'
@@ -201,8 +217,8 @@ export class CareUserDetailsComponent implements OnInit {
       this.formControlGroup.controls.ageGroupFieldControl.reset();
       this.formControlGroup.controls.isExternFieldControl.reset();
       this.formControlGroup.controls.hasTrajectoryFieldControl.reset();
-      this.formControlGroup.controls.hasNormalDayCareFieldControl.reset();
-      this.formControlGroup.controls.hasVacationDayCareFieldControl.reset();
+      this.formControlGroup.controls.normalDaycareLocationFieldControl.reset();
+      this.formControlGroup.controls.vacationDaycareLocationFieldControl.reset();
       this.formControlGroup.controls.hasResourcesFieldControl.reset();
    }
 
@@ -218,8 +234,8 @@ export class CareUserDetailsComponent implements OnInit {
          ageGroup: AgeGroup.Toddler,
          isExtern: false,
          hasTrajectory: false,
-         hasNormalDayCare: false,
-         hasVacationDayCare: false,
+         normalDaycareLocation: new SingerEventLocation(),
+         vacationDaycareLocation: new SingerEventLocation(),
          hasResources: false,
          legalGuardianUsersToAdd: [],
          legalGuardianUsersToRemove: [],
@@ -287,20 +303,15 @@ export class CareUserDetailsComponent implements OnInit {
          return true;
       }
       if (
-         this.currentCareUserInstance.hasNormalDayCare !==
-         (this.formControlGroup.controls.hasNormalDayCareFieldControl.value ===
-         'true'
-            ? true
-            : false)
+         this.currentCareUserInstance.normalDaycareLocation.id !==
+         this.formControlGroup.controls.normalDaycareLocationFieldControl.value
       ) {
          return true;
       }
       if (
-         this.currentCareUserInstance.hasVacationDayCare !==
-         (this.formControlGroup.controls.hasVacationDayCareFieldControl
-            .value === 'true'
-            ? true
-            : false)
+         this.currentCareUserInstance.vacationDaycareLocation.id !==
+         this.formControlGroup.controls.vacationDaycareLocationFieldControl
+            .value
       ) {
          return true;
       }
@@ -413,16 +424,8 @@ export class CareUserDetailsComponent implements OnInit {
          'true'
             ? true
             : false;
-      this.currentCareUserInstance.hasNormalDayCare =
-         this.formControlGroup.controls.hasNormalDayCareFieldControl.value ===
-         'true'
-            ? true
-            : false;
-      this.currentCareUserInstance.hasVacationDayCare =
-         this.formControlGroup.controls.hasVacationDayCareFieldControl.value ===
-         'true'
-            ? true
-            : false;
+      this.currentCareUserInstance.normalDaycareLocation = this.formControlGroup.controls.normalDaycareLocationFieldControl.value;
+      this.currentCareUserInstance.vacationDaycareLocation = this.formControlGroup.controls.vacationDaycareLocationFieldControl.value;
       this.currentCareUserInstance.hasResources =
          this.formControlGroup.controls.hasResourcesFieldControl.value ===
          'true'
