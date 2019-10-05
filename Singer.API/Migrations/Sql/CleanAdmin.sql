@@ -11,6 +11,7 @@ select @userId = Id FROM AspNetUsers where UserName = 'admin'
 select @isAdminUserCount = count(*) from AdminUsers where UserId = @userId;
 select @topId = MAX(Id) FROM AspNetUserClaims; 
 
+
 SET IDENTITY_INSERT AspNetUserClaims ON;
 
 if @isAdminUserCount > 0
@@ -19,7 +20,9 @@ if @isAdminUserCount > 0
 	END
 else
 	BEGIN
-		print 'Let the seed do the automatic creation of the admin user...'
+		INSERT INTO AdminUsers (Id, UserId) VALUES (newid(), @userId);
+      UPDATE AspNetUsers SET Email = 'admin@test.com', firstName = 'Ad', LastName = 'Min', UserName = 'admin@test.com' WHERE Id = @userid;
+		INSERT INTO AspNetUserClaims (Id, UserId, ClaimType, ClaimValue) VALUES (@topId+1, @userId, 'http://schemas.microsoft.com/ws/2008/06/identity/claims/role', 'Administrator');
 	END
 
 select * from AdminUsers;

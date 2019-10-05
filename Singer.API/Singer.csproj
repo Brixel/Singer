@@ -54,7 +54,11 @@
    </ItemGroup>
 
    <ItemGroup>
-     <Content Include="Migrations\Sql\CleanAdmin.sql">
+     <Content Include="Migrations\Sql\CleanAdmin.sql" />
+   </ItemGroup>
+
+   <ItemGroup>
+     <Content Update="Migrations\Sql\CleanAdmin.sql">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </Content>
    </ItemGroup>
