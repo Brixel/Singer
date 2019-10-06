@@ -4,7 +4,11 @@
 <!-- Form Dialog Content -->
 <mat-dialog-content>
    <!-- Details Form -->
-   <form [formGroup]="formControlGroup" class="details-form-container">
+   <form
+      [formGroup]="formControlGroup"
+      class="details-form-container"
+      *ngIf="dataLoaded"
+   >
       <!-- Personal Fields Title -->
       <h3 class="section-title">Persoonlijke gegevens</h3>
       <!-- Name Fields -->
@@ -177,13 +181,18 @@
 
          <!-- HasNormalDayCare Field -->
          <mat-form-field>
+            <mat-label>Opvang normaal</mat-label>
             <mat-select
-               mat-input
-               [placeholder]="normalDaycareLocationFieldPlaceholder"
+               [compareWith]="compareLocations"
                formControlName="normalDaycareLocationFieldControl"
+               [(value)]="selectedNormalDaycareLocation"
             >
-               <mat-option value="true">Ja</mat-option>
-               <mat-option value="false">Nee</mat-option>
+               <mat-option
+                  *ngFor="let availableLocation of availableLocations"
+                  [value]="availableLocation"
+               >
+                  {{ availableLocation.name }}
+               </mat-option>
             </mat-select>
             <mat-error
                *ngIf="
@@ -201,13 +210,18 @@
 
          <!-- HasVacationDayCare Field -->
          <mat-form-field>
+            <mat-label>Opvang vakantie</mat-label>
             <mat-select
-               mat-input
-               [placeholder]="vacationDaycareLocationFieldPlaceholder"
+               [compareWith]="compareLocations"
                formControlName="vacationDaycareLocationFieldControl"
+               [(value)]="selectedVacationDaycareLocation"
             >
-               <mat-option value="true">Ja</mat-option>
-               <mat-option value="false">Nee</mat-option>
+               <mat-option
+                  *ngFor="let availableLocation of availableLocations"
+                  [value]="availableLocation"
+               >
+                  {{ availableLocation.name }}
+               </mat-option>
             </mat-select>
             <mat-error
                *ngIf="

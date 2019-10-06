@@ -33,6 +33,8 @@ import {
 } from '@angular/material-moment-adapter';
 import { MY_FORMATS } from 'src/app/app.module';
 import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location';
+import { SingerEventLocationService } from 'src/app/modules/core/services/singerevents-api/singerevent-location.service';
+import { isNullOrUndefined } from 'util';
 
 // Data we pass along with the creation of the Mat-Dialog box
 export interface CareUserDetailsFormData {
@@ -63,7 +65,8 @@ export class CareUserDetailsComponent implements OnInit {
    // Current care user instance
    currentCareUserInstance: CareUser;
 
-   selectedLocation: SingerEventLocation;
+   selectedNormalDaycareLocation: SingerEventLocation;
+   selectedVacationDaycareLocation: SingerEventLocation;
    availableLocations: SingerEventLocation[];
    //#region Binding properties for form:
 
@@ -105,6 +108,7 @@ export class CareUserDetailsComponent implements OnInit {
 
    public legalGuardianUsersAutoComplete$: Observable<LegalGuardian[]> = null;
    breakpoint: number;
+   dataLoaded: boolean = false;
 
    //#endregion
 
@@ -113,22 +117,23 @@ export class CareUserDetailsComponent implements OnInit {
       public dialogRef: MatDialogRef<CareUserDetailsComponent>,
       // Care user that we want to edit
       @Inject(MAT_DIALOG_DATA) public data: CareUserDetailsFormData,
-      private _legalGuardianUserService: LegalguardiansService
+      private _legalGuardianUserService: LegalguardiansService,
+      private _singerEventLocationService: SingerEventLocationService
    ) {
       this.currentCareUserInstance = data.careUserInstance;
       this.isAdding = data.isAdding;
    }
 
    ngOnInit() {
-      // If we are adding a new user then clear all fields
-      // If we are editing an existing user then fill in his data
-
-      if (this.isAdding) {
-         this.resetFormControls();
-         this.createEmptyUser();
-      } else {
-         this.loadCurrentCareUserInstanceValues();
-      }
+      this._singerEventLocationService
+         .fetchSingerEventsData('asc', 'name', 0, 1000, '')
+         .subscribe(res => {
+            this.availableLocations = res.items as SingerEventLocation[];
+            this._loadInstance();
+            this.dataLoaded = true;
+            console.log('data Loaded!');
+            console.log(this.selectedNormalDaycareLocation);
+         });
 
       this.legalGuardianUsersAutoComplete$ = this.formControlGroup.controls[
          'legalGuardianUsersSearchFieldcontrol'
@@ -156,6 +161,17 @@ export class CareUserDetailsComponent implements OnInit {
       this.currentCareUserInstance.legalGuardianUsersToRemove = new Array<
          string
       >();
+   }
+
+   private _loadInstance() {
+      // If we are adding a new user then clear all fields
+      // If we are editing an existing user then fill in his data
+      if (this.isAdding) {
+         this.resetFormControls();
+         this.createEmptyUser();
+      } else {
+         this.loadCurrentCareUserInstanceValues();
+      }
    }
 
    //#region Error messages for required fields
@@ -197,12 +213,17 @@ export class CareUserDetailsComponent implements OnInit {
       this.formControlGroup.controls.hasTrajectoryFieldControl.reset(
          this.currentCareUserInstance.hasTrajectory ? 'true' : 'false'
       );
-      this.formControlGroup.controls.normalDaycareLocationFieldControl.reset(
-         this.currentCareUserInstance.normalDaycareLocation
-      );
-      this.formControlGroup.controls.vacationDaycareLocationFieldControl.reset(
-         this.currentCareUserInstance.vacationDaycareLocation
-      );
+      if (this.currentCareUserInstance.normalDaycareLocation) {
+         this.selectedNormalDaycareLocation = this.availableLocations.find(
+            x => x.id === this.currentCareUserInstance.normalDaycareLocation.id
+         );
+      }
+      if (this.currentCareUserInstance.vacationDaycareLocation) {
+         this.selectedVacationDaycareLocation = this.availableLocations.find(
+            x =>
+               x.id === this.currentCareUserInstance.vacationDaycareLocation.id
+         );
+      }
       this.formControlGroup.controls.hasResourcesFieldControl.reset(
          this.currentCareUserInstance.hasResources ? 'true' : 'false'
       );
@@ -303,15 +324,30 @@ export class CareUserDetailsComponent implements OnInit {
          return true;
       }
       if (
+         (isNullOrUndefined(
+            this.currentCareUserInstance.normalDaycareLocation
+         ) &&
+            !isNullOrUndefined(
+               this.formControlGroup.controls.normalDaycareLocationFieldControl
+                  .value
+            )) ||
          this.currentCareUserInstance.normalDaycareLocation.id !==
-         this.formControlGroup.controls.normalDaycareLocationFieldControl.value
+            this.formControlGroup.controls.normalDaycareLocationFieldControl
+               .value
       ) {
          return true;
       }
       if (
+         (isNullOrUndefined(
+            this.currentCareUserInstance.vacationDaycareLocation
+         ) &&
+            !isNullOrUndefined(
+               this.formControlGroup.controls
+                  .vacationDaycareLocationFieldControl.value
+            )) ||
          this.currentCareUserInstance.vacationDaycareLocation.id !==
-         this.formControlGroup.controls.vacationDaycareLocationFieldControl
-            .value
+            this.formControlGroup.controls.vacationDaycareLocationFieldControl
+               .value
       ) {
          return true;
       }
@@ -431,6 +467,15 @@ export class CareUserDetailsComponent implements OnInit {
          'true'
             ? true
             : false;
+   }
+
+   compareLocations(
+      locationX: SingerEventLocation,
+      locationY: SingerEventLocation
+   ) {
+      console.log(locationX);
+      console.log(locationY);
+      return locationX.id === locationY.id;
    }
 
    // Submit the form
