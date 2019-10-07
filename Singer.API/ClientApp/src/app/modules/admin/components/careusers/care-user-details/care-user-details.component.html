@@ -181,7 +181,7 @@
             <mat-select
                [compareWith]="compareLocations"
                formControlName="normalDaycareLocationFieldControl"
-               [(value)]="selectedNormalDaycareLocation$"
+               [(value)]="selectedNormalDaycareLocation"
             >
                <mat-option
                   *ngFor="let availableLocation of availableLocations$ | async"
