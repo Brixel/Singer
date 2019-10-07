@@ -4,11 +4,7 @@
 <!-- Form Dialog Content -->
 <mat-dialog-content>
    <!-- Details Form -->
-   <form
-      [formGroup]="formControlGroup"
-      class="details-form-container"
-      *ngIf="dataLoaded"
-   >
+   <form [formGroup]="formControlGroup" class="details-form-container">
       <!-- Personal Fields Title -->
       <h3 class="section-title">Persoonlijke gegevens</h3>
       <!-- Name Fields -->
@@ -185,10 +181,10 @@
             <mat-select
                [compareWith]="compareLocations"
                formControlName="normalDaycareLocationFieldControl"
-               [(value)]="selectedNormalDaycareLocation"
+               [(value)]="selectedNormalDaycareLocation$"
             >
                <mat-option
-                  *ngFor="let availableLocation of availableLocations"
+                  *ngFor="let availableLocation of availableLocations$ | async"
                   [value]="availableLocation"
                >
                   {{ availableLocation.name }}
@@ -217,7 +213,7 @@
                [(value)]="selectedVacationDaycareLocation"
             >
                <mat-option
-                  *ngFor="let availableLocation of availableLocations"
+                  *ngFor="let availableLocation of availableLocations$ | async"
                   [value]="availableLocation"
                >
                   {{ availableLocation.name }}

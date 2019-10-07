@@ -15,7 +15,7 @@ import {
 export class SingerEventLocationService {
    constructor(private singerEventLocationProxy: SingerEventLocationProxy) {}
 
-   fetchSingerEventsData(
+   fetchSingerEventLocationsData(
       sortDirection?: string,
       sortColumn?: string,
       pageIndex?: number,

@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.1.0-issue-AB-71-daycare-options-should-be-location.566",
+   "version": "0.1.0-issue-AB-71-daycare-options-should-be-location.567",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",

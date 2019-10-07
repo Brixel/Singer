@@ -59,7 +59,7 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
          this.singerEventsService
       );
       this.singerEventLocationService
-         .fetchSingerEventsData('asc', 'name', 0, 1000, '')
+         .fetchSingerEventLocationsData('asc', 'name', 0, 1000, '')
          .subscribe(res => {
             this.availableLocations = res.items as SingerEventLocation[];
          });

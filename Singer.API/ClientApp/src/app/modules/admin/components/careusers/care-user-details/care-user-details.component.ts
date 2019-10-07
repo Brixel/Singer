@@ -65,9 +65,9 @@ export class CareUserDetailsComponent implements OnInit {
    // Current care user instance
    currentCareUserInstance: CareUser;
 
-   selectedNormalDaycareLocation: SingerEventLocation;
-   selectedVacationDaycareLocation: SingerEventLocation;
-   availableLocations: SingerEventLocation[];
+   selectedNormalDaycareLocation: Observable<SingerEventLocation>;
+   selectedVacationDaycareLocation: Observable<SingerEventLocation>;
+   availableLocations$: Observable<SingerEventLocation[]> = null;
    //#region Binding properties for form:
 
    // Form placeholders
@@ -108,7 +108,6 @@ export class CareUserDetailsComponent implements OnInit {
 
    public legalGuardianUsersAutoComplete$: Observable<LegalGuardian[]> = null;
    breakpoint: number;
-   dataLoaded: boolean = false;
 
    //#endregion
 
@@ -125,15 +124,10 @@ export class CareUserDetailsComponent implements OnInit {
    }
 
    ngOnInit() {
-      this._singerEventLocationService
-         .fetchSingerEventsData('asc', 'name', 0, 1000, '')
-         .subscribe(res => {
-            this.availableLocations = res.items as SingerEventLocation[];
-            this._loadInstance();
-            this.dataLoaded = true;
-            console.log('data Loaded!');
-            console.log(this.selectedNormalDaycareLocation);
-         });
+      this.availableLocations$ = this._singerEventLocationService
+         .fetchSingerEventLocationsData('asc', 'name', 0, 1000, '')
+         .pipe(map(res => res.items));
+      this._loadInstance();
 
       this.legalGuardianUsersAutoComplete$ = this.formControlGroup.controls[
          'legalGuardianUsersSearchFieldcontrol'
@@ -213,17 +207,12 @@ export class CareUserDetailsComponent implements OnInit {
       this.formControlGroup.controls.hasTrajectoryFieldControl.reset(
          this.currentCareUserInstance.hasTrajectory ? 'true' : 'false'
       );
-      if (this.currentCareUserInstance.normalDaycareLocation) {
-         this.selectedNormalDaycareLocation = this.availableLocations.find(
-            x => x.id === this.currentCareUserInstance.normalDaycareLocation.id
-         );
-      }
-      if (this.currentCareUserInstance.vacationDaycareLocation) {
-         this.selectedVacationDaycareLocation = this.availableLocations.find(
-            x =>
-               x.id === this.currentCareUserInstance.vacationDaycareLocation.id
-         );
-      }
+      this.formControlGroup.controls.normalDaycareLocationFieldControl.setValue(
+         this.currentCareUserInstance.normalDaycareLocation
+      );
+      this.formControlGroup.controls.vacationDaycareLocationFieldControl.setValue(
+         this.currentCareUserInstance.vacationDaycareLocation
+      );
       this.formControlGroup.controls.hasResourcesFieldControl.reset(
          this.currentCareUserInstance.hasResources ? 'true' : 'false'
       );
@@ -473,8 +462,6 @@ export class CareUserDetailsComponent implements OnInit {
       locationX: SingerEventLocation,
       locationY: SingerEventLocation
    ) {
-      console.log(locationX);
-      console.log(locationY);
       return locationX.id === locationY.id;
    }
 
