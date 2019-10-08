@@ -2,9 +2,9 @@ namespace Singer.DTOs
 {
    public enum TimeUnit
    {
-      Day,
-      Week,
-      Month,
-      Year,
+      Day = 0,
+      Week = 1,
+      Month = 2,
+      Year = 3,
    }
 }

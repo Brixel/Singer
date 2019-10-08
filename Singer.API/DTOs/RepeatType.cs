@@ -2,7 +2,7 @@ namespace Singer.DTOs
 {
    public enum RepeatType
    {
-      OnDate,
-      AfterXTimes,
+      OnDate = 0,
+      AfterXTimes = 1,
    }
 }
