@@ -55,7 +55,7 @@ export function tokenGetter():string {
          useClass: AuthInterceptor,
          multi: true,
       },
-      {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+      {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},{provide: MAT_DATE_LOCALE, useValue: 'nl-BE'},
       BrowserAnimationsModule,
    ],
    bootstrap: [AppComponent],
