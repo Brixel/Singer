@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.2.0-fix-node-modules.43",
+   "version": "0.1.0-issue-AB-71-daycare-options-should-be-location.568",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",

@@ -5,7 +5,12 @@ import {
    OnInit,
    ElementRef,
 } from '@angular/core';
-import { MatPaginator, MatSort, MatDialog, MAT_DATE_FORMATS } from '@angular/material';
+import {
+   MatPaginator,
+   MatSort,
+   MatDialog,
+   MAT_DATE_FORMATS,
+} from '@angular/material';
 import { OverviewDataSource } from './overview-datasource';
 import { DataSource } from '@angular/cdk/table';
 import { merge, fromEvent } from 'rxjs';
@@ -18,7 +23,7 @@ import { MY_FORMATS } from 'src/app/app.module';
 @Component({
    selector: 'app-overview',
    templateUrl: './overview.component.html',
-   styleUrls: ['./overview.component.css']
+   styleUrls: ['./overview.component.css'],
 })
 export class OverviewComponent implements OnInit, AfterViewInit {
    @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -31,18 +36,15 @@ export class OverviewComponent implements OnInit, AfterViewInit {
 
    /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
    displayedColumns = [
-      //'id',
       'firstName',
       'lastName',
-      //'email',
-      //'userName',
       'birthDay',
       'caseNumber',
       'ageGroup',
       'isExtern',
       'hasTrajectory',
-      'hasNormalDayCare',
-      'hasVacationDayCare',
+      'normalDaycareLocation',
+      'vacationDaycareLocation',
       'hasResources',
    ];
    filter: string;
