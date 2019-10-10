@@ -12,12 +12,19 @@ namespace Singer.DTOs
       public Guid EventId { get; set; }
       public CareUserDTO CareUser { get; set; }
       public IReadOnlyList<EventSlotRegistrationDTO> EventSlots { get; set; }
+   }
 
-      public class EventSlotRegistrationDTO : IIdentifiable
-      {
-         public Guid Id { get; set; }
-         public RegistrationStatus Status { get; set; }
-         public Guid EventSlotId { get; set; }
-      }
+   public class CreateEventRegistrationDTO
+   {
+      public Guid EventId { get; set; }
+      public Guid CareUserId { get; set; }
+      public RegistrationStatus Status { get; set; }
+   }
+
+   public class UpdateEventRegistrationDTO
+   {
+      public Guid EventId { get; set; }
+      public CareUserDTO CareUser { get; set; }
+      public RegistrationStatus Status { get; set; }
    }
 }

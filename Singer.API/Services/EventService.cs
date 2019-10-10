@@ -11,6 +11,7 @@ using Singer.Models;
 using Singer.Services.Interfaces;
 using Singer.Profiles;
 using Singer.Helpers.Extensions;
+using Singer.Helpers.Enums;
 
 namespace Singer.Services
 {

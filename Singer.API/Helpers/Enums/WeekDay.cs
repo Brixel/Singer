@@ -1,6 +1,6 @@
 using System;
 
-namespace Singer.DTOs
+namespace Singer.Helpers.Enums
 {
    [Flags]
    public enum WeekDay

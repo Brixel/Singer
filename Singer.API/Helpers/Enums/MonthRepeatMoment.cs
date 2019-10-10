@@ -1,4 +1,4 @@
-namespace Singer.DTOs
+namespace Singer.Helpers.Enums
 {
    public enum MonthRepeatMoment
    {

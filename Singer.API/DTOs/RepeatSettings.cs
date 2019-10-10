@@ -1,3 +1,4 @@
+using Singer.Helpers.Enums;
 using System;
 
 namespace Singer.DTOs

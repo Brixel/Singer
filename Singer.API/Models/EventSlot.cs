@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Singer.DTOs;
 using Singer.Helpers;
+using Singer.Helpers.Enums;
 using Singer.Helpers.Extensions;
 
 namespace Singer.Models
