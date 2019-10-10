@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
@@ -55,9 +55,21 @@ export function tokenGetter():string {
          useClass: AuthInterceptor,
          multi: true,
       },
+      {
+         provide: APP_INITIALIZER,
+         useFactory: initializeApp,
+         deps: [AuthService],
+         multi: true},
       {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
       BrowserAnimationsModule,
    ],
    bootstrap: [AppComponent],
 })
 export class AppModule {}
+
+export function initializeApp(authService: AuthService) {
+   return () => {
+      authService
+        .restore();
+      };
+   }
