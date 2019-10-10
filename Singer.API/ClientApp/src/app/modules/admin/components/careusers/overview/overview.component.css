@@ -12,7 +12,6 @@
    /* Hide Vertical scroll bar */
    overflow-y: hidden;
    margin: 10px auto;
-
 }
 table {
    width: 100%;
@@ -101,11 +100,11 @@ tr.selectable:active {
    padding: 10px;
 }
 
-.mat-column-hasNormalDayCare {
+.mat-column-normalDaycareLocation {
    padding: 10px;
 }
 
-.mat-column-hasVacationDayCare {
+.mat-column-vacationDaycareLocation {
    padding: 10px;
 }
 
@@ -116,4 +115,8 @@ tr.selectable:active {
 /* TABLE FOOTER STYLING */
 .spacer {
    flex: 1 1 auto;
+}
+
+.locationName {
+   font-weight: bold;
 }

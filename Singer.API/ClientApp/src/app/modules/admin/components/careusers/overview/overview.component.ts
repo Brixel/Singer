@@ -5,7 +5,12 @@ import {
    OnInit,
    ElementRef,
 } from '@angular/core';
-import { MatPaginator, MatSort, MatDialog } from '@angular/material';
+import {
+   MatPaginator,
+   MatSort,
+   MatDialog,
+   MAT_DATE_FORMATS,
+} from '@angular/material';
 import { OverviewDataSource } from './overview-datasource';
 import { DataSource } from '@angular/cdk/table';
 import { merge, fromEvent } from 'rxjs';
@@ -13,6 +18,7 @@ import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { CareUserDetailsComponent } from '../care-user-details/care-user-details.component';
 import { CareUserService } from 'src/app/modules/core/services/care-users-api/careusers.service';
 import { CareUser } from 'src/app/modules/core/models/careuser.model';
+import { MY_FORMATS } from 'src/app/app.module';
 
 @Component({
    selector: 'app-overview',
@@ -30,18 +36,15 @@ export class OverviewComponent implements OnInit, AfterViewInit {
 
    /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
    displayedColumns = [
-      //'id',
       'firstName',
       'lastName',
-      //'email',
-      //'userName',
       'birthDay',
       'caseNumber',
       'ageGroup',
       'isExtern',
       'hasTrajectory',
-      'hasNormalDayCare',
-      'hasVacationDayCare',
+      'normalDaycareLocation',
+      'vacationDaycareLocation',
       'hasResources',
    ];
    filter: string;
@@ -53,7 +56,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
 
    ngOnInit() {
       this.dataSource = new OverviewDataSource(this.careUserService);
-      this.sort.active = 'id'; //TODO: Workaround for API sorting issue, when sorting on other columns, linked users are not always filled in
+      this.sort.active = 'firstName';
       this.sort.direction = 'asc';
       this.loadCareUsers();
    }
@@ -105,12 +108,12 @@ export class OverviewComponent implements OnInit, AfterViewInit {
             debounceTime(400),
             distinctUntilChanged(),
             tap(() => {
-               this.paginator.pageIndex = 1;
+               this.paginator.pageIndex = 0;
                this.loadCareUsers();
             })
          )
          .subscribe();
-      this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 1));
+      this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
       merge(this.sort.sortChange, this.paginator.page)
          .pipe(
             tap(() => {

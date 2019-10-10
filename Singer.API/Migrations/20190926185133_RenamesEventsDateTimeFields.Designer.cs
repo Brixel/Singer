@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Singer.Data;
 
 namespace Singer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190926185133_RenamesEventsDateTimeFields")]
+    partial class RenamesEventsDateTimeFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -217,25 +219,21 @@ namespace Singer.Migrations
 
                     b.Property<string>("CaseNumber");
 
+                    b.Property<bool>("HasNormalDayCare");
+
                     b.Property<bool>("HasResources");
 
                     b.Property<bool>("HasTrajectory");
 
-                    b.Property<bool>("IsExtern");
+                    b.Property<bool>("HasVacationDayCare");
 
-                    b.Property<Guid?>("NormalDaycareLocationId");
+                    b.Property<bool>("IsExtern");
 
                     b.Property<Guid>("UserId");
 
-                    b.Property<Guid?>("VacationDaycareLocationId");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("NormalDaycareLocationId");
-
                     b.HasIndex("UserId");
-
-                    b.HasIndex("VacationDaycareLocationId");
 
                     b.ToTable("CareUsers");
                 });
@@ -393,18 +391,10 @@ namespace Singer.Migrations
 
             modelBuilder.Entity("Singer.Models.Users.CareUser", b =>
                 {
-                    b.HasOne("Singer.Models.EventLocation", "NormalDaycareLocation")
-                        .WithMany()
-                        .HasForeignKey("NormalDaycareLocationId");
-
                     b.HasOne("Singer.Models.Users.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Singer.Models.EventLocation", "VacationDaycareLocation")
-                        .WithMany()
-                        .HasForeignKey("VacationDaycareLocationId");
                 });
 
             modelBuilder.Entity("Singer.Models.Users.LegalGuardianCareUser", b =>

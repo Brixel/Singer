@@ -14,11 +14,9 @@ import {
    SingerEventDetailsFormData,
 } from '../singerevent-details/singerevent-details.component';
 import { SingerEventsService } from 'src/app/modules/core/services/singerevents-api/singerevents.service';
-import {
-   SingerEvent,
-   SingerEventLocation,
-} from 'src/app/modules/core/models/singerevent.model';
+import { SingerEvent } from 'src/app/modules/core/models/singerevent.model';
 import { SingerEventLocationService } from 'src/app/modules/core/services/singerevents-api/singerevent-location.service';
+import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location';
 
 @Component({
    selector: 'app-singerevent-overview',
@@ -43,8 +41,8 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
       'ageGroups',
       'maxRegistrants',
       'cost',
-      'startDate',
-      'endDate',
+      'startDateTime',
+      'endDateTime',
       'hasDayCareBefore',
       'hasDayCareAfter',
    ];
@@ -61,7 +59,7 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
          this.singerEventsService
       );
       this.singerEventLocationService
-         .fetchSingerEventsData('asc', 'name', 0, 1000, '')
+         .fetchSingerEventLocationsData('asc', 'name', 0, 1000, '')
          .subscribe(res => {
             this.availableLocations = res.items as SingerEventLocation[];
          });
@@ -138,12 +136,12 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
             debounceTime(400),
             distinctUntilChanged(),
             tap(() => {
-               this.paginator.pageIndex = 1;
+               this.paginator.pageIndex = 0;
                this.loadSingerEvents();
             })
          )
          .subscribe();
-      this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 1));
+      this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
       merge(this.sort.sortChange, this.paginator.page)
          .pipe(
             tap(() => {

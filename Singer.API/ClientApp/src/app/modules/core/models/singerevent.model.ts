@@ -1,4 +1,5 @@
 import { AgeGroup } from './enum';
+import { SingerEventLocation } from './singer-event-location';
 
 export interface SingerEventDTO {
    id: string;
@@ -9,20 +10,16 @@ export interface SingerEventDTO {
    maxRegistrants: number;
    currentRegistrants: number;
    cost: number;
-   startDate: Date;
-   endDate: Date;
-   startRegistrationDate: Date;
-   endRegistrationDate: Date;
-   dailyStartTime: Date;
-   dailyEndTime: Date;
-   finalCancellationDate: Date;
+   startDateTime: Date;
+   endDateTime: Date;
+   startRegistrationDateTime: Date;
+   endRegistrationDateTime: Date;
+   finalCancellationDateTime: Date;
    registrationOnDailyBasis: boolean;
    hasDayCareBefore: boolean;
-   dayCareBeforeStartTime: Date;
-   dayCareBeforeEndTime: Date;
+   dayCareBeforeStartDateTime: Date;
    hasDayCareAfter: boolean;
-   dayCareAfterStartTime: Date;
-   dayCareAfterEndTime: Date;
+   dayCareAfterEndDateTime: Date;
 }
 
 export interface UpdateSingerEventDTO {
@@ -33,20 +30,16 @@ export interface UpdateSingerEventDTO {
    locationId: string;
    maxRegistrants: number;
    cost: number;
-   startDate: Date;
-   endDate: Date;
-   startRegistrationDate: Date;
-   endRegistrationDate: Date;
-   dailyStartTime: Date;
-   dailyEndTime: Date;
-   finalCancellationDate: Date;
+   startDateTime: Date;
+   endDateTime: Date;
+   startRegistrationDateTime: Date;
+   endRegistrationDateTime: Date;
+   finalCancellationDateTime: Date;
    registrationOnDailyBasis: boolean;
    hasDayCareBefore: boolean;
-   dayCareBeforeStartTime: Date;
-   dayCareBeforeEndTime: Date;
+   dayCareBeforeStartDateTime: Date;
    hasDayCareAfter: boolean;
-   dayCareAfterStartTime: Date;
-   dayCareAfterEndTime: Date;
+   dayCareAfterEndDateTime: Date;
 }
 
 export interface CreateSingerEventDTO {
@@ -56,20 +49,16 @@ export interface CreateSingerEventDTO {
    locationId: string;
    maxRegistrants: number;
    cost: number;
-   startDate: Date;
-   endDate: Date;
-   startRegistrationDate: Date;
-   endRegistrationDate: Date;
-   dailyStartTime: Date;
-   dailyEndTime: Date;
-   finalCancellationDate: Date;
+   startDateTime: Date;
+   endDateTime: Date;
+   startRegistrationDateTime: Date;
+   endRegistrationDateTime: Date;
+   finalCancellationDateTime: Date;
    registrationOnDailyBasis: boolean;
    hasDayCareBefore: boolean;
-   dayCareBeforeStartTime: Date;
-   dayCareBeforeEndTime: Date;
+   dayCareBeforeStartDateTime: Date;
    hasDayCareAfter: boolean;
-   dayCareAfterStartTime: Date;
-   dayCareAfterEndTime: Date;
+   dayCareAfterEndDateTime: Date;
 }
 
 export class SingerEvent {
@@ -81,74 +70,41 @@ export class SingerEvent {
    maxRegistrants: number;
    currentRegistrants: number;
    cost: number;
-   startDate: Date;
-   endDate: Date;
-   startRegistrationDate: Date;
-   endRegistrationDate: Date;
-   dailyStartTime: Date;
-   dailyEndTime: Date;
-   finalCancellationDate: Date;
+   startDateTime: Date;
+   endDateTime: Date;
+   startRegistrationDateTime: Date;
+   endRegistrationDateTime: Date;
+   finalCancellationDateTime: Date;
    registrationOnDailyBasis: boolean;
    hasDayCareBefore: boolean;
-   dayCareBeforeStartTime: Date;
-   dayCareBeforeEndTime: Date;
+   dayCareBeforeStartDateTime: Date;
    hasDayCareAfter: boolean;
-   dayCareAfterStartTime: Date;
-   dayCareAfterEndTime: Date;
+   dayCareAfterEndDateTime: Date;
 }
 
-export class SingerEventLocation {
-   id: string;
-   name: string;
-   address: string;
-   postalCode: string;
-   city: string;
-   country: string;
-}
-
-export interface SingerEventLocationDTO {
-   id: string;
-   name: string;
-   address: string;
-   postalCode: string;
-   city: string;
-   country: string;
-}
-
-export interface CreateSingerEventLocationDTO {
-   name: string;
-   address: string;
-   postalCode: string;
-   city: string;
-   country: string;
-}
-
-export interface UpdateSingerEventLocationDTO {
-   name: string;
-   address: string;
-   postalCode: string;
-   city: string;
-   country: string;
-}
-
-export class EventDescription{
-   constructor(title: string, description: string, ageGroups: AgeGroup[], startDate: Date, endDate: Date) {
-     this.title = title;
-     this.description = description;
-     this.ageGroups = ageGroups;
-     this.startDate = startDate;
-     this.endDate = endDate;
+export class EventDescription {
+   constructor(
+      title: string,
+      description: string,
+      ageGroups: AgeGroup[],
+      startDateTime: Date,
+      endDateTime: Date
+   ) {
+      this.title = title;
+      this.description = description;
+      this.ageGroups = ageGroups;
+      this.startDateTime = startDateTime;
+      this.endDateTime = endDateTime;
    }
    title: string;
    description: string;
    ageGroups: AgeGroup[];
-   startDate: Date;
-   endDate: Date;
+   startDateTime: Date;
+   endDateTime: Date;
 }
 
-export class SearchEventDTO{
-   startDate: Date;
-   endDate: Date;
+export class SearchEventDTO {
+   startDateTime: Date;
+   endDateTime: Date;
    locationId: string;
 }
-

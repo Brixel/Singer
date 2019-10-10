@@ -3,6 +3,7 @@ import {
    LinkedLegalGuardianDTO,
    LinkedLegalGuardian,
 } from './legalguardian.model';
+import { SingerEventLocation } from './singer-event-location';
 
 export interface CareUserDTO {
    id: string;
@@ -15,8 +16,8 @@ export interface CareUserDTO {
    ageGroup: AgeGroup;
    isExtern: boolean;
    hasTrajectory: boolean;
-   hasNormalDayCare: boolean;
-   hasVacationDayCare: boolean;
+   normalDaycareLocation: SingerEventLocation;
+   vacationDaycareLocation: SingerEventLocation;
    hasResources: boolean;
    legalGuardianUsers: LinkedLegalGuardianDTO[];
 }
@@ -32,8 +33,8 @@ export interface LinkedCareUserDTO {
    ageGroup: AgeGroup;
    isExtern: boolean;
    hasTrajectory: boolean;
-   hasNormalDayCare: boolean;
-   hasVacationDayCare: boolean;
+   normalDaycareLocation: SingerEventLocation;
+   vacationDaycareLocation: SingerEventLocation;
    hasResources: boolean;
 }
 
@@ -47,8 +48,8 @@ export interface UpdateCareUserDTO {
    ageGroup: AgeGroup;
    isExtern: boolean;
    hasTrajectory: boolean;
-   hasNormalDayCare: boolean;
-   hasVacationDayCare: boolean;
+   normalDaycareLocationId: string;
+   vacationDaycareLocationId: string;
    hasResources: boolean;
    legalGuardianUsersToAdd: string[];
    legalGuardianUsersToRemove: string[];
@@ -64,8 +65,8 @@ export interface CreateCareUserDTO {
    ageGroup: AgeGroup;
    isExtern: boolean;
    hasTrajectory: boolean;
-   hasNormalDayCare: boolean;
-   hasVacationDayCare: boolean;
+   normalDaycareLocationId: string;
+   vacationDaycareLocationId: string;
    hasResources: boolean;
 }
 
@@ -80,8 +81,8 @@ export class CareUser {
    ageGroup: AgeGroup;
    isExtern: boolean;
    hasTrajectory: boolean;
-   hasNormalDayCare: boolean;
-   hasVacationDayCare: boolean;
+   normalDaycareLocation: SingerEventLocation;
+   vacationDaycareLocation: SingerEventLocation;
    hasResources: boolean;
    legalGuardianUsers: LinkedLegalGuardian[];
    legalGuardianUsersToAdd: string[];
@@ -99,7 +100,7 @@ export class LinkedCareUser {
    ageGroup: AgeGroup;
    isExtern: boolean;
    hasTrajectory: boolean;
-   hasNormalDayCare: boolean;
-   hasVacationDayCare: boolean;
+   normalDaycareLocation: SingerEventLocation;
+   vacationDaycareLocation: SingerEventLocation;
    hasResources: boolean;
 }
