@@ -40,18 +40,18 @@ table {
 /* TABLE HEADER STYLING */
 th {
    font-size: 0.9em;
-   background-color: var(--color-singer-primary);
-   color: var(--color-singer-light-primary-text);
+   background-color: var(--singer-theme-primary);
+   color: var(--singer-theme-light-primary-text);
 }
 
 /* SORTING ARROW STYLING */
 ::ng-deep .mat-sort-header-arrow {
-   color: var(--color-singer-light-primary-text);
+   color: var(--singer-theme-light-primary-text);
 }
 
 /* SELECTABLE ROW STYLING */
 tr.selectable:hover {
-   background: var(--color-singer-accent-lighter);
+   background: var(--singer-theme-accent-lighter);
    cursor: pointer;
 }
 
