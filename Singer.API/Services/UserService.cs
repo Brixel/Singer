@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Singer.Data;
 using Singer.DTOs.Users;
 using Singer.Helpers.Exceptions;
@@ -56,9 +55,11 @@ namespace Singer.Services
 
          var createdUser = await UserManager.FindByEmailAsync(dto.Email);
          var entity = Mapper.Map<TUserEntity>(dto);
+         entity.User = createdUser;
          entity.UserId = createdUser.Id;
-
-         return await base.CreateAsync(dto);
+         var changeTracker = await Context.AddAsync(entity);
+         await Context.SaveChangesAsync();
+         return Mapper.Map<TUserDTO>(changeTracker.Entity);
       }
 
       private string GenerateRandomUserName(string firstName, string lastName)
