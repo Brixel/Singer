@@ -23,6 +23,12 @@ using Singer.Services;
 using Singer.Services.Utils;
 using Singer.Models.Users;
 using Singer.Services.Interfaces;
+using Swashbuckle.AspNetCore.Swagger;
+using System.Collections.Generic;
+using Swashbuckle.AspNetCore.Filters;
+using NSwag.Generation.Processors.Security;
+using NSwag;
+using System.Net;
 
 namespace Singer
 {
@@ -126,7 +132,36 @@ namespace Singer
          });
 
          // Register the Swagger services
-         services.AddSwaggerDocument();
+         services.AddOpenApiDocument(config =>
+         {
+            config.DocumentName = "OpenAPI 3";
+            config.OperationProcessors.Add(new OperationSecurityScopeProcessor("JWT Token"));
+            //config.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT Token")); -> Replaced the line above with this with no difference
+            config.AddSecurity("JWT Token", Enumerable.Empty<string>(),
+               new OpenApiSecurityScheme()
+               {
+                  Type = OpenApiSecuritySchemeType.ApiKey,
+                  Name = nameof(Authorization),
+                  In = OpenApiSecurityApiKeyLocation.Header,
+                  Description = "Copy this into the value field: Bearer {token}"
+               }
+            );
+         });
+
+         services.AddSwaggerDocument(config =>
+         {
+            config.DocumentName = "OpenAPI 2";
+            config.OperationProcessors.Add(new OperationSecurityScopeProcessor("JWT Token"));
+            config.AddSecurity("JWT Token", Enumerable.Empty<string>(),
+               new OpenApiSecurityScheme()
+               {
+                  Type = OpenApiSecuritySchemeType.ApiKey,
+                  Name = nameof(Authorization),
+                  In = OpenApiSecurityApiKeyLocation.Header,
+                  Description = "Copy this into the value field: Bearer {token}"
+               }
+            );
+         });
 
          // Adds AutoMapper. Maps are defined as profiles in ./Profiles/*Profile.cs
          services.AddAutoMapper(typeof(Startup));
@@ -176,7 +211,7 @@ namespace Singer
          // Navigate to:
          // https://localhost:5001/swagger/index.html the Swagger UI.
          // https://localhost:5001/swagger/v1/swagger.json to view the Swagger specification.
-         app.UseSwagger();
+         app.UseOpenApi();
          app.UseSwaggerUi3();
 
          app.UseMvc(routes =>
