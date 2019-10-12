@@ -51,6 +51,7 @@ namespace Singer.Services
          var filteredEvents = Queryable.Where(useStartDate);
          return await filteredEvents.Select(x => new EventDescriptionDTO()
          {
+            Id = x.Id,
             AgeGroups = EventProfile.ToAgeGroupList(x.AllowedAgeGroups),
             Description = x.Description,
             Title = x.Title,
@@ -62,6 +63,7 @@ namespace Singer.Services
 
    public class EventDescriptionDTO
    {
+      public Guid Id { get; set; }
       public string Title { get; set; }
       public string Description { get; set; }
       public DateTime StartDate { get; set; }
