@@ -19,7 +19,7 @@ namespace Singer.Services
 
       protected override DbSet<EventLocation> DbSet => Context.EventLocations;
 
-      protected override IQueryable<EventLocation> Queryable => Context.EventLocations;
+      protected override IQueryable<EventLocation> Queryable => Context.EventLocations.AsQueryable();
 
       protected override Expression<Func<EventLocation, bool>> Filter(string filter)
       {

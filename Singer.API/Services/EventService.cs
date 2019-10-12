@@ -22,7 +22,7 @@ namespace Singer.Services
 
       protected override DbSet<Event> DbSet => Context.Events;
 
-      protected override IQueryable<Event> Queryable => Context.Events.Include(x => x.Location);
+      protected override IQueryable<Event> Queryable => Context.Events.AsQueryable();
 
       protected override Expression<Func<Event, bool>> Filter(string filter)
       {
