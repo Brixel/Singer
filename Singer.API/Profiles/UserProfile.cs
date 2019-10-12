@@ -11,8 +11,8 @@ namespace Singer.Profiles
       public UserProfile()
       {
          // Generic DTO to User mapping
-         CreateMap<UpdateUserDTO, User>();
-         CreateMap<CreateUserDTO, User>();
+         CreateMap<IUpdateUserDTO, User>();
+         CreateMap<ICreateUserDTO, User>();
          CreateMap<User, UserDTO>();
 
          // CareUsers

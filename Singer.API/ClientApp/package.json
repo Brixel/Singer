@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.1.0-fix-duplicate-users-on-update.572",
+   "version": "0.1.0-fix-duplicate-users-on-update.573",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",
