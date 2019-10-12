@@ -104,28 +104,30 @@ namespace Singer.Helpers.Extensions
          int pageIndex = 0,
          int pageSize = 15)
       {
-
+         if (mapper == null)
+            throw new ArgumentNullException(nameof(mapper));
          if (pageSize < 1)
-         {
             throw new BadInputException("Invalid pageSize provided");
-         }
 
          var filteredQueryable = queryable.Where(filterExpression);
          var totalItemsCount = filteredQueryable.Count();
-         
-         IReadOnlyList<TProjection> items = new List<TProjection>();
-         if (totalItemsCount > 0)
-         {
-            var projection = filteredQueryable.ProjectTo<TProjection>(mapper.ConfigurationProvider);
-            var orderedQueryable = sortDirection == ListSortDirection.Ascending
-               ? projection.OrderBy(orderByLambda)
-               : projection.OrderByDescending(orderByLambda);
 
-            items = orderedQueryable.TakePage(pageIndex, pageSize).ToList();
-         }
+         var items = totalItemsCount <= 0
+            ? new List<TProjection>()
+            : await filteredQueryable
+               .ProjectTo<TProjection>(mapper.ConfigurationProvider)
+               .OrderBy(orderByLambda, sortDirection)
+               .TakePage(pageIndex, pageSize)
+               .ToListAsync()
+               .ConfigureAwait(false);
 
          var result = new SearchResults<TProjection>(items, totalItemsCount, pageIndex);
          return result;
       }
+
+      public static IOrderedQueryable<T> OrderBy<T>(this IQueryable<T> query, Expression<Func<T, object>> orderByLambda, ListSortDirection sortDirection)
+         => sortDirection == ListSortDirection.Ascending
+              ? query.OrderBy(orderByLambda)
+              : query.OrderByDescending(orderByLambda);
    }
 }

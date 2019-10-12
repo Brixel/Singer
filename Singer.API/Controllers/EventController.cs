@@ -60,11 +60,11 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
       public async Task<ActionResult<PaginationDTO<EventRegistrationDTO>>> Get(
          Guid eventId,
+         string filter,
          string sortDirection = "0",
          string sortColumn = "Id",
          int pageIndex = 0,
-         int pageSize = 15,
-         string filter = "")
+         int pageSize = 15)
       {
          if (sortDirection == "asc") sortDirection = "0";
          if (sortDirection == "desc") sortDirection = "1";
@@ -74,12 +74,15 @@ namespace Singer.Controllers
          var orderByLambda = PropertyHelpers.GetPropertySelector<EventRegistrationDTO>(sortColumn);
 
          // get the search results of the database query
-         var result = await _eventRegistrationService.GetAsync(
-           filter: FilterEventRegistration(eventId, filter),
-           orderer: orderByLambda,
-           sortDirection: direction,
-           pageIndex: pageIndex,
-           itemsPerPage: pageSize);
+         var result = await _eventRegistrationService
+            .GetAsync(
+               eventId,
+               filter,
+               orderer: orderByLambda,
+               sortDirection: direction,
+               pageIndex: pageIndex,
+               itemsPerPage: pageSize)
+            .ConfigureAwait(false);
 
 
          var requestPath = HttpContext.Request.Path;
@@ -110,9 +113,9 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
       public async Task<ActionResult<EventRegistrationDTO>> GetOne(Guid eventId, Guid registrationId)
       {
-         var registration = await _eventRegistrationService.GetOneAsync(registrationId);
-         if (registration.EventId != eventId)
-            throw new NotFoundException($"The event with id {eventId} does not contain any registrations with id {registrationId}");
+         var registration = await _eventRegistrationService
+            .GetOneAsync(eventId, registrationId)
+            .ConfigureAwait(false);
 
          return Ok(registration);
       }
@@ -121,16 +124,16 @@ namespace Singer.Controllers
 
       #region put
 
-      [HttpPut("{eventId}/registrations/{registrationId}")]
+      [HttpPut("{eventId}/registrations/{registrationId}/status")]
       [ProducesResponseType(StatusCodes.Status200OK)]
       [ProducesResponseType(StatusCodes.Status404NotFound)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public async Task<ActionResult<EventRegistrationDTO>> Update(Guid eventId, Guid registrationId, [FromBody]UpdateEventRegistrationDTO dto)
+      public async Task<ActionResult<EventRegistrationDTO>> Update(Guid eventId, Guid registrationId, [FromBody]RegistrationStatus status)
       {
-         if (dto.EventId != eventId)
-            throw new BadInputException("The event id in the url and the body doe not match");
+         var result = await _eventRegistrationService
+            .UpdateStatusAsync(eventId, registrationId, status)
+            .ConfigureAwait(false);
 
-         var result = await _eventRegistrationService.UpdateAsync(registrationId, dto);
          return Ok(result);
       }
 
@@ -144,28 +147,24 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
       public async Task<ActionResult> Delete(Guid eventId, Guid registrationId)
       {
-         var registration = await _eventRegistrationService.GetOneAsync(registrationId);
-         if (registration.EventId != eventId)
-            throw new NotFoundException($"The event with id {eventId} does not contain any registrations with id {registrationId}");
-
-         await _eventRegistrationService.DeleteAsync(registrationId);
+         await _eventRegistrationService
+            .DeleteAsync(eventId, registrationId)
+            .ConfigureAwait(false);
 
          return NoContent();
       }
 
       #endregion delete
 
-      protected Expression<Func<EventRegistration, bool>> FilterEventRegistration(Guid eventId, string filter)
-      {
-         return o => o.EventSlot.EventId == eventId;
-      }
       [HttpPost("search")]
       public async Task<IActionResult> GetPublicEvents([FromBody] SearchEventParamsDTO searchEventParams)
       {
          var model = ModelState;
          if (model.IsValid)
          {
-            var events = await _eventService.GetPublicEventsAsync(searchEventParams);
+            var events = await _eventService
+               .GetPublicEventsAsync(searchEventParams)
+               .ConfigureAwait(false);
             return Ok(events);
          }
 

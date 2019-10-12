@@ -1,5 +1,4 @@
 using Singer.Helpers;
-using Singer.Models;
 using System;
 
 namespace Singer.DTOs
@@ -9,12 +8,5 @@ namespace Singer.DTOs
       public Guid Id { get; set; }
       public DateTime StartDateTime { get; set; }
       public DateTime EndDateTime { get; set; }
-   }
-
-   public class EventSlotRegistrationDTO : IIdentifiable
-   {
-      public Guid Id { get; set; }
-      public RegistrationStatus Status { get; set; }
-      public Guid EventSlotId { get; set; }
    }
 }

@@ -1,6 +1,7 @@
 using FluentAssertions;
 using NUnit.Framework;
 using Singer.DTOs;
+using Singer.Helpers.Enums;
 using Singer.Models;
 using System;
 using System.Linq;

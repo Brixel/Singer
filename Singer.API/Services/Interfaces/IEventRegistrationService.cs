@@ -1,20 +1,29 @@
 using Singer.DTOs;
 using Singer.Models;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Singer.Services.Interfaces
 {
-   public interface IEventRegistrationService : IDatabaseService<EventRegistration, EventRegistrationDTO, CreateEventRegistrationDTO, UpdateEventRegistrationDTO>
+   public interface IEventRegistrationService
    {
       Task<SearchResults<EventRegistrationDTO>> GetAsync(
-        Expression<Func<EventRegistration, bool>> filter = null,
-        Expression<Func<EventRegistration, EventRegistrationDTO>> projector = null,
-        Expression<Func<EventRegistrationDTO, object>> orderer = null,
-        ListSortDirection sortDirection = ListSortDirection.Ascending,
-        int pageIndex = 0,
-        int itemsPerPage = 15);
+         Guid eventId,
+         string filter,
+         Expression<Func<EventRegistrationDTO, object>> orderer = null,
+         ListSortDirection sortDirection = ListSortDirection.Ascending,
+         int pageIndex = 0,
+         int itemsPerPage = 15);
+
+      Task<EventRegistrationDTO> GetOneAsync(Guid eventId, Guid registrationId);
+
+      Task<IReadOnlyList<EventRegistrationDTO>> CreateAsync(CreateEventRegistrationDTO dto);
+
+      Task<EventRegistrationDTO> UpdateStatusAsync(Guid eventId, Guid registrationId, RegistrationStatus status);
+
+      Task DeleteAsync(Guid eventId, Guid registrationId);
    }
 }
