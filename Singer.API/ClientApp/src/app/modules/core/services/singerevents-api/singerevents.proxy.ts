@@ -7,6 +7,7 @@ import {
    UpdateSingerEventDTO,
    CreateSingerEventDTO,
    SingerEventDTO,
+   EventRelevantCareUserDTO,
 } from '../../models/singerevent.model';
 import { PaginationDTO } from '../../models/pagination.model';
 
@@ -34,10 +35,7 @@ export class SingerEventsProxy {
          .pipe(map(res => res));
    }
 
-   updateSingerEvents(
-      id: string,
-      updateSingerEventDTO: UpdateSingerEventDTO
-   ) {
+   updateSingerEvents(id: string, updateSingerEventDTO: UpdateSingerEventDTO) {
       return this.apiService
          .put(`api/event/${id}`, updateSingerEventDTO)
          .pipe(map(res => res));
@@ -48,6 +46,14 @@ export class SingerEventsProxy {
    ): Observable<SingerEventDTO> {
       return this.apiService
          .post('api/event', createSingerEventDTO)
+         .pipe(map(res => res));
+   }
+
+   getRelevantCareUsers(
+      eventId: string
+   ): Observable<EventRelevantCareUserDTO[]> {
+      return this.apiService
+         .get(`api/event/${eventId}/getcareusers`)
          .pipe(map(res => res));
    }
 }

@@ -83,4 +83,8 @@ export class SingerEventsService {
          .createSingerEvents(createSingerEventDTO)
          .pipe(map(res => res));
    }
+
+   getRelevantCareUsers(eventId: string) {
+      return this.singerEventsProxy.getRelevantCareUsers(eventId);
+   }
 }

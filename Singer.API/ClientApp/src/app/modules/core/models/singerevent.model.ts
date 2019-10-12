@@ -84,18 +84,21 @@ export class SingerEvent {
 
 export class EventDescription {
    constructor(
+      id: string,
       title: string,
       description: string,
       ageGroups: AgeGroup[],
       startDateTime: Date,
       endDateTime: Date
    ) {
+      this.id = id;
       this.title = title;
       this.description = description;
       this.ageGroups = ageGroups;
       this.startDateTime = startDateTime;
       this.endDateTime = endDateTime;
    }
+   id: string;
    title: string;
    description: string;
    ageGroups: AgeGroup[];
@@ -107,4 +110,12 @@ export class SearchEventDTO {
    startDateTime: Date;
    endDateTime: Date;
    locationId: string;
+}
+
+export class EventRelevantCareUserDTO {
+   id: string;
+   firstName: string;
+   lastName: string;
+   ageGroup: AgeGroup;
+   appropriateAgeGroup: boolean;
 }
