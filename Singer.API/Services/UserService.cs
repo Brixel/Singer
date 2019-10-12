@@ -31,6 +31,13 @@ namespace Singer.Services
       public override async Task<TUserDTO> CreateAsync(
          TCreateUserDTO dto)
       {
+         // We need usernames for AspNetUsers. However, careusers don't have an e-mail address, so no username can be generated
+         // For that reason, we generate a random username.
+         if (string.IsNullOrEmpty(dto.Email))
+         {
+            dto.Email = GenerateRandomUserName(dto.FirstName, dto.LastName);
+         }
+
          var baseUser = new User()
          {
             FirstName = dto.FirstName,
@@ -39,12 +46,6 @@ namespace Singer.Services
             UserName = dto.Email
          };
 
-         // We need usernames for AspNetUsers. However, careusers don't have an e-mail address, so no username can be generated
-         // For that reason, we generate a random username.
-         if (string.IsNullOrEmpty(baseUser.UserName))
-         {
-            baseUser.UserName = GenerateRandomUserName(baseUser.FirstName, baseUser.LastName);
-         }
          // TODO Replace by better temporary password generation approach
          var userCreationResult = await UserManager.CreateAsync(baseUser, "Testpassword123!");
          if (!userCreationResult.Succeeded)
