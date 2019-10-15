@@ -98,7 +98,6 @@ namespace Singer.Services
          // project the DTO to an entity
          var entity = Mapper.Map<TEntity>(dto);
          var changeTracker = await Context.AddAsync(entity);
-         //var changeTracker = await DbSet.AddAsync(entity);
          await Context.SaveChangesAsync();
          return Mapper.Map<TDTO>(changeTracker.Entity);
       }
