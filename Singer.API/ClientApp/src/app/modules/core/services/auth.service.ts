@@ -1,14 +1,19 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 @Injectable({
    providedIn: 'root',
 })
 export class AuthService {
+
    private tokenURL = this.baseUrl + 'connect/token';
    private userInfoURL = this.baseUrl + 'connect/userinfo';
+
+   private isAdminSubject = new Subject<boolean>();
+   isAdmin$ = this.isAdminSubject.asObservable();
+
    constructor(
       private http: HttpClient,
       private jwtHelper: JwtHelperService,
@@ -38,22 +43,29 @@ export class AuthService {
             map(jwt => {
                if (jwt && jwt.access_token) {
                   localStorage.setItem('token', JSON.stringify(jwt));
-                  this.getUserInfo().subscribe(res => {
-                     localStorage.setItem('user', JSON.stringify(res));
-                  });
+                  this.getUser();
                }
             })
          );
    }
 
+   private getUser() {
+      this.getUserInfo().subscribe(res => {
+         const isAdmin = res.role === 'Administrator';
+         this.isAdminSubject.next(isAdmin);
+         localStorage.setItem('user', JSON.stringify(res));
+      });
+   }
+
+   restore() {
+      if(this.isAuthenticated()){
+         this.getUser();
+      }
+   }
+
    isAuthenticated() {
       const token = localStorage.getItem('token');
       return !this.jwtHelper.isTokenExpired(token);
-   }
-
-   isAdmin(){
-      const user = JSON.parse(localStorage.getItem('user'));
-      return user.role === 'Administrator';
    }
 
    getToken() {
@@ -62,5 +74,6 @@ export class AuthService {
 
    logout() {
       localStorage.removeItem('token');
+      localStorage.removeItem('user');
    }
 }
