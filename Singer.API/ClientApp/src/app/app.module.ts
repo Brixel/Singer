@@ -13,15 +13,15 @@ import { AuthService } from './modules/core/services/auth.service';
 import { AuthGuard } from './modules/core/services/auth.guard';
 import { AuthInterceptor } from './modules/core/services/auth-interceptor';
 import { NavMenuComponent } from './modules/core/components/nav-menu/nav-menu.component';
-import { DashboardComponent } from './modules/dashboard/pages/dashboard/dashboard.component';
-import { MAT_DATE_FORMATS, NativeDateModule } from '@angular/material';
+import { MAT_DATE_FORMATS, NativeDateModule, MatDatepickerIntl, MAT_DATE_LOCALE } from '@angular/material';
 
 export const MY_FORMATS = {
    parse: {
      dateInput: 'D-MM-YYYY',
    },
    display: {
-     dateInput: 'D-MM-YYYY'
+     dateInput: 'D-MM-YYYY',
+     monthYearLabel: 'MMM YYYY'
    },
  };
 export function tokenGetter():string {
@@ -60,7 +60,7 @@ export function tokenGetter():string {
          useFactory: initializeApp,
          deps: [AuthService],
          multi: true},
-      {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+      {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},{provide: MAT_DATE_LOCALE, useValue: 'nl-BE'},
       BrowserAnimationsModule,
    ],
    bootstrap: [AppComponent],
