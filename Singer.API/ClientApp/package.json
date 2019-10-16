@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.1.0-issue-fix-roles.574",
+   "version": "0.2.0-fix-navigation.71",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",

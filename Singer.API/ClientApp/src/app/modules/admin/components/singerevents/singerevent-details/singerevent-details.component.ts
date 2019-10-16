@@ -4,10 +4,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SingerEvent } from 'src/app/modules/core/models/singerevent.model';
 import { AgeGroup } from 'src/app/modules/core/models/enum';
 import { MAT_DATE_FORMATS } from '@angular/material';
-import { MY_FORMATS } from 'src/app/app.module';
 import * as moment from 'moment';
 import { isNullOrUndefined } from 'util';
 import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location';
+import { MY_FORMATS } from 'src/app/modules/core/core.module';
 
 // Data we pass along with the creation of the Mat-Dialog box
 export interface SingerEventDetailsFormData {

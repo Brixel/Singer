@@ -31,10 +31,10 @@ import {
    MomentDateAdapter,
    MAT_MOMENT_DATE_FORMATS,
 } from '@angular/material-moment-adapter';
-import { MY_FORMATS } from 'src/app/app.module';
 import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location';
 import { SingerEventLocationService } from 'src/app/modules/core/services/singerevents-api/singerevent-location.service';
 import { isNullOrUndefined } from 'util';
+import { MY_FORMATS } from 'src/app/modules/core/core.module';
 
 // Data we pass along with the creation of the Mat-Dialog box
 export interface CareUserDetailsFormData {

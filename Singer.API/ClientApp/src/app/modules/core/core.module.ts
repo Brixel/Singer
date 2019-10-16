@@ -6,6 +6,18 @@ import { AgegroupChipsComponent } from './components/agegroup-chips/agegroup-chi
 import { MaterialModule } from 'src/app/material.module';
 import { AgegroupToColorPipePipe } from './services/agegroup-to-color-pipe.pipe';
 import { UserCardComponent } from './components/user-card/user-card.component';
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material';
+
+
+export const MY_FORMATS = {
+   parse: {
+     dateInput: 'D-MM-YYYY',
+   },
+   display: {
+     dateInput: 'D-MM-YYYY',
+     monthYearLabel: 'MMM YYYY'
+   },
+ };
 
 @NgModule({
    declarations: [
@@ -16,6 +28,8 @@ import { UserCardComponent } from './components/user-card/user-card.component';
       UserCardComponent,
    ],
    imports: [CommonModule, MaterialModule],
+   providers: [
+      {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},{provide: MAT_DATE_LOCALE, useValue: 'nl-BE'}],
    exports: [
       AgegroupPipe,
       KeysPipe,

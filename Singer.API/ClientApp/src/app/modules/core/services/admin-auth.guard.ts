@@ -19,6 +19,7 @@ export class AdminAuthGuard implements CanActivate {
       state: RouterStateSnapshot
    ): Observable<boolean> | Promise<boolean> | boolean {
       return this.authService.isAdmin$.pipe(map(res => {
+         console.log(res);
          if(res){
             return  true;
          } else {
