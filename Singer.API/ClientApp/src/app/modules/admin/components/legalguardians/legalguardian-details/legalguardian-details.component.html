@@ -139,57 +139,59 @@
          </mat-form-field>
       </div>
 
-      <!-- End Of Section -->
-      <mat-divider></mat-divider>
+      <div class="adding" *ngIf="!isAdding">
+         <!-- End Of Section -->
+         <mat-divider></mat-divider>
 
-      <!-- Contact Fields Title -->
-      <h3 class="section-title">Zorggebruikers</h3>
-      <div class="careusers-header">
-         <p *ngIf="currentLegalGuardianInstance.careUsers?.length > 0">
-            Deze persoon is voogd over volgende zorggebruikers:
-         </p>
-         <p *ngIf="!(currentLegalGuardianInstance.careUsers?.length > 0)">
-            Deze persoon heeft nog geen zorggebruikers gekoppeld.
-         </p>
-         <p>Gebruiker toevoegen:</p>
-         <mat-form-field>
-            <input
-               type="text"
-               matInput
-               placeholder="Zoek zorggebruiker"
-               aria-label="Zorggebruikers"
-               [matAutocomplete]="careUsersAutoComplete"
-               formControlName="careUsersSearchFieldcontrol"
-            />
-            <mat-autocomplete #careUsersAutoComplete="matAutocomplete">
-               <mat-option
-                  *ngFor="let careUser of careUsersAutoComplete$ | async"
-                  [value]="careUser.id"
-                  (click)="addCareUser(careUser)"
-                  (onSelectionChange)="addCareUser(careUser, $event)"
-               >
-                  {{ careUser.firstName }} {{ careUser.lastName }}
-               </mat-option>
-            </mat-autocomplete>
-         </mat-form-field>
-      </div>
-      <mat-grid-list
-         *ngIf="currentLegalGuardianInstance.careUsers?.length > 0"
-         [cols]="breakpoint"
-         rowHeight="300px"
-         gutterSize="20px"
-         (window:resize)="onResize($event)"
-      >
-         <mat-grid-tile
-            *ngFor="let careUser of currentLegalGuardianInstance.careUsers"
+         <!-- Contact Fields Title -->
+         <h3 class="section-title">Zorggebruikers</h3>
+         <div class="careusers-header">
+            <p *ngIf="currentLegalGuardianInstance.careUsers?.length > 0">
+               Deze persoon is voogd over volgende zorggebruikers:
+            </p>
+            <p *ngIf="!(currentLegalGuardianInstance.careUsers?.length > 0)">
+               Deze persoon heeft nog geen zorggebruikers gekoppeld.
+            </p>
+            <p>Gebruiker toevoegen:</p>
+            <mat-form-field>
+               <input
+                  type="text"
+                  matInput
+                  placeholder="Zoek zorggebruiker"
+                  aria-label="Zorggebruikers"
+                  [matAutocomplete]="careUsersAutoComplete"
+                  formControlName="careUsersSearchFieldcontrol"
+               />
+               <mat-autocomplete #careUsersAutoComplete="matAutocomplete">
+                  <mat-option
+                     *ngFor="let careUser of careUsersAutoComplete$ | async"
+                     [value]="careUser.id"
+                     (click)="addCareUser(careUser)"
+                     (onSelectionChange)="addCareUser(careUser, $event)"
+                  >
+                     {{ careUser.firstName }} {{ careUser.lastName }}
+                  </mat-option>
+               </mat-autocomplete>
+            </mat-form-field>
+         </div>
+         <mat-grid-list
+            *ngIf="currentLegalGuardianInstance.careUsers?.length > 0"
+            [cols]="breakpoint"
+            rowHeight="300px"
+            gutterSize="20px"
+            (window:resize)="onResize($event)"
          >
-            <app-user-card
-               [user]="careUser"
-               (delete)="deleteCareUser(careUser)"
-               class="user-card"
-            ></app-user-card>
-         </mat-grid-tile>
-      </mat-grid-list>
+            <mat-grid-tile
+               *ngFor="let careUser of currentLegalGuardianInstance.careUsers"
+            >
+               <app-user-card
+                  [user]="careUser"
+                  (delete)="deleteCareUser(careUser)"
+                  class="user-card"
+               ></app-user-card>
+            </mat-grid-tile>
+         </mat-grid-list>
+      </div>
       <!-- Button Row -->
       <mat-dialog-actions class="button-row">
          <!-- Close Button -->

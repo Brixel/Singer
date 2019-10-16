@@ -39,6 +39,13 @@ namespace Singer.Services
             Email = dto.Email,
             UserName = dto.Email
          };
+
+         // We need usernames for AspNetUsers. However, careusers don't have an e-mail address, so no username can be generated
+         // For that reason, we generate a random username.
+         if (string.IsNullOrEmpty(baseUser.UserName))
+         {
+            baseUser.UserName = GenerateRandomUserName(baseUser.FirstName, baseUser.LastName);
+         }
          // TODO Replace by better temporary password generation approach
          var userCreationResult = await UserManager.CreateAsync(baseUser, "Testpassword123!");
          if (!userCreationResult.Succeeded)
@@ -54,11 +61,18 @@ namespace Singer.Services
          return await base.CreateAsync(dto);
       }
 
+      private string GenerateRandomUserName(string firstName, string lastName)
+      {
+         var randomGuid = Guid.NewGuid();
+         return $"{firstName}.{lastName}.{randomGuid}@test.com";
+      }
+
       public override async Task<TUserDTO> GetOneAsync(Guid id)
       {
-         var item = await Queryable
+         // No async usage due to Automapper not being able to process IAsyncEnumerables
+         var item = Queryable
             .ProjectTo<TUserDTO>(Mapper.ConfigurationProvider)
-            .SingleOrDefaultAsync(x => x.Id == id);
+            .SingleOrDefault(x => x.Id == id);
          if (item == null)
             throw new NotFoundException();
 

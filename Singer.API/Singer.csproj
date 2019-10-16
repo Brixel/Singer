@@ -56,6 +56,10 @@
      <Compile Remove="Migrations\20190921181826_AddsEventRegistrationsAndEventSlots.Designer.cs" />
      <Compile Remove="Migrations\20190921190104_AddsEventRegistrationsAndEventSlots.cs" />
      <Compile Remove="Migrations\20190921190104_AddsEventRegistrationsAndEventSlots.Designer.cs" />
+     <Compile Remove="Migrations\20191016202947_create-eventregistrations-and-eventslots.cs" />
+     <Compile Remove="Migrations\20191016202947_create-eventregistrations-and-eventslots.Designer.cs" />
+     <Compile Remove="Migrations\20191016203050_create-eventregistrations-and-eventslots.cs" />
+     <Compile Remove="Migrations\20191016203050_create-eventregistrations-and-eventslots.Designer.cs" />
      <Compile Remove="Models\PaginationModel.cs" />
    </ItemGroup>
 
@@ -64,11 +68,7 @@
    </ItemGroup>
 
    <ItemGroup>
-     <Content Include="Migrations\Sql\CleanAdmin.sql" />
-   </ItemGroup>
-
-   <ItemGroup>
-     <Content Update="Migrations\Sql\CleanAdmin.sql">
+     <Content Include="Migrations\Sql\CleanAdmin.sql">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </Content>
    </ItemGroup>

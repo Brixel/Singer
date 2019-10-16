@@ -1,8 +1,10 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 using AutoMapper;
+using IdentityModel;
 using IdentityServer4.AccessTokenValidation;
 using IdentityServer4.EntityFramework.DbContexts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -108,6 +110,7 @@ namespace Singer
                options.ApiName = "singer.api";
                // URL of my authorization server
                options.Authority = authority;
+               options.RoleClaimType = ClaimTypes.Role;
             });
 
          // Making JWT authentication scheme the default

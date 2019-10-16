@@ -85,11 +85,11 @@ tr.selectable:active {
    padding: 10px;
 }
 
-.mat-column-startDate {
+.mat-column-startDateTime {
    padding: 10px;
 }
 
-.mat-column-endDate {
+.mat-column-endDateTime {
    padding: 10px;
 }
 

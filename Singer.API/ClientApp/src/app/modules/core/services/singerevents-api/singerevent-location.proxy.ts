@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
 import { ApiService } from '../api.service';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { PaginationDTO } from '../../models/pagination.model';
 import {
    UpdateSingerEventLocationDTO,
    CreateSingerEventLocationDTO,
    SingerEventLocationDTO,
-} from '../../models/singerevent.model';
-import { PaginationDTO } from '../../models/pagination.model';
+} from '../../models/singer-event-location';
 
 @Injectable({
    providedIn: 'root',

@@ -1,5 +1,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
+import { Observable } from 'rxjs';
 
 @Component({
    selector: 'app-nav-menu',
@@ -10,19 +11,17 @@ export class NavMenuComponent {
    isExpanded = false;
 
    @Output() logoutEvent = new EventEmitter();
+   isAdmin: boolean;
 
    constructor(private authService: AuthService) {
-
+      this.authService.isAdmin$.subscribe((res) => {
+         this.isAdmin = res;
+      })
    }
 
    isAuthenticated(): boolean{
       return this.authService.isAuthenticated();
    }
-
-   isAdmin(): boolean{
-      return this.authService.isAdmin();
-   }
-
    onLogoutClicked(){
       this.logoutEvent.emit();
    }

@@ -3,31 +3,17 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Singer.Migrations
 {
-    public partial class createeventregistrationsandeventslots : Migration
+    public partial class Createeventregistrationsandeventslots : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-
-            migrationBuilder.DropColumn(
-                name: "DailyEndTime",
-                table: "Events");
-
-            migrationBuilder.DropColumn(
-                name: "DailyStartTime",
-                table: "Events");
-
-            migrationBuilder.DropColumn(
-                name: "EndDate",
-                table: "Events");
-
-            migrationBuilder.DropColumn(
-                name: "StartDate",
-                table: "Events");
+            // Since the previous events were not in the correct structure, we delete them now
+           migrationBuilder.Sql("DELETE Events");
 
             migrationBuilder.DropColumn(
                 name: "currentRegistrants",
                 table: "Events");
-         
+
             migrationBuilder.CreateTable(
                 name: "EventSlots",
                 columns: table => new
@@ -98,36 +84,11 @@ namespace Singer.Migrations
             migrationBuilder.DropTable(
                 name: "EventSlots");
 
-            migrationBuilder.AddColumn<DateTime>(
-                name: "DailyEndTime",
-                table: "Events",
-                nullable: false,
-                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
-
-            migrationBuilder.AddColumn<DateTime>(
-                name: "DailyStartTime",
-                table: "Events",
-                nullable: false,
-                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
-
-            migrationBuilder.AddColumn<DateTime>(
-                name: "EndDate",
-                table: "Events",
-                nullable: false,
-                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
-
-            migrationBuilder.AddColumn<DateTime>(
-                name: "StartDate",
-                table: "Events",
-                nullable: false,
-                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
-
             migrationBuilder.AddColumn<int>(
                 name: "currentRegistrants",
                 table: "Events",
                 nullable: false,
                 defaultValue: 0);
-
         }
     }
 }
