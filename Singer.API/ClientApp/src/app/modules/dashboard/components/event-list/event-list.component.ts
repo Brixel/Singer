@@ -1,15 +1,22 @@
-import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
-import { EventDescription, SingerEventLocation } from 'src/app/modules/core/models/singerevent.model';
+import {
+   Component,
+   OnInit,
+   Input,
+   ViewChild,
+   Output,
+   EventEmitter,
+} from '@angular/core';
+import { EventDescription } from 'src/app/modules/core/models/singerevent.model';
 import { MatDrawer } from '@angular/material';
 import { SearchEventData } from '../event-search/event-search.component';
+import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location';
 
 @Component({
-  selector: 'app-event-list',
-  templateUrl: './event-list.component.html',
-  styleUrls: ['./event-list.component.css']
+   selector: 'app-event-list',
+   templateUrl: './event-list.component.html',
+   styleUrls: ['./event-list.component.css'],
 })
 export class EventListComponent implements OnInit {
-
    @Input() events: EventDescription[];
    @Input() availableLocations: SingerEventLocation[];
 
@@ -18,20 +25,19 @@ export class EventListComponent implements OnInit {
    @ViewChild('drawer') drawer: MatDrawer;
    breakpoint: number;
 
-  constructor() { }
+   constructor() {}
 
    ngOnInit() {
-      this.breakpoint = (window.innerWidth <= 500) ? 1 : 3;
-      const searchEvent = <SearchEventData>{}
+      this.breakpoint = window.innerWidth <= 500 ? 1 : 3;
+      const searchEvent = <SearchEventData>{};
       this.searchEvent.emit(searchEvent);
    }
 
    onResize(event) {
-      this.breakpoint = (event.target.innerWidth <= 500) ? 1 : 3;
+      this.breakpoint = event.target.innerWidth <= 500 ? 1 : 3;
    }
 
-
-   onSearchEvent(searchEvent: SearchEventData){
+   onSearchEvent(searchEvent: SearchEventData) {
       this.searchEvent.emit(searchEvent);
    }
 }

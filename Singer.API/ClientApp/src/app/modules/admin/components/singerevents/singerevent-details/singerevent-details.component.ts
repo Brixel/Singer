@@ -1,11 +1,13 @@
 import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { FormControl, Validators, FormGroup, FormArray } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import {
-   SingerEvent,
-   SingerEventLocation,
-} from 'src/app/modules/core/models/singerevent.model';
+import { SingerEvent } from 'src/app/modules/core/models/singerevent.model';
 import { AgeGroup } from 'src/app/modules/core/models/enum';
+import { MAT_DATE_FORMATS } from '@angular/material';
+import { MY_FORMATS } from 'src/app/app.module';
+import * as moment from 'moment';
+import { isNullOrUndefined } from 'util';
+import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location';
 
 // Data we pass along with the creation of the Mat-Dialog box
 export interface SingerEventDetailsFormData {
@@ -18,6 +20,7 @@ export interface SingerEventDetailsFormData {
    selector: 'app-singerevent-details',
    templateUrl: './singerevent-details.component.html',
    styleUrls: ['./singerevent-details.component.css'],
+   providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }],
 })
 export class SingerEventDetailsComponent implements OnInit {
    // Submit event for when the user submits the form
@@ -69,32 +72,32 @@ export class SingerEventDetailsComponent implements OnInit {
       // Form controls
       titleFieldControl: new FormControl('', [Validators.required]),
       descriptionFieldControl: new FormControl('', [Validators.required]),
-      locationFieldControl: new FormControl(null, [Validators.required]),
+      locationFieldControl: new FormControl('', [Validators.required]),
       allowedAgeGroupsFieldControl: new FormControl('', [Validators.required]),
       maxRegistrantsFieldControl: new FormControl('', [Validators.required]),
       costFieldControl: new FormControl('', [Validators.required]),
-      startRegistrationDateFieldControl: new FormControl(null, [
+      startRegistrationDateFieldControl: new FormControl(new Date(), [
          Validators.required,
       ]),
-      endRegistrationDateFieldControl: new FormControl(null, [
+      endRegistrationDateFieldControl: new FormControl(new Date(), [
          Validators.required,
       ]),
-      finalCancellationDateFieldControl: new FormControl(null, [
+      finalCancellationDateFieldControl: new FormControl(new Date(), [
          Validators.required,
       ]),
       registrationOnDailyBasisFieldControl: new FormControl('', [
          Validators.required,
       ]),
-      startDateFieldControl: new FormControl(null, [Validators.required]),
-      endDateFieldControl: new FormControl(null, [Validators.required]),
-      dailyStartTimeFieldControl: new FormControl('', [Validators.required]),
-      dailyEndTimeFieldControl: new FormControl(null, [Validators.required]),
+      startDateFieldControl: new FormControl(new Date(), [Validators.required]),
+      endDateFieldControl: new FormControl(new Date(), [Validators.required]),
+      dailyStartTimeFieldControl: new FormControl('00:00', [
+         Validators.required,
+      ]),
+      dailyEndTimeFieldControl: new FormControl('00:00', [Validators.required]),
       hasDayCareBeforeFieldControl: new FormControl('', [Validators.required]),
-      dayCareBeforeStartTimeFieldControl: new FormControl(),
-      dayCareBeforeEndTimeFieldControl: new FormControl(),
+      dayCareBeforeStartTimeFieldControl: new FormControl('00:00'),
       hasDayCareAfterFieldControl: new FormControl('', [Validators.required]),
-      dayCareAfterStartTimeFieldControl: new FormControl(),
-      dayCareAfterEndTimeFieldControl: new FormControl(),
+      dayCareAfterEndTimeFieldControl: new FormControl('00:00'),
    });
 
    careBeforeRequired() {
@@ -213,13 +216,13 @@ export class SingerEventDetailsComponent implements OnInit {
          this.currentSingerEventInstance.cost
       );
       this.formControlGroup.controls.startRegistrationDateFieldControl.reset(
-         this.currentSingerEventInstance.startRegistrationDate
+         this.currentSingerEventInstance.startRegistrationDateTime
       );
       this.formControlGroup.controls.endRegistrationDateFieldControl.reset(
-         this.currentSingerEventInstance.endRegistrationDate
+         this.currentSingerEventInstance.endRegistrationDateTime
       );
       this.formControlGroup.controls.finalCancellationDateFieldControl.reset(
-         this.currentSingerEventInstance.finalCancellationDate
+         this.currentSingerEventInstance.finalCancellationDateTime
       );
       this.formControlGroup.controls.registrationOnDailyBasisFieldControl.reset(
          this.currentSingerEventInstance.registrationOnDailyBasis
@@ -227,34 +230,40 @@ export class SingerEventDetailsComponent implements OnInit {
             : 'false'
       );
       this.formControlGroup.controls.startDateFieldControl.reset(
-         this.currentSingerEventInstance.startDate
+         this.currentSingerEventInstance.startDateTime
       );
       this.formControlGroup.controls.endDateFieldControl.reset(
-         this.currentSingerEventInstance.endDate
+         this.currentSingerEventInstance.endDateTime
       );
       this.formControlGroup.controls.dailyStartTimeFieldControl.reset(
-         this.currentSingerEventInstance.dailyStartTime
+         moment
+            .utc(this.currentSingerEventInstance.startDateTime)
+            .local()
+            .format('HH:mm')
       );
       this.formControlGroup.controls.dailyEndTimeFieldControl.reset(
-         this.currentSingerEventInstance.dailyEndTime
+         moment
+            .utc(this.currentSingerEventInstance.endDateTime)
+            .local()
+            .format('HH:mm')
       );
       this.formControlGroup.controls.hasDayCareBeforeFieldControl.reset(
          this.currentSingerEventInstance.hasDayCareBefore ? 'true' : 'false'
       );
       this.formControlGroup.controls.dayCareBeforeStartTimeFieldControl.reset(
-         this.currentSingerEventInstance.dayCareBeforeStartTime
-      );
-      this.formControlGroup.controls.dayCareBeforeEndTimeFieldControl.reset(
-         this.currentSingerEventInstance.dayCareBeforeEndTime
+         moment
+            .utc(this.currentSingerEventInstance.dayCareBeforeStartDateTime)
+            .local()
+            .format('HH:mm')
       );
       this.formControlGroup.controls.hasDayCareAfterFieldControl.reset(
          this.currentSingerEventInstance.hasDayCareAfter ? 'true' : 'false'
       );
-      this.formControlGroup.controls.dayCareAfterStartTimeFieldControl.reset(
-         this.currentSingerEventInstance.dayCareAfterStartTime
-      );
       this.formControlGroup.controls.dayCareAfterEndTimeFieldControl.reset(
-         this.currentSingerEventInstance.dayCareAfterEndTime
+         moment
+            .utc(this.currentSingerEventInstance.dayCareAfterEndDateTime)
+            .local()
+            .format('HH:mm')
       );
    }
 
@@ -276,9 +285,7 @@ export class SingerEventDetailsComponent implements OnInit {
       this.formControlGroup.controls.dailyEndTimeFieldControl.reset();
       this.formControlGroup.controls.hasDayCareBeforeFieldControl.reset();
       this.formControlGroup.controls.dayCareBeforeStartTimeFieldControl.reset();
-      this.formControlGroup.controls.dayCareBeforeEndTimeFieldControl.reset();
       this.formControlGroup.controls.hasDayCareAfterFieldControl.reset();
-      this.formControlGroup.controls.dayCareAfterStartTimeFieldControl.reset();
       this.formControlGroup.controls.dayCareAfterEndTimeFieldControl.reset();
    }
 
@@ -292,20 +299,16 @@ export class SingerEventDetailsComponent implements OnInit {
          maxRegistrants: 0,
          currentRegistrants: 0,
          cost: 0,
-         startRegistrationDate: new Date(),
-         endRegistrationDate: new Date(),
-         finalCancellationDate: new Date(),
+         startRegistrationDateTime: new Date(),
+         endRegistrationDateTime: new Date(),
+         finalCancellationDateTime: new Date(),
          registrationOnDailyBasis: false,
-         startDate: new Date(),
-         endDate: new Date(),
-         dailyStartTime: new Date(),
-         dailyEndTime: new Date(),
+         startDateTime: new Date(),
+         endDateTime: new Date(),
          hasDayCareBefore: false,
-         dayCareBeforeStartTime: new Date(),
-         dayCareBeforeEndTime: new Date(),
+         dayCareBeforeStartDateTime: new Date(),
          hasDayCareAfter: false,
-         dayCareAfterStartTime: new Date(),
-         dayCareAfterEndTime: new Date(),
+         dayCareAfterEndDateTime: new Date(),
       };
    }
 
@@ -353,7 +356,7 @@ export class SingerEventDetailsComponent implements OnInit {
       }
 
       var instanceDate = new Date(
-         this.currentSingerEventInstance.startRegistrationDate
+         this.currentSingerEventInstance.startRegistrationDateTime
       );
       var formDate = new Date(
          this.formControlGroup.controls.startRegistrationDateFieldControl.value
@@ -369,7 +372,7 @@ export class SingerEventDetailsComponent implements OnInit {
       }
 
       instanceDate = new Date(
-         this.currentSingerEventInstance.endRegistrationDate
+         this.currentSingerEventInstance.endRegistrationDateTime
       );
       formDate = new Date(
          this.formControlGroup.controls.endRegistrationDateFieldControl.value
@@ -385,7 +388,7 @@ export class SingerEventDetailsComponent implements OnInit {
       }
 
       instanceDate = new Date(
-         this.currentSingerEventInstance.finalCancellationDate
+         this.currentSingerEventInstance.finalCancellationDateTime
       );
       formDate = new Date(
          this.formControlGroup.controls.finalCancellationDateFieldControl.value
@@ -410,7 +413,7 @@ export class SingerEventDetailsComponent implements OnInit {
          return true;
       }
 
-      instanceDate = new Date(this.currentSingerEventInstance.startDate);
+      instanceDate = new Date(this.currentSingerEventInstance.startDateTime);
       formDate = new Date(
          this.formControlGroup.controls.startDateFieldControl.value
       );
@@ -424,7 +427,7 @@ export class SingerEventDetailsComponent implements OnInit {
          return true;
       }
 
-      instanceDate = new Date(this.currentSingerEventInstance.endDate);
+      instanceDate = new Date(this.currentSingerEventInstance.endDateTime);
       formDate = new Date(
          this.formControlGroup.controls.endDateFieldControl.value
       );
@@ -439,14 +442,15 @@ export class SingerEventDetailsComponent implements OnInit {
       }
 
       if (
-         this.currentSingerEventInstance.dailyStartTime !==
-         this.formControlGroup.controls.dailyStartTimeFieldControl.value
+         moment(this.currentSingerEventInstance.startDateTime).format(
+            'HH:mm'
+         ) !== this.formControlGroup.controls.dailyStartTimeFieldControl.value
       ) {
          return true;
       }
 
       if (
-         this.currentSingerEventInstance.dailyEndTime !==
+         moment(this.currentSingerEventInstance.endDateTime).format('HH:mm') !==
          this.formControlGroup.controls.dailyEndTimeFieldControl.value
       ) {
          return true;
@@ -463,15 +467,10 @@ export class SingerEventDetailsComponent implements OnInit {
       }
 
       if (
-         this.currentSingerEventInstance.dayCareBeforeStartTime !==
+         moment(
+            this.currentSingerEventInstance.dayCareBeforeStartDateTime
+         ).format('HH:mm') !==
          this.formControlGroup.controls.dayCareBeforeStartTimeFieldControl.value
-      ) {
-         return true;
-      }
-
-      if (
-         this.currentSingerEventInstance.dayCareBeforeEndTime !==
-         this.formControlGroup.controls.dayCareBeforeEndTimeFieldControl.value
       ) {
          return true;
       }
@@ -487,14 +486,9 @@ export class SingerEventDetailsComponent implements OnInit {
       }
 
       if (
-         this.currentSingerEventInstance.dayCareAfterStartTime !==
-         this.formControlGroup.controls.dayCareAfterStartTimeFieldControl.value
-      ) {
-         return true;
-      }
-
-      if (
-         this.currentSingerEventInstance.dayCareAfterEndTime !==
+         moment(this.currentSingerEventInstance.dayCareAfterEndDateTime).format(
+            'HH:mm'
+         ) !==
          this.formControlGroup.controls.dayCareAfterEndTimeFieldControl.value
       ) {
          return true;
@@ -509,32 +503,53 @@ export class SingerEventDetailsComponent implements OnInit {
       this.currentSingerEventInstance.allowedAgeGroups = this.formControlGroup.controls.allowedAgeGroupsFieldControl.value;
       this.currentSingerEventInstance.maxRegistrants = this.formControlGroup.controls.maxRegistrantsFieldControl.value;
       this.currentSingerEventInstance.cost = this.formControlGroup.controls.costFieldControl.value;
-      this.currentSingerEventInstance.startRegistrationDate = this.formControlGroup.controls.startRegistrationDateFieldControl.value;
-      this.currentSingerEventInstance.endRegistrationDate = this.formControlGroup.controls.endRegistrationDateFieldControl.value;
-      this.currentSingerEventInstance.finalCancellationDate = this.formControlGroup.controls.finalCancellationDateFieldControl.value;
+
+      this.currentSingerEventInstance.startRegistrationDateTime = this.formControlGroup.controls.startRegistrationDateFieldControl.value;
+      this.currentSingerEventInstance.endRegistrationDateTime = this.formControlGroup.controls.endRegistrationDateFieldControl.value;
+      this.currentSingerEventInstance.finalCancellationDateTime = this.formControlGroup.controls.finalCancellationDateFieldControl.value;
       this.currentSingerEventInstance.registrationOnDailyBasis =
          this.formControlGroup.controls.registrationOnDailyBasisFieldControl
             .value === 'true'
             ? true
             : false;
-      this.currentSingerEventInstance.startDate = this.formControlGroup.controls.startDateFieldControl.value;
-      this.currentSingerEventInstance.endDate = this.formControlGroup.controls.endDateFieldControl.value;
-      this.currentSingerEventInstance.dailyStartTime = this.formControlGroup.controls.dailyStartTimeFieldControl.value;
-      this.currentSingerEventInstance.dailyEndTime = this.formControlGroup.controls.dailyEndTimeFieldControl.value;
+
+      this.currentSingerEventInstance.startDateTime = this._handleDateTimeFields(
+         new Date(this.formControlGroup.controls.startDateFieldControl.value),
+         this.formControlGroup.controls.dailyStartTimeFieldControl.value
+      );
+      this.currentSingerEventInstance.endDateTime = this._handleDateTimeFields(
+         new Date(this.formControlGroup.controls.endDateFieldControl.value),
+         this.formControlGroup.controls.dailyEndTimeFieldControl.value
+      );
       this.currentSingerEventInstance.hasDayCareBefore =
          this.formControlGroup.controls.hasDayCareBeforeFieldControl.value ===
          'true'
             ? true
             : false;
-      this.currentSingerEventInstance.dayCareBeforeStartTime = this.formControlGroup.controls.dayCareBeforeStartTimeFieldControl.value;
-      this.currentSingerEventInstance.dayCareBeforeEndTime = this.formControlGroup.controls.dayCareBeforeEndTimeFieldControl.value;
+      this.currentSingerEventInstance.dayCareBeforeStartDateTime = this._handleDateTimeFields(
+         new Date(this.formControlGroup.controls.startDateFieldControl.value),
+         this.formControlGroup.controls.dayCareBeforeStartTimeFieldControl.value
+      );
       this.currentSingerEventInstance.hasDayCareAfter =
          this.formControlGroup.controls.hasDayCareAfterFieldControl.value ===
          'true'
             ? true
             : false;
-      this.currentSingerEventInstance.dayCareAfterStartTime = this.formControlGroup.controls.dayCareAfterStartTimeFieldControl.value;
-      this.currentSingerEventInstance.dayCareAfterEndTime = this.formControlGroup.controls.dayCareAfterEndTimeFieldControl.value;
+      this.currentSingerEventInstance.dayCareAfterEndDateTime = this._handleDateTimeFields(
+         new Date(this.formControlGroup.controls.endDateFieldControl.value),
+         this.formControlGroup.controls.dayCareAfterEndTimeFieldControl.value
+      );
+   }
+
+   private _handleDateTimeFields(dateField: Date, timeField: string): Date {
+      if (isNullOrUndefined(dateField) || isNullOrUndefined(timeField)) {
+         return new Date();
+      }
+      let timePieces = timeField.split(':');
+      dateField.setHours(parseInt(timePieces[0]));
+      dateField.setMinutes(parseInt(timePieces[1]));
+
+      return dateField;
    }
 
    // Submit the form

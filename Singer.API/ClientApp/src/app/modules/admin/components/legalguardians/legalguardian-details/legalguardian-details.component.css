@@ -13,7 +13,7 @@
 }
 
 /* MULTIPLE FIELDS ON ONE ROW STYLING */
-form > div {
+form > div:not(.adding) {
    display: flex;
    flex-direction: row;
 }

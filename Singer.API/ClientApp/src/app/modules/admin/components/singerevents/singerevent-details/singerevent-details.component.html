@@ -198,7 +198,7 @@
             <mat-datepicker #endRegistrationDatePicker></mat-datepicker>
          </mat-form-field>
 
-         <!-- finalCancellationDate Field -->
+         <!-- finalCancellationDateTime Field -->
          <mat-form-field>
             <input
                matInput
@@ -307,7 +307,6 @@
                formControlName="dailyStartTimeFieldControl"
                [value]="
                   formControlGroup.controls.dailyStartTimeFieldControl.value
-                     | date: 'HH:mm'
                "
             />
             <mat-error
@@ -336,7 +335,6 @@
                formControlName="dailyEndTimeFieldControl"
                [value]="
                   formControlGroup.controls.dailyEndTimeFieldControl.value
-                     | date: 'HH:mm'
                "
             />
             <mat-error
@@ -400,7 +398,7 @@
                formControlName="dayCareBeforeStartTimeFieldControl"
                [value]="
                   formControlGroup.controls.dayCareBeforeStartTimeFieldControl
-                     .value | date: 'HH:mm'
+                     .value
                "
             />
             <mat-error
@@ -418,41 +416,6 @@
             </mat-error>
             <ngx-material-timepicker
                #dayCareBeforeStartTimePicker
-            ></ngx-material-timepicker>
-         </mat-form-field>
-
-         <!-- DayCareBeforeEndTime Field -->
-         <mat-form-field
-            *ngIf="
-               formControlGroup.controls.hasDayCareBeforeFieldControl.value ===
-               'true'
-            "
-         >
-            <input
-               matInput
-               [ngxTimepicker]="dayCareBeforeEndTimePicker"
-               [format]="24"
-               [placeholder]="dayCareBeforeEndTimeFieldPlaceholder"
-               formControlName="dayCareBeforeEndTimeFieldControl"
-               [value]="
-                  formControlGroup.controls.dayCareBeforeEndTimeFieldControl
-                     .value | date: 'HH:mm'
-               "
-            />
-            <mat-error
-               *ngIf="
-                  formControlGroup.controls.dayCareBeforeEndTimeFieldControl
-                     .invalid
-               "
-            >
-               {{
-                  getRequiredFieldErrorMessage(
-                     formControlGroup.controls.dayCareBeforeEndTimeFieldControl
-                  )
-               }}
-            </mat-error>
-            <ngx-material-timepicker
-               #dayCareBeforeEndTimePicker
             ></ngx-material-timepicker>
          </mat-form-field>
       </div>
@@ -480,41 +443,6 @@
             </mat-error>
          </mat-form-field>
 
-         <!-- DayCareAfterStartTime Field -->
-         <mat-form-field
-            *ngIf="
-               formControlGroup.controls.hasDayCareAfterFieldControl.value ===
-               'true'
-            "
-         >
-            <input
-               matInput
-               [ngxTimepicker]="dayCareAfterStartTimePicker"
-               [format]="24"
-               [placeholder]="dayCareAfterStartTimeFieldPlaceholder"
-               formControlName="dayCareAfterStartTimeFieldControl"
-               [value]="
-                  formControlGroup.controls.dayCareAfterStartTimeFieldControl
-                     .value | date: 'HH:mm'
-               "
-            />
-            <mat-error
-               *ngIf="
-                  formControlGroup.controls.dayCareAfterStartTimeFieldControl
-                     .invalid
-               "
-            >
-               {{
-                  getRequiredFieldErrorMessage(
-                     formControlGroup.controls.dayCareAfterStartTimeFieldControl
-                  )
-               }}
-            </mat-error>
-            <ngx-material-timepicker
-               #dayCareAfterStartTimePicker
-            ></ngx-material-timepicker>
-         </mat-form-field>
-
          <!-- DayCareAfterEndTime Field -->
          <mat-form-field
             *ngIf="
@@ -530,7 +458,7 @@
                formControlName="dayCareAfterEndTimeFieldControl"
                [value]="
                   formControlGroup.controls.dayCareAfterEndTimeFieldControl
-                     .value | date: 'HH:mm'
+                     .value
                "
             />
             <mat-error
