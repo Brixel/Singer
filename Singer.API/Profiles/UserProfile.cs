@@ -10,6 +10,11 @@ namespace Singer.Profiles
    {
       public UserProfile()
       {
+         // Generic DTO to User mapping
+         CreateMap<IUpdateUserDTO, User>();
+         CreateMap<ICreateUserDTO, User>();
+         CreateMap<User, UserDTO>();
+
          // CareUsers
          CreateMap<CareUser, CareUserDTO>()
             .ForMember(x => x.FirstName, opt => opt.MapFrom(src => src.User.FirstName))
@@ -18,18 +23,18 @@ namespace Singer.Profiles
          CreateMap<CareUser, LinkedCareUserDTO>()
             .ForMember(x => x.FirstName, opt => opt.MapFrom(src => src.User.FirstName))
             .ForMember(x => x.LastName, opt => opt.MapFrom(src => src.User.LastName));
-         CreateMap<CareUserDTO, CareUser>()
-            .ForMember(x => x.User, opt => opt.MapFrom(src => new User { FirstName = src.FirstName, LastName = src.LastName }));
          CreateMap<CreateCareUserDTO, CareUser>()
-            .ForMember(x => x.User, opt => opt.MapFrom(src => new User { FirstName = src.FirstName, LastName = src.LastName }));
+            .ForMember(m => m.User, o => o.MapFrom(src => src));
          CreateMap<UpdateCareUserDTO, CareUser>()
-            .ForMember(x => x.User, opt => opt.MapFrom(src => new User { FirstName = src.FirstName, LastName = src.LastName }));
+            .ForMember(m => m.User, o => o.MapFrom(src => src));
 
          //LegalGuardianUsers
          CreateMap<CreateLegalGuardianUserDTO, LegalGuardianUser>()
-            .ForMember(x => x.User, opt => opt.MapFrom(src => new User { FirstName = src.FirstName, LastName = src.LastName, Email = src.Email }));
+            .ForMember(m => m.User, o => o.MapFrom(src => src));
+
          CreateMap<UpdateLegalGuardianUserDTO, LegalGuardianUser>()
-            .ForMember(x => x.User, opt => opt.MapFrom(src => new User { FirstName = src.FirstName, LastName = src.LastName, Email = src.Email }));
+            .ForMember(m => m.User, o => o.MapFrom(src => src));
+
          CreateMap<LegalGuardianUser, LegalGuardianUserDTO>()
             .ForMember(x => x.FirstName, opt => opt.MapFrom(src => src.User.FirstName))
             .ForMember(x => x.LastName, opt => opt.MapFrom(src => src.User.LastName))
@@ -46,15 +51,10 @@ namespace Singer.Profiles
             .ForMember(x => x.LastName, opt => opt.MapFrom(src => src.User.LastName))
             .ForMember(x => x.UserName, opt => opt.MapFrom(src => src.User.UserName))
             .ForMember(x => x.Email, opt => opt.MapFrom(src => src.User.Email));
-         CreateMap<AdminUserDTO, AdminUser>()
-            .ForMember(x => x.User, opt => opt.MapFrom(src =>
-               new User { FirstName = src.FirstName, LastName = src.LastName, Email = src.Email, UserName = src.UserName }));
          CreateMap<CreateAdminUserDTO, AdminUser>()
-            .ForMember(x => x.User, opt => opt.MapFrom(src =>
-               new User { FirstName = src.FirstName, LastName = src.LastName, Email = src.Email, UserName = src.Email }));
+            .ForMember(m => m.User, o => o.MapFrom(src => src));
          CreateMap<UpdateAdminUserDTO, AdminUser>()
-            .ForMember(x => x.User, opt => opt.MapFrom(src =>
-               new User { FirstName = src.FirstName, LastName = src.LastName, Email = src.Email, UserName = src.Email }));
+            .ForMember(m => m.User, o => o.MapFrom(src => src));
       }
    }
 }
