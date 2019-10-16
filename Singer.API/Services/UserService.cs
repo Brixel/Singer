@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Singer.Data;
 using Singer.DTOs.Users;
 using Singer.Helpers.Exceptions;
@@ -32,6 +31,13 @@ namespace Singer.Services
       public override async Task<TUserDTO> CreateAsync(
          TCreateUserDTO dto)
       {
+         // We need usernames for AspNetUsers. However, careusers don't have an e-mail address, so no username can be generated
+         // For that reason, we generate a random username.
+         if (string.IsNullOrEmpty(dto.Email))
+         {
+            dto.Email = GenerateRandomUserName(dto.FirstName, dto.LastName);
+         }
+
          var baseUser = new User()
          {
             FirstName = dto.FirstName,
@@ -40,12 +46,6 @@ namespace Singer.Services
             UserName = dto.Email
          };
 
-         // We need usernames for AspNetUsers. However, careusers don't have an e-mail address, so no username can be generated
-         // For that reason, we generate a random username.
-         if (string.IsNullOrEmpty(baseUser.UserName))
-         {
-            baseUser.UserName = GenerateRandomUserName(baseUser.FirstName, baseUser.LastName);
-         }
          // TODO Replace by better temporary password generation approach
          var userCreationResult = await UserManager.CreateAsync(baseUser, "Testpassword123!");
          if (!userCreationResult.Succeeded)
@@ -56,9 +56,11 @@ namespace Singer.Services
 
          var createdUser = await UserManager.FindByEmailAsync(dto.Email);
          var entity = Mapper.Map<TUserEntity>(dto);
+         entity.User = createdUser;
          entity.UserId = createdUser.Id;
-
-         return await base.CreateAsync(dto);
+         var changeTracker = await Context.AddAsync(entity);
+         await Context.SaveChangesAsync();
+         return Mapper.Map<TUserDTO>(changeTracker.Entity);
       }
 
       private string GenerateRandomUserName(string firstName, string lastName)

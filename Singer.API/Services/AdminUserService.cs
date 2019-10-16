@@ -21,7 +21,11 @@ namespace Singer.Services
       }
 
       protected override DbSet<AdminUser> DbSet => Context.AdminUsers;
-      protected override IQueryable<AdminUser> Queryable => Context.AdminUsers;
+      protected override IQueryable<AdminUser> Queryable =>
+         Context.AdminUsers
+            .Include(x => x.User)
+            .AsQueryable();
+
       protected override Expression<Func<AdminUser, bool>> Filter(string filter)
       {
          if (string.IsNullOrWhiteSpace(filter))
