@@ -54,6 +54,8 @@
      <Compile Remove="Migrations\20190908194117_Adds_EventRegistrations.Designer.cs" />
      <Compile Remove="Migrations\20190921181826_AddsEventRegistrationsAndEventSlots.cs" />
      <Compile Remove="Migrations\20190921181826_AddsEventRegistrationsAndEventSlots.Designer.cs" />
+     <Compile Remove="Migrations\20190921190104_AddsEventRegistrationsAndEventSlots.cs" />
+     <Compile Remove="Migrations\20190921190104_AddsEventRegistrationsAndEventSlots.Designer.cs" />
      <Compile Remove="Models\PaginationModel.cs" />
    </ItemGroup>
 

@@ -3,10 +3,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Singer.Migrations
 {
-    public partial class AddsEventRegistrationsAndEventSlots : Migration
+    public partial class createeventregistrationsandeventslots : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+
             migrationBuilder.DropColumn(
                 name: "DailyEndTime",
                 table: "Events");
@@ -26,7 +27,7 @@ namespace Singer.Migrations
             migrationBuilder.DropColumn(
                 name: "currentRegistrants",
                 table: "Events");
-
+         
             migrationBuilder.CreateTable(
                 name: "EventSlots",
                 columns: table => new
@@ -87,7 +88,7 @@ namespace Singer.Migrations
                 name: "IX_EventSlots_EventId",
                 table: "EventSlots",
                 column: "EventId");
-         }
+        }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
@@ -127,6 +128,6 @@ namespace Singer.Migrations
                 nullable: false,
                 defaultValue: 0);
 
-            }
+        }
     }
 }

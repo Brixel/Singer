@@ -10,8 +10,8 @@ using Singer.Data;
 namespace Singer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190921190104_AddsEventRegistrationsAndEventSlots")]
-    partial class AddsEventRegistrationsAndEventSlots
+    [Migration("20191016200246_create-eventregistrations-and-eventslots")]
+    partial class createeventregistrationsandeventslots
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
