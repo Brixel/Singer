@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Inject, NgModule } from '@angular/core';
 import { FormControl, Validators, FormGroup, FormArray } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SingerEvent } from 'src/app/modules/core/models/singerevent.model';
@@ -8,6 +8,7 @@ import { MY_FORMATS } from 'src/app/app.module';
 import * as moment from 'moment';
 import { isNullOrUndefined } from 'util';
 import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location';
+import { NgxMaterialTimepickerTheme } from 'ngx-material-timepicker';
 
 // Data we pass along with the creation of the Mat-Dialog box
 export interface SingerEventDetailsFormData {
@@ -36,12 +37,28 @@ export class SingerEventDetailsComponent implements OnInit {
       k => typeof AgeGroup[k as any] === 'number'
    );
 
-   // Current care user instance
+   // Current singer event instance
    currentSingerEventInstance: SingerEvent;
 
    selectedLocation: SingerEventLocation;
 
    availableLocations: SingerEventLocation[];
+
+   //Custom time picker theme
+   singerTimePickerTheme: NgxMaterialTimepickerTheme = {
+      container: {
+          bodyBackgroundColor: '#c90c0f',
+          buttonColor: '#fff'
+      },
+      dial: {
+          dialBackgroundColor: '#000',
+      },
+      clockFace: {
+          clockFaceBackgroundColor: '#555',
+          clockHandColor: '#9fbd90',
+          clockFaceTimeInactiveColor: '#fff'
+      }
+  };
 
    //#region Binding properties for form:
 
@@ -571,4 +588,5 @@ export class SingerEventDetailsComponent implements OnInit {
    closeForm() {
       this.dialogRef.close();
    }
+
 }
