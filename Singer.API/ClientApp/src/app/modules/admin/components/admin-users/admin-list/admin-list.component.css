@@ -90,7 +90,7 @@ tr.selectable:active {
    font-family: Roboto, Arial, sans-serif;
    font-size: 1em;
    /* Override of the default material styling */
-   background-color: var(--singer-theme-primary);
+   color: var(--singer-theme-primary);
 }
 
 .spacer {
