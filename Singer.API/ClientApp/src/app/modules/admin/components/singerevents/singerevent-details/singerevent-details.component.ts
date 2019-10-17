@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Inject, NgModule } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { FormControl, Validators, FormGroup, FormArray } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SingerEvent } from 'src/app/modules/core/models/singerevent.model';

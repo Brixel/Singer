@@ -117,6 +117,13 @@ tr.selectable:active {
 }
 
 /* TABLE FOOTER STYLING */
+.tableButton {
+   font-family: Roboto, Arial, sans-serif;
+   font-size: 1em;
+   /* Override of the default material styling */
+   color: var(--singer-theme-primary);
+}
+
 .spacer {
    flex: 1 1 auto;
 }
