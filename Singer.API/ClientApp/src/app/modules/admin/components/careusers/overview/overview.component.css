@@ -40,18 +40,22 @@ table {
 /* TABLE HEADER STYLING */
 th {
    font-size: 0.9em;
+   /* Override of the default material styling */
    background-color: var(--singer-theme-primary);
    color: var(--singer-theme-light-primary-text);
 }
 
 /* SORTING ARROW STYLING */
 ::ng-deep .mat-sort-header-arrow {
+   /* Override of the default material styling */
    color: var(--singer-theme-light-primary-text);
 }
 
 /* SELECTABLE ROW STYLING */
 tr.selectable:hover {
+   /* Override of the default material styling */
    background: var(--singer-theme-accent-lighter);
+
    cursor: pointer;
 }
 
