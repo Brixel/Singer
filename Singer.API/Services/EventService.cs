@@ -87,10 +87,7 @@ namespace Singer.Services
 
       private IEnumerable<EventSlot> GenerateEventSlots(CreateEventDTO dto)
       {
-         if (dto.RepeatSettings == null)
-            return null;
-
-         switch (dto.RepeatSettings.RepeatType)
+         switch (dto.RepeatSettings?.RepeatType)
          {
             case RepeatType.OnDate:
                return EventSlot.GenerateEventSlotsUntil(
@@ -104,9 +101,13 @@ namespace Singer.Services
                   dto.EndDateTime,
                   dto.RepeatSettings.NumberOfRepeats,
                   dto.RepeatSettings.IntervalUnit);
+            default:
+               return EventSlot.GenerateNumberOfEventSlots(
+                  dto.StartDateTime,
+                  dto.EndDateTime,
+                  1,
+                  default);
          }
-
-         return default;
       }
    }
 }
