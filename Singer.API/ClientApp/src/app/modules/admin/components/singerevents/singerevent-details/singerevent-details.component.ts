@@ -44,22 +44,6 @@ export class SingerEventDetailsComponent implements OnInit {
 
    availableLocations: SingerEventLocation[];
 
-   //Custom time picker theme
-   singerTimePickerTheme: NgxMaterialTimepickerTheme = {
-      container: {
-          bodyBackgroundColor: '#c90c0f',
-          buttonColor: '#fff'
-      },
-      dial: {
-          dialBackgroundColor: '#000',
-      },
-      clockFace: {
-          clockFaceBackgroundColor: '#555',
-          clockHandColor: '#9fbd90',
-          clockFaceTimeInactiveColor: '#fff'
-      }
-  };
-
    //#region Binding properties for form:
 
    // Form placeholders
