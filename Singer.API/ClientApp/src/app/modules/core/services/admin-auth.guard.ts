@@ -18,13 +18,15 @@ export class AdminAuthGuard implements CanActivate {
       next: ActivatedRouteSnapshot,
       state: RouterStateSnapshot
    ): Observable<boolean> | Promise<boolean> | boolean {
-      return this.authService.isAdmin$.pipe(map(res => {
-         if(res){
-            return  true;
-         } else {
-            this.router.navigate(['/']);
-            return false;
-         }
-      }));
+      return this.authService.isAdmin$.pipe(
+         map(res => {
+            if (res) {
+               return true;
+            } else {
+               this.router.navigate(['/']);
+               return false;
+            }
+         })
+      );
    }
 }
