@@ -13,12 +13,6 @@ const routes: Routes = [
       loadChildren: './modules/dashboard/dashboard.module#DashboardModule',
       component: MainComponent,
    },
-   {
-      path: 'admin',
-      loadChildren: './modules/admin/admin.module#AdminModule',
-      component: MainComponent,
-      canActivate:[AuthGuard, AdminAuthGuard]
-   },
    { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
 ];
 
