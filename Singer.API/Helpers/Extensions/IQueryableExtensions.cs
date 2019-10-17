@@ -114,12 +114,12 @@ namespace Singer.Helpers.Extensions
 
          var items = totalItemsCount <= 0
             ? new List<TProjection>()
-            : await filteredQueryable
+            : filteredQueryable
                .ProjectTo<TProjection>(mapper.ConfigurationProvider)
                .OrderBy(orderByLambda, sortDirection)
                .TakePage(pageIndex, pageSize)
-               .ToListAsync()
-               .ConfigureAwait(false);
+               .ToList();
+               //.ConfigureAwait(false);
 
          var result = new SearchResults<TProjection>(items, totalItemsCount, pageIndex);
          return result;
