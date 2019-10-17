@@ -120,6 +120,7 @@ namespace Singer
                .RequireAuthenticatedUser()
                .Build();
          });
+         services.AddAuthorization();
 
 
          // In production, the Angular files will be served from this directory

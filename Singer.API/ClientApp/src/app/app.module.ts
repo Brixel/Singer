@@ -14,16 +14,10 @@ import { AuthGuard } from './modules/core/services/auth.guard';
 import { AuthInterceptor } from './modules/core/services/auth-interceptor';
 import { NavMenuComponent } from './modules/core/components/nav-menu/nav-menu.component';
 import { MAT_DATE_FORMATS, NativeDateModule, MatDatepickerIntl, MAT_DATE_LOCALE } from '@angular/material';
+import { RouterModule } from '@angular/router';
+import { AdminModule } from './modules/admin/admin.module';
 
-export const MY_FORMATS = {
-   parse: {
-     dateInput: 'D-MM-YYYY',
-   },
-   display: {
-     dateInput: 'D-MM-YYYY',
-     monthYearLabel: 'MMM YYYY'
-   },
- };
+
 export function tokenGetter():string {
    return localStorage.getItem('token');
  }
@@ -36,6 +30,7 @@ export function tokenGetter():string {
    imports: [
       BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
       AppRoutingModule,
+      AdminModule,
       HttpClientModule,
       MaterialModule,
       BrowserAnimationsModule,
@@ -60,10 +55,9 @@ export function tokenGetter():string {
          useFactory: initializeApp,
          deps: [AuthService],
          multi: true},
-      {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},{provide: MAT_DATE_LOCALE, useValue: 'nl-BE'},
       BrowserAnimationsModule,
    ],
-   bootstrap: [AppComponent],
+   bootstrap: [AppComponent]
 })
 export class AppModule {}
 
