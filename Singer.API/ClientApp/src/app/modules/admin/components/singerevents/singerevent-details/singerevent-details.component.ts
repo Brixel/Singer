@@ -8,6 +8,7 @@ import * as moment from 'moment';
 import { isNullOrUndefined } from 'util';
 import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location';
 import { MY_FORMATS } from 'src/app/modules/core/core.module';
+import { NgxMaterialTimepickerTheme } from 'ngx-material-timepicker';
 
 // Data we pass along with the creation of the Mat-Dialog box
 export interface SingerEventDetailsFormData {
@@ -42,6 +43,18 @@ export class SingerEventDetailsComponent implements OnInit {
    selectedLocation: SingerEventLocation;
 
    availableLocations: SingerEventLocation[];
+
+   singerTimePickerTheme: NgxMaterialTimepickerTheme = {
+      container: {
+          buttonColor: '#c90c0f'
+      },
+      dial: {
+          dialBackgroundColor: '#c90c0f',
+      },
+      clockFace: {
+          clockHandColor: '#c90c0f',
+      }
+  };
 
    //#region Binding properties for form:
 
