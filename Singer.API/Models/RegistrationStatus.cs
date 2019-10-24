@@ -2,7 +2,6 @@ using System;
 
 namespace Singer.Models
 {
-   [Flags]
    public enum RegistrationStatus
    {
       Pending =  0b001,
