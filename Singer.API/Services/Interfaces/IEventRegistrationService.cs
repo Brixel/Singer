@@ -18,6 +18,7 @@ namespace Singer.Services.Interfaces
          int pageIndex = 0,
          int itemsPerPage = 15);
 
+      Task<EventRegistrationDTO> GetOneBySlotAsync(Guid eventSlotId, Guid careUserId);
       Task<EventRegistrationDTO> GetOneAsync(Guid eventId, Guid registrationId);
 
       Task<IReadOnlyList<EventRegistrationDTO>> CreateAsync(CreateEventRegistrationDTO dto);

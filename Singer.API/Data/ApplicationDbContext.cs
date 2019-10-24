@@ -45,6 +45,9 @@ namespace Singer.Data
             .HasOne(x => x.EventSlot)
             .WithMany(x => x.Registrations);
 
+         builder.Entity<EventRegistration>()
+            .HasIndex(x => new { x.CareUserId, x.EventSlotId }).IsUnique();
+
          builder.Entity<CareUser>()
             .HasMany(x => x.EventRegistrations)
             .WithOne(x => x.CareUser)

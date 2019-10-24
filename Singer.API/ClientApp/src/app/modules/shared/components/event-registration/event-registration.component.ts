@@ -40,11 +40,8 @@ export class EventRegistrationComponent implements OnInit {
             );
          },
          err => {
-            this._snackBar.open(
-               `⚠ Inschrijven van gebruiker ${careUser.firstName} ${careUser.lastName} op het evenement: ${event.title} is mislukt!`,
-               'OK',
-               { duration: 2000 }
-            );
+            console.log(err);
+            this._snackBar.open(`⚠ ${err}`, 'OK');
          }
       );
    }

@@ -125,6 +125,16 @@ namespace Singer.Services
          return new SearchResults<EventRegistrationDTO>(list, totalItemCount, pageIndex);
       }
 
+      public async Task<EventRegistrationDTO> GetOneBySlotAsync(Guid eventSlotId, Guid careUserId)
+      {
+         var registration = await Context.EventRegistrations
+            .Where(x => x.EventSlotId == eventSlotId && x.CareUserId == careUserId)
+            .Select(Projector)
+            .FirstOrDefaultAsync()
+            .ConfigureAwait(false);
+
+         return registration;
+      }
       public async Task<EventRegistrationDTO> GetOneAsync(Guid eventId, Guid registrationId)
       {
          var registration = await Context.EventRegistrations
@@ -134,7 +144,7 @@ namespace Singer.Services
             .ConfigureAwait(false);
 
          if (registration == default)
-            throw new NotFoundException($"There is not registration with id {registrationId} and event id {eventId}");
+            throw new NotFoundException($"There is no registration with id {registrationId} and event id {eventId}");
 
          return registration;
       }
@@ -147,7 +157,7 @@ namespace Singer.Services
             .ConfigureAwait(false);
 
          if (registration == default)
-            throw new NotFoundException($"There is not registration with id {registrationId} and event id {eventId}");
+            throw new NotFoundException($"There is no registration with id {registrationId} and event id {eventId}");
 
          Context.Entry(registration).State = EntityState.Detached;
          registration.Status = status;
@@ -167,7 +177,7 @@ namespace Singer.Services
             .ConfigureAwait(false);
 
          if (registration == default)
-            throw new NotFoundException($"There is not registration with id {registrationId} and event id {eventId}");
+            throw new NotFoundException($"There is no registration with id {registrationId} and event id {eventId}");
 
          Context.Remove(registration);
          await Context.SaveChangesAsync()
