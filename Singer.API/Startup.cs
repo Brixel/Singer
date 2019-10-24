@@ -139,6 +139,7 @@ namespace Singer
          services.AddScoped<IEventLocationService, EventLocationService>();
          services.AddScoped<IAdminUserService, AdminUserService>();
          services.AddScoped<IEventService, EventService>();
+         services.AddScoped<IEventRegistrationService, EventRegistrationService>();
 
       }
 
