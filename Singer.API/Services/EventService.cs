@@ -10,19 +10,44 @@ using Singer.DTOs;
 using Singer.Models;
 using Singer.Services.Interfaces;
 using Singer.Profiles;
+using Singer.Helpers.Extensions;
+using Singer.Helpers.Enums;
 
 namespace Singer.Services
 {
-   public class EventService : DatabaseService<Event, EventDTO, CreateEventDTO, UpdateEventDTO>,
-      IEventService
+   public class EventService
+      : DatabaseService<Event, EventDTO, CreateEventDTO, UpdateEventDTO>, IEventService
    {
       public EventService(ApplicationDbContext context, IMapper mapper) : base(context, mapper)
       {
       }
 
+
       protected override DbSet<Event> DbSet => Context.Events;
 
       protected override IQueryable<Event> Queryable => Context.Events.Include(x => x.Location);
+
+
+      public override async Task<EventDTO> CreateAsync(CreateEventDTO dto)
+      {
+         if (dto == null)
+            throw new Helpers.Exceptions.BadInputException("The value to create cannot be null");
+
+         // add slots for all the days in the event
+         var slots = GenerateEventSlots(dto).ToList();
+
+         // project the DTO to an entity
+         var entity = Mapper.Map<Event>(dto);
+         entity.EventSlots = slots;
+
+         Context.Add(entity);
+         await Context.SaveChangesAsync().ConfigureAwait(false);
+
+         var returnEntity = await GetOneAsync(entity.Id).ConfigureAwait(false);
+
+         // return the new created entity
+         return returnEntity;
+      }
 
       protected override Expression<Func<Event, bool>> Filter(string filter)
       {
@@ -40,41 +65,49 @@ namespace Singer.Services
 
       public async Task<IReadOnlyList<EventDescriptionDTO>> GetPublicEventsAsync(SearchEventParamsDTO searchEventParamsDto)
       {
-         var today = DateTime.Today;
-
-         Expression<Func<Event, bool>> useStartDate =
-            x => x.StartDateTime >= today &&
-                 (!searchEventParamsDto.StartDate.HasValue || x.StartDateTime == searchEventParamsDto.StartDate.Value) &&
-                 (!searchEventParamsDto.EndDate.HasValue || x.EndDateTime <= searchEventParamsDto.EndDate.Value) &&
-            (!searchEventParamsDto.LocationId.HasValue || x.LocationId == searchEventParamsDto.LocationId.Value);
-
-         var filteredEvents = Queryable.Where(useStartDate);
-         return await filteredEvents.Select(x => new EventDescriptionDTO()
-         {
-            Id = x.Id,
-            AgeGroups = EventProfile.ToAgeGroupList(x.AllowedAgeGroups),
-            Description = x.Description,
-            Title = x.Title,
-            StartDate = x.StartDateTime,
-            EndDate = x.EndDateTime
-         }).ToListAsync();
+         return await Queryable
+            .Where(x =>
+               // check location
+               (!searchEventParamsDto.LocationId.HasValue || x.LocationId == searchEventParamsDto.LocationId.Value) &&
+               // check start date
+               (!searchEventParamsDto.StartDate.HasValue || x.EventSlots.OrderBy(y => y.StartDateTime).First().StartDateTime == searchEventParamsDto.StartDate) &&
+               // check end date
+               (!searchEventParamsDto.EndDate.HasValue || x.EventSlots.OrderBy(y => y.EndDateTime).First().EndDateTime <= searchEventParamsDto.EndDate))
+            .Select(x => new EventDescriptionDTO
+            {
+               AgeGroups = EventProfile.ToAgeGroupList(x.AllowedAgeGroups),
+               Description = x.Description,
+               Title = x.Title,
+               StartDate = x.EventSlots.OrderBy(y => y.StartDateTime).First().StartDateTime,
+               EndDate = x.EventSlots.OrderByDescending(y => y.EndDateTime).First().EndDateTime
+            })
+            .ToListAsync()
+            .ConfigureAwait(false);
       }
-   }
 
-   public class EventDescriptionDTO
-   {
-      public Guid Id { get; set; }
-      public string Title { get; set; }
-      public string Description { get; set; }
-      public DateTime StartDate { get; set; }
-      public DateTime EndDate { get; set; }
-      public IReadOnlyList<AgeGroup> AgeGroups { get; set; }
-   }
-
-   public class SearchEventParamsDTO
-   {
-      public DateTime? StartDate { get; set; }
-      public DateTime? EndDate { get; set; }
-      public Guid? LocationId { get; set; }
+      private IEnumerable<EventSlot> GenerateEventSlots(CreateEventDTO dto)
+      {
+         switch (dto.RepeatSettings?.RepeatType)
+         {
+            case RepeatType.OnDate:
+               return EventSlot.GenerateEventSlotsUntil(
+                  dto.StartDateTime,
+                  dto.EndDateTime,
+                  dto.RepeatSettings.StopRepeatDate,
+                  dto.RepeatSettings.IntervalUnit);
+            case RepeatType.AfterXTimes:
+               return EventSlot.GenerateNumberOfEventSlots(
+                  dto.StartDateTime,
+                  dto.EndDateTime,
+                  dto.RepeatSettings.NumberOfRepeats,
+                  dto.RepeatSettings.IntervalUnit);
+            default:
+               return EventSlot.GenerateNumberOfEventSlots(
+                  dto.StartDateTime,
+                  dto.EndDateTime,
+                  1,
+                  default);
+         }
+      }
    }
 }

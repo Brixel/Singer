@@ -1,8 +1,10 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 using AutoMapper;
+using IdentityModel;
 using IdentityServer4.AccessTokenValidation;
 using IdentityServer4.EntityFramework.DbContexts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -111,6 +113,7 @@ namespace Singer
                options.ApiName = "singer.api";
                // URL of my authorization server
                options.Authority = authority;
+               options.RoleClaimType = ClaimTypes.Role;
             });
 
          // Making JWT authentication scheme the default
@@ -120,13 +123,14 @@ namespace Singer
                .RequireAuthenticatedUser()
                .Build();
          });
+         services.AddAuthorization();
 
 
          // In production, the Angular files will be served from this directory
-         services.AddSpaStaticFiles(configuration =>
-         {
-            configuration.RootPath = "ClientApp/dist";
-         });
+         //services.AddSpaStaticFiles(configuration =>
+         //{
+         //   configuration.RootPath = "ClientApp/dist";
+         //});
 
          // Register the Swagger services
          services.AddOpenApiDocument(config =>
@@ -167,6 +171,7 @@ namespace Singer
          services.AddScoped<IEventLocationService, EventLocationService>();
          services.AddScoped<IAdminUserService, AdminUserService>();
          services.AddScoped<IEventService, EventService>();
+         services.AddScoped<IEventRegistrationService, EventRegistrationService>();
 
       }
 
@@ -195,8 +200,8 @@ namespace Singer
          app.UseHttpsRedirection();
          app.UseAuthentication();
 
-         app.UseStaticFiles();
-         app.UseSpaStaticFiles();
+         //app.UseStaticFiles();
+         //app.UseSpaStaticFiles();
 
          app.UseExceptionMiddleware();
          app.UseIdentityServer();

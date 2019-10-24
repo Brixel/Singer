@@ -45,5 +45,7 @@ namespace Singer.Models.Users
 
       [PersonalData]
       public bool HasResources { get; set; }
+
+      public List<EventRegistration> EventRegistrations { get; set; }
    }
 }

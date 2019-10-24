@@ -22,7 +22,9 @@ namespace Singer.Services
 
       protected override IQueryable<CareUser> Queryable => Context.CareUsers
          .Include(x => x.User)
-         .Include(x => x.LegalGuardianCareUsers).ThenInclude(x => x.LegalGuardian).ThenInclude(x => x.User)
+         .Include(x => x.LegalGuardianCareUsers)
+            .ThenInclude(x => x.LegalGuardian)
+            .ThenInclude(x => x.User)
          .Include(x => x.NormalDaycareLocation)
          .Include(x => x.VacationDaycareLocation)
          .AsQueryable();

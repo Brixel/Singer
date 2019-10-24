@@ -92,13 +92,11 @@ namespace Singer.Services
       /// </summary>
       /// <param name="dto">The new value for the database. This will be converted to an entity.</param>
       /// <returns>The new created <see cref="TEntity"/> converted to a <see cref="TDTO"/>.</returns>
-      public virtual async Task<TDTO> CreateAsync(
-         TCreateDTO dto)
+      public virtual async Task<TDTO> CreateAsync(TCreateDTO dto)
       {
          // project the DTO to an entity
          var entity = Mapper.Map<TEntity>(dto);
          var changeTracker = await Context.AddAsync(entity);
-         //var changeTracker = await DbSet.AddAsync(entity);
          await Context.SaveChangesAsync();
          return Mapper.Map<TDTO>(changeTracker.Entity);
       }
