@@ -46,13 +46,13 @@ export class SingerEventDetailsComponent implements OnInit {
 
    singerTimePickerTheme: NgxMaterialTimepickerTheme = {
       container: {
-          buttonColor: '#c90c0f'
+          buttonColor: '#326EB9'
       },
       dial: {
-          dialBackgroundColor: '#c90c0f',
+          dialBackgroundColor: '#326EB9',
       },
       clockFace: {
-          clockHandColor: '#c90c0f',
+          clockHandColor: '#326EB9',
       }
   };
 
