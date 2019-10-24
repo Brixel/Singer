@@ -10,6 +10,10 @@ import {
    EventRelevantCareUserDTO,
 } from '../../models/singerevent.model';
 import { PaginationDTO } from '../../models/pagination.model';
+import {
+   EventRegistrationDTO,
+   CreateEventRegistrationDTO,
+} from '../../models/event-registration';
 
 @Injectable({
    providedIn: 'root',
@@ -54,6 +58,15 @@ export class SingerEventsProxy {
    ): Observable<EventRelevantCareUserDTO[]> {
       return this.apiService
          .get(`api/event/${eventId}/getcareusers`)
+         .pipe(map(res => res));
+   }
+
+   registerCareUser(
+      eventId: string,
+      dto: CreateEventRegistrationDTO
+   ): Observable<EventRegistrationDTO> {
+      return this.apiService
+         .post(`api/event/${eventId}/registrations`, dto)
          .pipe(map(res => res));
    }
 }

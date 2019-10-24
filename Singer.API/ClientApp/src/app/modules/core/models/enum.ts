@@ -5,3 +5,9 @@ export enum AgeGroup {
    Youngster = 8,
    Adult = 16,
 }
+
+export enum RegistrationStatus {
+   Pending = 1,
+   Accepted = 2,
+   Rejected = 4,
+}

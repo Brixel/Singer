@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { SingerEventsProxy } from './singerevents.proxy';
 import { map } from 'rxjs/operators';
 import { PaginationDTO } from '../../models/pagination.model';
+import { CreateEventRegistrationDTO } from '../../models/event-registration';
 
 @Injectable({
    providedIn: 'root',
@@ -86,5 +87,13 @@ export class SingerEventsService {
 
    getRelevantCareUsers(eventId: string) {
       return this.singerEventsProxy.getRelevantCareUsers(eventId);
+   }
+
+   registerCareUser(eventId: string, careUserId: string) {
+      const eventRegDTO = <CreateEventRegistrationDTO>{
+         careUserId: careUserId,
+         eventId: eventId,
+      };
+      return this.singerEventsProxy.registerCareUser(eventId, eventRegDTO);
    }
 }

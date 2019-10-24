@@ -31,10 +31,21 @@ export class EventRegistrationComponent implements OnInit {
       event: EventDescription,
       careUser: EventRelevantCareUserDTO
    ) {
-      this._snackBar.open(
-         `${careUser.firstName} ${careUser.lastName} werd ingeschreven voor het evenement: ${event.title}`,
-         'OK',
-         { duration: 2000 }
+      this._eventService.registerCareUser(event.id, careUser.id).subscribe(
+         res => {
+            this._snackBar.open(
+               `${careUser.firstName} ${careUser.lastName} werd ingeschreven voor het evenement: ${event.title}`,
+               'OK',
+               { duration: 2000 }
+            );
+         },
+         err => {
+            this._snackBar.open(
+               `⚠ Inschrijven van gebruiker ${careUser.firstName} ${careUser.lastName} op het evenement: ${event.title} is mislukt!`,
+               'OK',
+               { duration: 2000 }
+            );
+         }
       );
    }
 }
