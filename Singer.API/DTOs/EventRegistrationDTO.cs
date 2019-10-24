@@ -19,13 +19,13 @@ namespace Singer.DTOs
    {
       public Guid EventId { get; set; }
       public Guid CareUserId { get; set; }
-      public RegistrationStatus Status { get; set; }
+      public RegistrationStatus? Status { get; set; }
    }
 
    public class UpdateEventRegistrationDTO
    {
       public Guid EventSlotId { get; set; }
       public Guid CareUserId { get; set; }
-      public RegistrationStatus Status { get; set; }
+      public RegistrationStatus? Status { get; set; }
    }
 }

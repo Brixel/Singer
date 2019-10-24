@@ -10,7 +10,7 @@ using Singer.Models;
 using Singer.Services.Interfaces;
 using System;
 using System.ComponentModel;
-using System.Linq.Expressions;
+using Singer.Configuration;
 
 namespace Singer.Controllers
 {
@@ -51,6 +51,10 @@ namespace Singer.Controllers
          if (eventId != dto.EventId)
             throw new BadInputException("The event id in the url and the body doe not match");
 
+         if (!User.IsInRole(Roles.ROLE_ADMINISTRATOR) && dto.Status != null)
+         {
+            throw new BadInputException("As a non-admin user, you are not allowed to pass a status for the registration!");
+         }
          var eventRegistration = await _eventRegistrationService.CreateAsync(dto);
          return Created(nameof(Get), eventRegistration);
       }

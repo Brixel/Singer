@@ -37,6 +37,7 @@ namespace Singer.Services
          CareUser = Mapper.Map<CareUserDTO>(x.CareUser),
          EventDescription = new EventDescriptionDTO
          {
+            Id = x.EventSlot.Event.Id,
             AgeGroups = EventProfile.ToAgeGroupList(x.EventSlot.Event.AllowedAgeGroups),
             Description = x.EventSlot.Event.Description,
             Title = x.EventSlot.Event.Title,
