@@ -1,69 +1,51 @@
 <header>
-   <mat-toolbar color="primary">
-      <span>Singer</span>
+   <nav mat-tab-nav-bar [backgroundColor]="accent">
+      <!-- <section class="mat-typography">
+         <span>Singer</span>
+      </section> -->
+
       <span class="fill-remaining-space"></span>
-      <a
-         mat-raised-button
-         [routerLink]="['/dashboard']"
-         [routerLinkActiveOptions]="{ exact: true }"
-         routerLinkActive="mat-accent"
-      >
+
+
+
+      <a mat-tab-link [routerLink]="['/dashboard']" [routerLinkActiveOptions]="{ exact: true }"
+         routerLinkActive="mat-accent">
          Start
       </a>
-      <a
-         *ngIf="isAuthenticated() && isAdmin"
-         mat-raised-button
-         [routerLink]="['/admin/voogden']"
-         routerLinkActive="mat-accent"
-      >
+      <a *ngIf="isAuthenticated() && isAdmin" mat-tab-link [routerLink]="['/admin/voogden']"
+         routerLinkActive="mat-accent" active="true">
          Voogden
       </a>
-      <a
-         *ngIf="isAuthenticated() && isAdmin"
-         mat-raised-button
-         [routerLink]="['/admin/zorggebruikers']"
-         routerLinkActive="mat-accent"
-      >
+      <a *ngIf="isAuthenticated() && isAdmin" mat-tab-link [routerLink]="['/admin/zorggebruikers']"
+         routerLinkActive="mat-accent">
          Zorg gebruikers
       </a>
-      <a
-         *ngIf="isAuthenticated() && isAdmin"
-         mat-raised-button
-         [routerLink]="['/admin/beheerders']"
-         routerLinkActive="mat-accent"
-      >
+      <a *ngIf="isAuthenticated() && isAdmin" mat-tab-link [routerLink]="['/admin/beheerders']"
+         routerLinkActive="mat-accent">
          Beheerders
       </a>
-      <a
-         *ngIf="isAuthenticated() && isAdmin"
-         mat-raised-button
-         [routerLink]="['/admin/evenementen']"
-         routerLinkActive="mat-accent"
-      >
+      <a *ngIf="isAuthenticated() && isAdmin" mat-tab-link [routerLink]="['/admin/evenementen']"
+         routerLinkActive="mat-accent">
          Evenementen
       </a>
-      <a
-         *ngIf="isAuthenticated()"
-         mat-raised-button
-         [routerLink]="['/dashboard/about']"
-         routerLinkActive="mat-accent"
-      >
+      <a *ngIf="isAuthenticated()" mat-tab-link [routerLink]="['/dashboard/about']" routerLinkActive="mat-accent">
          Over
       </a>
-      <a
-         *ngIf="!isAuthenticated()"
-         mat-raised-button
-         [routerLink]="['/login']"
-         routerLinkActive="mat-accent"
-      >
+      <a *ngIf="!isAuthenticated()" mat-tab-link [routerLink]="['/login']" routerLinkActive="mat-accent">
          Login
       </a>
-      <button
-         *ngIf="isAuthenticated()"
-         mat-raised-button
-         (click)="onLogoutClicked()"
-      >
-         Logout
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+         <mat-icon>more_vert</mat-icon>
       </button>
-   </mat-toolbar>
+      <mat-menu #menu="matMenu">
+         <button mat-menu-item *ngIf="isAuthenticated()" (click)="onLogoutClicked()">
+            <mat-icon>close</mat-icon>
+            <span>Logout</span>
+         </button>
+         <button mat-menu-item *ngIf="isAuthenticated()" [routerLink]="['/dashboard/about']">
+            <mat-icon>info</mat-icon>
+            <span>About</span>
+         </button>
+      </mat-menu>
+   </nav>
 </header>
