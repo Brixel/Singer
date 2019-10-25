@@ -1,11 +1,13 @@
 <header>
    <nav mat-tab-nav-bar [backgroundColor]="'primary'">
 
+      <!-- Navbar Title -->
       <section class="mat-typography">
          <span class="navbar-title">Singer</span>
       </section>
       <span class="fill-remaining-space"></span>
 
+      <!-- Navbar Links -->
       <ng-container *ngFor="let routerLink of routerLinks">
          <a mat-tab-link
             *ngIf="checkRequirements(routerLink.RouterLinkRequirements)"
@@ -16,33 +18,7 @@
          </a>
       </ng-container>
 
-      <!-- <a mat-tab-link [routerLink]="['/dashboard']" [routerLinkActiveOptions]="{ exact: true }"
-         routerLinkActive="mat-accent">
-         Start
-      </a>
-      <a *ngIf="isAuthenticated() && isAdmin" mat-tab-link [routerLink]="['/admin/voogden']"
-         routerLinkActive="mat-accent" active="true">
-         Voogden
-      </a>
-      <a *ngIf="isAuthenticated() && isAdmin" mat-tab-link [routerLink]="['/admin/zorggebruikers']"
-         routerLinkActive="mat-accent">
-         Zorg gebruikers
-      </a>
-      <a *ngIf="isAuthenticated() && isAdmin" mat-tab-link [routerLink]="'/admin/beheerders'"
-         routerLinkActive="mat-accent">
-         Beheerders
-      </a>
-      <a *ngIf="isAuthenticated() && isAdmin" mat-tab-link [routerLink]="'/admin/evenementen'"
-         routerLinkActive="mat-accent">
-         Evenementen
-      </a>
-      <a *ngIf="isAuthenticated()" mat-tab-link [routerLink]="'/dashboard/about'" routerLinkActive="mat-accent">
-         Over
-      </a>
-      <a *ngIf="!isAuthenticated()" mat-tab-link [routerLink]="'/login'" routerLinkActive="mat-accent">
-         Login
-      </a> -->
-
+      <!-- Navbar Show More Menu -->
       <button mat-icon-button
               [matMenuTriggerFor]="menu">
          <mat-icon class="material-icons recenter color_white circle-icon-background">
@@ -50,21 +26,18 @@
          </mat-icon>
       </button>
       <mat-menu #menu="matMenu">
-
-            <button mat-menu-item
-                   *ngIf="!isAuthenticated()"
-                   [routerLink]="'/login'">
-                  <mat-icon>account_circle</mat-icon>
-                  <span>Login</span>
-            </button>
-
+         <button mat-menu-item
+                  *ngIf="!isAuthenticated()"
+                  [routerLink]="'/login'">
+               <mat-icon>account_circle</mat-icon>
+               <span>Login</span>
+         </button>
          <button mat-menu-item
                  *ngIf="isAuthenticated()"
                  (click)="onLogoutClicked()">
             <mat-icon>close</mat-icon>
             <span>Logout</span>
          </button>
-
          <button mat-menu-item
                  *ngIf="isAuthenticated()"
                  [routerLink]="'/dashboard/about'"
@@ -72,7 +45,6 @@
             <mat-icon>info</mat-icon>
             <span>About</span>
          </button>
-
       </mat-menu>
    </nav>
 </header>
