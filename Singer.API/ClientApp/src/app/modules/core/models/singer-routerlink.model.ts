@@ -1,5 +1,3 @@
-import { Route } from "@angular/router";
-
 export interface SingerRouterLink {
    RouterLinkName:string,
    RouterLinkRequirements:singerRouterLinkRequirements[],
