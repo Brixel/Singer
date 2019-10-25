@@ -1,8 +1,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { Observable } from 'rxjs';
 import { SingerRouterLink, singerRouterLinkRequirements } from '../../models/singer-routerlink.model';
-import { AdminAuthGuard } from '../../services/admin-auth.guard';
 
 @Component({
    selector: 'app-nav-menu',
@@ -10,9 +8,9 @@ import { AdminAuthGuard } from '../../services/admin-auth.guard';
    styleUrls: ['./nav-menu.component.css'],
 })
 export class NavMenuComponent {
-   isExpanded = false;
 
    @Output() logoutEvent = new EventEmitter();
+
    isAdmin: boolean;
 
    routerLinks:SingerRouterLink[] = [
@@ -84,14 +82,6 @@ export class NavMenuComponent {
    }
    onLogoutClicked(){
       this.logoutEvent.emit();
-   }
-
-   collapse() {
-      this.isExpanded = false;
-   }
-
-   toggle() {
-      this.isExpanded = !this.isExpanded;
    }
 
    // Checks a list of RouterLinkRequirements
