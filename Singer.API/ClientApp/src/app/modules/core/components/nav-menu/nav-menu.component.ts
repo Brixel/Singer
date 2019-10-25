@@ -63,6 +63,7 @@ export class NavMenuComponent {
    ]
 
    activeRouterLink:SingerRouterLink = this.routerLinks[0];
+
    emptyRouterLink:SingerRouterLink = {
       RouterLinkName: "",
          RouterLinkRequirements: [
@@ -80,6 +81,7 @@ export class NavMenuComponent {
    isAuthenticated(): boolean{
       return this.authService.isAuthenticated();
    }
+
    onLogoutClicked(){
       this.logoutEvent.emit();
    }
@@ -102,10 +104,10 @@ export class NavMenuComponent {
 
    // Checks an individual RouterLinkRequirement
    checkRequirement(requirement:string):boolean {
-         debugger;
-         if(requirement == singerRouterLinkRequirements.none) return true;
-         if(requirement == singerRouterLinkRequirements.isAdmin) return this.isAdmin;
-         if(requirement == singerRouterLinkRequirements.isAuthenticated) return this.isAuthenticated();
-         if(requirement == singerRouterLinkRequirements.isNotAuthenticated) return !this.isAuthenticated();
+      debugger;
+      if(requirement == singerRouterLinkRequirements.none) return true;
+      if(requirement == singerRouterLinkRequirements.isAdmin) return this.isAdmin;
+      if(requirement == singerRouterLinkRequirements.isAuthenticated) return this.isAuthenticated();
+      if(requirement == singerRouterLinkRequirements.isNotAuthenticated) return !this.isAuthenticated();
    }
 }
