@@ -54,7 +54,7 @@ export class SingerEventDetailsComponent implements OnInit {
    costFieldPlaceholder = 'Prijs';
    startRegistrationDateFieldPlaceholder = 'Start Datum Registratie';
    endRegistrationDateFieldPlaceholder = 'Eind Datum Registratie';
-   finalCancellationDateFieldPlaceholder = 'Eind Datum Anulering';
+   finalCancellationDateFieldPlaceholder = 'Eind Datum Annulering';
    registrationOnDailyBasisFieldPlaceholder = 'Registratie op dagelijkse basis';
    startDateFieldPlaceholder = 'Start Datum Evenement';
    endDateFieldPlaceholder = 'Eind Datum Evenement';
