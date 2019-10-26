@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.1.0-issue-AB-94-remove-admin-only-text.637",
+   "version": "0.1.0-navbar-restyling.649",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",
