@@ -22,6 +22,7 @@ import {
    MatChipsModule,
    MatTooltipModule,
    MatAutocompleteModule,
+   MatButtonToggleModule,
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
@@ -78,6 +79,7 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
       MatTooltipModule,
       NgxMaterialTimepickerModule,
       MatAutocompleteModule,
+      MatButtonToggleModule
    ],
    providers: [
       { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },

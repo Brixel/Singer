@@ -17,6 +17,7 @@ import { SingerEventsService } from 'src/app/modules/core/services/singerevents-
 import { SingerEvent } from 'src/app/modules/core/models/singerevent.model';
 import { SingerEventLocationService } from 'src/app/modules/core/services/singerevents-api/singerevent-location.service';
 import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location';
+import { SingerEventRegistrationsComponent, SingerEventRegistrationData } from '../singer-event-registrations/singer-event-registrations.component';
 
 @Component({
    selector: 'app-singerevent-overview',
@@ -45,6 +46,7 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
       'endDateTime',
       'hasDayCareBefore',
       'hasDayCareAfter',
+      'actions'
    ];
    availableLocations: SingerEventLocation[];
 
@@ -89,6 +91,17 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
                });
          }
       );
+   }
+
+   manageRegistrations(row: SingerEvent){
+      const dialogRef = this.dialog.open(SingerEventRegistrationsComponent, {
+         data: <SingerEventRegistrationData>{
+            event: row
+         },
+         width: '50vw',
+         maxHeight: '70vh'
+      });
+
    }
 
    addSingerEvent(): void {
