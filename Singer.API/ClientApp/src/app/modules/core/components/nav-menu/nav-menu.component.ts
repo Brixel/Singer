@@ -1,6 +1,9 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { SingerRouterLink, singerRouterLinkRequirements } from '../../models/singer-routerlink.model';
+import {
+   SingerRouterLink,
+   singerRouterLinkRequirements,
+} from '../../models/singer-routerlink.model';
 
 @Component({
    selector: 'app-nav-menu',
@@ -8,94 +11,88 @@ import { SingerRouterLink, singerRouterLinkRequirements } from '../../models/sin
    styleUrls: ['./nav-menu.component.css'],
 })
 export class NavMenuComponent {
-
    @Output() logoutEvent = new EventEmitter();
 
    isAdmin: boolean;
 
-   routerLinks:SingerRouterLink[] = [
+   routerLinks: SingerRouterLink[] = [
       {
-         RouterLinkName: "Start",
-         RouterLinkRequirements: [
-            singerRouterLinkRequirements.none,
-         ],
+         RouterLinkName: 'Start',
+         RouterLinkRequirements: [singerRouterLinkRequirements.none],
          routerLink: '/dashboard',
       },
       {
-         RouterLinkName: "Voogden",
+         RouterLinkName: 'Voogden',
          RouterLinkRequirements: [
             singerRouterLinkRequirements.isAdmin,
-            singerRouterLinkRequirements.isAuthenticated
+            singerRouterLinkRequirements.isAuthenticated,
          ],
-         routerLink:'/admin/voogden',
+         routerLink: '/admin/voogden',
       },
       {
-         RouterLinkName: "Zorg gebruikers",
+         RouterLinkName: 'Zorg gebruikers',
          RouterLinkRequirements: [
             singerRouterLinkRequirements.isAdmin,
-            singerRouterLinkRequirements.isAuthenticated
+            singerRouterLinkRequirements.isAuthenticated,
          ],
-         routerLink:'/admin/zorggebruikers',
+         routerLink: '/admin/zorggebruikers',
       },
       {
-         RouterLinkName: "Beheerders",
+         RouterLinkName: 'Beheerders',
          RouterLinkRequirements: [
             singerRouterLinkRequirements.isAdmin,
-            singerRouterLinkRequirements.isAuthenticated
+            singerRouterLinkRequirements.isAuthenticated,
          ],
-         routerLink:'/admin/beheerders',
+         routerLink: '/admin/beheerders',
       },
       {
-         RouterLinkName: "Evenementen",
+         RouterLinkName: 'Evenementen',
          RouterLinkRequirements: [
             singerRouterLinkRequirements.isAdmin,
-            singerRouterLinkRequirements.isAuthenticated
+            singerRouterLinkRequirements.isAuthenticated,
          ],
-         routerLink:'/admin/evenementen',
+         routerLink: '/admin/evenementen',
       },
       {
-         RouterLinkName: "Login",
+         RouterLinkName: 'Inloggen',
          RouterLinkRequirements: [
-            singerRouterLinkRequirements.isNotAuthenticated
+            singerRouterLinkRequirements.isNotAuthenticated,
          ],
-         routerLink:'/login',
+         routerLink: '/login',
       },
-   ]
+   ];
 
-   activeRouterLink:SingerRouterLink = this.routerLinks[0];
+   activeRouterLink: SingerRouterLink = this.routerLinks[0];
 
-   emptyRouterLink:SingerRouterLink = {
-      RouterLinkName: "",
-         RouterLinkRequirements: [
-            singerRouterLinkRequirements.none
-         ],
-         routerLink:'/',
-   }
+   emptyRouterLink: SingerRouterLink = {
+      RouterLinkName: '',
+      RouterLinkRequirements: [singerRouterLinkRequirements.none],
+      routerLink: '/',
+   };
 
    constructor(private authService: AuthService) {
-      this.authService.isAdmin$.subscribe((res) => {
+      this.authService.isAdmin$.subscribe(res => {
          this.isAdmin = res;
-      })
+      });
    }
 
-   isAuthenticated(): boolean{
+   isAuthenticated(): boolean {
       return this.authService.isAuthenticated();
    }
 
-   onLogoutClicked(){
+   onLogoutClicked() {
       this.logoutEvent.emit();
    }
 
    // Checks a list of RouterLinkRequirements
-   checkRequirements(requirements:singerRouterLinkRequirements[]):boolean {
-
+   checkRequirements(requirements: singerRouterLinkRequirements[]): boolean {
       // Expect all requirements to be met
-      var result:boolean = true;
+      var result: boolean = true;
 
       // Loop through the requirements
       requirements.forEach(requirement => {
          // If a requirement is not met: result = false
-         if(!this.checkRequirement(requirement)) result = false;
+         if (!this.checkRequirement(requirement)) result = false;
       });
 
       // If all requirements are checked: return result
@@ -103,11 +100,14 @@ export class NavMenuComponent {
    }
 
    // Checks an individual RouterLinkRequirement
-   checkRequirement(requirement:string):boolean {
+   checkRequirement(requirement: string): boolean {
       debugger;
-      if(requirement == singerRouterLinkRequirements.none) return true;
-      if(requirement == singerRouterLinkRequirements.isAdmin) return this.isAdmin;
-      if(requirement == singerRouterLinkRequirements.isAuthenticated) return this.isAuthenticated();
-      if(requirement == singerRouterLinkRequirements.isNotAuthenticated) return !this.isAuthenticated();
+      if (requirement == singerRouterLinkRequirements.none) return true;
+      if (requirement == singerRouterLinkRequirements.isAdmin)
+         return this.isAdmin;
+      if (requirement == singerRouterLinkRequirements.isAuthenticated)
+         return this.isAuthenticated();
+      if (requirement == singerRouterLinkRequirements.isNotAuthenticated)
+         return !this.isAuthenticated();
    }
 }
