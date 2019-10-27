@@ -1,6 +1,5 @@
 <header>
    <nav mat-tab-nav-bar [backgroundColor]="'primary'">
-
       <!-- Navbar Title -->
       <span class="navbar-title">Singer</span>
 
@@ -9,19 +8,22 @@
 
       <!-- Navbar Links -->
       <ng-container *ngFor="let routerLink of routerLinks">
-         <a mat-tab-link
+         <a
+            mat-tab-link
             *ngIf="checkRequirements(routerLink.RouterLinkRequirements)"
             [routerLink]="routerLink.routerLink"
             (click)="activeRouterLink = routerLink"
-            [active]="activeRouterLink == routerLink">
+            [active]="activeRouterLink == routerLink"
+         >
             {{ routerLink.RouterLinkName }}
          </a>
       </ng-container>
 
       <!-- Navbar Show More Menu -->
-      <button mat-icon-button
-              [matMenuTriggerFor]="menu">
-         <mat-icon class="material-icons recenter color_white circle-icon-background">
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+         <mat-icon
+            class="material-icons recenter color_white circle-icon-background"
+         >
             more_vert
          </mat-icon>
       </button>
@@ -33,16 +35,20 @@
                <mat-icon>account_circle</mat-icon>
                <span>Login</span>
          </button>
-         <button mat-menu-item
-                 *ngIf="isAuthenticated()"
-                 (click)="onLogoutClicked()">
+         <button
+            mat-menu-item
+            *ngIf="isAuthenticated()"
+            (click)="onLogoutClicked()"
+         >
             <mat-icon>close</mat-icon>
             <span>Logout</span>
          </button>
-         <button mat-menu-item
-                 *ngIf="isAuthenticated()"
-                 [routerLink]="'/dashboard/about'"
-                 (click)="activeRouterLink = emptyRouterLink">
+         <button
+            mat-menu-item
+            *ngIf="isAuthenticated()"
+            [routerLink]="'/dashboard/about'"
+            (click)="activeRouterLink = emptyRouterLink"
+         >
             <mat-icon>info</mat-icon>
             <span>About</span>
          </button>
