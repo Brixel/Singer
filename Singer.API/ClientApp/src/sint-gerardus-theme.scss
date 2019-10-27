@@ -5,59 +5,26 @@
 
 /* Define Singer theme color pallets red=rgb(201, 12, 15)=#c90c0f black=rgb(29, 29, 27)=1d1d1b */
 /* Generated from: http://mcg.mbitson.com/#!?singer=%23c90c0f and http://mcg.mbitson.com/#!?singer=%231d1d1b */
-$singer-red: (
-    50 : #f9e2e2,
-    100 : #efb6b7,
-    200 : #e48687,
-    300 : #d95557,
-    400 : #d13033,
-    500 : #c90c0f, //Singer Primary color
-    600 : #c30a0d,
-    700 : #bc080b,
-    800 : #b50608,
-    900 : #a90304,
-    A100 : #ffd3d3,
-    A200 : #ffa0a0,
-    A400 : #ff6d6d,
-    A700 : #ff5353,
-    contrast: (
-        50 : #000000,
-        100 : #000000,
-        200 : #000000,
-        300 : #ffffff,
-        400 : #ffffff,
-        500 : #ffffff,
-        600 : #ffffff,
-        700 : #ffffff,
-        800 : #ffffff,
-        900 : #ffffff,
-        A100 : #000000,
-        A200 : #000000,
-        A400 : #000000,
-        A700 : #000000,
-    )
-);
-
-$singer-black: (
-   50 : #e4e4e4,
-   100 : #bbbbbb,
-   200 : #8e8e8d,
-   300 : #61615f,
-   400 : #3f3f3d,
-   500 : #1d1d1b, //Singer Accent color
-   600 : #1a1a18,
-   700 : #151514,
-   800 : #111110,
-   900 : #0a0a08,
-   A100 : #ffff51,
-   A200 : #ffff1e,
-   A400 : #eaea00,
-   A700 : #d0d000,
+$singer-indigo: (
+   50 : #e8eaf6,
+   100 : #c5cbe9,
+   200 : #9fa8da,
+   300 : #7985cb,
+   400 : #5c6bc0,
+   500 : #3f51b5, //Singer primary color
+   600 : #394aae,
+   700 : #3140a5,
+   800 : #29379d,
+   900 : #1b278d,
+   A100 : #c6cbff,
+   A200 : #939dff,
+   A400 : #606eff,
+   A700 : #4757ff,
    contrast: (
        50 : #000000,
        100 : #000000,
        200 : #000000,
-       300 : #ffffff,
+       300 : #000000,
        400 : #ffffff,
        500 : #ffffff,
        600 : #ffffff,
@@ -66,14 +33,47 @@ $singer-black: (
        900 : #ffffff,
        A100 : #000000,
        A200 : #000000,
-       A400 : #000000,
-       A700 : #000000,
+       A400 : #ffffff,
+       A700 : #ffffff,
+    )
+);
+
+$singer-blue: (
+   50 : #e7f3ff,
+    100 : #c2e0ff,
+    200 : #99ccff,
+    300 : #70b8ff,
+    400 : #52a8ff,
+    500 : #3399ff, //Singer accent color
+    600 : #2e91ff,
+    700 : #2786ff,
+    800 : #207cff,
+    900 : #146bff,
+    A100 : #ffffff,
+    A200 : #fbfcff,
+    A400 : #c8daff,
+    A700 : #aec9ff,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
    )
 );
 
 /* Define the palettes for your theme using the Material Design palettes available in palette.scss (palette, default, lighter, darker)*/
-$sint-gerardus-theme-primary: mat-palette($singer-red, 500);
-$sint-gerardus-theme-accent: mat-palette($singer-black, 500);
+$sint-gerardus-theme-primary: mat-palette($singer-indigo, 500);
+$sint-gerardus-theme-accent: mat-palette($singer-blue, 500);
 
 /* The warn palette is optional (defaults to red).*/
 $sint-gerardus-theme-warn: mat-palette($mat-red);
