@@ -88,12 +88,12 @@ export class NavMenuComponent {
    // Checks a list of RouterLinkRequirements
    checkRequirements(requirements: singerRouterLinkRequirements[]): boolean {
       // Expect all requirements to be met
-      var result: boolean = true;
+      let result = true;
 
       // Loop through the requirements
       requirements.forEach(requirement => {
          // If a requirement is not met: result = false
-         if (!this.checkRequirement(requirement)) result = false;
+         if (!this.checkRequirement(requirement)) { result = false; }
       });
 
       // If all requirements are checked: return result
