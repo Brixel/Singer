@@ -58,7 +58,7 @@ export class AuthService {
    }
 
    restore() {
-      if(this.isAuthenticated()){
+      if (this.isAuthenticated()) {
          this.getUser();
       }
    }
