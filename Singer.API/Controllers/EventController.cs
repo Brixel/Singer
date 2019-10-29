@@ -46,6 +46,10 @@ namespace Singer.Controllers
          if (eventId != dto.EventId)
             throw new BadInputException("The event id in the url and the body doe not match");
 
+         var model = ModelState;
+         if (!model.IsValid)
+            return BadRequest(model);
+
          var eventRegistration = await _eventRegistrationService.CreateAsync(dto);
          return Created(nameof(Get), eventRegistration);
       }
@@ -130,6 +134,10 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
       public async Task<ActionResult<EventRegistrationDTO>> Update(Guid eventId, Guid registrationId, [FromBody]RegistrationStatus status)
       {
+         var model = ModelState;
+         if (!model.IsValid)
+            return BadRequest(model);
+
          var result = await _eventRegistrationService
             .UpdateStatusAsync(eventId, registrationId, status)
             .ConfigureAwait(false);
@@ -160,15 +168,14 @@ namespace Singer.Controllers
       public async Task<IActionResult> GetPublicEvents([FromBody] SearchEventParamsDTO searchEventParams)
       {
          var model = ModelState;
-         if (model.IsValid)
-         {
-            var events = await _eventService
-               .GetPublicEventsAsync(searchEventParams)
-               .ConfigureAwait(false);
-            return Ok(events);
-         }
+         if (!model.IsValid)
+            return BadRequest(model);
 
-         return BadRequest(model);
+         var events = await _eventService
+            .GetPublicEventsAsync(searchEventParams)
+            .ConfigureAwait(false);
+
+         return Ok(events);
       }
 
       #endregion METHODS

@@ -26,19 +26,17 @@ namespace Singer.Controllers
       public override async Task<IActionResult> Update(Guid id, [FromBody]UpdateCareUserDTO dto)
       {
          if (dto is null)
-         {
             throw new BadInputException(nameof(dto));
-         }
+
+         var model = ModelState;
+         if (!model.IsValid)
+            return BadRequest(model);
 
          if ((dto.LegalGuardianUsersToAdd?.Count ?? 0) > 0)
-         {
             await _careUserService.AddLinkedUsers(id, dto.LegalGuardianUsersToAdd);
-         }
 
          if ((dto.LegalGuardianUsersToRemove?.Count ?? 0) > 0)
-         {
             await _careUserService.RemoveLinkedUsers(id, dto.LegalGuardianUsersToRemove);
-         }
 
          var result = await DatabaseService.UpdateAsync(id, dto);
          return Ok(result);

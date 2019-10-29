@@ -63,13 +63,11 @@ namespace Singer.Controllers
       public async Task<IActionResult> Create([FromBody]TCreateDTO dto)
       {
          var model = ModelState;
-         if (model.IsValid)
-         {
-            var returnItem = await DatabaseService.CreateAsync(dto);
-            return Created(nameof(Get), returnItem);
-         }
+         if (!model.IsValid)
+            return BadRequest(model);
 
-         return BadRequest(model);
+         var returnItem = await DatabaseService.CreateAsync(dto);
+         return Created(nameof(Get), returnItem);
       }
 
       #endregion post
@@ -169,6 +167,10 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
       public virtual async Task<IActionResult> Update(Guid id, [FromBody]TUpdateDTO dto)
       {
+         var model = ModelState;
+         if (!model.IsValid)
+            return BadRequest(model);
+
          var result = await DatabaseService.UpdateAsync(id, dto);
          return Ok(result);
       }
