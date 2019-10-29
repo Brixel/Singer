@@ -58,9 +58,6 @@ namespace Singer.DTOs.Users
 
    public class UpdateLegalGuardianUserDTO : UpdateUserDTO
    {
-      [DisplayName("Zorggebruikers")]
-      public List<Guid> CareUsers { get; set; }
-
       [Required]
       [StringLength(maximumLength: 50, ErrorMessage = "Het {0} moet een lengte hebben van {2} karakters.")]
       [DisplayName("Adres")]

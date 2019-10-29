@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.1.0-dev.656",
+   "version": "0.1.0-issue-AB-69-99-103-105-data-validation.657",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",
