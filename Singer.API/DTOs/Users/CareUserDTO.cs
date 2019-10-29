@@ -1,8 +1,8 @@
+using Singer.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using Singer.Models;
 
 namespace Singer.DTOs.Users
 {
@@ -38,9 +38,9 @@ namespace Singer.DTOs.Users
 
       [DisplayName("Middelen")]
       public bool HasResources { get; set; }
+
       public List<LinkedLegalGuardianDTO> LegalGuardianUsers { get; set; }
    }
-
 
    public class CreateCareUserDTO : CreateUserDTO
    {
@@ -108,7 +108,11 @@ namespace Singer.DTOs.Users
 
       [DisplayName("Middelen")]
       public bool HasResources { get; set; }
+
+      [DisplayName("Toe te voegen voogden")]
       public List<Guid> LegalGuardianUsersToAdd { get; set; }
+
+      [DisplayName("Te verwijderen voogden")]
       public List<Guid> LegalGuardianUsersToRemove { get; set; }
    }
 }
