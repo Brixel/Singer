@@ -77,14 +77,14 @@ namespace Singer.DTOs
       public bool HasDayCareBefore { get; set; }
 
       [DisplayName("Start opvang voor het evenement")]
-      public DateTime DayCareBeforeStartDateTime { get; set; }
+      public DateTime? DayCareBeforeStartDateTime { get; set; }
 
       [Required]
       [DisplayName("Opvan na het evenement")]
       public bool HasDayCareAfter { get; set; }
 
       [DisplayName("Einde opvang na het evenement")]
-      public DateTime DayCareAfterEndDateTime { get; set; }
+      public DateTime? DayCareAfterEndDateTime { get; set; }
 
       [Required]
       [DisplayName("Event slots")]
@@ -228,13 +228,13 @@ namespace Singer.DTOs
       public bool HasDayCareBefore { get; set; }
 
       [DisplayName("Start opvang voor het evenement")]
-      public DateTime DayCareBeforeStartDateTime { get; set; }
+      public DateTime? DayCareBeforeStartDateTime { get; set; }
 
       [Required]
       [DisplayName("Opvan na het evenement")]
       public bool HasDayCareAfter { get; set; }
 
       [DisplayName("Einde opvang na het evenement")]
-      public DateTime DayCareAfterEndDateTime { get; set; }
+      public DateTime? DayCareAfterEndDateTime { get; set; }
    }
 }
