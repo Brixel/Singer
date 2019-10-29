@@ -27,14 +27,25 @@ namespace Singer.Services
 
       protected ApplicationDbContext Context { get; }
       protected IMapper Mapper { get; }
-      protected DbSet<EventRegistration> DbSet => Context.EventRegistrations;
-      protected IQueryable<EventRegistration> Queryable => Context.EventRegistrations;
+
+      protected DbSet<EventRegistration> DbSet =>
+         Context.EventRegistrations;
+      protected IQueryable<EventRegistration> Queryable => Context.EventRegistrations
+         .Include(x => x.CareUser)
+         .ThenInclude(x => x.User).AsQueryable();
 
       public Expression<Func<EventRegistration, EventRegistrationDTO>> Projector => x => new EventRegistrationDTO
       {
          Id = x.Id,
          Status = x.Status,
-         CareUser = Mapper.Map<CareUserDTO>(x.CareUser),
+         CareUser = new CareUserDTO()
+         {
+            Id = x.CareUserId,
+            AgeGroup = x.CareUser.AgeGroup,
+            BirthDay = x.CareUser.BirthDay,
+            FirstName = x.CareUser.User.FirstName,
+            LastName = x.CareUser.User.LastName
+         },
          EventDescription = new EventDescriptionDTO
          {
             AgeGroups = EventProfile.ToAgeGroupList(x.EventSlot.Event.AllowedAgeGroups),
@@ -89,7 +100,7 @@ namespace Singer.Services
          await Context.SaveChangesAsync()
             .ConfigureAwait(false);
 
-         return await Context.EventRegistrations
+         return await Queryable
             .Where(x => x.EventSlot.EventId == dto.EventId && x.CareUserId == dto.CareUserId)
             .Select(Projector)
             .ToListAsync()
@@ -107,12 +118,15 @@ namespace Singer.Services
          if (itemsPerPage < 1)
             throw new BadInputException("Invalid pageSize provided");
 
-         var filteredItems = Context.EventRegistrations.Where(x => x.EventSlot.EventId == eventId);
+         var filteredItems = Context.EventRegistrations
+            .Include(x => x.CareUser)
+            .ThenInclude(x => x.User)
+            .Where(x => x.EventSlot.EventId == eventId);
          var totalItemCount = await filteredItems
             .CountAsync()
             .ConfigureAwait(false);
 
-         var list = totalItemCount <= 0
+         var list = totalItemCount <= 0update
             ? new List<EventRegistrationDTO>()
             : await filteredItems
                .Select(Projector)
@@ -126,7 +140,7 @@ namespace Singer.Services
 
       public async Task<EventRegistrationDTO> GetOneAsync(Guid eventId, Guid registrationId)
       {
-         var registration = await Context.EventRegistrations
+         var registration = await Queryable
             .Where(x => x.Id == registrationId && x.EventSlot.EventId == eventId)
             .Select(Projector)
             .FirstOrDefaultAsync()

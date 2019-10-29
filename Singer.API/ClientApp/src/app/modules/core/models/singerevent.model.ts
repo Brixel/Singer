@@ -1,5 +1,6 @@
 import { AgeGroup } from './enum';
 import { SingerEventLocation } from './singer-event-location';
+import { CareUserDTO } from './careuser.model';
 
 export interface SingerEventDTO {
    id: string;
@@ -107,4 +108,31 @@ export class SearchEventDTO {
    startDateTime: Date;
    endDateTime: Date;
    locationId: string;
+}
+
+export interface EventRegistrationDTO{
+   id: string;
+   eventSlot: EventSlotDTO;
+   eventDescription: EventDescriptionDTO;
+   careUser: CareUserDTO;
+   status: RegistrationStatus;
+}
+export interface EventDescriptionDTO{
+   title: string;
+   description: string;
+   startDate: Date;
+   endDate: Date;
+   ageGroup: AgeGroup[]
+}
+
+export interface EventSlotDTO{
+   id: string;
+   startDateTime: Date;
+   endDateTime: Date;
+}
+
+export enum RegistrationStatus {
+   Pending = 1,
+   Accepted = 2,
+   Rejected = 4
 }

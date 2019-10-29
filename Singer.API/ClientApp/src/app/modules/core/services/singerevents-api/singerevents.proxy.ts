@@ -7,6 +7,7 @@ import {
    UpdateSingerEventDTO,
    CreateSingerEventDTO,
    SingerEventDTO,
+   EventRegistrationDTO,
 } from '../../models/singerevent.model';
 import { PaginationDTO } from '../../models/pagination.model';
 
@@ -49,5 +50,11 @@ export class SingerEventsProxy {
       return this.apiService
          .post('api/event', createSingerEventDTO)
          .pipe(map(res => res));
+   }
+
+
+   geteventRegistrations(eventId: string): Observable<PaginationDTO> {
+      return this.apiService
+      .get(`api/event/${eventId}/registrations`).pipe(map(res => res));
    }
 }

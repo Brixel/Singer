@@ -3,6 +3,7 @@ import {
    SingerEvent,
    UpdateSingerEventDTO,
    CreateSingerEventDTO,
+   EventRegistrationDTO,
 } from '../../models/singerevent.model';
 import { Observable } from 'rxjs';
 import { SingerEventsProxy } from './singerevents.proxy';
@@ -82,5 +83,9 @@ export class SingerEventsService {
       return this.singerEventsProxy
          .createSingerEvents(createSingerEventDTO)
          .pipe(map(res => res));
+   }
+
+   getEventRegistrations(eventId: string): Observable<EventRegistrationDTO[]>{
+      return this.singerEventsProxy.geteventRegistrations(eventId).pipe(map((res => res.items)));
    }
 }

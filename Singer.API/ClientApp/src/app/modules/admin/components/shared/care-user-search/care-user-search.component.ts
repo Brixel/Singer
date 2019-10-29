@@ -8,7 +8,7 @@ import {
    catchError,
 } from 'rxjs/operators';
 import { of, Observable, Subject } from 'rxjs';
-import { CareUser } from 'src/app/modules/core/models/careuser.model';
+import { CareUser, CareUserDTO } from 'src/app/modules/core/models/careuser.model';
 import { CareUserService } from 'src/app/modules/core/services/care-users-api/careusers.service';
 import { MatOptionSelectionChange } from '@angular/material';
 
@@ -18,10 +18,10 @@ import { MatOptionSelectionChange } from '@angular/material';
    styleUrls: ['./care-user-search.component.css'],
 })
 export class CareUserSearchComponent implements OnInit {
-   @Output() userSelected = new EventEmitter<CareUser>();
+   @Output() userSelected = new EventEmitter<CareUserDTO>();
 
    control: FormControl;
-   careUsersAutoComplete$: Observable<CareUser[]>;
+   careUsersAutoComplete$: Observable<CareUserDTO[]>;
 
    constructor(private _careUserService: CareUserService) {}
 
@@ -40,13 +40,13 @@ export class CareUserSearchComponent implements OnInit {
       );
    }
 
-   careUserLookup(value: string): Observable<CareUser[]> {
+   careUserLookup(value: string): Observable<CareUserDTO[]> {
       return this._careUserService
          .fetchCareUsersData('asc', 'firstName', 0, 15, value)
          .pipe(map(res => res.items));
    }
 
-   selectCareUser(careUser: CareUser, event: MatOptionSelectionChange) {
+   selectCareUser(careUser: CareUserDTO, event: MatOptionSelectionChange) {
       this.userSelected.emit(careUser);
       this.control.reset();
    }
