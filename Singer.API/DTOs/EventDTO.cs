@@ -41,7 +41,7 @@ namespace Singer.DTOs
       [Required]
       [Range(0, int.MaxValue)]
       [DisplayName("Aantal inschrijvingen")]
-      public int currentRegistrants { get; set; }
+      public int CurrentRegistrants { get; set; }
 
       [Required]
       [Range(0, int.MaxValue)]
