@@ -7,7 +7,7 @@ namespace Singer.DTOs.Users
    {
       [Required]
       [StringLength(maximumLength: 50,
-         ErrorMessage = "Het {0} moet een lengte hebben van {2} karakters.",
+         ErrorMessage = "{0} moet een minimale lengte van {2} en maximale lengte van {1} karakters hebben.",
          MinimumLength = 2)]
       [DisplayName("Gebruikersnaam")]
       public string UserName { get; set; }
