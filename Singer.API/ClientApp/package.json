@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.1.0-issue-theme-navbar-restyling.659",
+   "version": "0.1.0-issue-theme-navbar-restyling.660",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",
