@@ -17,6 +17,6 @@ const ROUTES: Routes = [{ path: '', component: AuthComponent }];
       FormsModule,
       ReactiveFormsModule,
    ],
-   providers: [AuthService],
+   providers: [],
 })
 export class LoginModule {}
