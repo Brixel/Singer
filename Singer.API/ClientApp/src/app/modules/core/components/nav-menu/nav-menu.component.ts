@@ -116,7 +116,8 @@ export class NavMenuComponent implements OnInit {
       requirements.forEach(requirement => {
          // If a requirement is not met: result = false
          if (!this.checkRequirement(requirement)) {
-            result = false; }
+            result = false;
+         }
       });
 
       // If all requirements are checked: return result
