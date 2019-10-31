@@ -1,7 +1,37 @@
+.logo {
+   display: block;
+   margin: 4px 35px;
+   width: 100px;
+}
+
 .fill-remaining-space {
    flex: 1 1 auto;
 }
 
-mat-toolbar > a {
-   margin-right: 8px;
+.material-icons.recenter {
+   margin-top: 5px;
 }
+
+.material-icons.color_white {
+   color: #FFFFFF;
+ }
+
+.circle-icon-background:hover {
+   animation: fadeIn 1s forwards;
+   width: 30px;
+   height: 30px;
+   border-radius: 50%;
+   text-align: center;
+   line-height: 30px;
+   vertical-align: middle;
+   margin-top: 7px;
+}
+
+@keyframes fadeIn {
+   0% {
+      background: rgba(255, 255, 255, 0.0);
+   }
+   100% {
+      background: rgba(255, 255, 255, 0.2);
+   }
+ }

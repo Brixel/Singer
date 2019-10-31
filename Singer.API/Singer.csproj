@@ -2,6 +2,7 @@
 
    <PropertyGroup>
       <TargetFramework>netcoreapp2.2</TargetFramework>
+      <LangVersion>latest</LangVersion>
       <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
       <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
       <IsPackable>false</IsPackable>
@@ -46,27 +47,27 @@
    </ItemGroup>
 
    <ItemGroup>
-     <Compile Remove="Migrations\20190908194117_Adds_EventRegistrations.cs" />
-     <Compile Remove="Migrations\20190908194117_Adds_EventRegistrations.Designer.cs" />
-     <Compile Remove="Migrations\20190921181826_AddsEventRegistrationsAndEventSlots.cs" />
-     <Compile Remove="Migrations\20190921181826_AddsEventRegistrationsAndEventSlots.Designer.cs" />
-     <Compile Remove="Migrations\20190921190104_AddsEventRegistrationsAndEventSlots.cs" />
-     <Compile Remove="Migrations\20190921190104_AddsEventRegistrationsAndEventSlots.Designer.cs" />
-     <Compile Remove="Migrations\20191016202947_create-eventregistrations-and-eventslots.cs" />
-     <Compile Remove="Migrations\20191016202947_create-eventregistrations-and-eventslots.Designer.cs" />
-     <Compile Remove="Migrations\20191016203050_create-eventregistrations-and-eventslots.cs" />
-     <Compile Remove="Migrations\20191016203050_create-eventregistrations-and-eventslots.Designer.cs" />
-     <Compile Remove="Models\PaginationModel.cs" />
+      <Compile Remove="Migrations\20190908194117_Adds_EventRegistrations.cs" />
+      <Compile Remove="Migrations\20190908194117_Adds_EventRegistrations.Designer.cs" />
+      <Compile Remove="Migrations\20190921181826_AddsEventRegistrationsAndEventSlots.cs" />
+      <Compile Remove="Migrations\20190921181826_AddsEventRegistrationsAndEventSlots.Designer.cs" />
+      <Compile Remove="Migrations\20190921190104_AddsEventRegistrationsAndEventSlots.cs" />
+      <Compile Remove="Migrations\20190921190104_AddsEventRegistrationsAndEventSlots.Designer.cs" />
+      <Compile Remove="Migrations\20191016202947_create-eventregistrations-and-eventslots.cs" />
+      <Compile Remove="Migrations\20191016202947_create-eventregistrations-and-eventslots.Designer.cs" />
+      <Compile Remove="Migrations\20191016203050_create-eventregistrations-and-eventslots.cs" />
+      <Compile Remove="Migrations\20191016203050_create-eventregistrations-and-eventslots.Designer.cs" />
+      <Compile Remove="Models\PaginationModel.cs" />
    </ItemGroup>
 
    <ItemGroup>
-     <None Remove="Migrations\Sql\CleanAdmin.sql" />
+      <None Remove="Migrations\Sql\CleanAdmin.sql" />
    </ItemGroup>
 
    <ItemGroup>
-     <Content Include="Migrations\Sql\CleanAdmin.sql">
-       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-     </Content>
+      <Content Include="Migrations\Sql\CleanAdmin.sql">
+         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
    </ItemGroup>
 
    <ItemGroup>
