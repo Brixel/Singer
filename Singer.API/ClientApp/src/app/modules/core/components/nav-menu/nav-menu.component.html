@@ -13,7 +13,7 @@
       <ng-container *ngFor="let routerLink of routerLinks">
          <a
             mat-tab-link
-            *ngIf="checkRequirements(routerLink.RouterLinkRequirements)"
+            *ngIf="routerLinkRequirements[routerLink.RouterLinkName]"
             [routerLink]="routerLink.routerLink"
             (click)="activeRouterLink = routerLink"
             [active]="activeRouterLink == routerLink"
@@ -33,7 +33,7 @@
       <mat-menu #menu="matMenu">
          <button
             mat-menu-item
-            *ngIf="!isAuthenticated()"
+            *ngIf="!isAuthenticated"
             [routerLink]="'/login'"
          >
             <mat-icon>account_circle</mat-icon>
@@ -41,7 +41,7 @@
          </button>
          <button
             mat-menu-item
-            *ngIf="isAuthenticated()"
+            *ngIf="isAuthenticated"
             (click)="onLogoutClicked()"
          >
             <mat-icon>close</mat-icon>
@@ -49,7 +49,7 @@
          </button>
          <button
             mat-menu-item
-            *ngIf="isAuthenticated()"
+            *ngIf="isAuthenticated"
             [routerLink]="'/dashboard/about'"
             (click)="activeRouterLink = emptyRouterLink"
          >
