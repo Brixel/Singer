@@ -16,17 +16,15 @@
             *ngIf="routerLinkRequirements[routerLink.RouterLinkName]"
             [routerLink]="routerLink.routerLink"
             (click)="activeRouterLink = routerLink"
-            [active]="activeRouterLink == routerLink"
-         >
+            [active]="activeRouterLink == routerLink">
             {{ routerLink.RouterLinkName }}
          </a>
       </ng-container>
 
       <!-- Navbar Show More Menu -->
-      <button mat-icon-button [matMenuTriggerFor]="menu">
-         <mat-icon
-            class="material-icons recenter color_white circle-icon-background"
-         >
+      <button mat-icon-button
+         [matMenuTriggerFor]="menu">
+         <mat-icon class="material-icons recenter color_white circle-icon-background">
             more_vert
          </mat-icon>
       </button>
@@ -35,7 +33,7 @@
             mat-menu-item
             *ngIf="!isAuthenticated"
             [routerLink]="'/login'"
-         >
+            (click)="activeRouterLink = routerLinks[5]">
             <mat-icon>account_circle</mat-icon>
             <span>Inloggen</span>
          </button>
@@ -45,16 +43,15 @@
             (click)="onLogoutClicked()"
          >
             <mat-icon>close</mat-icon>
-            <span>Logout</span>
+            <span>Uitloggen</span>
          </button>
          <button
             mat-menu-item
             *ngIf="isAuthenticated"
             [routerLink]="'/dashboard/about'"
-            (click)="activeRouterLink = emptyRouterLink"
-         >
+            (click)="activeRouterLink = emptyRouterLink">
             <mat-icon>info</mat-icon>
-            <span>About</span>
+            <span>Over</span>
          </button>
       </mat-menu>
    </nav>

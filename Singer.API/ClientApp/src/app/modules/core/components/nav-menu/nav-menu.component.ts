@@ -15,7 +15,8 @@ export class NavMenuComponent implements OnInit {
 
    isAdmin: boolean;
 
-   routerLinks: SingerRouterLink[] = [
+   //Navbar Router Links
+   routerLinks:SingerRouterLink[] = [
       {
          RouterLinkName: 'Start',
          RouterLinkRequirements: [singerRouterLinkRequirements.none],
