@@ -60,11 +60,11 @@ namespace Singer.Controllers
       [HttpPost]
       [ProducesResponseType(StatusCodes.Status201Created)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public async Task<IActionResult> Create([FromBody]TCreateDTO dto)
+      public virtual async Task<IActionResult> Create([FromBody]TCreateDTO dto)
       {
          var model = ModelState;
          if (!model.IsValid)
-            return BadRequest(model);
+            throw new BadInputException("Invalid dto", $"De data is niet geldig: {model}");
 
          var returnItem = await DatabaseService.CreateAsync(dto);
          return Created(nameof(Get), returnItem);
@@ -169,7 +169,7 @@ namespace Singer.Controllers
       {
          var model = ModelState;
          if (!model.IsValid)
-            return BadRequest(model);
+            throw new BadInputException("Invalid dto", $"De data is niet geldig: {model}");
 
          var result = await DatabaseService.UpdateAsync(id, dto);
          return Ok(result);

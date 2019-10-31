@@ -8,7 +8,6 @@ using Singer.Models;
 using Singer.Services.Interfaces;
 using System;
 using System.ComponentModel;
-using System.Linq.Expressions;
 
 namespace Singer.Controllers
 {
@@ -17,6 +16,7 @@ namespace Singer.Controllers
       #region FIELDS
 
       private readonly IEventRegistrationService _eventRegistrationService;
+      private readonly IDateValidator _dateValidator;
       private readonly IEventService _eventService;
 
       #endregion FIELDS
@@ -24,10 +24,11 @@ namespace Singer.Controllers
 
       #region CONSTRUCTOR
 
-      public EventController(IEventService eventService, IEventRegistrationService eventRegistrationService)
+      public EventController(IEventService eventService, IEventRegistrationService eventRegistrationService, IDateValidator dateValidator)
          : base(eventService)
       {
          _eventRegistrationService = eventRegistrationService;
+         _dateValidator = dateValidator;
          _eventService = eventService;
       }
 
@@ -37,6 +38,18 @@ namespace Singer.Controllers
       #region METHODS
 
       #region post
+
+      [HttpPost]
+      [ProducesResponseType(StatusCodes.Status201Created)]
+      [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+      public override async Task<IActionResult> Create([FromBody]CreateEventDTO dto)
+      {
+         if (dto is null)
+            throw new BadInputException("DTO is null", "Er is geen data meegegeven.");
+         _dateValidator.Validate(dto);
+
+         return await base.Create(dto);
+      }
 
       [HttpPost("{eventId}/registrations")]
       [ProducesResponseType(StatusCodes.Status201Created)]
@@ -127,6 +140,25 @@ namespace Singer.Controllers
       #endregion get
 
       #region put
+
+      /// <summary>
+      /// Updates a single entity in the database.
+      /// </summary>
+      /// <param name="id">The id of the entity to update.</param>
+      /// <param name="dto">The new value of the entity.</param>
+      /// <returns></returns>
+      [HttpPut("{id}")]
+      [ProducesResponseType(StatusCodes.Status200OK)]
+      [ProducesResponseType(StatusCodes.Status404NotFound)]
+      [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+      public override async Task<IActionResult> Update(Guid id, [FromBody]UpdateEventDTO dto)
+      {
+         if (dto is null)
+            throw new BadInputException("DTO is null", "Er is geen data meegegeven.");
+         _dateValidator.Validate(dto);
+
+         return await base.Update(id, dto);
+      }
 
       [HttpPut("{eventId}/registrations/{registrationId}/status")]
       [ProducesResponseType(StatusCodes.Status200OK)]
