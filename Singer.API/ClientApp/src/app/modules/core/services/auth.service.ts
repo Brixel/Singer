@@ -1,27 +1,28 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 @Injectable({
    providedIn: 'root',
 })
 export class AuthService {
-
    private tokenURL = this.baseUrl + 'connect/token';
    private userInfoURL = this.baseUrl + 'connect/userinfo';
 
-   private isAdminSubject = new BehaviorSubject<boolean>(false);
+   private isAdminSubject = new Subject<boolean>();
    isAdmin$ = this.isAdminSubject.asObservable();
+
+   private isAuthenticatedSubject = new Subject<boolean>();
+   isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
    constructor(
       private http: HttpClient,
       private jwtHelper: JwtHelperService,
-      @Inject('BASE_URL') private baseUrl: string
-   ) {}
+      @Inject('BASE_URL') private baseUrl: string) {}
 
    getUserInfo(): Observable<any> {
-      return this.http.get(this.userInfoURL).pipe(map((res) => res));
+      return this.http.get(this.userInfoURL).pipe(map(res => res));
    }
 
    authenticate(username: string, password: string): Observable<any> {
@@ -63,9 +64,11 @@ export class AuthService {
       }
    }
 
-   isAuthenticated() {
+   isAuthenticated(): boolean {
       const token = localStorage.getItem('token');
-      return !this.jwtHelper.isTokenExpired(token);
+      const isAuthenticated = !this.jwtHelper.isTokenExpired(token);
+      this.isAuthenticatedSubject.next(isAuthenticated);
+      return isAuthenticated;
    }
 
    getToken() {
@@ -75,5 +78,7 @@ export class AuthService {
    logout() {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
+      this.isAuthenticated();
+      this.isAdminSubject.next(false);
    }
 }
