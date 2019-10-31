@@ -57,4 +57,9 @@ export class SingerEventsProxy {
       return this.apiService
       .get(`api/event/${eventId}/registrations`).pipe(map(res => res));
    }
+
+
+   updateRegistrants(eventId: string, registrantIds: string[]) {
+      return this.apiService.post(`api/event/${eventId}/registrants`).pipe(map(res) => res));
+   }
 }

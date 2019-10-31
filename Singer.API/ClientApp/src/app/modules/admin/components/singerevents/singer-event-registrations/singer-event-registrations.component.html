@@ -24,6 +24,6 @@
    </mat-dialog-content>
 
    <mat-dialog-actions align="end">
-      <button mat-stroked-button color="primary">Annuleer</button>
-      <button mat-raised-button color="primary">Opslaan</button>
+      <button mat-stroked-button color="primary" (click)="close()">Annuleer</button>
+      <button mat-raised-button color="primary" (click)="save()">Opslaan</button>
    </mat-dialog-actions>

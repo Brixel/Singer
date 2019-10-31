@@ -46,6 +46,15 @@ export class SingerEventRegistrationsComponent implements OnInit {
       return uniqueNames;
    }
 
+   close(){
+      this.dialogRef.close();
+   }
+
+   save(){
+      const registrantIds = this.registrants.map(r=>r.careUserId);
+      this.singerEventService.updateRegistrants(this.event.id, registrantIds).subscribe((res) => res);
+   }
+
    userSelected(careUser: CareUserDTO) {
       if (!this.registrants.map(r => r.careUserId).includes(careUser.id)) {
          const registrant = new Registrant(careUser, RegistrationStatus.Pending);
