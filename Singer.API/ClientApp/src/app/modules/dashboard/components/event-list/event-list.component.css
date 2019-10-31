@@ -1,7 +1,12 @@
 .event-card{
   height: calc(100% - 60px);
 }
+
 mat-card{
    margin: 8px;
    padding: 0px;
+}
+
+.noEventsFound {
+   margin: 8px;
 }
