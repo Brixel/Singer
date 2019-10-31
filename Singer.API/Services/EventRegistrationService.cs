@@ -126,7 +126,7 @@ namespace Singer.Services
             .CountAsync()
             .ConfigureAwait(false);
 
-         var list = totalItemCount <= 0update
+         var list = totalItemCount <= 0
             ? new List<EventRegistrationDTO>()
             : await filteredItems
                .Select(Projector)
