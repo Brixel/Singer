@@ -126,15 +126,8 @@ export class NavMenuComponent implements OnInit {
    // Checks an individual RouterLinkRequirement
    checkRequirement(requirement: string): boolean {
       if (requirement === singerRouterLinkRequirements.none) { return true; }
-      if (requirement === singerRouterLinkRequirements.isAdmin) {
-         return this.isAdmin;
-      }
-      if (requirement === singerRouterLinkRequirements.isAuthenticated) {
-         return this.isAuthenticated;
-      }
-      if (requirement === singerRouterLinkRequirements.isNotAuthenticated) {
-         return !this.isAuthenticated;
-      }
+      if (requirement === singerRouterLinkRequirements.isAdmin) { return this.isAdmin; }
+      if (requirement === singerRouterLinkRequirements.isAuthenticated) { return this.isAuthenticated; }
+      if (requirement === singerRouterLinkRequirements.isNotAuthenticated) { return !this.isAuthenticated; }
    }
-
 }

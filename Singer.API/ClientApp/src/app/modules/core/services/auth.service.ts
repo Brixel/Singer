@@ -7,7 +7,6 @@ import { map } from 'rxjs/operators';
    providedIn: 'root',
 })
 export class AuthService {
-
    private tokenURL = this.baseUrl + 'connect/token';
    private userInfoURL = this.baseUrl + 'connect/userinfo';
 
@@ -20,12 +19,10 @@ export class AuthService {
    constructor(
       private http: HttpClient,
       private jwtHelper: JwtHelperService,
-      @Inject('BASE_URL') private baseUrl: string
-   ) {
-   }
+      @Inject('BASE_URL') private baseUrl: string) {}
 
    getUserInfo(): Observable<any> {
-      return this.http.get(this.userInfoURL).pipe(map((res) => res));
+      return this.http.get(this.userInfoURL).pipe(map(res => res));
    }
 
    authenticate(username: string, password: string): Observable<any> {
