@@ -15,7 +15,8 @@ export class NavMenuComponent {
 
    isAdmin: boolean;
 
-   routerLinks: SingerRouterLink[] = [
+   //Navbar Router Links
+   routerLinks:SingerRouterLink[] = [
       {
          RouterLinkName: 'Start',
          RouterLinkRequirements: [singerRouterLinkRequirements.none],
@@ -100,17 +101,10 @@ export class NavMenuComponent {
    }
 
    // Checks an individual RouterLinkRequirement
-   checkRequirement(requirement: string): boolean {
-      debugger;
-      if (requirement === singerRouterLinkRequirements.none) { return true; }
-      if (requirement === singerRouterLinkRequirements.isAdmin) {
-         return this.isAdmin;
-      }
-      if (requirement === singerRouterLinkRequirements.isAuthenticated) {
-         return this.isAuthenticated();
-      }
-      if (requirement === singerRouterLinkRequirements.isNotAuthenticated) {
-         return !this.isAuthenticated();
-      }
+   checkRequirement(requirement:string):boolean {
+      if(requirement == singerRouterLinkRequirements.none) return true;
+      if(requirement == singerRouterLinkRequirements.isAdmin) return this.isAdmin;
+      if(requirement == singerRouterLinkRequirements.isAuthenticated) return this.isAuthenticated();
+      if(requirement == singerRouterLinkRequirements.isNotAuthenticated) return !this.isAuthenticated();
    }
 }
