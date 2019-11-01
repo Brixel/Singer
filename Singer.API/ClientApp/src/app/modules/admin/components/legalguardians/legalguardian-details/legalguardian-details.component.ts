@@ -43,7 +43,7 @@ export class LegalguardianDetailsComponent implements OnInit {
    // Form placeholders
    firstNameFieldPlaceholder = 'Voornaam';
    lastNameFieldPlaceholder = 'Familienaam';
-   addressFieldPlaceholder = 'Adres';
+   addressFieldPlaceholder = 'Straat en huisnummer (+ busnr)';
    postalCodeFieldPlaceholder = 'Postcode';
    cityFieldPlaceholder = 'Gemeente';
    countryFieldPlaceholder = 'Land';
