@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using Singer.DTOs.Users;
-using Singer.Helpers;
 using Singer.Models;
 
 namespace Singer.DTOs

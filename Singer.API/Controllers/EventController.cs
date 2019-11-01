@@ -11,6 +11,8 @@ using Singer.Services.Interfaces;
 using System;
 using System.ComponentModel;
 using Singer.Configuration;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Singer.Controllers
 {
@@ -185,16 +187,55 @@ namespace Singer.Controllers
          return BadRequest(model);
       }
 
-      [HttpGet("{id}/getcareusers")]
-      public async Task<IActionResult> GetCareUsers(Guid id)
+      [HttpGet("{eventId}/geteventregisterdetails")]
+      public async Task<ActionResult<EventRegisterDetailsDTO>> GetEventRegisterDetails(Guid eventId)
       {
-         var careUsers = await _careUserService.GetCareUsersForLegalGuardian(Guid.Parse(User.GetSubjectId()));
-         var singerEvent = await _eventService.GetOneAsync(id);
-         foreach (var user in careUsers)
+         var singerEvent = await _eventService.GetOneAsync(eventId);
+         var details = new EventRegisterDetailsDTO
          {
-            user.AppropriateAgeGroup = singerEvent.AllowedAgeGroups.Contains(user.AgeGroup);
+            AgeGroups = singerEvent.AllowedAgeGroups,
+            Description = singerEvent.Description,
+            EndDate = singerEvent.EndDateTime,
+            EventSlots = null,
+            Id = singerEvent.Id,
+            RegistrationOnDailyBasis = singerEvent.RegistrationOnDailyBasis,
+            StartDate = singerEvent.StartDateTime,
+            Title = singerEvent.Title
+         };
+         List<EventRelevantCareUserDTO> careUsers;
+         if (!User.IsInRole(Roles.ROLE_ADMINISTRATOR))
+         {
+            careUsers = await _careUserService.GetCareUsersForLegalGuardian(Guid.Parse(User.GetSubjectId()));
+
+            foreach (var user in careUsers)
+            {
+               user.AppropriateAgeGroup = singerEvent.AllowedAgeGroups.Contains(user.AgeGroup);
+            }
          }
-         return Ok(careUsers);
+         else
+         {
+            throw new NotImplementedException("Berend should implement this");
+         }
+
+         details.RelevantCareUsers = careUsers;
+
+         var eventSlots = new List<EventSlotRegistrationsDTO>();
+
+         var registrations = await _eventRegistrationService.GetAllSlotsForEventAsync(eventId);
+         details.EventSlots = singerEvent.EventSlots.Select(x => new EventSlotRegistrationsDTO
+         {
+            EndDateTime = x.EndDateTime,
+            Id = x.Id,
+            StartDateTime = x.StartDateTime,
+            Registrations = registrations.Where(y => y.EventSlot.Id == x.Id).Select(z => new EventCareUserRegistrationDTO
+            {
+               CareUserId = z.CareUser.Id,
+               Status = z.Status
+            }).ToList()
+         }).ToList();
+
+
+         return Ok(details);
       }
       #endregion METHODS
    }

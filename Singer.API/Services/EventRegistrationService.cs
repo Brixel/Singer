@@ -183,5 +183,10 @@ namespace Singer.Services
          await Context.SaveChangesAsync()
             .ConfigureAwait(false);
       }
+
+      public Task<List<EventRegistrationDTO>> GetAllSlotsForEventAsync(Guid eventId)
+      {
+         return Queryable.Where(x => x.EventSlot.EventId == eventId).Select(Projector).ToListAsync();
+      }
    }
 }
