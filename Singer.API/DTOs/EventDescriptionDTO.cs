@@ -12,5 +12,7 @@ namespace Singer.DTOs
       public DateTime StartDate { get; set; }
       public DateTime EndDate { get; set; }
       public IReadOnlyList<AgeGroup> AgeGroups { get; set; }
+      public IList<EventSlotDTO> EventSlots { get; set; }
+      public bool RegistrationOnDailyBasis { get; set; }
    }
 }

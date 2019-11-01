@@ -1,0 +1,21 @@
+.mat-dialog-container {
+   height: auto;
+}
+
+.mat-form-field {
+   font-size: 14px;
+   margin: 10px auto;
+   display: block;
+}
+
+/* MAIN TABLE STYLING */
+.overview-table {
+   overflow: auto;
+   /* Hide Vertical scroll bar */
+   overflow-y: hidden;
+   margin: 10px auto;
+}
+
+table {
+   width: 100%;
+}

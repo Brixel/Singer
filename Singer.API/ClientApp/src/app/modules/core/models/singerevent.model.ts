@@ -1,5 +1,12 @@
-import { AgeGroup } from './enum';
+import {
+   AgeGroup,
+   WeekDay,
+   MonthRepeatMoment,
+   RepeatType,
+   TimeUnit,
+} from './enum';
 import { SingerEventLocation } from './singer-event-location';
+import { EventSlot } from './event-slot';
 
 export interface SingerEventDTO {
    id: string;
@@ -59,6 +66,7 @@ export interface CreateSingerEventDTO {
    dayCareBeforeStartDateTime: Date;
    hasDayCareAfter: boolean;
    dayCareAfterEndDateTime: Date;
+   repeatSettings: EventRepeatSettingsDTO;
 }
 
 export class SingerEvent {
@@ -89,7 +97,9 @@ export class EventDescription {
       description: string,
       ageGroups: AgeGroup[],
       startDateTime: Date,
-      endDateTime: Date
+      endDateTime: Date,
+      eventSlots: EventSlot[],
+      registrationOnDailyBasis: boolean
    ) {
       this.id = id;
       this.title = title;
@@ -97,6 +107,8 @@ export class EventDescription {
       this.ageGroups = ageGroups;
       this.startDateTime = startDateTime;
       this.endDateTime = endDateTime;
+      this.eventSlots = eventSlots;
+      this.registrationOnDailyBasis = registrationOnDailyBasis;
    }
    id: string;
    title: string;
@@ -104,6 +116,8 @@ export class EventDescription {
    ageGroups: AgeGroup[];
    startDateTime: Date;
    endDateTime: Date;
+   eventSlots: EventSlot[];
+   registrationOnDailyBasis: boolean;
 }
 
 export class SearchEventDTO {
@@ -118,4 +132,14 @@ export class EventRelevantCareUserDTO {
    lastName: string;
    ageGroup: AgeGroup;
    appropriateAgeGroup: boolean;
+}
+
+export interface EventRepeatSettingsDTO {
+   interval: number;
+   intervalUnit: TimeUnit;
+   weekRepeatMoment: WeekDay;
+   monthRepeatMoment: MonthRepeatMoment;
+   repeatType: RepeatType;
+   numberOfRepeats: number;
+   stopRepeatDate: Date;
 }

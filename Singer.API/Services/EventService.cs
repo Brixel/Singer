@@ -82,7 +82,9 @@ namespace Singer.Services
                Description = x.Description,
                Title = x.Title,
                StartDate = x.EventSlots.OrderBy(y => y.StartDateTime).First().StartDateTime,
-               EndDate = x.EventSlots.OrderByDescending(y => y.EndDateTime).First().EndDateTime
+               EndDate = x.EventSlots.OrderByDescending(y => y.EndDateTime).First().EndDateTime,
+               EventSlots = x.EventSlots.Select(x => new EventSlotDTO { Id = x.Id, StartDateTime = x.StartDateTime, EndDateTime = x.EndDateTime }).ToList(),
+               RegistrationOnDailyBasis = x.RegistrationOnDailyBasis
             })
             .ToListAsync()
             .ConfigureAwait(false);

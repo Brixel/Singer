@@ -11,3 +11,31 @@ export enum RegistrationStatus {
    Accepted = 2,
    Rejected = 4,
 }
+
+export enum TimeUnit {
+   Day = 0,
+   Week = 1,
+   Month = 2,
+   Year = 3,
+}
+
+export enum WeekDay {
+   Monday = 0b0000_0001,
+   Tuesday = 0b0000_0010,
+   Wednesday = 0b0000_0100,
+   Thursday = 0b0000_1000,
+   Friday = 0b0001_0000,
+   Saturday = 0b0010_0000,
+   Sunday = 0b0100_0000,
+}
+
+export enum MonthRepeatMoment {
+   DayOfTheMonth = 0,
+   WeekdayOfTheMonth = 1,
+   WeekOfTheMonth = 2,
+}
+
+export enum RepeatType {
+   OnDate = 0,
+   AfterXTimes = 1,
+}
