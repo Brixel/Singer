@@ -1,118 +1,197 @@
 using Singer.Models;
+using Singer.Resources;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Singer.DTOs.Users
 {
    public class CareUserDTO : UserDTO
    {
-      [Required]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.BirthDay))]
       [DataType(DataType.Date)]
-      [DisplayName("Geboortedatum")]
       public DateTime BirthDay { get; set; }
 
-      [Required]
-      [StringLength(maximumLength: 10,
-         ErrorMessage = "Het {0} moet een lengte hebben van {2} karakters.",
-         MinimumLength = 10)]
-      [DisplayName("Dossiernummer")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [StringLength(
+         maximumLength: ValidationValues.CaseNumberLength,
+         MinimumLength = ValidationValues.CaseNumberLength,
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldMustHaveChars),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.CaseNumber))]
       public string CaseNumber { get; set; }
 
-      [Required]
-      [DisplayName("Leeftijdsgroep")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.AgeGroup))]
       public AgeGroup AgeGroup { get; set; }
 
-      [DisplayName("Klas/Extern")]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.IsExtern))]
       public bool IsExtern { get; set; }
 
-      [DisplayName("Traject")]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.HasTrajectory))]
       public bool HasTrajectory { get; set; }
 
-      [DisplayName("Opv. normaal")]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.NormalDaycareLocation))]
       public EventLocation NormalDaycareLocation { get; set; }
 
-      [DisplayName("Opv. vakantie")]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.VacationDaycareLocation))]
       public EventLocation VacationDaycareLocation { get; set; }
 
-      [DisplayName("Middelen")]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.HasResources))]
       public bool HasResources { get; set; }
 
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.LegalGuardianUsers))]
       public List<LinkedLegalGuardianDTO> LegalGuardianUsers { get; set; }
    }
 
    public class CreateCareUserDTO : CreateUserDTO
    {
-      [Required]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.BirthDay))]
       [DataType(DataType.Date)]
-      [DisplayName("Geboortedatum")]
       public DateTime BirthDay { get; set; }
 
-      [Required]
-      [StringLength(maximumLength: 10,
-         ErrorMessage = "Het {0} moet een lengte hebben van {2} karakters.",
-         MinimumLength = 10)]
-      [DisplayName("Dossiernummer")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [StringLength(
+         maximumLength: ValidationValues.CaseNumberLength,
+         MinimumLength = ValidationValues.CaseNumberLength,
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldMustHaveChars),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.CaseNumber))]
       public string CaseNumber { get; set; }
 
-      [Required]
-      [DisplayName("Leeftijdsgroep")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.AgeGroup))]
       public AgeGroup AgeGroup { get; set; }
 
-      [DisplayName("Klas/Extern")]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.IsExtern))]
       public bool IsExtern { get; set; }
 
-      [DisplayName("Traject")]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.HasTrajectory))]
       public bool HasTrajectory { get; set; }
 
-      [DisplayName("Opv. normaal")]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.HasNormalDayCare))]
       public bool HasNormalDayCare { get; set; }
 
-      [DisplayName("Opv. vakantie")]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.HasVacationDayCare))]
       public bool HasVacationDayCare { get; set; }
 
-      [DisplayName("Middelen")]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.HasResources))]
       public bool HasResources { get; set; }
    }
 
    public class UpdateCareUserDTO : UpdateUserDTO
    {
-      [Required]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.BirthDay))]
       [DataType(DataType.Date)]
-      [DisplayName("Geboortedatum")]
       public DateTime BirthDay { get; set; }
 
-      [Required]
-      [StringLength(maximumLength: 10,
-         ErrorMessage = "Het {0} moet een lengte hebben van {2} karakters.",
-         MinimumLength = 10)]
-      [DisplayName("Dossiernummer")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [StringLength(
+         maximumLength: ValidationValues.CaseNumberLength,
+         MinimumLength = ValidationValues.CaseNumberLength,
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldMustHaveChars),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.CaseNumber))]
       public string CaseNumber { get; set; }
 
-      [Required]
-      [DisplayName("Leeftijdsgroep")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.AgeGroup))]
       public AgeGroup AgeGroup { get; set; }
 
-      [DisplayName("Klas/Extern")]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.IsExtern))]
       public bool IsExtern { get; set; }
 
-      [DisplayName("Traject")]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.HasTrajectory))]
       public bool HasTrajectory { get; set; }
 
-      [DisplayName("Opv. normaal")]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.HasNormalDayCare))]
       public bool HasNormalDayCare { get; set; }
 
-      [DisplayName("Opv. vakantie")]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.HasVacationDayCare))]
       public bool HasVacationDayCare { get; set; }
 
-      [DisplayName("Middelen")]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.HasResources))]
       public bool HasResources { get; set; }
 
-      [DisplayName("Toe te voegen voogden")]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.LegalGuardianUsersToAdd))]
       public List<Guid> LegalGuardianUsersToAdd { get; set; }
 
-      [DisplayName("Te verwijderen voogden")]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.LegalGuardianUsersToRemove))]
       public List<Guid> LegalGuardianUsersToRemove { get; set; }
    }
 }

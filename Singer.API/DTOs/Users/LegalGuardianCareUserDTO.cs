@@ -1,17 +1,25 @@
+using Singer.Resources;
 using System;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Singer.DTOs.Users
 {
    public class LegalGuardianCareUserDTO
    {
-      [Required]
-      [DisplayName("Voogd id")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.LegalGuardianId))]
       public Guid LegalGuardianId { get; set; }
 
-      [Required]
-      [DisplayName("Zorggebruiker id")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.CareUserId))]
       public Guid CareUserId { get; set; }
    }
 }

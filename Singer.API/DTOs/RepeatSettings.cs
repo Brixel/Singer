@@ -1,6 +1,6 @@
 using Singer.Helpers.Enums;
+using Singer.Resources;
 using System;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Singer.DTOs
@@ -9,26 +9,40 @@ namespace Singer.DTOs
    public class RepeatSettings
    {
       [Range(0, int.MaxValue)]
-      [DisplayName("Interval")]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.Interval))]
       public int Interval { get; set; }
 
-      [DisplayName("Interval eenheid")]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.IntervalUnit))]
       public TimeUnit IntervalUnit { get; set; }
 
-      [DisplayName("Moment van de week")]
+      [Display(
+          ResourceType = typeof(DisplayNames),
+          Name = nameof(DisplayNames.WeekRepeatMoment))]
       public WeekDay WeekRepeatMoment { get; set; }
 
-      [DisplayName("Moment van de maant")]
+      [Display(
+          ResourceType = typeof(DisplayNames),
+          Name = nameof(DisplayNames.MonthRepeatMoment))]
       public MonthRepeatMoment MonthRepeatMoment { get; set; }
 
-      [DisplayName("Manier van herhalen")]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.RepeatType))]
       public RepeatType RepeatType { get; set; }
 
       [Range(0, int.MaxValue)]
-      [DisplayName("Aantal herhalingen")]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.NumberOfRepeats))]
       public int NumberOfRepeats { get; set; }
 
-      [DisplayName("Stop herhaaldatum")]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.StopRepeatDate))]
       public DateTime StopRepeatDate { get; set; }
    }
 }

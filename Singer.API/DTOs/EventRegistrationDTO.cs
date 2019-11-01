@@ -1,61 +1,105 @@
 using Singer.DTOs.Users;
 using Singer.Models;
+using Singer.Resources;
 using System;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Singer.DTOs
 {
    public class EventRegistrationDTO
    {
-      [Required]
-      [DisplayName("Id")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.Id))]
       public Guid Id { get; set; }
 
-      [Required]
-      [DisplayName("Event slot")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.EventSlot))]
       public EventSlotDTO EventSlot { get; set; }
 
-      [Required]
-      [DisplayName("Beschrijving")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.EventDescription))]
       public EventDescriptionDTO EventDescription { get; set; }
 
-      [Required]
-      [DisplayName("Zorg gebruiker")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.CareUser))]
       public CareUserDTO CareUser { get; set; }
 
-      [Required]
-      [DisplayName("Status")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.Status))]
       public RegistrationStatus Status { get; set; }
    }
 
    public class CreateEventRegistrationDTO
    {
-      [Required]
-      [DisplayName("Event id")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.EventId))]
       public Guid EventId { get; set; }
 
-      [Required]
-      [DisplayName("Zorg gebruiker id")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.CareUserId))]
       public Guid CareUserId { get; set; }
 
-      [Required]
-      [DisplayName("Status")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.Status))]
       public RegistrationStatus Status { get; set; }
    }
 
    public class UpdateEventRegistrationDTO
    {
-      [Required]
-      [DisplayName("Event slot id")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.EventSlotId))]
       public Guid EventSlotId { get; set; }
 
-      [Required]
-      [DisplayName("Zorg gebruiker id")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.CareUserId))]
       public Guid CareUserId { get; set; }
 
-      [Required]
-      [DisplayName("Status")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.Status))]
       public RegistrationStatus Status { get; set; }
    }
 }

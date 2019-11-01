@@ -71,6 +71,30 @@
    </ItemGroup>
 
    <ItemGroup>
+     <Compile Update="Resources\DisplayNames.Designer.cs">
+       <DesignTime>True</DesignTime>
+       <AutoGen>True</AutoGen>
+       <DependentUpon>DisplayNames.resx</DependentUpon>
+     </Compile>
+     <Compile Update="Resources\ErrorMessages.Designer.cs">
+       <DesignTime>True</DesignTime>
+       <AutoGen>True</AutoGen>
+       <DependentUpon>ErrorMessages.resx</DependentUpon>
+     </Compile>
+   </ItemGroup>
+
+   <ItemGroup>
+     <EmbeddedResource Update="Resources\DisplayNames.resx">
+       <Generator>PublicResXFileCodeGenerator</Generator>
+       <LastGenOutput>DisplayNames.Designer.cs</LastGenOutput>
+     </EmbeddedResource>
+     <EmbeddedResource Update="Resources\ErrorMessages.resx">
+       <Generator>PublicResXFileCodeGenerator</Generator>
+       <LastGenOutput>ErrorMessages.Designer.cs</LastGenOutput>
+     </EmbeddedResource>
+   </ItemGroup>
+
+   <ItemGroup>
       <None Update="example.pfx">
          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>

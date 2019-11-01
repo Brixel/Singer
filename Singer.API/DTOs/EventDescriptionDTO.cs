@@ -1,36 +1,53 @@
 using Singer.Models;
+using Singer.Resources;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Singer.DTOs
 {
    public class EventDescriptionDTO
    {
-      [Required]
-      [StringLength(maximumLength: 100,
-          ErrorMessage = "De {0} moet een lengte hebben van minstens {2} en maximum {1} karakters.",
-          MinimumLength = 3)]
-      [DisplayName("Titel")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [StringLength(
+         maximumLength: ValidationValues.MaxEventTitleLength,
+         MinimumLength = ValidationValues.MinEventTitleLength,
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldLengthMustBeBetween),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(ResourceType = typeof(DisplayNames), Name = nameof(DisplayNames.Title))]
       public string Title { get; set; }
 
-      [StringLength(maximumLength: 1000,
-           ErrorMessage = "De {0} moet een lengte hebben van minstens {2} en maximum {1} karakters.",
-           MinimumLength = 3)]
-      [DisplayName("Beschrijving")]
+      [StringLength(
+         maximumLength: ValidationValues.MaxDescriptionLength,
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldLengthCanMaximumBe),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.Description))]
       public string Description { get; set; }
 
-      [Required]
-      [DisplayName("Start datum")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.StartDateTime))]
       public DateTime StartDate { get; set; }
 
-      [Required]
-      [DisplayName("Eind datum")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(ResourceType = typeof(DisplayNames), Name = nameof(DisplayNames.EndDateTime))]
       public DateTime EndDate { get; set; }
 
-      [Required]
-      [DisplayName("Leeftijdsgroepen")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.AllowedAgeGroups))]
       public IReadOnlyList<AgeGroup> AgeGroups { get; set; }
    }
 }

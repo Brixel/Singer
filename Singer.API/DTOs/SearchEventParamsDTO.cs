@@ -1,17 +1,24 @@
+using Singer.Resources;
 using System;
-using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Singer.DTOs
 {
    public class SearchEventParamsDTO
    {
-      [DisplayName("Start datum")]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.StartDateTime))]
       public DateTime? StartDate { get; set; }
 
-      [DisplayName("Eind datum")]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.EndDateTime))]
       public DateTime? EndDate { get; set; }
 
-      [DisplayName("Locatie id")]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.LocationId))]
       public Guid? LocationId { get; set; }
    }
 }

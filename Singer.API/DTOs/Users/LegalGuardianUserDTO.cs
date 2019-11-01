@@ -1,87 +1,164 @@
+using Singer.Resources;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Singer.DTOs.Users
 {
    public class LegalGuardianUserDTO : UserDTO
    {
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.CareUsers))]
       public List<LinkedCareUserDTO> CareUsers { get; set; }
 
-      [Required]
-      [StringLength(maximumLength: 50, ErrorMessage = "{0} moet een minimale lengte van {2} en maximale lengte van {1} karakters hebben.")]
-      [DisplayName("Adres")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [StringLength(
+         maximumLength: ValidationValues.MaxAddressLength,
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldLengthCanMaximumBe),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(ResourceType = typeof(DisplayNames), Name = nameof(DisplayNames.Address))]
       public string Address { get; set; }
 
-      [Required]
-      [StringLength(maximumLength: 10, ErrorMessage = "{0} mag maximaal {1} karakters bevatten.")]
-      [DisplayName("Postcode")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [StringLength(
+         maximumLength: ValidationValues.MaxPostalCodeLength,
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldLengthCanMaximumBe),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(ResourceType = typeof(DisplayNames), Name = nameof(DisplayNames.PostalCode))]
       public string PostalCode { get; set; }
 
-      [Required]
-      [StringLength(maximumLength: 50, ErrorMessage = "{0} mag maximaal {1} karakters bevatten.")]
-      [DisplayName("Gemeente")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [StringLength(
+         maximumLength: ValidationValues.MaxCityLength,
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldLengthCanMaximumBe),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(ResourceType = typeof(DisplayNames), Name = nameof(DisplayNames.City))]
       public string City { get; set; }
 
-      [Required]
-      [StringLength(maximumLength: 50, ErrorMessage = "{0} mag maximaal {1} karakters bevatten.")]
-      [DisplayName("Land")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [StringLength(
+         maximumLength: ValidationValues.MaxCountryLength,
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldLengthCanMaximumBe),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.Country))]
       public string Country { get; set; }
    }
 
    public class CreateLegalGuardianUserDTO : CreateUserDTO
    {
-      [DisplayName("Zorggebruikers")]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.CareUsers))]
       public List<Guid> CareUsers { get; set; }
 
-      [Required]
-      [StringLength(maximumLength: 50, ErrorMessage = "{0} mag maximaal {1} karakters bevatten.")]
-      [DisplayName("Adres")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [StringLength(
+         maximumLength: ValidationValues.MaxAddressLength,
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldLengthCanMaximumBe),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(ResourceType = typeof(DisplayNames), Name = nameof(DisplayNames.Address))]
       public string Address { get; set; }
 
-      [Required]
-      [StringLength(maximumLength: 50, ErrorMessage = "{0} mag maximaal {1} karakters bevatten.")]
-      [DisplayName("Gemeente")]
-      public string City { get; set; }
-
-      [Required]
-      [StringLength(maximumLength: 10, ErrorMessage = "{0} mag maximaal {1} karakters bevatten.")]
-      [DisplayName("Postcode")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [StringLength(
+         maximumLength: ValidationValues.MaxPostalCodeLength,
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldLengthCanMaximumBe),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(ResourceType = typeof(DisplayNames), Name = nameof(DisplayNames.PostalCode))]
       public string PostalCode { get; set; }
 
-      [Required]
-      [StringLength(maximumLength: 50, ErrorMessage = "{0} mag maximaal {1} karakters bevatten.")]
-      [DisplayName("Land")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [StringLength(
+         maximumLength: ValidationValues.MaxCityLength,
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldLengthCanMaximumBe),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(ResourceType = typeof(DisplayNames), Name = nameof(DisplayNames.City))]
+      public string City { get; set; }
+
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [StringLength(
+         maximumLength: ValidationValues.MaxCountryLength,
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldLengthCanMaximumBe),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.Country))]
       public string Country { get; set; }
    }
 
    public class UpdateLegalGuardianUserDTO : UpdateUserDTO
    {
-      [Required]
-      [StringLength(maximumLength: 50, ErrorMessage = "{0} mag maximaal {1} karakters bevatten.")]
-      [DisplayName("Adres")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [StringLength(
+         maximumLength: ValidationValues.MaxAddressLength,
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldLengthCanMaximumBe),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.Address))]
       public string Address { get; set; }
 
-      [Required]
-      [StringLength(maximumLength: 50, ErrorMessage = "{0} mag maximaal {1} karakters bevatten.")]
-      [DisplayName("Gemeente")]
-      public string City { get; set; }
-
-      [Required]
-      [StringLength(maximumLength: 10, ErrorMessage = "{0} mag maximaal {1} karakters bevatten.")]
-      [DisplayName("Postcode")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [StringLength(
+         maximumLength: ValidationValues.MaxPostalCodeLength,
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldLengthCanMaximumBe),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(ResourceType = typeof(DisplayNames), Name = nameof(DisplayNames.PostalCode))]
       public string PostalCode { get; set; }
 
-      [Required]
-      [StringLength(maximumLength: 50, ErrorMessage = "{0} mag maximaal {1} karakters bevatten.")]
-      [DisplayName("Land")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [StringLength(
+         maximumLength: ValidationValues.MaxCityLength,
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldLengthCanMaximumBe),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(ResourceType = typeof(DisplayNames), Name = nameof(DisplayNames.City))]
+      public string City { get; set; }
+
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [StringLength(
+         maximumLength: ValidationValues.MaxCountryLength,
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldLengthCanMaximumBe),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.Country))]
       public string Country { get; set; }
 
-      [DisplayName("Toe te voegen zorggebruikers")]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.CareUsersToAdd))]
       public List<Guid> CareUsersToAdd { get; set; }
 
-      [DisplayName("Te verwijderen zorggebruikers")]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.CareUsersToRemove))]
       public List<Guid> CareUsersToRemove { get; set; }
    }
 }

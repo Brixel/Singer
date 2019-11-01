@@ -1,240 +1,442 @@
 using Singer.Helpers;
 using Singer.Models;
+using Singer.Resources;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Singer.DTOs
 {
    public class EventDTO : IIdentifiable
    {
-      [DisplayName("Id")]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.Id))]
       public Guid Id { get; set; }
 
-      [Required]
-      [StringLength(maximumLength: 100,
-         ErrorMessage = "De {0} moet een lengte hebben van minstens {2} en maximum {1} karakters.",
-         MinimumLength = 3)]
-      [DisplayName("Titel")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [StringLength(
+         maximumLength: ValidationValues.MinEventTitleLength,
+         MinimumLength = ValidationValues.MaxEventTitleLength,
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldLengthMustBeBetween),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.Title))]
       public string Title { get; set; }
 
-      [StringLength(maximumLength: 1000,
-          ErrorMessage = "De {0} moet een lengte hebben van minstens {2} en maximum {1} karakters.",
-          MinimumLength = 3)]
-      [DisplayName("Beschrijving")]
+      [StringLength(
+         maximumLength: ValidationValues.MaxDescriptionLength,
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldLengthCanMaximumBe),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.Description))]
       public string Description { get; set; }
 
-      [Required]
-      [DisplayName("Leeftijdsgroepen")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.AllowedAgeGroups))]
       public List<AgeGroup> AllowedAgeGroups { get; set; }
 
-      [Required]
-      [DisplayName("Locatie")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.Location))]
       public EventLocationDTO Location { get; set; }
 
-      [Required]
-      [Range(1, int.MaxValue)]
-      [DisplayName("Maximum aantal inschrijvingen")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Range(
+         ValidationValues.MaxMaxRegistrants,
+         ValidationValues.MinMaxRegistrants)]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.MaxRegistrants))]
       public int MaxRegistrants { get; set; }
 
-      [Required]
-      [Range(0, int.MaxValue)]
-      [DisplayName("Aantal inschrijvingen")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Range(
+         maximum: ValidationValues.MaxCurrentRegistrants,
+         minimum: ValidationValues.MinCurrentRegistrants)]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.CurrentRegistrants))]
       public int CurrentRegistrants { get; set; }
 
-      [Required]
-      [Range(0, int.MaxValue)]
-      [DisplayName("Prijs")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Range(
+         ValidationValues.MinEventCost,
+         ValidationValues.MaxEventCost)]
+      [Display(ResourceType = typeof(DisplayNames), Name = nameof(DisplayNames.Cost))]
       public decimal Cost { get; set; }
 
-      [Required]
-      [DisplayName("Start datum")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.StartDateTime))]
       public DateTime StartDateTime { get; set; }
 
-      [Required]
-      [DisplayName("Eind datum")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.EndDateTime))]
       public DateTime EndDateTime { get; set; }
 
-      [Required]
-      [DisplayName("Start registratie datum")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.StartRegistrationDateTime))]
       public DateTime StartRegistrationDateTime { get; set; }
 
-      [Required]
-      [DisplayName("Eind registratie datum")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.EndRegistrationDateTime))]
       public DateTime EndRegistrationDateTime { get; set; }
 
-      [Required]
-      [DisplayName("Uiterste annuleringsdatum")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.FinalCancellationDateTime))]
       public DateTime FinalCancellationDateTime { get; set; }
 
-      [Required]
-      [DisplayName("Registratie op dagelijkse basis")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.RegistrationOnDailyBasis))]
       public bool RegistrationOnDailyBasis { get; set; }
 
-      [Required]
-      [DisplayName("Opvang voor het evenement")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.HasDayCareBefore))]
       public bool HasDayCareBefore { get; set; }
 
-      [DisplayName("Start opvang voor het evenement")]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.DayCareBeforeStartDateTime))]
       public DateTime? DayCareBeforeStartDateTime { get; set; }
 
-      [Required]
-      [DisplayName("Opvan na het evenement")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.HasDayCareAfter))]
       public bool HasDayCareAfter { get; set; }
 
-      [DisplayName("Einde opvang na het evenement")]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.DayCareAfterEndDateTime))]
       public DateTime? DayCareAfterEndDateTime { get; set; }
 
-      [Required]
-      [DisplayName("Event slots")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.EventSlots))]
       public IList<EventSlotDTO> EventSlots { get; set; }
    }
 
    public class CreateEventDTO
    {
-      [Required]
-      [StringLength(maximumLength: 100,
-          ErrorMessage = "De {0} moet een lengte hebben van minstens {2} en maximum {1} karakters.",
-          MinimumLength = 3)]
-      [DisplayName("Titel")]
+      [Required(
+        ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+        ErrorMessageResourceType = typeof(ErrorMessages))]
+      [StringLength(
+        maximumLength: ValidationValues.MinEventTitleLength,
+        MinimumLength = ValidationValues.MaxEventTitleLength,
+        ErrorMessageResourceName = nameof(ErrorMessages.FieldLengthMustBeBetween),
+        ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+        ResourceType = typeof(DisplayNames),
+        Name = nameof(DisplayNames.Title))]
       public string Title { get; set; }
 
-      [StringLength(maximumLength: 1000,
-            ErrorMessage = "De {0} moet een lengte hebben van minstens {2} en maximum {1} karakters.",
-            MinimumLength = 3)]
-      [DisplayName("Beschrijving")]
+      [StringLength(
+         maximumLength: ValidationValues.MaxDescriptionLength,
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldLengthCanMaximumBe),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.Description))]
       public string Description { get; set; }
 
-      [Required]
-      [DisplayName("Leeftijdsgroepen")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired), ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames), Name = nameof(DisplayNames.AllowedAgeGroups))]
       public List<AgeGroup> AllowedAgeGroups { get; set; }
 
-      [Required]
-      [DisplayName("Locatie id")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired), ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames), Name = nameof(DisplayNames.LocationId))]
       public Guid LocationId { get; set; }
 
-      [Required]
-      [Range(1, int.MaxValue)]
-      [DisplayName("Maximum aantal inschrijvingen")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired), ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Range(
+         ValidationValues.MaxMaxRegistrants,
+         ValidationValues.MinMaxRegistrants)]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.MaxRegistrants))]
       public int MaxRegistrants { get; set; }
 
-      [Required]
-      [Range(0, int.MaxValue)]
-      [DisplayName("Prijs")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Range(
+         ValidationValues.MinEventCost,
+         ValidationValues.MaxEventCost)]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.Cost))]
       public decimal Cost { get; set; }
 
-      [Required]
-      [DisplayName("Start datum")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.StartDateTime))]
       public DateTime StartDateTime { get; set; }
 
-      [Required]
-      [DisplayName("Eind datum")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.EndDateTime))]
       public DateTime EndDateTime { get; set; }
 
-      [Required]
-      [DisplayName("Start registratie datum")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.StartRegistrationDateTime))]
       public DateTime StartRegistrationDateTime { get; set; }
 
-      [Required]
-      [DisplayName("Eind registratie datum")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.EndRegistrationDateTime))]
       public DateTime EndRegistrationDateTime { get; set; }
 
-      [Required]
-      [DisplayName("Uiterste annuleringsdatum")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.FinalCancellationDateTime))]
       public DateTime FinalCancellationDateTime { get; set; }
 
-      [Required]
-      [DisplayName("Registratie op dagelijkse basis")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.RegistrationOnDailyBasis))]
       public bool RegistrationOnDailyBasis { get; set; }
 
-      [Required]
-      [DisplayName("Opvang voor het evenement")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.HasDayCareBefore))]
       public bool HasDayCareBefore { get; set; }
 
-      [DisplayName("Start opvang voor het evenement")]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.DayCareBeforeStartDateTime))]
       public DateTime? DayCareBeforeStartDateTime { get; set; }
 
-      [Required]
-      [DisplayName("Opvan na het evenement")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.HasDayCareAfter))]
       public bool HasDayCareAfter { get; set; }
 
-      [DisplayName("Einde opvang na het evenement")]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.DayCareAfterEndDateTime))]
       public DateTime? DayCareAfterEndDateTime { get; set; }
 
-      [DisplayName("Herhaling")]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.RepeatSettings))]
       public RepeatSettings RepeatSettings { get; set; }
    }
 
    public class UpdateEventDTO
    {
-      [Required]
-      [StringLength(maximumLength: 100,
-          ErrorMessage = "De {0} moet een lengte hebben van minstens {2} en maximum {1} karakters.",
-          MinimumLength = 3)]
-      [DisplayName("Titel")]
+      [Required(
+        ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+        ErrorMessageResourceType = typeof(ErrorMessages))]
+      [StringLength(
+        maximumLength: ValidationValues.MinEventTitleLength,
+        MinimumLength = ValidationValues.MaxEventTitleLength,
+        ErrorMessageResourceName = nameof(ErrorMessages.FieldLengthMustBeBetween),
+        ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+        ResourceType = typeof(DisplayNames),
+        Name = nameof(DisplayNames.Title))]
       public string Title { get; set; }
 
-      [StringLength(maximumLength: 1000,
-           ErrorMessage = "De {0} moet een lengte hebben van minstens {2} en maximum {1} karakters.",
-           MinimumLength = 3)]
-      [DisplayName("Beschrijving")]
+      [StringLength(
+         maximumLength: ValidationValues.MaxDescriptionLength,
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldLengthCanMaximumBe),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.Description))]
       public string Description { get; set; }
 
-      [Required]
-      [DisplayName("Leeftijdsgroepen")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.AllowedAgeGroups))]
       public List<AgeGroup> AllowedAgeGroups { get; set; }
 
-      [Required]
-      [DisplayName("Locatie id")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.LocationId))]
       public string LocationId { get; set; }
 
-      [Required]
-      [Range(1, int.MaxValue)]
-      [DisplayName("Maximum aantal inschrijvingen")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Range(
+         ValidationValues.MaxMaxRegistrants,
+         ValidationValues.MinMaxRegistrants)]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.MaxRegistrants))]
       public int MaxRegistrants { get; set; }
 
-      [Required]
-      [Range(0, int.MaxValue)]
-      [DisplayName("Prijs")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Range(
+         ValidationValues.MinEventCost,
+         ValidationValues.MaxEventCost)]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.Cost))]
       public decimal Cost { get; set; }
 
-      [Required]
-      [DisplayName("Start datum")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.StartDateTime))]
       public DateTime StartDateTime { get; set; }
 
-      [Required]
-      [DisplayName("Eind datum")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.EndDateTime))]
       public DateTime EndDateTime { get; set; }
 
-      [Required]
-      [DisplayName("Start registratie datum")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.StartRegistrationDateTime))]
       public DateTime StartRegistrationDateTime { get; set; }
 
-      [Required]
-      [DisplayName("Eind registratie datum")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.EndRegistrationDateTime))]
       public DateTime EndRegistrationDateTime { get; set; }
 
-      [Required]
-      [DisplayName("Uiterste annuleringsdatum")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.FinalCancellationDateTime))]
       public DateTime FinalCancellationDateTime { get; set; }
 
-      [Required]
-      [DisplayName("Registratie op dagelijkse basis")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.RegistrationOnDailyBasis))]
       public bool RegistrationOnDailyBasis { get; set; }
 
-      [Required]
-      [DisplayName("Opvang voor het evenement")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.HasDayCareBefore))]
       public bool HasDayCareBefore { get; set; }
 
-      [DisplayName("Start opvang voor het evenement")]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.DayCareBeforeStartDateTime))]
       public DateTime? DayCareBeforeStartDateTime { get; set; }
 
-      [Required]
-      [DisplayName("Opvan na het evenement")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.HasDayCareAfter))]
       public bool HasDayCareAfter { get; set; }
 
-      [DisplayName("Einde opvang na het evenement")]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.DayCareAfterEndDateTime))]
       public DateTime? DayCareAfterEndDateTime { get; set; }
    }
 }

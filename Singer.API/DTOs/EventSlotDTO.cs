@@ -1,22 +1,34 @@
 using Singer.Helpers;
+using Singer.Resources;
 using System;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Singer.DTOs
 {
    public class EventSlotDTO : IIdentifiable
    {
-      [Required]
-      [DisplayName("Id")]
+      [Required(
+           ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+           ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.Id))]
       public Guid Id { get; set; }
 
-      [Required]
-      [DisplayName("Start")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.StartDateTime))]
       public DateTime StartDateTime { get; set; }
 
-      [Required]
-      [DisplayName("Einde")]
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.EndDateTime))]
       public DateTime EndDateTime { get; set; }
    }
 }
