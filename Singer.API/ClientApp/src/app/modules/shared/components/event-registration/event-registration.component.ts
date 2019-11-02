@@ -37,14 +37,17 @@ export class EventRegistrationComponent implements OnInit {
       @Inject(MAT_DIALOG_DATA) private _eventId: string,
       private _eventService: SingerEventsService,
       private _snackBar: MatSnackBar
-   ) {}
+   ) {
+      this.eventSlotDataSource = new MatTableDataSource([]);
+   }
 
    ngOnInit() {
+      this.eventSlotDataSource.paginator = this.paginator;
+      this.eventSlotDataSource.sort = this.sort;
       this._eventService
          .getEventRegisterDetails(this._eventId)
          .subscribe(res => {
             this._event$.next(res);
-            console.log(res);
             this.hasInappropriateCareUsers = this.setInappropriateCareUsers(
                res
             );
