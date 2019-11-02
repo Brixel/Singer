@@ -1,16 +1,25 @@
 <!-- Mat Form Field Filter -->
-<mat-form-field>
-   <input matInput #filterInput placeholder="Filter" />
-</mat-form-field>
+<form [formGroup]="formControlGroup">
+   <mat-form-field>
+      <input matInput #filterInput placeholder="Filter" formControlName="filterFieldControl" />
+      <mat-error *ngIf="
+      formControlGroup.controls.filterFieldControl.invalid &&
+      (formControlGroup.controls.filterFieldControl.dirty ||
+         formControlGroup.controls.filterFieldControl.touched)
+   ">
+         <div *ngIf="
+         formControlGroup.controls.filterFieldControl.errors
+            .maxlength
+      ">
+            Filter mag maximum {{ maxFilterLength }} karakters bevatten.
+         </div>
+      </mat-error>
+   </mat-form-field>
+</form>
 
 <!-- Mat Table -->
 <div class="mat-elevation-z8 table">
-   <table
-      mat-table
-      [dataSource]="dataSource"
-      matSort
-      aria-label="beheerders"
-   >
+   <table mat-table [dataSource]="dataSource" matSort aria-label="beheerders">
       <!-- FirstName Column -->
       <ng-container matColumnDef="firstName">
          <th mat-header-cell *matHeaderCellDef mat-sort-header>Voornaam</th>
@@ -41,13 +50,8 @@
       <!-- AddButton column -->
       <ng-container matColumnDef="addButton">
          <td mat-footer-cell *matFooterCellDef>
-            <button
-               mat-icon-button
-               color="primary"
-               (click)="addAdmin()"
-               title="Zorggebruiker toevoegen"
-               aria-label="Toevoegen knop"
-            >
+            <button mat-icon-button color="primary" (click)="addAdmin()" title="Zorggebruiker toevoegen"
+               aria-label="Toevoegen knop">
                <mat-icon>add_box</mat-icon>
             </button>
             <!-- <label class="tableButton">Toevoegen</label> -->
@@ -57,26 +61,15 @@
       <ng-container matColumnDef="paginator">
          <td mat-footer-cell *matFooterCellDef colspan="20">
             <!-- Paginator -->
-            <mat-paginator
-               #paginator
-               [length]="dataSource?.totalSize$ | async"
-               [pageIndex]="pageIndex"
-               [pageSize]="pageSize"
-               [pageSizeOptions]="[1, 15, 25, 50, 100]"
-               showFirstLastButtons
-            >
+            <mat-paginator #paginator [length]="dataSource?.totalSize$ | async" [pageIndex]="pageIndex"
+               [pageSize]="pageSize" [pageSizeOptions]="[1, 15, 25, 50, 100]" showFirstLastButtons>
             </mat-paginator>
          </td>
       </ng-container>
       <!-- Header Row -->
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <!-- Data Row -->
-      <tr
-         mat-row
-         *matRowDef="let row; columns: displayedColumns"
-         class="selectable"
-         (click)="selectRow(row)"
-      ></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns" class="selectable" (click)="selectRow(row)"></tr>
       <!-- Footer Row -->
       <tr mat-footer-row *matFooterRowDef="['addButton', 'paginator']"></tr>
    </table>
