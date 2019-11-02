@@ -3,7 +3,7 @@ namespace Singer.Resources
    public static class ValidationValues
    {
       public const int MaxNameLength = 100;
-      public const int MinNameLength = 3;
+      public const int MinNameLength = 2;
 
       public const int MaxEmailLength = 255;
 

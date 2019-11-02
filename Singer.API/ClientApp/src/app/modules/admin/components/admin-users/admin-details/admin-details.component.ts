@@ -31,14 +31,14 @@ export class AdminDetailsComponent implements OnInit {
    //#region Binding properties for form:
 
    // Form placeholders
-   firstNameFieldPlaceholder = 'Voornaam';
-   lastNameFieldPlaceholder = 'Familienaam';
-   emailFieldPlaceholder = 'Email';
+   readonly firstNameFieldPlaceholder = 'Voornaam';
+   readonly lastNameFieldPlaceholder = 'Familienaam';
+   readonly emailFieldPlaceholder = 'Email';
    // Form validation values
-   maxNameLength = 100;
-   minNameLength = 3;
-   maxEmailLength = 255;
-   nameRegex = /^[\w'À-ÿ][\w' À-ÿ]*[\w'À-ÿ]+$/;
+   readonly maxNameLength = 100;
+   readonly minNameLength = 2;
+   readonly maxEmailLength = 255;
+   readonly nameRegex = /^[\w'À-ÿ][\w' À-ÿ]*[\w'À-ÿ]+$/;
 
    formControlGroup: FormGroup = new FormGroup({
       // Form controls

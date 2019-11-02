@@ -17,11 +17,7 @@
                formControlName="lastNameFieldControl"
             />
             <mat-error
-               *ngIf="
-                  formControlGroup.controls.lastNameFieldControl.invalid &&
-                  (formControlGroup.controls.lastNameFieldControl.dirty ||
-                     formControlGroup.controls.lastNameFieldControl.touched)
-               "
+               *ngIf="formControlGroup.controls.lastNameFieldControl.invalid"
             >
                <div
                   *ngIf="
@@ -67,11 +63,7 @@
                formControlName="firstNameFieldControl"
             />
             <mat-error
-               *ngIf="
-                  formControlGroup.controls.firstNameFieldControl.invalid &&
-                  (formControlGroup.controls.firstNameFieldControl.dirty ||
-                     formControlGroup.controls.firstNameFieldControl.touched)
-               "
+               *ngIf="formControlGroup.controls.firstNameFieldControl.invalid"
             >
                <div
                   *ngIf="
@@ -138,12 +130,6 @@
             </div>
          </mat-error>
       </mat-form-field>
-
-      <!-- Email Field -->
-
-      <!-- Coworkers Field -->
-
-      <!-- Add Field -->
 
       <!-- Button Row -->
       <mat-dialog-actions class="button-row">
