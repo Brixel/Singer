@@ -24,6 +24,7 @@ namespace Singer.Services.Interfaces
       Task<EventRegistrationDTO> GetOneAsync(Guid eventId, Guid registrationId);
 
       Task<IReadOnlyList<EventRegistrationDTO>> CreateAsync(CreateEventRegistrationDTO dto);
+      Task<EventRegistrationDTO> CreateOneBySlotAsync(CreateEventSlotRegistrationDTO dto);
 
       Task<EventRegistrationDTO> UpdateStatusAsync(Guid eventId, Guid registrationId, RegistrationStatus status);
 

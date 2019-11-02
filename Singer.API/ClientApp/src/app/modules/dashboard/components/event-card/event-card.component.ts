@@ -25,7 +25,7 @@ export class EventCardComponent implements OnInit {
 
    openEventRegistration(event: EventDescription) {
       this._dialog.open(EventRegistrationComponent, {
-         data: event,
+         data: event.id,
          width: '40vw',
       });
    }

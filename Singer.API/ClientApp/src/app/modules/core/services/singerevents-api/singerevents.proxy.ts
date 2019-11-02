@@ -8,10 +8,12 @@ import {
    CreateSingerEventDTO,
    SingerEventDTO,
    EventRelevantCareUserDTO,
+   EventRegisterDetails,
 } from '../../models/singerevent.model';
 import { PaginationDTO } from '../../models/pagination.model';
 import {
    EventRegistrationDTO,
+   CreateEventSlotRegistrationDTO,
    CreateEventRegistrationDTO,
 } from '../../models/event-registration';
 
@@ -53,20 +55,31 @@ export class SingerEventsProxy {
          .pipe(map(res => res));
    }
 
-   getRelevantCareUsers(
-      eventId: string
-   ): Observable<EventRelevantCareUserDTO[]> {
+   getEventRegisterDetails(eventId: string): Observable<EventRegisterDetails> {
       return this.apiService
-         .get(`api/event/${eventId}/getcareusers`)
+         .get(`api/event/${eventId}/geteventregisterdetails`)
          .pipe(map(res => res));
    }
 
-   registerCareUser(
+   registerCareUserOnEvent(
       eventId: string,
       dto: CreateEventRegistrationDTO
-   ): Observable<EventRegistrationDTO> {
+   ): Observable<EventRegistrationDTO[]> {
       return this.apiService
          .post(`api/event/${eventId}/registrations`, dto)
+         .pipe(map(res => res));
+   }
+
+   registerCareUserOnEventSlot(
+      eventId: string,
+      eventSlotId: string,
+      dto: CreateEventSlotRegistrationDTO
+   ): Observable<EventRegistrationDTO> {
+      return this.apiService
+         .post(
+            `api/event/${eventId}/eventslot/${eventSlotId}/registrations`,
+            dto
+         )
          .pipe(map(res => res));
    }
 }

@@ -69,9 +69,7 @@ export class HomeComponent implements OnInit {
                      r.description,
                      r.ageGroups,
                      r.startDateTime,
-                     r.endDateTime,
-                     r.eventSlots,
-                     r.registrationOnDailyBasis
+                     r.endDateTime
                   )
             ))
       );

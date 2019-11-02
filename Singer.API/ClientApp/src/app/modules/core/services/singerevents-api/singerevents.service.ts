@@ -9,7 +9,11 @@ import { Observable } from 'rxjs';
 import { SingerEventsProxy } from './singerevents.proxy';
 import { map } from 'rxjs/operators';
 import { PaginationDTO } from '../../models/pagination.model';
-import { CreateEventRegistrationDTO } from '../../models/event-registration';
+import {
+   CreateEventSlotRegistrationDTO,
+   CreateEventRegistrationDTO,
+   EventRegistrationDTO,
+} from '../../models/event-registration';
 import { TimeUnit, RepeatType } from '../../models/enum';
 
 @Injectable({
@@ -98,15 +102,34 @@ export class SingerEventsService {
          .pipe(map(res => res));
    }
 
-   getRelevantCareUsers(eventId: string) {
-      return this.singerEventsProxy.getRelevantCareUsers(eventId);
+   getEventRegisterDetails(eventId: string) {
+      return this.singerEventsProxy.getEventRegisterDetails(eventId);
    }
 
-   registerCareUser(eventId: string, careUserId: string) {
+   registerCareUserOnEvent(eventId: string, careUserId: string) {
       const eventRegDTO = <CreateEventRegistrationDTO>{
          careUserId: careUserId,
          eventId: eventId,
       };
-      return this.singerEventsProxy.registerCareUser(eventId, eventRegDTO);
+      return this.singerEventsProxy.registerCareUserOnEvent(
+         eventId,
+         eventRegDTO
+      );
+   }
+
+   registerCareUserOnEventSlot(
+      eventId: string,
+      eventSlotId: string,
+      careUserId: string
+   ) {
+      const eventRegDTO = <CreateEventSlotRegistrationDTO>{
+         careUserId: careUserId,
+         eventSlotId: eventSlotId,
+      };
+      return this.singerEventsProxy.registerCareUserOnEventSlot(
+         eventId,
+         eventSlotId,
+         eventRegDTO
+      );
    }
 }

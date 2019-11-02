@@ -4,6 +4,7 @@ import {
    MonthRepeatMoment,
    RepeatType,
    TimeUnit,
+   RegistrationStatus,
 } from './enum';
 import { SingerEventLocation } from './singer-event-location';
 import { EventSlot } from './event-slot';
@@ -97,9 +98,7 @@ export class EventDescription {
       description: string,
       ageGroups: AgeGroup[],
       startDateTime: Date,
-      endDateTime: Date,
-      eventSlots: EventSlot[],
-      registrationOnDailyBasis: boolean
+      endDateTime: Date
    ) {
       this.id = id;
       this.title = title;
@@ -107,8 +106,6 @@ export class EventDescription {
       this.ageGroups = ageGroups;
       this.startDateTime = startDateTime;
       this.endDateTime = endDateTime;
-      this.eventSlots = eventSlots;
-      this.registrationOnDailyBasis = registrationOnDailyBasis;
    }
    id: string;
    title: string;
@@ -116,8 +113,6 @@ export class EventDescription {
    ageGroups: AgeGroup[];
    startDateTime: Date;
    endDateTime: Date;
-   eventSlots: EventSlot[];
-   registrationOnDailyBasis: boolean;
 }
 
 export class SearchEventDTO {
@@ -142,4 +137,28 @@ export interface EventRepeatSettingsDTO {
    repeatType: RepeatType;
    numberOfRepeats: number;
    stopRepeatDate: Date;
+}
+
+export class EventRegisterDetails {
+   id: string;
+   title: string;
+   description: string;
+   ageGroups: AgeGroup[];
+   startDateTime: Date;
+   endDateTime: Date;
+   eventSlots: EventSlotRegistrations[];
+   relevantCareUsers: EventRelevantCareUserDTO[];
+   registrationsOnDailyBasis: boolean;
+}
+
+export class EventSlotRegistrations {
+   id: string;
+   startDateTime: Date;
+   endDateTime: Date;
+   registrations: EventCareUserRegistration[];
+}
+
+export class EventCareUserRegistration {
+   careUserId: string;
+   status: RegistrationStatus;
 }

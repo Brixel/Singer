@@ -66,7 +66,6 @@ namespace Singer.Services
          if (dto == null)
             throw new BadInputException("Input to create registration cannot be null");
 
-         var careUser = Context.CareUsers.Single(x => x.Id == dto.CareUserId);
          var eventSlots = Context.EventSlots
             .Where(x => x.EventId == dto.EventId)
             .Select(x => new
@@ -187,6 +186,31 @@ namespace Singer.Services
       public Task<List<EventRegistrationDTO>> GetAllSlotsForEventAsync(Guid eventId)
       {
          return Queryable.Where(x => x.EventSlot.EventId == eventId).Select(Projector).ToListAsync();
+      }
+
+      public async Task<EventRegistrationDTO> CreateOneBySlotAsync(CreateEventSlotRegistrationDTO dto)
+      {
+         if (dto == null)
+            throw new BadInputException("Input to create registration cannot be null");
+
+         var slot = await Context.EventSlots.FirstOrDefaultAsync(x => x.Id == dto.EventSlotId);
+         if (slot == null)
+         {
+            throw new BadInputException("Event slot Id could not be found!");
+         }
+
+         DbSet.Add(new EventRegistration()
+         {
+            CareUserId = dto.CareUserId,
+            EventSlotId = dto.EventSlotId
+         });
+         await Context.SaveChangesAsync().ConfigureAwait(false);
+
+         var registration = await Queryable
+            .Where(x => x.EventSlotId == dto.EventSlotId && x.CareUserId == dto.CareUserId)
+            .Select(Projector).FirstOrDefaultAsync().ConfigureAwait(false);
+
+         return registration;
       }
    }
 }

@@ -48,22 +48,37 @@ namespace Singer.Controllers
       [HttpPost("{eventId}/registrations")]
       [ProducesResponseType(StatusCodes.Status201Created)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public async Task<ActionResult<EventRegistrationDTO>> Create(Guid eventId, [FromBody]CreateEventRegistrationDTO dto)
+      public async Task<ActionResult<List<EventRegistrationDTO>>> Create(Guid eventId, [FromBody]CreateEventRegistrationDTO dto)
       {
          if (eventId != dto.EventId)
             throw new BadInputException("The event id in the url and the body doe not match");
 
-         if (!User.IsInRole(Roles.ROLE_ADMINISTRATOR) && dto.Status != null)
+         if (!User.IsInRole(Roles.ROLE_ADMINISTRATOR))
          {
-            throw new BadInputException("As a non-admin user, you are not allowed to pass a status for the registration!");
-         }
-
-         if (_eventRegistrationService.GetOneBySlotAsync(eventId, dto.CareUserId) != null)
-         {
-            throw new BadInputException("Deze gebruiker is reeds geregistreerd op dit tijdslot!");
+            //throw new BadInputException("As a non-admin user, you are not allowed to pass a status for the registration!");
+            dto.Status = RegistrationStatus.Pending;
          }
          var eventRegistration = await _eventRegistrationService.CreateAsync(dto);
          return Created(nameof(Get), eventRegistration);
+      }
+
+      [HttpPost("{eventId}/eventslot/{eventSlotId}/registrations")]
+      [ProducesResponseType(StatusCodes.Status201Created)]
+      [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+      public async Task<ActionResult<EventRegistrationDTO>> Create(Guid eventId, [FromBody]CreateEventSlotRegistrationDTO dto)
+      {
+         if (!User.IsInRole(Roles.ROLE_ADMINISTRATOR))
+         {
+            //throw new BadInputException("As a non-admin user, you are not allowed to pass a status for the registration!");
+            dto.Status = RegistrationStatus.Pending;
+         }
+         var checkExisting = await _eventRegistrationService.GetOneBySlotAsync(dto.EventSlotId, dto.CareUserId);
+         if (checkExisting != null)
+         {
+            throw new BadInputException("Deze gebruiker is reeds geregistreerd op dit tijdslot!");
+         }
+         var eventSlotRegistration = await _eventRegistrationService.CreateOneBySlotAsync(dto);
+         return Created(nameof(Get), eventSlotRegistration);
       }
 
       #endregion post

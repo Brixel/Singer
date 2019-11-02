@@ -9,6 +9,12 @@ export interface CreateEventRegistrationDTO {
    status?: RegistrationStatus;
 }
 
+export interface CreateEventSlotRegistrationDTO {
+   eventSlotId: string;
+   careUserId: string;
+   status?: RegistrationStatus;
+}
+
 export interface EventRegistrationDTO {
    id: string;
    eventSlot: EventSlotDTO;
