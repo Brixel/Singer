@@ -1,7 +1,12 @@
 import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { AdminUser } from 'src/app/modules/core/models/adminuser.model';
 import { AgeGroup } from 'src/app/modules/core/models/enum';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import {
+   FormGroup,
+   FormControl,
+   Validators,
+   AbstractControl,
+} from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
@@ -29,19 +34,33 @@ export class AdminDetailsComponent implements OnInit {
    firstNameFieldPlaceholder = 'Voornaam';
    lastNameFieldPlaceholder = 'Familienaam';
    emailFieldPlaceholder = 'Email';
+   // Form validation values
+   maxNameLength = 100;
+   minNameLength = 3;
+   maxEmailLength = 255;
+   nameRegex = /^[\w'À-ÿ][\w' À-ÿ]*[\w'À-ÿ]+$/;
+
    formControlGroup: FormGroup = new FormGroup({
       // Form controls
       firstNameFieldControl: new FormControl(this.adminUser.firstName, [
          Validators.required,
+         Validators.maxLength(this.maxNameLength),
+         Validators.minLength(this.minNameLength),
+         Validators.pattern(this.nameRegex),
       ]),
       lastNameFieldControl: new FormControl(this.adminUser.lastName, [
          Validators.required,
+         Validators.maxLength(this.maxNameLength),
+         Validators.minLength(this.minNameLength),
+         Validators.pattern(this.nameRegex),
       ]),
       emailFieldControl: new FormControl(this.adminUser.email, [
-         Validators.email,
          Validators.required,
+         Validators.maxLength(this.maxEmailLength),
+         Validators.email,
       ]),
    });
+
    constructor(
       public dialogRef: MatDialogRef<AdminDetailsComponent>,
       // Care user that we want to edit
@@ -67,17 +86,6 @@ export class AdminDetailsComponent implements OnInit {
       }
    }
 
-   //#region Error messages for required fields
-   getRequiredFieldErrorMessage(formControl: FormControl) {
-      return formControl.hasError('required') ? 'Dit veld is verplicht' : '';
-   }
-   getEmailFieldErrorMessage(formControl: FormControl) {
-      return formControl.hasError('required')
-         ? 'Dit veld is verplicht'
-            ? formControl.hasError('email')
-            : 'Dit is een ongeldig e-mail adres'
-         : '';
-   }
    submitForm() {
       // Check if form is valid
       if (this.formControlGroup.invalid) {
