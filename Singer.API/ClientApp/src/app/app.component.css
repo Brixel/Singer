@@ -4,3 +4,12 @@
       padding-top: 50px;
    }
 }
+
+/* To make app-root fill 100% of the screen */
+:host {
+   position: absolute;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   top: 0;
+ }
