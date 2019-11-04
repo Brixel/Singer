@@ -229,13 +229,11 @@ namespace Singer.Controllers
          }
          else
          {
-            throw new NotImplementedException("Berend should implement this");
+            careUsers = await _careUserService.GetCareUsersInAgeGroups(singerEvent.AllowedAgeGroups);
          }
 
          details.RelevantCareUsers = careUsers;
-
-         var eventSlots = new List<EventSlotRegistrationsDTO>();
-
+         
          var registrations = await _eventRegistrationService.GetAllSlotsForEventAsync(eventId);
          details.EventSlots = singerEvent.EventSlots.Select(x => new EventSlotRegistrationsDTO
          {

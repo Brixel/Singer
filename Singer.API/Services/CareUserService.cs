@@ -10,6 +10,7 @@ using Singer.Data;
 using Singer.DTOs.Users;
 using Singer.DTOs;
 using Singer.Helpers.Exceptions;
+using Singer.Models;
 using Singer.Models.Users;
 using Singer.Services.Interfaces;
 
@@ -105,24 +106,37 @@ namespace Singer.Services
 
       public async Task<List<EventRelevantCareUserDTO>> GetCareUsersForLegalGuardian(Guid baseUserId)
       {
-         var returnUsers = new List<EventRelevantCareUserDTO>();
          var careUsers = await Context.LegalGuardianCareUsers
             .Include(x => x.CareUser)
             .Include(x => x.CareUser.User)
             .Where(x => x.LegalGuardian.UserId == baseUserId)
             .ToListAsync();
-         foreach (var user in careUsers)
-         {
-            returnUsers.Add(new EventRelevantCareUserDTO
-            {
-               Id = user.CareUserId,
-               FirstName = user.CareUser.User.FirstName,
-               LastName = user.CareUser.User.LastName,
-               AgeGroup = user.CareUser.AgeGroup
-            });
-         }
+         return ProjectToRelevantCareUsers(careUsers);
+      }
 
-         return returnUsers;
+
+      public async Task<List<EventRelevantCareUserDTO>> GetCareUsersInAgeGroups(List<AgeGroup> ageGroups)
+      {
+         var careUsers = await Context.LegalGuardianCareUsers
+            .Include(x => x.CareUser)
+            .Include(x => x.CareUser.User)
+            .Where(x => ageGroups.Contains(x.CareUser.AgeGroup))
+            .ToListAsync();
+         return ProjectToRelevantCareUsers(careUsers, true);
+      }
+
+      private static List<EventRelevantCareUserDTO> ProjectToRelevantCareUsers(
+         List<LegalGuardianCareUser> careUsers,
+         bool isAppropriateAgeGroup = false)
+      {
+         return careUsers.Select(careUser => new EventRelevantCareUserDTO()
+         {
+            Id = careUser.CareUserId,
+            FirstName = careUser.CareUser.User.FirstName,
+            LastName = careUser.CareUser.User.LastName,
+            AgeGroup = careUser.CareUser.AgeGroup,
+            AppropriateAgeGroup = isAppropriateAgeGroup
+         }).ToList();
       }
    }
 }
