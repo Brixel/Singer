@@ -52,6 +52,7 @@ export class ApiService {
 
    private handleError(error: HttpErrorResponse) {
       this.error$.next(error);
+      console.error(error);
       return throwError(error.error);
    }
 }

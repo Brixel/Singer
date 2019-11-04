@@ -22,6 +22,7 @@ import {
    MatChipsModule,
    MatTooltipModule,
    MatAutocompleteModule,
+   MatSnackBarModule,
    MatTabsModule,
    MatSnackBarModule,
 } from '@angular/material';
@@ -55,6 +56,7 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
       MatTooltipModule,
       NgxMaterialTimepickerModule,
       MatAutocompleteModule,
+      MatSnackBarModule,
       MatTabsModule,
       MatSnackBarModule,
    ],
@@ -82,6 +84,7 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
       MatTooltipModule,
       NgxMaterialTimepickerModule,
       MatAutocompleteModule,
+      MatSnackBarModule,
       MatTabsModule,
       MatSnackBarModule,
    ],
