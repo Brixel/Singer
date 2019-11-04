@@ -7,9 +7,16 @@ import {
    UpdateSingerEventDTO,
    CreateSingerEventDTO,
    SingerEventDTO,
+   EventRelevantCareUserDTO,
+   EventRegisterDetails,
    EventRegistrationDTO,
 } from '../../models/singerevent.model';
 import { PaginationDTO } from '../../models/pagination.model';
+import {
+   EventRegistrationDTO,
+   CreateEventSlotRegistrationDTO,
+   CreateEventRegistrationDTO,
+} from '../../models/event-registration';
 
 @Injectable({
    providedIn: 'root',
@@ -35,10 +42,7 @@ export class SingerEventsProxy {
          .pipe(map(res => res));
    }
 
-   updateSingerEvents(
-      id: string,
-      updateSingerEventDTO: UpdateSingerEventDTO
-   ) {
+   updateSingerEvents(id: string, updateSingerEventDTO: UpdateSingerEventDTO) {
       return this.apiService
          .put(`api/event/${id}`, updateSingerEventDTO)
          .pipe(map(res => res));
@@ -52,14 +56,31 @@ export class SingerEventsProxy {
          .pipe(map(res => res));
    }
 
-
-   geteventRegistrations(eventId: string): Observable<PaginationDTO> {
+   getEventRegisterDetails(eventId: string): Observable<EventRegisterDetails> {
       return this.apiService
-      .get(`api/event/${eventId}/registrations`).pipe(map(res => res));
+         .get(`api/event/${eventId}/geteventregisterdetails`)
+         .pipe(map(res => res));
    }
 
+   registerCareUserOnEvent(
+      eventId: string,
+      dto: CreateEventRegistrationDTO
+   ): Observable<EventRegistrationDTO[]> {
+      return this.apiService
+         .post(`api/event/${eventId}/registrations`, dto)
+         .pipe(map(res => res));
+   }
 
-   updateRegistrants(eventId: string, registrantIds: string[]) {
-      return this.apiService.post(`api/event/${eventId}/registrants`).pipe(map(res) => res));
+   registerCareUserOnEventSlot(
+      eventId: string,
+      eventSlotId: string,
+      dto: CreateEventSlotRegistrationDTO
+   ): Observable<EventRegistrationDTO> {
+      return this.apiService
+         .post(
+            `api/event/${eventId}/eventslot/${eventSlotId}/registrations`,
+            dto
+         )
+         .pipe(map(res => res));
    }
 }

@@ -3,12 +3,18 @@ import {
    SingerEvent,
    UpdateSingerEventDTO,
    CreateSingerEventDTO,
-   EventRegistrationDTO,
+   EventRepeatSettingsDTO,
 } from '../../models/singerevent.model';
 import { Observable } from 'rxjs';
 import { SingerEventsProxy } from './singerevents.proxy';
 import { map } from 'rxjs/operators';
 import { PaginationDTO } from '../../models/pagination.model';
+import {
+   CreateEventSlotRegistrationDTO,
+   CreateEventRegistrationDTO,
+   EventRegistrationDTO,
+} from '../../models/event-registration';
+import { TimeUnit, RepeatType } from '../../models/enum';
 
 @Injectable({
    providedIn: 'root',
@@ -61,6 +67,10 @@ export class SingerEventsService {
    }
 
    createSingerEvent(createSingerEvent: SingerEvent) {
+      let endDateTime = new Date(createSingerEvent.startDateTime);
+      console.log(endDateTime);
+      endDateTime.setHours(createSingerEvent.endDateTime.getHours());
+      endDateTime.setMinutes(createSingerEvent.endDateTime.getMinutes());
       const createSingerEventDTO = <CreateSingerEventDTO>{
          title: createSingerEvent.title,
          description: createSingerEvent.description,
@@ -73,19 +83,53 @@ export class SingerEventsService {
          finalCancellationDateTime: createSingerEvent.finalCancellationDateTime,
          registrationOnDailyBasis: createSingerEvent.registrationOnDailyBasis,
          startDateTime: createSingerEvent.startDateTime,
-         endDateTime: createSingerEvent.endDateTime,
+         endDateTime: endDateTime,
          hasDayCareBefore: createSingerEvent.hasDayCareBefore,
          dayCareBeforeStartDateTime:
             createSingerEvent.dayCareBeforeStartDateTime,
          hasDayCareAfter: createSingerEvent.hasDayCareAfter,
          dayCareAfterEndDateTime: createSingerEvent.dayCareAfterEndDateTime,
+         //TODO: These are default repeat settings to ensure events overlapping multiple days will be created with daily timeslots
+         repeatSettings: <EventRepeatSettingsDTO>{
+            interval: 1,
+            intervalUnit: TimeUnit.Day,
+            repeatType: RepeatType.OnDate,
+            stopRepeatDate: createSingerEvent.endDateTime,
+         },
       };
       return this.singerEventsProxy
          .createSingerEvents(createSingerEventDTO)
          .pipe(map(res => res));
    }
 
-   getEventRegistrations(eventId: string): Observable<EventRegistrationDTO[]>{
-      return this.singerEventsProxy.geteventRegistrations(eventId).pipe(map((res => res.items)));
+   getEventRegisterDetails(eventId: string) {
+      return this.singerEventsProxy.getEventRegisterDetails(eventId);
+   }
+
+   registerCareUserOnEvent(eventId: string, careUserId: string) {
+      const eventRegDTO = <CreateEventRegistrationDTO>{
+         careUserId: careUserId,
+         eventId: eventId,
+      };
+      return this.singerEventsProxy.registerCareUserOnEvent(
+         eventId,
+         eventRegDTO
+      );
+   }
+
+   registerCareUserOnEventSlot(
+      eventId: string,
+      eventSlotId: string,
+      careUserId: string
+   ) {
+      const eventRegDTO = <CreateEventSlotRegistrationDTO>{
+         careUserId: careUserId,
+         eventSlotId: eventSlotId,
+      };
+      return this.singerEventsProxy.registerCareUserOnEventSlot(
+         eventId,
+         eventSlotId,
+         eventRegDTO
+      );
    }
 }

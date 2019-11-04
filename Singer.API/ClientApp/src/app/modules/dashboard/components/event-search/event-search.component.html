@@ -1,6 +1,8 @@
 <div class="container">
-<form [formGroup]="formControlGroup" class="details-form-container">
-   <!-- Name Fields -->
+   <form
+      [formGroup]="formControlGroup"
+      class="details-form-container">
+      <!-- Name Fields -->
       <!-- Lastname Field -->
       <mat-form-field>
          <input
@@ -11,8 +13,15 @@
             formControlName="startDateControl"
             (click)="startDatePicker.open()"
          />
-         <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
-         <mat-datepicker #startDatePicker touchUi [startAt]="currentDate" disabled="false" ></mat-datepicker>
+         <mat-datepicker-toggle
+            matSuffix [for]="startDatePicker">
+         </mat-datepicker-toggle>
+         <mat-datepicker
+            #startDatePicker
+            touchUi
+            [startAt]="currentDate"
+            disabled="false">
+         </mat-datepicker>
 
       </mat-form-field>
 
@@ -25,18 +34,33 @@
             formControlName="endDateControl"
             (click)="endDatePicker.open()"
          />
-         <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
-         <mat-datepicker #endDatePicker touchUi [startAt]="currentDate" disabled="false" ></mat-datepicker>
+         <mat-datepicker-toggle
+            matSuffix [for]="endDatePicker">
+         </mat-datepicker-toggle>
+         <mat-datepicker
+            #endDatePicker
+            touchUi
+            [startAt]="currentDate"
+            disabled="false">
+         </mat-datepicker>
 
       </mat-form-field>
       <mat-form-field>
-         <mat-select  formControlName="locationControl"
+         <mat-select
+            formControlName="locationControl"
             placeholder="Locatie">
-            <mat-option *ngFor="let availableLocation of availableLocations" [value]="availableLocation">
-                {{ availableLocation.name }}          </mat-option>
-             </mat-select>
+            <mat-option
+               *ngFor="let availableLocation of availableLocations"
+               [value]="availableLocation">
+               {{ availableLocation.name }}
+            </mat-option>
+         </mat-select>
       </mat-form-field>
-      <button type="button" mat-raised-button color="primary"
-      (click)="submitForm()">Zoek</button>
-</form>
+      <button
+         type="button"
+         mat-raised-button color="primary"
+         (click)="submitForm()">
+         Zoek
+      </button>
+   </form>
 </div>

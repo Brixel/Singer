@@ -14,7 +14,6 @@ export class AppComponent {
    }
    onLogout(){
       this.router.navigateByUrl('/dashboard').then(() => {
-
          this.authService.logout();
       });
    }

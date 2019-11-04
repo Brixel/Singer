@@ -47,7 +47,7 @@ namespace Singer.DTOs
       public DateTime? DayCareBeforeStartDateTime { get; set; }
       public bool HasDayCareAfter { get; set; }
       public DateTime? DayCareAfterEndDateTime { get; set; }
-      public RepeatSettings RepeatSettings { get; set; }
+      public RepeatSettingsDTO RepeatSettings { get; set; }
    }
 
    public class UpdateEventDTO
