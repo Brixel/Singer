@@ -22,11 +22,9 @@ import {
    MatChipsModule,
    MatTooltipModule,
    MatAutocompleteModule,
-   MatSnackBarModule,
    MatTabsModule,
-   MatSnackBarModule,
+   MatSnackBarModule
 } from '@angular/material';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
    MatMomentDateModule,
    MAT_MOMENT_DATE_ADAPTER_OPTIONS,
