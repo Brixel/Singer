@@ -73,7 +73,7 @@ namespace Singer.Services
                (!searchEventParamsDto.LocationId.HasValue || x.LocationId == searchEventParamsDto.LocationId.Value) &&
                // check start date
                (!searchEventParamsDto.StartDate.HasValue ||
-                  x.EventSlots.OrderBy(y => y.StartDateTime).First().StartDateTime >= searchEventParamsDto.StartDate) &&
+                  x.EventSlots.OrderBy(y => y.StartDateTime).First().StartDateTime == searchEventParamsDto.StartDate) &&
                // check end date
                (!searchEventParamsDto.EndDate.HasValue ||
                   x.EventSlots.OrderBy(y => y.EndDateTime).First().EndDateTime <= searchEventParamsDto.EndDate))
