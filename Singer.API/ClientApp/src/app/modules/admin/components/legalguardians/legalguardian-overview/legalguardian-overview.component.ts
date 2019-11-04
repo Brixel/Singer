@@ -5,7 +5,12 @@ import {
    ElementRef,
    OnInit,
 } from '@angular/core';
-import { MatPaginator, MatSort, MatDialog } from '@angular/material';
+import {
+   MatPaginator,
+   MatSort,
+   MatDialog,
+   MatSnackBar,
+} from '@angular/material';
 import { LegalguardianOverviewDataSource } from './legalguardian-overview-datasource';
 import { LegalguardiansService } from 'src/app/modules/core/services/legal-guardians-api/legalguardians.service';
 import { LegalGuardian } from 'src/app/modules/core/models/legalguardian.model';
@@ -22,6 +27,7 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
    @ViewChild(MatPaginator) paginator: MatPaginator;
    @ViewChild(MatSort) sort: MatSort;
    @ViewChild('filterInput') filterInput: ElementRef;
+
    dataSource: LegalguardianOverviewDataSource;
 
    pageSize = 15;
@@ -34,7 +40,8 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
 
    constructor(
       public dialog: MatDialog,
-      private legalguardiansService: LegalguardiansService
+      private legalguardiansService: LegalguardiansService,
+      private snackBar: MatSnackBar
    ) {}
 
    ngOnInit() {
@@ -55,12 +62,21 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
       dialogRef.componentInstance.submitEvent.subscribe(
          (result: LegalGuardian) => {
             //Update the legal guardian
-            this.legalguardiansService
-               .updateLegalGuardian(result)
-               .subscribe(res => {
+            this.legalguardiansService.updateLegalGuardian(result).subscribe(
+               res => {
                   // Reload LegalGuardian
                   this.loadLegalGuardians();
-               });
+                  debugger;
+                  this.snackBar.open(
+                     `${result.firstName} ${result.lastName} werd aangepast.`,
+                     'OK',
+                     { duration: 2000 }
+                  );
+               },
+               err => {
+                  this.snackBar.open(`⚠ ${err}`, 'OK');
+               }
+            );
          }
       );
    }
@@ -74,11 +90,20 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
       dialogRef.componentInstance.submitEvent.subscribe(
          (result: LegalGuardian) => {
             // Add the legal guardian
-            this.legalguardiansService
-               .createLegalGuardian(result)
-               .subscribe(res => {
+            this.legalguardiansService.createLegalGuardian(result).subscribe(
+               res => {
                   this.loadLegalGuardians();
-               });
+                  debugger;
+                  this.snackBar.open(
+                     `${result.firstName} ${result.lastName} werd toegevoegd als voogd.`,
+                     'OK',
+                     { duration: 2000 }
+                  );
+               },
+               err => {
+                  this.snackBar.open(`⚠ ${err}`, 'OK');
+               }
+            );
          }
       );
    }
