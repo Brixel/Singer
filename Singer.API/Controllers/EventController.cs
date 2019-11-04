@@ -202,6 +202,13 @@ namespace Singer.Controllers
          return BadRequest(model);
       }
 
+      [HttpGet("{eventId}/isuserregistered/{careUserId}")]
+      public async Task<ActionResult<UserRegisteredDTO>> IsUserRegisteredForEvent(Guid eventId, Guid careUserId)
+      {
+         var userRegistrationStatus = await _eventRegistrationService.GetUserRegistrationStatus(eventId, careUserId);
+         return Ok(userRegistrationStatus);
+      }
+
       [HttpGet("{eventId}/geteventregisterdetails")]
       public async Task<ActionResult<EventRegisterDetailsDTO>> GetEventRegisterDetails(Guid eventId)
       {
@@ -250,6 +257,7 @@ namespace Singer.Controllers
 
          return Ok(details);
       }
+
       #endregion METHODS
    }
 }

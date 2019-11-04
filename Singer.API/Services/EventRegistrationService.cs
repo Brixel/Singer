@@ -197,6 +197,31 @@ namespace Singer.Services
             .ConfigureAwait(false);
       }
 
+      public async Task<UserRegisteredDTO> GetUserRegistrationStatus(Guid eventId, Guid careUserId)
+      {
+         var registrationStatuses = await Context.EventRegistrations
+            .Include(x => x.EventSlot)
+            .Where(x =>
+               x.EventSlot.EventId == eventId &&
+               x.CareUserId == careUserId)
+            .Select(registration => registration.Status).ToListAsync();
+
+         if (registrationStatuses.Any())
+         {
+            var pendingStatusesRemaining = registrationStatuses.Count(x => x == RegistrationStatus.Pending);
+            return new UserRegisteredDTO(){
+               IsRegistered = true,
+               PendingStatussesRemaining = pendingStatusesRemaining,
+               Status = pendingStatusesRemaining > 0 ? RegistrationStatus.Pending : registrationStatuses.First()
+            };
+         }
+         return new UserRegisteredDTO(){
+            IsRegistered = false,
+            PendingStatussesRemaining = 0
+         };
+
+      }
+
       public Task<List<EventRegistrationDTO>> GetAllSlotsForEventAsync(Guid eventId)
       {
          return Queryable.Where(x => x.EventSlot.EventId == eventId).Select(Projector).ToListAsync();

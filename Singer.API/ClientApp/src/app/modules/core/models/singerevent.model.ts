@@ -3,12 +3,10 @@ import {
    WeekDay,
    MonthRepeatMoment,
    RepeatType,
-   TimeUnit,
-   RegistrationStatus,
+   TimeUnit
 } from './enum';
 import { SingerEventLocation } from './singer-event-location';
 import { CareUserDTO } from './careuser.model';
-import { EventSlot } from './event-slot';
 
 export interface SingerEventDTO {
    id: string;

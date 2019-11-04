@@ -48,6 +48,7 @@ export class CareUserSearchComponent implements OnInit {
 
    selectCareUser(careUser: CareUserDTO, event: MatOptionSelectionChange) {
       this.userSelected.emit(careUser);
+
       this.control.reset();
    }
 

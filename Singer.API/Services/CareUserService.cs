@@ -110,6 +110,7 @@ namespace Singer.Services
             .Include(x => x.CareUser)
             .Include(x => x.CareUser.User)
             .Where(x => x.LegalGuardian.UserId == baseUserId)
+            .Select(x => x.CareUser)
             .ToListAsync();
          return ProjectToRelevantCareUsers(careUsers);
       }
@@ -117,24 +118,23 @@ namespace Singer.Services
 
       public async Task<List<EventRelevantCareUserDTO>> GetCareUsersInAgeGroups(List<AgeGroup> ageGroups)
       {
-         var careUsers = await Context.LegalGuardianCareUsers
-            .Include(x => x.CareUser)
-            .Include(x => x.CareUser.User)
-            .Where(x => ageGroups.Contains(x.CareUser.AgeGroup))
+         var careUsers = await Context.CareUsers
+            .Include(x => x.User)
+            .Where(x => ageGroups.Contains(x.AgeGroup))
             .ToListAsync();
          return ProjectToRelevantCareUsers(careUsers, true);
       }
 
       private static List<EventRelevantCareUserDTO> ProjectToRelevantCareUsers(
-         List<LegalGuardianCareUser> careUsers,
+         List<CareUser> careUsers,
          bool isAppropriateAgeGroup = false)
       {
          return careUsers.Select(careUser => new EventRelevantCareUserDTO()
          {
-            Id = careUser.CareUserId,
-            FirstName = careUser.CareUser.User.FirstName,
-            LastName = careUser.CareUser.User.LastName,
-            AgeGroup = careUser.CareUser.AgeGroup,
+            Id = careUser.Id,
+            FirstName = careUser.User.FirstName,
+            LastName = careUser.User.LastName,
+            AgeGroup = careUser.AgeGroup,
             AppropriateAgeGroup = isAppropriateAgeGroup
          }).ToList();
       }

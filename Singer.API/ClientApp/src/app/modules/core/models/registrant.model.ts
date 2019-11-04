@@ -1,10 +1,10 @@
-import { RegistrationStatus } from 'src/app/modules/core/models/singerevent.model';
+import { RegistrationStatus, EventRelevantCareUserDTO } from 'src/app/modules/core/models/singerevent.model';
 import { CareUserDTO } from 'src/app/modules/core/models/careuser.model';
 export class Registrant {
    careUserId: string;
    name: string;
    registrationStatus: RegistrationStatus;
-   constructor(careUser: CareUserDTO, registrationStatus: RegistrationStatus) {
+   constructor(careUser: EventRelevantCareUserDTO, registrationStatus: RegistrationStatus) {
       console.log(careUser);
       this.careUserId = careUser.id;
       this.name = `${careUser.firstName} ${careUser.lastName}`;

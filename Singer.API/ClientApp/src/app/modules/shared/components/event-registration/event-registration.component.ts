@@ -27,7 +27,7 @@ export class EventRegistrationComponent implements OnInit {
    public event$ = this._event$.asObservable();
    public eventSlotDataSource: MatTableDataSource<EventSlotRegistrations>;
    public columnsToDisplay: string[] = ['eventSlot'];
-   public hasInappropriateCareUsers: boolean = false;
+   public hasInappropriateCareUsers = false;
 
    @ViewChild(MatPaginator) paginator: MatPaginator;
    @ViewChild(MatSort) sort: MatSort;
@@ -51,11 +51,13 @@ export class EventRegistrationComponent implements OnInit {
             this.hasInappropriateCareUsers = this.setInappropriateCareUsers(
                res
             );
+            console.log(this.hasInappropriateCareUsers);
             res.relevantCareUsers.forEach(x => {
                if (x.appropriateAgeGroup) {
                   this.columnsToDisplay.push(x.id);
                }
             });
+            console.log(this.columnsToDisplay)
             this.eventSlotDataSource = new MatTableDataSource(res.eventSlots);
             this.eventSlotDataSource.paginator = this.paginator;
             this.eventSlotDataSource.sort = this.sort;
@@ -72,7 +74,7 @@ export class EventRegistrationComponent implements OnInit {
                   'OK',
                   { duration: 2000 }
                );
-               var tmp = this._event$.value;
+               let tmp = this._event$.value;
                res.forEach(r => {
                   tmp.eventSlots.forEach(e =>
                      e.registrations.push(<EventCareUserRegistration>{
@@ -106,7 +108,7 @@ export class EventRegistrationComponent implements OnInit {
                   'OK',
                   { duration: 2000 }
                );
-               var ev = this._event$.value;
+               let ev = this._event$.value;
                ev.eventSlots
                   .find(x => x.id == eventSlotId)
                   .registrations.push(<EventCareUserRegistration>{
@@ -132,7 +134,7 @@ export class EventRegistrationComponent implements OnInit {
       registrations: EventCareUserRegistration[],
       careUserId: string
    ): RegistrationStatus {
-      let registration = registrations.find(x => x.careUserId == careUserId);
+      const registration = registrations.find(x => x.careUserId == careUserId);
       if (registration === undefined) {
          return 0;
       } else {
@@ -141,19 +143,19 @@ export class EventRegistrationComponent implements OnInit {
    }
 
    getEventRegistrationStatus(careUserId: string): RegistrationStatus {
-      let slots = this._event$.value.eventSlots.filter(x =>
+      const slots = this._event$.value.eventSlots.filter(x =>
          x.registrations.filter(y => y.careUserId == careUserId)
       );
       if (slots.length != this._event$.value.eventSlots.length) {
          return 0;
       }
-      let regs = slots.map(s => s.registrations[0]);
+      const regs = slots.map(s => s.registrations[0]);
 
       if (regs.length == 0) {
          return 0;
       }
-      let states = regs.map(r => (r === undefined ? 0 : r.status));
-      let uniqueStates = Array.from(new Set(states));
+      const states = regs.map(r => (r === undefined ? 0 : r.status));
+      const uniqueStates = Array.from(new Set(states));
       if (uniqueStates.length != 1) {
          return 0;
       }

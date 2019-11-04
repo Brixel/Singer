@@ -17,7 +17,12 @@ import { SingerEventsService } from 'src/app/modules/core/services/singerevents-
 import { SingerEvent } from 'src/app/modules/core/models/singerevent.model';
 import { SingerEventLocationService } from 'src/app/modules/core/services/singerevents-api/singerevent-location.service';
 import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location';
-import { SingerEventRegistrationsComponent, SingerEventRegistrationData } from '../singer-event-registrations/singer-event-registrations.component';
+import {
+   SingerEventRegistrationsComponent,
+   SingerEventRegistrationData,
+} from '../singer-event-registrations/singer-event-registrations.component';
+import { EventRegistrationComponent } from 'src/app/modules/shared/components/event-registration/event-registration.component';
+import { SingerEventAdminRegisterComponent } from '../singer-eventadmin-register/singer-eventadmin-register.component';
 
 @Component({
    selector: 'app-singerevent-overview',
@@ -46,7 +51,7 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
       'endDateTime',
       'hasDayCareBefore',
       'hasDayCareAfter',
-      'actions'
+      'actions',
    ];
    availableLocations: SingerEventLocation[];
 
@@ -93,15 +98,22 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
       );
    }
 
-   manageRegistrations(row: SingerEvent){
+   manageRegistrations(row: SingerEvent) {
       const dialogRef = this.dialog.open(SingerEventRegistrationsComponent, {
          data: <SingerEventRegistrationData>{
-            event: row
+            event: row,
          },
          width: '50vw',
-         maxHeight: '70vh'
+         maxHeight: '70vh',
       });
+   }
 
+   addRegistration(row: SingerEvent){
+      const dialogRef = this.dialog.open(SingerEventAdminRegisterComponent, {
+         data: <SingerEventRegistrationData>{
+            event: row
+         }
+      });
    }
 
    addSingerEvent(): void {

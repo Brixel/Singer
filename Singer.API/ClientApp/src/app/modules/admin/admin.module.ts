@@ -36,6 +36,8 @@ import { SingerEventLocationService } from '../core/services/singerevents-api/si
 import { SingerEventLocationProxy } from '../core/services/singerevents-api/singerevent-location.proxy';
 import { SingerEventRegistrationsComponent } from './components/singerevents/singer-event-registrations/singer-event-registrations.component';
 import { CareUserSearchComponent } from './components/shared/care-user-search/care-user-search.component';
+import { EventRegistrationComponent } from '../shared/components/event-registration/event-registration.component';
+import { SingerEventAdminRegisterComponent } from './components/singerevents/singer-eventadmin-register/singer-eventadmin-register.component';
 
 @NgModule({
    declarations: [
@@ -48,7 +50,9 @@ import { CareUserSearchComponent } from './components/shared/care-user-search/ca
       AdminListComponent,
       AdminDetailsComponent,
       SingerEventRegistrationsComponent,
-      CareUserSearchComponent
+      EventRegistrationComponent,
+      CareUserSearchComponent,
+      SingerEventAdminRegisterComponent
    ],
    imports: [
       CoreModule,
@@ -66,7 +70,9 @@ import { CareUserSearchComponent } from './components/shared/care-user-search/ca
       LegalguardianDetailsComponent,
       SingerEventDetailsComponent,
       SingerEventRegistrationsComponent,
-      AdminDetailsComponent
+      EventRegistrationComponent,
+      AdminDetailsComponent,
+      SingerEventAdminRegisterComponent
    ],
    providers: [
       CareUserProxy,

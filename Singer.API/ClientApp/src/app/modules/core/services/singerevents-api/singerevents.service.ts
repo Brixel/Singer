@@ -12,7 +12,7 @@ import { PaginationDTO } from '../../models/pagination.model';
 import {
    CreateEventSlotRegistrationDTO,
    CreateEventRegistrationDTO,
-   EventRegistrationDTO,
+   UserRegisteredDTO
 } from '../../models/event-registration';
 import { TimeUnit, RepeatType } from '../../models/enum';
 
@@ -67,7 +67,7 @@ export class SingerEventsService {
    }
 
    createSingerEvent(createSingerEvent: SingerEvent) {
-      let endDateTime = new Date(createSingerEvent.startDateTime);
+      const endDateTime = new Date(createSingerEvent.startDateTime);
       console.log(endDateTime);
       endDateTime.setHours(createSingerEvent.endDateTime.getHours());
       endDateTime.setMinutes(createSingerEvent.endDateTime.getMinutes());
@@ -131,5 +131,10 @@ export class SingerEventsService {
          eventSlotId,
          eventRegDTO
       );
+   }
+
+
+   isUserRegisteredForEvent(eventId: string, careUserId: string):Observable<UserRegisteredDTO> {
+      return this.singerEventsProxy.isUserRegisteredForEvent(eventId, careUserId).pipe(map(res => res));
    }
 }
