@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using Singer.DTOs.Users;
-using Singer.Helpers;
 using Singer.Models;
 
 namespace Singer.DTOs
@@ -19,13 +17,20 @@ namespace Singer.DTOs
    {
       public Guid EventId { get; set; }
       public Guid CareUserId { get; set; }
-      public RegistrationStatus Status { get; set; }
+      public RegistrationStatus? Status { get; set; }
+   }
+
+   public class CreateEventSlotRegistrationDTO
+   {
+      public Guid EventSlotId { get; set; }
+      public Guid CareUserId { get; set; }
+      public RegistrationStatus? Status { get; set; }
    }
 
    public class UpdateEventRegistrationDTO
    {
       public Guid EventSlotId { get; set; }
       public Guid CareUserId { get; set; }
-      public RegistrationStatus Status { get; set; }
+      public RegistrationStatus? Status { get; set; }
    }
 }

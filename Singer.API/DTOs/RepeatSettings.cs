@@ -3,7 +3,7 @@ using System;
 
 namespace Singer.DTOs
 {
-   public class RepeatSettings
+   public class RepeatSettingsDTO
    {
       public int Interval { get; set; }
       public TimeUnit IntervalUnit { get; set; }

@@ -37,6 +37,7 @@ namespace Singer.Services
          CareUser = Mapper.Map<CareUserDTO>(x.CareUser),
          EventDescription = new EventDescriptionDTO
          {
+            Id = x.EventSlot.Event.Id,
             AgeGroups = EventProfile.ToAgeGroupList(x.EventSlot.Event.AllowedAgeGroups),
             Description = x.EventSlot.Event.Description,
             Title = x.EventSlot.Event.Title,
@@ -65,7 +66,6 @@ namespace Singer.Services
          if (dto == null)
             throw new BadInputException("Input to create registration cannot be null");
 
-         var careUser = Context.CareUsers.Single(x => x.Id == dto.CareUserId);
          var eventSlots = Context.EventSlots
             .Where(x => x.EventId == dto.EventId)
             .Select(x => new
@@ -124,6 +124,16 @@ namespace Singer.Services
          return new SearchResults<EventRegistrationDTO>(list, totalItemCount, pageIndex);
       }
 
+      public async Task<EventRegistrationDTO> GetOneBySlotAsync(Guid eventSlotId, Guid careUserId)
+      {
+         var registration = await Context.EventRegistrations
+            .Where(x => x.EventSlotId == eventSlotId && x.CareUserId == careUserId)
+            .Select(Projector)
+            .FirstOrDefaultAsync()
+            .ConfigureAwait(false);
+
+         return registration;
+      }
       public async Task<EventRegistrationDTO> GetOneAsync(Guid eventId, Guid registrationId)
       {
          var registration = await Context.EventRegistrations
@@ -133,7 +143,7 @@ namespace Singer.Services
             .ConfigureAwait(false);
 
          if (registration == default)
-            throw new NotFoundException($"There is not registration with id {registrationId} and event id {eventId}");
+            throw new NotFoundException($"There is no registration with id {registrationId} and event id {eventId}");
 
          return registration;
       }
@@ -146,7 +156,7 @@ namespace Singer.Services
             .ConfigureAwait(false);
 
          if (registration == default)
-            throw new NotFoundException($"There is not registration with id {registrationId} and event id {eventId}");
+            throw new NotFoundException($"There is no registration with id {registrationId} and event id {eventId}");
 
          Context.Entry(registration).State = EntityState.Detached;
          registration.Status = status;
@@ -166,11 +176,41 @@ namespace Singer.Services
             .ConfigureAwait(false);
 
          if (registration == default)
-            throw new NotFoundException($"There is not registration with id {registrationId} and event id {eventId}");
+            throw new NotFoundException($"There is no registration with id {registrationId} and event id {eventId}");
 
          Context.Remove(registration);
          await Context.SaveChangesAsync()
             .ConfigureAwait(false);
+      }
+
+      public Task<List<EventRegistrationDTO>> GetAllSlotsForEventAsync(Guid eventId)
+      {
+         return Queryable.Where(x => x.EventSlot.EventId == eventId).Select(Projector).ToListAsync();
+      }
+
+      public async Task<EventRegistrationDTO> CreateOneBySlotAsync(CreateEventSlotRegistrationDTO dto)
+      {
+         if (dto == null)
+            throw new BadInputException("Input to create registration cannot be null");
+
+         var slot = await Context.EventSlots.FirstOrDefaultAsync(x => x.Id == dto.EventSlotId);
+         if (slot == null)
+         {
+            throw new BadInputException("Event slot Id could not be found!");
+         }
+
+         DbSet.Add(new EventRegistration()
+         {
+            CareUserId = dto.CareUserId,
+            EventSlotId = dto.EventSlotId
+         });
+         await Context.SaveChangesAsync().ConfigureAwait(false);
+
+         var registration = await Queryable
+            .Where(x => x.EventSlotId == dto.EventSlotId && x.CareUserId == dto.CareUserId)
+            .Select(Projector).FirstOrDefaultAsync().ConfigureAwait(false);
+
+         return registration;
       }
    }
 }
