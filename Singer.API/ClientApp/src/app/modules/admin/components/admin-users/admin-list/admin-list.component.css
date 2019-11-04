@@ -7,7 +7,7 @@
 }
 
 /* MAIN TABLE STYLING */
-.table {
+.admin-table {
    overflow: auto;
    /* Hide Vertical scroll bar */
    overflow-y: hidden;
@@ -28,7 +28,7 @@ table{
    }
 
    /* MAIN TABLE STYLING */
-   .overview-table {
+   .admin-table {
       width: 1134px;
       overflow: auto;
       /* Hide Vertical scroll bar */
