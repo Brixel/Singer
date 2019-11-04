@@ -4,71 +4,71 @@
 @include mat-core();
 
 /* Define Singer theme color pallets red=rgb(201, 12, 15)=#c90c0f black=rgb(29, 29, 27)=1d1d1b */
-/* Generated from: http://mcg.mbitson.com/#!?singer=%23c90c0f and http://mcg.mbitson.com/#!?singer=%231d1d1b */
+/* Generated from: http://mcg.mbitson.com/#!?singer=%32d7ae1 and http://mcg.mbitson.com/#!?singer=%3399ff */
 $singer-indigo: (
-   50 : #e8eaf6,
-   100 : #c5cbe9,
-   200 : #9fa8da,
-   300 : #7985cb,
-   400 : #5c6bc0,
-   500 : #3f51b5, //Singer primary color
-   600 : #394aae,
-   700 : #3140a5,
-   800 : #29379d,
-   900 : #1b278d,
-   A100 : #c6cbff,
-   A200 : #939dff,
-   A400 : #606eff,
-   A700 : #4757ff,
+   50: #e6effb,
+   100: #c0d7f6,
+   200: #96bdf0,
+   300: #6ca2ea,
+   400: #4d8ee6,
+   500: #2d7ae1, //Singer primary color
+   600: #2872dd,
+   700: #2267d9,
+   800: #1c5dd5,
+   900: #114acd,
+   A100: #fbfcff,
+   A200: #c8d6ff,
+   A400: #95b1ff,
+   A700: #7b9eff,
    contrast: (
-       50 : #000000,
-       100 : #000000,
-       200 : #000000,
-       300 : #000000,
-       400 : #ffffff,
-       500 : #ffffff,
-       600 : #ffffff,
-       700 : #ffffff,
-       800 : #ffffff,
-       900 : #ffffff,
-       A100 : #000000,
-       A200 : #000000,
-       A400 : #ffffff,
-       A700 : #ffffff,
-    )
+      50: #000000,
+      100: #000000,
+      200: #000000,
+      300: #000000,
+      400: #000000,
+      500: #ffffff,
+      600: #ffffff,
+      700: #ffffff,
+      800: #ffffff,
+      900: #ffffff,
+      A100: #000000,
+      A200: #000000,
+      A400: #000000,
+      A700: #000000,
+   ),
 );
 
 $singer-blue: (
-   50 : #e7f3ff,
-    100 : #c2e0ff,
-    200 : #99ccff,
-    300 : #70b8ff,
-    400 : #52a8ff,
-    500 : #3399ff, //Singer accent color
-    600 : #2e91ff,
-    700 : #2786ff,
-    800 : #207cff,
-    900 : #146bff,
-    A100 : #ffffff,
-    A200 : #fbfcff,
-    A400 : #c8daff,
-    A700 : #aec9ff,
-    contrast: (
-        50 : #000000,
-        100 : #000000,
-        200 : #000000,
-        300 : #000000,
-        400 : #000000,
-        500 : #000000,
-        600 : #ffffff,
-        700 : #ffffff,
-        800 : #ffffff,
-        900 : #ffffff,
-        A100 : #000000,
-        A200 : #000000,
-        A400 : #000000,
-        A700 : #000000,
-   )
+   50: #e8fafe,
+   100: #c5f3fd,
+   200: #9febfb,
+   300: #78e3f9,
+   400: #5bddf8,
+   500: #3ed7f7, //Singer accent color
+   600: #38d3f6,
+   700: #30cdf5,
+   800: #28c7f3,
+   900: #1bbef1,
+   A100: #ffffff,
+   A200: #f1fbff,
+   A400: #beeeff,
+   A700: #a5e8ff,
+   contrast: (
+      50: #000000,
+      100: #000000,
+      200: #000000,
+      300: #000000,
+      400: #000000,
+      500: #000000,
+      600: #000000,
+      700: #000000,
+      800: #000000,
+      900: #000000,
+      A100: #000000,
+      A200: #000000,
+      A400: #000000,
+      A700: #000000,
+   ),
 );
 
 /* Define the palettes for your theme using the Material Design palettes available in palette.scss (palette, default, lighter, darker)*/
@@ -97,12 +97,24 @@ $sint-gerardus-theme: mat-light-theme(
          supported by material. */
 :root {
    --singer-theme-primary: #{mat-color($sint-gerardus-theme-primary)};
-   --singer-theme-primary-lighter: #{mat-color($sint-gerardus-theme-primary, lighter)};
-   --singer-theme-primary-darker: #{mat-color($sint-gerardus-theme-primary, darker)};
+   --singer-theme-primary-lighter: #{mat-color(
+         $sint-gerardus-theme-primary,
+         400
+      )};
+   --singer-theme-primary-darker: #{mat-color(
+         $sint-gerardus-theme-primary,
+         600
+      )};
 
    --singer-theme-accent: #{mat-color($sint-gerardus-theme-accent)};
-   --singer-theme-accent-lighter: #{mat-color($sint-gerardus-theme-accent, lighter)};
-   --singer-theme-accent-darker: #{mat-color($sint-gerardus-theme-accent, darker)};
+   --singer-theme-accent-lighter: #{mat-color(
+         $sint-gerardus-theme-accent,
+         100
+      )};
+   --singer-theme-accent-darker: #{mat-color(
+         $sint-gerardus-theme-accent,
+         600
+      )};
 
    --singer-theme-warn: #{mat-color($sint-gerardus-theme-warn)};
 
@@ -117,4 +129,4 @@ $sint-gerardus-theme: mat-light-theme(
    --singer-theme-light-disabled-text: rgba(white, 0.5);
    --singer-theme-light-dividers: rgba(white, 0.12);
    --singer-theme-light-focused: rgba(white, 0.12);
- }
+}
