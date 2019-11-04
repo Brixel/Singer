@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap');
+
 @import '../node_modules/@angular/material/theming';
 
 /* Include the common styles for Angular Material.*/
@@ -5,7 +7,7 @@
 
 /* Define Singer theme color pallets red=rgb(201, 12, 15)=#c90c0f black=rgb(29, 29, 27)=1d1d1b */
 /* Generated from: http://mcg.mbitson.com/#!?singer=%32d7ae1 and http://mcg.mbitson.com/#!?singer=%3399ff */
-$singer-indigo: (
+$singer-primary: (
    50: #e6effb,
    100: #c0d7f6,
    200: #96bdf0,
@@ -38,7 +40,7 @@ $singer-indigo: (
    ),
 );
 
-$singer-blue: (
+$singer-accent: (
    50: #e8fafe,
    100: #c5f3fd,
    200: #9febfb,
@@ -72,8 +74,8 @@ $singer-blue: (
 );
 
 /* Define the palettes for your theme using the Material Design palettes available in palette.scss (palette, default, lighter, darker)*/
-$sint-gerardus-theme-primary: mat-palette($singer-indigo, 500);
-$sint-gerardus-theme-accent: mat-palette($singer-blue, 500);
+$sint-gerardus-theme-primary: mat-palette($singer-primary, 500);
+$sint-gerardus-theme-accent: mat-palette($singer-accent, 500);
 
 /* The warn palette is optional (defaults to red).*/
 $sint-gerardus-theme-warn: mat-palette($mat-red);
@@ -90,12 +92,18 @@ $sint-gerardus-theme: mat-light-theme(
    that you are using.*/
 @include angular-material-theme($sint-gerardus-theme);
 
+/* Create material font mix-in.
+   This function creates a config with the default typography levels. */
+$singer-font-config: mat-typography-config();
+
 /* Define global CSS variables.*/
 
 /* Note: These variables are for having acces to the theme colors
          troughout the project for custom styling that is not
          supported by material. */
 :root {
+
+   /* Color Variables*/
    --singer-theme-primary: #{mat-color($sint-gerardus-theme-primary)};
    --singer-theme-primary-lighter: #{mat-color(
          $sint-gerardus-theme-primary,
@@ -129,4 +137,19 @@ $sint-gerardus-theme: mat-light-theme(
    --singer-theme-light-disabled-text: rgba(white, 0.5);
    --singer-theme-light-dividers: rgba(white, 0.12);
    --singer-theme-light-focused: rgba(white, 0.12);
+
+   /* Font Variables */
+   --singer-font-family: mat-font-family($singer-font-config);
+   --singer-font-size-h1: mat-font-size($singer-font-config, headline);
+   --singer-font-size-h2: mat-font-size($singer-font-config, title);
+   --singer-font-size-h3: mat-font-size($singer-font-config, subheading-2);
+   --singer-font-size-h4: mat-font-size($singer-font-config, subheading-1);
+   --singer-font-size-strong: mat-font-size($singer-font-config, body-2);
+   --singer-font-size-body: mat-font-size($singer-font-config, body-1);
+   --singer-font-size-caption: mat-font-size($singer-font-config, caption);
+   --singer-font-size-display-1: mat-font-size($singer-font-config, display-1);
+   --singer-font-size-display-2: mat-font-size($singer-font-config, display-2);
+   --singer-font-size-display-3: mat-font-size($singer-font-config, display-3);
+   --singer-font-size-display-4: mat-font-size($singer-font-config, display-4);
+
 }
