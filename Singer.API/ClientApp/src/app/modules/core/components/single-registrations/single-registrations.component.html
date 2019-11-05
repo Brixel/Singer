@@ -1,0 +1,43 @@
+<mat-list>
+   <ng-container *ngFor="let user of careUsers">
+      <mat-list-item>
+         <div>{{ user.name }}</div>
+         <div>
+            <mat-icon
+               *ngIf="getEventRegistrationStatus(user.careUserId) == 1"
+               matTooltip="Aanvraag tot inschrijving ontvangen, moet nog bevestigd worden door Sint-Gerardus"
+            >
+               access_time
+            </mat-icon>
+            <mat-icon
+               *ngIf="getEventRegistrationStatus(user.careUserId) == 2"
+               class="registration-accepted"
+               matTooltip="Inschrijving vastgelegd en bevestigd door Sint-Gerardus"
+               >check_circle_outline</mat-icon
+            >
+            <mat-icon
+               *ngIf="getEventRegistrationStatus(user.careUserId) == 4"
+               class="registration-rejected"
+               matTooltip="Aanvraag tot inschrijving ontvangen, deze werd echter geweigerd door Sint-Gerardus"
+               >error_outline</mat-icon
+            >
+            <button
+               mat-icon-button
+               color="primary"
+               (click)="registerCareUserOnEvent(user)"
+               *ngIf="getEventRegistrationStatus(user.careUserId) == 0"
+               matTooltip="Aanvraag tot inschrijving indienen"
+            >
+               <mat-icon>add_circle</mat-icon>
+            </button>
+         </div>
+      </mat-list-item></ng-container
+   >
+</mat-list>
+<h4>Dit evenement gaat door op de volgende data:</h4>
+<mat-list>
+   <mat-list-item *ngFor="let slot of eventSlots">
+      Van {{ slot.startDateTime | date: 'dd-MM-yyyy HH:mm' }} tot
+      {{ slot.endDateTime | date: 'dd-MM-yyyy HH:mm' }}
+   </mat-list-item>
+</mat-list>

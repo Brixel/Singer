@@ -51,13 +51,11 @@ export class EventRegistrationComponent implements OnInit {
             this.hasInappropriateCareUsers = this.setInappropriateCareUsers(
                res
             );
-            console.log(this.hasInappropriateCareUsers);
             res.relevantCareUsers.forEach(x => {
                if (x.appropriateAgeGroup) {
                   this.columnsToDisplay.push(x.id);
                }
             });
-            console.log(this.columnsToDisplay)
             this.eventSlotDataSource = new MatTableDataSource(res.eventSlots);
             this.eventSlotDataSource.paginator = this.paginator;
             this.eventSlotDataSource.sort = this.sort;

@@ -15,7 +15,7 @@ import {
    CreateEventSlotRegistrationDTO,
    CreateEventRegistrationDTO,
    UserRegisteredDTO,
-} from '../../models/event-registration';
+} from '../../models/event-registration.model';
 
 @Injectable({
    providedIn: 'root',

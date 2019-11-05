@@ -7,6 +7,8 @@ import { MaterialModule } from 'src/app/material.module';
 import { AgegroupToColorPipePipe } from './services/agegroup-to-color-pipe.pipe';
 import { UserCardComponent } from './components/user-card/user-card.component';
 import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material';
+import { DailybasisRegistrationsComponent } from './components/dailybasis-registrations/dailybasis-registrations.component';
+import { SingleRegistrationsComponent } from './components/single-registrations/single-registrations.component';
 
 
 export const MY_FORMATS = {
@@ -26,6 +28,8 @@ export const MY_FORMATS = {
       AgegroupChipsComponent,
       AgegroupToColorPipePipe,
       UserCardComponent,
+      DailybasisRegistrationsComponent,
+      SingleRegistrationsComponent,
    ],
    imports: [CommonModule, MaterialModule],
    providers: [
@@ -36,6 +40,8 @@ export const MY_FORMATS = {
       AgegroupChipsComponent,
       AgegroupToColorPipePipe,
       UserCardComponent,
+      SingleRegistrationsComponent,
+      DailybasisRegistrationsComponent
    ],
 })
 export class CoreModule {}

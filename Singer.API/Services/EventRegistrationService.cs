@@ -210,12 +210,14 @@ namespace Singer.Services
          {
             var pendingStatusesRemaining = registrationStatuses.Count(x => x == RegistrationStatus.Pending);
             return new UserRegisteredDTO(){
+               CareUserId = careUserId,
                IsRegistered = true,
                PendingStatussesRemaining = pendingStatusesRemaining,
                Status = pendingStatusesRemaining > 0 ? RegistrationStatus.Pending : registrationStatuses.First()
             };
          }
          return new UserRegisteredDTO(){
+            CareUserId = careUserId,
             IsRegistered = false,
             PendingStatussesRemaining = 0
          };
