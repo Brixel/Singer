@@ -47,6 +47,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
       'hasResources',
    ];
    filter: string;
+   readonly maxFilterLength = 2048;
 
    constructor(
       public dialog: MatDialog,
