@@ -46,26 +46,39 @@ export class SingerEventDetailsComponent implements OnInit {
    //#region Binding properties for form:
 
    // Form placeholders
-   titleFieldPlaceholder = 'Naam evenement.';
-   descriptionFieldPlaceholder = 'Beschrijving evenement.';
-   locationFieldPlaceholder = 'Locatie evenement';
-   allowedAgeGroupsFieldPlaceholder = 'Leeftijdsgroepen';
-   maxRegistrantsFieldPlaceholder = 'Aantal toegelaten personen';
-   costFieldPlaceholder = 'Prijs';
-   startRegistrationDateFieldPlaceholder = 'Start Datum Registratie';
-   endRegistrationDateFieldPlaceholder = 'Eind Datum Registratie';
-   finalCancellationDateFieldPlaceholder = 'Eind Datum Annulering';
-   registrationOnDailyBasisFieldPlaceholder = 'Registratie op dagelijkse basis';
-   startDateFieldPlaceholder = 'Start Datum Evenement';
-   endDateFieldPlaceholder = 'Eind Datum Evenement';
-   dailyStartTimePlaceholder = 'Start Tijd Evenement';
-   dailyEndTimePlaceholder = 'Eind Tijd Evenement';
-   hasDayCareBeforeFieldPlaceholder = 'Opvang voor het evenement';
-   dayCareBeforeStartTimeFieldPlaceholder = 'Start opvang voor het evenement';
-   dayCareBeforeEndTimeFieldPlaceholder = 'Einde opvang voor het evenement';
-   hasDayCareAfterFieldPlaceholder = 'Opvang na het evenement';
-   dayCareAfterStartTimeFieldPlaceholder = 'Start opvang na het evenement';
-   dayCareAfterEndTimeFieldPlaceholder = 'Einde opvang na het evenement';
+   readonly titleFieldPlaceholder = 'Naam evenement.';
+   readonly descriptionFieldPlaceholder = 'Beschrijving evenement.';
+   readonly locationFieldPlaceholder = 'Locatie evenement';
+   readonly allowedAgeGroupsFieldPlaceholder = 'Leeftijdsgroepen';
+   readonly maxRegistrantsFieldPlaceholder = 'Aantal toegelaten personen';
+   readonly costFieldPlaceholder = 'Prijs';
+   readonly startRegistrationDateFieldPlaceholder = 'Start Datum Registratie';
+   readonly endRegistrationDateFieldPlaceholder = 'Eind Datum Registratie';
+   readonly finalCancellationDateFieldPlaceholder = 'Eind Datum Annulering';
+   readonly registrationOnDailyBasisFieldPlaceholder =
+      'Registratie op dagelijkse basis';
+   readonly startDateFieldPlaceholder = 'Start Datum Evenement';
+   readonly endDateFieldPlaceholder = 'Eind Datum Evenement';
+   readonly dailyStartTimePlaceholder = 'Start Tijd Evenement';
+   readonly dailyEndTimePlaceholder = 'Eind Tijd Evenement';
+   readonly hasDayCareBeforeFieldPlaceholder = 'Opvang voor het evenement';
+   readonly dayCareBeforeStartTimeFieldPlaceholder =
+      'Start opvang voor het evenement';
+   readonly dayCareBeforeEndTimeFieldPlaceholder =
+      'Einde opvang voor het evenement';
+   readonly hasDayCareAfterFieldPlaceholder = 'Opvang na het evenement';
+   readonly dayCareAfterStartTimeFieldPlaceholder =
+      'Start opvang na het evenement';
+   readonly dayCareAfterEndTimeFieldPlaceholder =
+      'Einde opvang na het evenement';
+   // Form validation values
+   readonly maxTitleLength = 100;
+   readonly minTitleLength = 2;
+   readonly maxDescriptionLength = 1000;
+   readonly maxMaxRegistrants = 2000000000;
+   readonly minMaxRegistrants = 1;
+   readonly maxCost = 2000000000;
+   readonly minCost = 0;
 
    // Form control group
    formControlGroup: FormGroup = new FormGroup({

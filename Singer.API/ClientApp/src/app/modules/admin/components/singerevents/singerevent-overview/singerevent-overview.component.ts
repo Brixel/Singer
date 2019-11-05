@@ -48,6 +48,8 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
    ];
    availableLocations: SingerEventLocation[];
 
+   readonly maxFilterLength = 2048;
+
    constructor(
       public dialog: MatDialog,
       private singerEventsService: SingerEventsService,
