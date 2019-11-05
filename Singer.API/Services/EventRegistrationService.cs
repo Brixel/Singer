@@ -92,7 +92,8 @@ namespace Singer.Services
             registrations.Add(new EventRegistration()
             {
                CareUserId = dto.CareUserId,
-               EventSlotId = eventSlot.EventSlotId
+               EventSlotId = eventSlot.EventSlotId,
+               Status = dto.Status.Value
             });
          }
 

@@ -11,7 +11,7 @@
 <div *ngIf="(userInfo$ | async) as userInfo" class="user-info">
    <span>{{ userInfo.name }}</span>
       <span>{{ userInfo.isRegistered ? ' is geregistreerd' : ' is nog niet geregistreerd' }}</span>
-      <app-single-registrations [careUsers]="careUsers" [eventSlots]="event.eventSlots"></app-single-registrations>
+      <app-single-registrations [careUsers]="careUsers" [eventSlots]="event.eventSlots" [eventId]="event.id"></app-single-registrations>
 </div>
 </mat-dialog-content>
 
