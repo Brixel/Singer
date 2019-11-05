@@ -32,7 +32,7 @@ export class AdminListComponent implements OnInit, AfterViewInit {
    filter: string;
    dataSource: AdminDatasource;
 
-   maxFilterLength = 2048;
+   readonly maxFilterLength = 2048;
 
    formControlGroup: FormGroup = new FormGroup({
       // Form controls
