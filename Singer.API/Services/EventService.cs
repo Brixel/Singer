@@ -25,7 +25,9 @@ namespace Singer.Services
 
       protected override DbSet<Event> DbSet => Context.Events;
 
-      protected override IQueryable<Event> Queryable => Context.Events.Include(x => x.Location);
+      protected override IQueryable<Event> Queryable => Context.Events
+         .Include(x => x.Location)
+         .Include(x => x.EventSlots);
 
 
       public override async Task<EventDTO> CreateAsync(CreateEventDTO dto)
@@ -75,6 +77,7 @@ namespace Singer.Services
                (!searchEventParamsDto.EndDate.HasValue || x.EventSlots.OrderBy(y => y.EndDateTime).First().EndDateTime <= searchEventParamsDto.EndDate))
             .Select(x => new EventDescriptionDTO
             {
+               Id = x.Id,
                AgeGroups = EventProfile.ToAgeGroupList(x.AllowedAgeGroups),
                Description = x.Description,
                Title = x.Title,

@@ -4,7 +4,7 @@ using Singer.Models;
 
 namespace Singer.DTOs
 {
-   public class EventDescriptionDTO
+   public class EventRegisterDetailsDTO
    {
       public Guid Id { get; set; }
       public string Title { get; set; }
@@ -12,5 +12,8 @@ namespace Singer.DTOs
       public DateTime StartDate { get; set; }
       public DateTime EndDate { get; set; }
       public IReadOnlyList<AgeGroup> AgeGroups { get; set; }
+      public IList<EventSlotRegistrationsDTO> EventSlots { get; set; }
+      public IList<EventRelevantCareUserDTO> RelevantCareUsers { get; set; }
+      public bool RegistrationOnDailyBasis { get; set; }
    }
 }

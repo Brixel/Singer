@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
+using IdentityServer4.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Singer.DTOs;
 using Singer.Helpers;
@@ -8,27 +10,32 @@ using Singer.Models;
 using Singer.Services.Interfaces;
 using System;
 using System.ComponentModel;
-using System.Linq.Expressions;
+using Singer.Configuration;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Singer.Controllers
 {
+   [Authorize]
    public class EventController : DataControllerBase<Event, EventDTO, CreateEventDTO, UpdateEventDTO>
    {
       #region FIELDS
 
       private readonly IEventRegistrationService _eventRegistrationService;
       private readonly IEventService _eventService;
+      private readonly ICareUserService _careUserService;
 
       #endregion FIELDS
 
 
       #region CONSTRUCTOR
 
-      public EventController(IEventService eventService, IEventRegistrationService eventRegistrationService)
+      public EventController(IEventService eventService, IEventRegistrationService eventRegistrationService, ICareUserService careUserService)
          : base(eventService)
       {
          _eventRegistrationService = eventRegistrationService;
          _eventService = eventService;
+         _careUserService = careUserService;
       }
 
       #endregion CONSTRUCTOR
@@ -41,13 +48,37 @@ namespace Singer.Controllers
       [HttpPost("{eventId}/registrations")]
       [ProducesResponseType(StatusCodes.Status201Created)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public async Task<ActionResult<EventRegistrationDTO>> Create(Guid eventId, [FromBody]CreateEventRegistrationDTO dto)
+      public async Task<ActionResult<List<EventRegistrationDTO>>> Create(Guid eventId, [FromBody]CreateEventRegistrationDTO dto)
       {
          if (eventId != dto.EventId)
             throw new BadInputException("The event id in the url and the body doe not match");
 
+         if (!User.IsInRole(Roles.ROLE_ADMINISTRATOR))
+         {
+            //throw new BadInputException("As a non-admin user, you are not allowed to pass a status for the registration!");
+            dto.Status = RegistrationStatus.Pending;
+         }
          var eventRegistration = await _eventRegistrationService.CreateAsync(dto);
          return Created(nameof(Get), eventRegistration);
+      }
+
+      [HttpPost("{eventId}/eventslot/{eventSlotId}/registrations")]
+      [ProducesResponseType(StatusCodes.Status201Created)]
+      [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+      public async Task<ActionResult<EventRegistrationDTO>> Create(Guid eventId, [FromBody]CreateEventSlotRegistrationDTO dto)
+      {
+         if (!User.IsInRole(Roles.ROLE_ADMINISTRATOR))
+         {
+            //throw new BadInputException("As a non-admin user, you are not allowed to pass a status for the registration!");
+            dto.Status = RegistrationStatus.Pending;
+         }
+         var checkExisting = await _eventRegistrationService.GetOneBySlotAsync(dto.EventSlotId, dto.CareUserId);
+         if (checkExisting != null)
+         {
+            throw new BadInputException("Deze gebruiker is reeds geregistreerd op dit tijdslot!");
+         }
+         var eventSlotRegistration = await _eventRegistrationService.CreateOneBySlotAsync(dto);
+         return Created(nameof(Get), eventSlotRegistration);
       }
 
       #endregion post
@@ -171,6 +202,56 @@ namespace Singer.Controllers
          return BadRequest(model);
       }
 
+      [HttpGet("{eventId}/geteventregisterdetails")]
+      public async Task<ActionResult<EventRegisterDetailsDTO>> GetEventRegisterDetails(Guid eventId)
+      {
+         var singerEvent = await _eventService.GetOneAsync(eventId);
+         var details = new EventRegisterDetailsDTO
+         {
+            AgeGroups = singerEvent.AllowedAgeGroups,
+            Description = singerEvent.Description,
+            EndDate = singerEvent.EndDateTime,
+            EventSlots = null,
+            Id = singerEvent.Id,
+            RegistrationOnDailyBasis = singerEvent.RegistrationOnDailyBasis,
+            StartDate = singerEvent.StartDateTime,
+            Title = singerEvent.Title
+         };
+         List<EventRelevantCareUserDTO> careUsers;
+         if (!User.IsInRole(Roles.ROLE_ADMINISTRATOR))
+         {
+            careUsers = await _careUserService.GetCareUsersForLegalGuardian(Guid.Parse(User.GetSubjectId()));
+
+            foreach (var user in careUsers)
+            {
+               user.AppropriateAgeGroup = singerEvent.AllowedAgeGroups.Contains(user.AgeGroup);
+            }
+         }
+         else
+         {
+            throw new NotImplementedException("Berend should implement this");
+         }
+
+         details.RelevantCareUsers = careUsers;
+
+         var eventSlots = new List<EventSlotRegistrationsDTO>();
+
+         var registrations = await _eventRegistrationService.GetAllSlotsForEventAsync(eventId);
+         details.EventSlots = singerEvent.EventSlots.Select(x => new EventSlotRegistrationsDTO
+         {
+            EndDateTime = x.EndDateTime,
+            Id = x.Id,
+            StartDateTime = x.StartDateTime,
+            Registrations = registrations.Where(y => y.EventSlot.Id == x.Id).Select(z => new EventCareUserRegistrationDTO
+            {
+               CareUserId = z.CareUser.Id,
+               Status = z.Status
+            }).ToList()
+         }).ToList();
+
+
+         return Ok(details);
+      }
       #endregion METHODS
    }
 }

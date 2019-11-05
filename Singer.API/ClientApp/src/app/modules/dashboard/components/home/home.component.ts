@@ -1,10 +1,8 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { AuthService } from 'src/app/modules/core/services/auth.service';
+import { Component, OnInit } from '@angular/core';
 import {
    EventDescription,
    SearchEventDTO,
 } from 'src/app/modules/core/models/singerevent.model';
-import { MatDrawer } from '@angular/material';
 import { Observable } from 'rxjs';
 import { PaginationDTO } from 'src/app/modules/core/models/pagination.model';
 import { HttpParams } from '@angular/common/http';
@@ -66,6 +64,7 @@ export class HomeComponent implements OnInit {
             (this.events = res.map(
                r =>
                   new EventDescription(
+                     r.id,
                      r.title,
                      r.description,
                      r.ageGroups,
