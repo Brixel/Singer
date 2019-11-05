@@ -32,6 +32,8 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
    /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
    displayedColumns = ['firstName', 'lastName', 'email', 'address'];
 
+   readonly maxFilterLength = 2048;
+
    constructor(
       public dialog: MatDialog,
       private legalguardiansService: LegalguardiansService

@@ -41,13 +41,22 @@ export class LegalguardianDetailsComponent implements OnInit {
    //#region Binding properties for form:
 
    // Form placeholders
-   firstNameFieldPlaceholder = 'Voornaam';
-   lastNameFieldPlaceholder = 'Familienaam';
-   addressFieldPlaceholder = 'Adres';
-   postalCodeFieldPlaceholder = 'Postcode';
-   cityFieldPlaceholder = 'Gemeente';
-   countryFieldPlaceholder = 'Land';
-   emailFieldPlaceholder = 'E-mail';
+   readonly firstNameFieldPlaceholder = 'Voornaam';
+   readonly lastNameFieldPlaceholder = 'Familienaam';
+   readonly addressFieldPlaceholder = 'Adres';
+   readonly postalCodeFieldPlaceholder = 'Postcode';
+   readonly cityFieldPlaceholder = 'Gemeente';
+   readonly countryFieldPlaceholder = 'Land';
+   readonly emailFieldPlaceholder = 'E-mail';
+   // Form validation values
+   readonly maxNameLength = 100;
+   readonly minNameLength = 2;
+   readonly maxAddressLength = 100;
+   readonly maxPostalCodeLength = 10;
+   readonly maxCityLength = 100;
+   readonly maxCountryLength = 100;
+   readonly maxEmailLength = 255;
+   readonly nameRegex = /^[\w'À-ÿ][\w' À-ÿ]*[\w'À-ÿ]+$/;
 
    // Form control group
    formControlGroup: FormGroup = new FormGroup({
