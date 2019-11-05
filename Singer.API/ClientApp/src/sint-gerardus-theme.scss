@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap');
-
 @import '../node_modules/@angular/material/theming';
 
 /* Include the common styles for Angular Material.*/
@@ -92,10 +90,6 @@ $sint-gerardus-theme: mat-light-theme(
    that you are using.*/
 @include angular-material-theme($sint-gerardus-theme);
 
-/* Create material font mix-in.
-   This function creates a config with the default typography levels. */
-$singer-font-config: mat-typography-config();
-
 /* Define global CSS variables.*/
 
 /* Note: These variables are for having acces to the theme colors
@@ -137,19 +131,5 @@ $singer-font-config: mat-typography-config();
    --singer-theme-light-disabled-text: rgba(white, 0.5);
    --singer-theme-light-dividers: rgba(white, 0.12);
    --singer-theme-light-focused: rgba(white, 0.12);
-
-   /* Font Variables */
-   --singer-font-family: mat-font-family($singer-font-config);
-   --singer-font-size-h1: mat-font-size($singer-font-config, headline);
-   --singer-font-size-h2: mat-font-size($singer-font-config, title);
-   --singer-font-size-h3: mat-font-size($singer-font-config, subheading-2);
-   --singer-font-size-h4: mat-font-size($singer-font-config, subheading-1);
-   --singer-font-size-strong: mat-font-size($singer-font-config, body-2);
-   --singer-font-size-body: mat-font-size($singer-font-config, body-1);
-   --singer-font-size-caption: mat-font-size($singer-font-config, caption);
-   --singer-font-size-display-1: mat-font-size($singer-font-config, display-1);
-   --singer-font-size-display-2: mat-font-size($singer-font-config, display-2);
-   --singer-font-size-display-3: mat-font-size($singer-font-config, display-3);
-   --singer-font-size-display-4: mat-font-size($singer-font-config, display-4);
 
 }
