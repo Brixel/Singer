@@ -17,6 +17,7 @@ import { SingerEventsService } from 'src/app/modules/core/services/singerevents-
 import { SingerEvent } from 'src/app/modules/core/models/singerevent.model';
 import { SingerEventLocationService } from 'src/app/modules/core/services/singerevents-api/singerevent-location.service';
 import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
    selector: 'app-singerevent-overview',
@@ -49,6 +50,13 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
    availableLocations: SingerEventLocation[];
 
    readonly maxFilterLength = 2048;
+
+   formControlGroup: FormGroup = new FormGroup({
+      // Form controls
+      filterFieldControl: new FormControl(this.filter, [
+         Validators.maxLength(this.maxFilterLength),
+      ]),
+   });
 
    constructor(
       public dialog: MatDialog,

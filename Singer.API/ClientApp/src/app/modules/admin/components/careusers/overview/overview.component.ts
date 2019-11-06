@@ -49,6 +49,13 @@ export class OverviewComponent implements OnInit, AfterViewInit {
    filter: string;
    readonly maxFilterLength = 2048;
 
+   formControlGroup: FormGroup = new FormGroup({
+      // Form controls
+      filterFieldControl: new FormControl(this.filter, [
+         Validators.maxLength(this.maxFilterLength),
+      ]),
+   });
+
    constructor(
       public dialog: MatDialog,
       private careUserService: CareUserService
