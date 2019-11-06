@@ -76,6 +76,10 @@ namespace Singer.Controllers
             //throw new BadInputException("As a non-admin user, you are not allowed to pass a status for the registration!");
             dto.Status = RegistrationStatus.Pending;
          }
+         else
+         {
+            dto.Status = RegistrationStatus.Accepted;
+         }
          var checkExisting = await _eventRegistrationService.GetOneBySlotAsync(dto.EventSlotId, dto.CareUserId);
          if (checkExisting != null)
          {

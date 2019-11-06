@@ -244,7 +244,8 @@ namespace Singer.Services
          DbSet.Add(new EventRegistration()
          {
             CareUserId = dto.CareUserId,
-            EventSlotId = dto.EventSlotId
+            EventSlotId = dto.EventSlotId,
+            Status = dto.Status.Value
          });
          await Context.SaveChangesAsync().ConfigureAwait(false);
 

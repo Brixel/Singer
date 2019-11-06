@@ -3,6 +3,8 @@ import { FormGroup } from '@angular/forms';
 import {
    SingerEvent,
    RegistrationStatus,
+   EventSlotRegistrations,
+   EventCareUserRegistration,
 } from 'src/app/modules/core/models/singerevent.model';
 import { SingerEventsService } from 'src/app/modules/core/services/singerevents-api/singerevents.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
@@ -26,6 +28,7 @@ export class SingerEventAdminRegisterComponent implements OnInit {
 
    private _userInfoSubject = new BehaviorSubject<UserInfo>(null);
    userInfo$ = this._userInfoSubject.asObservable();
+   eventSlots: EventSlotRegistrations[];
 
    constructor(
       private singerEventService: SingerEventsService,
@@ -36,7 +39,12 @@ export class SingerEventAdminRegisterComponent implements OnInit {
       this.formGroup = new FormGroup({});
    }
 
-   ngOnInit() {}
+   ngOnInit() {
+      this.singerEventService
+         .getEventRegisterDetails(this.event.id).subscribe(res => {
+            this.eventSlots = res.eventSlots;
+         });
+   }
 
    close() {
       this.dialogRef.close();

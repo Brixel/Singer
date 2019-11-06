@@ -6,13 +6,28 @@
 <mat-dialog-content>
    <app-care-user-search
       (userSelected)="userSelected($event)"
-   ></app-care-user-search
->
-<div *ngIf="(userInfo$ | async) as userInfo" class="user-info">
-   <span>{{ userInfo.name }}</span>
-      <span>{{ userInfo.isRegistered ? ' is geregistreerd' : ' is nog niet geregistreerd' }}</span>
-      <app-single-registrations [careUsers]="careUsers" [eventSlots]="event.eventSlots" [eventId]="event.id"></app-single-registrations>
-</div>
+   ></app-care-user-search>
+   <div *ngIf="userInfo$ | async as userInfo" class="user-info">
+      <span>{{ userInfo.name }}</span>
+      <span>{{
+         userInfo.isRegistered
+            ? ' is geregistreerd'
+            : ' is nog niet geregistreerd'
+      }}</span>
+      <app-single-registrations
+         *ngIf="!event.registrationOnDailyBasis"
+         [careUsers]="careUsers"
+         [eventSlots]="eventSlots"
+         [eventId]="event.id"
+      ></app-single-registrations>
+      <app-dailybasis-registrations
+      *ngIf="event.registrationOnDailyBasis"
+         [careUsers]="careUsers"
+         [eventSlots]="eventSlots"
+         [eventId]="event.id">
+
+      </app-dailybasis-registrations>
+   </div>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">

@@ -5,7 +5,6 @@ export class Registrant {
    name: string;
    registrationStatus: RegistrationStatus;
    constructor(careUser: EventRelevantCareUserDTO, registrationStatus: RegistrationStatus) {
-      console.log(careUser);
       this.careUserId = careUser.id;
       this.name = `${careUser.firstName} ${careUser.lastName}`;
       this.registrationStatus = registrationStatus;
