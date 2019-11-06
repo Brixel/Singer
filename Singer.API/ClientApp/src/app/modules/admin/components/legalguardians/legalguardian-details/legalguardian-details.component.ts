@@ -61,14 +61,34 @@ export class LegalguardianDetailsComponent implements OnInit {
    // Form control group
    formControlGroup: FormGroup = new FormGroup({
       // Form controls
-      firstNameFieldControl: new FormControl('', [Validators.required]),
-      lastNameFieldControl: new FormControl('', [Validators.required]),
-      addressFieldControl: new FormControl('', [Validators.required]),
-      postalCodeFieldControl: new FormControl('', [Validators.required]),
-      cityFieldControl: new FormControl('', [Validators.required]),
+      firstNameFieldControl: new FormControl('', [
+         Validators.required,
+         Validators.minLength(this.minNameLength),
+         Validators.maxLength(this.maxNameLength),
+         Validators.pattern(this.nameRegex),
+      ]),
+      lastNameFieldControl: new FormControl('', [
+         Validators.required,
+         Validators.minLength(this.minNameLength),
+         Validators.maxLength(this.maxNameLength),
+         Validators.pattern(this.nameRegex),
+      ]),
+      addressFieldControl: new FormControl('', [
+         Validators.required,
+         Validators.maxLength(this.maxAddressLength),
+      ]),
+      postalCodeFieldControl: new FormControl('', [
+         Validators.required,
+         Validators.maxLength(this.maxPostalCodeLength),
+      ]),
+      cityFieldControl: new FormControl('', [
+         Validators.required,
+         Validators.maxLength(this.maxCityLength),
+      ]),
       countryFieldControl: new FormControl('', [Validators.required]),
       emailFieldControl: new FormControl('', [
          Validators.required,
+         Validators.maxLength(this.maxEmailLength),
          Validators.email,
       ]),
       careUsersSearchFieldcontrol: new FormControl(),

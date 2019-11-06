@@ -8,6 +8,8 @@ import * as moment from 'moment';
 import { isNullOrUndefined } from 'util';
 import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location';
 import { MY_FORMATS } from 'src/app/modules/core/core.module';
+import { mixinHasStickyInput } from '@angular/cdk/table';
+import { dateNotAfter } from 'src/app/modules/core/utils/custom-date-validators';
 
 // Data we pass along with the creation of the Mat-Dialog box
 export interface SingerEventDetailsFormData {
@@ -83,12 +85,27 @@ export class SingerEventDetailsComponent implements OnInit {
    // Form control group
    formControlGroup: FormGroup = new FormGroup({
       // Form controls
-      titleFieldControl: new FormControl('', [Validators.required]),
-      descriptionFieldControl: new FormControl('', [Validators.required]),
+      titleFieldControl: new FormControl('', [
+         Validators.required,
+         Validators.minLength(this.minTitleLength),
+         Validators.maxLength(this.maxTitleLength),
+      ]),
+      descriptionFieldControl: new FormControl('', [
+         Validators.required,
+         Validators.maxLength(this.maxDescriptionLength),
+      ]),
       locationFieldControl: new FormControl('', [Validators.required]),
       allowedAgeGroupsFieldControl: new FormControl('', [Validators.required]),
-      maxRegistrantsFieldControl: new FormControl('', [Validators.required]),
-      costFieldControl: new FormControl('', [Validators.required]),
+      maxRegistrantsFieldControl: new FormControl('', [
+         Validators.required,
+         Validators.max(this.maxMaxRegistrants),
+         Validators.min(this.minMaxRegistrants),
+      ]),
+      costFieldControl: new FormControl('', [
+         Validators.required,
+         Validators.min(this.minCost),
+         Validators.max(this.maxCost),
+      ]),
       startRegistrationDateFieldControl: new FormControl(new Date(), [
          Validators.required,
       ]),
