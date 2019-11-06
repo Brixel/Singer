@@ -202,19 +202,22 @@ namespace Singer.Services
       {
          var registrationStatuses = await Context.EventRegistrations
             .Include(x => x.EventSlot)
+            .ThenInclude(x => x.Event)
             .Where(x =>
                x.EventSlot.EventId == eventId &&
                x.CareUserId == careUserId)
-            .Select(registration => registration.Status).ToListAsync();
+            .Select(registration => new {
+               HasDailyBasisRegistration = registration.EventSlot.Event.RegistrationOnDailyBasis,
+               Status = registration.Status}).ToListAsync();
 
          if (registrationStatuses.Any())
          {
-            var pendingStatusesRemaining = registrationStatuses.Count(x => x == RegistrationStatus.Pending);
+            var pendingStatusesRemaining = registrationStatuses.Count(x => x.Status == RegistrationStatus.Pending);
             return new UserRegisteredDTO(){
                CareUserId = careUserId,
-               IsRegistered = true,
+               IsRegistered = !registrationStatuses.First().HasDailyBasisRegistration || (pendingStatusesRemaining == 0 ? true : false),
                PendingStatussesRemaining = pendingStatusesRemaining,
-               Status = pendingStatusesRemaining > 0 ? RegistrationStatus.Pending : registrationStatuses.First()
+               Status = pendingStatusesRemaining > 0 ? RegistrationStatus.Pending : registrationStatuses.First().Status
             };
          }
          return new UserRegisteredDTO(){
