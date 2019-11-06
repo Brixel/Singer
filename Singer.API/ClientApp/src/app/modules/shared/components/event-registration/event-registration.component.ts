@@ -83,7 +83,7 @@ export class EventRegistrationComponent implements OnInit {
                });
             },
             err => {
-               console.log(err);
+               console.error(err);
                this._snackBar.open(`⚠ ${err}`, 'OK');
             }
          );
@@ -116,7 +116,7 @@ export class EventRegistrationComponent implements OnInit {
                this._event$.next(ev);
             },
             err => {
-               console.log(err);
+               console.error(err);
                this._snackBar.open(`⚠ ${err}`, 'OK');
             }
          );

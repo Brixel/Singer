@@ -220,7 +220,9 @@ namespace Singer.Controllers
          List<EventRelevantCareUserDTO> careUsers;
          if (!User.IsInRole(Roles.ROLE_ADMINISTRATOR))
          {
-            careUsers = await _careUserService.GetCareUsersForLegalGuardian(Guid.Parse(User.GetSubjectId()));
+            var legalGuardianUserId = Guid.Parse(User.GetSubjectId());
+            // TODO Validate if the user is a legalguardian
+            careUsers = await _careUserService.GetCareUsersForLegalGuardian(legalGuardianUserId);
 
             foreach (var user in careUsers)
             {
