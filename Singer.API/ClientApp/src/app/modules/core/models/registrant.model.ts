@@ -4,9 +4,10 @@ export class Registrant {
    careUserId: string;
    name: string;
    registrationStatus: RegistrationStatus;
-   constructor(careUser: EventRelevantCareUserDTO, registrationStatus: RegistrationStatus) {
-      this.careUserId = careUser.id;
-      this.name = `${careUser.firstName} ${careUser.lastName}`;
+
+   constructor(careUserId: string, firstName: string, lastName: string, registrationStatus: RegistrationStatus){
+      this.careUserId = careUserId;
+      this.name = `${firstName} ${lastName}`;
       this.registrationStatus = registrationStatus;
    }
 }

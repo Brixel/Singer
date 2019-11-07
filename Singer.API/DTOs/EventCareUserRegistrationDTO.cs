@@ -7,5 +7,7 @@ namespace Singer.DTOs
    {
       public Guid CareUserId { get; set; }
       public RegistrationStatus Status { get; set; }
+      public string FirstName { get; set; }
+      public string LastName { get; set; }
    }
 }

@@ -10,10 +10,10 @@ namespace Singer.Services.Interfaces
 {
    public interface IEventRegistrationService
    {
-      Task<SearchResults<EventRegistrationDTO>> GetAsync(
+      Task<SearchResults<EventSlotRegistrationsDTO>> GetAsync(
          Guid eventId,
          string filter,
-         Expression<Func<EventRegistrationDTO, object>> orderer = null,
+         Expression<Func<EventSlotRegistrationsDTO, object>> orderer = null,
          ListSortDirection sortDirection = ListSortDirection.Ascending,
          int pageIndex = 0,
          int itemsPerPage = 15);

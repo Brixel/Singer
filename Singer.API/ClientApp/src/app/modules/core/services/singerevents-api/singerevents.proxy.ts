@@ -83,8 +83,31 @@ export class SingerEventsProxy {
          .pipe(map(res => res));
    }
 
+   isUserRegisteredForEvent(
+      eventId: string,
+      careUserId: string
+   ): Observable<UserRegisteredDTO> {
+      return this.apiService
+         .get(`api/event/${eventId}/isuserregistered/${careUserId}`)
+         .pipe(map(res => res));
+   }
 
-   isUserRegisteredForEvent(eventId: string, careUserId: string): Observable<UserRegisteredDTO> {
-      return this.apiService.get(`api/event/${eventId}/isuserregistered/${careUserId}`).pipe(map(res => res));
+   getEventRegistrations(
+      eventId: string,
+      sortDirection?: string,
+      sortColumn?: string,
+      pageIndex?: number,
+      pageSize?: number,
+      filter?: string
+   ): Observable<PaginationDTO> {
+      const searchParams = new HttpParams()
+         .set('sortDirection', sortDirection)
+         .set('sortColumn', sortColumn)
+         .set('pageIndex', pageIndex.toString())
+         .set('pageSize', pageSize.toString())
+         .set('filter', filter);
+      return this.apiService
+         .get(`api/event/${eventId}/registrations`, searchParams)
+         .pipe(map(res => res));
    }
 }

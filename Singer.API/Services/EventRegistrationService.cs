@@ -108,10 +108,10 @@ namespace Singer.Services
             .ConfigureAwait(false);
       }
 
-      public async Task<SearchResults<EventRegistrationDTO>> GetAsync(
+      public async Task<SearchResults<EventSlotRegistrationsDTO>> GetAsync(
          Guid eventId,
          string filter,
-         Expression<Func<EventRegistrationDTO, object>> orderer = null,
+         Expression<Func<EventSlotRegistrationsDTO, object>> orderer = null,
          ListSortDirection sortDirection = ListSortDirection.Ascending,
          int pageIndex = 0,
          int itemsPerPage = 15)
@@ -128,15 +128,26 @@ namespace Singer.Services
             .ConfigureAwait(false);
 
          var list = totalItemCount <= 0
-            ? new List<EventRegistrationDTO>()
-            : await filteredItems
-               .Select(Projector)
+            ? new List<EventSlotRegistrationsDTO>()
+            : await filteredItems.GroupBy(x => x.EventSlotId)
+               .Select(x => new EventSlotRegistrationsDTO()
+               {
+                  Id = x.Key,
+                  StartDateTime = x.First().EventSlot.StartDateTime,
+                  EndDateTime = x.First().EventSlot.EndDateTime,
+                  Registrations = x.Select(reg => new EventCareUserRegistrationDTO(){
+                     CareUserId = reg.CareUserId,
+                     FirstName = reg.CareUser.User.FirstName,
+                     LastName = reg.CareUser.User.LastName,
+                     Status = reg.Status
+                  }).ToList()
+               })
                .OrderBy(orderer, sortDirection)
                .TakePage(pageIndex, itemsPerPage)
                .ToListAsync()
                .ConfigureAwait(false);
 
-         return new SearchResults<EventRegistrationDTO>(list, totalItemCount, pageIndex);
+         return new SearchResults<EventSlotRegistrationsDTO>(list, totalItemCount, pageIndex);
       }
 
       public async Task<EventRegistrationDTO> GetOneBySlotAsync(Guid eventSlotId, Guid careUserId)

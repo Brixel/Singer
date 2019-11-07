@@ -31,6 +31,7 @@ export class SingerEventRegistrationsComponent implements OnInit {
    }
 
    ngOnInit() {
+      this.singerEventService.getEventRegistrations(this.event.id, 'asc', 'startDateTime', 0, 1000, '').subscribe(res => console.log(res));
    }
 
    private createRegistrants(registrants: Registrant[]) {
@@ -48,10 +49,6 @@ export class SingerEventRegistrationsComponent implements OnInit {
 
    save() {
       const registrantIds = this.registrants.map(r => r.careUserId);
-   }
-
-   userSelected(careUser: CareUserDTO) {
-
    }
 }
 

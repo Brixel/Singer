@@ -97,7 +97,7 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status200OK)]
       [ProducesResponseType(StatusCodes.Status404NotFound)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public async Task<ActionResult<PaginationDTO<EventRegistrationDTO>>> Get(
+      public async Task<ActionResult<PaginationDTO<EventSlotRegistrationsDTO>>> Get(
          Guid eventId,
          string filter,
          string sortDirection = "0",
@@ -110,7 +110,7 @@ namespace Singer.Controllers
          if (!Enum.TryParse<ListSortDirection>(sortDirection, true, out var direction))
             throw new BadInputException("The given sort-direction is unknown.");
 
-         var orderByLambda = PropertyHelpers.GetPropertySelector<EventRegistrationDTO>(sortColumn);
+         var orderByLambda = PropertyHelpers.GetPropertySelector<EventSlotRegistrationsDTO>(sortColumn);
 
          // get the search results of the database query
          var result = await _eventRegistrationService
@@ -130,7 +130,7 @@ namespace Singer.Controllers
             : $"{requestPath}?PageIndex={pageIndex++}&Size={pageSize}";
 
          // create object that holds the paginated elements
-         var page = new PaginationDTO<EventRegistrationDTO>
+         var page = new PaginationDTO<EventSlotRegistrationsDTO>
          {
             Items = result.Items,
             Size = result.Items.Count,
@@ -260,6 +260,8 @@ namespace Singer.Controllers
             Registrations = registrations.Where(y => y.EventSlot.Id == x.Id).Select(z => new EventCareUserRegistrationDTO
             {
                CareUserId = z.CareUser.Id,
+               FirstName = z.CareUser.FirstName,
+               LastName = z.CareUser.LastName,
                Status = z.Status
             }).ToList()
          }).ToList();

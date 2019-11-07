@@ -4,10 +4,6 @@
 <!-- Form Dialog Content -->
 
    <mat-dialog-content>
-      <app-care-user-search
-         (userSelected)="userSelected($event)"
-      ></app-care-user-search>
-
       <mat-list>
          <mat-list-item *ngFor="let registrant of registrants">
             <div class="registrant">
