@@ -106,12 +106,12 @@ namespace Singer.Services
 
       public async Task<List<EventRelevantCareUserDTO>> GetCareUsersForLegalGuardian(Guid baseUserId)
       {
-         var careUsers = await Context.LegalGuardianCareUsers
+         var legalGuardianCareUsers = await Context.LegalGuardianCareUsers
             .Include(x => x.CareUser)
-            .Include(x => x.CareUser.User)
+            .ThenInclude(x => x.User)
             .Where(x => x.LegalGuardian.UserId == baseUserId)
-            .Select(x => x.CareUser)
             .ToListAsync();
+         var careUsers = legalGuardianCareUsers.Select(x => x.CareUser).ToList();
          return ProjectToRelevantCareUsers(careUsers);
       }
 
