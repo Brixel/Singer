@@ -18,8 +18,8 @@
          <td mat-cell *matCellDef="let row" class="user-column">
             <mat-icon
                *ngIf="
-                  getSlotRegistrationStatus(row.registrations, user.careUserId) == 1
-               "
+                  getSlotRegistrationStatus(row.registrations, user.careUserId) == 1"
+               class="registration-pending"
                matTooltip="Aanvraag tot inschrijving ontvangen, moet nog bevestigd worden door Sint-Gerardus"
             >
                access_time

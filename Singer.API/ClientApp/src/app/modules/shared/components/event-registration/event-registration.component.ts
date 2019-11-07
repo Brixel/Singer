@@ -26,8 +26,6 @@ import { Registrant } from 'src/app/modules/core/models/registrant.model';
 export class EventRegistrationComponent implements OnInit {
    private _event$ = new BehaviorSubject<EventRegisterDetails>(null);
    public event$ = this._event$.asObservable();
-   public eventSlotDataSource: MatTableDataSource<EventSlotRegistrations>;
-   public columnsToDisplay: string[] = ['eventSlot'];
    public hasInappropriateCareUsers = false;
 
    @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -39,12 +37,9 @@ export class EventRegistrationComponent implements OnInit {
       @Inject(MAT_DIALOG_DATA) private _eventId: string,
       private _eventService: SingerEventsService
    ) {
-      this.eventSlotDataSource = new MatTableDataSource([]);
    }
 
    ngOnInit() {
-      this.eventSlotDataSource.paginator = this.paginator;
-      this.eventSlotDataSource.sort = this.sort;
       this._eventService
          .getEventRegisterDetails(this._eventId)
          .subscribe(res => {

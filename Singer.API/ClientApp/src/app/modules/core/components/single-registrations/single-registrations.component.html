@@ -1,10 +1,11 @@
 <mat-list>
    <ng-container *ngFor="let user of careUsers">
       <mat-list-item>
-         <div>{{ user.name }}</div>
+         <div class="name-column">{{ user.name }}</div>
          <div>
             <mat-icon
                *ngIf="getEventRegistrationStatus(user.careUserId) == 1"
+               class="registration-pending"
                matTooltip="Aanvraag tot inschrijving ontvangen, moet nog bevestigd worden door Sint-Gerardus"
             >
                access_time

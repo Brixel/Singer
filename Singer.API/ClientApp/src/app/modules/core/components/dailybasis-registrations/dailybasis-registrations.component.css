@@ -1,0 +1,30 @@
+
+/* MAIN TABLE STYLING */
+.overview-table {
+   overflow: auto;
+   /* Hide Vertical scroll bar */
+   overflow-y: hidden;
+   margin: 10px auto;
+}
+
+table {
+   width: 100%;
+}
+.registration-pending {
+   padding-left: 8px;
+}
+
+.registration-rejected {
+   color: red;
+   padding-left: 8px;
+}
+
+.registration-accepted {
+   color: green;
+   padding-left: 8px;
+}
+
+.timeslot-table .user-column {
+   justify-content: center;
+   text-align: center;
+}
