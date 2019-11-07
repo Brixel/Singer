@@ -216,14 +216,14 @@ namespace Singer.Services
             return new UserRegisteredDTO(){
                CareUserId = careUserId,
                IsRegistered = !registrationStatuses.First().HasDailyBasisRegistration || (pendingStatusesRemaining == 0 ? true : false),
-               PendingStatussesRemaining = pendingStatusesRemaining,
+               PendingStatesRemaining = pendingStatusesRemaining,
                Status = pendingStatusesRemaining > 0 ? RegistrationStatus.Pending : registrationStatuses.First().Status
             };
          }
          return new UserRegisteredDTO(){
             CareUserId = careUserId,
             IsRegistered = false,
-            PendingStatussesRemaining = 0
+            PendingStatesRemaining = 0
          };
 
       }

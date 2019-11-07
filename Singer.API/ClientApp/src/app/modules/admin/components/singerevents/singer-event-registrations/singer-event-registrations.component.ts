@@ -31,10 +31,6 @@ export class SingerEventRegistrationsComponent implements OnInit {
    }
 
    ngOnInit() {
-      // this.singerEventService.getEventRegistrations(this.event.id).subscribe((events) => {
-      //    const careUsers = events.map(event => new Registrant(event.careUser, event.status));
-      //    this.registrants = this.createRegistrants(careUsers);
-      // });
    }
 
    private createRegistrants(registrants: Registrant[]) {
@@ -52,16 +48,10 @@ export class SingerEventRegistrationsComponent implements OnInit {
 
    save() {
       const registrantIds = this.registrants.map(r => r.careUserId);
-      // this.singerEventService.updateRegistrants(this.event.id, registrantIds).subscribe((res) => res);
    }
 
    userSelected(careUser: CareUserDTO) {
-      if (!this.registrants.map(r => r.careUserId).includes(careUser.id)) {
-         // const registrant = new Registrant(careUser, RegistrationStatus.Pending);
-         // this.registrants.push(registrant);
-      } else {
-         // TODO Add notification when user already assigned
-      }
+
    }
 }
 

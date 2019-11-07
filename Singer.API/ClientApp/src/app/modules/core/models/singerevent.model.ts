@@ -188,3 +188,11 @@ export enum RegistrationStatus {
    Accepted = 2,
    Rejected = 4
 }
+
+export class UserInfo {
+   careUserId: string;
+   name: string;
+   isRegistered: boolean;
+   status: RegistrationStatus;
+}
+

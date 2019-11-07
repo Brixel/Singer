@@ -5,6 +5,7 @@ import {
    RegistrationStatus,
    EventSlotRegistrations,
    EventCareUserRegistration,
+   UserInfo,
 } from 'src/app/modules/core/models/singerevent.model';
 import { SingerEventsService } from 'src/app/modules/core/services/singerevents-api/singerevents.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
@@ -50,9 +51,6 @@ export class SingerEventAdminRegisterComponent implements OnInit {
       this.dialogRef.close();
    }
 
-   save() {
-      // this.singerEventService.updateRegistrants(this.event.id, registrantIds).subscribe((res) => res);
-   }
    userSelected(careUser: CareUserDTO) {
       this.singerEventService
          .isUserRegisteredForEvent(this.event.id, careUser.id)
@@ -74,17 +72,5 @@ export class SingerEventAdminRegisterComponent implements OnInit {
                this.careUsers = [registrant];
             }
          });
-      // if (!this.registrants.map(r => r.careUserId).includes(careUser.id)) {
-      //    // const registrant = new Registrant(careUser, RegistrationStatus.Pending);
-      //    // this.registrants.push(registrant);
-      // } else {
-      //    // TODO Add notification when user already assigned
-      // }
    }
-}
-export class UserInfo {
-   careUserId: string;
-   name: string;
-   isRegistered: boolean;
-   status: RegistrationStatus;
 }

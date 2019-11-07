@@ -58,6 +58,7 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
       MatSnackBarModule,
       MatTabsModule,
       MatSnackBarModule,
+      MatButtonToggleModule
    ],
    exports: [
       MatButtonModule,
