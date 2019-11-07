@@ -38,6 +38,7 @@ import { SingerEventRegistrationsComponent } from './components/singerevents/sin
 import { CareUserSearchComponent } from './components/shared/care-user-search/care-user-search.component';
 import { EventRegistrationComponent } from '../shared/components/event-registration/event-registration.component';
 import { SingerEventAdminRegisterComponent } from './components/singerevents/singer-eventadmin-register/singer-eventadmin-register.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
    declarations: [
@@ -50,13 +51,13 @@ import { SingerEventAdminRegisterComponent } from './components/singerevents/sin
       AdminListComponent,
       AdminDetailsComponent,
       SingerEventRegistrationsComponent,
-      EventRegistrationComponent,
       CareUserSearchComponent,
       SingerEventAdminRegisterComponent
    ],
    imports: [
       CoreModule,
       CommonModule,
+      SharedModule,
       AdminRoutingModule,
       MaterialModule,
       ReactiveFormsModule,
