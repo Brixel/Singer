@@ -50,7 +50,7 @@ export class DailybasisRegistrationsComponent implements OnInit {
 
    constructor(
       private _eventService: SingerEventsService,
-      private _snackbar: MatSnackBar
+      private _snackBar: MatSnackBar
    ) {
       this.eventSlotDataSource = new MatTableDataSource([]);
    }
@@ -78,7 +78,7 @@ export class DailybasisRegistrationsComponent implements OnInit {
          )
          .subscribe(
             res => {
-               this._snackbar.open(
+               this._snackBar.open(
                   `${careUser.name} werd ingeschreven voor het evenement`,
                   'OK',
                   { duration: 2000 }
@@ -91,7 +91,7 @@ export class DailybasisRegistrationsComponent implements OnInit {
                   });
             },
             err => {
-               this._snackbar.open(`⚠ ${err.message}`, 'OK');
+               this._snackBar.open(`⚠ ${err.message}`, 'OK');
             }
          );
    }

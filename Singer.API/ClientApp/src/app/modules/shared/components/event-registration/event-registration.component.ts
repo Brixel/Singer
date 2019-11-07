@@ -31,7 +31,7 @@ export class EventRegistrationComponent implements OnInit {
       public dialogRef: MatDialogRef<EventRegistrationComponent>,
       @Inject(MAT_DIALOG_DATA) private _eventId: string,
       private _eventService: SingerEventsService,
-      private _snackbar: MatSnackBar
+      private _snackBar: MatSnackBar
    ) {
    }
 
@@ -53,7 +53,7 @@ export class EventRegistrationComponent implements OnInit {
           },
           err => {
              console.error(err);
-             this._snackbar.open(`⚠ ${err}`, 'OK');
+             this._snackBar.open(`⚠ ${err}`, 'OK');
           });
    }
 
