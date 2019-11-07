@@ -8,6 +8,7 @@ import * as moment from 'moment';
 import { isNullOrUndefined } from 'util';
 import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location';
 import { MY_FORMATS } from 'src/app/modules/core/core.module';
+import { NgxMaterialTimepickerTheme } from 'ngx-material-timepicker';
 
 // Data we pass along with the creation of the Mat-Dialog box
 export interface SingerEventDetailsFormData {
@@ -36,12 +37,24 @@ export class SingerEventDetailsComponent implements OnInit {
       k => typeof AgeGroup[k as any] === 'number'
    );
 
-   // Current care user instance
+   // Current singer event instance
    currentSingerEventInstance: SingerEvent;
 
    selectedLocation: SingerEventLocation;
 
    availableLocations: SingerEventLocation[];
+
+   singerTimePickerTheme: NgxMaterialTimepickerTheme = {
+      container: {
+          buttonColor: '#6a9de1'
+      },
+      dial: {
+          dialBackgroundColor: '#4a88da',
+      },
+      clockFace: {
+          clockHandColor: '#4a88da',
+      }
+  };
 
    //#region Binding properties for form:
 
@@ -571,4 +584,5 @@ export class SingerEventDetailsComponent implements OnInit {
    closeForm() {
       this.dialogRef.close();
    }
+
 }
