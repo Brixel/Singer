@@ -34,11 +34,11 @@
          </app-dailybasis-registrations>
          </div>
          <div *ngIf="!event.registrationOnDailyBasis">
-            <app-single-registrations
+            <app-single-registration
                [careUsers]="careUsers"
                [eventSlots]="event.eventSlots"
                [eventId]="event.id"
-            ></app-single-registrations>
+            ></app-single-registration>
          </div>
       </mat-card-content>
       <mat-card-actions align="end">
