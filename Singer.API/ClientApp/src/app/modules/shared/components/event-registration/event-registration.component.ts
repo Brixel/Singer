@@ -53,9 +53,12 @@ export class EventRegistrationComponent implements OnInit {
                .forEach(x => {
                   registrants.push(new Registrant(x, 0));
                });
-            this.careUsers = registrants;
-            console.log(this.careUsers);
-         });
+          this.careUsers = registrants;
+          },
+          err => {
+             console.error(err);
+             this._snackBar.open(`⚠ ${err}`, 'OK');
+          });
    }
 
    setInappropriateCareUsers(event: EventRegisterDetails): boolean {
