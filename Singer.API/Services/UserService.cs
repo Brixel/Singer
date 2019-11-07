@@ -111,6 +111,17 @@ namespace Singer.Services
                pageSize: entitiesPerPage);
       }
 
+      public override async Task<TUserDTO> UpdateAsync(Guid id, TUpdateUserDTO dto)
+      {
+         var existingEmail = await Queryable.FirstOrDefaultAsync(x => x.User.Email == dto.Email && x.UserId != id);
+         if (existingEmail != null)
+         {
+            throw new BadInputException("Het email adres dat je opgaf bestaat reeds in de database");
+         }
+
+         return await base.UpdateAsync(id, dto);
+      }
+
    }
 
 }
