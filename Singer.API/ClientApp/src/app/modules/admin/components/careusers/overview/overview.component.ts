@@ -9,10 +9,9 @@ import {
    MatPaginator,
    MatSort,
    MatDialog,
-   MAT_DATE_FORMATS,
+   MatSnackBar,
 } from '@angular/material';
 import { OverviewDataSource } from './overview-datasource';
-import { DataSource } from '@angular/cdk/table';
 import { merge, fromEvent } from 'rxjs';
 import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { CareUserDetailsComponent } from '../care-user-details/care-user-details.component';
@@ -50,7 +49,8 @@ export class OverviewComponent implements OnInit, AfterViewInit {
 
    constructor(
       public dialog: MatDialog,
-      private careUserService: CareUserService
+      private careUserService: CareUserService,
+      private snackBar: MatSnackBar
    ) {}
 
    ngOnInit() {
@@ -68,10 +68,22 @@ export class OverviewComponent implements OnInit, AfterViewInit {
 
       dialogRef.componentInstance.submitEvent.subscribe((result: CareUser) => {
          // Update the Careuser
-         this.careUserService.updateUser(result).subscribe(res => {
-            // Reload Careusers
-            this.loadCareUsers();
-         });
+         this.careUserService.updateUser(result).subscribe(
+            () => {
+               // Reload Careusers
+               this.loadCareUsers();
+               this.snackBar.open(
+                  `Gebruiker ${result.firstName} ${result.lastName} werd aangepast.`,
+                  'OK',
+                  { duration: 2000 }
+               );
+            },
+            err => {
+               this.snackBar.open(`⚠ ${err}`, 'OK');
+               // TODO: Should be optimised, reloading results should be necessary
+               this.loadCareUsers();
+            }
+         );
       });
    }
 
@@ -82,9 +94,19 @@ export class OverviewComponent implements OnInit, AfterViewInit {
       });
 
       dialogRef.componentInstance.submitEvent.subscribe((result: CareUser) => {
-         this.careUserService.createCareUser(result).subscribe(res => {
-            this.loadCareUsers();
-         });
+         this.careUserService.createCareUser(result).subscribe(
+            _ => {
+               this.loadCareUsers();
+               this.snackBar.open(
+                  `Gebruiker ${result.firstName} ${result.lastName} werd toegevoegd.`,
+                  'OK',
+                  { duration: 2000 }
+               );
+            },
+            err => {
+               this.snackBar.open(`⚠ ${err}`, 'OK');
+            }
+         );
       });
    }
 

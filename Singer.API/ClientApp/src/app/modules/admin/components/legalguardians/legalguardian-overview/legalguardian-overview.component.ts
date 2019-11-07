@@ -66,7 +66,6 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
                res => {
                   // Reload LegalGuardian
                   this.loadLegalGuardians();
-                  debugger;
                   this.snackBar.open(
                      `${result.firstName} ${result.lastName} werd aangepast.`,
                      'OK',
@@ -75,6 +74,8 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
                },
                err => {
                   this.snackBar.open(`⚠ ${err}`, 'OK');
+                  // TODO: Should be optimised, reloading results should be necessary
+                  this.loadLegalGuardians();
                }
             );
          }
