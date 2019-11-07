@@ -1,5 +1,5 @@
 <!-- Form Dialog Title -->
-<h2 mat-dialog-title>Inschrijvingslijst</h2>
+<h2 mat-dialog-title>Zorggebruiker inschrijven voor {{event.title }}</h2>
 
 <!-- Form Dialog Content -->
 
@@ -11,28 +11,29 @@
       <span>{{ userInfo.name }}</span>
       <span>{{
          userInfo.isRegistered
-            ? ' is geregistreerd'
-            : ' is nog niet geregistreerd'
+            ? ' is al geregistreerd voor dit evenement'
+            : ' is nog niet geregistreerd voor dit evenement'
       }}</span>
-      <app-single-registrations
-         *ngIf="!event.registrationOnDailyBasis"
-         [careUsers]="careUsers"
-         [eventSlots]="eventSlots"
-         [eventId]="event.id"
-      ></app-single-registrations>
-      <app-dailybasis-registrations
-      *ngIf="event.registrationOnDailyBasis"
-         [careUsers]="careUsers"
-         [eventSlots]="eventSlots"
-         [eventId]="event.id">
-
-      </app-dailybasis-registrations>
+      <div *ngIf="!userInfo.isRegistered">
+         <app-single-registrations
+            *ngIf="!event.registrationOnDailyBasis"
+            [careUsers]="careUsers"
+            [eventSlots]="eventSlots"
+            [eventId]="event.id"
+         ></app-single-registrations>
+         <app-dailybasis-registrations
+            *ngIf="event.registrationOnDailyBasis"
+            [careUsers]="careUsers"
+            [eventSlots]="eventSlots"
+            [eventId]="event.id"
+         >
+         </app-dailybasis-registrations>
+      </div>
    </div>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
    <button mat-stroked-button color="primary" (click)="close()">
-      Annuleer
+      Sluit
    </button>
-   <button mat-raised-button color="primary" (click)="save()">Opslaan</button>
 </mat-dialog-actions>

@@ -108,11 +108,13 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
       });
    }
 
-   addRegistration(row: SingerEvent){
+   addRegistration(row: SingerEvent) {
       const dialogRef = this.dialog.open(SingerEventAdminRegisterComponent, {
          data: <SingerEventRegistrationData>{
             event: row
-         }
+         },
+         width: '50vw',
+         maxHeight: '70vh',
       });
    }
 
