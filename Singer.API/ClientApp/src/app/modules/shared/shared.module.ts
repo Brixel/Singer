@@ -9,7 +9,7 @@ import { CoreModule } from '../core/core.module';
 
 @NgModule({
    declarations: [EventRegistrationComponent],
-   imports: [CommonModule, MaterialModule,CoreModule],
+   imports: [CommonModule, MaterialModule, CoreModule],
    exports: [EventRegistrationComponent],
    entryComponents: [EventRegistrationComponent],
    providers: [ApiService, SingerEventsService, SingerEventsProxy],

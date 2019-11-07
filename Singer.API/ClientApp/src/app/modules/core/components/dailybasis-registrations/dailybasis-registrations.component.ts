@@ -1,5 +1,8 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { EventSlotRegistrations, EventCareUserRegistration, EventRelevantCareUserDTO } from '../../models/singerevent.model';
+import {
+   EventSlotRegistrations,
+   EventCareUserRegistration,
+} from '../../models/singerevent.model';
 import { Registrant } from '../../models/registrant.model';
 import { SingerEventsService } from '../../services/singerevents-api/singerevents.service';
 import {
@@ -25,7 +28,7 @@ export class DailybasisRegistrationsComponent implements OnInit {
       this.eventSlotDataSource.sort = this.sort;
    }
 
-   get eventSlots(){
+   get eventSlots() {
       return this._eventSlots;
    }
 
@@ -35,7 +38,7 @@ export class DailybasisRegistrationsComponent implements OnInit {
       const careUserIds = this._careUsers.map(c => c.careUserId);
       this.columnsToDisplay.push(...careUserIds);
    }
-   get careUsers(){
+   get careUsers() {
       return this._careUsers;
    }
 
@@ -54,13 +57,11 @@ export class DailybasisRegistrationsComponent implements OnInit {
 
    ngOnInit() {}
 
-
-
    getSlotRegistrationStatus(
       registrations: EventCareUserRegistration[],
       careUserId: string
    ): RegistrationStatus {
-      const registration = registrations.find(x => x.careUserId == careUserId);
+      const registration = registrations.find(x => x.careUserId === careUserId);
       if (registration === undefined) {
          return 0;
       } else {
@@ -68,10 +69,7 @@ export class DailybasisRegistrationsComponent implements OnInit {
       }
    }
 
-   registerCareUserOnEventSlot(
-      eventSlotId: string,
-      careUser: Registrant
-   ) {
+   registerCareUserOnEventSlot(eventSlotId: string, careUser: Registrant) {
       this._eventService
          .registerCareUserOnEventSlot(
             this.eventId,

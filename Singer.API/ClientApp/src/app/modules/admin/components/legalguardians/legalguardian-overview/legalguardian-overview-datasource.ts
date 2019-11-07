@@ -26,8 +26,8 @@ export class LegalguardianOverviewDataSource extends DataSource<LegalGuardian> {
    public loadLegalGuardians(
       sortDirection?: string,
       sortColumn?: string,
-      pageIndex?:number,
-      pageSize?: number, filter?: string){
+      pageIndex?: number,
+      pageSize?: number, filter?: string) {
 
       this.loadingSubject$.next(true);
          this.legalguardiansService.fetchLegalGuardiansData(sortDirection, sortColumn, pageIndex, pageSize, filter).subscribe((res) => {

@@ -46,12 +46,12 @@ export class SingerEventRegistrationsComponent implements OnInit {
       return uniqueNames;
    }
 
-   close(){
+   close() {
       this.dialogRef.close();
    }
 
-   save(){
-      const registrantIds = this.registrants.map(r=>r.careUserId);
+   save() {
+      const registrantIds = this.registrants.map(r => r.careUserId);
       // this.singerEventService.updateRegistrants(this.event.id, registrantIds).subscribe((res) => res);
    }
 

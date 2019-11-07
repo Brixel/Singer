@@ -22,7 +22,7 @@ export interface EventRegistrationDTO {
    careUser: CareUserDTO;
    status: RegistrationStatus;
 }
-export interface UserRegisteredDTO{
+export interface UserRegisteredDTO {
    careUserId: string;
    isRegistered: boolean;
    pendingStatussesRemaining: number;

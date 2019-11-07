@@ -162,22 +162,22 @@ export class EventCareUserRegistration {
    status: RegistrationStatus;
 }
 
-export interface EventRegistrationDTO{
+export interface EventRegistrationDTO {
    id: string;
    eventSlot: EventSlotDTO;
    eventDescription: EventDescriptionDTO;
    careUser: CareUserDTO;
    status: RegistrationStatus;
 }
-export interface EventDescriptionDTO{
+export interface EventDescriptionDTO {
    title: string;
    description: string;
    startDate: Date;
    endDate: Date;
-   ageGroup: AgeGroup[]
+   ageGroup: AgeGroup[];
 }
 
-export interface EventSlotDTO{
+export interface EventSlotDTO {
    id: string;
    startDateTime: Date;
    endDateTime: Date;

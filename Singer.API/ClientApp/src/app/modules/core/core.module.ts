@@ -33,7 +33,7 @@ export const MY_FORMATS = {
    ],
    imports: [CommonModule, MaterialModule],
    providers: [
-      {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},{provide: MAT_DATE_LOCALE, useValue: 'nl-BE'}],
+      {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS}, {provide: MAT_DATE_LOCALE, useValue: 'nl-BE'}],
    exports: [
       AgegroupPipe,
       KeysPipe,

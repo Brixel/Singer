@@ -88,7 +88,7 @@ export class SingerEventsService {
             createSingerEvent.dayCareBeforeStartDateTime,
          hasDayCareAfter: createSingerEvent.hasDayCareAfter,
          dayCareAfterEndDateTime: createSingerEvent.dayCareAfterEndDateTime,
-         //TODO: These are default repeat settings to ensure events overlapping multiple days will be created with daily timeslots
+         // TODO: These are default repeat settings to ensure events overlapping multiple days will be created with daily timeslots
          repeatSettings: <EventRepeatSettingsDTO>{
             interval: 1,
             intervalUnit: TimeUnit.Day,
@@ -133,7 +133,7 @@ export class SingerEventsService {
    }
 
 
-   isUserRegisteredForEvent(eventId: string, careUserId: string):Observable<UserRegisteredDTO> {
+   isUserRegisteredForEvent(eventId: string, careUserId: string): Observable<UserRegisteredDTO> {
       return this.singerEventsProxy.isUserRegisteredForEvent(eventId, careUserId).pipe(map(res => res));
    }
 }
