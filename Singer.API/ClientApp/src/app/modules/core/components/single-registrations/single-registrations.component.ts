@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { EventSlotRegistrations, EventRelevantCareUserDTO, RegistrationStatus, EventCareUserRegistration } from '../../models/singerevent.model';
+import { EventSlotRegistrations, RegistrationStatus } from '../../models/singerevent.model';
 import { Registrant } from '../../models/registrant.model';
 import { SingerEventsService } from '../../services/singerevents-api/singerevents.service';
 import { MatSnackBar } from '@angular/material';
@@ -20,6 +20,7 @@ export class SingleRegistrationsComponent implements OnInit {
    getEventRegistrationStatus(careUserId: string): RegistrationStatus {
       return this.careUsers.find(x => x.careUserId === careUserId).registrationStatus;
    }
+
    registerCareUserOnEvent(
       careUser: Registrant
    ) {
