@@ -79,7 +79,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
                );
             },
             err => {
-               this.snackBar.open(`⚠ ${err}`, 'OK');
+               this.handleApiError(err);
                // TODO: Should be optimised, reloading results should be necessary
                this.loadCareUsers();
             }
@@ -104,7 +104,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
                );
             },
             err => {
-               this.snackBar.open(`⚠ ${err}`, 'OK');
+               this.handleApiError(err);
             }
          );
       });
@@ -144,5 +144,25 @@ export class OverviewComponent implements OnInit, AfterViewInit {
             })
          )
          .subscribe();
+   }
+
+   handleApiError(err: any) {
+      if (typeof err === 'string') {
+         this.snackBar.open(`⚠ ${err}`, 'OK');
+      } else if (typeof err === 'object' && err !== null) {
+         let messages = [];
+         for (var k in err) {
+            messages.push(err[k]);
+         }
+         this.snackBar.open(
+            `⚠ Er zijn fouten opgetreden bij het opslagen:\n${messages.join(
+               '\n'
+            )}`,
+            'OK',
+            {
+               panelClass: 'multi-line-snackbar',
+            }
+         );
+      }
    }
 }

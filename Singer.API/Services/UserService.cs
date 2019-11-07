@@ -34,9 +34,18 @@ namespace Singer.Services
       {
          // We need usernames for AspNetUsers. However, careusers don't have an e-mail address, so no username can be generated
          // For that reason, we generate a random username.
-         if (string.IsNullOrEmpty(dto.Email))
+         if (dto.GetType() == typeof(CreateCareUserDTO) && string.IsNullOrEmpty(dto.Email))
          {
             dto.Email = GenerateRandomUserName(dto.FirstName, dto.LastName);
+         }
+         else
+         {
+            var existingEmail = await Queryable.SingleOrDefaultAsync(x => x.User.Email == dto.Email);
+
+            if (existingEmail != null)
+            {
+               throw new BadInputException("Het email adres dat je opgaf bestaat reeds in de database");
+            }
          }
 
          var baseUser = new User()
