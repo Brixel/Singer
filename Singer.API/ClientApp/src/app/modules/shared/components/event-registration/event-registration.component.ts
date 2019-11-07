@@ -147,14 +147,14 @@ export class EventRegistrationComponent implements OnInit {
       if (slots.length != this._event$.value.eventSlots.length) {
          return 0;
       }
-      let regs = slots.map(s => s.registrations[0]);
+      const regs = slots.map(s => s.registrations[0]);
 
-      if (regs.length == 0) {
+      if (regs.length === 0) {
          return 0;
       }
-      let states = regs.map(r => (r === undefined ? 0 : r.status));
-      let uniqueStates = Array.from(new Set(states));
-      if (uniqueStates.length != 1) {
+      const states = regs.map(r => (r === undefined ? 0 : r.status));
+      const uniqueStates = Array.from(new Set(states));
+      if (uniqueStates.length !== 1) {
          return 0;
       }
 

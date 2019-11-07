@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.1.0-issue-theme-AB-74-singer-theme-colors.727",
+   "version": "0.1.0-issue-remove-search-dashboard-notloggedin.724",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",
