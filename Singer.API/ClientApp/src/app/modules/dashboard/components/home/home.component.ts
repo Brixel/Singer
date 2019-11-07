@@ -10,6 +10,7 @@ import { map } from 'rxjs/operators';
 import { ApiService } from 'src/app/modules/core/services/api.service';
 import { SearchEventData } from '../event-search/event-search.component';
 import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location';
+import { AuthService } from 'src/app/modules/core/services/auth.service';
 
 @Component({
    selector: 'app-home',
@@ -17,9 +18,10 @@ import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-lo
    styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
+   isAuthenticated = false;
    events: EventDescription[] = [];
    availableLocations: SingerEventLocation[];
-   constructor(private apiService: ApiService) {}
+   constructor(private apiService: ApiService, private authService: AuthService) {}
 
    ngOnInit(): void {
       this.getSingerEventLocations('asc', 'name', 0, 1000, '').subscribe(
@@ -27,6 +29,11 @@ export class HomeComponent implements OnInit {
             this.availableLocations = res.items as SingerEventLocation[];
          }
       );
+      this.authService.isAuthenticated$.subscribe((res) => {
+         this.isAuthenticated = res;
+      });
+
+      this.authService.isAuthenticated();
    }
 
    getSingerEventLocations(
