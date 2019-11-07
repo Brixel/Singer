@@ -7,15 +7,10 @@ import {
    MatSort,
 } from '@angular/material';
 import {
-   EventRelevantCareUserDTO,
    EventRegisterDetails,
-   EventSlotRegistrations,
-   EventCareUserRegistration,
 } from 'src/app/modules/core/models/singerevent.model';
 import { SingerEventsService } from 'src/app/modules/core/services/singerevents-api/singerevents.service';
-import { MatTableDataSource } from '@angular/material/table';
 import { BehaviorSubject } from 'rxjs';
-import { RegistrationStatus } from 'src/app/modules/core/models/enum';
 import { Registrant } from 'src/app/modules/core/models/registrant.model';
 
 @Component({
@@ -35,7 +30,8 @@ export class EventRegistrationComponent implements OnInit {
    constructor(
       public dialogRef: MatDialogRef<EventRegistrationComponent>,
       @Inject(MAT_DIALOG_DATA) private _eventId: string,
-      private _eventService: SingerEventsService
+      private _eventService: SingerEventsService,
+      private _snackbar: MatSnackBar
    ) {
    }
 
@@ -57,7 +53,7 @@ export class EventRegistrationComponent implements OnInit {
           },
           err => {
              console.error(err);
-             this._snackBar.open(`⚠ ${err}`, 'OK');
+             this._snackbar.open(`⚠ ${err}`, 'OK');
           });
    }
 
