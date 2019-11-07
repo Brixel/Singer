@@ -17,4 +17,4 @@
    </mat-card>
 </div>
 
- <app-event-list [availableLocations]="availableLocations" [events]="events" (searchEvent)="onSearchEvent($event)"></app-event-list>
+ <app-event-list *ngIf="isAuthenticated" [availableLocations]="availableLocations" [events]="events" (searchEvent)="onSearchEvent($event)"></app-event-list>

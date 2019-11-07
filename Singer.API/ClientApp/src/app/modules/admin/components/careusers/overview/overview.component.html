@@ -80,20 +80,36 @@
       </ng-container>
 
       <!-- HasNormalDayCare Column -->
-      <ng-container matColumnDef="hasNormalDayCare">
+      <ng-container matColumnDef="normalDaycareLocation">
          <th mat-header-cell *matHeaderCellDef mat-sort-header>Opv. normaal</th>
          <td mat-cell *matCellDef="let row">
-            {{ row.hasNormalDayCare ? 'Ja' : 'Neen' }}
+            <p>
+               <span class="locationName">{{
+                  row.normalDaycareLocation?.name
+               }}</span>
+               <br />
+               {{ row.normalDaycareLocation?.address }} <br />
+               {{ row.normalDaycareLocation?.postalCode }}
+               {{ row.normalDaycareLocation?.city }}
+            </p>
          </td>
       </ng-container>
 
       <!-- HasVacationDayCare Column -->
-      <ng-container matColumnDef="hasVacationDayCare">
+      <ng-container matColumnDef="vacationDaycareLocation">
          <th mat-header-cell *matHeaderCellDef mat-sort-header>
             Opv. vakantie
          </th>
          <td mat-cell *matCellDef="let row">
-            {{ row.hasVacationDayCare ? 'Ja' : 'Neen' }}
+            <p>
+               <span class="locationName">{{
+                  row.vacationDaycareLocation?.name
+               }}</span>
+               <br />
+               {{ row.vacationDaycareLocation?.address }} <br />
+               {{ row.vacationDaycareLocation?.postalCode }}
+               {{ row.vacationDaycareLocation?.city }}
+            </p>
          </td>
       </ng-container>
 
@@ -116,7 +132,6 @@
             >
                <mat-icon>add_box</mat-icon>
             </button>
-            <!-- <label class="tableButton">Toevoegen</label> -->
          </td>
       </ng-container>
       <!-- Paginator column -->

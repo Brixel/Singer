@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Singer.Data;
 using Singer.DTOs.Users;
+using Singer.DTOs;
 using Singer.Helpers.Exceptions;
 using Singer.Models.Users;
 using Singer.Services.Interfaces;
@@ -21,7 +22,12 @@ namespace Singer.Services
 
       protected override IQueryable<CareUser> Queryable => Context.CareUsers
          .Include(x => x.User)
-         .Include(x => x.LegalGuardianCareUsers).ThenInclude(x => x.LegalGuardian).ThenInclude(x => x.User);
+         .Include(x => x.LegalGuardianCareUsers)
+            .ThenInclude(x => x.LegalGuardian)
+            .ThenInclude(x => x.User)
+         .Include(x => x.NormalDaycareLocation)
+         .Include(x => x.VacationDaycareLocation)
+         .AsQueryable();
 
       public CareUserService(ApplicationDbContext appContext, IMapper mapper, UserManager<User> userManager)
       : base(appContext, mapper, userManager)
@@ -95,6 +101,28 @@ namespace Singer.Services
             careUser.LegalGuardianCareUsers.Remove(linkedUserExists);
          }
          await Context.SaveChangesAsync();
+      }
+
+      public async Task<List<EventRelevantCareUserDTO>> GetCareUsersForLegalGuardian(Guid baseUserId)
+      {
+         var returnUsers = new List<EventRelevantCareUserDTO>();
+         var careUsers = await Context.LegalGuardianCareUsers
+            .Include(x => x.CareUser)
+            .Include(x => x.CareUser.User)
+            .Where(x => x.LegalGuardian.UserId == baseUserId)
+            .ToListAsync();
+         foreach (var user in careUsers)
+         {
+            returnUsers.Add(new EventRelevantCareUserDTO
+            {
+               Id = user.CareUserId,
+               FirstName = user.CareUser.User.FirstName,
+               LastName = user.CareUser.User.LastName,
+               AgeGroup = user.CareUser.AgeGroup
+            });
+         }
+
+         return returnUsers;
       }
    }
 }

@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
@@ -13,17 +12,10 @@ import { AuthService } from './modules/core/services/auth.service';
 import { AuthGuard } from './modules/core/services/auth.guard';
 import { AuthInterceptor } from './modules/core/services/auth-interceptor';
 import { NavMenuComponent } from './modules/core/components/nav-menu/nav-menu.component';
-import { DashboardComponent } from './modules/dashboard/pages/dashboard/dashboard.component';
-import { MAT_DATE_FORMATS, NativeDateModule } from '@angular/material';
+import { NativeDateModule } from '@angular/material';
+import { AdminModule } from './modules/admin/admin.module';
 
-export const MY_FORMATS = {
-   parse: {
-     dateInput: 'D-MM-YYYY',
-   },
-   display: {
-     dateInput: 'D-MM-YYYY'
-   },
- };
+
 export function tokenGetter():string {
    return localStorage.getItem('token');
  }
@@ -36,6 +28,7 @@ export function tokenGetter():string {
    imports: [
       BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
       AppRoutingModule,
+      AdminModule,
       HttpClientModule,
       MaterialModule,
       BrowserAnimationsModule,
@@ -47,7 +40,6 @@ export function tokenGetter():string {
       }),
    ],
    providers: [
-      AuthService,
       JwtHelperService,
       AuthGuard,
       {
@@ -55,9 +47,20 @@ export function tokenGetter():string {
          useClass: AuthInterceptor,
          multi: true,
       },
-      {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+      {
+         provide: APP_INITIALIZER,
+         useFactory: initializeApp,
+         deps: [AuthService],
+         multi: true},
       BrowserAnimationsModule,
    ],
-   bootstrap: [AppComponent],
+   bootstrap: [AppComponent]
 })
 export class AppModule {}
+
+export function initializeApp(authService: AuthService) {
+   return () => {
+      authService
+        .restore();
+      };
+   }

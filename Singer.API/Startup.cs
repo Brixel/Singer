@@ -1,8 +1,10 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 using AutoMapper;
+using IdentityModel;
 using IdentityServer4.AccessTokenValidation;
 using IdentityServer4.EntityFramework.DbContexts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -23,6 +25,9 @@ using Singer.Services;
 using Singer.Services.Utils;
 using Singer.Models.Users;
 using Singer.Services.Interfaces;
+using NSwag.Generation.Processors.Security;
+using NSwag;
+using System.Net;
 
 namespace Singer
 {
@@ -108,6 +113,7 @@ namespace Singer
                options.ApiName = "singer.api";
                // URL of my authorization server
                options.Authority = authority;
+               options.RoleClaimType = ClaimTypes.Role;
             });
 
          // Making JWT authentication scheme the default
@@ -117,6 +123,7 @@ namespace Singer
                .RequireAuthenticatedUser()
                .Build();
          });
+         services.AddAuthorization();
 
 
          // In production, the Angular files will be served from this directory
@@ -126,7 +133,36 @@ namespace Singer
          });
 
          // Register the Swagger services
-         services.AddSwaggerDocument();
+         services.AddOpenApiDocument(config =>
+         {
+            config.DocumentName = "OpenAPI 3";
+            config.OperationProcessors.Add(new OperationSecurityScopeProcessor("JWT Token"));
+            //config.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT Token")); -> Replaced the line above with this with no difference
+            config.AddSecurity("JWT Token", Enumerable.Empty<string>(),
+               new OpenApiSecurityScheme()
+               {
+                  Type = OpenApiSecuritySchemeType.ApiKey,
+                  Name = nameof(Authorization),
+                  In = OpenApiSecurityApiKeyLocation.Header,
+                  Description = "Copy this into the value field: Bearer {token}"
+               }
+            );
+         });
+
+         services.AddSwaggerDocument(config =>
+         {
+            config.DocumentName = "OpenAPI 2";
+            config.OperationProcessors.Add(new OperationSecurityScopeProcessor("JWT Token"));
+            config.AddSecurity("JWT Token", Enumerable.Empty<string>(),
+               new OpenApiSecurityScheme()
+               {
+                  Type = OpenApiSecuritySchemeType.ApiKey,
+                  Name = nameof(Authorization),
+                  In = OpenApiSecurityApiKeyLocation.Header,
+                  Description = "Copy this into the value field: Bearer {token}"
+               }
+            );
+         });
 
          // Adds AutoMapper. Maps are defined as profiles in ./Profiles/*Profile.cs
          services.AddAutoMapper(typeof(Startup));
@@ -135,6 +171,7 @@ namespace Singer
          services.AddScoped<IEventLocationService, EventLocationService>();
          services.AddScoped<IAdminUserService, AdminUserService>();
          services.AddScoped<IEventService, EventService>();
+         services.AddScoped<IEventRegistrationService, EventRegistrationService>();
 
       }
 
@@ -176,7 +213,7 @@ namespace Singer
          // Navigate to:
          // https://localhost:5001/swagger/index.html the Swagger UI.
          // https://localhost:5001/swagger/v1/swagger.json to view the Swagger specification.
-         app.UseSwagger();
+         app.UseOpenApi();
          app.UseSwaggerUi3();
 
          app.UseMvc(routes =>

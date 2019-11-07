@@ -1,15 +1,14 @@
 import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { FormControl, Validators, FormGroup, FormArray } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import {
-   SingerEvent,
-   SingerEventLocation,
-} from 'src/app/modules/core/models/singerevent.model';
+import { SingerEvent } from 'src/app/modules/core/models/singerevent.model';
 import { AgeGroup } from 'src/app/modules/core/models/enum';
 import { MAT_DATE_FORMATS } from '@angular/material';
-import { MY_FORMATS } from 'src/app/app.module';
 import * as moment from 'moment';
 import { isNullOrUndefined } from 'util';
+import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location';
+import { MY_FORMATS } from 'src/app/modules/core/core.module';
+import { NgxMaterialTimepickerTheme } from 'ngx-material-timepicker';
 
 // Data we pass along with the creation of the Mat-Dialog box
 export interface SingerEventDetailsFormData {
@@ -22,11 +21,7 @@ export interface SingerEventDetailsFormData {
    selector: 'app-singerevent-details',
    templateUrl: './singerevent-details.component.html',
    styleUrls: ['./singerevent-details.component.css'],
-   providers: [
-
-      {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
-    ],
-
+   providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }],
 })
 export class SingerEventDetailsComponent implements OnInit {
    // Submit event for when the user submits the form
@@ -42,12 +37,24 @@ export class SingerEventDetailsComponent implements OnInit {
       k => typeof AgeGroup[k as any] === 'number'
    );
 
-   // Current care user instance
+   // Current singer event instance
    currentSingerEventInstance: SingerEvent;
 
    selectedLocation: SingerEventLocation;
 
    availableLocations: SingerEventLocation[];
+
+   singerTimePickerTheme: NgxMaterialTimepickerTheme = {
+      container: {
+          buttonColor: '#6a9de1'
+      },
+      dial: {
+          dialBackgroundColor: '#4a88da',
+      },
+      clockFace: {
+          clockHandColor: '#4a88da',
+      }
+  };
 
    //#region Binding properties for form:
 
@@ -60,7 +67,7 @@ export class SingerEventDetailsComponent implements OnInit {
    costFieldPlaceholder = 'Prijs';
    startRegistrationDateFieldPlaceholder = 'Start Datum Registratie';
    endRegistrationDateFieldPlaceholder = 'Eind Datum Registratie';
-   finalCancellationDateFieldPlaceholder = 'Eind Datum Anulering';
+   finalCancellationDateFieldPlaceholder = 'Eind Datum Annulering';
    registrationOnDailyBasisFieldPlaceholder = 'Registratie op dagelijkse basis';
    startDateFieldPlaceholder = 'Start Datum Evenement';
    endDateFieldPlaceholder = 'Eind Datum Evenement';
@@ -577,4 +584,5 @@ export class SingerEventDetailsComponent implements OnInit {
    closeForm() {
       this.dialogRef.close();
    }
+
 }

@@ -12,17 +12,14 @@ using System.Linq;
 using System.Security.Claims;
 using Singer.Models.Users;
 using ApiResource = IdentityServer4.EntityFramework.Entities.ApiResource;
-using ClaimValueTypes = System.Security.Claims.ClaimValueTypes;
 using IdentityResource = IdentityServer4.EntityFramework.Entities.IdentityResource;
-using Singer.Services;
-using Singer.DTOs.Users;
 using Singer.Identity;
 using Singer.Models;
 
 namespace Singer.Configuration
 {
    public static class Seed
-   { 
+   {
       private static List<string> _careUsers = new List<string>() { "user1", "user2", "user3" };
 
       private static List<EventLocation> _eventLocations = new List<EventLocation>() {
@@ -92,7 +89,7 @@ namespace Singer.Configuration
                   var _ = userMgr.AddToRoleAsync(admin, Roles.ROLE_ADMINISTRATOR).Result;
                }
             }
-            
+
          }
 
          foreach (var careUser in Roles._careUsers)
@@ -123,10 +120,10 @@ namespace Singer.Configuration
                   AgeGroup = AgeGroup.Child,
                   CaseNumber = new Random().Next(1000, 5000).ToString(),
                   BirthDay = DateTime.UtcNow.AddYears(new Random().Next(-14, -5)),
-                  HasNormalDayCare = false,
+                  NormalDaycareLocation = _eventLocations[0],
                   HasResources = false,
                   HasTrajectory = false,
-                  HasVacationDayCare = false,
+                  VacationDaycareLocation = _eventLocations[1],
                   IsExtern = false,
                   UserId = user.Id
                };
@@ -202,7 +199,7 @@ namespace Singer.Configuration
             {
                Name = singerApiResourceName,
 
-               
+
                Scopes = new List<ApiScope>()
                {
                   new ApiScope()

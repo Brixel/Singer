@@ -1,4 +1,13 @@
-import { AgeGroup } from './enum';
+import {
+   AgeGroup,
+   WeekDay,
+   MonthRepeatMoment,
+   RepeatType,
+   TimeUnit,
+   RegistrationStatus,
+} from './enum';
+import { SingerEventLocation } from './singer-event-location';
+import { EventSlot } from './event-slot';
 
 export interface SingerEventDTO {
    id: string;
@@ -58,6 +67,7 @@ export interface CreateSingerEventDTO {
    dayCareBeforeStartDateTime: Date;
    hasDayCareAfter: boolean;
    dayCareAfterEndDateTime: Date;
+   repeatSettings: EventRepeatSettingsDTO;
 }
 
 export class SingerEvent {
@@ -81,54 +91,23 @@ export class SingerEvent {
    dayCareAfterEndDateTime: Date;
 }
 
-export class SingerEventLocation {
-   id: string;
-   name: string;
-   address: string;
-   postalCode: string;
-   city: string;
-   country: string;
-}
-
-export interface SingerEventLocationDTO {
-   id: string;
-   name: string;
-   address: string;
-   postalCode: string;
-   city: string;
-   country: string;
-}
-
-export interface CreateSingerEventLocationDTO {
-   name: string;
-   address: string;
-   postalCode: string;
-   city: string;
-   country: string;
-}
-
-export interface UpdateSingerEventLocationDTO {
-   name: string;
-   address: string;
-   postalCode: string;
-   city: string;
-   country: string;
-}
-
 export class EventDescription {
    constructor(
+      id: string,
       title: string,
       description: string,
       ageGroups: AgeGroup[],
       startDateTime: Date,
       endDateTime: Date
    ) {
+      this.id = id;
       this.title = title;
       this.description = description;
       this.ageGroups = ageGroups;
       this.startDateTime = startDateTime;
       this.endDateTime = endDateTime;
    }
+   id: string;
    title: string;
    description: string;
    ageGroups: AgeGroup[];
@@ -140,4 +119,46 @@ export class SearchEventDTO {
    startDateTime: Date;
    endDateTime: Date;
    locationId: string;
+}
+
+export class EventRelevantCareUserDTO {
+   id: string;
+   firstName: string;
+   lastName: string;
+   ageGroup: AgeGroup;
+   appropriateAgeGroup: boolean;
+}
+
+export interface EventRepeatSettingsDTO {
+   interval: number;
+   intervalUnit: TimeUnit;
+   weekRepeatMoment: WeekDay;
+   monthRepeatMoment: MonthRepeatMoment;
+   repeatType: RepeatType;
+   numberOfRepeats: number;
+   stopRepeatDate: Date;
+}
+
+export class EventRegisterDetails {
+   id: string;
+   title: string;
+   description: string;
+   ageGroups: AgeGroup[];
+   startDateTime: Date;
+   endDateTime: Date;
+   eventSlots: EventSlotRegistrations[];
+   relevantCareUsers: EventRelevantCareUserDTO[];
+   registrationsOnDailyBasis: boolean;
+}
+
+export class EventSlotRegistrations {
+   id: string;
+   startDateTime: Date;
+   endDateTime: Date;
+   registrations: EventCareUserRegistration[];
+}
+
+export class EventCareUserRegistration {
+   careUserId: string;
+   status: RegistrationStatus;
 }

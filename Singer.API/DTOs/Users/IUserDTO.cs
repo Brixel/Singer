@@ -10,4 +10,22 @@ namespace Singer.DTOs.Users
 
       string Email { get; set; }
    }
+
+   public interface ICreateUserDTO
+   {
+      string FirstName { get; set; }
+
+      string LastName { get; set; }
+
+      string Email { get; set; }
+   }
+
+   public interface IUpdateUserDTO
+   {
+      string FirstName { get; set; }
+
+      string LastName { get; set; }
+
+      string Email { get; set; }
+   }
 }

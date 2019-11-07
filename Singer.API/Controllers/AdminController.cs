@@ -14,6 +14,8 @@ namespace Singer.Controllers
 {
    [Route("api/[controller]")]
    [Authorize]
+   // TODO Fix Role based access
+   [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
    public class AdminController : DataControllerBase<AdminUser, AdminUserDTO, CreateAdminUserDTO, UpdateAdminUserDTO>
    {
       public AdminController(IAdminUserService adminUserService) : base(adminUserService)

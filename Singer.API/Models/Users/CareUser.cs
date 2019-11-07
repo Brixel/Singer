@@ -32,13 +32,20 @@ namespace Singer.Models.Users
       [PersonalData]
       public bool HasTrajectory { get; set; }
 
+      [ForeignKey(nameof(NormalDaycareLocation))]
+      public Guid? NormalDaycareLocationId { get; set; }
       [PersonalData]
-      public bool HasNormalDayCare { get; set; }
+      public EventLocation NormalDaycareLocation { get; set; }
+      [PersonalData]
 
+      [ForeignKey(nameof(VacationDaycareLocation))]
+      public Guid? VacationDaycareLocationId { get; set; }
       [PersonalData]
-      public bool HasVacationDayCare { get; set; }
+      public EventLocation VacationDaycareLocation { get; set; }
 
       [PersonalData]
       public bool HasResources { get; set; }
+
+      public List<EventRegistration> EventRegistrations { get; set; }
    }
 }
