@@ -67,8 +67,7 @@ export class SingerEventsService {
    }
 
    createSingerEvent(createSingerEvent: SingerEvent) {
-      let endDateTime = new Date(createSingerEvent.startDateTime);
-      console.log(endDateTime);
+      const endDateTime = new Date(createSingerEvent.startDateTime);
       endDateTime.setHours(createSingerEvent.endDateTime.getHours());
       endDateTime.setMinutes(createSingerEvent.endDateTime.getMinutes());
       const createSingerEventDTO = <CreateSingerEventDTO>{
