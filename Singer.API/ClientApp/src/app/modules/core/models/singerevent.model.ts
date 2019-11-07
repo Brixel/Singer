@@ -116,8 +116,8 @@ export class EventDescription {
 }
 
 export class SearchEventDTO {
-   startDateTime: Date;
-   endDateTime: Date;
+   startDate: Date;
+   endDate: Date;
    locationId: string;
 }
 
