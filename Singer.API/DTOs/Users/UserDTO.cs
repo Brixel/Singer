@@ -28,8 +28,8 @@ namespace Singer.DTOs.Users
       [DisplayName("Achternaam")]
       public string LastName { get; set; }
 
-      [Required]
-      [EmailAddress]
+      //[Required]
+      //[EmailAddress]
       [DisplayName("E-mail adres")]
       public string Email { get; set; }
    }
