@@ -10,7 +10,7 @@ namespace Singer.Helpers.Exceptions
       /// <summary>
       /// Constructs a new instance of the <see cref="BadInputException"/>.
       /// </summary>
-      public BadInputException()
+      private BadInputException()
       {
       }
 
@@ -45,6 +45,6 @@ namespace Singer.Helpers.Exceptions
       /// <summary>
       /// The message that will be returned to the client.
       /// </summary>
-      public override string ClientMessage => "The arguments you passed just destroyed Lichtenstein...";
+      public override string ClientMessage => "Er is iets misgegaan.";
    }
 }
