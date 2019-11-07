@@ -5,15 +5,15 @@ import { SingerEventsService } from '../../services/singerevents-api/singerevent
 import { MatSnackBar } from '@angular/material';
 
 @Component({
-   selector: 'app-single-registrations',
-   templateUrl: './single-registrations.component.html',
-   styleUrls: ['./single-registrations.component.css'],
+   selector: 'app-single-registration',
+   templateUrl: './single-registration.component.html',
+   styleUrls: ['./single-registration.component.css'],
 })
-export class SingleRegistrationsComponent implements OnInit {
+export class SingleRegistrationComponent implements OnInit {
    @Input() eventId: string;
    @Input() eventSlots: EventSlotRegistrations[] = [];
    @Input() careUsers: Registrant[] = [];
-   constructor(private _eventService: SingerEventsService, private _snackbar: MatSnackBar) {}
+   constructor(private _eventService: SingerEventsService, private _snackBar: MatSnackBar) {}
 
    ngOnInit() {}
 
@@ -31,7 +31,7 @@ export class SingleRegistrationsComponent implements OnInit {
          )
          .subscribe(
             res => {
-               this._snackbar.open(
+               this._snackBar.open(
                   `${careUser.name} werd ingeschreven`,
                   'OK',
                   { duration: 2000 }
@@ -42,7 +42,7 @@ export class SingleRegistrationsComponent implements OnInit {
             },
             err => {
                console.log(err);
-               this._snackbar.open(`⚠ ${err}`, 'OK');
+               this._snackBar.open(`⚠ ${err}`, 'OK');
             }
          );
    }

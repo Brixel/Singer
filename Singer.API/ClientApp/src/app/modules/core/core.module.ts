@@ -8,7 +8,8 @@ import { AgegroupToColorPipePipe } from './services/agegroup-to-color-pipe.pipe'
 import { UserCardComponent } from './components/user-card/user-card.component';
 import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material';
 import { DailybasisRegistrationsComponent } from './components/dailybasis-registrations/dailybasis-registrations.component';
-import { SingleRegistrationsComponent } from './components/single-registrations/single-registrations.component';
+import { SingleRegistrationComponent } from './components/single-registration/single-registration.component';
+
 
 
 export const MY_FORMATS = {
@@ -29,7 +30,7 @@ export const MY_FORMATS = {
       AgegroupToColorPipePipe,
       UserCardComponent,
       DailybasisRegistrationsComponent,
-      SingleRegistrationsComponent,
+      SingleRegistrationComponent
    ],
    imports: [CommonModule, MaterialModule],
    providers: [
@@ -40,7 +41,7 @@ export const MY_FORMATS = {
       AgegroupChipsComponent,
       AgegroupToColorPipePipe,
       UserCardComponent,
-      SingleRegistrationsComponent,
+      SingleRegistrationComponent,
       DailybasisRegistrationsComponent
    ],
 })

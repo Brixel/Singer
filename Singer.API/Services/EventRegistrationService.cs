@@ -200,7 +200,7 @@ namespace Singer.Services
 
       public async Task<UserRegisteredDTO> GetUserRegistrationStatus(Guid eventId, Guid careUserId)
       {
-         var registrationStatuses = await Context.EventRegistrations
+         var registrationStates = await Context.EventRegistrations
             .Include(x => x.EventSlot)
             .ThenInclude(x => x.Event)
             .Where(x =>
@@ -210,14 +210,14 @@ namespace Singer.Services
                HasDailyBasisRegistration = registration.EventSlot.Event.RegistrationOnDailyBasis,
                Status = registration.Status}).ToListAsync();
 
-         if (registrationStatuses.Any())
+         if (registrationStates.Any())
          {
-            var pendingStatusesRemaining = registrationStatuses.Count(x => x.Status == RegistrationStatus.Pending);
+            var pendingStatesRemaining = registrationStates.Count(x => x.Status == RegistrationStatus.Pending);
             return new UserRegisteredDTO(){
                CareUserId = careUserId,
-               IsRegistered = !registrationStatuses.First().HasDailyBasisRegistration || (pendingStatusesRemaining == 0 ? true : false),
-               PendingStatesRemaining = pendingStatusesRemaining,
-               Status = pendingStatusesRemaining > 0 ? RegistrationStatus.Pending : registrationStatuses.First().Status
+               IsRegistered = !registrationStates.First().HasDailyBasisRegistration || (pendingStatesRemaining == 0 ? true : false),
+               PendingStatesRemaining = pendingStatesRemaining,
+               Status = pendingStatesRemaining > 0 ? RegistrationStatus.Pending : registrationStates.First().Status
             };
          }
          return new UserRegisteredDTO(){
