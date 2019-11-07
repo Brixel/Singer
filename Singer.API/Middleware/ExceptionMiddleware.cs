@@ -44,11 +44,14 @@ namespace Singer.Middleware
          catch (HttpException e)
          {
             context.Response.StatusCode = e.StatusCode;
-            await context.Response.WriteAsync(e.ClientMessage);
 
-            if (_env.IsDevelopment())
-               await context.Response.WriteAsync($"\r\n\r\n{e.Message}");
+            var exceptionMessage = e.ClientMessage;
+            if (!string.IsNullOrEmpty(e.Message))
+            {
+               exceptionMessage = e.Message;
+            }
 
+            await context.Response.WriteAsync(exceptionMessage);
          }
          catch (Exception e)
          {
