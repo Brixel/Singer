@@ -200,30 +200,36 @@ namespace Singer.Services
 
       public async Task<UserRegisteredDTO> GetUserRegistrationStatus(Guid eventId, Guid careUserId)
       {
-         var registrationStates = await Context.EventRegistrations
-            .Include(x => x.EventSlot)
-            .ThenInclude(x => x.Event)
-            .Where(x =>
-               x.EventSlot.EventId == eventId &&
-               x.CareUserId == careUserId)
-            .Select(registration => new {
-               HasDailyBasisRegistration = registration.EventSlot.Event.RegistrationOnDailyBasis,
-               Status = registration.Status}).ToListAsync();
+         var eventSlots = await Context.EventSlots
+            .Include(x => x.Event)
+            .Where(x => x.EventId == eventId)
+            .Select(eventSlot => eventSlot.Event.RegistrationOnDailyBasis).ToListAsync();
 
-         if (registrationStates.Any())
+         var registrations = await Context.EventRegistrations
+            .Where(x =>
+               x.CareUserId == careUserId &&
+               x.EventSlot.EventId == eventId)
+            .Select(x => x.Status)
+            .ToListAsync();
+
+         var userIsRegisteredForAllEventSlots = eventSlots.Count() == registrations.Count();
+
+         if (eventSlots.Any())
          {
-            var pendingStatesRemaining = registrationStates.Count(x => x.Status == RegistrationStatus.Pending);
+            var pendingStatesRemaining = registrations.Count(x => x == RegistrationStatus.Pending);
             return new UserRegisteredDTO(){
                CareUserId = careUserId,
-               IsRegistered = !registrationStates.First().HasDailyBasisRegistration || (pendingStatesRemaining == 0 ? true : false),
+               IsRegistered = true,
+               IsRegisteredForAllEventslots = userIsRegisteredForAllEventSlots,
                PendingStatesRemaining = pendingStatesRemaining,
-               Status = pendingStatesRemaining > 0 ? RegistrationStatus.Pending : registrationStates.First().Status
+               Status = pendingStatesRemaining > 0 ? RegistrationStatus.Pending : registrations.First()
             };
          }
          return new UserRegisteredDTO(){
             CareUserId = careUserId,
             IsRegistered = false,
-            PendingStatesRemaining = 0
+            PendingStatesRemaining = 0,
+            IsRegisteredForAllEventslots = false
          };
 
       }

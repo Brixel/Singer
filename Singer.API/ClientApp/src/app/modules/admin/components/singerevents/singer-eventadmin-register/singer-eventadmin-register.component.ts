@@ -16,6 +16,7 @@ import {
 import { CareUserDTO } from 'src/app/modules/core/models/careuser.model';
 import { BehaviorSubject } from 'rxjs';
 import { Registrant } from 'src/app/modules/core/models/registrant.model';
+import { AgeGroup } from 'src/app/modules/core/models/enum';
 
 @Component({
    selector: 'app-singer-eventadmin-register',
@@ -30,6 +31,7 @@ export class SingerEventAdminRegisterComponent implements OnInit {
    private _userInfoSubject = new BehaviorSubject<UserInfo>(null);
    userInfo$ = this._userInfoSubject.asObservable();
    eventSlots: EventSlotRegistrations[];
+   canRegisterForEvent: boolean;
 
    constructor(
       private singerEventService: SingerEventsService,
@@ -42,7 +44,8 @@ export class SingerEventAdminRegisterComponent implements OnInit {
 
    ngOnInit() {
       this.singerEventService
-         .getEventRegisterDetails(this.event.id).subscribe(res => {
+         .getEventRegisterDetails(this.event.id)
+         .subscribe(res => {
             this.eventSlots = res.eventSlots;
          });
    }
@@ -62,15 +65,23 @@ export class SingerEventAdminRegisterComponent implements OnInit {
                status: res.status,
             };
             this._userInfoSubject.next(userInfo);
+            this.canRegisterForEvent = this.canBeRegisteredForEvent(
+               this.event.allowedAgeGroups,
+               careUser.ageGroup
+            );
             this.careUsers = [];
-            if (!userInfo.isRegistered) {
-               const registrant = <Registrant>{
-                  careUserId: userInfo.careUserId,
-                  name: userInfo.name,
-                  registrationStatus: userInfo.status,
-               };
-               this.careUsers = [registrant];
-            }
+           const registrant = <Registrant>{
+              careUserId: userInfo.careUserId,
+              name: userInfo.name,
+              registrationStatus: userInfo.status,
+           };
+           this.careUsers = [registrant];
          });
+   }
+   private canBeRegisteredForEvent(
+      allowedAgeGroups: AgeGroup[],
+      ageGroupOfUser: AgeGroup
+   ) {
+      return allowedAgeGroups.includes(ageGroupOfUser);
    }
 }
