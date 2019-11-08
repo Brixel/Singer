@@ -67,6 +67,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
       });
 
       dialogRef.componentInstance.submitEvent.subscribe((result: CareUser) => {
+
          // Update the Careuser
          this.careUserService.updateUser(result).subscribe(res => {
             // Reload Careusers
