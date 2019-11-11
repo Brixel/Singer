@@ -56,8 +56,8 @@ export class HomeComponent implements OnInit {
 
    getEvents(searchEventData: SearchEventData): Observable<EventDescription[]> {
       const searchParams = <SearchEventDTO>{
-         startDateTime: searchEventData.startDateTime,
-         endDateTime: searchEventData.endDateTime,
+         startDate: searchEventData.startDateTime,
+         endDate: searchEventData.endDateTime,
          locationId: searchEventData.locationId,
       };
       return this.apiService
