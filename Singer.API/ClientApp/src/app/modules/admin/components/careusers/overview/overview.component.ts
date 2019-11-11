@@ -61,8 +61,10 @@ export class OverviewComponent implements OnInit, AfterViewInit {
    }
 
    selectRow(row: CareUser): void {
+      //Dereference row to avoid updating row in overview when API might refuse the update
+      const deRefRow = { ...row };
       const dialogRef = this.dialog.open(CareUserDetailsComponent, {
-         data: { careUserInstance: row, isAdding: false },
+         data: { careUserInstance: deRefRow, isAdding: false },
          width: '80vw',
       });
 
@@ -80,8 +82,6 @@ export class OverviewComponent implements OnInit, AfterViewInit {
             },
             err => {
                this.handleApiError(err);
-               // TODO: Should be optimised, reloading results should be necessary
-               this.loadCareUsers();
             }
          );
       });
@@ -155,7 +155,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
             messages.push(err[k]);
          }
          this.snackBar.open(
-            `⚠ Er zijn fouten opgetreden bij het opslagen:\n${messages.join(
+            `⚠ Er zijn fouten opgetreden bij het opslaan:\n${messages.join(
                '\n'
             )}`,
             'OK',

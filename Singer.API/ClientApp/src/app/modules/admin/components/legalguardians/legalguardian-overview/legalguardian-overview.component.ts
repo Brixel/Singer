@@ -54,8 +54,10 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
    }
 
    selectRow(row: LegalGuardian): void {
+      //Dereference row to avoid updating row in overview when API might refuse the update
+      const deRefRow = { ...row };
       const dialogRef = this.dialog.open(LegalguardianDetailsComponent, {
-         data: { legalGuardianInstance: row, isAdding: false },
+         data: { legalGuardianInstance: deRefRow, isAdding: false },
          width: '80vw',
       });
 
@@ -74,8 +76,6 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
                },
                err => {
                   this.handleApiError(err);
-                  // TODO: Should be optimised, reloading results should be necessary
-                  this.loadLegalGuardians();
                }
             );
          }
