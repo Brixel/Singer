@@ -7,7 +7,6 @@ import {
    UpdateSingerEventDTO,
    CreateSingerEventDTO,
    SingerEventDTO,
-   EventRelevantCareUserDTO,
    EventRegisterDetails,
 } from '../../models/singerevent.model';
 import { PaginationDTO } from '../../models/pagination.model';
@@ -15,7 +14,8 @@ import {
    EventRegistrationDTO,
    CreateEventSlotRegistrationDTO,
    CreateEventRegistrationDTO,
-} from '../../models/event-registration';
+   UserRegisteredDTO,
+} from '../../models/event-registration.model';
 
 @Injectable({
    providedIn: 'root',
@@ -81,5 +81,10 @@ export class SingerEventsProxy {
             dto
          )
          .pipe(map(res => res));
+   }
+
+
+   isUserRegisteredForEvent(eventId: string, careUserId: string): Observable<UserRegisteredDTO> {
+      return this.apiService.get(`api/event/${eventId}/isuserregistered/${careUserId}`).pipe(map(res => res));
    }
 }
