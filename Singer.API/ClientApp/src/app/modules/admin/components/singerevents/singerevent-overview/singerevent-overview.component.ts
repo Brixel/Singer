@@ -5,7 +5,12 @@ import {
    OnInit,
    ElementRef,
 } from '@angular/core';
-import { MatPaginator, MatSort, MatDialog } from '@angular/material';
+import {
+   MatPaginator,
+   MatSort,
+   MatDialog,
+   MatSnackBar,
+} from '@angular/material';
 import { SingerEventOverviewDataSource } from './singerevent-overview-datasource';
 import { merge, fromEvent } from 'rxjs';
 import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -58,7 +63,8 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
    constructor(
       public dialog: MatDialog,
       private singerEventsService: SingerEventsService,
-      private singerEventLocationService: SingerEventLocationService
+      private singerEventLocationService: SingerEventLocationService,
+      private snackBar: MatSnackBar
    ) {}
 
    ngOnInit() {
@@ -88,12 +94,22 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
       dialogRef.componentInstance.submitEvent.subscribe(
          (result: SingerEvent) => {
             // Update the SingerEvent
-            this.singerEventsService
-               .updateSingerEvent(result)
-               .subscribe(res => {
+            this.singerEventsService.updateSingerEvent(result).subscribe(
+               res => {
                   // Reload SingerEvents
                   this.loadSingerEvents();
-               });
+                  this.snackBar.open(
+                     `Evenement ${result.title} werd aangepast.`,
+                     'OK',
+                     { duration: 2000 }
+                  );
+               },
+               err => {
+                  this.handleApiError(err);
+                  // TODO: Should be optimised, reloading results should be necessary
+                  this.loadSingerEvents();
+               }
+            );
          }
       );
    }
@@ -130,11 +146,19 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
 
       dialogRef.componentInstance.submitEvent.subscribe(
          (result: SingerEvent) => {
-            this.singerEventsService
-               .createSingerEvent(result)
-               .subscribe(res => {
+            this.singerEventsService.createSingerEvent(result).subscribe(
+               res => {
                   this.loadSingerEvents();
-               });
+                  this.snackBar.open(
+                     `Evenement ${result.title} werd toegevoegd.`,
+                     'OK',
+                     { duration: 2000 }
+                  );
+               },
+               err => {
+                  this.handleApiError(err);
+               }
+            );
          }
       );
    }
@@ -178,5 +202,25 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
             })
          )
          .subscribe();
+   }
+
+   handleApiError(err: any) {
+      if (typeof err === 'string') {
+         this.snackBar.open(`⚠ ${err}`, 'OK');
+      } else if (typeof err === 'object' && err !== null) {
+         let messages = [];
+         for (var k in err) {
+            messages.push(err[k]);
+         }
+         this.snackBar.open(
+            `⚠ Er zijn fouten opgetreden bij het opslagen:\n${messages.join(
+               '\n'
+            )}`,
+            'OK',
+            {
+               panelClass: 'multi-line-snackbar',
+            }
+         );
+      }
    }
 }
