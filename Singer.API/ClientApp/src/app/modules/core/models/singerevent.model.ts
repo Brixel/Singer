@@ -3,7 +3,7 @@ import {
    WeekDay,
    MonthRepeatMoment,
    RepeatType,
-   TimeUnit
+   TimeUnit,
 } from './enum';
 import { SingerEventLocation } from './singer-event-location';
 import { CareUserDTO } from './careuser.model';
@@ -115,8 +115,8 @@ export class EventDescription {
 }
 
 export class SearchEventDTO {
-   startDateTime: Date;
-   endDateTime: Date;
+   startDate: Date;
+   endDate: Date;
    locationId: string;
 }
 
@@ -186,13 +186,12 @@ export interface EventSlotDTO {
 export enum RegistrationStatus {
    Pending = 1,
    Accepted = 2,
-   Rejected = 4
+   Rejected = 4,
 }
 
 export class UserInfo {
    careUserId: string;
    name: string;
-   isRegistered: boolean;
+   isRegisteredForAllEventslots: boolean;
    status: RegistrationStatus;
 }
-

@@ -10,11 +10,12 @@
    <div *ngIf="userInfo$ | async as userInfo" class="user-info">
       <span>{{ userInfo.name }}</span>
       <span>{{
-         userInfo.isRegistered
-            ? ' is al geregistreerd voor dit evenement'
-            : ' is nog niet geregistreerd voor dit evenement'
+         !canRegisterForEvent ? ' kan niet worden ingeschreven voor dit evenement' :
+            userInfo.isRegisteredForAllEventslots
+               ? ' is al ingeschreven voor dit evenement'
+               : ' is nog niet ingeschreven voor dit evenement'
       }}</span>
-      <div *ngIf="!userInfo.isRegistered">
+      <div *ngIf="!userInfo.isRegisteredForAllEventSlots && canRegisterForEvent">
          <app-single-registration
             *ngIf="!event.registrationOnDailyBasis"
             [careUsers]="careUsers"
