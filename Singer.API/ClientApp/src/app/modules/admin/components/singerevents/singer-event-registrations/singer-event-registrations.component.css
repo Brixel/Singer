@@ -6,3 +6,13 @@
 
    width: 100%;
 }
+mat-form-field{
+   width:100%;
+}
+.registration-rejected {
+   color: red;
+}
+
+.registration-accepted {
+   color: green;
+}
