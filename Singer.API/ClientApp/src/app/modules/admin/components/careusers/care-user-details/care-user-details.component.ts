@@ -450,7 +450,6 @@ export class CareUserDetailsComponent implements OnInit {
          'true'
             ? true
             : false;
-            console.log(this.formControlGroup.controls);
       this.currentCareUserInstance.normalDaycareLocation = this.formControlGroup.controls.normalDaycareLocationFieldControl.value;
       this.currentCareUserInstance.vacationDaycareLocation = this.formControlGroup.controls.vacationDaycareLocationFieldControl.value;
       this.currentCareUserInstance.hasResources =
