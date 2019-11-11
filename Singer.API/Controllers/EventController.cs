@@ -58,6 +58,10 @@ namespace Singer.Controllers
             //throw new BadInputException("As a non-admin user, you are not allowed to pass a status for the registration!");
             dto.Status = RegistrationStatus.Pending;
          }
+         else
+         {
+            dto.Status = RegistrationStatus.Accepted;
+         }
          var eventRegistration = await _eventRegistrationService.CreateAsync(dto);
          return Created(nameof(Get), eventRegistration);
       }
@@ -71,6 +75,10 @@ namespace Singer.Controllers
          {
             //throw new BadInputException("As a non-admin user, you are not allowed to pass a status for the registration!");
             dto.Status = RegistrationStatus.Pending;
+         }
+         else
+         {
+            dto.Status = RegistrationStatus.Accepted;
          }
          var checkExisting = await _eventRegistrationService.GetOneBySlotAsync(dto.EventSlotId, dto.CareUserId);
          if (checkExisting != null)
@@ -202,6 +210,13 @@ namespace Singer.Controllers
          return BadRequest(model);
       }
 
+      [HttpGet("{eventId}/isuserregistered/{careUserId}")]
+      public async Task<ActionResult<UserRegisteredDTO>> IsUserRegisteredForEvent(Guid eventId, Guid careUserId)
+      {
+         var userRegistrationStatus = await _eventRegistrationService.GetUserRegistrationStatus(eventId, careUserId);
+         return Ok(userRegistrationStatus);
+      }
+
       [HttpGet("{eventId}/geteventregisterdetails")]
       public async Task<ActionResult<EventRegisterDetailsDTO>> GetEventRegisterDetails(Guid eventId)
       {
@@ -231,13 +246,11 @@ namespace Singer.Controllers
          }
          else
          {
-            throw new NotImplementedException("Berend should implement this");
+            careUsers = await _careUserService.GetCareUsersInAgeGroups(singerEvent.AllowedAgeGroups);
          }
 
          details.RelevantCareUsers = careUsers;
-
-         var eventSlots = new List<EventSlotRegistrationsDTO>();
-
+         
          var registrations = await _eventRegistrationService.GetAllSlotsForEventAsync(eventId);
          details.EventSlots = singerEvent.EventSlots.Select(x => new EventSlotRegistrationsDTO
          {
@@ -254,6 +267,7 @@ namespace Singer.Controllers
 
          return Ok(details);
       }
+
       #endregion METHODS
    }
 }

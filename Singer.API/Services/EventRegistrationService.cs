@@ -27,14 +27,25 @@ namespace Singer.Services
 
       protected ApplicationDbContext Context { get; }
       protected IMapper Mapper { get; }
-      protected DbSet<EventRegistration> DbSet => Context.EventRegistrations;
-      protected IQueryable<EventRegistration> Queryable => Context.EventRegistrations;
+
+      protected DbSet<EventRegistration> DbSet =>
+         Context.EventRegistrations;
+      protected IQueryable<EventRegistration> Queryable => Context.EventRegistrations
+         .Include(x => x.CareUser)
+         .ThenInclude(x => x.User).AsQueryable();
 
       public Expression<Func<EventRegistration, EventRegistrationDTO>> Projector => x => new EventRegistrationDTO
       {
          Id = x.Id,
          Status = x.Status,
-         CareUser = Mapper.Map<CareUserDTO>(x.CareUser),
+         CareUser = new CareUserDTO()
+         {
+            Id = x.CareUserId,
+            AgeGroup = x.CareUser.AgeGroup,
+            BirthDay = x.CareUser.BirthDay,
+            FirstName = x.CareUser.User.FirstName,
+            LastName = x.CareUser.User.LastName
+         },
          EventDescription = new EventDescriptionDTO
          {
             Id = x.EventSlot.Event.Id,
@@ -81,7 +92,8 @@ namespace Singer.Services
             registrations.Add(new EventRegistration()
             {
                CareUserId = dto.CareUserId,
-               EventSlotId = eventSlot.EventSlotId
+               EventSlotId = eventSlot.EventSlotId,
+               Status = dto.Status.Value
             });
          }
 
@@ -89,7 +101,7 @@ namespace Singer.Services
          await Context.SaveChangesAsync()
             .ConfigureAwait(false);
 
-         return await Context.EventRegistrations
+         return await Queryable
             .Where(x => x.EventSlot.EventId == dto.EventId && x.CareUserId == dto.CareUserId)
             .Select(Projector)
             .ToListAsync()
@@ -107,7 +119,10 @@ namespace Singer.Services
          if (itemsPerPage < 1)
             throw new BadInputException("Invalid pageSize provided");
 
-         var filteredItems = Context.EventRegistrations.Where(x => x.EventSlot.EventId == eventId);
+         var filteredItems = Context.EventRegistrations
+            .Include(x => x.CareUser)
+            .ThenInclude(x => x.User)
+            .Where(x => x.EventSlot.EventId == eventId);
          var totalItemCount = await filteredItems
             .CountAsync()
             .ConfigureAwait(false);
@@ -136,7 +151,7 @@ namespace Singer.Services
       }
       public async Task<EventRegistrationDTO> GetOneAsync(Guid eventId, Guid registrationId)
       {
-         var registration = await Context.EventRegistrations
+         var registration = await Queryable
             .Where(x => x.Id == registrationId && x.EventSlot.EventId == eventId)
             .Select(Projector)
             .FirstOrDefaultAsync()
@@ -177,10 +192,43 @@ namespace Singer.Services
 
          if (registration == default)
             throw new NotFoundException($"There is no registration with id {registrationId} and event id {eventId}");
-
          Context.Remove(registration);
          await Context.SaveChangesAsync()
             .ConfigureAwait(false);
+      }
+
+      public async Task<UserRegisteredDTO> GetUserRegistrationStatus(Guid eventId, Guid careUserId)
+      {
+         var eventSlots = await Context.EventSlots
+            .Include(x => x.Event)
+            .Where(x => x.EventId == eventId)
+            .Select(eventSlot => eventSlot.Event.RegistrationOnDailyBasis).ToListAsync();
+
+         var registrations = await Context.EventRegistrations
+            .Where(x =>
+               x.CareUserId == careUserId &&
+               x.EventSlot.EventId == eventId)
+            .Select(x => x.Status)
+            .ToListAsync();
+
+         var userIsRegisteredForAllEventSlots = eventSlots.Count() == registrations.Count();
+
+         if (eventSlots.Any())
+         {
+            var pendingStatesRemaining = registrations.Count(x => x == RegistrationStatus.Pending);
+            return new UserRegisteredDTO(){
+               CareUserId = careUserId,
+               IsRegisteredForAllEventslots = userIsRegisteredForAllEventSlots,
+               PendingStatesRemaining = pendingStatesRemaining,
+               Status = pendingStatesRemaining >= 0 ? RegistrationStatus.Pending : registrations.First()
+            };
+         }
+         return new UserRegisteredDTO(){
+            CareUserId = careUserId,
+            PendingStatesRemaining = 0,
+            IsRegisteredForAllEventslots = false
+         };
+
       }
 
       public Task<List<EventRegistrationDTO>> GetAllSlotsForEventAsync(Guid eventId)
@@ -202,7 +250,8 @@ namespace Singer.Services
          DbSet.Add(new EventRegistration()
          {
             CareUserId = dto.CareUserId,
-            EventSlotId = dto.EventSlotId
+            EventSlotId = dto.EventSlotId,
+            Status = dto.Status.Value
          });
          await Context.SaveChangesAsync().ConfigureAwait(false);
 

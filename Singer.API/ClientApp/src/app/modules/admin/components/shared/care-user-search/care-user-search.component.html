@@ -1,0 +1,22 @@
+<div>
+<mat-form-field>
+      <input
+         type="search"
+         matInput
+         aria-label="Zorggebruikers"
+         placeholder="Zoek zorggebruiker"
+         [matAutocomplete]="careUsersAutoComplete"
+         [formControl]="control"
+      />
+      <mat-autocomplete #careUsersAutoComplete="matAutocomplete" [displayWith]="showUserNameFn">
+         <mat-option
+            *ngFor="let careUser of careUsersAutoComplete$ | async"
+            [value]="careUser"
+            (onSelectionChange)="selectCareUser(careUser, $event)"
+         >
+            {{ careUser.firstName }} {{ careUser.lastName }}
+         </mat-option>
+      </mat-autocomplete>
+   </mat-form-field>
+
+</div>

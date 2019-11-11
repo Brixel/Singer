@@ -29,5 +29,6 @@ namespace Singer.Services.Interfaces
       Task<EventRegistrationDTO> UpdateStatusAsync(Guid eventId, Guid registrationId, RegistrationStatus status);
 
       Task DeleteAsync(Guid eventId, Guid registrationId);
+      Task<UserRegisteredDTO> GetUserRegistrationStatus(Guid eventId, Guid careUserId);
    }
 }

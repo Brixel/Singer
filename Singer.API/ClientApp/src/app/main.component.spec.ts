@@ -10,7 +10,7 @@ describe('MainComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ MainComponent ],
-      imports:[RouterTestingModule, HttpClientTestingModule]
+      imports: [RouterTestingModule, HttpClientTestingModule]
 
    })
     .compileComponents();

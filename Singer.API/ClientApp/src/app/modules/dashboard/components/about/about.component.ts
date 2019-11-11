@@ -18,7 +18,7 @@ export class AboutComponent {
    private isAdminSubject$ = new BehaviorSubject<boolean>(false);
    isAdmin$ = this.isAdminSubject$.asObservable();
 
-   constructor(http: HttpClient, authService: AuthService, @Inject('BASE_URL') baseUrl: string) {
+   constructor(http: HttpClient, _authService: AuthService, @Inject('BASE_URL') baseUrl: string) {
       http.get<AboutDTO>(baseUrl + 'api/about').subscribe(
          result => {
             this.apiVersionSubject$.next(result.apiVersion);
@@ -34,6 +34,6 @@ interface AboutDTO {
    userInfo: UserInfoDTO;
 }
 
-interface UserInfoDTO{
+interface UserInfoDTO {
    isAdmin: true;
 }
