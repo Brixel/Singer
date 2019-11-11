@@ -7,28 +7,3 @@
    margin: 10px auto;
    display: block;
 }
-
-/* MAIN TABLE STYLING */
-.overview-table {
-   overflow: auto;
-   /* Hide Vertical scroll bar */
-   overflow-y: hidden;
-   margin: 10px auto;
-}
-
-table {
-   width: 100%;
-}
-
-.registration-rejected {
-   color: red;
-}
-
-.registration-accepted {
-   color: green;
-}
-
-.timeslot-table .user-column {
-   justify-content: center;
-   text-align: center;
-}

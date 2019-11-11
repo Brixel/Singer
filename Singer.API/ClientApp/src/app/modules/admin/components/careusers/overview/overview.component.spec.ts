@@ -18,7 +18,7 @@ import { CoreModule } from 'src/app/modules/core/core.module';
 import { CommonModule } from '@angular/common';
 import { CareUsersRoutingModule } from '../../careusers-routing.module';
 import { CareUserProxy } from 'src/app/modules/core/services/care-users-api/careuser.proxy';
-import { CareUserService } from "src/app/modules/core/services/care-users-api/careusers.service";
+import { CareUserService } from 'src/app/modules/core/services/care-users-api/careusers.service';
 import { ApiService } from 'src/app/modules/core/services/api.service';
 import { HttpClient } from '@angular/common/http';
 import { MockHttpClient } from 'testing/mock-http-client.helper';
@@ -46,7 +46,7 @@ describe('OverviewComponent', () => {
             MatProgressSpinnerModule
 
          ],
-         providers:[AgegroupPipe, { provide: ApiService, useValue: apiServiceMock }, {provide: HttpClient, useValue: MockHttpClient}, {provide: 'BASE_URL', useValue: 'http://'}, CareUserProxy, CareUserService]
+         providers: [AgegroupPipe, { provide: ApiService, useValue: apiServiceMock }, {provide: HttpClient, useValue: MockHttpClient}, {provide: 'BASE_URL', useValue: 'http://'}, CareUserProxy, CareUserService]
       }).compileComponents();
    }));
 
@@ -55,7 +55,7 @@ describe('OverviewComponent', () => {
       component = fixture.componentInstance;
       careUserService = TestBed.get(CareUserService);
 
-      spyOn(careUserService, 'fetchCareUsersData').and.returnValue(of({}))
+      spyOn(careUserService, 'fetchCareUsersData').and.returnValue(of({}));
       fixture.detectChanges();
    });
 

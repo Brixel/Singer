@@ -51,17 +51,17 @@ export class AdminListComponent implements OnInit, AfterViewInit {
       });
 
       dialogRef.componentInstance.submitEvent.subscribe((result: AdminUser) => {
-         //Update the Careuser
+         // Update the Careuser
          this.adminUserService.update(result).subscribe((res) => {
             // Reload Careusers
             this.loadAdmins();
          });
       });
    }
-   addAdmin(){
+   addAdmin() {
       const dialogRef = this.dialog.open(AdminDetailsComponent);
 
-      dialogRef.componentInstance.submitEvent.subscribe((result: AdminUser)=>{
+      dialogRef.componentInstance.submitEvent.subscribe((result: AdminUser) => {
          this.adminUserService.create(result).subscribe((res) => {
             this.loadAdmins();
          });

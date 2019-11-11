@@ -122,3 +122,11 @@ tr.selectable:active {
 .spacer {
    flex: 1 1 auto;
 }
+.action-list{
+   display: flex;
+   justify-content: center;
+   align-content: space-between;
+}
+.action-list button{
+   margin: 0px 8px;;
+}

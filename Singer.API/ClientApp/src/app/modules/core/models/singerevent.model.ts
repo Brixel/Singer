@@ -4,10 +4,9 @@ import {
    MonthRepeatMoment,
    RepeatType,
    TimeUnit,
-   RegistrationStatus,
 } from './enum';
 import { SingerEventLocation } from './singer-event-location';
-import { EventSlot } from './event-slot';
+import { CareUserDTO } from './careuser.model';
 
 export interface SingerEventDTO {
    id: string;
@@ -160,5 +159,39 @@ export class EventSlotRegistrations {
 
 export class EventCareUserRegistration {
    careUserId: string;
+   status: RegistrationStatus;
+}
+
+export interface EventRegistrationDTO {
+   id: string;
+   eventSlot: EventSlotDTO;
+   eventDescription: EventDescriptionDTO;
+   careUser: CareUserDTO;
+   status: RegistrationStatus;
+}
+export interface EventDescriptionDTO {
+   title: string;
+   description: string;
+   startDate: Date;
+   endDate: Date;
+   ageGroup: AgeGroup[];
+}
+
+export interface EventSlotDTO {
+   id: string;
+   startDateTime: Date;
+   endDateTime: Date;
+}
+
+export enum RegistrationStatus {
+   Pending = 1,
+   Accepted = 2,
+   Rejected = 4,
+}
+
+export class UserInfo {
+   careUserId: string;
+   name: string;
+   isRegisteredForAllEventslots: boolean;
    status: RegistrationStatus;
 }

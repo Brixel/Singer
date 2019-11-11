@@ -22,6 +22,7 @@ import {
    MatChipsModule,
    MatTooltipModule,
    MatAutocompleteModule,
+   MatButtonToggleModule,
    MatTabsModule,
    MatSnackBarModule
 } from '@angular/material';
@@ -57,6 +58,7 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
       MatSnackBarModule,
       MatTabsModule,
       MatSnackBarModule,
+      MatButtonToggleModule
    ],
    exports: [
       MatButtonModule,
@@ -82,6 +84,7 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
       MatTooltipModule,
       NgxMaterialTimepickerModule,
       MatAutocompleteModule,
+      MatButtonToggleModule,
       MatSnackBarModule,
       MatTabsModule,
       MatSnackBarModule,

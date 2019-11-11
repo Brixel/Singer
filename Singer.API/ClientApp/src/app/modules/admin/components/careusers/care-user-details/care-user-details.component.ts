@@ -255,7 +255,7 @@ export class CareUserDetailsComponent implements OnInit {
 
    // If we are editing an existing user and there are no changes return false
    checkForChanges(): boolean {
-      if (this.isAdding) return true;
+      if (this.isAdding) { return true; }
       if (
          this.currentCareUserInstance.firstName !==
          this.formControlGroup.controls.firstNameFieldControl.value

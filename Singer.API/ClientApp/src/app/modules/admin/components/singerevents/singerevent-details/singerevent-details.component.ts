@@ -56,6 +56,11 @@ export class SingerEventDetailsComponent implements OnInit {
       }
   };
 
+   allowedAgeGroupsFormControlArray: FormArray = new FormArray([
+      new FormControl('', [Validators.required]),
+   ]);
+   selectedAgeGroups: AgeGroup[];
+
    //#region Binding properties for form:
 
    // Form placeholders
@@ -121,11 +126,6 @@ export class SingerEventDetailsComponent implements OnInit {
          return Validators.required;
       }
    }
-
-   allowedAgeGroupsFormControlArray: FormArray = new FormArray([
-      new FormControl('', [Validators.required]),
-   ]);
-   selectedAgeGroups: AgeGroup[];
 
    addAllowedAgeGroupsFormControlArrayToFormGroup() {
       this.formControlGroup.registerControl(
@@ -368,10 +368,10 @@ export class SingerEventDetailsComponent implements OnInit {
          return true;
       }
 
-      var instanceDate = new Date(
+      let instanceDate = new Date(
          this.currentSingerEventInstance.startRegistrationDateTime
       );
-      var formDate = new Date(
+      let formDate = new Date(
          this.formControlGroup.controls.startRegistrationDateFieldControl.value
       );
       if (instanceDate.getFullYear() !== formDate.getFullYear()) {
@@ -558,7 +558,7 @@ export class SingerEventDetailsComponent implements OnInit {
       if (isNullOrUndefined(dateField) || isNullOrUndefined(timeField)) {
          return new Date();
       }
-      let timePieces = timeField.split(':');
+      const timePieces = timeField.split(':');
       dateField.setHours(parseInt(timePieces[0]));
       dateField.setMinutes(parseInt(timePieces[1]));
 

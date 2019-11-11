@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Singer.DTOs;
 using Singer.DTOs.Users;
 using Singer.Helpers;
+using Singer.Models;
 using Singer.Models.Users;
 
 namespace Singer.Services.Interfaces
@@ -33,5 +34,6 @@ namespace Singer.Services.Interfaces
       /// </param>
       Task RemoveLinkedUsers(Guid CareUserId, List<Guid> UsersToRemove);
       Task<List<EventRelevantCareUserDTO>> GetCareUsersForLegalGuardian(Guid legalGuardianUserId);
+      Task<List<EventRelevantCareUserDTO>> GetCareUsersInAgeGroups(List<AgeGroup> singerEventAllowedAgeGroups);
    }
 }
