@@ -1,4 +1,10 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import {
+   Component,
+   OnInit,
+   ViewChild,
+   ElementRef,
+   AfterViewInit,
+} from '@angular/core';
 import { MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { AdminDatasource } from '../../../services/admin.datasource';
 import { AdminUserService } from '../../../services/admin-user.service';
@@ -6,11 +12,12 @@ import { fromEvent, merge } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 import { AdminUser } from 'src/app/modules/core/models/adminuser.model';
 import { AdminDetailsComponent } from '../admin-details/admin-details.component';
+import { LoadingService } from 'src/app/modules/core/services/loading.service';
 
 @Component({
-  selector: 'app-admin-list',
-  templateUrl: './admin-list.component.html',
-  styleUrls: ['./admin-list.component.css']
+   selector: 'app-admin-list',
+   templateUrl: './admin-list.component.html',
+   styleUrls: ['./admin-list.component.css'],
 })
 export class AdminListComponent implements OnInit, AfterViewInit {
    @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -20,30 +27,34 @@ export class AdminListComponent implements OnInit, AfterViewInit {
    pageSize = 15;
    pageIndex = 0;
 
-    /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-    displayedColumns = [
-      'firstName',
-      'lastName',
-      'email',
-      'userName',
-   ];
+   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
+   displayedColumns = ['firstName', 'lastName', 'email', 'userName'];
    filter: string;
    dataSource: AdminDatasource;
-  constructor(public dialog: MatDialog, private adminUserService: AdminUserService) { }
+   constructor(
+      public dialog: MatDialog,
+      private adminUserService: AdminUserService,
+      private _loadingService: LoadingService
+   ) {}
 
-  ngOnInit() {
-   this.dataSource = new AdminDatasource(this.adminUserService);
-   this.sort.active = 'lastName';
-   this.sort.direction = 'asc';
-   this.loadAdmins();
-  }
+   ngOnInit() {
+      this.dataSource = new AdminDatasource(this.adminUserService);
+      this.sort.active = 'lastName';
+      this.sort.direction = 'asc';
+      this.loadAdmins();
+   }
    loadAdmins() {
       const sortDirection = this.sort.direction;
       const sortColumn = this.sort.active;
       this.filter = this.filterInput.nativeElement.value;
-      this.dataSource.loadAdmins(sortDirection, sortColumn, this.pageIndex, this.pageSize, this.filter);
+      this.dataSource.loadAdmins(
+         sortDirection,
+         sortColumn,
+         this.pageIndex,
+         this.pageSize,
+         this.filter
+      );
    }
-
 
    selectRow(row: AdminUser): void {
       const dialogRef = this.dialog.open(AdminDetailsComponent, {
@@ -52,7 +63,7 @@ export class AdminListComponent implements OnInit, AfterViewInit {
 
       dialogRef.componentInstance.submitEvent.subscribe((result: AdminUser) => {
          // Update the Careuser
-         this.adminUserService.update(result).subscribe((res) => {
+         this.adminUserService.update(result).subscribe(() => {
             // Reload Careusers
             this.loadAdmins();
          });
@@ -62,7 +73,7 @@ export class AdminListComponent implements OnInit, AfterViewInit {
       const dialogRef = this.dialog.open(AdminDetailsComponent);
 
       dialogRef.componentInstance.submitEvent.subscribe((result: AdminUser) => {
-         this.adminUserService.create(result).subscribe((res) => {
+         this.adminUserService.create(result).subscribe(() => {
             this.loadAdmins();
          });
       });
@@ -70,25 +81,32 @@ export class AdminListComponent implements OnInit, AfterViewInit {
 
    ngAfterViewInit() {
       fromEvent(this.filterInput.nativeElement, 'keyup')
-            .pipe(
-                debounceTime(400),
-                distinctUntilChanged(),
-                tap(() => {
-                    this.paginator.pageIndex = 0;
-                    this.loadAdmins();
-                })
-            )
-            .subscribe();
+         .pipe(
+            debounceTime(400),
+            distinctUntilChanged(),
+            tap(() => {
+               this.paginator.pageIndex = 0;
+               this.loadAdmins();
+            })
+         )
+         .subscribe();
       this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
       merge(this.sort.sortChange, this.paginator.page)
-          .pipe(
-              tap(() => {
-                 this.pageIndex = this.paginator.pageIndex;
-                 this.pageSize = this.paginator.pageSize;
-                  this.loadAdmins();
-              })
-          )
-          .subscribe();
-  }
+         .pipe(
+            tap(() => {
+               this.pageIndex = this.paginator.pageIndex;
+               this.pageSize = this.paginator.pageSize;
+               this.loadAdmins();
+            })
+         )
+         .subscribe();
 
+      this.dataSource.loading$.subscribe(res => {
+         if (res) {
+            this._loadingService.show();
+         } else {
+            this._loadingService.hide();
+         }
+      });
+   }
 }
