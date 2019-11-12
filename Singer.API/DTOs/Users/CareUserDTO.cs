@@ -67,10 +67,10 @@ namespace Singer.DTOs.Users
       public bool HasTrajectory { get; set; }
 
       [DisplayName("Opv. normaal")]
-      public bool HasNormalDayCare { get; set; }
+      public Guid? NormalDaycareLocationId { get; set; }
 
       [DisplayName("Opv. vakantie")]
-      public bool HasVacationDayCare { get; set; }
+      public Guid? VacationDaycareLocationId { get; set; }
 
       [DisplayName("Middelen")]
       public bool HasResources { get; set; }
@@ -101,10 +101,10 @@ namespace Singer.DTOs.Users
       public bool HasTrajectory { get; set; }
 
       [DisplayName("Opv. normaal")]
-      public bool HasNormalDayCare { get; set; }
+      public Guid? NormalDaycareLocationId { get; set; }
 
       [DisplayName("Opv. vakantie")]
-      public bool HasVacationDayCare { get; set; }
+      public Guid? VacationDaycareLocationId { get; set; }
 
       [DisplayName("Middelen")]
       public bool HasResources { get; set; }

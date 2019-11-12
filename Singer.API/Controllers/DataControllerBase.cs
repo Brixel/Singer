@@ -8,6 +8,7 @@ using Singer.Services.Interfaces;
 using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Singer.Controllers
 {
@@ -17,6 +18,7 @@ namespace Singer.Controllers
    /// <typeparam name="TEntity">The type of the entity to manipulate in the database.</typeparam>
    /// <typeparam name="TDTO">The type that will be exposed to the outside world.</typeparam>
    [Route("api/[controller]")]
+   [Authorize]
    public abstract class DataControllerBase<TEntity, TDTO, TCreateDTO, TUpdateDTO> : Controller
       where TEntity : class, IIdentifiable
       where TDTO : class, IIdentifiable

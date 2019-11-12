@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Singer.DTOs.Users;
@@ -11,6 +12,7 @@ using Singer.Services.Interfaces;
 namespace Singer.Controllers
 {
    [Route("api/[controller]")]
+   [Authorize]
    public class LegalGuardianUserController : DataControllerBase<LegalGuardianUser, LegalGuardianUserDTO, CreateLegalGuardianUserDTO, UpdateLegalGuardianUserDTO>
    {
       private readonly ILegalGuardianUserService _legalGuardianUserService;

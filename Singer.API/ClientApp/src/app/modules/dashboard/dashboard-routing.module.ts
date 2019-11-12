@@ -12,11 +12,11 @@ const routes: Routes = [
    {
       path: '/shared-components/about',
       component: AboutComponent,
-      canActivate:[AuthGuard]
+      canActivate: [AuthGuard]
    }
 ];
 @NgModule({
    imports: [RouterModule.forChild(routes)]
 })
 
-export class DashboardRoutingModule{}
+export class DashboardRoutingModule {}

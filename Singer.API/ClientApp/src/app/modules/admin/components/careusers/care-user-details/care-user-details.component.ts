@@ -18,7 +18,7 @@ import {
    catchError,
    map,
 } from 'rxjs/operators';
-import { of, Observable } from 'rxjs';
+import { of, Observable, BehaviorSubject } from 'rxjs';
 import { LegalGuardian } from 'src/app/modules/core/models/legalguardian.model';
 import { LegalguardiansService } from 'src/app/modules/core/services/legal-guardians-api/legalguardians.service';
 import {
@@ -65,9 +65,10 @@ export class CareUserDetailsComponent implements OnInit {
    // Current care user instance
    currentCareUserInstance: CareUser;
 
-   selectedNormalDaycareLocation: Observable<SingerEventLocation>;
-   selectedVacationDaycareLocation: Observable<SingerEventLocation>;
-   availableLocations$: Observable<SingerEventLocation[]> = null;
+   selectedNormalDaycareLocation: SingerEventLocation;
+   selectedVacationDaycareLocation: SingerEventLocation;
+   private availableLocationsSubject = new BehaviorSubject<SingerEventLocation[]>([]);
+   availableLocations$ = this.availableLocationsSubject.asObservable();
    //#region Binding properties for form:
 
    // Form placeholders
@@ -124,9 +125,9 @@ export class CareUserDetailsComponent implements OnInit {
    }
 
    ngOnInit() {
-      this.availableLocations$ = this._singerEventLocationService
+      this._singerEventLocationService
          .fetchSingerEventLocationsData('asc', 'name', 0, 1000, '')
-         .pipe(map(res => res.items));
+         .subscribe(res => this.availableLocationsSubject.next(res.items));
       this._loadInstance();
 
       this.legalGuardianUsersAutoComplete$ = this.formControlGroup.controls[
@@ -255,7 +256,7 @@ export class CareUserDetailsComponent implements OnInit {
 
    // If we are editing an existing user and there are no changes return false
    checkForChanges(): boolean {
-      if (this.isAdding) return true;
+      if (this.isAdding) { return true; }
       if (
          this.currentCareUserInstance.firstName !==
          this.formControlGroup.controls.firstNameFieldControl.value

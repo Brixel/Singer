@@ -15,8 +15,8 @@ export class NavMenuComponent implements OnInit {
 
    isAdmin: boolean;
 
-   //Navbar Router Links
-   routerLinks:SingerRouterLink[] = [
+   // Navbar Router Links
+   routerLinks: SingerRouterLink[] = [
       {
          RouterLinkName: 'Start',
          RouterLinkRequirements: [singerRouterLinkRequirements.none],
@@ -78,7 +78,7 @@ export class NavMenuComponent implements OnInit {
 
    }
 
-   ngOnInit(){
+   ngOnInit() {
       this.authService.isAdmin$.subscribe(res => {
          this.isAdmin = res;
          this.updateRequirements();
@@ -98,7 +98,7 @@ export class NavMenuComponent implements OnInit {
       const routerLinkRequirements: {[name: string]: boolean} = {};
       this.routerLinks.forEach(routerLink => {
          const routerLinkRequirement = this.routerLinkRequirements[routerLink.RouterLinkName];
-         if(routerLinkRequirement === undefined){
+         if (routerLinkRequirement === undefined) {
             routerLinkRequirements[routerLink.RouterLinkName] = false;
          }
          const isValid = this.checkRequirements(routerLink.RouterLinkRequirements);

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Singer.Data;
 using Singer.DTOs.Users;
 using Singer.Helpers.Exceptions;
@@ -33,9 +34,18 @@ namespace Singer.Services
       {
          // We need usernames for AspNetUsers. However, careusers don't have an e-mail address, so no username can be generated
          // For that reason, we generate a random username.
-         if (string.IsNullOrEmpty(dto.Email))
+         if (dto.GetType() == typeof(CreateCareUserDTO) && string.IsNullOrEmpty(dto.Email))
          {
             dto.Email = GenerateRandomUserName(dto.FirstName, dto.LastName);
+         }
+         else
+         {
+            var existingEmail = await Queryable.SingleOrDefaultAsync(x => x.User.Email == dto.Email);
+
+            if (existingEmail != null)
+            {
+               throw new BadInputException("Het email adres dat je opgaf bestaat reeds in de database");
+            }
          }
 
          var baseUser = new User()
@@ -111,6 +121,21 @@ namespace Singer.Services
                sortDirection: sortDirection,
                pageIndex: pageIndex,
                pageSize: entitiesPerPage);
+      }
+
+      public override async Task<TUserDTO> UpdateAsync(Guid id, TUpdateUserDTO dto)
+      {
+         var existingEmail = await Queryable.SingleOrDefaultAsync(x =>
+            x.User.Email != null &&
+            x.User.Email == dto.Email &&
+            x.Id != id);
+
+         if (existingEmail != null)
+         {
+            throw new BadInputException("Het email adres dat je opgaf bestaat reeds in de database");
+         }
+
+         return await base.UpdateAsync(id, dto);
       }
 
    }

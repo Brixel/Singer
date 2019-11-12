@@ -16,7 +16,7 @@ import { NativeDateModule } from '@angular/material';
 import { AdminModule } from './modules/admin/admin.module';
 
 
-export function tokenGetter():string {
+export function tokenGetter(): string {
    return localStorage.getItem('token');
  }
 @NgModule({
