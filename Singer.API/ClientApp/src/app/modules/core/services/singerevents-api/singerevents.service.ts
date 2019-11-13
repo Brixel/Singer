@@ -4,6 +4,7 @@ import {
    UpdateSingerEventDTO,
    CreateSingerEventDTO,
    EventRepeatSettingsDTO,
+   EventDescription,
 } from '../../models/singerevent.model';
 import { Observable } from 'rxjs';
 import { SingerEventsProxy } from './singerevents.proxy';
@@ -12,9 +13,10 @@ import { PaginationDTO } from '../../models/pagination.model';
 import {
    CreateEventSlotRegistrationDTO,
    CreateEventRegistrationDTO,
-   UserRegisteredDTO
+   UserRegisteredDTO,
 } from '../../models/event-registration.model';
 import { TimeUnit, RepeatType } from '../../models/enum';
+import { SearchEventData } from 'src/app/modules/dashboard/components/event-search/event-search.component';
 
 @Injectable({
    providedIn: 'root',
@@ -132,8 +134,31 @@ export class SingerEventsService {
       );
    }
 
+   isUserRegisteredForEvent(
+      eventId: string,
+      careUserId: string
+   ): Observable<UserRegisteredDTO> {
+      return this.singerEventsProxy
+         .isUserRegisteredForEvent(eventId, careUserId)
+         .pipe(map(res => res));
+   }
 
-   isUserRegisteredForEvent(eventId: string, careUserId: string): Observable<UserRegisteredDTO> {
-      return this.singerEventsProxy.isUserRegisteredForEvent(eventId, careUserId).pipe(map(res => res));
+   getPublicEvents(
+      searchEventData: SearchEventData
+   ): Observable<EventDescription[]> {
+      return this.singerEventsProxy.getPublicEvents(searchEventData).pipe(
+         map(res =>
+            res.map(y => {
+               return <EventDescription>{
+                  ageGroups: y.ageGroups,
+                  description: y.description,
+                  endDateTime: new Date(y.endDateTime),
+                  id: y.id,
+                  startDateTime: new Date(y.startDateTime),
+                  title: y.title,
+               };
+            })
+         )
+      );
    }
 }

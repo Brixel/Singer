@@ -16,7 +16,11 @@ export class EventCardComponent implements OnInit {
    ngOnInit() {}
 
    getDurationMessage(event: EventDescription): string {
-      if (event.startDateTime === event.endDateTime) {
+      let isSameDay =
+         event.startDateTime.getDate() === event.endDateTime.getDate() &&
+         event.startDateTime.getMonth() === event.endDateTime.getMonth() &&
+         event.startDateTime.getFullYear() === event.endDateTime.getFullYear();
+      if (isSameDay) {
          return 'Duurt 1 dag';
       } else {
          return 'Duurt meerdere dagen';
