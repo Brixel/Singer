@@ -19,7 +19,7 @@ namespace Tests.ModelTests
          var start = DateTime.Parse("2019-01-01T14:00:00+00:00");
          var end = DateTime.Parse("2019-01-01T16:00:00+00:00");
          var until = DateTime.Parse("2019-01-16");
-         var slots = EventSlot.GenerateEventSlotsUntil(start, end, until, TimeUnit.Day).ToList();
+         var slots = EventSlot.GenerateEventSlotsUntilIncluding(start, end, until, TimeUnit.Day).ToList();
 
          slots.Count
             .Should()
@@ -44,7 +44,7 @@ namespace Tests.ModelTests
          var start = DateTime.Parse("2018-12-31T00:00:00+00:00");
          var end = DateTime.Parse("2019-01-01T00:00:00+00:00");
          var until = DateTime.Parse("2019-01-15");
-         var slots = EventSlot.GenerateEventSlotsUntil(start, end, until, TimeUnit.Day).ToList();
+         var slots = EventSlot.GenerateEventSlotsUntilIncluding(start, end, until, TimeUnit.Day).ToList();
 
          slots.Count
             .Should()
@@ -69,7 +69,7 @@ namespace Tests.ModelTests
          var start = DateTime.Parse("2018-12-31T20:00:00+00:00");
          var end = DateTime.Parse("2019-01-01T06:00:00+00:00");
          var until = DateTime.Parse("2019-01-15");
-         var slots = EventSlot.GenerateEventSlotsUntil(start, end, until, TimeUnit.Day).ToList();
+         var slots = EventSlot.GenerateEventSlotsUntilIncluding(start, end, until, TimeUnit.Day).ToList();
 
          slots.Count
             .Should()
@@ -94,7 +94,7 @@ namespace Tests.ModelTests
          var start = DateTime.Parse("2019-01-15T14:00:00+00:00");
          var end = DateTime.Parse("2019-01-15T16:00:00+00:00");
          var until = DateTime.Parse("2019-12-16");
-         var slots = EventSlot.GenerateEventSlotsUntil(start, end, until, TimeUnit.Month).ToList();
+         var slots = EventSlot.GenerateEventSlotsUntilIncluding(start, end, until, TimeUnit.Month).ToList();
 
          slots.Count
             .Should()
