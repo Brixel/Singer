@@ -52,8 +52,8 @@ namespace Singer.Services
             AgeGroups = EventProfile.ToAgeGroupList(x.EventSlot.Event.AllowedAgeGroups),
             Description = x.EventSlot.Event.Description,
             Title = x.EventSlot.Event.Title,
-            StartDate = x.EventSlot.Event.EventSlots.OrderBy(y => y.StartDateTime).First().StartDateTime,
-            EndDate = x.EventSlot.Event.EventSlots.OrderByDescending(y => y.EndDateTime).First().EndDateTime
+            StartDateTime = x.EventSlot.Event.EventSlots.OrderBy(y => y.StartDateTime).First().StartDateTime,
+            EndDateTime = x.EventSlot.Event.EventSlots.OrderByDescending(y => y.EndDateTime).First().EndDateTime
          },
          EventSlot = new EventSlotDTO
          {
@@ -216,14 +216,16 @@ namespace Singer.Services
          if (eventSlots.Any())
          {
             var pendingStatesRemaining = registrations.Count(x => x == RegistrationStatus.Pending);
-            return new UserRegisteredDTO(){
+            return new UserRegisteredDTO()
+            {
                CareUserId = careUserId,
                IsRegisteredForAllEventslots = userIsRegisteredForAllEventSlots,
                PendingStatesRemaining = pendingStatesRemaining,
                Status = pendingStatesRemaining >= 0 ? RegistrationStatus.Pending : registrations.First()
             };
          }
-         return new UserRegisteredDTO(){
+         return new UserRegisteredDTO()
+         {
             CareUserId = careUserId,
             PendingStatesRemaining = 0,
             IsRegisteredForAllEventslots = false

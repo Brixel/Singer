@@ -83,8 +83,8 @@ namespace Singer.Services
                AgeGroups = EventProfile.ToAgeGroupList(x.AllowedAgeGroups),
                Description = x.Description,
                Title = x.Title,
-               StartDate = x.EventSlots.OrderBy(y => y.StartDateTime).First().StartDateTime,
-               EndDate = x.EventSlots.OrderByDescending(y => y.EndDateTime).First().EndDateTime
+               StartDateTime = x.EventSlots.OrderBy(y => y.StartDateTime).First().StartDateTime,
+               EndDateTime = x.EventSlots.OrderByDescending(y => y.EndDateTime).First().EndDateTime
             })
             .ToListAsync()
             .ConfigureAwait(false);
