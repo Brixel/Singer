@@ -17,7 +17,7 @@ namespace Singer.Models
 
       public IList<EventRegistration> Registrations { get; set; }
 
-      public static IEnumerable<EventSlot> GenerateEventSlotsUntil(DateTime start, DateTime end, DateTime until, TimeUnit interval)
+      public static IEnumerable<EventSlot> GenerateEventSlotsUntilIncluding(DateTime start, DateTime end, DateTime until, TimeUnit interval)
       {
          Func<DateTime, DateTime> increase;
          switch (interval)
@@ -40,7 +40,7 @@ namespace Singer.Models
 
          var duration = end - start;
          until = until.SetTime(start);
-         for (var i = start; i < until; i = increase(i))
+         for (var i = start; i <= until; i = increase(i))
             yield return new EventSlot { StartDateTime = i, EndDateTime = i + duration, };
       }
 

@@ -95,7 +95,7 @@ namespace Singer.Services
          switch (dto.RepeatSettings?.RepeatType)
          {
             case RepeatType.OnDate:
-               return EventSlot.GenerateEventSlotsUntil(
+               return EventSlot.GenerateEventSlotsUntilIncluding(
                   dto.StartDateTime,
                   dto.EndDateTime,
                   dto.RepeatSettings.StopRepeatDate,
