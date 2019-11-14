@@ -18,11 +18,13 @@
          <div class="registrant">
             <span>{{ registrant.name }}</span>
             <mat-button-toggle-group
-            class="status-icon"
+               class="status-icon"
                [value]="registrant.registrationStatus"
-               matTooltip="Aanvraag tot inschrijving goedgekeurd"
+               (change)="changeSelection($event, registrant.registrationId)"
             >
-               <mat-button-toggle [value]="registrationStatus.Accepted"
+               <mat-button-toggle
+                  [value]="registrationStatus.Accepted"
+                  matTooltip="Inschrijving goedkeuren"
                   ><mat-icon class="registration-accepted"
                      >check_circle_outline</mat-icon
                   ></mat-button-toggle
@@ -37,7 +39,7 @@
                >
                <mat-button-toggle
                   [value]="registrationStatus.Rejected"
-                  matTooltip="Aanvraag tot inschrijving geweigerd"
+                  matTooltip="Inschrijving niet goedkeuren"
                   ><mat-icon class="registration-rejected"
                      >error_outline</mat-icon
                   ></mat-button-toggle

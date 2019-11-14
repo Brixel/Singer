@@ -30,5 +30,8 @@ namespace Singer.Services.Interfaces
 
       Task DeleteAsync(Guid eventId, Guid registrationId);
       Task<UserRegisteredDTO> GetUserRegistrationStatus(Guid eventId, Guid careUserId);
+
+      Task<RegistrationStatus> AcceptRegistration(Guid registrationId);
+      Task<RegistrationStatus> RejectRegistration(Guid registrationId);
    }
 }

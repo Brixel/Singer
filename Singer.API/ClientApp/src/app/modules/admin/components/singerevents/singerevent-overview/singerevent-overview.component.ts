@@ -115,7 +115,7 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
    }
 
    manageRegistrations(row: SingerEvent) {
-      const dialogRef = this.dialog.open(SingerEventRegistrationsComponent, {
+      this.dialog.open(SingerEventRegistrationsComponent, {
          data: <SingerEventRegistrationData>{
             event: row,
          },
@@ -125,9 +125,9 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
    }
 
    addRegistration(row: SingerEvent) {
-      const dialogRef = this.dialog.open(SingerEventAdminRegisterComponent, {
+      this.dialog.open(SingerEventAdminRegisterComponent, {
          data: <SingerEventRegistrationData>{
-            event: row
+            event: row,
          },
          width: '50vw',
          maxHeight: '70vh',

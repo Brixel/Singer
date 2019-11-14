@@ -197,6 +197,7 @@ export interface EventSlotRegistrationDTO {
 }
 
 export interface EventCareUserRegistrationDTO {
+   registrationId: string;
    careUserId: string;
    status: RegistrationStatus;
    firstName: string;

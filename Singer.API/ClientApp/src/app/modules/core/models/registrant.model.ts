@@ -1,30 +1,54 @@
-import { RegistrationStatus, EventRelevantCareUserDTO, EventCareUserRegistrationDTO } from 'src/app/modules/core/models/singerevent.model';
+import {
+   RegistrationStatus,
+   EventRelevantCareUserDTO,
+   EventCareUserRegistrationDTO,
+} from 'src/app/modules/core/models/singerevent.model';
 import { CareUserDTO } from 'src/app/modules/core/models/careuser.model';
 export class Registrant {
+   registrationId: string;
    careUserId: string;
    name: string;
    registrationStatus: RegistrationStatus;
 
-   constructor(careUserId: string, firstName: string, lastName: string, registrationStatus: RegistrationStatus) {
+   constructor(
+      registrationId: string,
+      careUserId: string,
+      firstName: string,
+      lastName: string,
+      registrationStatus: RegistrationStatus
+   ) {
       this.careUserId = careUserId;
+      this.registrationId = registrationId;
       this.name = `${firstName} ${lastName}`;
       this.registrationStatus = registrationStatus;
    }
 }
-
-
 
 export class EventSlot {
    id: string;
    startDateTime: Date;
    endDateTime: Date;
    registrants: Registrant[];
-   constructor(id: string, startDateTime: Date, endDateTime: Date, registrations: EventCareUserRegistrationDTO[]) {
+   constructor(
+      id: string,
+      startDateTime: Date,
+      endDateTime: Date,
+      registrations: EventCareUserRegistrationDTO[]
+   ) {
       this.id = id;
       this.startDateTime = new Date(startDateTime);
       this.endDateTime = new Date(endDateTime);
-      this.registrants =
-         registrations.map(reg => new Registrant(reg.careUserId, reg.firstName, reg.lastName, reg.status))
+      this.registrants = registrations
+         .map(
+            reg =>
+               new Registrant(
+                  reg.registrationId,
+                  reg.careUserId,
+                  reg.firstName,
+                  reg.lastName,
+                  reg.status
+               )
+         )
          .sort(this.sorter());
    }
 

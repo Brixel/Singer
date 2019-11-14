@@ -159,6 +159,20 @@ namespace Singer.Controllers
          return Ok(registration);
       }
 
+      [HttpPost("{eventId}/registrations/{eventRegistrationId}/accept")]
+      public async Task<ActionResult> AcceptRegistration(Guid eventId, Guid eventRegistrationId)
+      {
+         var status = await _eventRegistrationService.AcceptRegistration(eventRegistrationId);
+         return Ok(status);
+      }
+
+      [HttpPost("{eventId}/registrations/{eventRegistrationId}/reject")]
+      public async Task<ActionResult> RejectRegistration(Guid eventId, Guid eventRegistrationId)
+      {
+         var status = await _eventRegistrationService.RejectRegistration(eventRegistrationId);
+         return Ok(status);
+      }
+
       #endregion get
 
       #region put
@@ -259,6 +273,7 @@ namespace Singer.Controllers
             StartDateTime = x.StartDateTime,
             Registrations = registrations.Where(y => y.EventSlot.Id == x.Id).Select(z => new EventCareUserRegistrationDTO
             {
+               RegistrationId = z.Id,
                CareUserId = z.CareUser.Id,
                FirstName = z.CareUser.FirstName,
                LastName = z.CareUser.LastName,

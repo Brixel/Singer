@@ -112,6 +112,8 @@ export class SingerEventsProxy {
       return this.apiService
          .get(`api/event/${eventId}/registrations`, searchParams)
          .pipe(map(res => res));
+   }
+
    getPublicEvents(
       searchEventData: SearchEventData
    ): Observable<EventDescriptionDTO[]> {

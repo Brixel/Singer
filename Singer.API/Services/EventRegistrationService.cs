@@ -136,6 +136,7 @@ namespace Singer.Services
                   StartDateTime = x.First().EventSlot.StartDateTime,
                   EndDateTime = x.First().EventSlot.EndDateTime,
                   Registrations = x.Select(reg => new EventCareUserRegistrationDTO(){
+                     RegistrationId = reg.Id,
                      CareUserId = reg.CareUserId,
                      FirstName = reg.CareUser.User.FirstName,
                      LastName = reg.CareUser.User.LastName,
@@ -273,6 +274,22 @@ namespace Singer.Services
             .Select(Projector).FirstOrDefaultAsync().ConfigureAwait(false);
 
          return registration;
+      }
+
+      public async Task<RegistrationStatus> AcceptRegistration(Guid registrationId)
+      {
+         var registration = await Context.EventRegistrations.SingleAsync(x => x.Id == registrationId);
+         registration.Status = RegistrationStatus.Accepted;
+         await Context.SaveChangesAsync();
+         return registration.Status;
+      }
+
+      public async Task<RegistrationStatus> RejectRegistration(Guid registrationId)
+      {
+         var registration = await Context.EventRegistrations.SingleAsync(x => x.Id == registrationId);
+         registration.Status = RegistrationStatus.Rejected;
+         await Context.SaveChangesAsync();
+         return registration.Status;
       }
    }
 }
