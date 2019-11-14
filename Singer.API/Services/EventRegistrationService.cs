@@ -52,8 +52,8 @@ namespace Singer.Services
             AgeGroups = EventProfile.ToAgeGroupList(x.EventSlot.Event.AllowedAgeGroups),
             Description = x.EventSlot.Event.Description,
             Title = x.EventSlot.Event.Title,
-            StartDate = x.EventSlot.Event.EventSlots.OrderBy(y => y.StartDateTime).First().StartDateTime,
-            EndDate = x.EventSlot.Event.EventSlots.OrderByDescending(y => y.EndDateTime).First().EndDateTime
+            StartDateTime = x.EventSlot.Event.EventSlots.OrderBy(y => y.StartDateTime).First().StartDateTime,
+            EndDateTime = x.EventSlot.Event.EventSlots.OrderByDescending(y => y.EndDateTime).First().EndDateTime
          },
          EventSlot = new EventSlotDTO
          {
@@ -203,7 +203,6 @@ namespace Singer.Services
 
          if (registration == default)
             throw new NotFoundException($"There is no registration with id {registrationId} and event id {eventId}");
-
          Context.Remove(registration);
          await Context.SaveChangesAsync()
             .ConfigureAwait(false);
@@ -211,30 +210,36 @@ namespace Singer.Services
 
       public async Task<UserRegisteredDTO> GetUserRegistrationStatus(Guid eventId, Guid careUserId)
       {
-         var registrationStates = await Context.EventRegistrations
-            .Include(x => x.EventSlot)
-            .ThenInclude(x => x.Event)
-            .Where(x =>
-               x.EventSlot.EventId == eventId &&
-               x.CareUserId == careUserId)
-            .Select(registration => new {
-               HasDailyBasisRegistration = registration.EventSlot.Event.RegistrationOnDailyBasis,
-               Status = registration.Status}).ToListAsync();
+         var eventSlots = await Context.EventSlots
+            .Include(x => x.Event)
+            .Where(x => x.EventId == eventId)
+            .Select(eventSlot => eventSlot.Event.RegistrationOnDailyBasis).ToListAsync();
 
-         if (registrationStates.Any())
+         var registrations = await Context.EventRegistrations
+            .Where(x =>
+               x.CareUserId == careUserId &&
+               x.EventSlot.EventId == eventId)
+            .Select(x => x.Status)
+            .ToListAsync();
+
+         var userIsRegisteredForAllEventSlots = eventSlots.Count() == registrations.Count();
+
+         if (eventSlots.Any())
          {
-            var pendingStatesRemaining = registrationStates.Count(x => x.Status == RegistrationStatus.Pending);
-            return new UserRegisteredDTO(){
+            var pendingStatesRemaining = registrations.Count(x => x == RegistrationStatus.Pending);
+            return new UserRegisteredDTO()
+            {
                CareUserId = careUserId,
-               IsRegistered = !registrationStates.First().HasDailyBasisRegistration || (pendingStatesRemaining == 0 ? true : false),
+               IsRegisteredForAllEventslots = userIsRegisteredForAllEventSlots,
                PendingStatesRemaining = pendingStatesRemaining,
-               Status = pendingStatesRemaining > 0 ? RegistrationStatus.Pending : registrationStates.First().Status
+               Status = pendingStatesRemaining >= 0 ? RegistrationStatus.Pending : registrations.First()
             };
          }
-         return new UserRegisteredDTO(){
+         return new UserRegisteredDTO()
+         {
             CareUserId = careUserId,
-            IsRegistered = false,
-            PendingStatesRemaining = 0
+            PendingStatesRemaining = 0,
+            IsRegisteredForAllEventslots = false
          };
 
       }

@@ -24,7 +24,7 @@ export interface EventRegistrationDTO {
 }
 export interface UserRegisteredDTO {
    careUserId: string;
-   isRegistered: boolean;
+   isRegisteredForAllEventslots: boolean;
    pendingStatesRemaining: number;
    status: RegistrationStatus;
 }

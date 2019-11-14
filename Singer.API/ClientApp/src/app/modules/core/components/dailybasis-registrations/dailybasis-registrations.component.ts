@@ -34,6 +34,8 @@ export class DailybasisRegistrationsComponent implements OnInit {
 
    private _careUsers: Registrant[] = [];
    @Input() set careUsers(value: Registrant[]) {
+      this.columnsToDisplay = ['eventSlot'];
+      this._careUsers = [];
       this._careUsers = value;
       const careUserIds = this._careUsers.map(c => c.careUserId);
       this.columnsToDisplay.push(...careUserIds);

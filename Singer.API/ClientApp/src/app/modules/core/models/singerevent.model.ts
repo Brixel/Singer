@@ -90,22 +90,15 @@ export class SingerEvent {
    dayCareAfterEndDateTime: Date;
 }
 
+export interface EventDescriptionDTO {
+   id: string;
+   title: string;
+   description: string;
+   ageGroups: AgeGroup[];
+   startDateTime: Date;
+   endDateTime: Date;
+}
 export class EventDescription {
-   constructor(
-      id: string,
-      title: string,
-      description: string,
-      ageGroups: AgeGroup[],
-      startDateTime: Date,
-      endDateTime: Date
-   ) {
-      this.id = id;
-      this.title = title;
-      this.description = description;
-      this.ageGroups = ageGroups;
-      this.startDateTime = startDateTime;
-      this.endDateTime = endDateTime;
-   }
    id: string;
    title: string;
    description: string;
@@ -115,8 +108,8 @@ export class EventDescription {
 }
 
 export class SearchEventDTO {
-   startDateTime: Date;
-   endDateTime: Date;
+   startDate: Date;
+   endDate: Date;
    locationId: string;
 }
 
@@ -192,7 +185,7 @@ export enum RegistrationStatus {
 export class UserInfo {
    careUserId: string;
    name: string;
-   isRegistered: boolean;
+   isRegisteredForAllEventslots: boolean;
    status: RegistrationStatus;
 }
 

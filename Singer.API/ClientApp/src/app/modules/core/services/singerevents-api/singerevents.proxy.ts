@@ -8,6 +8,8 @@ import {
    CreateSingerEventDTO,
    SingerEventDTO,
    EventRegisterDetails,
+   EventDescriptionDTO,
+   SearchEventDTO,
 } from '../../models/singerevent.model';
 import { PaginationDTO } from '../../models/pagination.model';
 import {
@@ -16,6 +18,7 @@ import {
    CreateEventRegistrationDTO,
    UserRegisteredDTO,
 } from '../../models/event-registration.model';
+import { SearchEventData } from 'src/app/modules/dashboard/components/event-search/event-search.component';
 
 @Injectable({
    providedIn: 'root',
@@ -108,6 +111,17 @@ export class SingerEventsProxy {
          .set('filter', filter);
       return this.apiService
          .get(`api/event/${eventId}/registrations`, searchParams)
+         .pipe(map(res => res));
+   getPublicEvents(
+      searchEventData: SearchEventData
+   ): Observable<EventDescriptionDTO[]> {
+      const searchParams = <SearchEventDTO>{
+         startDate: searchEventData.startDateTime,
+         endDate: searchEventData.endDateTime,
+         locationId: searchEventData.locationId,
+      };
+      return this.apiService
+         .post('api/event/search', searchParams)
          .pipe(map(res => res));
    }
 }
