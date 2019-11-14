@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.1.0-issue-AB-118-eventslot-generation-fix.839",
+   "version": "0.1.0-issue-minor-fixes.843",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",

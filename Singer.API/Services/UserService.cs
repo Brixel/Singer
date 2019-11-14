@@ -82,9 +82,9 @@ namespace Singer.Services
       public override async Task<TUserDTO> GetOneAsync(Guid id)
       {
          // No async usage due to Automapper not being able to process IAsyncEnumerables
-         var item = Queryable
+         var item = await Queryable
             .ProjectTo<TUserDTO>(Mapper.ConfigurationProvider)
-            .SingleOrDefault(x => x.Id == id);
+            .SingleOrDefaultAsync(x => x.Id == id);
          if (item == null)
             throw new NotFoundException();
 
