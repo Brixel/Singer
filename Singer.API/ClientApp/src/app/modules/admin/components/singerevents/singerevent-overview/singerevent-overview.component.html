@@ -50,7 +50,7 @@
                maxRegistrantsExceeded: isMaxRegistrantsExceeded(row)
             }"
          >
-            {{ row.currentRegistrants }}/{{ row.maxRegistrants }}
+         {{ getRegistrantsNumberString(row) }}
          </td>
       </ng-container>
 

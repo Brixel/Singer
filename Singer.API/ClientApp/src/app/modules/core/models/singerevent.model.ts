@@ -7,6 +7,7 @@ import {
 } from './enum';
 import { SingerEventLocation } from './singer-event-location';
 import { CareUserDTO } from './careuser.model';
+import { EventSlot } from './registrant.model';
 
 export interface SingerEventDTO {
    id: string;
@@ -76,7 +77,6 @@ export class SingerEvent {
    allowedAgeGroups: AgeGroup[];
    location: SingerEventLocation;
    maxRegistrants: number;
-   currentRegistrants: number;
    cost: number;
    startDateTime: Date;
    endDateTime: Date;
@@ -88,6 +88,7 @@ export class SingerEvent {
    dayCareBeforeStartDateTime: Date;
    hasDayCareAfter: boolean;
    dayCareAfterEndDateTime: Date;
+   eventSlots: EventSlotDTO[];
 }
 
 export interface EventDescriptionDTO {
@@ -174,6 +175,7 @@ export interface EventSlotDTO {
    id: string;
    startDateTime: Date;
    endDateTime: Date;
+   currentRegistrants: number;
 }
 
 export enum RegistrationStatus {

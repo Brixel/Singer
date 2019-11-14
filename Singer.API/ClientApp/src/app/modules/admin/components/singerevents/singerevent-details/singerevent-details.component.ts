@@ -310,7 +310,6 @@ export class SingerEventDetailsComponent implements OnInit {
          location: new SingerEventLocation(),
          allowedAgeGroups: [],
          maxRegistrants: 0,
-         currentRegistrants: 0,
          cost: 0,
          startRegistrationDateTime: new Date(),
          endRegistrationDateTime: new Date(),
@@ -322,6 +321,7 @@ export class SingerEventDetailsComponent implements OnInit {
          dayCareBeforeStartDateTime: new Date(),
          hasDayCareAfter: false,
          dayCareAfterEndDateTime: new Date(),
+         eventSlots:[]
       };
    }
 

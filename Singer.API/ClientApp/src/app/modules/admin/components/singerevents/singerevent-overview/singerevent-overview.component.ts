@@ -165,7 +165,9 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
 
    // Returns true if the max number of registrants for the event have been exceeded
    isMaxRegistrantsExceeded(row: SingerEvent): boolean {
-      return row.currentRegistrants > row.maxRegistrants;
+      return row.eventSlots.some(
+         x => x.currentRegistrants > row.maxRegistrants
+      );
    }
 
    private loadSingerEvents() {
@@ -202,6 +204,12 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
             })
          )
          .subscribe();
+   }
+
+   getRegistrantsNumberString(row: SingerEvent): string {
+      return !row.registrationOnDailyBasis
+         ? `${row.eventSlots[0].currentRegistrants}/${row.maxRegistrants}`
+         : '';
    }
 
    handleApiError(err: any) {
