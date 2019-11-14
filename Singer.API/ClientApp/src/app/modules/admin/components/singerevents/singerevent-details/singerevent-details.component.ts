@@ -81,6 +81,7 @@ export class SingerEventDetailsComponent implements OnInit {
    readonly minMaxRegistrants = 1;
    readonly maxCost = 2000000000;
    readonly minCost = 0;
+   readonly today = new Date();
 
    // Form control group
    formControlGroup: FormGroup = new FormGroup({

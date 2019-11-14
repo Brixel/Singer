@@ -160,7 +160,7 @@
                   "
                >
                   Aantal toegelaten personene mag maximum
-                  {{ maxTitleLength }} zijn.
+                  {{ maxMaxRegistrants }} zijn.
                </div>
             </mat-error>
          </mat-form-field>
@@ -186,12 +186,12 @@
                <div
                   *ngIf="formControlGroup.controls.costFieldControl.errors.min"
                >
-                  Prijs mag minstens {{ minMaxRegistrants }} zijn.
+                  Prijs mag minstens {{ minCost }} zijn.
                </div>
                <div
                   *ngIf="formControlGroup.controls.costFieldControl.errors.max"
                >
-                  Prijs mag maximum {{ maxTitleLength }} zijn.
+                  Prijs mag maximum {{ maxCost }} zijn.
                </div>
             </mat-error>
          </mat-form-field>
@@ -207,6 +207,7 @@
          <mat-form-field>
             <input
                matInput
+               [min]="today"
                [matDatepicker]="startRegistrationDatePicker"
                [placeholder]="startRegistrationDateFieldPlaceholder"
                formControlName="startRegistrationDateFieldControl"
@@ -237,6 +238,7 @@
          <mat-form-field>
             <input
                matInput
+               [min]="today"
                [matDatepicker]="endRegistrationDatePicker"
                [placeholder]="endRegistrationDateFieldPlaceholder"
                formControlName="endRegistrationDateFieldControl"
@@ -274,6 +276,7 @@
          <mat-form-field>
             <input
                matInput
+               [min]="today"
                [matDatepicker]="finalCancellationDatePicker"
                [placeholder]="finalCancellationDateFieldPlaceholder"
                formControlName="finalCancellationDateFieldControl"
@@ -331,6 +334,7 @@
          <mat-form-field>
             <input
                matInput
+               [min]="today"
                [matDatepicker]="startDatePicker"
                [placeholder]="startDateFieldPlaceholder"
                formControlName="startDateFieldControl"
@@ -359,6 +363,7 @@
             <input
                matInput
                [matDatepicker]="endDatePicker"
+               [min]="today"
                [placeholder]="endDateFieldPlaceholder"
                formControlName="endDateFieldControl"
             />
@@ -385,6 +390,7 @@
          <mat-form-field>
             <input
                matInput
+               [min]="today"
                [ngxTimepicker]="dailyStartTimePicker"
                [format]="24"
                [placeholder]="dailyStartTimePlaceholder"
@@ -485,6 +491,7 @@
          >
             <input
                matInput
+               [min]="today"
                [ngxTimepicker]="dayCareBeforeStartTimePicker"
                [format]="24"
                [placeholder]="dayCareBeforeStartTimeFieldPlaceholder"
@@ -548,6 +555,7 @@
          >
             <input
                matInput
+               [min]="today"
                [ngxTimepicker]="dayCareAfterEndTimePicker"
                [format]="24"
                [placeholder]="dayCareAfterEndTimeFieldPlaceholder"

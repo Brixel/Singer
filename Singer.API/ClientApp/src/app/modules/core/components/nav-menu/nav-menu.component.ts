@@ -92,7 +92,9 @@ export class NavMenuComponent {
       // Loop through the requirements
       requirements.forEach(requirement => {
          // If a requirement is not met: result = false
-         if (!this.checkRequirement(requirement)) { result = false; }
+         if (!this.checkRequirement(requirement)) {
+            result = false;
+         }
       });
 
       // If all requirements are checked: return result
@@ -101,8 +103,9 @@ export class NavMenuComponent {
 
    // Checks an individual RouterLinkRequirement
    checkRequirement(requirement: string): boolean {
-      debugger;
-      if (requirement === singerRouterLinkRequirements.none) { return true; }
+      if (requirement === singerRouterLinkRequirements.none) {
+         return true;
+      }
       if (requirement === singerRouterLinkRequirements.isAdmin) {
          return this.isAdmin;
       }
