@@ -42,12 +42,14 @@ export class SingerEventRegistrationsComponent implements OnInit {
          .subscribe(res => {
             this.eventSlots = res.map(r => new EventSlot(r.id, r.startDateTime, r.endDateTime, r.registrations));
 
+            // Search for the next upcoming event
             const currentDate = Date.now();
             const nextEventSlots =
                this.eventSlots
                   .filter(a => a.startDateTime.getTime() >= currentDate)
                   .sort((a, b) => a.startDateTime.getTime() - b.startDateTime.getTime());
-            this.selectedEventSlot = nextEventSlots.length > 0 ? nextEventSlots[0] : null;
+            // If no upcoming event is found, take the first in the list
+            this.selectedEventSlot = nextEventSlots.length > 0 ? nextEventSlots[0] : this.eventSlots[0];
          });
    }
 

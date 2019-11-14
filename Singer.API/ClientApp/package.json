@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.1.0-issue-AB-28-approve-registrations.853",
+   "version": "0.1.0-issue-AB-28-approve-registrations.854",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",
