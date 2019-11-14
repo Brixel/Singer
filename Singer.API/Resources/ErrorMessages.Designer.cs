@@ -61,6 +61,96 @@ namespace Singer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to De geboortedatum van de zorggebruiker kan niet na vandaag vallen..
+        /// </summary>
+        public static string BirthDayInTheFuture {
+            get {
+                return ResourceManager.GetString("BirthDayInTheFuture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to De start tijd/datum om te registreren kan liggen na de start tijd/datum van het evenement..
+        /// </summary>
+        public static string CannotRegistrateAfterStartEvent {
+            get {
+                return ResourceManager.GetString("CannotRegistrateAfterStartEvent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to De opvang na het evenement kan niet starten als het evenement nog bezig is..
+        /// </summary>
+        public static string CannotStartDaycareAfterWhileEventIsBusy {
+            get {
+                return ResourceManager.GetString("CannotStartDaycareAfterWhileEventIsBusy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to De opvang vóór het evenement kan niet starten als het evenement al bezig is..
+        /// </summary>
+        public static string CannotStartDaycareBeforeWhenEventIsBusy {
+            get {
+                return ResourceManager.GetString("CannotStartDaycareBeforeWhenEventIsBusy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to De start tijd/datum kan niet na het einde gebeuren..
+        /// </summary>
+        public static string CannotStartEventAfterEndingIt {
+            get {
+                return ResourceManager.GetString("CannotStartEventAfterEndingIt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to De zorggebruiker bestaat niet..
+        /// </summary>
+        public static string CareUserDoesntExist {
+            get {
+                return ResourceManager.GetString("CareUserDoesntExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to De zorggebruiker en voogd zijn al gekoppeld..
+        /// </summary>
+        public static string DuplicateCareUserLGUserLink {
+            get {
+                return ResourceManager.GetString("DuplicateCareUserLGUserLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Het email adres dat je opgaf bestaat reeds in de database..
+        /// </summary>
+        public static string DuplicateEmail {
+            get {
+                return ResourceManager.GetString("DuplicateEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Het event id klopt niet..
+        /// </summary>
+        public static string EventIdMismatchUrlBody {
+            get {
+                return ResourceManager.GetString("EventIdMismatchUrlBody", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Het event slot kon niet gevonden worden..
+        /// </summary>
+        public static string EventSlotNotFound {
+            get {
+                return ResourceManager.GetString("EventSlotNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} is een verplicht veld..
         /// </summary>
         public static string FieldIsRequired {
@@ -111,6 +201,87 @@ namespace Singer.Resources {
         public static string InvalidUrl {
             get {
                 return ResourceManager.GetString("InvalidUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to De voogd bestaat niet..
+        /// </summary>
+        public static string LegalGuardianDoesntExist {
+            get {
+                return ResourceManager.GetString("LegalGuardianDoesntExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to De voogd en zorggebruiker zijn niet gekoppeld..
+        /// </summary>
+        public static string LinkCareUserLGUserDoesntExist {
+            get {
+                return ResourceManager.GetString("LinkCareUserLGUserDoesntExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Er is geen data meegegeven naar de server..
+        /// </summary>
+        public static string NoDataPassed {
+            get {
+                return ResourceManager.GetString("NoDataPassed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to De paginagrootte moet minstens 1 zijn..
+        /// </summary>
+        public static string PageSizeLessThanOne {
+            get {
+                return ResourceManager.GetString("PageSizeLessThanOne", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to De start tijd/datum om te registreren kan niet na de eind registratie datum liggen..
+        /// </summary>
+        public static string StartCannotBeforEndRegistrationEvent {
+            get {
+                return ResourceManager.GetString("StartCannotBeforEndRegistrationEvent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to De start tijd/datum voor de opvang na het evenement moet nog worden ingevuld..
+        /// </summary>
+        public static string StartDaycareAfterNotEntered {
+            get {
+                return ResourceManager.GetString("StartDaycareAfterNotEntered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to De start tijd/datum voor de opvang vóór het evenement moet nog worden ingevuld..
+        /// </summary>
+        public static string StartDaycareBeforeNotEntered {
+            get {
+                return ResourceManager.GetString("StartDaycareBeforeNotEntered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ongekende sorteer opdracht voor de server..
+        /// </summary>
+        public static string UnknownSortDirection {
+            get {
+                return ResourceManager.GetString("UnknownSortDirection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deze gebruiker is reeds geregistreerd op dit tijdslot!.
+        /// </summary>
+        public static string UserAlreadyRegisteredOnEventSlot {
+            get {
+                return ResourceManager.GetString("UserAlreadyRegisteredOnEventSlot", resourceCulture);
             }
         }
     }

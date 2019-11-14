@@ -13,6 +13,7 @@ using System.ComponentModel;
 using Singer.Configuration;
 using System.Collections.Generic;
 using System.Linq;
+using Singer.Resources;
 
 namespace Singer.Controllers
 {
@@ -54,7 +55,7 @@ namespace Singer.Controllers
       public override async Task<IActionResult> Create([FromBody]CreateEventDTO dto)
       {
          if (dto is null)
-            throw new BadInputException("DTO is null", "Er is geen data meegegeven.");
+            throw new BadInputException("DTO is null", ErrorMessages.NoDataPassed);
          _dateValidator.Validate(dto);
 
          return await base.Create(dto);
@@ -66,7 +67,7 @@ namespace Singer.Controllers
       public async Task<ActionResult<List<EventRegistrationDTO>>> Create(Guid eventId, [FromBody]CreateEventRegistrationDTO dto)
       {
          if (eventId != dto.EventId)
-            throw new BadInputException("The event id in the url and the body doe not match");
+            throw new BadInputException("The event id in the url and the body do not match", ErrorMessages.EventIdMismatchUrlBody);
 
          var model = ModelState;
          if (!model.IsValid)
@@ -101,9 +102,8 @@ namespace Singer.Controllers
          }
          var checkExisting = await _eventRegistrationService.GetOneBySlotAsync(dto.EventSlotId, dto.CareUserId);
          if (checkExisting != null)
-         {
-            throw new BadInputException("Deze gebruiker is reeds geregistreerd op dit tijdslot!");
-         }
+            throw new BadInputException("Care user already registered on this event slot.", ErrorMessages.UserAlreadyRegisteredOnEventSlot);
+
          var eventSlotRegistration = await _eventRegistrationService.CreateOneBySlotAsync(dto);
          return Created(nameof(Get), eventSlotRegistration);
       }
@@ -127,7 +127,7 @@ namespace Singer.Controllers
          if (sortDirection == "asc") sortDirection = "0";
          if (sortDirection == "desc") sortDirection = "1";
          if (!Enum.TryParse<ListSortDirection>(sortDirection, true, out var direction))
-            throw new BadInputException("The given sort-direction is unknown.");
+            throw new BadInputException("The given sort-direction is unknown.", ErrorMessages.UnknownSortDirection);
 
          var orderByLambda = PropertyHelpers.GetPropertySelector<EventRegistrationDTO>(sortColumn);
 

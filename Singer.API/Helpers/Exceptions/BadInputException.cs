@@ -15,22 +15,10 @@ namespace Singer.Helpers.Exceptions
       ///     The error message. This message is only used for debugging purposes. A message for the
       ///     client can be found with the <see cref="ClientMessage"/> property.
       /// </param>
-      public BadInputException(string message)
-         : base(message)
-      {
-         // TODO use client message in references
-      }
-
-      /// <summary>Constructs a new instance of the <see cref="BadInputException"/>.</summary>
-      /// <param name="message">
-      ///     The error message. This message is only used for debugging purposes. A message for the
-      ///     client can be found with the <see cref="ClientMessage"/> property.
-      /// </param>
       /// <param name="clientMessage">The message that will be returned to the client.</param>
       public BadInputException(string message, string clientMessage)
          : base(message)
       {
-         // TODO use client message in references
          ClientMessage = clientMessage;
       }
 

@@ -9,6 +9,7 @@ using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Singer.Resources;
 
 namespace Singer.Controllers
 {
@@ -103,7 +104,7 @@ namespace Singer.Controllers
                break;
          }
          if (!Enum.TryParse<ListSortDirection>(sortDirection, true, out var direction))
-            throw new BadInputException("The given sort-direction is unknown.");
+            throw new BadInputException("The given sort-direction is unknown.", ErrorMessages.UnknownSortDirection);
 
          var orderByLambda = PropertyHelpers.GetPropertySelector<TDTO>(sortColumn);
 

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Singer.DTOs.Users;
 using Singer.Helpers.Exceptions;
 using Singer.Models.Users;
+using Singer.Resources;
 using Singer.Services.Interfaces;
 
 namespace Singer.Controllers
@@ -28,7 +29,7 @@ namespace Singer.Controllers
       public override async Task<IActionResult> Update(Guid id, [FromBody]UpdateLegalGuardianUserDTO dto)
       {
          if (dto is null)
-            throw new BadInputException(nameof(dto));
+            throw new BadInputException("No dto was passed in the body of the request", ErrorMessages.NoDataPassed);
 
          var model = ModelState;
          if (!model.IsValid)
