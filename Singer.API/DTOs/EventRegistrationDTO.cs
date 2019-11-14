@@ -1,7 +1,7 @@
+using System;
 using Singer.DTOs.Users;
 using Singer.Models;
 using Singer.Resources;
-using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Singer.DTOs
@@ -67,13 +67,34 @@ namespace Singer.DTOs
          Name = nameof(DisplayNames.CareUserId))]
       public Guid CareUserId { get; set; }
 
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.Status))]
+      public RegistrationStatus? Status { get; set; }
+   }
+
+   public class CreateEventSlotRegistrationDTO
+   {
       [Required(
          ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
          ErrorMessageResourceType = typeof(ErrorMessages))]
       [Display(
          ResourceType = typeof(DisplayNames),
-         Name = nameof(DisplayNames.Status))]
-      public RegistrationStatus Status { get; set; }
+         Name = nameof(DisplayNames.EventSlotId))]
+      public Guid EventSlotId { get; set; }
+
+      [Required(
+       ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+       ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+       ResourceType = typeof(DisplayNames),
+       Name = nameof(DisplayNames.CareUserId))]
+      public Guid CareUserId { get; set; }
+
+      [Display(
+       ResourceType = typeof(DisplayNames),
+       Name = nameof(DisplayNames.Status))]
+      public RegistrationStatus? Status { get; set; }
    }
 
    public class UpdateEventRegistrationDTO
@@ -94,12 +115,9 @@ namespace Singer.DTOs
          Name = nameof(DisplayNames.CareUserId))]
       public Guid CareUserId { get; set; }
 
-      [Required(
-         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
-         ErrorMessageResourceType = typeof(ErrorMessages))]
       [Display(
          ResourceType = typeof(DisplayNames),
          Name = nameof(DisplayNames.Status))]
-      public RegistrationStatus Status { get; set; }
+      public RegistrationStatus? Status { get; set; }
    }
 }

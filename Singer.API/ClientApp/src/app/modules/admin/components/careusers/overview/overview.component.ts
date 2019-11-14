@@ -9,10 +9,9 @@ import {
    MatPaginator,
    MatSort,
    MatDialog,
-   MAT_DATE_FORMATS,
+   MatSnackBar,
 } from '@angular/material';
 import { OverviewDataSource } from './overview-datasource';
-import { DataSource } from '@angular/cdk/table';
 import { merge, fromEvent } from 'rxjs';
 import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { CareUserDetailsComponent } from '../care-user-details/care-user-details.component';
@@ -59,7 +58,8 @@ export class OverviewComponent implements OnInit, AfterViewInit {
 
    constructor(
       public dialog: MatDialog,
-      private careUserService: CareUserService
+      private careUserService: CareUserService,
+      private snackBar: MatSnackBar
    ) {}
 
    ngOnInit() {
@@ -70,17 +70,30 @@ export class OverviewComponent implements OnInit, AfterViewInit {
    }
 
    selectRow(row: CareUser): void {
+      //Dereference row to avoid updating row in overview when API might refuse the update
+      const deRefRow = { ...row };
       const dialogRef = this.dialog.open(CareUserDetailsComponent, {
-         data: { careUserInstance: row, isAdding: false },
+         data: { careUserInstance: deRefRow, isAdding: false },
          width: '80vw',
       });
 
       dialogRef.componentInstance.submitEvent.subscribe((result: CareUser) => {
+
          // Update the Careuser
-         this.careUserService.updateUser(result).subscribe(res => {
-            // Reload Careusers
-            this.loadCareUsers();
-         });
+         this.careUserService.updateUser(result).subscribe(
+            () => {
+               // Reload Careusers
+               this.loadCareUsers();
+               this.snackBar.open(
+                  `Gebruiker ${result.firstName} ${result.lastName} werd aangepast.`,
+                  'OK',
+                  { duration: 2000 }
+               );
+            },
+            err => {
+               this.handleApiError(err);
+            }
+         );
       });
    }
 
@@ -91,9 +104,19 @@ export class OverviewComponent implements OnInit, AfterViewInit {
       });
 
       dialogRef.componentInstance.submitEvent.subscribe((result: CareUser) => {
-         this.careUserService.createCareUser(result).subscribe(res => {
-            this.loadCareUsers();
-         });
+         this.careUserService.createCareUser(result).subscribe(
+            _ => {
+               this.loadCareUsers();
+               this.snackBar.open(
+                  `Gebruiker ${result.firstName} ${result.lastName} werd toegevoegd.`,
+                  'OK',
+                  { duration: 2000 }
+               );
+            },
+            err => {
+               this.handleApiError(err);
+            }
+         );
       });
    }
 
@@ -131,5 +154,25 @@ export class OverviewComponent implements OnInit, AfterViewInit {
             })
          )
          .subscribe();
+   }
+
+   handleApiError(err: any) {
+      if (typeof err === 'string') {
+         this.snackBar.open(`⚠ ${err}`, 'OK');
+      } else if (typeof err === 'object' && err !== null) {
+         let messages = [];
+         for (var k in err) {
+            messages.push(err[k]);
+         }
+         this.snackBar.open(
+            `⚠ Er zijn fouten opgetreden bij het opslaan:\n${messages.join(
+               '\n'
+            )}`,
+            'OK',
+            {
+               panelClass: 'multi-line-snackbar',
+            }
+         );
+      }
    }
 }

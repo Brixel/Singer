@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Singer.Models;
 using Singer.DTOs;
 using Singer.Services;
@@ -7,6 +8,7 @@ using Singer.Services.Interfaces;
 namespace Singer.Controllers
 {
    [Route("api/[controller]")]
+   [Authorize]
    public class EventLocationController : DataControllerBase<EventLocation, EventLocationDTO, CreateEventLocationDTO, UpdateEventLocationDTO>
    {
       public EventLocationController(IEventLocationService eventLocationService) : base(eventLocationService)

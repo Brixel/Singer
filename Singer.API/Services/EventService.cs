@@ -25,7 +25,9 @@ namespace Singer.Services
 
       protected override DbSet<Event> DbSet => Context.Events;
 
-      protected override IQueryable<Event> Queryable => Context.Events.Include(x => x.Location);
+      protected override IQueryable<Event> Queryable => Context.Events
+         .Include(x => x.Location)
+         .Include(x => x.EventSlots);
 
 
       public override async Task<EventDTO> CreateAsync(CreateEventDTO dto)
@@ -70,16 +72,19 @@ namespace Singer.Services
                // check location
                (!searchEventParamsDto.LocationId.HasValue || x.LocationId == searchEventParamsDto.LocationId.Value) &&
                // check start date
-               (!searchEventParamsDto.StartDate.HasValue || x.EventSlots.OrderBy(y => y.StartDateTime).First().StartDateTime == searchEventParamsDto.StartDate) &&
+               (!searchEventParamsDto.StartDate.HasValue ||
+                  x.EventSlots.OrderBy(y => y.StartDateTime).First().StartDateTime.Date == searchEventParamsDto.StartDate.Value.Date) &&
                // check end date
-               (!searchEventParamsDto.EndDate.HasValue || x.EventSlots.OrderBy(y => y.EndDateTime).First().EndDateTime <= searchEventParamsDto.EndDate))
+               (!searchEventParamsDto.EndDate.HasValue ||
+                  x.EventSlots.OrderBy(y => y.EndDateTime).First().EndDateTime.Date <= searchEventParamsDto.EndDate.Value.Date))
             .Select(x => new EventDescriptionDTO
             {
+               Id = x.Id,
                AgeGroups = EventProfile.ToAgeGroupList(x.AllowedAgeGroups),
                Description = x.Description,
                Title = x.Title,
-               StartDate = x.EventSlots.OrderBy(y => y.StartDateTime).First().StartDateTime,
-               EndDate = x.EventSlots.OrderByDescending(y => y.EndDateTime).First().EndDateTime
+               StartDateTime = x.EventSlots.OrderBy(y => y.StartDateTime).First().StartDateTime,
+               EndDateTime = x.EventSlots.OrderByDescending(y => y.EndDateTime).First().EndDateTime
             })
             .ToListAsync()
             .ConfigureAwait(false);
@@ -90,7 +95,7 @@ namespace Singer.Services
          switch (dto.RepeatSettings?.RepeatType)
          {
             case RepeatType.OnDate:
-               return EventSlot.GenerateEventSlotsUntil(
+               return EventSlot.GenerateEventSlotsUntilIncluding(
                   dto.StartDateTime,
                   dto.EndDateTime,
                   dto.RepeatSettings.StopRepeatDate,

@@ -5,7 +5,12 @@ import {
    ElementRef,
    OnInit,
 } from '@angular/core';
-import { MatPaginator, MatSort, MatDialog } from '@angular/material';
+import {
+   MatPaginator,
+   MatSort,
+   MatDialog,
+   MatSnackBar,
+} from '@angular/material';
 import { LegalguardianOverviewDataSource } from './legalguardian-overview-datasource';
 import { LegalguardiansService } from 'src/app/modules/core/services/legal-guardians-api/legalguardians.service';
 import { LegalGuardian } from 'src/app/modules/core/models/legalguardian.model';
@@ -23,6 +28,7 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
    @ViewChild(MatPaginator) paginator: MatPaginator;
    @ViewChild(MatSort) sort: MatSort;
    @ViewChild('filterInput') filterInput: ElementRef;
+
    dataSource: LegalguardianOverviewDataSource;
 
    pageSize = 15;
@@ -44,7 +50,8 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
 
    constructor(
       public dialog: MatDialog,
-      private legalguardiansService: LegalguardiansService
+      private legalguardiansService: LegalguardiansService,
+      private snackBar: MatSnackBar
    ) {}
 
    ngOnInit() {
@@ -57,20 +64,30 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
    }
 
    selectRow(row: LegalGuardian): void {
+      //Dereference row to avoid updating row in overview when API might refuse the update
+      const deRefRow = { ...row };
       const dialogRef = this.dialog.open(LegalguardianDetailsComponent, {
-         data: { legalGuardianInstance: row, isAdding: false },
+         data: { legalGuardianInstance: deRefRow, isAdding: false },
          width: '80vw',
       });
 
       dialogRef.componentInstance.submitEvent.subscribe(
          (result: LegalGuardian) => {
             //Update the legal guardian
-            this.legalguardiansService
-               .updateLegalGuardian(result)
-               .subscribe(res => {
+            this.legalguardiansService.updateLegalGuardian(result).subscribe(
+               res => {
                   // Reload LegalGuardian
                   this.loadLegalGuardians();
-               });
+                  this.snackBar.open(
+                     `${result.firstName} ${result.lastName} werd aangepast.`,
+                     'OK',
+                     { duration: 2000 }
+                  );
+               },
+               err => {
+                  this.handleApiError(err);
+               }
+            );
          }
       );
    }
@@ -84,11 +101,20 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
       dialogRef.componentInstance.submitEvent.subscribe(
          (result: LegalGuardian) => {
             // Add the legal guardian
-            this.legalguardiansService
-               .createLegalGuardian(result)
-               .subscribe(res => {
+            this.legalguardiansService.createLegalGuardian(result).subscribe(
+               res => {
                   this.loadLegalGuardians();
-               });
+                  debugger;
+                  this.snackBar.open(
+                     `${result.firstName} ${result.lastName} werd toegevoegd als voogd.`,
+                     'OK',
+                     { duration: 2000 }
+                  );
+               },
+               err => {
+                  this.handleApiError(err);
+               }
+            );
          }
       );
    }
@@ -127,5 +153,25 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
             })
          )
          .subscribe();
+   }
+
+   handleApiError(err: any) {
+      if (typeof err === 'string') {
+         this.snackBar.open(`⚠ ${err}`, 'OK');
+      } else if (typeof err === 'object' && err !== null) {
+         let messages = [];
+         for (var k in err) {
+            messages.push(err[k]);
+         }
+         this.snackBar.open(
+            `⚠ Er zijn fouten opgetreden bij het opslagen:\n${messages.join(
+               '\n'
+            )}`,
+            'OK',
+            {
+               panelClass: 'multi-line-snackbar',
+            }
+         );
+      }
    }
 }

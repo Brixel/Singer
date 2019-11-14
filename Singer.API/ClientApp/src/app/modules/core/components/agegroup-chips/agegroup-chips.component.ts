@@ -15,7 +15,7 @@ export class AgegroupChipsComponent implements OnInit {
   ngOnInit() {
   }
 
-  getClass(ageGroup: AgeGroup){
+  getClass(ageGroup: AgeGroup) {
    let result = '';
    switch (ageGroup) {
       case AgeGroup.Toddler:

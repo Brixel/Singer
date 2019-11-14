@@ -300,7 +300,7 @@ namespace Singer.DTOs
       [Display(
          ResourceType = typeof(DisplayNames),
          Name = nameof(DisplayNames.RepeatSettings))]
-      public RepeatSettings RepeatSettings { get; set; }
+      public RepeatSettingsDTO RepeatSettings { get; set; }
    }
 
    public class UpdateEventDTO

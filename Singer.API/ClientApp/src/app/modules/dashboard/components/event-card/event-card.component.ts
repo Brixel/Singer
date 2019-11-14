@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { EventDescription } from 'src/app/modules/core/models/singerevent.model';
+import { MatDialog } from '@angular/material';
+import { EventRegistrationComponent } from 'src/app/modules/shared/components/event-registration/event-registration.component';
 
 @Component({
    selector: 'app-event-card',
@@ -9,15 +11,27 @@ import { EventDescription } from 'src/app/modules/core/models/singerevent.model'
 export class EventCardComponent implements OnInit {
    @Input() event: EventDescription;
 
-   constructor() {}
+   constructor(private _dialog: MatDialog) {}
 
    ngOnInit() {}
 
    getDurationMessage(event: EventDescription): string {
-      if (event.startDateTime === event.endDateTime) {
+      let isSameDay =
+         event.startDateTime.getDate() === event.endDateTime.getDate() &&
+         event.startDateTime.getMonth() === event.endDateTime.getMonth() &&
+         event.startDateTime.getFullYear() === event.endDateTime.getFullYear();
+      if (isSameDay) {
          return 'Duurt 1 dag';
       } else {
          return 'Duurt meerdere dagen';
       }
+   }
+
+   openEventRegistration(event: EventDescription) {
+      this._dialog.open(EventRegistrationComponent, {
+         data: event.id,
+         maxHeight: '100vh',
+         width: '40vw',
+      });
    }
 }

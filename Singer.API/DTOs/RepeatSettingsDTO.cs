@@ -5,8 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Singer.DTOs
 {
-   // TODO use all settings
-   public class RepeatSettings
+   public class RepeatSettingsDTO
    {
       [Range(0, int.MaxValue)]
       [Display(

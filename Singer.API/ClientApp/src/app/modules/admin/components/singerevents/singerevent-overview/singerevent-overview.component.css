@@ -41,18 +41,22 @@ table {
 /* TABLE HEADER STYLING */
 th {
    font-size: 0.9em;
-   background-color: #3f51b5;
-   color: white;
+   /* Override of the default material styling */
+   background-color: var(--singer-theme-primary);
+   color: var(--singer-theme-light-primary-text);
 }
 
 /* SORTING ARROW STYLING */
 ::ng-deep .mat-sort-header-arrow {
-   color: #ffffff;
+   /* Override of the default material styling */
+   color: var(--singer-theme-light-primary-text);
 }
 
 /* SELECTABLE ROW STYLING */
 tr.selectable:hover {
-   background: rgb(149, 190, 248);
+   /* Override of the default material styling */
+   background: var(--singer-theme-accent-lighter);
+
    cursor: pointer;
 }
 
@@ -111,9 +115,18 @@ tr.selectable:active {
 .tableButton {
    font-family: Roboto, Arial, sans-serif;
    font-size: 1em;
-   color: rgb(37, 37, 186);
+   /* Override of the default material styling */
+   color: var(--singer-theme-primary);
 }
 
 .spacer {
    flex: 1 1 auto;
+}
+.action-list{
+   display: flex;
+   justify-content: center;
+   align-content: space-between;
+}
+.action-list button{
+   margin: 0px 8px;;
 }

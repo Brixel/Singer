@@ -10,6 +10,7 @@ import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-lo
 import { MY_FORMATS } from 'src/app/modules/core/core.module';
 import { mixinHasStickyInput } from '@angular/cdk/table';
 import { dateNotAfter } from 'src/app/modules/core/utils/custom-date-validators';
+import { NgxMaterialTimepickerTheme } from 'ngx-material-timepicker';
 
 // Data we pass along with the creation of the Mat-Dialog box
 export interface SingerEventDetailsFormData {
@@ -38,12 +39,29 @@ export class SingerEventDetailsComponent implements OnInit {
       k => typeof AgeGroup[k as any] === 'number'
    );
 
-   // Current care user instance
+   // Current singer event instance
    currentSingerEventInstance: SingerEvent;
 
    selectedLocation: SingerEventLocation;
 
    availableLocations: SingerEventLocation[];
+
+   singerTimePickerTheme: NgxMaterialTimepickerTheme = {
+      container: {
+          buttonColor: '#6a9de1'
+      },
+      dial: {
+          dialBackgroundColor: '#4a88da',
+      },
+      clockFace: {
+          clockHandColor: '#4a88da',
+      }
+  };
+
+   allowedAgeGroupsFormControlArray: FormArray = new FormArray([
+      new FormControl('', [Validators.required]),
+   ]);
+   selectedAgeGroups: AgeGroup[];
 
    //#region Binding properties for form:
 
@@ -138,11 +156,6 @@ export class SingerEventDetailsComponent implements OnInit {
          return Validators.required;
       }
    }
-
-   allowedAgeGroupsFormControlArray: FormArray = new FormArray([
-      new FormControl('', [Validators.required]),
-   ]);
-   selectedAgeGroups: AgeGroup[];
 
    addAllowedAgeGroupsFormControlArrayToFormGroup() {
       this.formControlGroup.registerControl(
@@ -385,10 +398,10 @@ export class SingerEventDetailsComponent implements OnInit {
          return true;
       }
 
-      var instanceDate = new Date(
+      let instanceDate = new Date(
          this.currentSingerEventInstance.startRegistrationDateTime
       );
-      var formDate = new Date(
+      let formDate = new Date(
          this.formControlGroup.controls.startRegistrationDateFieldControl.value
       );
       if (instanceDate.getFullYear() !== formDate.getFullYear()) {
@@ -575,7 +588,7 @@ export class SingerEventDetailsComponent implements OnInit {
       if (isNullOrUndefined(dateField) || isNullOrUndefined(timeField)) {
          return new Date();
       }
-      let timePieces = timeField.split(':');
+      const timePieces = timeField.split(':');
       dateField.setHours(parseInt(timePieces[0]));
       dateField.setMinutes(parseInt(timePieces[1]));
 
@@ -601,4 +614,5 @@ export class SingerEventDetailsComponent implements OnInit {
    closeForm() {
       this.dialogRef.close();
    }
+
 }

@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Singer.Data;
 using Singer.DTOs.Users;
+using Singer.DTOs;
 using Singer.Helpers.Exceptions;
+using Singer.Models;
 using Singer.Models.Users;
 using Singer.Services.Interfaces;
 
@@ -100,6 +102,41 @@ namespace Singer.Services
             careUser.LegalGuardianCareUsers.Remove(linkedUserExists);
          }
          await Context.SaveChangesAsync();
+      }
+
+      public async Task<List<EventRelevantCareUserDTO>> GetCareUsersForLegalGuardian(Guid baseUserId)
+      {
+         var legalGuardianCareUsers = await Context.LegalGuardianCareUsers
+            .Include(x => x.CareUser)
+            .ThenInclude(x => x.User)
+            .Where(x => x.LegalGuardian.UserId == baseUserId)
+            .ToListAsync();
+         var careUsers = legalGuardianCareUsers.Select(x => x.CareUser).ToList();
+         return ProjectToRelevantCareUsers(careUsers);
+      }
+
+
+      public async Task<List<EventRelevantCareUserDTO>> GetCareUsersInAgeGroups(List<AgeGroup> ageGroups)
+      {
+         var careUsers = await Context.CareUsers
+            .Include(x => x.User)
+            .Where(x => ageGroups.Contains(x.AgeGroup))
+            .ToListAsync();
+         return ProjectToRelevantCareUsers(careUsers, true);
+      }
+
+      private static List<EventRelevantCareUserDTO> ProjectToRelevantCareUsers(
+         List<CareUser> careUsers,
+         bool isAppropriateAgeGroup = false)
+      {
+         return careUsers.Select(careUser => new EventRelevantCareUserDTO()
+         {
+            Id = careUser.Id,
+            FirstName = careUser.User.FirstName,
+            LastName = careUser.User.LastName,
+            AgeGroup = careUser.AgeGroup,
+            AppropriateAgeGroup = isAppropriateAgeGroup
+         }).ToList();
       }
    }
 }

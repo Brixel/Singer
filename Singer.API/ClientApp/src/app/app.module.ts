@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
@@ -13,12 +12,11 @@ import { AuthService } from './modules/core/services/auth.service';
 import { AuthGuard } from './modules/core/services/auth.guard';
 import { AuthInterceptor } from './modules/core/services/auth-interceptor';
 import { NavMenuComponent } from './modules/core/components/nav-menu/nav-menu.component';
-import { MAT_DATE_FORMATS, NativeDateModule, MatDatepickerIntl, MAT_DATE_LOCALE } from '@angular/material';
-import { RouterModule } from '@angular/router';
+import { NativeDateModule } from '@angular/material';
 import { AdminModule } from './modules/admin/admin.module';
 
 
-export function tokenGetter():string {
+export function tokenGetter(): string {
    return localStorage.getItem('token');
  }
 @NgModule({
@@ -42,7 +40,6 @@ export function tokenGetter():string {
       }),
    ],
    providers: [
-      AuthService,
       JwtHelperService,
       AuthGuard,
       {

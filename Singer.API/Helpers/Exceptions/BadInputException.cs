@@ -18,6 +18,7 @@ namespace Singer.Helpers.Exceptions
       public BadInputException(string message)
          : base(message)
       {
+         // TODO use client message in references
       }
 
       /// <summary>Constructs a new instance of the <see cref="BadInputException"/>.</summary>
@@ -29,6 +30,7 @@ namespace Singer.Helpers.Exceptions
       public BadInputException(string message, string clientMessage)
          : base(message)
       {
+         // TODO use client message in references
          ClientMessage = clientMessage;
       }
 

@@ -18,12 +18,17 @@ namespace Singer.Services.Interfaces
          int pageIndex = 0,
          int itemsPerPage = 15);
 
+      Task<List<EventRegistrationDTO>> GetAllSlotsForEventAsync(Guid eventId);
+
+      Task<EventRegistrationDTO> GetOneBySlotAsync(Guid eventSlotId, Guid careUserId);
       Task<EventRegistrationDTO> GetOneAsync(Guid eventId, Guid registrationId);
 
       Task<IReadOnlyList<EventRegistrationDTO>> CreateAsync(CreateEventRegistrationDTO dto);
+      Task<EventRegistrationDTO> CreateOneBySlotAsync(CreateEventSlotRegistrationDTO dto);
 
       Task<EventRegistrationDTO> UpdateStatusAsync(Guid eventId, Guid registrationId, RegistrationStatus status);
 
       Task DeleteAsync(Guid eventId, Guid registrationId);
+      Task<UserRegisteredDTO> GetUserRegistrationStatus(Guid eventId, Guid careUserId);
    }
 }

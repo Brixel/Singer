@@ -9,6 +9,12 @@ namespace Singer.DTOs
    public class EventDescriptionDTO
    {
       [Required(
+        ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+        ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(ResourceType = typeof(DisplayNames), Name = nameof(DisplayNames.Id))]
+      public Guid Id { get; set; }
+
+      [Required(
          ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
          ErrorMessageResourceType = typeof(ErrorMessages))]
       [StringLength(
@@ -49,5 +55,21 @@ namespace Singer.DTOs
          ResourceType = typeof(DisplayNames),
          Name = nameof(DisplayNames.AllowedAgeGroups))]
       public IReadOnlyList<AgeGroup> AgeGroups { get; set; }
+
+      [Required(
+          ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+          ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+          ResourceType = typeof(DisplayNames),
+          Name = nameof(DisplayNames.StartDateTime))]
+      public DateTime StartDateTime { get; set; }
+
+      [Required(
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.EndDateTime))]
+      public DateTime EndDateTime { get; set; }
    }
 }

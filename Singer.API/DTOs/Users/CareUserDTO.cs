@@ -123,6 +123,16 @@ namespace Singer.DTOs.Users
 
       [Display(
          ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.NormalDaycareLocation))]
+      public Guid? NormalDaycareLocationId { get; set; }
+
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.VacationDaycareLocation))]
+      public Guid? VacationDaycareLocationId { get; set; }
+
+      [Display(
+         ResourceType = typeof(DisplayNames),
          Name = nameof(DisplayNames.HasResources))]
       public bool HasResources { get; set; }
    }
@@ -178,6 +188,16 @@ namespace Singer.DTOs.Users
          ResourceType = typeof(DisplayNames),
          Name = nameof(DisplayNames.HasVacationDayCare))]
       public bool HasVacationDayCare { get; set; }
+
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.NormalDaycareLocation))]
+      public Guid? NormalDaycareLocationId { get; set; }
+
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.VacationDaycareLocation))]
+      public Guid? VacationDaycareLocationId { get; set; }
 
       [Display(
          ResourceType = typeof(DisplayNames),
