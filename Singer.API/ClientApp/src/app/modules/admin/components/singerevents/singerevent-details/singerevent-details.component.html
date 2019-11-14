@@ -16,11 +16,27 @@
             formControlName="titleFieldControl"
          />
          <mat-error *ngIf="formControlGroup.controls.titleFieldControl.invalid">
-            {{
-               getRequiredFieldErrorMessage(
-                  formControlGroup.controls.titleFieldControl
-               )
-            }}
+            <div
+               *ngIf="
+                  formControlGroup.controls.titleFieldControl.errors.required
+               "
+            >
+               Titel is een verplicht veld.
+            </div>
+            <div
+               *ngIf="
+                  formControlGroup.controls.titleFieldControl.errors.minlength
+               "
+            >
+               Titel moet minstens {{ minTitleLength }} karakters bevatten.
+            </div>
+            <div
+               *ngIf="
+                  formControlGroup.controls.titleFieldControl.errors.maxlength
+               "
+            >
+               Titel mag maximum {{ maxTitleLength }} karakters bevatten.
+            </div>
          </mat-error>
       </mat-form-field>
 
@@ -35,11 +51,15 @@
          <mat-error
             *ngIf="formControlGroup.controls.descriptionFieldControl.invalid"
          >
-            {{
-               getRequiredFieldErrorMessage(
-                  formControlGroup.controls.descriptionFieldControl
-               )
-            }}
+            <div
+               *ngIf="
+                  formControlGroup.controls.descriptionFieldControl.errors
+                     .maxlength
+               "
+            >
+               Beschrijving mag maximum {{ maxDescriptionLength }} karakters
+               bevatten.
+            </div>
          </mat-error>
       </mat-form-field>
       <div>
@@ -61,11 +81,14 @@
             <mat-error
                *ngIf="formControlGroup.controls.locationFieldControl.invalid"
             >
-               {{
-                  getRequiredFieldErrorMessage(
-                     formControlGroup.controls.locationFieldControl
-                  )
-               }}
+               <div
+                  *ngIf="
+                     formControlGroup.controls.locationFieldControl.errors
+                        .required
+                  "
+               >
+                  Locatie is een verplicht veld.
+               </div>
             </mat-error>
          </mat-form-field>
 
@@ -89,11 +112,14 @@
                   formControlGroup.controls.allowedAgeGroupsFieldControl.invalid
                "
             >
-               {{
-                  getRequiredFieldErrorMessage(
+               <div
+                  *ngIf="
                      formControlGroup.controls.allowedAgeGroupsFieldControl
-                  )
-               }}
+                        .errors.required
+                  "
+               >
+                  Leeftijdsgroepen is een verplicht veld.
+               </div>
             </mat-error>
          </mat-form-field>
 
@@ -110,11 +136,32 @@
                   formControlGroup.controls.maxRegistrantsFieldControl.invalid
                "
             >
-               {{
-                  getRequiredFieldErrorMessage(
-                     formControlGroup.controls.maxRegistrantsFieldControl
-                  )
-               }}
+               <div
+                  *ngIf="
+                     formControlGroup.controls.maxRegistrantsFieldControl.errors
+                        .required
+                  "
+               >
+                  Aantal toegelaten personene is een verplicht veld.
+               </div>
+               <div
+                  *ngIf="
+                     formControlGroup.controls.maxRegistrantsFieldControl.errors
+                        .min
+                  "
+               >
+                  Aantal toegelaten personene mag minstens
+                  {{ minMaxRegistrants }} zijn.
+               </div>
+               <div
+                  *ngIf="
+                     formControlGroup.controls.maxRegistrantsFieldControl.errors
+                        .max
+                  "
+               >
+                  Aantal toegelaten personene mag maximum
+                  {{ maxTitleLength }} zijn.
+               </div>
             </mat-error>
          </mat-form-field>
 
@@ -129,11 +176,23 @@
             <mat-error
                *ngIf="formControlGroup.controls.costFieldControl.invalid"
             >
-               {{
-                  getRequiredFieldErrorMessage(
-                     formControlGroup.controls.costFieldControl
-                  )
-               }}
+               <div
+                  *ngIf="
+                     formControlGroup.controls.costFieldControl.errors.required
+                  "
+               >
+                  Prijs is een verplicht veld.
+               </div>
+               <div
+                  *ngIf="formControlGroup.controls.costFieldControl.errors.min"
+               >
+                  Prijs mag minstens {{ minMaxRegistrants }} zijn.
+               </div>
+               <div
+                  *ngIf="formControlGroup.controls.costFieldControl.errors.max"
+               >
+                  Prijs mag maximum {{ maxTitleLength }} zijn.
+               </div>
             </mat-error>
          </mat-form-field>
       </div>
@@ -158,11 +217,14 @@
                      .invalid
                "
             >
-               {{
-                  getRequiredFieldErrorMessage(
+               <div
+                  *ngIf="
                      formControlGroup.controls.startRegistrationDateFieldControl
-                  )
-               }}
+                        .errors.required
+                  "
+               >
+                  Start datum registratie is een verplicht veld.
+               </div>
             </mat-error>
             <mat-datepicker-toggle
                matSuffix
@@ -185,11 +247,21 @@
                      .invalid
                "
             >
-               {{
-                  getRequiredFieldErrorMessage(
+               <mat-error
+                  *ngIf="
                      formControlGroup.controls.endRegistrationDateFieldControl
-                  )
-               }}
+                        .invalid
+                  "
+               >
+                  <div
+                     *ngIf="
+                        formControlGroup.controls
+                           .endRegistrationDateFieldControl.errors.required
+                     "
+                  >
+                     Eind datum registratie is een verplicht veld.
+                  </div>
+               </mat-error>
             </mat-error>
             <mat-datepicker-toggle
                matSuffix
@@ -212,11 +284,14 @@
                      .invalid
                "
             >
-               {{
-                  getRequiredFieldErrorMessage(
+               <div
+                  *ngIf="
                      formControlGroup.controls.finalCancellationDateFieldControl
-                  )
-               }}
+                        .errors.required
+                  "
+               >
+                  Uiterste registratie datum is een verplicht veld.
+               </div>
             </mat-error>
             <mat-datepicker-toggle
                matSuffix
@@ -241,11 +316,14 @@
                   .invalid
             "
          >
-            {{
-               getRequiredFieldErrorMessage(
+            <div
+               *ngIf="
                   formControlGroup.controls.registrationOnDailyBasisFieldControl
-               )
-            }}
+                     .errors.required
+               "
+            >
+               Registratie op dagelijkse basis is een verplicht veld.
+            </div>
          </mat-error>
       </mat-form-field>
       <div>
@@ -260,11 +338,14 @@
             <mat-error
                *ngIf="formControlGroup.controls.startDateFieldControl.invalid"
             >
-               {{
-                  getRequiredFieldErrorMessage(
-                     formControlGroup.controls.startDateFieldControl
-                  )
-               }}
+               <div
+                  *ngIf="
+                     formControlGroup.controls.startDateFieldControl.errors
+                        .required
+                  "
+               >
+                  Start datum is een verplicht veld.
+               </div>
             </mat-error>
             <mat-datepicker-toggle
                matSuffix
@@ -284,11 +365,14 @@
             <mat-error
                *ngIf="formControlGroup.controls.endDateFieldControl.invalid"
             >
-               {{
-                  getRequiredFieldErrorMessage(
-                     formControlGroup.controls.endDateFieldControl
-                  )
-               }}
+               <div
+                  *ngIf="
+                     formControlGroup.controls.endDateFieldControl.errors
+                        .required
+                  "
+               >
+                  Eind datum is een verplicht veld.
+               </div>
             </mat-error>
             <mat-datepicker-toggle
                matSuffix
@@ -314,11 +398,14 @@
                   formControlGroup.controls.dailyStartTimeFieldControl.invalid
                "
             >
-               {{
-                  getRequiredFieldErrorMessage(
-                     formControlGroup.controls.dailyStartTimeFieldControl
-                  )
-               }}
+               <div
+                  *ngIf="
+                     formControlGroup.controls.dailyStartTimeFieldControl.errors
+                        .required
+                  "
+               >
+                  Start tijd is een verplicht veld.
+               </div>
             </mat-error>
             <ngx-material-timepicker
                #dailyStartTimePicker
@@ -342,11 +429,14 @@
                   formControlGroup.controls.dailyEndTimeFieldControl.invalid
                "
             >
-               {{
-                  getRequiredFieldErrorMessage(
-                     formControlGroup.controls.dailyEndTimeFieldControl
-                  )
-               }}
+               <div
+                  *ngIf="
+                     formControlGroup.controls.dailyEndTimeFieldControl.errors
+                        .required
+                  "
+               >
+                  Eind tijd is een verplicht veld.
+               </div>
             </mat-error>
             <ngx-material-timepicker
                #dailyEndTimePicker
@@ -375,11 +465,14 @@
                   formControlGroup.controls.hasDayCareBeforeFieldControl.invalid
                "
             >
-               {{
-                  getRequiredFieldErrorMessage(
+               <div
+                  *ngIf="
                      formControlGroup.controls.hasDayCareBeforeFieldControl
-                  )
-               }}
+                        .errors.required
+                  "
+               >
+                  Heeft opvang voor het evenement is een verplicht veld.
+               </div>
             </mat-error>
          </mat-form-field>
 
@@ -435,11 +528,14 @@
                   formControlGroup.controls.hasDayCareAfterFieldControl.invalid
                "
             >
-               {{
-                  getRequiredFieldErrorMessage(
+               <div
+                  *ngIf="
                      formControlGroup.controls.hasDayCareAfterFieldControl
-                  )
-               }}
+                        .errors.required
+                  "
+               >
+                  Heeft opvang na het evenement is een verplicht veld.
+               </div>
             </mat-error>
          </mat-form-field>
 

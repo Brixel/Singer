@@ -85,7 +85,10 @@ export class LegalguardianDetailsComponent implements OnInit {
          Validators.required,
          Validators.maxLength(this.maxCityLength),
       ]),
-      countryFieldControl: new FormControl('', [Validators.required]),
+      countryFieldControl: new FormControl('', [
+         Validators.required,
+         Validators.maxLength(this.maxCountryLength),
+      ]),
       emailFieldControl: new FormControl('', [
          Validators.required,
          Validators.maxLength(this.maxEmailLength),

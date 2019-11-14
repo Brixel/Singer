@@ -91,7 +91,6 @@ export class SingerEventDetailsComponent implements OnInit {
          Validators.maxLength(this.maxTitleLength),
       ]),
       descriptionFieldControl: new FormControl('', [
-         Validators.required,
          Validators.maxLength(this.maxDescriptionLength),
       ]),
       locationFieldControl: new FormControl('', [Validators.required]),
