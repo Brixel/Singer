@@ -1,0 +1,43 @@
+<mat-card class="card__wizard">
+   <mat-card-header>
+      <mat-card-title>Familie Toevoegen</mat-card-title>
+   </mat-card-header>
+   <mat-card-content class="card__content__wizard">
+      <mat-horizontal-stepper linear #stepper>
+
+         <mat-step *ngFor="let wizardStep of wizardSteps; index as i">
+            <ng-template matStepLabel>{{ wizardStep.stepLabel }}</ng-template>
+            <div class="mat-step__body"  [ngClass]="{'mat-step--start': i == 0, 'mat-step--end': i == wizardSteps.length - 1 }">
+
+               <div class="wizard__top-text">
+                  <p>
+                     {{ wizardStep.topText }}
+                  </p>
+               </div>
+
+               <div class="wizard__step__content">
+                  <span>test</span>
+               </div>
+
+               <div *ngIf="i > 0" class="wizard__button--back">
+                  <button mat-icon-button matStepperPrevious>
+                     <mat-icon>arrow_back</mat-icon>
+                  </button>
+               </div>
+
+               <div class="wizard__button--middle">
+                  <button mat-raised-button matStepperNext color="primary">{{ wizardStep.mainButtonText }}</button>
+               </div>
+
+               <div *ngIf="i > 0 && i < wizardSteps.length - 1" class="wizard__button--forward">
+                  <button mat-icon-button matStepperNext>
+                     <mat-icon>arrow_forward</mat-icon>
+                  </button>
+               </div>
+            </div>
+         </mat-step>
+
+      </mat-horizontal-stepper>
+
+   </mat-card-content>
+</mat-card>

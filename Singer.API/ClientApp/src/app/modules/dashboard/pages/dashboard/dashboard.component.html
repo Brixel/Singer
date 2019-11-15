@@ -1,3 +1,5 @@
 <app-home></app-home>
 
+<app-admin-menu *ngIf="isAuthenticated"></app-admin-menu>
+
 <app-event-list *ngIf="isAuthenticated"></app-event-list>

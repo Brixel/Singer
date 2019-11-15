@@ -39,6 +39,7 @@ import { CareUserSearchComponent } from './components/shared/care-user-search/ca
 import { EventRegistrationComponent } from '../shared/components/event-registration/event-registration.component';
 import { SingerEventAdminRegisterComponent } from './components/singerevents/singer-eventadmin-register/singer-eventadmin-register.component';
 import { SharedModule } from '../shared/shared.module';
+import { AddFamilyWizardComponent } from './components/add-family-wizard/add-family-wizard.component';
 
 @NgModule({
    declarations: [
@@ -52,7 +53,8 @@ import { SharedModule } from '../shared/shared.module';
       AdminDetailsComponent,
       SingerEventRegistrationsComponent,
       CareUserSearchComponent,
-      SingerEventAdminRegisterComponent
+      SingerEventAdminRegisterComponent,
+      AddFamilyWizardComponent
    ],
    imports: [
       CoreModule,

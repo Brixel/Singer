@@ -1,0 +1,71 @@
+/*
+   =============
+   Global Styles
+   =============
+*/
+
+.card__wizard {
+   margin: 8px;
+
+}
+
+/*
+   =============
+      Layout
+   =============
+*/
+
+.card__content__wizard {
+   position: relative;
+}
+
+.mat-step__body {
+   min-height: 60vh;
+   display: grid;
+   grid-template:
+   ". ......... toptext    ............ ." 2em
+   ". ......... content    ............ ." auto
+   ". btn-back  btn-middle btn-forward  ." 6em
+   /1fr minmax(6em, auto) minmax(80%, auto) minmax(6em, auto) 1fr;
+}
+
+.wizard__top-text {
+   grid-area: toptext;
+}
+
+.wizard__step__content {
+   grid-area: content;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: flex-start;
+}
+
+.wizard__button--back {
+   grid-area: btn-back;
+}
+
+.wizard__button--middle {
+   grid-area: btn-middle;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+.wizard__button--forward {
+   grid-area: btn-forward;
+}
+
+/*
+   =============
+     Background
+   =============
+*/
+
+.mat-step--start {
+
+}
+
+.mat-step--end {
+
+}
