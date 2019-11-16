@@ -1,0 +1,30 @@
+/*
+   =============
+   Global Styles
+   =============
+*/
+
+.card {
+   margin: 16px;
+}
+
+.card-content {
+   min-width: 15em;
+   min-height: 25em;
+}
+
+/*
+   =============
+      Layout
+   =============
+*/
+
+.card-content {
+   position: relative;
+   display: grid;
+   grid-template:
+   "head" 30%
+   "body" auto
+   "edit delete" minmax(1fr, 20%)
+   / 1fr 1fr;
+}

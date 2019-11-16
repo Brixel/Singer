@@ -1,3 +1,49 @@
-<p>
-  detailed-user-card works!
-</p>
+<mat-card class="card">
+   <mat-card-content>
+      <div class="card-content">
+
+         <div class="head">
+            <div class="head__initials">
+               {{ user?.firstName.toUpperCase().charAt(0) + user.lastName?.toUpperCase().charAt(0) }}
+            </div>
+            <div class="head__title">
+               {{ user?.firstName + ' ' + user?.lastName }}
+            </div>
+         </div>
+
+         <div class="body">
+            <div class="body__info">
+               <div class="body__info__mail" *ngIf="user?.email">
+                  <mat-icon color="primary">email</mat-icon>
+                  {{ user?.email }}
+               </div>
+               <div class="body__info__adress" *ngIf="user?.adress">
+                  <mat-icon color="primary">house</mat-icon>
+                  {{ user?.adress }}
+               </div>
+               <div class="body__info__birthdate" *ngIf="user?.birthDay">
+                  <mat-icon color="primary">calendar_today</mat-icon>
+                  {{ user?.birthDay | date: 'dd-MM-yyyy' }}
+               </div>
+               <div class="body__info__agegroup" *ngIf="user?.ageGroup">
+                  <mat-chip>{{ user?.agegroup | agegroupPipe }}</mat-chip>
+               </div>
+            </div>
+         </div>
+
+         <div class="buttons">
+            <div class="buttons__edit">
+               <button mat-mini-fab color="primary" (click)="editUser()" aria-label="Edit User">
+                  <mat-icon>edit</mat-icon>
+               </button>
+            </div>
+            <div class="buttons__remove">
+               <button mat-mini-fab color="warn" (click)="deleteUser()" aria-label="Remove User">
+                  <mat-icon>delete</mat-icon>
+               </button>
+            </div>
+         </div>
+
+      </div>
+   </mat-card-content>
+</mat-card>

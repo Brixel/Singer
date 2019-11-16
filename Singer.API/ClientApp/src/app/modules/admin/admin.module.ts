@@ -54,7 +54,7 @@ import { AddFamilyWizardComponent } from './components/add-family-wizard/add-fam
       SingerEventRegistrationsComponent,
       CareUserSearchComponent,
       SingerEventAdminRegisterComponent,
-      AddFamilyWizardComponent
+      AddFamilyWizardComponent,
    ],
    imports: [
       CoreModule,

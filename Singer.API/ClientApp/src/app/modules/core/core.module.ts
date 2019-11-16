@@ -32,7 +32,7 @@ export const MY_FORMATS = {
       UserCardComponent,
       DailybasisRegistrationsComponent,
       SingleRegistrationComponent,
-      DetailedUserCardComponent
+      DetailedUserCardComponent,
    ],
    imports: [CommonModule, MaterialModule],
    providers: [
@@ -44,7 +44,8 @@ export const MY_FORMATS = {
       AgegroupToColorPipePipe,
       UserCardComponent,
       SingleRegistrationComponent,
-      DailybasisRegistrationsComponent
+      DailybasisRegistrationsComponent,
+      DetailedUserCardComponent,
    ],
 })
 export class CoreModule {}

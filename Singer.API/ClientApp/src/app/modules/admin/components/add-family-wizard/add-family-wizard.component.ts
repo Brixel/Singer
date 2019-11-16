@@ -8,6 +8,7 @@ import { CareUserDetailsComponent } from '../careusers/care-user-details/care-us
 import { Router } from '@angular/router';
 import { CareUserService } from 'src/app/modules/core/services/care-users-api/careusers.service';
 import { LegalguardiansService } from 'src/app/modules/core/services/legal-guardians-api/legalguardians.service';
+import { AgeGroup } from 'src/app/modules/core/models/enum';
 
 @Component({
    selector: 'app-add-family-wizard',
@@ -60,6 +61,25 @@ export class AddFamilyWizardComponent implements OnInit {
 
    legalGuardians: LegalGuardian[] = [];
    careUsers: CareUser[] = [];
+
+   testUser: CareUser = {
+      id: '1',
+      firstName: 'Berend',
+      lastName: 'Wouters',
+      email: 'berend.wouters@gmail.com',
+      userName: 'berend',
+      birthDay: new Date(),
+      caseNumber: '1234567890',
+      ageGroup: AgeGroup.Youngster,
+      isExtern: false,
+      hasTrajectory: false,
+      normalDaycareLocation: null,
+      vacationDaycareLocation: null,
+      hasResources: false,
+      legalGuardianUsers: [],
+      legalGuardianUsersToAdd: [],
+      legalGuardianUsersToRemove: [],
+   };
 
    constructor(
       public dialog: MatDialog,
