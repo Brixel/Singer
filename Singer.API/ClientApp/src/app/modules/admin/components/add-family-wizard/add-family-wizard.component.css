@@ -4,9 +4,8 @@
    =============
 */
 
-.card__wizard {
+.card {
    margin: 8px;
-
 }
 
 /*
@@ -15,7 +14,7 @@
    =============
 */
 
-.card__content__wizard {
+.card-content {
    position: relative;
 }
 
@@ -29,11 +28,11 @@
    /1fr minmax(6em, auto) minmax(80%, auto) minmax(6em, auto) 1fr;
 }
 
-.wizard__top-text {
+.body__top-text {
    grid-area: toptext;
 }
 
-.wizard__step__content {
+.body__step-content {
    grid-area: content;
    display: flex;
    flex-direction: row;
@@ -41,18 +40,27 @@
    justify-content: flex-start;
 }
 
-.wizard__button--back {
+.body__button-add {
+   position: relative;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   vertical-align: middle;
+}
+
+.body__button-back {
    grid-area: btn-back;
 }
 
-.wizard__button--middle {
+.body__button-middle {
    grid-area: btn-middle;
    display: flex;
    align-items: center;
    justify-content: center;
 }
 
-.wizard__button--forward {
+.body__button-forward {
    grid-area: btn-forward;
 }
 
@@ -62,12 +70,28 @@
    =============
 */
 
-.mat-step--start {
-
+.mat-step-start {
+   /* background-image: url(../../../../../assets/svg/FamilyWizardStartLogo.svg);
+   background-repeat: no-repeat; */
 }
 
-.mat-step--end {
+.mat-step-end {
+   /* background-image: url(../../../../../assets/svg/FamilyWizardFinishLogo.svg);
+   background-repeat: no-repeat; */
+}
 
+.body__button-add__mat-icon {
+   min-width: 7em;
+   min-height: 7em;
+   background-image: url(../../../../../assets/svg/add_box_outline_grey.svg);
+   background-repeat: no-repeat;
+}
+
+.body__button-add:hover .body__button-add__mat-icon {
+   min-width: 7em;
+   min-height: 7em;
+   background-image: url(../../../../../assets/svg/add_box_outline_primary-lighter.svg);
+   background-repeat: no-repeat;
 }
 
 /*
@@ -77,5 +101,14 @@
 */
 
 .mat-icon--large {
-   font-size: 10em;
+
+}
+
+.body__button-add__text {
+   margin-top: 0.5em;
+   color: #b3b3b3;
+}
+
+.body__button-add:hover .body__button-add__text{
+   color: #4a88da;
 }

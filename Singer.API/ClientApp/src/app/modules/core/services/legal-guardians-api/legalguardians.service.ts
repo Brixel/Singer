@@ -6,6 +6,7 @@ import {
    UpdateLegalGuardianDTO,
    CreateLegalGuardianDTO,
    LegalGuardian,
+   LegalGuardianDTO,
 } from '../../models/legalguardian.model';
 import { PaginationDTO } from '../../models/pagination.model';
 
@@ -63,5 +64,21 @@ export class LegalguardiansService {
       return this.legalguardianProxy
          .createLegalGuardian(createLegalGuardianDTO)
          .pipe(map(res => res));
+   }
+
+   convertDTOToUpdateDTO(legalGuardianDTO: LegalGuardianDTO): UpdateLegalGuardianDTO {
+      const updateLegalGuardianDTO = <UpdateLegalGuardianDTO>{
+         firstName: legalGuardianDTO.firstName,
+         lastName: legalGuardianDTO.lastName,
+         email: legalGuardianDTO.email,
+         address: legalGuardianDTO.address,
+         postalCode: legalGuardianDTO.postalCode,
+         city: legalGuardianDTO.city,
+         country: legalGuardianDTO.country,
+         careUsersToAdd: [''],
+         careUsersToRemove: [''],
+      };
+
+      return updateLegalGuardianDTO;
    }
 }

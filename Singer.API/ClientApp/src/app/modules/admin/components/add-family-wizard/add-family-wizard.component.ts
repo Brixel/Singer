@@ -3,10 +3,11 @@ import { AddFamilyWizardStep } from 'src/app/modules/core/models/add-family-wiza
 import { LegalGuardian } from 'src/app/modules/core/models/legalguardian.model';
 import { CareUser } from 'src/app/modules/core/models/careuser.model';
 import { MatSnackBar, MatDialog, MatStepper } from '@angular/material';
-import { AddFamilyWizardDataSource } from './add-family-wizard-datasource';
 import { LegalguardianDetailsComponent } from '../legalguardians/legalguardian-details/legalguardian-details.component';
 import { CareUserDetailsComponent } from '../careusers/care-user-details/care-user-details.component';
 import { Router } from '@angular/router';
+import { CareUserService } from 'src/app/modules/core/services/care-users-api/careusers.service';
+import { LegalguardiansService } from 'src/app/modules/core/services/legal-guardians-api/legalguardians.service';
 
 @Component({
    selector: 'app-add-family-wizard',
@@ -14,68 +15,97 @@ import { Router } from '@angular/router';
    styleUrls: ['./add-family-wizard.component.css'],
 })
 export class AddFamilyWizardComponent implements OnInit {
-
-   @ViewChild('stepper') matStepper:MatStepper;
+   @ViewChild('stepper') matStepper: MatStepper;
 
    wizardSteps: AddFamilyWizardStep[] = [
       {
          stepLabel: 'Start',
          topText:
             'Welkom bij de Familie toevoegen wizard, hier kan je gemakkelijk niewe Voogden en Zorggebruikers gelijktijdig inschrijven.',
-         mainButtonText: 'Laten we beginnen',
+         addButtonText: '',
+         middleButtonText: 'Laten we beginnen',
+         backArrow: false,
+         forwardArrow: false,
          UserTypeToAdd: null,
       },
       {
          stepLabel: 'Voogden Toevoegen',
          topText: 'Voeg hier uw Voogden toe.',
-         mainButtonText: 'Voogd Toevoegen',
+         addButtonText: 'Voogd Toevoegen',
+         middleButtonText: '',
+         backArrow: true,
+         forwardArrow: true,
          UserTypeToAdd: LegalGuardian,
       },
       {
          stepLabel: 'Zorggebruikers Toevoegen',
          topText: 'Voeg hier uw Zorggebruikers toe.',
-         mainButtonText: 'Zorggebruiker Toevoegen',
+         addButtonText: 'Zorggebruiker Toevoegen',
+         middleButtonText: 'Voltooien',
+         backArrow: true,
+         forwardArrow: false,
          UserTypeToAdd: CareUser,
       },
       {
          stepLabel: 'Klaar',
          topText:
             'Gefeliciteerd u hebt succesvol nieuwe Voogden en Zorggebruikers toegevoegd.',
-         mainButtonText: 'Terug naar Dashboard',
+         addButtonText: '',
+         middleButtonText: 'Terug naar Dashboard',
+         backArrow: false,
+         forwardArrow: false,
          UserTypeToAdd: null,
       },
    ];
 
-   dataSource: AddFamilyWizardDataSource;
+   legalGuardians: LegalGuardian[] = [];
+   careUsers: CareUser[] = [];
 
    constructor(
       public dialog: MatDialog,
       private snackBar: MatSnackBar,
       private router: Router,
-      private wizardDataSource: AddFamilyWizardDataSource,
-      ) {
-         this.dataSource = this.wizardDataSource;
-      }
+      private careUserService: CareUserService,
+      private legalguardiansService: LegalguardiansService
+   ) {}
 
    ngOnInit() {}
 
-   handleMainButtonClick(index) {
-      if(index === 0) {
+   moveStepperBackward() {
+      this.matStepper.previous();
+   }
+
+   moveStepperForward() {
+      if (this.legalGuardians.length < 0) {
+         this.matStepper.next();
+      } else {
+         this.snackBar.open('⚠ U moet eerst Voogden toevoegen.', 'OK', {
+            duration: 2000,
+         });
+      }
+   }
+
+   handleAddButtonClick(index: number) {
+      this.addUser(index);
+   }
+
+   handleMiddleButtonClick(index: number) {
+      if (index === 0) {
          this.matStepper.next();
       }
-      if(index > 0 && index < this.wizardSteps.length - 1){
-         this.addUser(index);
+      if (index === 2) {
+         this.linkUsers();
       }
-      if(index === this.wizardSteps.length - 1){
+      if (index === this.wizardSteps.length - 1) {
          this.router.navigateByUrl('/dashboard');
       }
    }
 
-   addUser(index: number){
-      if(this.wizardSteps[index].UserTypeToAdd == LegalGuardian) {
+   addUser(index: number) {
+      if (this.wizardSteps[index].UserTypeToAdd == LegalGuardian) {
          this.addLegalGuardian();
       }
-      if(this.wizardSteps[index].UserTypeToAdd == CareUser) {
+      if (this.wizardSteps[index].UserTypeToAdd == CareUser) {
          this.addCareUser();
       }
    }
@@ -89,8 +119,12 @@ export class AddFamilyWizardComponent implements OnInit {
       dialogRef.componentInstance.submitEvent.subscribe(
          (result: LegalGuardian) => {
             // Add the legal guardian
-            this.dataSource.addLegalGuardian(result).subscribe(
+            this.legalguardiansService.createLegalGuardian(result).subscribe(
                res => {
+                  //Save result localy for linking users
+                  result.id = res.id;
+                  this.legalGuardians.push(result);
+
                   this.snackBar.open(
                      `${result.firstName} ${result.lastName} werd toegevoegd als voogd.`,
                      'OK',
@@ -112,8 +146,12 @@ export class AddFamilyWizardComponent implements OnInit {
       });
 
       dialogRef.componentInstance.submitEvent.subscribe((result: CareUser) => {
-         this.dataSource.addCareUser(result).subscribe(
-            _ => {
+         this.careUserService.createCareUser(result).subscribe(
+            res => {
+               //Save result localy for linking users
+               result.id = res.id;
+               this.careUsers.push(result);
+
                this.snackBar.open(
                   `Gebruiker ${result.firstName} ${result.lastName} werd toegevoegd.`,
                   'OK',
@@ -125,6 +163,42 @@ export class AddFamilyWizardComponent implements OnInit {
             }
          );
       });
+   }
+
+   linkUsers(): void {
+      //collect all the careUser id's
+      var careUsersToAdd: string[] = [''];
+      this.careUsers.forEach(careUser => {
+         careUsersToAdd.push(careUser.id);
+      });
+
+      var linkingSuccesfull: boolean = true;
+
+      // update the legalguardians
+      this.legalGuardians.forEach(legalGuardian => {
+         //Add the careusers to the updateDTO
+         legalGuardian.careUsersToAdd = careUsersToAdd;
+
+         // Update the legal guardian
+         this.legalguardiansService
+            .updateLegalGuardian(legalGuardian)
+            .subscribe(
+               res => {},
+               err => {
+                  linkingSuccesfull = false;
+                  this.handleApiError(err);
+               }
+            );
+      });
+
+      // If linking proceeded without errors
+      if (linkingSuccesfull) {
+         this.snackBar.open(
+            'De Voogden en Zorgebruikers werden succesvol gekoppeld.',
+            'OK',
+            { duration: 2000 }
+         );
+      }
    }
 
    handleApiError(err: any) {

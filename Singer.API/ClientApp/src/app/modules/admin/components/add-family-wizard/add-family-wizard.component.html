@@ -1,47 +1,71 @@
-<mat-card class="card__wizard">
+<mat-card class="card">
    <mat-card-header>
       <mat-card-title>Familie Toevoegen</mat-card-title>
    </mat-card-header>
-   <mat-card-content class="card__content__wizard">
+   <mat-card-content class="card-content">
+
+      <!-- Mat-Stepper -->
       <mat-horizontal-stepper linear #stepper>
 
-         <mat-step *ngFor="let wizardStep of wizardSteps; index as i">
-            <ng-template matStepLabel>{{ wizardStep.stepLabel }}</ng-template>
-            <div class="mat-step__body"  [ngClass]="{'mat-step--start': i == 0, 'mat-step--end': i == wizardSteps.length - 1 }">
+         <!-- Mat-Step -->
+         <ng-container *ngFor="let wizardStep of wizardSteps; index as i">
+            <mat-step>
+               <ng-template matStepLabel>{{ wizardStep.stepLabel }}</ng-template>
 
-               <div class="wizard__top-text">
-                  <p>
-                     {{ wizardStep.topText }}
-                  </p>
-               </div>
+               <!-- Mat-Step Body-->
+               <div class="mat-step__body"
+                  [ngClass]="{'mat-step-start': i == 0, 'mat-step-end': i == wizardSteps.length - 1 }">
 
-               <div class="wizard__step__content">
-                  <span>test</span>
-                  <div *ngIf="i > 0 && i < wizardSteps.length - 1">
-                     <button mat-icon-button (click)="handleMainButtonClick(i)">
-                        <mat-icon fontSet="material-icons-outlined" color='primary' class="mat-icon--large">add_box</mat-icon>
-                        {{ wizardStep.mainButtonText }}
+                  <!-- Mat-Step Top Text-->
+                  <div class="body__top-text">
+                     <p>
+                        {{ wizardStep.topText }}
+                     </p>
+                  </div>
+
+                  <!-- Mat-Step Content-->
+                  <div class="body__step-content">
+
+                     <!-- LegalGuardian UserCards -->
+
+                     <!-- Mat Content Divider -->
+
+                     <!-- CareUser UserCards -->
+
+                     <!-- Add User Button -->
+
+                     <ng-container *ngIf="wizardStep.addButtonText != ''">
+                        <div class="body__button-add" (click)="handleAddButtonClick(i)">
+                           <div class="body__button-add__mat-icon">
+                              <!-- Add Button Icon -->
+                              <!-- <img src="../../../../../assets/svg/add_box_outline_primary-lighter.svg"
+                                 alt="Add_Box icon" title="Add_Box icon" class="body__button-add__mat-icon"> -->
+                           </div>
+                           <span class="body__button-add__text">{{ wizardStep.addButtonText }}</span>
+                        </div>
+                     </ng-container>
+                  </div>
+
+                  <!-- Mat-Step Navigation Buttons-->
+                  <div *ngIf="wizardStep.backArrow" class="body__button-back">
+                     <button mat-icon-button (click)="moveStepperBackward()">
+                        <mat-icon>arrow_back</mat-icon>
+                     </button>
+                  </div>
+
+                  <div *ngIf="wizardStep.middleButtonText != ''" class="body__button-middle">
+                     <button mat-raised-button (click)="handleMiddleButtonClick(i)"
+                        color="primary">{{ wizardStep.middleButtonText }}</button>
+                  </div>
+
+                  <div *ngIf="wizardStep.forwardArrow" class="body__button-forward">
+                     <button mat-icon-button (click)="moveStepperForward()">
+                        <mat-icon>arrow_forward</mat-icon>
                      </button>
                   </div>
                </div>
-
-               <div *ngIf="i > 0" class="wizard__button--back">
-                  <button mat-icon-button matStepperPrevious>
-                     <mat-icon>arrow_back</mat-icon>
-                  </button>
-               </div>
-
-               <div *ngIf="i == 0 || i == wizardSteps.length - 1" class="wizard__button--middle">
-                  <button mat-raised-button (click)="handleMainButtonClick(i)" color="primary">{{ wizardStep.mainButtonText }}</button>
-               </div>
-
-               <div *ngIf="i > 0 && i < wizardSteps.length - 1" class="wizard__button--forward">
-                  <button mat-icon-button matStepperNext>
-                     <mat-icon>arrow_forward</mat-icon>
-                  </button>
-               </div>
-            </div>
-         </mat-step>
+            </mat-step>
+         </ng-container>
 
       </mat-horizontal-stepper>
 

@@ -1,6 +1,9 @@
 export class AddFamilyWizardStep {
    stepLabel:string;
    topText:string;
-   mainButtonText:string;
+   addButtonText:string;
+   middleButtonText:string;
+   backArrow:boolean;
+   forwardArrow: boolean;
    UserTypeToAdd: Object;
 }
