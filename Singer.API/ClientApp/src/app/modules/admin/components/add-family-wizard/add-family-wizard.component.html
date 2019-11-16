@@ -18,9 +18,7 @@
 
                   <!-- Mat-Step Top Text-->
                   <div class="body__top-text">
-                     <p>
-                        {{ wizardStep.topText }}
-                     </p>
+                     <p>{{ wizardStep.topText }}</p>
                   </div>
 
                   <!-- Mat-Step Content-->
@@ -33,17 +31,13 @@
                      <!-- CareUser UserCards -->
 
                      <!-- Add User Button -->
-
                      <ng-container *ngIf="wizardStep.addButtonText != ''">
                         <div class="body__button-add" (click)="handleAddButtonClick(i)">
-                           <div class="body__button-add__mat-icon">
-                              <!-- Add Button Icon -->
-                              <!-- <img src="../../../../../assets/svg/add_box_outline_primary-lighter.svg"
-                                 alt="Add_Box icon" title="Add_Box icon" class="body__button-add__mat-icon"> -->
-                           </div>
+                           <div class="body__button-add__mat-icon"></div>
                            <span class="body__button-add__text">{{ wizardStep.addButtonText }}</span>
                         </div>
                      </ng-container>
+
                   </div>
 
                   <!-- Mat-Step Navigation Buttons-->
@@ -63,6 +57,7 @@
                         <mat-icon>arrow_forward</mat-icon>
                      </button>
                   </div>
+
                </div>
             </mat-step>
          </ng-container>
