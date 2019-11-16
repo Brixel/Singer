@@ -65,20 +65,4 @@ export class LegalguardiansService {
          .createLegalGuardian(createLegalGuardianDTO)
          .pipe(map(res => res));
    }
-
-   convertDTOToUpdateDTO(legalGuardianDTO: LegalGuardianDTO): UpdateLegalGuardianDTO {
-      const updateLegalGuardianDTO = <UpdateLegalGuardianDTO>{
-         firstName: legalGuardianDTO.firstName,
-         lastName: legalGuardianDTO.lastName,
-         email: legalGuardianDTO.email,
-         address: legalGuardianDTO.address,
-         postalCode: legalGuardianDTO.postalCode,
-         city: legalGuardianDTO.city,
-         country: legalGuardianDTO.country,
-         careUsersToAdd: [''],
-         careUsersToRemove: [''],
-      };
-
-      return updateLegalGuardianDTO;
-   }
 }
