@@ -17,6 +17,12 @@
 
                <div class="wizard__step__content">
                   <span>test</span>
+                  <div *ngIf="i > 0 && i < wizardSteps.length - 1">
+                     <button mat-icon-button (click)="handleMainButtonClick(i)">
+                        <mat-icon fontSet="material-icons-outlined" color='primary' class="mat-icon--large">add_box</mat-icon>
+                        {{ wizardStep.mainButtonText }}
+                     </button>
+                  </div>
                </div>
 
                <div *ngIf="i > 0" class="wizard__button--back">
@@ -25,8 +31,8 @@
                   </button>
                </div>
 
-               <div class="wizard__button--middle">
-                  <button mat-raised-button matStepperNext color="primary">{{ wizardStep.mainButtonText }}</button>
+               <div *ngIf="i == 0 || i == wizardSteps.length - 1" class="wizard__button--middle">
+                  <button mat-raised-button (click)="handleMainButtonClick(i)" color="primary">{{ wizardStep.mainButtonText }}</button>
                </div>
 
                <div *ngIf="i > 0 && i < wizardSteps.length - 1" class="wizard__button--forward">

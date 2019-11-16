@@ -69,3 +69,13 @@
 .mat-step--end {
 
 }
+
+/*
+   =============
+       Fonts
+   =============
+*/
+
+.mat-icon--large {
+   font-size: 10em;
+}
