@@ -43,10 +43,10 @@
    min-height: 60vh;
    display: grid;
    grid-template:
-   "toptext toptext  toptext    toptext     toptext" 2rem
-   "content content  content    content     content" auto
-   "....... btn-back btn-middle btn-forward ......." 6rem
-   /1fr minmax(6rem, auto) minmax(80%, auto) minmax(6rem, auto) 1fr;
+      'toptext toptext  toptext    toptext     toptext' 2rem
+      'content content  content    content     content' auto
+      '....... btn-back btn-middle btn-forward .......' 6rem
+      /1fr minmax(6rem, auto) minmax(80%, auto) minmax(6rem, auto) 1fr;
 }
 
 /*
@@ -108,7 +108,7 @@
    position: absolute;
    top: 3rem;
    min-height: 20rem;
-   border-left: 1px solid #E0E0E0;
+   border-left: 1px solid #e0e0e0;
 }
 
 /*
@@ -145,7 +145,7 @@
 */
 
 .img-container__img {
-   width:60%;
+   width: 60%;
 }
 
 .body__button-add__img {
@@ -178,6 +178,6 @@
    white-space: nowrap;
 }
 
-.body__button-add:hover .body__button-add__text{
+.body__button-add:hover .body__button-add__text {
    color: #4a88da;
 }

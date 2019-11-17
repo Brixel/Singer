@@ -75,7 +75,7 @@ export class AddFamilyWizardComponent implements OnInit {
       careUsers: [],
       careUsersToAdd: [],
       careUsersToRemove: [],
-   }
+   };
 
    testCareUser: CareUser = {
       id: '1',
@@ -96,13 +96,13 @@ export class AddFamilyWizardComponent implements OnInit {
       legalGuardianUsersToRemove: [],
    };
 
-   testAdminUser:AdminUser = {
+   testAdminUser: AdminUser = {
       id: '4',
       firstName: 'Wim',
       lastName: 'Van Laer',
       email: 'wim.vanlaer@outlook.com',
       userName: 'wim',
-   }
+   };
 
    constructor(
       public dialog: MatDialog,
@@ -209,9 +209,7 @@ export class AddFamilyWizardComponent implements OnInit {
       );
    }
 
-   deleteLegalGuardian(legalGuardian: LegalGuardian): void {
-
-   }
+   deleteLegalGuardian(legalGuardian: LegalGuardian): void {}
 
    addCareUser(): void {
       const dialogRef = this.dialog.open(CareUserDetailsComponent, {
@@ -248,7 +246,6 @@ export class AddFamilyWizardComponent implements OnInit {
       });
 
       dialogRef.componentInstance.submitEvent.subscribe((result: CareUser) => {
-
          // Update the Careuser
          this.careUserService.updateUser(result).subscribe(
             () => {
@@ -265,9 +262,7 @@ export class AddFamilyWizardComponent implements OnInit {
       });
    }
 
-   deleteCareUser(careUser: CareUser): void {
-
-   }
+   deleteCareUser(careUser: CareUser): void {}
 
    linkUsers(): void {
       //collect all the careUser id's

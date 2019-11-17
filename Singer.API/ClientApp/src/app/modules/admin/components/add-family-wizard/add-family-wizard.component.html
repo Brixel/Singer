@@ -46,8 +46,8 @@
                         </div>
 
                         <ng-container *ngFor="let legalGuardian of legalGuardians">
-                           <app-detailed-user-card [user]="legalGuardian" color="#18a945" (edit)="editLegalGuardian(legalGuardian)"
-                              (delete)="deleteLegalGuardian(legalGuardian)">
+                           <app-detailed-user-card [user]="legalGuardian" color="#18a945"
+                              (edit)="editLegalGuardian(legalGuardian)" (delete)="deleteLegalGuardian(legalGuardian)">
                            </app-detailed-user-card>
                         </ng-container>
 
