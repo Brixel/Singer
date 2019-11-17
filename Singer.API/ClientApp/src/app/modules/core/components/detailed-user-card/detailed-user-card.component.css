@@ -9,7 +9,6 @@
 }
 
 .card-content {
-   min-width: 15em;
    min-height: 25em;
 }
 
@@ -19,12 +18,59 @@
    =============
 */
 
-.card-content {
+.card {
    position: relative;
+}
+
+.card-content {
    display: grid;
    grid-template:
-   "head" 30%
+   "head" 6em
    "body" auto
-   "edit delete" minmax(1fr, 20%)
-   / 1fr 1fr;
+   "buttons" 5em
+   / minmax(12em, 15em);
+}
+
+.head {
+   grid-area: head;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+}
+
+.body {
+   grid-area: body;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: flex-start;
+}
+
+.body__info__mail,
+.body__info__adress,
+.body__info__birthdate,
+.body__info__agegroup
+ {
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: flex-start;
+   margin: 0.5em;
+}
+
+.buttons {
+   grid-area: buttons;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: center;
+}
+
+.buttons__edit {
+   margin: 15%;
+}
+
+.buttons__delete {
+   margin: 15%;
 }
