@@ -128,9 +128,7 @@ namespace Singer.Services
             }).ToListAsync();
          var eventSlotDictionary = emptyEventSlots.ToDictionary(x => x.Id);
 
-         var filteredItems = Context.EventRegistrations
-            .Include(x => x.CareUser)
-            .ThenInclude(x => x.User)
+         var filteredItems = Queryable
             .Where(x => x.EventSlot.EventId == eventId);
          var totalItemCount = await filteredItems
             .CountAsync()
