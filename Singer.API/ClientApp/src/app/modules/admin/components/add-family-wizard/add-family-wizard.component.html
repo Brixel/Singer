@@ -28,10 +28,14 @@
                      <app-detailed-user-card [user]="testLegalGuardian" color="#18a945" (edit)="ngOnInit()" (delete)="ngOnInit()"></app-detailed-user-card>
 
                      <!-- Mat Content Divider -->
-                     <!-- <mat-divider vertical></mat-divider> -->
+                     <div class="step-content__divider">
+                        <div class="divider__line"></div>
+                     </div>
+
                      <!-- CareUser UserCards -->
                      <app-detailed-user-card [user]="testCareUser" color="#ff43a1" (edit)="ngOnInit()" (delete)="ngOnInit()"></app-detailed-user-card>
                      <app-detailed-user-card [user]="testAdminUser" color="#a143ff" (edit)="ngOnInit()" (delete)="ngOnInit()"></app-detailed-user-card>
+
                      <!-- Add User Button -->
                      <ng-container *ngIf="wizardStep.addButtonText != ''">
                         <div class="body__button-add" (click)="handleAddButtonClick(i)">

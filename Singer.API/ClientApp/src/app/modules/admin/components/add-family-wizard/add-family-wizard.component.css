@@ -33,11 +33,18 @@
 }
 
 .body__step-content {
+   position: relative;
    grid-area: content;
    display: flex;
    flex-direction: row;
    align-items: center;
    justify-content: flex-start;
+   overflow: auto;
+   overflow-y: hidden;
+}
+
+.step-content__divider {
+   margin: 1em;
 }
 
 .body__button-add {
@@ -100,10 +107,6 @@
    =============
 */
 
-.mat-icon--large {
-
-}
-
 .body__button-add__text {
    margin-top: 0.5em;
    color: #b3b3b3;
@@ -111,4 +114,17 @@
 
 .body__button-add:hover .body__button-add__text{
    color: #4a88da;
+}
+
+/*
+   =============
+   Element styles
+   =============
+*/
+
+.divider__line {
+   position: absolute;
+   top: 1.5rem;
+   min-height: 20rem;
+   border-left: 2px solid #b3b3b3;
 }

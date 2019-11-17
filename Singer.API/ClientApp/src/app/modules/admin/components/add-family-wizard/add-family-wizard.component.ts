@@ -67,7 +67,7 @@ export class AddFamilyWizardComponent implements OnInit {
       id: '2',
       firstName: 'Dorien',
       lastName: 'Dokedomi',
-      email: 'dorien.dokedomi@gmail.commmmmmmmmmm',
+      email: 'dorien.dokedomi@gmail.com',
       address: 'Spalbeekstraat 34',
       postalCode: '3556',
       city: 'Hasselt',
@@ -81,7 +81,7 @@ export class AddFamilyWizardComponent implements OnInit {
       id: '1',
       firstName: 'Berend',
       lastName: 'Wouters',
-      email: 'berend.wouters@gmail.commmmmmmmmmm',
+      email: 'berend.wouters@gmail.com',
       userName: 'berend',
       birthDay: new Date(),
       caseNumber: '1234567890',
@@ -100,7 +100,7 @@ export class AddFamilyWizardComponent implements OnInit {
       id: '4',
       firstName: 'Wim',
       lastName: 'Van Laer',
-      email: 'wim.vanlaer@outlook.commmmmmmmmmm',
+      email: 'wim.vanlaer@outlook.com',
       userName: 'wim',
    }
 

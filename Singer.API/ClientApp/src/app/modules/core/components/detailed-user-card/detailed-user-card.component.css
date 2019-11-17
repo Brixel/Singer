@@ -1,32 +1,41 @@
 /*
-   =============
-     Variables
-   =============
+   Table of Contents:
+
+   1. Variables
+   2. Global Styles
+   3. Fonts
+   4. Layout
+   5. Background
+*/
+
+/*
+   ===============
+     1. Variables
+   ===============
 */
 
 .card {
    --font-size: 1em;
-   --min-width: 12em;
-   --max-width: 15em;
+   --card-width: 16em;
    --head-height: 8em;
    --body-height: 10em;
    --buttons-height: 5em;
 }
 
 /*
-   =============
-   Global Styles
-   =============
+   ===============
+   2. Global Styles
+   ===============
 */
 
 .card {
-   margin: 10px;
+   margin: calc(var(--font-size) / 2);
 }
 
 /*
-   =============
-       Fonts
-   =============
+   ===============
+      3. Fonts
+   ===============
 */
 
 .card-content {
@@ -43,9 +52,9 @@
 }
 
 /*
-   =============
-      Layout
-   =============
+   ===============
+      4. Layout
+   ===============
 */
 
 .card-content {
@@ -55,7 +64,7 @@
       'head' var(--head-height)
       'body' var(--body-height)
       'buttons' var(--buttons-height)
-      / minmax(var(--min-width), var(--max-width));
+      / var(--card-width);
 }
 
 .head {
@@ -77,6 +86,10 @@
 
 .head__title {
    margin-top: 1em;
+   max-width: calc(var(--card-width) - 3em);
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   overflow: hidden;
 }
 
 .body {
@@ -99,7 +112,7 @@
 }
 
 .body__info__text {
-   max-width: calc(var(--max-width) - 1em);
+   max-width: calc(var(--card-width) - 1em);
    text-overflow: ellipsis;
    white-space: nowrap;
    overflow: hidden;
@@ -130,9 +143,9 @@
 }
 
 /*
-   =============
-     Background
-   =============
+   ===============
+    5. Background
+   ===============
 */
 
 .head__initials {
