@@ -9,7 +9,7 @@
 }
 
 .card-content {
-   min-height: 25em;
+   height: 25em;
 }
 
 /*
@@ -25,8 +25,8 @@
 .card-content {
    display: grid;
    grid-template:
-   "head" 6em
-   "body" auto
+   "head" 10em
+   "body" 10em
    "buttons" 5em
    / minmax(12em, 15em);
 }
