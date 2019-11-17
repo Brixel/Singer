@@ -8,7 +8,8 @@ import { AgeGroup } from '../../models/enum';
 })
 export class AgegroupChipsComponent implements OnInit {
 
-   @Input() agegroups: AgeGroup[] = [];
+   @Input() agegroups: AgeGroup[];
+   @Input() agegroup: AgeGroup;
 
   constructor() { }
 

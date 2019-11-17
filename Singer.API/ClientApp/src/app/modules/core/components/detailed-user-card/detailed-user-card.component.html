@@ -32,7 +32,7 @@
                   </div>
                </div>
                <div class="body__info__agegroup" *ngIf="user?.ageGroup">
-                  <mat-chip>{{ user?.ageGroup | agegroupPipe }}</mat-chip>
+                  <app-agegroup-chips [agegroup]="user?.ageGroup"></app-agegroup-chips>
                </div>
             </div>
          </div>

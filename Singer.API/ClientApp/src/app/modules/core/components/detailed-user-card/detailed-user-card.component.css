@@ -6,7 +6,6 @@
 
 .card {
    margin: 16px;
-   position: relative;
 }
 
 /*
@@ -35,6 +34,7 @@
 */
 
 .card-content {
+   position: relative;
    display: grid;
    grid-template:
    "head" 10em
