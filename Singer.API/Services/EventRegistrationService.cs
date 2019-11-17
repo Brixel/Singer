@@ -119,6 +119,15 @@ namespace Singer.Services
          if (itemsPerPage < 1)
             throw new BadInputException("Invalid pageSize provided");
 
+         var emptyEventSlots = await Context.EventSlots.Where(x => x.EventId == eventId)
+            .Select(x => new EventSlotRegistrationsDTO
+            {
+               Id = x.Id,
+               StartDateTime = x.StartDateTime,
+               EndDateTime = x.EndDateTime
+            }).ToListAsync();
+         var eventSlotDictionary = emptyEventSlots.ToDictionary(x => x.Id);
+
          var filteredItems = Context.EventRegistrations
             .Include(x => x.CareUser)
             .ThenInclude(x => x.User)
@@ -133,8 +142,8 @@ namespace Singer.Services
                .Select(x => new EventSlotRegistrationsDTO()
                {
                   Id = x.Key,
-                  StartDateTime = x.First().EventSlot.StartDateTime,
-                  EndDateTime = x.First().EventSlot.EndDateTime,
+                  StartDateTime = eventSlotDictionary[x.Key].StartDateTime,
+                  EndDateTime = eventSlotDictionary[x.Key].EndDateTime,
                   Registrations = x.Select(reg => new EventCareUserRegistrationDTO(){
                      RegistrationId = reg.Id,
                      CareUserId = reg.CareUserId,
@@ -148,7 +157,14 @@ namespace Singer.Services
                .ToListAsync()
                .ConfigureAwait(false);
 
-         return new SearchResults<EventSlotRegistrationsDTO>(list, totalItemCount, pageIndex);
+         var allEventSlots = new List<EventSlotRegistrationsDTO>();
+         foreach (var emptyEventSlot in emptyEventSlots)
+         {
+            var eventSlot = list.SingleOrDefault(x => x.Id == emptyEventSlot.Id);
+            allEventSlots.Add(eventSlot ?? emptyEventSlot);
+         }
+
+         return new SearchResults<EventSlotRegistrationsDTO>(allEventSlots, totalItemCount, pageIndex);
       }
 
       public async Task<EventRegistrationDTO> GetOneBySlotAsync(Guid eventSlotId, Guid careUserId)
