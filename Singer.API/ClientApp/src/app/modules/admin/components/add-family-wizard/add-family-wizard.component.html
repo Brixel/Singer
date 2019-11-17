@@ -13,8 +13,22 @@
                <ng-template matStepLabel>{{ wizardStep.stepLabel }}</ng-template>
 
                <!-- Mat-Step Body-->
-               <div class="mat-step__body"
-                  [ngClass]="{'mat-step-start': i == 0, 'mat-step-end': i == wizardSteps.length - 1 }">
+               <div class="mat-step__body">
+
+                  <!-- Background Images -->
+                  <ng-container *ngIf="i == 0">
+                     <div class="body__img-container">
+                        <img src="../../../../../assets/svg/FamilyWizardStartLogo.svg" alt="Achtergrond Afbeelding"
+                           title="Achtergrond Afbeelding" class="img-container__img">
+                     </div>
+                  </ng-container>
+
+                  <ng-container *ngIf="i == wizardSteps.length - 1">
+                     <div class="body__img-container">
+                        <img src="../../../../../assets/svg/FamilyWizardFinishLogo.svg" alt="Achtergrond Afbeelding"
+                           title="Achtergrond Afbeelding" class="img-container__img">
+                     </div>
+                  </ng-container>
 
                   <!-- Mat-Step Top Text-->
                   <div class="body__top-text">
@@ -25,22 +39,64 @@
                   <div class="body__step-content">
 
                      <!-- LegalGuardian UserCards -->
-                     <app-detailed-user-card [user]="testLegalGuardian" color="#18a945" (edit)="ngOnInit()" (delete)="ngOnInit()"></app-detailed-user-card>
+                     <div class="step-content__legalguardian-user-cards">
+
+                        <div *ngIf="i > 0 && i < wizardSteps.length - 1" class="legalguardian-user-cards__label">
+                           Voogden:
+                        </div>
+
+                        <ng-container *ngFor="let legalGuardian of legalGuardians">
+                           <app-detailed-user-card [user]="legalGuardian" color="#18a945" (edit)="editLegalGuardian(legalGuardian)"
+                              (delete)="deleteLegalGuardian(legalGuardian)">
+                           </app-detailed-user-card>
+                        </ng-container>
+
+                        <app-detailed-user-card [user]="testLegalGuardian" color="#18a945" (edit)="ngOnInit()"
+                           (delete)="ngOnInit()">
+                        </app-detailed-user-card>
+
+                     </div>
 
                      <!-- Mat Content Divider -->
-                     <div class="step-content__divider">
+                     <div *ngIf="i > 1 && i < wizardSteps.length - 1" class="step-content__divider">
                         <div class="divider__line"></div>
                      </div>
 
                      <!-- CareUser UserCards -->
-                     <app-detailed-user-card [user]="testCareUser" color="#ff43a1" (edit)="ngOnInit()" (delete)="ngOnInit()"></app-detailed-user-card>
-                     <app-detailed-user-card [user]="testAdminUser" color="#a143ff" (edit)="ngOnInit()" (delete)="ngOnInit()"></app-detailed-user-card>
+                     <div class="step-content__careuser-user-cards">
 
+                        <div *ngIf="i > 1 && i < wizardSteps.length - 1" class="careuser-user-cards__label">
+                           Zorggebruikers:
+                        </div>
+
+                        <ng-container *ngFor="let careUser of careUsers">
+                           <app-detailed-user-card [user]="careUser" color="#18a945" (edit)="editCareUser(careUser)"
+                              (delete)="deleteCareUser(careUser)">
+                           </app-detailed-user-card>
+                        </ng-container>
+
+                        <app-detailed-user-card [user]="testCareUser" color="#ff43a1" (edit)="ngOnInit()"
+                           (delete)="ngOnInit()">
+                        </app-detailed-user-card>
+
+                        <app-detailed-user-card [user]="testAdminUser" color="#a143ff" (edit)="ngOnInit()"
+                           (delete)="ngOnInit()">
+                        </app-detailed-user-card>
+
+                     </div>
                      <!-- Add User Button -->
                      <ng-container *ngIf="wizardStep.addButtonText != ''">
                         <div class="body__button-add" (click)="handleAddButtonClick(i)">
-                           <div class="body__button-add__mat-icon"></div>
+
+                           <img src="../../../../../assets/svg/add_box_outline_grey.svg" alt="Toevoegen knop icoon"
+                              title="Toevoegen knop icoon" class="body__button-add__img img--default">
+
+                           <img src="../../../../../assets/svg/add_box_outline_primary-lighter.svg"
+                              alt="Toevoegen knop icoon" title="Toevoegen knop icoon"
+                              class="body__button-add__img img--hover">
+
                            <span class="body__button-add__text">{{ wizardStep.addButtonText }}</span>
+
                         </div>
                      </ng-container>
 

@@ -182,6 +182,37 @@ export class AddFamilyWizardComponent implements OnInit {
       );
    }
 
+   editLegalGuardian(legalGuardian: LegalGuardian): void {
+      //Dereference legalGuardian to avoid updating local instance when API might refuse the update
+      const deRefLegalGuardian = { ...legalGuardian };
+      const dialogRef = this.dialog.open(LegalguardianDetailsComponent, {
+         data: { legalGuardianInstance: deRefLegalGuardian, isAdding: false },
+         width: '80vw',
+      });
+
+      dialogRef.componentInstance.submitEvent.subscribe(
+         (result: LegalGuardian) => {
+            //Update the legal guardian
+            this.legalguardiansService.updateLegalGuardian(result).subscribe(
+               res => {
+                  this.snackBar.open(
+                     `${result.firstName} ${result.lastName} werd aangepast.`,
+                     'OK',
+                     { duration: 2000 }
+                  );
+               },
+               err => {
+                  this.handleApiError(err);
+               }
+            );
+         }
+      );
+   }
+
+   deleteLegalGuardian(legalGuardian: LegalGuardian): void {
+
+   }
+
    addCareUser(): void {
       const dialogRef = this.dialog.open(CareUserDetailsComponent, {
          data: { careUserInstance: null, isAdding: true },
@@ -206,6 +237,36 @@ export class AddFamilyWizardComponent implements OnInit {
             }
          );
       });
+   }
+
+   editCareUser(careUser: CareUser): void {
+      //Dereference careUser to avoid updating local instance when API might refuse the update
+      const deRefCareUser = { ...careUser };
+      const dialogRef = this.dialog.open(CareUserDetailsComponent, {
+         data: { careUserInstance: deRefCareUser, isAdding: false },
+         width: '80vw',
+      });
+
+      dialogRef.componentInstance.submitEvent.subscribe((result: CareUser) => {
+
+         // Update the Careuser
+         this.careUserService.updateUser(result).subscribe(
+            () => {
+               this.snackBar.open(
+                  `Gebruiker ${result.firstName} ${result.lastName} werd aangepast.`,
+                  'OK',
+                  { duration: 2000 }
+               );
+            },
+            err => {
+               this.handleApiError(err);
+            }
+         );
+      });
+   }
+
+   deleteCareUser(careUser: CareUser): void {
+
    }
 
    linkUsers(): void {

@@ -1,7 +1,22 @@
 /*
-   =============
-   Global Styles
-   =============
+   Table of Contents:
+
+   1. Global Styles
+   2. Layout
+      2.1 Card Layout
+      2.2 step body Layout
+      2.3 body background Layout
+      2.4 body toptext Layout
+      2.5 body content Layout
+      2.7 button Layout
+   3. Images
+   4. Fonts
+*/
+
+/*
+   ================
+   1. Global Styles
+   ================
 */
 
 .card {
@@ -9,30 +24,54 @@
 }
 
 /*
-   =============
-      Layout
-   =============
+   ================
+   2. Layout
+   ================
 */
 
+/*
+   2.1 Card Layout
+*/
 .card-content {
    position: relative;
 }
 
+/*
+   2.2 step body Layout
+*/
 .mat-step__body {
    min-height: 60vh;
    display: grid;
    grid-template:
-   ". ........ toptext    ........... ." 2em
-   ". content  content    content     ." auto
-   ". btn-back btn-middle btn-forward ." 6em
-   /1fr minmax(6em, auto) minmax(80%, auto) minmax(6em, auto) 1fr;
+   "toptext toptext  toptext    toptext     toptext" 2rem
+   "content content  content    content     content" auto
+   "....... btn-back btn-middle btn-forward ......." 6rem
+   /1fr minmax(6rem, auto) minmax(80%, auto) minmax(6rem, auto) 1fr;
 }
 
+/*
+   2.3 body background Layout
+*/
+.body__img-container {
+   grid-column: 3 / 4;
+   grid-row: content;
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+}
+
+/*
+   2.4 body toptext Layout
+*/
 .body__top-text {
    grid-area: toptext;
 }
 
+/*
+   2.5 body content Layout
+*/
 .body__step-content {
+   padding-top: 1.5rem;
    position: relative;
    grid-area: content;
    display: flex;
@@ -43,10 +82,38 @@
    overflow-y: hidden;
 }
 
+.step-content__legalguardian-user-cards,
+.step-content__careuser-user-cards {
+   position: relative;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: flex-start;
+   min-height: 20rem;
+   min-width: 5rem;
+}
+
+.legalguardian-user-cards__label,
+.careuser-user-cards__label {
+   position: absolute;
+   bottom: 100%;
+   left: 1rem;
+}
+
 .step-content__divider {
    margin: 1em;
 }
 
+.divider__line {
+   position: absolute;
+   top: 3rem;
+   min-height: 20rem;
+   border-left: 1px solid #E0E0E0;
+}
+
+/*
+   2.7 button Layout
+*/
 .body__button-add {
    position: relative;
    display: flex;
@@ -72,59 +139,45 @@
 }
 
 /*
-   =============
-     Background
-   =============
+   ================
+   3. Images
+   ================
 */
 
-.mat-step-start {
-   /* background-image: url(../../../../../assets/svg/FamilyWizardStartLogo.svg);
-   background-repeat: no-repeat; */
+.img-container__img {
+   width:60%;
 }
 
-.mat-step-end {
-   /* background-image: url(../../../../../assets/svg/FamilyWizardFinishLogo.svg);
-   background-repeat: no-repeat; */
-}
-
-.body__button-add__mat-icon {
+.body__button-add__img {
    min-width: 7em;
    min-height: 7em;
-   background-image: url(../../../../../assets/svg/add_box_outline_grey.svg);
-   background-repeat: no-repeat;
 }
 
-.body__button-add:hover .body__button-add__mat-icon {
-   min-width: 7em;
-   min-height: 7em;
-   background-image: url(../../../../../assets/svg/add_box_outline_primary-lighter.svg);
-   background-repeat: no-repeat;
+.img--hover {
+   display: none;
+}
+
+.body__button-add:hover .img--hover {
+   display: inline;
+}
+
+.body__button-add:hover .img--default {
+   display: none;
 }
 
 /*
-   =============
-       Fonts
-   =============
+   ================
+   4. Fonts
+   ================
 */
 
 .body__button-add__text {
    margin-top: 0.5em;
    color: #b3b3b3;
+   word-wrap: none;
+   white-space: nowrap;
 }
 
 .body__button-add:hover .body__button-add__text{
    color: #4a88da;
-}
-
-/*
-   =============
-   Element styles
-   =============
-*/
-
-.divider__line {
-   position: absolute;
-   top: 1.5rem;
-   min-height: 20rem;
-   border-left: 2px solid #b3b3b3;
 }
