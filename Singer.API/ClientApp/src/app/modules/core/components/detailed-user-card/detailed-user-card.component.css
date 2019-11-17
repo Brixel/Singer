@@ -1,11 +1,26 @@
 /*
    =============
+     Variables
+   =============
+*/
+
+.card {
+   --font-size: 1em;
+   --min-width: 12em;
+   --max-width: 15em;
+   --head-height: 8em;
+   --body-height: 10em;
+   --buttons-height: 5em;
+}
+
+/*
+   =============
    Global Styles
    =============
 */
 
 .card {
-   margin: 16px;
+   margin: 10px;
 }
 
 /*
@@ -15,7 +30,7 @@
 */
 
 .card-content {
-   font-size: 0.8em;
+   font-size: var(--font-size);
 }
 
 .head__initials {
@@ -37,10 +52,10 @@
    position: relative;
    display: grid;
    grid-template:
-   "head" 10em
-   "body" 10em
-   "buttons" 5em
-   / minmax(12em, 15em);
+      'head' var(--head-height)
+      'body' var(--body-height)
+      'buttons' var(--buttons-height)
+      / minmax(var(--min-width), var(--max-width));
 }
 
 .head {
@@ -48,7 +63,7 @@
    display: flex;
    flex-direction: column;
    align-items: center;
-   justify-content: center;
+   justify-content: flex-start;
 }
 
 .head__initials {
@@ -75,13 +90,23 @@
 .body__info__mail,
 .body__info__address,
 .body__info__birthdate,
-.body__info__agegroup
- {
+.body__info__agegroup {
    display: flex;
    flex-direction: row;
    align-items: center;
    justify-content: flex-start;
    margin: 0.5em;
+}
+
+.body__info__text {
+   max-width: calc(var(--max-width) - 1em);
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   overflow: hidden;
+}
+
+.body__info__agegroup {
+   margin-top: 1em;
 }
 
 .body__info__text {

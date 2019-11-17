@@ -22,9 +22,9 @@
    min-height: 60vh;
    display: grid;
    grid-template:
-   ". ......... toptext    ............ ." 2em
-   ". ......... content    ............ ." auto
-   ". btn-back  btn-middle btn-forward  ." 6em
+   ". ........ toptext    ........... ." 2em
+   ". content  content    content     ." auto
+   ". btn-back btn-middle btn-forward ." 6em
    /1fr minmax(6em, auto) minmax(80%, auto) minmax(6em, auto) 1fr;
 }
 
