@@ -16,7 +16,7 @@
       <div *ngIf="user.birthDay">Geboortedatum: {{ user.birthDay | date }}</div>
    </mat-card-content>
    <mat-card-actions>
-      <button mat-stroked-button color="" (click)="deleteUser()">
+      <button mat-stroked-button color="" (click)="deleteUser()" type="button">
          Verwijderen
       </button>
    </mat-card-actions>
