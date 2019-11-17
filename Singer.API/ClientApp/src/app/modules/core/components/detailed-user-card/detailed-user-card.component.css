@@ -6,10 +6,26 @@
 
 .card {
    margin: 16px;
+   position: relative;
 }
 
+/*
+   =============
+       Fonts
+   =============
+*/
+
 .card-content {
-   height: 25em;
+   font-size: 0.8em;
+}
+
+.head__initials {
+   font-size: 2.5em;
+   color: white;
+}
+
+.head__title {
+   font-size: 1.3em;
 }
 
 /*
@@ -17,10 +33,6 @@
       Layout
    =============
 */
-
-.card {
-   position: relative;
-}
 
 .card-content {
    display: grid;
@@ -37,6 +49,19 @@
    flex-direction: column;
    align-items: center;
    justify-content: center;
+}
+
+.head__initials {
+   width: 2em;
+   height: 2em;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+}
+
+.head__title {
+   margin-top: 1em;
 }
 
 .body {
@@ -59,6 +84,10 @@
    margin: 0.5em;
 }
 
+.body__info__text {
+   margin-left: 0.5em;
+}
+
 .buttons {
    grid-area: buttons;
    display: flex;
@@ -73,4 +102,14 @@
 
 .buttons__delete {
    margin: 15%;
+}
+
+/*
+   =============
+     Background
+   =============
+*/
+
+.head__initials {
+   border-radius: 50%;
 }

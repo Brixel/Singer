@@ -3,7 +3,7 @@
       <div class="card-content">
 
          <div class="head">
-            <div class="head__initials">
+            <div class="head__initials" [ngStyle]="{'background': color}">
                {{ user?.firstName.toUpperCase().charAt(0) + user.lastName?.toUpperCase().charAt(0) }}
             </div>
             <div class="head__title">
@@ -15,15 +15,21 @@
             <div class="body__info">
                <div class="body__info__mail" *ngIf="user?.email">
                   <mat-icon color="primary">email</mat-icon>
-                  {{ user?.email }}
+                  <div class="body__info__text">
+                     {{ user?.email }}
+                  </div>
                </div>
                <div class="body__info__adress" *ngIf="user?.adress">
                   <mat-icon color="primary">house</mat-icon>
-                  {{ user?.adress }}
+                  <div class="body__info__text">
+                     {{ user?.adress }}
+                  </div>
                </div>
                <div class="body__info__birthdate" *ngIf="user?.birthDay">
                   <mat-icon color="primary">calendar_today</mat-icon>
-                  {{ user?.birthDay | date: 'dd-MM-yyyy' }}
+                  <div class="body__info__text">
+                     {{ user?.birthDay | date: 'dd-MM-yyyy' }}
+                  </div>
                </div>
                <div class="body__info__agegroup" *ngIf="user?.ageGroup">
                   <mat-chip>{{ user?.agegroup | agegroupPipe }}</mat-chip>
