@@ -19,10 +19,10 @@
                      {{ user?.email }}
                   </div>
                </div>
-               <div class="body__info__adress" *ngIf="user?.adress">
+               <div class="body__info__address" *ngIf="user?.address">
                   <mat-icon color="primary">house</mat-icon>
                   <div class="body__info__text">
-                     {{ user?.adress }}
+                     {{ user?.address }}
                   </div>
                </div>
                <div class="body__info__birthdate" *ngIf="user?.birthDay">
@@ -32,7 +32,7 @@
                   </div>
                </div>
                <div class="body__info__agegroup" *ngIf="user?.ageGroup">
-                  <mat-chip>{{ user?.agegroup | agegroupPipe }}</mat-chip>
+                  <mat-chip>{{ user?.ageGroup | agegroupPipe }}</mat-chip>
                </div>
             </div>
          </div>

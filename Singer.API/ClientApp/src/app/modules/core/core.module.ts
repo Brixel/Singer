@@ -11,8 +11,6 @@ import { DailybasisRegistrationsComponent } from './components/dailybasis-regist
 import { SingleRegistrationComponent } from './components/single-registration/single-registration.component';
 import { DetailedUserCardComponent } from './components/detailed-user-card/detailed-user-card.component';
 
-
-
 export const MY_FORMATS = {
    parse: {
      dateInput: 'D-MM-YYYY',

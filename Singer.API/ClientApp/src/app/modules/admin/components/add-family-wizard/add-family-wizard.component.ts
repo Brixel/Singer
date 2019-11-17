@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { CareUserService } from 'src/app/modules/core/services/care-users-api/careusers.service';
 import { LegalguardiansService } from 'src/app/modules/core/services/legal-guardians-api/legalguardians.service';
 import { AgeGroup } from 'src/app/modules/core/models/enum';
+import { AdminUser } from 'src/app/modules/core/models/adminuser.model';
 
 @Component({
    selector: 'app-add-family-wizard',
@@ -62,7 +63,21 @@ export class AddFamilyWizardComponent implements OnInit {
    legalGuardians: LegalGuardian[] = [];
    careUsers: CareUser[] = [];
 
-   testUser: CareUser = {
+   testLegalGuardian: LegalGuardian = {
+      id: '2',
+      firstName: 'Dorien',
+      lastName: 'Dokedomi',
+      email: 'dorien.dokedomi@gmail.com',
+      address: 'Spalbeekstraat 34',
+      postalCode: '3556',
+      city: 'Hasselt',
+      country: 'Belgium',
+      careUsers: [],
+      careUsersToAdd: [],
+      careUsersToRemove: [],
+   }
+
+   testCareUser: CareUser = {
       id: '1',
       firstName: 'Berend',
       lastName: 'Wouters',
@@ -80,6 +95,14 @@ export class AddFamilyWizardComponent implements OnInit {
       legalGuardianUsersToAdd: [],
       legalGuardianUsersToRemove: [],
    };
+
+   testAdminUser:AdminUser = {
+      id: '4',
+      firstName: 'Wim',
+      lastName: 'Van Laer',
+      email: 'wim.vanlaer@outlook.com',
+      userName: 'wim',
+   }
 
    constructor(
       public dialog: MatDialog,
