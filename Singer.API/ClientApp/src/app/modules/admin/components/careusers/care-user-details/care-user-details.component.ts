@@ -40,6 +40,7 @@ import { MY_FORMATS } from 'src/app/modules/core/core.module';
 export interface CareUserDetailsFormData {
    careUserInstance: CareUser;
    isAdding: boolean;
+   displayContactFields: boolean;
 }
 @Component({
    selector: 'app-care-user-details',
@@ -56,6 +57,7 @@ export class CareUserDetailsComponent implements OnInit {
 
    // Boolean to decide if we are adding a new user or editing an existing one
    isAdding: boolean;
+   displayContactFields: boolean;
 
    // Boolean to check if changes have been made when editing a user
    isChangesMade: boolean;
@@ -122,6 +124,7 @@ export class CareUserDetailsComponent implements OnInit {
    ) {
       this.currentCareUserInstance = data.careUserInstance;
       this.isAdding = data.isAdding;
+      this.displayContactFields = data.displayContactFields;
    }
 
    ngOnInit() {

@@ -155,7 +155,7 @@ export class AddFamilyWizardComponent implements OnInit {
 
    addLegalGuardian(): void {
       const dialogRef = this.dialog.open(LegalguardianDetailsComponent, {
-         data: { legalGuardianInstance: null, isAdding: true },
+         data: { legalGuardianInstance: null, isAdding: true, displayContactFields:false, },
          width: '80vw',
       });
 
@@ -186,7 +186,7 @@ export class AddFamilyWizardComponent implements OnInit {
       //Dereference legalGuardian to avoid updating local instance when API might refuse the update
       const deRefLegalGuardian = { ...legalGuardian };
       const dialogRef = this.dialog.open(LegalguardianDetailsComponent, {
-         data: { legalGuardianInstance: deRefLegalGuardian, isAdding: false },
+         data: { legalGuardianInstance: deRefLegalGuardian, isAdding: false, displayContactFields:false, },
          width: '80vw',
       });
 
@@ -213,7 +213,7 @@ export class AddFamilyWizardComponent implements OnInit {
 
    addCareUser(): void {
       const dialogRef = this.dialog.open(CareUserDetailsComponent, {
-         data: { careUserInstance: null, isAdding: true },
+         data: { careUserInstance: null, isAdding: true, displayContactFields:false, },
          width: '80vw',
       });
 
@@ -241,7 +241,7 @@ export class AddFamilyWizardComponent implements OnInit {
       //Dereference careUser to avoid updating local instance when API might refuse the update
       const deRefCareUser = { ...careUser };
       const dialogRef = this.dialog.open(CareUserDetailsComponent, {
-         data: { careUserInstance: deRefCareUser, isAdding: false },
+         data: { careUserInstance: deRefCareUser, isAdding: false, displayContactFields:false, },
          width: '80vw',
       });
 
