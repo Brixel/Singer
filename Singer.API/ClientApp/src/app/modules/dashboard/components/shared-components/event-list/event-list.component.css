@@ -1,8 +1,8 @@
-.event-card{
-  height: calc(100% - 60px);
+.event-card {
+   width: 100%;
 }
 
-mat-card{
+mat-card {
    margin: 8px;
    padding: 0px;
 }
