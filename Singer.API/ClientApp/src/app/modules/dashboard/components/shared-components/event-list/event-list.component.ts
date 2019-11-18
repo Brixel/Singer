@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { EventDescription } from 'src/app/modules/core/models/singerevent.model';
 import { SearchEventData } from '../event-search/event-search.component';
 import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location';
-import { AuthService } from 'src/app/modules/core/services/auth.service';
 import { SingerEventsService } from 'src/app/modules/core/services/singerevents-api/singerevents.service';
 import { SingerEventLocationService } from 'src/app/modules/core/services/singerevents-api/singerevent-location.service';
 
@@ -12,14 +11,12 @@ import { SingerEventLocationService } from 'src/app/modules/core/services/singer
    styleUrls: ['./event-list.component.css'],
 })
 export class EventListComponent implements OnInit {
-
    breakpoint: number;
 
    events: EventDescription[] = [];
    availableLocations: SingerEventLocation[];
 
    constructor(
-      private _authService: AuthService,
       private _eventService: SingerEventsService,
       private _eventLocationService: SingerEventLocationService
    ) {}
@@ -30,6 +27,19 @@ export class EventListComponent implements OnInit {
          .subscribe(res => {
             this.availableLocations = res.items as SingerEventLocation[];
          });
+
+      // Make first searchevent to load all events
+      var emptySearchEventData: SearchEventData = {
+         startDateTime: null,
+         endDateTime: null,
+         locationId: '',
+      };
+
+      this.onSearchEvent(emptySearchEventData);
+   }
+
+   onResize(event) {
+      this.breakpoint = event.target.innerWidth <= 500 ? 1 : 3;
    }
 
    onSearchEvent(searchEventData: SearchEventData) {

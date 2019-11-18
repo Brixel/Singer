@@ -18,7 +18,7 @@ import {
    CreateEventRegistrationDTO,
    UserRegisteredDTO,
 } from '../../models/event-registration.model';
-import { SearchEventData } from 'src/app/modules/dashboard/components/event-search/event-search.component';
+import { SearchEventData } from 'src/app/modules/dashboard/components/shared-components/event-search/event-search.component';
 
 @Injectable({
    providedIn: 'root',
