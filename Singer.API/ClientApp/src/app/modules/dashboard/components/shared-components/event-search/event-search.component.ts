@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 import { MAT_DATE_FORMATS } from '@angular/material';
 import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location';
 import { MY_FORMATS } from 'src/app/modules/core/core.module';

@@ -8,8 +8,7 @@ import { CareUserDetailsComponent } from '../careusers/care-user-details/care-us
 import { Router } from '@angular/router';
 import { CareUserService } from 'src/app/modules/core/services/care-users-api/careusers.service';
 import { LegalguardiansService } from 'src/app/modules/core/services/legal-guardians-api/legalguardians.service';
-import { AgeGroup } from 'src/app/modules/core/models/enum';
-import { AdminUser } from 'src/app/modules/core/models/adminuser.model';
+import { SingerColors } from 'src/app/modules/core/models/singer-colors';
 
 @Component({
    selector: 'app-add-family-wizard',
@@ -63,47 +62,6 @@ export class AddFamilyWizardComponent implements OnInit {
    legalGuardians: LegalGuardian[] = [];
    careUsers: CareUser[] = [];
 
-   testLegalGuardian: LegalGuardian = {
-      id: '2',
-      firstName: 'Dorien',
-      lastName: 'Dokedomi',
-      email: 'dorien.dokedomi@gmail.com',
-      address: 'Spalbeekstraat 34',
-      postalCode: '3556',
-      city: 'Hasselt',
-      country: 'Belgium',
-      careUsers: [],
-      careUsersToAdd: [],
-      careUsersToRemove: [],
-   };
-
-   testCareUser: CareUser = {
-      id: '1',
-      firstName: 'Berend',
-      lastName: 'Wouters',
-      email: 'berend.wouters@gmail.com',
-      userName: 'berend',
-      birthDay: new Date(),
-      caseNumber: '1234567890',
-      ageGroup: AgeGroup.Youngster,
-      isExtern: false,
-      hasTrajectory: false,
-      normalDaycareLocation: null,
-      vacationDaycareLocation: null,
-      hasResources: false,
-      legalGuardianUsers: [],
-      legalGuardianUsersToAdd: [],
-      legalGuardianUsersToRemove: [],
-   };
-
-   testAdminUser: AdminUser = {
-      id: '4',
-      firstName: 'Wim',
-      lastName: 'Van Laer',
-      email: 'wim.vanlaer@outlook.com',
-      userName: 'wim',
-   };
-
    constructor(
       public dialog: MatDialog,
       private snackBar: MatSnackBar,
@@ -114,12 +72,16 @@ export class AddFamilyWizardComponent implements OnInit {
 
    ngOnInit() {}
 
+   getColor(index: number): string {
+      return SingerColors.getSingerAccentColorDarker(index);
+   }
+
    moveStepperBackward() {
       this.matStepper.previous();
    }
 
    moveStepperForward() {
-      if (this.legalGuardians.length < 0) {
+      if (this.legalGuardians.length > 0) {
          this.matStepper.next();
       } else {
          this.snackBar.open('⚠ U moet eerst Voogden toevoegen.', 'OK', {
@@ -137,7 +99,9 @@ export class AddFamilyWizardComponent implements OnInit {
          this.matStepper.next();
       }
       if (index === 2) {
-         this.linkUsers();
+         if (this.linkUsers()) {
+            this.moveStepperForward();
+         }
       }
       if (index === this.wizardSteps.length - 1) {
          this.router.navigateByUrl('/dashboard');
@@ -155,7 +119,11 @@ export class AddFamilyWizardComponent implements OnInit {
 
    addLegalGuardian(): void {
       const dialogRef = this.dialog.open(LegalguardianDetailsComponent, {
-         data: { legalGuardianInstance: null, isAdding: true, displayContactFields:false, },
+         data: {
+            legalGuardianInstance: null,
+            isAdding: true,
+            displayContactFields: false,
+         },
          width: '80vw',
       });
 
@@ -186,7 +154,11 @@ export class AddFamilyWizardComponent implements OnInit {
       //Dereference legalGuardian to avoid updating local instance when API might refuse the update
       const deRefLegalGuardian = { ...legalGuardian };
       const dialogRef = this.dialog.open(LegalguardianDetailsComponent, {
-         data: { legalGuardianInstance: deRefLegalGuardian, isAdding: false, displayContactFields:false, },
+         data: {
+            legalGuardianInstance: deRefLegalGuardian,
+            isAdding: false,
+            displayContactFields: false,
+         },
          width: '80vw',
       });
 
@@ -195,6 +167,9 @@ export class AddFamilyWizardComponent implements OnInit {
             //Update the legal guardian
             this.legalguardiansService.updateLegalGuardian(result).subscribe(
                res => {
+                  //Save result localy for linking users
+                  result.id = res.id;
+                  this.legalGuardians.push(result);
                   this.snackBar.open(
                      `${result.firstName} ${result.lastName} werd aangepast.`,
                      'OK',
@@ -213,7 +188,11 @@ export class AddFamilyWizardComponent implements OnInit {
 
    addCareUser(): void {
       const dialogRef = this.dialog.open(CareUserDetailsComponent, {
-         data: { careUserInstance: null, isAdding: true, displayContactFields:false, },
+         data: {
+            careUserInstance: null,
+            isAdding: true,
+            displayContactFields: false,
+         },
          width: '80vw',
       });
 
@@ -241,14 +220,22 @@ export class AddFamilyWizardComponent implements OnInit {
       //Dereference careUser to avoid updating local instance when API might refuse the update
       const deRefCareUser = { ...careUser };
       const dialogRef = this.dialog.open(CareUserDetailsComponent, {
-         data: { careUserInstance: deRefCareUser, isAdding: false, displayContactFields:false, },
+         data: {
+            careUserInstance: deRefCareUser,
+            isAdding: false,
+            displayContactFields: false,
+         },
          width: '80vw',
       });
 
       dialogRef.componentInstance.submitEvent.subscribe((result: CareUser) => {
          // Update the Careuser
          this.careUserService.updateUser(result).subscribe(
-            () => {
+            res => {
+               //Save result localy for linking users
+               result.id = res.id;
+               this.careUsers.push(result);
+
                this.snackBar.open(
                   `Gebruiker ${result.firstName} ${result.lastName} werd aangepast.`,
                   'OK',
@@ -264,9 +251,9 @@ export class AddFamilyWizardComponent implements OnInit {
 
    deleteCareUser(careUser: CareUser): void {}
 
-   linkUsers(): void {
+   linkUsers(): boolean {
       //collect all the careUser id's
-      var careUsersToAdd: string[] = [''];
+      var careUsersToAdd: string[] = [];
       this.careUsers.forEach(careUser => {
          careUsersToAdd.push(careUser.id);
       });
@@ -291,13 +278,14 @@ export class AddFamilyWizardComponent implements OnInit {
       });
 
       // If linking proceeded without errors
-      if (linkingSuccesfull) {
+      if (linkingSuccesfull && careUsersToAdd.length > 0) {
          this.snackBar.open(
             'De Voogden en Zorgebruikers werden succesvol gekoppeld.',
             'OK',
             { duration: 2000 }
          );
       }
+      return linkingSuccesfull;
    }
 
    handleApiError(err: any) {

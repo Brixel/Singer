@@ -149,8 +149,8 @@
 }
 
 .body__button-add__img {
-   min-width: 7em;
-   min-height: 7em;
+   width: 7rem;
+   height: 7rem;
 }
 
 .img--hover {

@@ -36,24 +36,20 @@
                   </div>
 
                   <!-- Mat-Step Content-->
-                  <div class="body__step-content">
+                  <div *ngIf="i > 0 && i < wizardSteps.length - 1" class="body__step-content">
 
                      <!-- LegalGuardian UserCards -->
                      <div class="step-content__legalguardian-user-cards">
 
-                        <div *ngIf="i > 0 && i < wizardSteps.length - 1" class="legalguardian-user-cards__label">
+                        <div class="legalguardian-user-cards__label">
                            Voogden:
                         </div>
 
-                        <ng-container *ngFor="let legalGuardian of legalGuardians">
-                           <app-detailed-user-card [user]="legalGuardian" color="#18a945"
+                        <ng-container *ngFor="let legalGuardian of legalGuardians; index as j">
+                           <app-detailed-user-card [user]="legalGuardian" color="getColor(j)"
                               (edit)="editLegalGuardian(legalGuardian)" (delete)="deleteLegalGuardian(legalGuardian)">
                            </app-detailed-user-card>
                         </ng-container>
-
-                        <!-- <app-detailed-user-card [user]="testLegalGuardian" color="#18a945" (edit)="ngOnInit()"
-                           (delete)="ngOnInit()">
-                        </app-detailed-user-card> -->
 
                      </div>
 
@@ -69,19 +65,11 @@
                            Zorggebruikers:
                         </div>
 
-                        <ng-container *ngFor="let careUser of careUsers">
-                           <app-detailed-user-card [user]="careUser" color="#18a945" (edit)="editCareUser(careUser)"
+                        <ng-container *ngFor="let careUser of careUsers; index as k">
+                           <app-detailed-user-card [user]="careUser" color="getColor(k)" (edit)="editCareUser(careUser)"
                               (delete)="deleteCareUser(careUser)">
                            </app-detailed-user-card>
                         </ng-container>
-
-                        <!-- <app-detailed-user-card [user]="testCareUser" color="#ff43a1" (edit)="ngOnInit()"
-                           (delete)="ngOnInit()">
-                        </app-detailed-user-card>
-
-                        <app-detailed-user-card [user]="testAdminUser" color="#a143ff" (edit)="ngOnInit()"
-                           (delete)="ngOnInit()">
-                        </app-detailed-user-card> -->
 
                      </div>
                      <!-- Add User Button -->

@@ -18,11 +18,7 @@ import { AuthService } from 'src/app/modules/core/services/auth.service';
    styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-
    constructor() {}
 
-   ngOnInit(): void {
-
-   }
-
+   ngOnInit(): void {}
 }
