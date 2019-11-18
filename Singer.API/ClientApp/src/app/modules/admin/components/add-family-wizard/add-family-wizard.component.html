@@ -47,7 +47,7 @@
 
                         <ng-container *ngFor="let legalGuardian of legalGuardians; index as j">
                            <app-detailed-user-card [user]="legalGuardian" color="getColor(j)"
-                              (edit)="editLegalGuardian(legalGuardian)" (delete)="deleteLegalGuardian(legalGuardian)">
+                              (edit)="editLegalGuardian(legalGuardian)">
                            </app-detailed-user-card>
                         </ng-container>
 
@@ -66,8 +66,8 @@
                         </div>
 
                         <ng-container *ngFor="let careUser of careUsers; index as k">
-                           <app-detailed-user-card [user]="careUser" color="getColor(k)" (edit)="editCareUser(careUser)"
-                              (delete)="deleteCareUser(careUser)">
+                           <app-detailed-user-card [user]="careUser" color="getColor(k)"
+                              (edit)="editCareUser(careUser)">
                            </app-detailed-user-card>
                         </ng-container>
 
