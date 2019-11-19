@@ -1,9 +1,7 @@
 <header>
    <nav mat-tab-nav-bar [backgroundColor]="'primary'">
       <!-- Navbar Title -->
-      <img src="../../../../../assets/svg/SingerApplicationLogo_whiteText_whiteAccent.svg"
-         alt="Sint Gerardus Logo"
-         title="Sint Gerardus Logo"
+      <img src="../../../../../assets/svg/SingerApplicationLogo_whiteText_whiteAccent.svg" alt="Sint Gerardus Logo"
          class="logo">
 
       <!-- Spacer -->
@@ -11,45 +9,28 @@
 
       <!-- Navbar Links -->
       <ng-container *ngFor="let routerLink of routerLinks">
-         <a
-            mat-tab-link
-            *ngIf="routerLinkRequirements[routerLink.RouterLinkName]"
-            [routerLink]="routerLink.routerLink"
-            (click)="activeRouterLink = routerLink"
-            [active]="activeRouterLink == routerLink">
+         <a mat-tab-link *ngIf="routerLinkRequirements[routerLink.RouterLinkName]" [routerLink]="routerLink.routerLink"
+            [active]="routerLink.routerLink == router.url">
             {{ routerLink.RouterLinkName }}
          </a>
       </ng-container>
 
       <!-- Navbar Show More Menu -->
-      <button mat-icon-button
-         [matMenuTriggerFor]="menu">
+      <button mat-icon-button [matMenuTriggerFor]="menu">
          <mat-icon class="material-icons recenter color_white circle-icon-background">
             more_vert
          </mat-icon>
       </button>
       <mat-menu #menu="matMenu">
-         <button
-            mat-menu-item
-            *ngIf="!isAuthenticated"
-            [routerLink]="'/login'"
-            (click)="activeRouterLink = routerLinks[5]">
+         <button mat-menu-item *ngIf="!isAuthenticated" [routerLink]="'/login'">
             <mat-icon>account_circle</mat-icon>
             <span>Inloggen</span>
          </button>
-         <button
-            mat-menu-item
-            *ngIf="isAuthenticated"
-            (click)="onLogoutClicked()"
-         >
+         <button mat-menu-item *ngIf="isAuthenticated" (click)="onLogoutClicked()">
             <mat-icon>close</mat-icon>
             <span>Uitloggen</span>
          </button>
-         <button
-            mat-menu-item
-            *ngIf="isAuthenticated"
-            [routerLink]="'/dashboard/about'"
-            (click)="activeRouterLink = emptyRouterLink">
+         <button mat-menu-item *ngIf="isAuthenticated" [routerLink]="'/dashboard/about'">
             <mat-icon>info</mat-icon>
             <span>Over</span>
          </button>
