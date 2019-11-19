@@ -74,13 +74,11 @@
                      </div>
                      <!-- Add User Button -->
                      <ng-container *ngIf="wizardStep.addButtonText != ''">
-                        <div class="body__button-add" (click)="handleAddButtonClick(i)">
+                        <div class="body__button-add" (click)="handleAddButtonClick(i)"
+                           (keydown.enter)="handleAddButtonClick(i)" tabindex="0">
 
-                           <img src="../../../../../assets/svg/add_box_outline_grey.svg" alt="Toevoegen knop icoon"
-                              class="body__button-add__img img--default">
-
-                           <img src="../../../../../assets/svg/add_box_outline_primary-lighter.svg"
-                              alt="Toevoegen knop icoon" class="body__button-add__img img--hover">
+                           <img src="../../../../../assets/svg/MaterialIcons/add_box-24px.svg"
+                              alt="Toevoegen knop icoon" class="body__button-add__img">
 
                            <span class="body__button-add__text">{{ wizardStep.addButtonText }}</span>
 

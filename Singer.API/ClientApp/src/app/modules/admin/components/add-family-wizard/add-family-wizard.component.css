@@ -11,6 +11,7 @@
       2.7 button Layout
    3. Images
    4. Fonts
+   5. Element Styles
 */
 
 /*
@@ -149,20 +150,18 @@
 }
 
 .body__button-add__img {
-   width: 7rem;
-   height: 7rem;
+   width: 9.5em;
+   height: 9.5em;
+   /* Change add button Color to #b3b3b3 */
+   filter: invert(82%) sepia(4%) saturate(0%) hue-rotate(342deg) brightness(90%)
+      contrast(84%);
 }
 
-.img--hover {
-   display: none;
-}
-
-.body__button-add:hover .img--hover {
-   display: inline;
-}
-
-.body__button-add:hover .img--default {
-   display: none;
+.body__button-add:hover .body__button-add__img,
+.body__button-add:focus .body__button-add__img {
+   /* Change add button Color to #4a88da */
+   filter: invert(67%) sepia(43%) saturate(6412%) hue-rotate(193deg)
+      brightness(90%) contrast(88%);
 }
 
 /*
@@ -172,12 +171,25 @@
 */
 
 .body__button-add__text {
-   margin-top: 0.5em;
+   margin-top: -0.5em;
    color: #b3b3b3;
    word-wrap: none;
    white-space: nowrap;
 }
 
-.body__button-add:hover .body__button-add__text {
+.body__button-add:hover .body__button-add__text,
+.body__button-add:focus .body__button-add__text {
    color: #4a88da;
+}
+
+/*
+   ================
+   5. Element Styles
+   ================
+*/
+
+.body__button-add:hover,
+.body__button-add:focus {
+   outline: none;
+   cursor: pointer;
 }
