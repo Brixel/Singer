@@ -112,7 +112,7 @@
 }
 
 .body__info__text {
-   max-width: calc(var(--card-width) - 1em);
+   max-width: calc(var(--card-width) - 1.3em);
    text-overflow: ellipsis;
    white-space: nowrap;
    overflow: hidden;
