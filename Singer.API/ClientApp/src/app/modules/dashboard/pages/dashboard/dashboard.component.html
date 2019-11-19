@@ -1,5 +1,7 @@
-<app-home></app-home>
+<div class="body">
+   <app-home class="body__home"></app-home>
 
-<app-admin-menu *ngIf="isAuthenticated"></app-admin-menu>
+   <app-admin-menu class="body__admin-menu" *ngIf="isAuthenticated"></app-admin-menu>
 
-<app-event-list *ngIf="isAuthenticated"></app-event-list>
+   <app-event-list class="body__event-list" *ngIf="isAuthenticated"></app-event-list>
+</div>
