@@ -46,7 +46,7 @@
                         </div>
 
                         <ng-container *ngFor="let legalGuardian of legalGuardians; index as j">
-                           <app-detailed-user-card [user]="legalGuardian" color="getColor(j)"
+                           <app-detailed-user-card [user]="legalGuardian" [color]="getColor(j)"
                               (edit)="editLegalGuardian(legalGuardian)">
                            </app-detailed-user-card>
                         </ng-container>
@@ -66,7 +66,7 @@
                         </div>
 
                         <ng-container *ngFor="let careUser of careUsers; index as k">
-                           <app-detailed-user-card [user]="careUser" color="getColor(k)"
+                           <app-detailed-user-card [user]="careUser" [color]="getColor(k)"
                               (edit)="editCareUser(careUser)">
                            </app-detailed-user-card>
                         </ng-container>
@@ -77,11 +77,10 @@
                         <div class="body__button-add" (click)="handleAddButtonClick(i)">
 
                            <img src="../../../../../assets/svg/add_box_outline_grey.svg" alt="Toevoegen knop icoon"
-                              title="Toevoegen knop icoon" class="body__button-add__img img--default">
+                              class="body__button-add__img img--default">
 
                            <img src="../../../../../assets/svg/add_box_outline_primary-lighter.svg"
-                              alt="Toevoegen knop icoon" title="Toevoegen knop icoon"
-                              class="body__button-add__img img--hover">
+                              alt="Toevoegen knop icoon" class="body__button-add__img img--hover">
 
                            <span class="body__button-add__text">{{ wizardStep.addButtonText }}</span>
 
