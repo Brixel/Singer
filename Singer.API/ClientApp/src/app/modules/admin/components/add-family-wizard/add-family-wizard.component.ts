@@ -167,9 +167,11 @@ export class AddFamilyWizardComponent implements OnInit {
             //Update the legal guardian
             this.legalguardiansService.updateLegalGuardian(result).subscribe(
                res => {
-                  //Save result localy for linking users
-                  result.id = res.id;
-                  this.legalGuardians.push(result);
+                  //Update the local instance
+                  let legalGuardianIndex = this.legalGuardians.findIndex(guardian => guardian.id == result.id);
+                  this.legalGuardians[legalGuardianIndex] = result;
+
+
                   this.snackBar.open(
                      `${result.firstName} ${result.lastName} werd aangepast.`,
                      'OK',
@@ -232,9 +234,9 @@ export class AddFamilyWizardComponent implements OnInit {
          // Update the Careuser
          this.careUserService.updateUser(result).subscribe(
             res => {
-               //Save result localy for linking users
-               result.id = res.id;
-               this.careUsers.push(result);
+               //Update the local instance
+               let careUserIndex = this.careUsers.findIndex(user => user.id == result.id);
+               this.careUsers[careUserIndex] = result;
 
                this.snackBar.open(
                   `Gebruiker ${result.firstName} ${result.lastName} werd aangepast.`,
