@@ -6,6 +6,7 @@
    display: flex;
    justify-content: space-between;
 }
+
 .date-indicator {
    display: flex;
    align-items: center;
@@ -15,4 +16,13 @@
 
 .agegroup-chips {
    min-height: 40px;
+}
+
+.event-description {
+   max-height: 1.5em;
+   max-width: 300px;
+   overflow: hidden;
+   text-overflow: ellipsis;
+
+
 }
