@@ -142,7 +142,8 @@ namespace Singer.Services
                   Id = x.Key,
                   StartDateTime = eventSlotDictionary[x.Key].StartDateTime,
                   EndDateTime = eventSlotDictionary[x.Key].EndDateTime,
-                  Registrations = x.Select(reg => new EventCareUserRegistrationDTO(){
+                  Registrations = x.Select(reg => new EventCareUserRegistrationDTO()
+                  {
                      RegistrationId = reg.Id,
                      CareUserId = reg.CareUserId,
                      FirstName = reg.CareUser.User.FirstName,
@@ -239,7 +240,7 @@ namespace Singer.Services
 
          var userIsRegisteredForAllEventSlots = eventSlots.Count() == registrations.Count();
 
-         if (eventSlots.Any())
+         if (registrations.Any())
          {
             var pendingStatesRemaining = registrations.Count(x => x == RegistrationStatus.Pending);
             return new UserRegisteredDTO()
