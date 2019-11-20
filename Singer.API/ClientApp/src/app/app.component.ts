@@ -9,13 +9,12 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
    title = 'Singer';
-   constructor(private authService: AuthService, private router: Router) {
 
-   }
+   constructor(private authService: AuthService, private router: Router) {}
+
    onLogout() {
       this.router.navigateByUrl('/dashboard').then(() => {
          this.authService.logout();
       });
    }
 }
-
