@@ -264,21 +264,23 @@ namespace Singer.Controllers
          }
 
          details.RelevantCareUsers = careUsers;
-         
+
          var registrations = await _eventRegistrationService.GetAllSlotsForEventAsync(eventId);
-         details.EventSlots = singerEvent.EventSlots.Select(x => new EventSlotRegistrationsDTO
+         details.EventSlots = singerEvent.EventSlots.Select(eventSlot => new EventSlotRegistrationsDTO
          {
-            EndDateTime = x.EndDateTime,
-            Id = x.Id,
-            StartDateTime = x.StartDateTime,
-            Registrations = registrations.Where(y => y.EventSlot.Id == x.Id).Select(z => new EventCareUserRegistrationDTO
-            {
-               RegistrationId = z.Id,
-               CareUserId = z.CareUser.Id,
-               FirstName = z.CareUser.FirstName,
-               LastName = z.CareUser.LastName,
-               Status = z.Status
-            }).ToList()
+            EndDateTime = eventSlot.EndDateTime,
+            Id = eventSlot.Id,
+            StartDateTime = eventSlot.StartDateTime,
+            Registrations = registrations
+               .Where(registration => registration.EventSlot.Id == eventSlot.Id)
+               .Select(registration => new EventCareUserRegistrationDTO
+               {
+                  RegistrationId = registration.Id,
+                  CareUserId = registration.CareUser.Id,
+                  FirstName = registration.CareUser.FirstName,
+                  LastName = registration.CareUser.LastName,
+                  Status = registration.Status
+               }).ToList()
          }).ToList();
 
 
