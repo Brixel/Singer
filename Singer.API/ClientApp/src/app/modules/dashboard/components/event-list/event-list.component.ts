@@ -9,7 +9,7 @@ import {
 import { EventDescription } from 'src/app/modules/core/models/singerevent.model';
 import { MatDrawer } from '@angular/material';
 import { SearchEventData } from '../event-search/event-search.component';
-import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location';
+import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location.dto';
 
 @Component({
    selector: 'app-event-list',

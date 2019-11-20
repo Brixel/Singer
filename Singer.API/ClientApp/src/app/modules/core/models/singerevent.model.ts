@@ -5,9 +5,9 @@ import {
    RepeatType,
    TimeUnit,
 } from './enum';
-import { SingerEventLocation } from './singer-event-location';
+import { SingerEventLocation } from './singer-event-location.dto';
 import { CareUserDTO } from './careuser.model';
-import { EventSlot } from './registrant.model';
+import { EventSlotDTO } from './eventslot.dto';
 
 export interface SingerEventDTO {
    id: string;
@@ -171,12 +171,6 @@ export interface EventDescriptionDTO {
    ageGroup: AgeGroup[];
 }
 
-export interface EventSlotDTO {
-   id: string;
-   startDateTime: Date;
-   endDateTime: Date;
-   currentRegistrants: number;
-}
 
 export enum RegistrationStatus {
    Pending = 1,

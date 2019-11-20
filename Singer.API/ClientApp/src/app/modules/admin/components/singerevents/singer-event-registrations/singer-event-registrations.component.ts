@@ -3,7 +3,8 @@ import { SingerEvent } from 'src/app/modules/core/models/singerevent.model';
 import { FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatButtonToggleChange, MatSnackBar } from '@angular/material';
 import { SingerEventsService } from 'src/app/modules/core/services/singerevents-api/singerevents.service';
-import { EventSlot, Registrant } from 'src/app/modules/core/models/registrant.model';
+import { Registrant } from 'src/app/modules/core/models/registrant.model';
+import { EventSlot } from "src/app/modules/core/models/eventslot";
 import { RegistrationStatus } from 'src/app/modules/core/models/enum';
 
 import { SingerAdminEventService } from '../../../services/singer-admin-event.service';
