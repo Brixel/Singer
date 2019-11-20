@@ -1,7 +1,7 @@
 import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { AboutComponent } from './components/shared-components/about/about.component';
+import { AboutComponent } from './components/about/about.component';
 import { AuthGuard } from '../core/services/auth.guard';
 
 const routes: Routes = [
@@ -10,7 +10,7 @@ const routes: Routes = [
        component: DashboardComponent
    },
    {
-      path: '/shared-components/about',
+      path: '/about',
       component: AboutComponent,
       canActivate: [AuthGuard]
    }
