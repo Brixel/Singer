@@ -6,7 +6,6 @@ import {
    UpdateLegalGuardianDTO,
    CreateLegalGuardianDTO,
    LegalGuardian,
-   LegalGuardianDTO,
 } from '../../models/legalguardian.model';
 import { PaginationDTO } from '../../models/pagination.model';
 
