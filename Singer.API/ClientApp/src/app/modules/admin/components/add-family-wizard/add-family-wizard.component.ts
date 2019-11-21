@@ -21,7 +21,7 @@ export class AddFamilyWizardComponent implements OnInit {
       {
          stepLabel: 'Start',
          topText:
-            'Welkom bij de Familie toevoegen wizard, hier kan je gemakkelijk niewe Voogden en Zorggebruikers gelijktijdig inschrijven.',
+            'Welkom bij de Familie toevoegen wizard, hier kan je gemakkelijk niewe voogden en zorggebruikers gelijktijdig inschrijven.',
          addButtonText: '',
          middleButtonText: 'Laten we beginnen',
          backArrow: false,
