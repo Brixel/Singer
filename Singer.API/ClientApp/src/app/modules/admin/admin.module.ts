@@ -37,6 +37,7 @@ import { SingerEventLocationProxy } from '../core/services/singerevents-api/sing
 import { CareUserSearchComponent } from './components/shared/care-user-search/care-user-search.component';
 import { EventRegistrationComponent } from '../shared/components/event-registration/event-registration.component';
 import { SharedModule } from '../shared/shared.module';
+import { AddFamilyWizardComponent } from './components/add-family-wizard/add-family-wizard.component';
 import { SingerEventRegistrationsComponent } from './components/singerevents/singer-event-registrations/singer-event-registrations.component';
 import { SingerEventAdminRegisterComponent } from './components/singerevents/singer-eventadmin-register/singer-eventadmin-register.component';
 
@@ -53,6 +54,7 @@ import { SingerEventAdminRegisterComponent } from './components/singerevents/sin
       SingerEventRegistrationsComponent,
       CareUserSearchComponent,
       SingerEventAdminRegisterComponent,
+      AddFamilyWizardComponent,
    ],
    imports: [
       CoreModule,

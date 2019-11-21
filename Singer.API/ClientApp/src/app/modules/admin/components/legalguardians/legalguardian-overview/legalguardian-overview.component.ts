@@ -57,7 +57,7 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
       //Dereference row to avoid updating row in overview when API might refuse the update
       const deRefRow = { ...row };
       const dialogRef = this.dialog.open(LegalguardianDetailsComponent, {
-         data: { legalGuardianInstance: deRefRow, isAdding: false },
+         data: { legalGuardianInstance: deRefRow, isAdding: false, displayContactFields: true, },
          width: '80vw',
       });
 
@@ -66,7 +66,7 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
             //Update the legal guardian
             this.legalguardiansService.updateLegalGuardian(result).subscribe(
                res => {
-                  // Reload LegalGuardian
+                  // Reload LegalGuardians
                   this.loadLegalGuardians();
                   this.snackBar.open(
                      `${result.firstName} ${result.lastName} werd aangepast.`,
@@ -84,7 +84,7 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
 
    addLegalGuardian(): void {
       const dialogRef = this.dialog.open(LegalguardianDetailsComponent, {
-         data: { careUserInstance: null, isAdding: true },
+         data: { legalGuardianInstance: null, isAdding: true, displayContactFields: false, },
          width: '80vw',
       });
 
@@ -93,8 +93,9 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
             // Add the legal guardian
             this.legalguardiansService.createLegalGuardian(result).subscribe(
                res => {
+                   // Reload LegalGuardians
                   this.loadLegalGuardians();
-                  debugger;
+
                   this.snackBar.open(
                      `${result.firstName} ${result.lastName} werd toegevoegd als voogd.`,
                      'OK',

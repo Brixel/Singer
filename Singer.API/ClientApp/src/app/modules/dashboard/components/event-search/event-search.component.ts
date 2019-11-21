@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
 import { MAT_DATE_FORMATS } from '@angular/material';
 import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location.dto';
 import { MY_FORMATS } from 'src/app/modules/core/core.module';
@@ -10,7 +10,7 @@ import { MY_FORMATS } from 'src/app/modules/core/core.module';
    styleUrls: ['./event-search.component.css'],
    providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }],
 })
-export class EventSearchComponent implements OnInit {
+export class EventSearchComponent {
    @Input() availableLocations: SingerEventLocation[];
    @Input() isOpen: boolean;
    @Output() searchEvent: EventEmitter<SearchEventData> = new EventEmitter();
@@ -27,8 +27,6 @@ export class EventSearchComponent implements OnInit {
       endDateControl: new FormControl({ value: '', disabled: true }),
       locationControl: new FormControl(''),
    });
-
-   ngOnInit() {}
 
    submitForm() {
       if (this.formControlGroup.invalid) {

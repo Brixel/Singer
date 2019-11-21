@@ -5,6 +5,7 @@ import { OverviewComponent } from './components/careusers/overview/overview.comp
 import { AdminListComponent } from './components/admin-users/admin-list/admin-list.component';
 import { LegalguardianOverviewComponent } from './components/legalguardians/legalguardian-overview/legalguardian-overview.component';
 import { SingerEventOverviewComponent } from './components/singerevents/singerevent-overview/singerevent-overview.component';
+import { AddFamilyWizardComponent } from './components/add-family-wizard/add-family-wizard.component';
 import { MainComponent } from 'src/app/main.component';
 
 const routes: Routes = [
@@ -29,6 +30,10 @@ const routes: Routes = [
          {
             path: 'evenementen',
             component: SingerEventOverviewComponent,
+         },
+         {
+            path: 'familie-toevoegen',
+            component: AddFamilyWizardComponent,
          }]
    },
 
