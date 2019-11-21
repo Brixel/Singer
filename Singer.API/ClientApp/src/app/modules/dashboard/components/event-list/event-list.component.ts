@@ -28,6 +28,8 @@ export class EventListComponent implements OnInit {
             this.availableLocations = res.items as SingerEventLocation[];
          });
 
+      this.breakpoint = window.innerWidth <= 500 ? 1 : 3;
+
       // Make first searchevent to load all events
       var emptySearchEventData: SearchEventData = {
          startDateTime: null,
