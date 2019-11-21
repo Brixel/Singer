@@ -11,10 +11,20 @@ import { CoreModule } from '../core/core.module';
 import { LoadingComponent } from './components/loading/loading.component';
 
 @NgModule({
-   declarations: [EventRegistrationComponent, UserCardComponent, DetailedUserCardComponent, LoadingComponent],
+   declarations: [
+      EventRegistrationComponent,
+      UserCardComponent,
+      DetailedUserCardComponent,
+      LoadingComponent,
+   ],
    imports: [CommonModule, MaterialModule, CoreModule],
-   exports: [EventRegistrationComponent, UserCardComponent, DetailedUserCardComponent, LoadingComponent],
-   entryComponents: [EventRegistrationComponent],
+   exports: [
+      EventRegistrationComponent,
+      UserCardComponent,
+      DetailedUserCardComponent,
+      LoadingComponent,
+   ],
+   entryComponents: [EventRegistrationComponent, LoadingComponent],
    providers: [ApiService, SingerEventsService, SingerEventsProxy],
 })
 export class SharedModule {}
