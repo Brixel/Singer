@@ -116,7 +116,7 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status200OK)]
       [ProducesResponseType(StatusCodes.Status404NotFound)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public async Task<ActionResult<PaginationDTO<EventRegistrationDTO>>> Get(
+      public async Task<ActionResult<PaginationDTO<EventSlotRegistrationsDTO>>> Get(
          Guid eventId,
          string filter,
          string sortDirection = "0",
@@ -129,7 +129,7 @@ namespace Singer.Controllers
          if (!Enum.TryParse<ListSortDirection>(sortDirection, true, out var direction))
             throw new BadInputException("The given sort-direction is unknown.", ErrorMessages.UnknownSortDirection);
 
-         var orderByLambda = PropertyHelpers.GetPropertySelector<EventRegistrationDTO>(sortColumn);
+         var orderByLambda = PropertyHelpers.GetPropertySelector<EventSlotRegistrationsDTO>(sortColumn);
 
          // get the search results of the database query
          var result = await _eventRegistrationService
@@ -149,7 +149,7 @@ namespace Singer.Controllers
             : $"{requestPath}?PageIndex={pageIndex++}&Size={pageSize}";
 
          // create object that holds the paginated elements
-         var page = new PaginationDTO<EventRegistrationDTO>
+         var page = new PaginationDTO<EventSlotRegistrationsDTO>
          {
             Items = result.Items,
             Size = result.Items.Count,
@@ -176,6 +176,20 @@ namespace Singer.Controllers
             .ConfigureAwait(false);
 
          return Ok(registration);
+      }
+
+      [HttpPost("{eventId}/registrations/{eventRegistrationId}/accept")]
+      public async Task<ActionResult> AcceptRegistration(Guid eventId, Guid eventRegistrationId)
+      {
+         var status = await _eventRegistrationService.AcceptRegistration(eventRegistrationId);
+         return Ok(status);
+      }
+
+      [HttpPost("{eventId}/registrations/{eventRegistrationId}/reject")]
+      public async Task<ActionResult> RejectRegistration(Guid eventId, Guid eventRegistrationId)
+      {
+         var status = await _eventRegistrationService.RejectRegistration(eventRegistrationId);
+         return Ok(status);
       }
 
       #endregion get
@@ -293,16 +307,21 @@ namespace Singer.Controllers
          details.RelevantCareUsers = careUsers;
 
          var registrations = await _eventRegistrationService.GetAllSlotsForEventAsync(eventId);
-         details.EventSlots = singerEvent.EventSlots.Select(x => new EventSlotRegistrationsDTO
+         details.EventSlots = singerEvent.EventSlots.Select(eventSlot => new EventSlotRegistrationsDTO
          {
-            EndDateTime = x.EndDateTime,
-            Id = x.Id,
-            StartDateTime = x.StartDateTime,
-            Registrations = registrations.Where(y => y.EventSlot.Id == x.Id).Select(z => new EventCareUserRegistrationDTO
-            {
-               CareUserId = z.CareUser.Id,
-               Status = z.Status
-            }).ToList()
+            EndDateTime = eventSlot.EndDateTime,
+            Id = eventSlot.Id,
+            StartDateTime = eventSlot.StartDateTime,
+            Registrations = registrations
+               .Where(registration => registration.EventSlot.Id == eventSlot.Id)
+               .Select(registration => new EventCareUserRegistrationDTO
+               {
+                  RegistrationId = registration.Id,
+                  CareUserId = registration.CareUser.Id,
+                  FirstName = registration.CareUser.FirstName,
+                  LastName = registration.CareUser.LastName,
+                  Status = registration.Status
+               }).ToList()
          }).ToList();
 
 

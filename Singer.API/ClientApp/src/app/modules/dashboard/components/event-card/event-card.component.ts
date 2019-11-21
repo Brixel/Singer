@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { EventDescription } from 'src/app/modules/core/models/singerevent.model';
 import { MatDialog } from '@angular/material';
 import { EventRegistrationComponent } from 'src/app/modules/shared/components/event-registration/event-registration.component';
@@ -8,12 +8,10 @@ import { EventRegistrationComponent } from 'src/app/modules/shared/components/ev
    templateUrl: './event-card.component.html',
    styleUrls: ['./event-card.component.css'],
 })
-export class EventCardComponent implements OnInit {
+export class EventCardComponent {
    @Input() event: EventDescription;
 
    constructor(private _dialog: MatDialog) {}
-
-   ngOnInit() {}
 
    getDurationMessage(event: EventDescription): string {
       let isSameDay =

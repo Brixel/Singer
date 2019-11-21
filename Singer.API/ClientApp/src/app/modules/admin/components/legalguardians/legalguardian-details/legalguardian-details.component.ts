@@ -18,6 +18,7 @@ import { of, Observable } from 'rxjs';
 export interface LegalGuardianDetailsFormData {
    legalGuardianInstance: LegalGuardian;
    isAdding: boolean;
+   displayContactFields: boolean;
 }
 
 @Component({
@@ -31,6 +32,7 @@ export class LegalguardianDetailsComponent implements OnInit {
 
    // Boolean to decide if we are adding a new user or editing an existing one
    isAdding: boolean;
+   displayContactFields: boolean;
 
    // Boolean to check if changes have been made when editing a user
    isChangesMade: boolean;
@@ -111,6 +113,7 @@ export class LegalguardianDetailsComponent implements OnInit {
    ) {
       this.currentLegalGuardianInstance = data.legalGuardianInstance;
       this.isAdding = data.isAdding;
+      this.displayContactFields = data.displayContactFields;
    }
 
    ngOnInit() {

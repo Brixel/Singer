@@ -1,0 +1,23 @@
+.body {
+   position: relative;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: flex-start;
+   padding-top: 1rem;
+}
+
+.body__home,
+.body__admin-menu,
+.body__event-list {
+   min-width: 100%;
+}
+
+/* Medium - Large Resoulutions */
+@media (min-width: 1300px) {
+   .body__home,
+   .body__admin-menu,
+   .body__event-list {
+      min-width: 1300px;
+   }
+}

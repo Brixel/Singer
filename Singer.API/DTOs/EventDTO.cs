@@ -62,18 +62,7 @@ namespace Singer.DTOs
          ResourceType = typeof(DisplayNames),
          Name = nameof(DisplayNames.MaxRegistrants))]
       public int MaxRegistrants { get; set; }
-
-      [Required(
-         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
-         ErrorMessageResourceType = typeof(ErrorMessages))]
-      [Range(
-         maximum: ValidationValues.MaxCurrentRegistrants,
-         minimum: ValidationValues.MinCurrentRegistrants)]
-      [Display(
-         ResourceType = typeof(DisplayNames),
-         Name = nameof(DisplayNames.CurrentRegistrants))]
-      public int CurrentRegistrants { get; set; }
-
+      
       [Required(
          ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
          ErrorMessageResourceType = typeof(ErrorMessages))]

@@ -1,0 +1,195 @@
+/*
+   Table of Contents:
+
+   1. Global Styles
+   2. Layout
+      2.1 Card Layout
+      2.2 step body Layout
+      2.3 body background Layout
+      2.4 body toptext Layout
+      2.5 body content Layout
+      2.7 button Layout
+   3. Images
+   4. Fonts
+   5. Element Styles
+*/
+
+/*
+   ================
+   1. Global Styles
+   ================
+*/
+
+.card {
+   margin: 8px;
+}
+
+/*
+   ================
+   2. Layout
+   ================
+*/
+
+/*
+   2.1 Card Layout
+*/
+.card-content {
+   position: relative;
+}
+
+/*
+   2.2 step body Layout
+*/
+.mat-step__body {
+   min-height: 60vh;
+   display: grid;
+   grid-template:
+      'toptext toptext  toptext    toptext     toptext' 2rem
+      'content content  content    content     content' auto
+      '....... btn-back btn-middle btn-forward .......' 6rem
+      /1fr minmax(6rem, auto) minmax(80%, auto) minmax(6rem, auto) 1fr;
+}
+
+/*
+   2.3 body background Layout
+*/
+.body__img-container {
+   grid-column: 3 / 4;
+   grid-row: content;
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+}
+
+/*
+   2.4 body toptext Layout
+*/
+.body__top-text {
+   grid-area: toptext;
+}
+
+/*
+   2.5 body content Layout
+*/
+.body__step-content {
+   padding-top: 1.5rem;
+   position: relative;
+   grid-area: content;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: flex-start;
+   overflow: auto;
+   overflow-y: hidden;
+}
+
+.step-content__legalguardian-user-cards,
+.step-content__careuser-user-cards {
+   position: relative;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: flex-start;
+   min-height: 20rem;
+   min-width: 5rem;
+}
+
+.legalguardian-user-cards__label,
+.careuser-user-cards__label {
+   position: absolute;
+   bottom: 100%;
+   left: 1rem;
+}
+
+.step-content__divider {
+   margin: 1em;
+}
+
+.divider__line {
+   position: absolute;
+   top: 3rem;
+   min-height: 20rem;
+   border-left: 1px solid #e0e0e0;
+}
+
+/*
+   2.7 button Layout
+*/
+.body__button-add {
+   position: relative;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   vertical-align: middle;
+}
+
+.body__button-back {
+   grid-area: btn-back;
+}
+
+.body__button-middle {
+   grid-area: btn-middle;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+.body__button-forward {
+   grid-area: btn-forward;
+}
+
+/*
+   ================
+   3. Images
+   ================
+*/
+
+.img-container__img {
+   width: 60%;
+}
+
+.body__button-add__img {
+   width: 9.5em;
+   height: 9.5em;
+   /* Change add button Color to #b3b3b3 */
+   filter: invert(82%) sepia(4%) saturate(0%) hue-rotate(342deg) brightness(90%)
+      contrast(84%);
+}
+
+.body__button-add:hover .body__button-add__img,
+.body__button-add:focus .body__button-add__img {
+   /* Change add button Color to #4a88da */
+   filter: invert(67%) sepia(43%) saturate(6412%) hue-rotate(193deg)
+      brightness(90%) contrast(88%);
+}
+
+/*
+   ================
+   4. Fonts
+   ================
+*/
+
+.body__button-add__text {
+   margin-top: -0.5em;
+   color: #b3b3b3;
+   word-wrap: none;
+   white-space: nowrap;
+}
+
+.body__button-add:hover .body__button-add__text,
+.body__button-add:focus .body__button-add__text {
+   color: #4a88da;
+}
+
+/*
+   ================
+   5. Element Styles
+   ================
+*/
+
+.body__button-add:hover,
+.body__button-add:focus {
+   outline: none;
+   cursor: pointer;
+}

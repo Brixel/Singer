@@ -1,0 +1,170 @@
+/*
+   Table of Contents:
+
+   1. Variables
+   2. Global Styles
+   3. Fonts
+   4. Layout
+   5. Background
+*/
+
+/*
+   ===============
+     1. Variables
+   ===============
+*/
+
+.card {
+   --font-size: 1em;
+   --card-width: 16em;
+   --head-height: 8em;
+   --body-height: 10em;
+   --buttons-height: 5em;
+}
+
+/*
+   ===============
+   2. Global Styles
+   ===============
+*/
+
+.card {
+   margin: calc(var(--font-size) / 2);
+}
+
+/*
+   ===============
+      3. Fonts
+   ===============
+*/
+
+.card-content {
+   font-size: var(--font-size);
+}
+
+.head__initials {
+   font-size: 2.5em;
+   color: white;
+}
+
+.head__title {
+   font-size: 1.3em;
+}
+
+/*
+   ===============
+      4. Layout
+   ===============
+*/
+
+.card-content {
+   position: relative;
+   display: grid;
+   grid-template:
+      'head' var(--head-height)
+      'body' var(--body-height)
+      'buttons' var(--buttons-height)
+      / var(--card-width);
+}
+
+.head {
+   grid-area: head;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: flex-start;
+}
+
+.head__initials {
+   width: 2em;
+   height: 2em;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+}
+
+.head__title {
+   margin-top: 1em;
+   max-width: calc(var(--card-width) - 3em);
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   overflow: hidden;
+}
+
+.body {
+   grid-area: body;
+   display: flex;
+   flex-direction: column;
+   align-items: flex-start;
+   justify-content: flex-start;
+}
+
+.body__info__mail,
+.body__info__address,
+.body__info__birthdate,
+.body__info__agegroup {
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: flex-start;
+   margin: 0.5em;
+}
+
+.body__info__text {
+   max-width: calc(var(--card-width) - 1.3em);
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   overflow: hidden;
+}
+
+.body__info__agegroup {
+   margin-top: 1em;
+}
+
+.body__info__text {
+   margin-left: 0.5em;
+}
+
+.buttons {
+   grid-area: buttons;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: center;
+}
+
+.buttons__edit {
+   margin: 15%;
+}
+
+.buttons__delete {
+   margin: 15%;
+}
+
+/*
+   ===============
+    5. Background
+   ===============
+*/
+
+.head__initials {
+   border-radius: 50%;
+   background: var(--singer-theme-primary);
+}
+
+.background--green {
+   background: var(--singer-theme-accent-dark-green);
+}
+
+.background--pink {
+   background: var(--singer-theme-accent-dark-pink);
+}
+
+.background--purple {
+   background: var(--singer-theme-accent-dark-purple);
+}
+
+.background--blue {
+   background: var(--singer-theme-accent-dark-blue);
+}
