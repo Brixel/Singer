@@ -7,7 +7,7 @@ import {
    SingerEventLocation,
    UpdateSingerEventLocationDTO,
    CreateSingerEventLocationDTO,
-} from '../../models/singer-event-location';
+} from '../../models/singer-event-location.dto';
 
 @Injectable({
    providedIn: 'root',

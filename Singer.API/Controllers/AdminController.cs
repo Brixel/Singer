@@ -1,11 +1,6 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Singer.Configuration;
-using Singer.DTOs;
 using Singer.DTOs.Users;
 using Singer.Models.Users;
 using Singer.Services.Interfaces;

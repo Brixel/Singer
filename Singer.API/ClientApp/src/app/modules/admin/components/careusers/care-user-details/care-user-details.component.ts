@@ -31,15 +31,20 @@ import {
    MomentDateAdapter,
    MAT_MOMENT_DATE_FORMATS,
 } from '@angular/material-moment-adapter';
-import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location';
+import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location.dto';
 import { SingerEventLocationService } from 'src/app/modules/core/services/singerevents-api/singerevent-location.service';
 import { isNullOrUndefined } from 'util';
 import { MY_FORMATS } from 'src/app/modules/core/core.module';
+import {
+   dateNotAfter,
+   dateNotBefore,
+} from 'src/app/modules/core/utils/custom-date-validators';
 
 // Data we pass along with the creation of the Mat-Dialog box
 export interface CareUserDetailsFormData {
    careUserInstance: CareUser;
    isAdding: boolean;
+   displayContactFields: boolean;
 }
 @Component({
    selector: 'app-care-user-details',
@@ -56,6 +61,7 @@ export class CareUserDetailsComponent implements OnInit {
 
    // Boolean to decide if we are adding a new user or editing an existing one
    isAdding: boolean;
+   displayContactFields: boolean;
 
    // Boolean to check if changes have been made when editing a user
    isChangesMade: boolean;
@@ -72,28 +78,51 @@ export class CareUserDetailsComponent implements OnInit {
    //#region Binding properties for form:
 
    // Form placeholders
-   firstNameFieldPlaceholder = 'Voornaam';
-   lastNameFieldPlaceholder = 'Familienaam';
-   birthdayFieldPlaceholder = 'Geboortedatum';
-   caseNumberFieldPlaceholder = 'Dossiernr';
-   ageGroupFieldPlaceholder = 'Leeftijdsgroep';
-   isExternFieldPlaceholder = 'Klas of extern';
-   hasTrajectoryFieldPlaceholder = 'Trajectfunctie';
-   normalDaycareLocationFieldPlaceholder = 'Opvang normaal';
-   vacationDaycareLocationFieldPlaceholder = 'Opvang vakantie';
-   hasResourcesFieldPlaceholder = 'Voldoende middelen';
+   readonly firstNameFieldPlaceholder = 'Voornaam';
+   readonly lastNameFieldPlaceholder = 'Familienaam';
+   readonly birthdayFieldPlaceholder = 'Geboortedatum';
+   readonly caseNumberFieldPlaceholder = 'Dossiernr';
+   readonly ageGroupFieldPlaceholder = 'Leeftijdsgroep';
+   readonly isExternFieldPlaceholder = 'Klas of extern';
+   readonly hasTrajectoryFieldPlaceholder = 'Trajectfunctie';
+   readonly normalDaycareLocationFieldPlaceholder = 'Opvang normaal';
+   readonly vacationDaycareLocationFieldPlaceholder = 'Opvang vakantie';
+   readonly hasResourcesFieldPlaceholder = 'Voldoende middelen';
 
-   // Min and Max dates for the birthday datepicker
-   birthdayDatePickerMinDate: Date = new Date(1900, 0, 1);
-   birthdayDatePickerMaxDate: Date = new Date();
+   // Form validation values
+   readonly minBirthday: Date = new Date(1900, 0, 1);
+   readonly maxBirthday: Date = new Date();
+   readonly caseNumberLength = 10;
+   readonly maxNameLength = 100;
+   readonly minNameLength = 2;
+   readonly maxEmailLength = 255;
+   readonly nameRegex = /^[\w'À-ÿ][\w' À-ÿ]*[\w'À-ÿ]+$/;
 
    // Form control group
    formControlGroup: FormGroup = new FormGroup({
       // Form controls
-      firstNameFieldControl: new FormControl('', [Validators.required]),
-      lastNameFieldControl: new FormControl('', [Validators.required]),
-      birthdayFieldControl: new FormControl(null, [Validators.required]),
-      caseNumberFieldControl: new FormControl('', [Validators.required]),
+      firstNameFieldControl: new FormControl('', [
+         Validators.required,
+         Validators.maxLength(this.maxNameLength),
+         Validators.minLength(this.minNameLength),
+         Validators.pattern(this.nameRegex),
+      ]),
+      lastNameFieldControl: new FormControl('', [
+         Validators.required,
+         Validators.maxLength(this.maxNameLength),
+         Validators.minLength(this.minNameLength),
+         Validators.pattern(this.nameRegex),
+      ]),
+      birthdayFieldControl: new FormControl(null, [
+         Validators.required,
+         dateNotBefore(this.minBirthday),
+         dateNotAfter(this.maxBirthday),
+      ]),
+      caseNumberFieldControl: new FormControl('', [
+         Validators.required,
+         Validators.minLength(this.caseNumberLength),
+         Validators.maxLength(this.caseNumberLength),
+      ]),
       ageGroupFieldControl: new FormControl('', [Validators.required]),
       isExternFieldControl: new FormControl('', [Validators.required]),
       hasTrajectoryFieldControl: new FormControl('', [Validators.required]),
@@ -122,6 +151,7 @@ export class CareUserDetailsComponent implements OnInit {
    ) {
       this.currentCareUserInstance = data.careUserInstance;
       this.isAdding = data.isAdding;
+      this.displayContactFields = data.displayContactFields;
    }
 
    ngOnInit() {

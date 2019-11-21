@@ -10,6 +10,7 @@ using Singer.Data;
 using Singer.DTOs.Users;
 using Singer.Helpers.Exceptions;
 using Singer.Models.Users;
+using Singer.Resources;
 using Singer.Services.Interfaces;
 
 namespace Singer.Services
@@ -48,28 +49,24 @@ namespace Singer.Services
          // First check if LGUser exists
          var LegalGuardianUser = await Context.LegalGuardianUsers.FindAsync(LegalGuardianUserId);
          if (LegalGuardianUser == null)
-         {
-            throw new BadInputException($"Tried to add user link for non existing LG User with id {LegalGuardianUserId}");
-         }
+            throw new NotFoundException($"Tried to add user link for non existing LG User with id {LegalGuardianUserId}", ErrorMessages.LegalGuardianDoesntExist);
 
          List<LegalGuardianCareUser> NewCareUsers = new List<LegalGuardianCareUser>();
          foreach (var u in NewLinkedUsers)
          {
             var CareUser = await Context.CareUsers.FirstOrDefaultAsync(c => c.Id == u);
             if (CareUser == null)
-            {
-               throw new BadInputException($"Tried to link careuser which does not exist (id={u})");
-            }
-            var LinkedUserExists = await Context.LegalGuardianCareUsers.FirstOrDefaultAsync(
-               x => x.CareUserId == u
-               && x.LegalGuardianId == LegalGuardianUserId
-            );
+               throw new NotFoundException($"Tried to link careuser which does not exist (id={u})", ErrorMessages.CareUserDoesntExist);
+
+            var LinkedUserExists = await Context.LegalGuardianCareUsers
+               .FirstOrDefaultAsync(x => x.CareUserId == u && x.LegalGuardianId == LegalGuardianUserId);
+
             if (LinkedUserExists != null)
-            {
-               throw new BadInputException($"Duplicate link was attempted to add: LGUserId: {LegalGuardianUserId}, CareUserID: {u}");
-            }
+               throw new BadInputException($"Duplicate link was attempted to add: LGUserId: {LegalGuardianUserId}, CareUserID: {u}", ErrorMessages.DuplicateCareUserLGUserLink);
+
             NewCareUsers.Add(new LegalGuardianCareUser() { CareUserId = u, LegalGuardianId = LegalGuardianUserId });
          }
+
          LegalGuardianUser.LegalGuardianCareUsers = NewCareUsers;
          await Context.SaveChangesAsync();
       }
@@ -79,22 +76,19 @@ namespace Singer.Services
          // First check if LGUser exists
          var legalGuardianUser = await Context.LegalGuardianUsers.FindAsync(LegalGuardianUserId);
          if (legalGuardianUser == null)
-         {
-            throw new BadInputException($"Tried to remove user link for non existing LG User with id {LegalGuardianUserId}");
-         }
-
+            throw new NotFoundException($"Tried to remove user link for non existing LG User with id {LegalGuardianUserId}", ErrorMessages.LegalGuardianDoesntExist);
+        
          foreach (var u in UsersToRemove)
          {
-            var LinkedUserExists = await Context.LegalGuardianCareUsers.FirstOrDefaultAsync(
-               x => x.CareUserId == u
-               && x.LegalGuardianId == LegalGuardianUserId
-            );
+            var LinkedUserExists = await Context.LegalGuardianCareUsers
+               .FirstOrDefaultAsync(x => x.CareUserId == u && x.LegalGuardianId == LegalGuardianUserId);
+
             if (LinkedUserExists == null)
-            {
-               throw new BadInputException($"You tried to remove a care user from an LG user which was not linked to begin with (CareUser ID: {u})");
-            }
+               throw new NotFoundException($"You tried to remove a care user from an LG user which was not linked to begin with (CareUser ID: {u})", ErrorMessages.LinkCareUserLGUserDoesntExist);
+
             legalGuardianUser.LegalGuardianCareUsers.Remove(LinkedUserExists);
          }
+
          await Context.SaveChangesAsync();
       }
    }

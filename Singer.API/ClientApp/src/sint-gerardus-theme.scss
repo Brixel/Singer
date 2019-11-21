@@ -3,75 +3,75 @@
 /* Include the common styles for Angular Material.*/
 @include mat-core();
 
-/* Define Singer theme color pallets red=rgb(201, 12, 15)=#c90c0f black=rgb(29, 29, 27)=1d1d1b */
+/* Define Singer theme color pallets */
 /* Generated from: http://mcg.mbitson.com/#!?singer=%2a73d4 and http://mcg.mbitson.com/#!?singer=%e9ea14 */
 $singer-primary: (
-   50 : #e5eefa,
-   100 : #bfd5f2,
-   200 : #95b9ea,
-   300 : #6a9de1,
-   400 : #4a88da,
-   500 : #2a73d4, /* Singer Primary Color */
-   600 : #256bcf,
-   700 : #1f60c9,
-   800 : #1956c3,
-   900 : #0f43b9,
-   A100 : #e7edff,
-   A200 : #b4c8ff,
-   A400 : #81a2ff,
-   A700 : #6890ff,
+   50: #e5eefa,
+   100: #bfd5f2,
+   200: #95b9ea,
+   300: #6a9de1,
+   400: #4a88da,
+   500: #2a73d4, /* Singer Primary Color */
+   600: #256bcf,
+   700: #1f60c9,
+   800: #1956c3,
+   900: #0f43b9,
+   A100: #e7edff,
+   A200: #b4c8ff,
+   A400: #81a2ff,
+   A700: #6890ff,
    contrast: (
-      50 : #000000,
-      100 : #000000,
-      200 : #000000,
-      300 : #000000,
-      400 : #ffffff,
-      500 : #ffffff,
-      600 : #ffffff,
-      700 : #ffffff,
-      800 : #ffffff,
-      900 : #ffffff,
-      A100 : #000000,
-      A200 : #000000,
-      A400 : #000000,
-      A700 : #000000,
+      50: #000000,
+      100: #000000,
+      200: #000000,
+      300: #000000,
+      400: #ffffff,
+      500: #ffffff,
+      600: #ffffff,
+      700: #ffffff,
+      800: #ffffff,
+      900: #ffffff,
+      A100: #000000,
+      A200: #000000,
+      A400: #000000,
+      A700: #000000,
    ),
 );
 
 $singer-accent: (
-   50 : #fcfce3,
-   100 : #f8f9b9,
-   200 : #f4f58a,
-   300 : #f0f05b,
-   400 : #eced37,
-   500 : #e9ea14, /* Singer Accent Color */
-   600 : #e6e712,
-   700 : #e3e40e,
-   800 : #dfe10b,
-   900 : #d9db06,
-   A100 : #ffffff,
-   A200 : #ffffd0,
-   A400 : #feff9d,
-   A700 : #feff84,
+   50: #fcfce3,
+   100: #f8f9b9,
+   200: #f4f58a,
+   300: #f0f05b,
+   400: #eced37,
+   500: #e9ea14, /* Singer Accent Color */
+   600: #e6e712,
+   700: #e3e40e,
+   800: #dfe10b,
+   900: #d9db06,
+   A100: #ffffff,
+   A200: #ffffd0,
+   A400: #feff9d,
+   A700: #feff84,
    contrast: (
-      50 : #000000,
-      100 : #000000,
-      200 : #000000,
-      300 : #000000,
-      400 : #000000,
-      500 : #000000,
-      600 : #000000,
-      700 : #000000,
-      800 : #000000,
-      900 : #000000,
-      A100 : #000000,
-      A200 : #000000,
-      A400 : #000000,
-      A700 : #000000,
+      50: #000000,
+      100: #000000,
+      200: #000000,
+      300: #000000,
+      400: #000000,
+      500: #000000,
+      600: #000000,
+      700: #000000,
+      800: #000000,
+      900: #000000,
+      A100: #000000,
+      A200: #000000,
+      A400: #000000,
+      A700: #000000,
    ),
 );
 
-/* Define the palettes for your theme using the Material Design palettes available in palette.scss (palette, default, lighter, darker)*/
+/* Define the palettes of the theme using the Material Design palettes defined above*/
 $sint-gerardus-theme-primary: mat-palette($singer-primary, 500);
 $sint-gerardus-theme-accent: mat-palette($singer-accent, 500);
 
@@ -85,40 +85,42 @@ $sint-gerardus-theme: mat-light-theme(
    $sint-gerardus-theme-warn
 );
 
-/* Include theme styles for core and each component used in your app.
+/* Include theme styles for core and each component used in our app.
    Alternatively, you can import and @include the theme mixins for each component
    that you are using.*/
 @include angular-material-theme($sint-gerardus-theme);
 
-/* Define global CSS variables.*/
+/*
+   Define global CSS variables.
+*/
 
 /* Note: These variables are for having acces to the theme colors
          troughout the project for custom styling that is not
          supported by material. */
 :root {
 
-   /* Color Variables*/
+   /*
+      Primary Colors
+   */
+
    --singer-theme-primary: #{mat-color($sint-gerardus-theme-primary)};
    --singer-theme-primary-lighter: #{mat-color(
          $sint-gerardus-theme-primary,
          100
       )};
-   --singer-theme-primary-darker: #{mat-color(
-         $sint-gerardus-theme-primary,
-         700
-      )};
+   --singer-theme-primary-darker: #{mat-color($sint-gerardus-theme-primary, 700)};
 
    --singer-theme-accent: #{mat-color($sint-gerardus-theme-accent)};
-   --singer-theme-accent-lighter: #{mat-color(
-         $sint-gerardus-theme-accent,
-         200
-      )};
-   --singer-theme-accent-darker: #{mat-color(
-         $sint-gerardus-theme-accent,
-         700
-      )};
+   --singer-theme-accent-lighter: #{mat-color($sint-gerardus-theme-accent, 200)};
+   --singer-theme-accent-darker: #{mat-color($sint-gerardus-theme-accent, 900)};
 
    --singer-theme-warn: #{mat-color($sint-gerardus-theme-warn)};
+   --singer-theme-warn-lighter: #{mat-color($sint-gerardus-theme-warn, 200)};
+   --singer-theme-warn-darker: #{mat-color($sint-gerardus-theme-warn, 700)};
+
+   /*
+      Text Colors
+   */
 
    --singer-theme-dark-primary-text: rgba(black, 0.87);
    --singer-theme-dark-secondary-text: rgba(black, 0.54);
@@ -131,5 +133,13 @@ $sint-gerardus-theme: mat-light-theme(
    --singer-theme-light-disabled-text: rgba(white, 0.5);
    --singer-theme-light-dividers: rgba(white, 0.12);
    --singer-theme-light-focused: rgba(white, 0.12);
+
+   /*
+      Additional Accent Colors
+   */
+   --singer-theme-accent-dark-green: #18a945;
+   --singer-theme-accent-dark-pink: #ff43a1;
+   --singer-theme-accent-dark-purple: #a143ff;
+   --singer-theme-accent-dark-blue: #256bcf;
 
 }

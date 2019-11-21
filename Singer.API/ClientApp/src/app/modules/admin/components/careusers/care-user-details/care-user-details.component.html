@@ -9,8 +9,8 @@
       <h3 class="section-title">Persoonlijke gegevens</h3>
       <!-- Name Fields -->
       <div class="name-fields">
-         <!-- Lastname Field -->
          <div>
+            <!-- Lastname Field -->
             <mat-form-field>
                <input
                   matInput
@@ -20,11 +20,40 @@
                <mat-error
                   *ngIf="formControlGroup.controls.lastNameFieldControl.invalid"
                >
-                  {{
-                     getRequiredFieldErrorMessage(
-                        formControlGroup.controls.lastNameFieldControl
-                     )
-                  }}
+                  <div
+                     *ngIf="
+                        formControlGroup.controls.lastNameFieldControl.errors
+                           .required
+                     "
+                  >
+                     {{ lastNameFieldPlaceholder }} is een verplicht veld.
+                  </div>
+                  <div
+                     *ngIf="
+                        formControlGroup.controls.lastNameFieldControl.errors
+                           .minlength
+                     "
+                  >
+                     {{ lastNameFieldPlaceholder }} moet minstens
+                     {{ minNameLength }} karakters bevatten.
+                  </div>
+                  <div
+                     *ngIf="
+                        formControlGroup.controls.lastNameFieldControl.errors
+                           .maxlength
+                     "
+                  >
+                     {{ lastNameFieldPlaceholder }} mag maximum
+                     {{ maxNameLength }} karakters bevatten.
+                  </div>
+                  <div
+                     *ngIf="
+                        formControlGroup.controls.lastNameFieldControl.errors
+                           .pattern
+                     "
+                  >
+                     {{ lastNameFieldPlaceholder }} bevat ongeldige karakters.
+                  </div>
                </mat-error>
             </mat-form-field>
 
@@ -40,11 +69,40 @@
                      formControlGroup.controls.firstNameFieldControl.invalid
                   "
                >
-                  {{
-                     getRequiredFieldErrorMessage(
-                        formControlGroup.controls.firstNameFieldControl
-                     )
-                  }}
+                  <div
+                     *ngIf="
+                        formControlGroup.controls.firstNameFieldControl.errors
+                           .required
+                     "
+                  >
+                     {{ firstNameFieldPlaceholder }} is een verplicht veld.
+                  </div>
+                  <div
+                     *ngIf="
+                        formControlGroup.controls.firstNameFieldControl.errors
+                           .minlength
+                     "
+                  >
+                     {{ firstNameFieldPlaceholder }} moet minstens
+                     {{ minNameLength }} karakters bevatten.
+                  </div>
+                  <div
+                     *ngIf="
+                        formControlGroup.controls.firstNameFieldControl.errors
+                           .maxlength
+                     "
+                  >
+                     {{ firstNameFieldPlaceholder }} mag maximum
+                     {{ maxNameLength }} karakters bevatten.
+                  </div>
+                  <div
+                     *ngIf="
+                        formControlGroup.controls.firstNameFieldControl.errors
+                           .pattern
+                     "
+                  >
+                     {{ firstNameFieldPlaceholder }} bevat ongeldige karakters.
+                  </div>
                </mat-error>
             </mat-form-field>
          </div>
@@ -53,8 +111,8 @@
          <mat-form-field>
             <input
                matInput
-               [min]="birthdayDatePickerMinDate"
-               [max]="birthdayDatePickerMaxDate"
+               [min]="minBirthday"
+               [max]="maxBirthday"
                [matDatepicker]="picker"
                [placeholder]="birthdayFieldPlaceholder"
                formControlName="birthdayFieldControl"
@@ -62,11 +120,32 @@
             <mat-error
                *ngIf="formControlGroup.controls.birthdayFieldControl.invalid"
             >
-               {{
-                  getRequiredFieldErrorMessage(
-                     formControlGroup.controls.birthdayFieldControl
-                  )
-               }}
+               <div
+                  *ngIf="
+                     formControlGroup.controls.birthdayFieldControl.errors
+                        .required
+                  "
+               >
+                  {{ birthdayFieldPlaceholder }} is een verplicht veld.
+               </div>
+               <div
+                  *ngIf="
+                     formControlGroup.controls.birthdayFieldControl.errors
+                        .dateNotBefore
+                  "
+               >
+                  {{ birthdayFieldPlaceholder }} mag niet voor
+                  {{ minBirthday }} vallen.
+               </div>
+               <div
+                  *ngIf="
+                     formControlGroup.controls.birthdayFieldControl.errors
+                        .dateNotAfter
+                  "
+               >
+                  {{ birthdayFieldPlaceholder }} mag niet na
+                  {{ maxBirthday }} vallen.
+               </div>
             </mat-error>
             <mat-datepicker-toggle
                matSuffix
@@ -92,11 +171,25 @@
             <mat-error
                *ngIf="formControlGroup.controls.caseNumberFieldControl.invalid"
             >
-               {{
-                  getRequiredFieldErrorMessage(
-                     formControlGroup.controls.caseNumberFieldControl
-                  )
-               }}
+               <div
+                  *ngIf="
+                     formControlGroup.controls.caseNumberFieldControl.errors
+                        .required
+                  "
+               >
+                  {{ caseNumberFieldPlaceholder }} is een verplicht veld.
+               </div>
+               <div
+                  *ngIf="
+                     formControlGroup.controls.caseNumberFieldControl.errors
+                        .maxNameLength ||
+                     formControlGroup.controls.caseNumberFieldControl.errors
+                        .minNameLength
+                  "
+               >
+                  {{ caseNumberFieldPlaceholder }} moet een lengte hebben van
+                  {{ caseNumberLength }} karakters. {{ caseNumberLength }}.
+               </div>
             </mat-error>
          </mat-form-field>
 
@@ -167,11 +260,14 @@
                   formControlGroup.controls.hasTrajectoryFieldControl.invalid
                "
             >
-               {{
-                  getRequiredFieldErrorMessage(
-                     formControlGroup.controls.hasTrajectoryFieldControl
-                  )
-               }}
+               <div
+                  *ngIf="
+                     formControlGroup.controls.hasTrajectoryFieldControl.errors
+                        .required
+                  "
+               >
+                  {{ hasTrajectoryFieldPlaceholder }} is een verplicht veld.
+               </div>
             </mat-error>
          </mat-form-field>
 
@@ -196,11 +292,15 @@
                      .invalid
                "
             >
-               {{
-                  getRequiredFieldErrorMessage(
+               <div
+                  *ngIf="
                      formControlGroup.controls.normalDaycareLocationFieldControl
-                  )
-               }}
+                        .errors.required
+                  "
+               >
+                  {{ normalDaycareLocationFieldPlaceholder }} is een verplicht
+                  veld.
+               </div>
             </mat-error>
          </mat-form-field>
 
@@ -225,12 +325,15 @@
                      .invalid
                "
             >
-               {{
-                  getRequiredFieldErrorMessage(
+               <div
+                  *ngIf="
                      formControlGroup.controls
-                        .vacationDaycareLocationFieldControl
-                  )
-               }}
+                        .vacationDaycareLocationFieldControl.errors.required
+                  "
+               >
+                  {{ vacationDaycareLocationFieldPlaceholder }} is een verplicht
+                  veld.
+               </div>
             </mat-error>
          </mat-form-field>
 
@@ -249,15 +352,18 @@
                   formControlGroup.controls.hasResourcesFieldControl.invalid
                "
             >
-               {{
-                  getRequiredFieldErrorMessage(
-                     formControlGroup.controls.hasResourcesFieldControl
-                  )
-               }}
+               <div
+                  *ngIf="
+                     formControlGroup.controls.hasResourcesFieldControl.errors
+                        .required
+                  "
+               >
+                  {{ hasResourcesFieldPlaceholder }} is een verplicht veld.
+               </div>
             </mat-error>
          </mat-form-field>
       </div>
-      <div *ngIf="!isAdding">
+      <div *ngIf="displayContactFields && !isAdding">
          <mat-divider></mat-divider>
          <h3 class="section-title">Voogden</h3>
          <div class="legalguardianusers-header">

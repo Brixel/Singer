@@ -5,12 +5,9 @@ import { KeysPipe } from './services/keys.pipe';
 import { AgegroupChipsComponent } from './components/agegroup-chips/agegroup-chips.component';
 import { MaterialModule } from 'src/app/material.module';
 import { AgegroupToColorPipePipe } from './services/agegroup-to-color-pipe.pipe';
-import { UserCardComponent } from './components/user-card/user-card.component';
 import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material';
 import { DailybasisRegistrationsComponent } from './components/dailybasis-registrations/dailybasis-registrations.component';
 import { SingleRegistrationComponent } from './components/single-registration/single-registration.component';
-
-
 
 export const MY_FORMATS = {
    parse: {
@@ -28,9 +25,8 @@ export const MY_FORMATS = {
       KeysPipe,
       AgegroupChipsComponent,
       AgegroupToColorPipePipe,
-      UserCardComponent,
       DailybasisRegistrationsComponent,
-      SingleRegistrationComponent
+      SingleRegistrationComponent,
    ],
    imports: [CommonModule, MaterialModule],
    providers: [
@@ -40,9 +36,8 @@ export const MY_FORMATS = {
       KeysPipe,
       AgegroupChipsComponent,
       AgegroupToColorPipePipe,
-      UserCardComponent,
       SingleRegistrationComponent,
-      DailybasisRegistrationsComponent
+      DailybasisRegistrationsComponent,
    ],
 })
 export class CoreModule {}

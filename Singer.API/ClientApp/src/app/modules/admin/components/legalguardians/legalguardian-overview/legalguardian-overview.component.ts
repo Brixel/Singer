@@ -17,6 +17,7 @@ import { LegalGuardian } from 'src/app/modules/core/models/legalguardian.model';
 import { fromEvent, merge } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 import { LegalguardianDetailsComponent } from '../legalguardian-details/legalguardian-details.component';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
    selector: 'app-legalguardian-overview',
@@ -38,6 +39,15 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
    /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
    displayedColumns = ['firstName', 'lastName', 'email', 'address'];
 
+   readonly maxFilterLength = 2048;
+
+   formControlGroup: FormGroup = new FormGroup({
+      // Form controls
+      filterFieldControl: new FormControl(this.filter, [
+         Validators.maxLength(this.maxFilterLength),
+      ]),
+   });
+
    constructor(
       public dialog: MatDialog,
       private legalguardiansService: LegalguardiansService,
@@ -57,7 +67,7 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
       //Dereference row to avoid updating row in overview when API might refuse the update
       const deRefRow = { ...row };
       const dialogRef = this.dialog.open(LegalguardianDetailsComponent, {
-         data: { legalGuardianInstance: deRefRow, isAdding: false },
+         data: { legalGuardianInstance: deRefRow, isAdding: false, displayContactFields: true, },
          width: '80vw',
       });
 
@@ -66,7 +76,7 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
             //Update the legal guardian
             this.legalguardiansService.updateLegalGuardian(result).subscribe(
                res => {
-                  // Reload LegalGuardian
+                  // Reload LegalGuardians
                   this.loadLegalGuardians();
                   this.snackBar.open(
                      `${result.firstName} ${result.lastName} werd aangepast.`,
@@ -84,7 +94,7 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
 
    addLegalGuardian(): void {
       const dialogRef = this.dialog.open(LegalguardianDetailsComponent, {
-         data: { careUserInstance: null, isAdding: true },
+         data: { legalGuardianInstance: null, isAdding: true, displayContactFields: false, },
          width: '80vw',
       });
 
@@ -93,8 +103,9 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
             // Add the legal guardian
             this.legalguardiansService.createLegalGuardian(result).subscribe(
                res => {
+                   // Reload LegalGuardians
                   this.loadLegalGuardians();
-                  debugger;
+
                   this.snackBar.open(
                      `${result.firstName} ${result.lastName} werd toegevoegd als voogd.`,
                      'OK',
