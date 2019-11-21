@@ -253,10 +253,7 @@ export class AddFamilyWizardComponent implements OnInit {
 
    linkUsers(): boolean {
       //collect all the careUser id's
-      var careUsersToAdd: string[] = [];
-      this.careUsers.forEach(careUser => {
-         careUsersToAdd.push(careUser.id);
-      });
+      const careUsersToAdd = this.careUsers.map(careUser => careUser.id);
 
       var linkingSuccesfull: boolean = true;
 
