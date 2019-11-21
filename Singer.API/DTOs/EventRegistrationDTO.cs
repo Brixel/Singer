@@ -13,6 +13,7 @@ namespace Singer.DTOs
       public RegistrationStatus Status { get; set; }
    }
 
+
    public class CreateEventRegistrationDTO
    {
       public Guid EventId { get; set; }

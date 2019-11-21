@@ -31,7 +31,7 @@ import {
    MomentDateAdapter,
    MAT_MOMENT_DATE_FORMATS,
 } from '@angular/material-moment-adapter';
-import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location';
+import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location.dto';
 import { SingerEventLocationService } from 'src/app/modules/core/services/singerevents-api/singerevent-location.service';
 import { isNullOrUndefined } from 'util';
 import { MY_FORMATS } from 'src/app/modules/core/core.module';

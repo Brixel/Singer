@@ -20,8 +20,6 @@ namespace Singer.Models
       public EventLocation Location { get; set; }
       public int MaxRegistrants { get; set; }
       public decimal Cost { get; set; }
-      public DateTime StartDateTime { get; set; }
-      public DateTime EndDateTime { get; set; }
       public DateTime StartRegistrationDateTime { get; set; }
       public DateTime EndRegistrationDateTime { get; set; }
       public DateTime FinalCancellationDateTime { get; set; }

@@ -108,10 +108,10 @@ namespace Singer.Services
             .ConfigureAwait(false);
       }
 
-      public async Task<SearchResults<EventRegistrationDTO>> GetAsync(
+      public async Task<SearchResults<EventSlotRegistrationsDTO>> GetAsync(
          Guid eventId,
          string filter,
-         Expression<Func<EventRegistrationDTO, object>> orderer = null,
+         Expression<Func<EventSlotRegistrationsDTO, object>> orderer = null,
          ListSortDirection sortDirection = ListSortDirection.Ascending,
          int pageIndex = 0,
          int itemsPerPage = 15)
@@ -119,24 +119,51 @@ namespace Singer.Services
          if (itemsPerPage < 1)
             throw new BadInputException("Invalid pageSize provided");
 
-         var filteredItems = Context.EventRegistrations
-            .Include(x => x.CareUser)
-            .ThenInclude(x => x.User)
+         var emptyEventSlots = await Context.EventSlots.Where(x => x.EventId == eventId)
+            .Select(x => new EventSlotRegistrationsDTO
+            {
+               Id = x.Id,
+               StartDateTime = x.StartDateTime,
+               EndDateTime = x.EndDateTime
+            }).ToListAsync();
+         var eventSlotDictionary = emptyEventSlots.ToDictionary(x => x.Id);
+
+         var filteredItems = Queryable
             .Where(x => x.EventSlot.EventId == eventId);
          var totalItemCount = await filteredItems
             .CountAsync()
             .ConfigureAwait(false);
 
          var list = totalItemCount <= 0
-            ? new List<EventRegistrationDTO>()
-            : await filteredItems
-               .Select(Projector)
+            ? new List<EventSlotRegistrationsDTO>()
+            : await filteredItems.GroupBy(x => x.EventSlotId)
+               .Select(x => new EventSlotRegistrationsDTO()
+               {
+                  Id = x.Key,
+                  StartDateTime = eventSlotDictionary[x.Key].StartDateTime,
+                  EndDateTime = eventSlotDictionary[x.Key].EndDateTime,
+                  Registrations = x.Select(reg => new EventCareUserRegistrationDTO()
+                  {
+                     RegistrationId = reg.Id,
+                     CareUserId = reg.CareUserId,
+                     FirstName = reg.CareUser.User.FirstName,
+                     LastName = reg.CareUser.User.LastName,
+                     Status = reg.Status
+                  }).ToList()
+               })
                .OrderBy(orderer, sortDirection)
                .TakePage(pageIndex, itemsPerPage)
                .ToListAsync()
                .ConfigureAwait(false);
 
-         return new SearchResults<EventRegistrationDTO>(list, totalItemCount, pageIndex);
+         var allEventSlots = new List<EventSlotRegistrationsDTO>();
+         foreach (var emptyEventSlot in emptyEventSlots)
+         {
+            var eventSlot = list.SingleOrDefault(x => x.Id == emptyEventSlot.Id);
+            allEventSlots.Add(eventSlot ?? emptyEventSlot);
+         }
+
+         return new SearchResults<EventSlotRegistrationsDTO>(allEventSlots, totalItemCount, pageIndex);
       }
 
       public async Task<EventRegistrationDTO> GetOneBySlotAsync(Guid eventSlotId, Guid careUserId)
@@ -213,7 +240,7 @@ namespace Singer.Services
 
          var userIsRegisteredForAllEventSlots = eventSlots.Count() == registrations.Count();
 
-         if (eventSlots.Any())
+         if (registrations.Any())
          {
             var pendingStatesRemaining = registrations.Count(x => x == RegistrationStatus.Pending);
             return new UserRegisteredDTO()
@@ -262,6 +289,22 @@ namespace Singer.Services
             .Select(Projector).FirstOrDefaultAsync().ConfigureAwait(false);
 
          return registration;
+      }
+
+      public async Task<RegistrationStatus> AcceptRegistration(Guid registrationId)
+      {
+         var registration = await Context.EventRegistrations.SingleAsync(x => x.Id == registrationId);
+         registration.Status = RegistrationStatus.Accepted;
+         await Context.SaveChangesAsync();
+         return registration.Status;
+      }
+
+      public async Task<RegistrationStatus> RejectRegistration(Guid registrationId)
+      {
+         var registration = await Context.EventRegistrations.SingleAsync(x => x.Id == registrationId);
+         registration.Status = RegistrationStatus.Rejected;
+         await Context.SaveChangesAsync();
+         return registration.Status;
       }
    }
 }

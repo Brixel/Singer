@@ -3,7 +3,7 @@ import {
    LinkedLegalGuardianDTO,
    LinkedLegalGuardian,
 } from './legalguardian.model';
-import { SingerEventLocation } from './singer-event-location';
+import { SingerEventLocation } from './singer-event-location.dto';
 
 export interface CareUserDTO {
    id: string;
