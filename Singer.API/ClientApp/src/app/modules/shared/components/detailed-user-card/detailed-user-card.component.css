@@ -150,4 +150,21 @@
 
 .head__initials {
    border-radius: 50%;
+   background: var(--singer-theme-primary);
+}
+
+.background--green {
+   background: var(--singer-theme-accent-dark-green);
+}
+
+.background--pink {
+   background: var(--singer-theme-accent-dark-pink);
+}
+
+.background--purple {
+   background: var(--singer-theme-accent-dark-purple);
+}
+
+.background--blue {
+   background: var(--singer-theme-accent-dark-blue);
 }

@@ -3,7 +3,12 @@
       <div class="card-content">
 
          <div class="head">
-            <div class="head__initials" [ngStyle]="{'background': color}">
+            <div class="head__initials"
+               [class.background--green]="colorOption == 0 || colorOption == 4 || colorOption == 8"
+               [class.background--pink]="colorOption == 1 || colorOption == 5 || colorOption == 9"
+               [class.background--purple]="colorOption == 2 || colorOption == 6"
+               [class.background--blue]="colorOption == 3 || colorOption == 7">
+
                {{ user?.firstName.toUpperCase().charAt(0) + user.lastName?.toUpperCase().charAt(0) }}
             </div>
             <div class="head__title">

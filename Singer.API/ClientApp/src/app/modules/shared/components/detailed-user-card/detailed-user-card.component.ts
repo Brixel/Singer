@@ -7,13 +7,15 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class DetailedUserCardComponent implements OnInit {
    @Input() user: any = {};
-   @Input() color: string = '#2a73d4'; //Default color = primary theme color
+   @Input() colorOption: number;
    @Output() edit = new EventEmitter<void>();
    @Output() delete = new EventEmitter<void>();
 
    constructor() {}
 
-   ngOnInit() {}
+   ngOnInit() {
+      this.colorOption = Math.abs(Math.floor(this.colorOption)) % 10;
+   }
 
    editUser() {
       this.edit.emit();

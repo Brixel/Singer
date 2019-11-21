@@ -8,7 +8,6 @@ import { CareUserDetailsComponent } from '../careusers/care-user-details/care-us
 import { Router } from '@angular/router';
 import { CareUserService } from 'src/app/modules/core/services/care-users-api/careusers.service';
 import { LegalguardiansService } from 'src/app/modules/core/services/legal-guardians-api/legalguardians.service';
-import { SingerColors } from 'src/app/modules/core/models/singer-colors';
 
 @Component({
    selector: 'app-add-family-wizard',
@@ -71,10 +70,6 @@ export class AddFamilyWizardComponent implements OnInit {
    ) {}
 
    ngOnInit() {}
-
-   getColor(index: number): string {
-      return SingerColors.getSingerAccentColorDarker(index);
-   }
 
    moveStepperBackward() {
       this.matStepper.previous();
@@ -168,9 +163,10 @@ export class AddFamilyWizardComponent implements OnInit {
             this.legalguardiansService.updateLegalGuardian(result).subscribe(
                res => {
                   //Update the local instance
-                  let legalGuardianIndex = this.legalGuardians.findIndex(guardian => guardian.id == result.id);
+                  let legalGuardianIndex = this.legalGuardians.findIndex(
+                     guardian => guardian.id == result.id
+                  );
                   this.legalGuardians[legalGuardianIndex] = result;
-
 
                   this.snackBar.open(
                      `${result.firstName} ${result.lastName} werd aangepast.`,
@@ -235,7 +231,9 @@ export class AddFamilyWizardComponent implements OnInit {
          this.careUserService.updateUser(result).subscribe(
             res => {
                //Update the local instance
-               let careUserIndex = this.careUsers.findIndex(user => user.id == result.id);
+               let careUserIndex = this.careUsers.findIndex(
+                  user => user.id == result.id
+               );
                this.careUsers[careUserIndex] = result;
 
                this.snackBar.open(
