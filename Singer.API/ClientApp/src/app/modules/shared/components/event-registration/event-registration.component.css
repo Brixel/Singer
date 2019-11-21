@@ -7,3 +7,8 @@
    margin: 10px auto;
    display: block;
 }
+
+.event-discription {
+   max-width: 90%;
+   white-space: pre-line;
+}
