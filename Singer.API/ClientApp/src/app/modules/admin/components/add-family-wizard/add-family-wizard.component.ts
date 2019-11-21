@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { AddFamilyWizardStep } from 'src/app/modules/core/models/add-family-wizard-step';
 import { LegalGuardian } from 'src/app/modules/core/models/legalguardian.model';
 import { CareUser } from 'src/app/modules/core/models/careuser.model';
@@ -14,7 +14,7 @@ import { LegalguardiansService } from 'src/app/modules/core/services/legal-guard
    templateUrl: './add-family-wizard.component.html',
    styleUrls: ['./add-family-wizard.component.css'],
 })
-export class AddFamilyWizardComponent implements OnInit {
+export class AddFamilyWizardComponent {
    @ViewChild('stepper') matStepper: MatStepper;
 
    wizardSteps: AddFamilyWizardStep[] = [
@@ -68,8 +68,6 @@ export class AddFamilyWizardComponent implements OnInit {
       private careUserService: CareUserService,
       private legalguardiansService: LegalguardiansService
    ) {}
-
-   ngOnInit() {}
 
    moveStepperBackward() {
       this.matStepper.previous();
