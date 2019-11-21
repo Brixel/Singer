@@ -178,6 +178,15 @@ namespace Singer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} moet tussen {1} en {2} zijn..
+        /// </summary>
+        public static string FieldMustBeBetween {
+            get {
+                return ResourceManager.GetString("FieldMustBeBetween", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} moet een lengte hebben van {2} karakters..
         /// </summary>
         public static string FieldMustHaveChars {

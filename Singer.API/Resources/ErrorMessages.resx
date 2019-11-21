@@ -156,6 +156,9 @@
   <data name="FieldLengthMustBeBetween" xml:space="preserve">
     <value>{0} moet een lengte hebben van minstens {2} en maximum {1} karakters.</value>
   </data>
+  <data name="FieldMustBeBetween" xml:space="preserve">
+    <value>{0} moet tussen {1} en {2} zijn.</value>
+  </data>
   <data name="FieldMustHaveChars" xml:space="preserve">
     <value>{0} moet een lengte hebben van {2} karakters.</value>
   </data>
