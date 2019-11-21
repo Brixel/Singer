@@ -29,6 +29,7 @@ import {
 } from '../singer-event-registrations/singer-event-registrations.component';
 import { EventRegistrationComponent } from 'src/app/modules/shared/components/event-registration/event-registration.component';
 import { SingerEventAdminRegisterComponent } from '../singer-eventadmin-register/singer-eventadmin-register.component';
+import { LoadingService } from 'src/app/modules/core/services/loading.service';
 
 @Component({
    selector: 'app-singerevent-overview',
@@ -72,16 +73,17 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
 
    constructor(
       public dialog: MatDialog,
-      private singerEventsService: SingerEventsService,
-      private singerEventLocationService: SingerEventLocationService,
-      private snackBar: MatSnackBar
+      private _singerEventsService: SingerEventsService,
+      private _singerEventLocationService: SingerEventLocationService,
+      private _snackBar: MatSnackBar,
+      private _loadingService: LoadingService
    ) {}
 
    ngOnInit() {
       this.dataSource = new SingerEventOverviewDataSource(
-         this.singerEventsService
+         this._singerEventsService
       );
-      this.singerEventLocationService
+      this._singerEventLocationService
          .fetchSingerEventLocationsData('asc', 'name', 0, 1000, '')
          .subscribe(res => {
             this.availableLocations = res.items as SingerEventLocation[];
@@ -104,11 +106,11 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
       dialogRef.componentInstance.submitEvent.subscribe(
          (result: SingerEvent) => {
             // Update the SingerEvent
-            this.singerEventsService.updateSingerEvent(result).subscribe(
+            this._singerEventsService.updateSingerEvent(result).subscribe(
                res => {
                   // Reload SingerEvents
                   this.loadSingerEvents();
-                  this.snackBar.open(
+                  this._snackBar.open(
                      `Evenement ${result.title} werd aangepast.`,
                      'OK',
                      { duration: 2000 }
@@ -156,10 +158,10 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
 
       dialogRef.componentInstance.submitEvent.subscribe(
          (result: SingerEvent) => {
-            this.singerEventsService.createSingerEvent(result).subscribe(
+            this._singerEventsService.createSingerEvent(result).subscribe(
                res => {
                   this.loadSingerEvents();
-                  this.snackBar.open(
+                  this._snackBar.open(
                      `Evenement ${result.title} werd toegevoegd.`,
                      'OK',
                      { duration: 2000 }
@@ -214,6 +216,13 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
             })
          )
          .subscribe();
+      this.dataSource.loading$.subscribe(res => {
+         if (res) {
+            this._loadingService.show();
+         } else {
+            this._loadingService.hide();
+         }
+      });
    }
 
    getRegistrantsNumberString(row: SingerEvent): string {
@@ -224,13 +233,13 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
 
    handleApiError(err: any) {
       if (typeof err === 'string') {
-         this.snackBar.open(`⚠ ${err}`, 'OK');
+         this._snackBar.open(`⚠ ${err}`, 'OK');
       } else if (typeof err === 'object' && err !== null) {
          let messages = [];
          for (var k in err) {
             messages.push(err[k]);
          }
-         this.snackBar.open(
+         this._snackBar.open(
             `⚠ Er zijn fouten opgetreden bij het opslagen:\n${messages.join(
                '\n'
             )}`,

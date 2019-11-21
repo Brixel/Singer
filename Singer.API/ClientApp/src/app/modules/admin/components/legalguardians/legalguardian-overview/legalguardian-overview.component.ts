@@ -17,6 +17,7 @@ import { LegalGuardian } from 'src/app/modules/core/models/legalguardian.model';
 import { fromEvent, merge } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 import { LegalguardianDetailsComponent } from '../legalguardian-details/legalguardian-details.component';
+import { LoadingService } from 'src/app/modules/core/services/loading.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
@@ -50,13 +51,14 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
 
    constructor(
       public dialog: MatDialog,
-      private legalguardiansService: LegalguardiansService,
-      private snackBar: MatSnackBar
+      private _legalguardiansService: LegalguardiansService,
+      private _snackBar: MatSnackBar,
+      private _loadingService: LoadingService
    ) {}
 
    ngOnInit() {
       this.dataSource = new LegalguardianOverviewDataSource(
-         this.legalguardiansService
+         this._legalguardiansService
       );
       this.sort.active = 'firstName';
       this.sort.direction = 'asc';
@@ -74,11 +76,11 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
       dialogRef.componentInstance.submitEvent.subscribe(
          (result: LegalGuardian) => {
             //Update the legal guardian
-            this.legalguardiansService.updateLegalGuardian(result).subscribe(
+            this._legalguardiansService.updateLegalGuardian(result).subscribe(
                res => {
                   // Reload LegalGuardians
                   this.loadLegalGuardians();
-                  this.snackBar.open(
+                  this._snackBar.open(
                      `${result.firstName} ${result.lastName} werd aangepast.`,
                      'OK',
                      { duration: 2000 }
@@ -101,12 +103,12 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
       dialogRef.componentInstance.submitEvent.subscribe(
          (result: LegalGuardian) => {
             // Add the legal guardian
-            this.legalguardiansService.createLegalGuardian(result).subscribe(
+            this._legalguardiansService.createLegalGuardian(result).subscribe(
                res => {
                    // Reload LegalGuardians
                   this.loadLegalGuardians();
 
-                  this.snackBar.open(
+                  this._snackBar.open(
                      `${result.firstName} ${result.lastName} werd toegevoegd als voogd.`,
                      'OK',
                      { duration: 2000 }
@@ -154,17 +156,24 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
             })
          )
          .subscribe();
+      this.dataSource.loading$.subscribe(res => {
+         if (res) {
+            this._loadingService.show();
+         } else {
+            this._loadingService.hide();
+         }
+      });
    }
 
    handleApiError(err: any) {
       if (typeof err === 'string') {
-         this.snackBar.open(`⚠ ${err}`, 'OK');
+         this._snackBar.open(`⚠ ${err}`, 'OK');
       } else if (typeof err === 'object' && err !== null) {
          let messages = [];
          for (var k in err) {
             messages.push(err[k]);
          }
-         this.snackBar.open(
+         this._snackBar.open(
             `⚠ Er zijn fouten opgetreden bij het opslagen:\n${messages.join(
                '\n'
             )}`,

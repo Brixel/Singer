@@ -60,6 +60,7 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
       MatTabsModule,
       MatSnackBarModule,
       MatButtonToggleModule,
+      MatProgressSpinnerModule,
       MatStepperModule,
    ],
    exports: [
@@ -90,6 +91,7 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
       MatSnackBarModule,
       MatTabsModule,
       MatSnackBarModule,
+      MatProgressSpinnerModule,
       MatStepperModule,
    ],
    providers: [

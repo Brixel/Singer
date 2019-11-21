@@ -4,6 +4,7 @@ import { SearchEventData } from '../event-search/event-search.component';
 import { SingerEventsService } from 'src/app/modules/core/services/singerevents-api/singerevents.service';
 import { SingerEventLocationService } from 'src/app/modules/core/services/singerevents-api/singerevent-location.service';
 import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location.dto';
+import { LoadingService } from 'src/app/modules/core/services/loading.service';
 
 @Component({
    selector: 'app-event-list',
@@ -18,7 +19,8 @@ export class EventListComponent implements OnInit {
 
    constructor(
       private _eventService: SingerEventsService,
-      private _eventLocationService: SingerEventLocationService
+      private _eventLocationService: SingerEventLocationService,
+      private _loadingService: LoadingService
    ) {}
 
    ngOnInit(): void {
@@ -44,13 +46,13 @@ export class EventListComponent implements OnInit {
       this.breakpoint = this.calculateColumns(event.target.innerWidth);
    }
 
-   calculateColumns(width: number):number {
-      switch(true) {
-         case (width >= 1200):
+   calculateColumns(width: number): number {
+      switch (true) {
+         case width >= 1200:
             return 3;
-         case (width >= 800):
+         case width >= 800:
             return 2;
-         case (width >= 400):
+         case width >= 400:
             return 1;
          default:
             return 1;
@@ -58,8 +60,10 @@ export class EventListComponent implements OnInit {
    }
 
    onSearchEvent(searchEventData: SearchEventData) {
+      this._loadingService.show();
       this._eventService.getPublicEvents(searchEventData).subscribe(res => {
          this.events = res;
+         this._loadingService.hide();
       });
    }
 }
