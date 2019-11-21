@@ -4,9 +4,7 @@ import { Observable } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { PaginationDTO } from '../../core/models/pagination.model';
-import { post } from 'selenium-webdriver/http';
 import {
-   UpdateAdminUserDTO,
    CreateAdminUserDTO,
    AdminUserDTO,
 } from '../../core/models/adminuser.model';

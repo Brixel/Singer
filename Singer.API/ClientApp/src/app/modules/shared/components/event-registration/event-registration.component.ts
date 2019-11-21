@@ -47,7 +47,7 @@ export class EventRegistrationComponent implements OnInit {
             res.relevantCareUsers
                .filter(x => x.appropriateAgeGroup)
                .forEach(x => {
-                  registrants.push(new Registrant(x, 0));
+                  registrants.push(new Registrant(null, x.id, x.firstName, x.lastName, 0));
                });
           this.careUsers = registrants;
           },

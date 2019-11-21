@@ -13,6 +13,7 @@ import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 import { AdminUser } from 'src/app/modules/core/models/adminuser.model';
 import { AdminDetailsComponent } from '../admin-details/admin-details.component';
 import { LoadingService } from 'src/app/modules/core/services/loading.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
    selector: 'app-admin-list',
@@ -31,6 +32,16 @@ export class AdminListComponent implements OnInit, AfterViewInit {
    displayedColumns = ['firstName', 'lastName', 'email', 'userName'];
    filter: string;
    dataSource: AdminDatasource;
+
+   readonly maxFilterLength = 2048;
+
+   formControlGroup: FormGroup = new FormGroup({
+      // Form controls
+      filterFieldControl: new FormControl(this.filter, [
+         Validators.maxLength(this.maxFilterLength),
+      ]),
+   });
+
    constructor(
       public dialog: MatDialog,
       private adminUserService: AdminUserService,
@@ -100,7 +111,6 @@ export class AdminListComponent implements OnInit, AfterViewInit {
             })
          )
          .subscribe();
-
       this.dataSource.loading$.subscribe(res => {
          if (res) {
             this._loadingService.show();

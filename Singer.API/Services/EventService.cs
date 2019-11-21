@@ -12,6 +12,8 @@ using Singer.Services.Interfaces;
 using Singer.Profiles;
 using Singer.Helpers.Extensions;
 using Singer.Helpers.Enums;
+using Singer.Helpers.Exceptions;
+using Singer.Resources;
 
 namespace Singer.Services
 {
@@ -33,7 +35,7 @@ namespace Singer.Services
       public override async Task<EventDTO> CreateAsync(CreateEventDTO dto)
       {
          if (dto == null)
-            throw new Helpers.Exceptions.BadInputException("The value to create cannot be null");
+            throw new BadInputException("The value to create cannot be null", ErrorMessages.NoDataPassed);
 
          // add slots for all the days in the event
          var slots = GenerateEventSlots(dto).ToList();
@@ -54,9 +56,8 @@ namespace Singer.Services
       protected override Expression<Func<Event, bool>> Filter(string filter)
       {
          if (string.IsNullOrWhiteSpace(filter))
-         {
             return o => true;
-         }
+
          Expression<Func<Event, bool>> filterExpression =
             f =>
                f.Location.Name.Contains(filter) ||
@@ -83,8 +84,8 @@ namespace Singer.Services
                AgeGroups = EventProfile.ToAgeGroupList(x.AllowedAgeGroups),
                Description = x.Description,
                Title = x.Title,
-               StartDate = x.EventSlots.OrderBy(y => y.StartDateTime).First().StartDateTime,
-               EndDate = x.EventSlots.OrderByDescending(y => y.EndDateTime).First().EndDateTime
+               StartDateTime = x.EventSlots.OrderBy(y => y.StartDateTime).First().StartDateTime,
+               EndDateTime = x.EventSlots.OrderByDescending(y => y.EndDateTime).First().EndDateTime
             })
             .ToListAsync()
             .ConfigureAwait(false);
@@ -95,7 +96,7 @@ namespace Singer.Services
          switch (dto.RepeatSettings?.RepeatType)
          {
             case RepeatType.OnDate:
-               return EventSlot.GenerateEventSlotsUntil(
+               return EventSlot.GenerateEventSlotsUntilIncluding(
                   dto.StartDateTime,
                   dto.EndDateTime,
                   dto.RepeatSettings.StopRepeatDate,

@@ -1,3 +1,4 @@
+using Singer.Resources;
 using System;
 
 namespace Singer.Helpers.Exceptions
@@ -40,6 +41,6 @@ namespace Singer.Helpers.Exceptions
       /// <summary>
       /// Http status-code that indicates what is wrong (404).
       /// </summary>
-      public override string ClientMessage => "There is no user with the given id.";
+      public override string ClientMessage => ErrorMessages.UserNotFoundError;
    }
 }

@@ -6,8 +6,10 @@ import { AgeGroup } from 'src/app/modules/core/models/enum';
 import { MAT_DATE_FORMATS } from '@angular/material';
 import * as moment from 'moment';
 import { isNullOrUndefined } from 'util';
-import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location';
+import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location.dto';
 import { MY_FORMATS } from 'src/app/modules/core/core.module';
+import { mixinHasStickyInput } from '@angular/cdk/table';
+import { dateNotAfter } from 'src/app/modules/core/utils/custom-date-validators';
 import { NgxMaterialTimepickerTheme } from 'ngx-material-timepicker';
 
 // Data we pass along with the creation of the Mat-Dialog box
@@ -64,36 +66,64 @@ export class SingerEventDetailsComponent implements OnInit {
    //#region Binding properties for form:
 
    // Form placeholders
-   titleFieldPlaceholder = 'Naam evenement.';
-   descriptionFieldPlaceholder = 'Beschrijving evenement.';
-   locationFieldPlaceholder = 'Locatie evenement';
-   allowedAgeGroupsFieldPlaceholder = 'Leeftijdsgroepen';
-   maxRegistrantsFieldPlaceholder = 'Aantal toegelaten personen';
-   costFieldPlaceholder = 'Prijs';
-   startRegistrationDateFieldPlaceholder = 'Start Datum Registratie';
-   endRegistrationDateFieldPlaceholder = 'Eind Datum Registratie';
-   finalCancellationDateFieldPlaceholder = 'Eind Datum Annulering';
-   registrationOnDailyBasisFieldPlaceholder = 'Registratie op dagelijkse basis';
-   startDateFieldPlaceholder = 'Start Datum Evenement';
-   endDateFieldPlaceholder = 'Eind Datum Evenement';
-   dailyStartTimePlaceholder = 'Start Tijd Evenement';
-   dailyEndTimePlaceholder = 'Eind Tijd Evenement';
-   hasDayCareBeforeFieldPlaceholder = 'Opvang voor het evenement';
-   dayCareBeforeStartTimeFieldPlaceholder = 'Start opvang voor het evenement';
-   dayCareBeforeEndTimeFieldPlaceholder = 'Einde opvang voor het evenement';
-   hasDayCareAfterFieldPlaceholder = 'Opvang na het evenement';
-   dayCareAfterStartTimeFieldPlaceholder = 'Start opvang na het evenement';
-   dayCareAfterEndTimeFieldPlaceholder = 'Einde opvang na het evenement';
+   readonly titleFieldPlaceholder = 'Naam evenement.';
+   readonly descriptionFieldPlaceholder = 'Beschrijving evenement.';
+   readonly locationFieldPlaceholder = 'Locatie evenement';
+   readonly allowedAgeGroupsFieldPlaceholder = 'Leeftijdsgroepen';
+   readonly maxRegistrantsFieldPlaceholder = 'Aantal toegelaten personen';
+   readonly costFieldPlaceholder = 'Prijs';
+   readonly startRegistrationDateFieldPlaceholder = 'Start Datum Registratie';
+   readonly endRegistrationDateFieldPlaceholder = 'Eind Datum Registratie';
+   readonly finalCancellationDateFieldPlaceholder = 'Eind Datum Annulering';
+   readonly registrationOnDailyBasisFieldPlaceholder =
+      'Registratie op dagelijkse basis';
+   readonly startDateFieldPlaceholder = 'Start Datum Evenement';
+   readonly endDateFieldPlaceholder = 'Eind Datum Evenement';
+   readonly dailyStartTimePlaceholder = 'Start Tijd Evenement';
+   readonly dailyEndTimePlaceholder = 'Eind Tijd Evenement';
+   readonly hasDayCareBeforeFieldPlaceholder = 'Opvang voor het evenement';
+   readonly dayCareBeforeStartTimeFieldPlaceholder =
+      'Start opvang voor het evenement';
+   readonly dayCareBeforeEndTimeFieldPlaceholder =
+      'Einde opvang voor het evenement';
+   readonly hasDayCareAfterFieldPlaceholder = 'Opvang na het evenement';
+   readonly dayCareAfterStartTimeFieldPlaceholder =
+      'Start opvang na het evenement';
+   readonly dayCareAfterEndTimeFieldPlaceholder =
+      'Einde opvang na het evenement';
+   // Form validation values
+   readonly maxTitleLength = 100;
+   readonly minTitleLength = 2;
+   readonly maxDescriptionLength = 1000;
+   readonly maxMaxRegistrants = 2000000000;
+   readonly minMaxRegistrants = 1;
+   readonly maxCost = 2000000000;
+   readonly minCost = 0;
+   readonly today = new Date();
 
    // Form control group
    formControlGroup: FormGroup = new FormGroup({
       // Form controls
-      titleFieldControl: new FormControl('', [Validators.required]),
-      descriptionFieldControl: new FormControl('', [Validators.required]),
+      titleFieldControl: new FormControl('', [
+         Validators.required,
+         Validators.minLength(this.minTitleLength),
+         Validators.maxLength(this.maxTitleLength),
+      ]),
+      descriptionFieldControl: new FormControl('', [
+         Validators.maxLength(this.maxDescriptionLength),
+      ]),
       locationFieldControl: new FormControl('', [Validators.required]),
       allowedAgeGroupsFieldControl: new FormControl('', [Validators.required]),
-      maxRegistrantsFieldControl: new FormControl('', [Validators.required]),
-      costFieldControl: new FormControl('', [Validators.required]),
+      maxRegistrantsFieldControl: new FormControl('', [
+         Validators.required,
+         Validators.max(this.maxMaxRegistrants),
+         Validators.min(this.minMaxRegistrants),
+      ]),
+      costFieldControl: new FormControl('', [
+         Validators.required,
+         Validators.min(this.minCost),
+         Validators.max(this.maxCost),
+      ]),
       startRegistrationDateFieldControl: new FormControl(new Date(), [
          Validators.required,
       ]),
@@ -310,7 +340,6 @@ export class SingerEventDetailsComponent implements OnInit {
          location: new SingerEventLocation(),
          allowedAgeGroups: [],
          maxRegistrants: 0,
-         currentRegistrants: 0,
          cost: 0,
          startRegistrationDateTime: new Date(),
          endRegistrationDateTime: new Date(),
@@ -322,6 +351,7 @@ export class SingerEventDetailsComponent implements OnInit {
          dayCareBeforeStartDateTime: new Date(),
          hasDayCareAfter: false,
          dayCareAfterEndDateTime: new Date(),
+         eventSlots:[]
       };
    }
 

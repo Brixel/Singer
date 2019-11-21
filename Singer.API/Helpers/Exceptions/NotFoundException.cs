@@ -1,3 +1,4 @@
+using Singer.Resources;
 using System;
 
 namespace Singer.Helpers.Exceptions
@@ -31,6 +32,19 @@ namespace Singer.Helpers.Exceptions
       /// <param name="message">
       /// The error message. This message is only used for debugging purposes. A message for the client can be found with the <see cref="ClientMessage"/> property.
       /// </param>
+      /// <param name="clientMessage">The message that will be returned to the client.</param>
+      public NotFoundException(string message, string clientMessage)
+         : base(message)
+      {
+         ClientMessage = clientMessage;
+      }
+
+      /// <summary>
+      /// Constructs a new instance of the <see cref="NotFoundException"/>.
+      /// </summary>
+      /// <param name="message">
+      /// The error message. This message is only used for debugging purposes. A message for the client can be found with the <see cref="ClientMessage"/> property.
+      /// </param>
       /// <param name="innerException">The exception that causes this exception.</param>
       public NotFoundException(string message, Exception innerException)
          : base(message, innerException)
@@ -45,6 +59,6 @@ namespace Singer.Helpers.Exceptions
       /// <summary>
       /// The message that will be returned to the client.
       /// </summary>
-      public override string ClientMessage => "These are not the droids you're looking for";
+      public override string ClientMessage { get; } = ErrorMessages.NotFoundError;
    }
 }

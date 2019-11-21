@@ -5,8 +5,9 @@ import {
    RepeatType,
    TimeUnit,
 } from './enum';
-import { SingerEventLocation } from './singer-event-location';
+import { SingerEventLocation } from './singer-event-location.dto';
 import { CareUserDTO } from './careuser.model';
+import { EventSlotDTO } from './eventslot.dto';
 
 export interface SingerEventDTO {
    id: string;
@@ -76,7 +77,6 @@ export class SingerEvent {
    allowedAgeGroups: AgeGroup[];
    location: SingerEventLocation;
    maxRegistrants: number;
-   currentRegistrants: number;
    cost: number;
    startDateTime: Date;
    endDateTime: Date;
@@ -88,24 +88,18 @@ export class SingerEvent {
    dayCareBeforeStartDateTime: Date;
    hasDayCareAfter: boolean;
    dayCareAfterEndDateTime: Date;
+   eventSlots: EventSlotDTO[];
 }
 
+export interface EventDescriptionDTO {
+   id: string;
+   title: string;
+   description: string;
+   ageGroups: AgeGroup[];
+   startDateTime: Date;
+   endDateTime: Date;
+}
 export class EventDescription {
-   constructor(
-      id: string,
-      title: string,
-      description: string,
-      ageGroups: AgeGroup[],
-      startDateTime: Date,
-      endDateTime: Date
-   ) {
-      this.id = id;
-      this.title = title;
-      this.description = description;
-      this.ageGroups = ageGroups;
-      this.startDateTime = startDateTime;
-      this.endDateTime = endDateTime;
-   }
    id: string;
    title: string;
    description: string;
@@ -177,11 +171,6 @@ export interface EventDescriptionDTO {
    ageGroup: AgeGroup[];
 }
 
-export interface EventSlotDTO {
-   id: string;
-   startDateTime: Date;
-   endDateTime: Date;
-}
 
 export enum RegistrationStatus {
    Pending = 1,
@@ -194,4 +183,19 @@ export class UserInfo {
    name: string;
    isRegisteredForAllEventslots: boolean;
    status: RegistrationStatus;
+}
+
+export interface EventSlotRegistrationDTO {
+   id: string;
+   startDateTime: Date;
+   endDateTime: Date;
+   registrations: EventCareUserRegistrationDTO[];
+}
+
+export interface EventCareUserRegistrationDTO {
+   registrationId: string;
+   careUserId: string;
+   status: RegistrationStatus;
+   firstName: string;
+   lastName: string;
 }

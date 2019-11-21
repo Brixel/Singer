@@ -18,6 +18,7 @@ import { CareUserDetailsComponent } from '../care-user-details/care-user-details
 import { CareUserService } from 'src/app/modules/core/services/care-users-api/careusers.service';
 import { CareUser } from 'src/app/modules/core/models/careuser.model';
 import { LoadingService } from 'src/app/modules/core/services/loading.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
    selector: 'app-overview',
@@ -47,6 +48,14 @@ export class OverviewComponent implements OnInit, AfterViewInit {
       'hasResources',
    ];
    filter: string;
+   readonly maxFilterLength = 2048;
+
+   formControlGroup: FormGroup = new FormGroup({
+      // Form controls
+      filterFieldControl: new FormControl(this.filter, [
+         Validators.maxLength(this.maxFilterLength),
+      ]),
+   });
 
    constructor(
       public dialog: MatDialog,
@@ -66,7 +75,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
       //Dereference row to avoid updating row in overview when API might refuse the update
       const deRefRow = { ...row };
       const dialogRef = this.dialog.open(CareUserDetailsComponent, {
-         data: { careUserInstance: deRefRow, isAdding: false },
+         data: { careUserInstance: deRefRow, isAdding: false, displayContactFields: true, },
          width: '80vw',
       });
 
@@ -91,7 +100,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
 
    addCareUser(): void {
       const dialogRef = this.dialog.open(CareUserDetailsComponent, {
-         data: { careUserInstance: null, isAdding: true },
+         data: { careUserInstance: null, isAdding: true, displayContactFields: false, },
          width: '80vw',
       });
 

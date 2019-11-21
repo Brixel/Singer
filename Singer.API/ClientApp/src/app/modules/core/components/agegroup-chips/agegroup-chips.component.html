@@ -1,3 +1,6 @@
 <mat-chip-list selectable="false">
-   <mat-chip [ngClass]="getClass(agegroup)" *ngFor="let agegroup of agegroups">{{ agegroup | agegroupPipe }}</mat-chip>
+   <ng-container *ngIf="agegroups != null">
+      <mat-chip [ngClass]="getClass(agegroup)" *ngFor="let agegroup of agegroups">{{ agegroup | agegroupPipe }}</mat-chip>
+   </ng-container>
+   <mat-chip [ngClass]="getClass(agegroup)" *ngIf="agegroup != null">{{ agegroup | agegroupPipe }}</mat-chip>
 </mat-chip-list>

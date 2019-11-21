@@ -13,8 +13,8 @@
 }
 
 .material-icons.color_white {
-   color: #FFFFFF;
- }
+   color: #ffffff;
+}
 
 .circle-icon-background:hover {
    animation: fadeIn 1s forwards;
@@ -29,9 +29,9 @@
 
 @keyframes fadeIn {
    0% {
-      background: rgba(255, 255, 255, 0.0);
+      background: rgba(255, 255, 255, 0);
    }
    100% {
       background: rgba(255, 255, 255, 0.2);
    }
- }
+}

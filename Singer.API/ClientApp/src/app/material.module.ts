@@ -25,6 +25,7 @@ import {
    MatButtonToggleModule,
    MatTabsModule,
    MatSnackBarModule,
+   MatStepperModule,
 } from '@angular/material';
 import {
    MatMomentDateModule,
@@ -60,6 +61,7 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
       MatSnackBarModule,
       MatButtonToggleModule,
       MatProgressSpinnerModule,
+      MatStepperModule,
    ],
    exports: [
       MatButtonModule,
@@ -90,6 +92,7 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
       MatTabsModule,
       MatSnackBarModule,
       MatProgressSpinnerModule,
+      MatStepperModule,
    ],
    providers: [
       { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },

@@ -1,10 +1,16 @@
-.event-card{
-  height: calc(100% - 60px);
-}
-
-mat-card{
+mat-card {
    margin: 8px;
    padding: 0px;
+}
+
+.grid-tile {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+}
+
+.event-card {
+   min-width: 400px;
 }
 
 .noEventsFoundText {
