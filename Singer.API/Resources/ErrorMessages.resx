@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BadInputError" xml:space="preserve">
+    <value>De gegeven data kon niet verwerkt worden op de server.</value>
+  </data>
   <data name="BirthDayInTheFuture" xml:space="preserve">
     <value>De geboortedatum van de zorggebruiker kan niet na vandaag vallen.</value>
   </data>
@@ -162,6 +165,13 @@
   <data name="FieldMustHaveChars" xml:space="preserve">
     <value>{0} moet een lengte hebben van {2} karakters.</value>
   </data>
+  <data name="ForbiddenError" xml:space="preserve">
+    <value>You shall not pass!!!</value>
+  </data>
+  <data name="InternalServerError" xml:space="preserve">
+    <value>Sorry er is iets misgegaan. Het aapje dat deze pagina hoort terug te geven is ontsnapt...
+We zijn bezig met hem terug te zoeken.</value>
+  </data>
   <data name="InvalidEmail" xml:space="preserve">
     <value>Het email address is niet geldig.</value>
   </data>
@@ -177,6 +187,9 @@
   <data name="NoDataPassed" xml:space="preserve">
     <value>Er is geen data meegegeven naar de server.</value>
   </data>
+  <data name="NotFoundError" xml:space="preserve">
+    <value>These are not the droids you're looking for...</value>
+  </data>
   <data name="PageSizeLessThanOne" xml:space="preserve">
     <value>De paginagrootte moet minstens 1 zijn.</value>
   </data>
@@ -189,10 +202,19 @@
   <data name="StartDaycareBeforeNotEntered" xml:space="preserve">
     <value>De start tijd/datum voor de opvang vóór het evenement moet nog worden ingevuld.</value>
   </data>
+  <data name="UnauthorizedError" xml:space="preserve">
+    <value>One does not simply make a request to this API and gets all the data.</value>
+  </data>
+  <data name="UnhandledServerError" xml:space="preserve">
+    <value>Sorry, er is een fout gebeurd op de server die niet juist werd afgehandeld.</value>
+  </data>
   <data name="UnknownSortDirection" xml:space="preserve">
     <value>Ongekende sorteer opdracht voor de server.</value>
   </data>
   <data name="UserAlreadyRegisteredOnEventSlot" xml:space="preserve">
     <value>Deze gebruiker is reeds geregistreerd op dit tijdslot!</value>
+  </data>
+  <data name="UserNotFoundError" xml:space="preserve">
+    <value>Er is geen gebruiker gevonden met het opgegeven ID.</value>
   </data>
 </root>

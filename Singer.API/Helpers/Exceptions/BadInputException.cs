@@ -1,3 +1,4 @@
+using Singer.Resources;
 using System;
 
 namespace Singer.Helpers.Exceptions
@@ -37,6 +38,6 @@ namespace Singer.Helpers.Exceptions
       public override int StatusCode => 400;
 
       /// <summary>The message that will be returned to the client.</summary>
-      public override string ClientMessage { get; } = "The arguments you passed just destroyed Lichtenstein...";
+      public override string ClientMessage { get; } = ErrorMessages.BadInputError;
    }
 }
