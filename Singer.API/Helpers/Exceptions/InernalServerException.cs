@@ -1,3 +1,4 @@
+using Singer.Resources;
 using System;
 
 namespace Singer.Helpers.Exceptions
@@ -45,8 +46,6 @@ namespace Singer.Helpers.Exceptions
       /// <summary>
       /// The message that will be returned to the client.
       /// </summary>
-      public override string ClientMessage =>
-         "Sorry something went wrong. The monkey that should return this page escaped.\r\n" +
-         "We are working to find him back";
+      public override string ClientMessage => ErrorMessages.InternalServerError;
    }
 }

@@ -1,3 +1,4 @@
+using Singer.Resources;
 using System;
 
 namespace Singer.Helpers.Exceptions
@@ -45,6 +46,6 @@ namespace Singer.Helpers.Exceptions
       /// <summary>
       /// The message that will be returned to the client.
       /// </summary>
-      public override string ClientMessage => "One does not simply make a request to this API and gets all the data.";
+      public override string ClientMessage => ErrorMessages.UnauthorizedError;
    }
 }

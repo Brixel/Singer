@@ -65,7 +65,11 @@ namespace Singer.DTOs
       [Required(
         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
         ErrorMessageResourceType = typeof(ErrorMessages))]
-      [Range(0, int.MaxValue)]
+      [Range(
+         minimum: 0,
+         maximum: int.MaxValue,
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldMustBeBetween),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
       [Display(
          ResourceType = typeof(DisplayNames),
          Name = nameof(DisplayNames.Size))]
@@ -75,7 +79,11 @@ namespace Singer.DTOs
       [Required(
         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
         ErrorMessageResourceType = typeof(ErrorMessages))]
-      [Range(0, int.MaxValue)]
+      [Range(
+         minimum: 0,
+         maximum: int.MaxValue,
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldMustBeBetween),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
       [Display(
          ResourceType = typeof(DisplayNames),
          Name = nameof(DisplayNames.PageIndex))]
@@ -85,7 +93,11 @@ namespace Singer.DTOs
       [Required(
         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
         ErrorMessageResourceType = typeof(ErrorMessages))]
-      [Range(0, int.MaxValue)]
+      [Range(
+         minimum: 0,
+         maximum: int.MaxValue,
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldMustBeBetween),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
       [Display(
          ResourceType = typeof(DisplayNames),
          Name = nameof(DisplayNames.TotalSize))]
