@@ -89,11 +89,15 @@ export class NavMenuComponent implements OnInit {
    private updateRequirements() {
       const routerLinkRequirements: { [name: string]: boolean } = {};
       this.routerLinks.forEach(routerLink => {
-         const routerLinkRequirement = this.routerLinkRequirements[routerLink.RouterLinkName];
+         const routerLinkRequirement = this.routerLinkRequirements[
+            routerLink.RouterLinkName
+         ];
          if (routerLinkRequirement === undefined) {
             routerLinkRequirements[routerLink.RouterLinkName] = false;
          }
-         const isValid = this.checkRequirements(routerLink.RouterLinkRequirements);
+         const isValid = this.checkRequirements(
+            routerLink.RouterLinkRequirements
+         );
          routerLinkRequirements[routerLink.RouterLinkName] = isValid;
       });
       this.routerLinkRequirements = routerLinkRequirements;
@@ -107,7 +111,9 @@ export class NavMenuComponent implements OnInit {
       // Loop through the requirements
       requirements.forEach(requirement => {
          // If a requirement is not met: result = false
-         if (!this.checkRequirement(requirement)) { result = false; }
+         if (!this.checkRequirement(requirement)) {
+            result = false;
+         }
       });
 
       // If all requirements are checked: return result
@@ -116,9 +122,17 @@ export class NavMenuComponent implements OnInit {
 
    // Checks an individual RouterLinkRequirement
    checkRequirement(requirement: string): boolean {
-      if (requirement === singerRouterLinkRequirements.none) { return true; }
-      if (requirement === singerRouterLinkRequirements.isAdmin) { return this.isAdmin; }
-      if (requirement === singerRouterLinkRequirements.isAuthenticated) { return this.isAuthenticated; }
-      if (requirement === singerRouterLinkRequirements.isNotAuthenticated) { return !this.isAuthenticated; }
+      if (requirement === singerRouterLinkRequirements.none) {
+         return true;
+      }
+      if (requirement === singerRouterLinkRequirements.isAdmin) {
+         return this.isAdmin;
+      }
+      if (requirement === singerRouterLinkRequirements.isAuthenticated) {
+         return this.isAuthenticated;
+      }
+      if (requirement === singerRouterLinkRequirements.isNotAuthenticated) {
+         return !this.isAuthenticated;
+      }
    }
 }
