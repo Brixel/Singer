@@ -27,8 +27,10 @@ namespace Singer.DTOs
          ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
          ErrorMessageResourceType = typeof(ErrorMessages))]
       [Range(
+         minimum: ValidationValues.MinCurrentRegistrants,
          maximum: ValidationValues.MaxCurrentRegistrants,
-         minimum: ValidationValues.MinCurrentRegistrants)]
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldMustBeBetween),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
       [Display(
          ResourceType = typeof(DisplayNames),
          Name = nameof(DisplayNames.CurrentRegistrants))]

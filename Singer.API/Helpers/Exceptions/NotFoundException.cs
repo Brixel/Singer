@@ -1,3 +1,4 @@
+using Singer.Resources;
 using System;
 
 namespace Singer.Helpers.Exceptions
@@ -58,6 +59,6 @@ namespace Singer.Helpers.Exceptions
       /// <summary>
       /// The message that will be returned to the client.
       /// </summary>
-      public override string ClientMessage { get; } = "These are not the droids you're looking for";
+      public override string ClientMessage { get; } = ErrorMessages.NotFoundError;
    }
 }

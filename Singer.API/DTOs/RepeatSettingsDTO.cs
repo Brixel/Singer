@@ -7,7 +7,11 @@ namespace Singer.DTOs
 {
    public class RepeatSettingsDTO
    {
-      [Range(0, int.MaxValue)]
+      [Range(
+         minimum: 0,
+         maximum: int.MaxValue,
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldMustBeBetween),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
       [Display(
          ResourceType = typeof(DisplayNames),
          Name = nameof(DisplayNames.Interval))]
@@ -33,7 +37,11 @@ namespace Singer.DTOs
          Name = nameof(DisplayNames.RepeatType))]
       public RepeatType RepeatType { get; set; }
 
-      [Range(0, int.MaxValue)]
+      [Range(
+         minimum: 0,
+         maximum: int.MaxValue,
+         ErrorMessageResourceName = nameof(ErrorMessages.FieldMustBeBetween),
+         ErrorMessageResourceType = typeof(ErrorMessages))]
       [Display(
          ResourceType = typeof(DisplayNames),
          Name = nameof(DisplayNames.NumberOfRepeats))]

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Singer.Helpers.Exceptions;
+using Singer.Resources;
 
 namespace Singer.Middleware
 {
@@ -57,7 +58,7 @@ namespace Singer.Middleware
          {
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-            await context.Response.WriteAsync("Whut?");
+            await context.Response.WriteAsync(ErrorMessages.UnhandledServerError);
 
             if (_env.IsDevelopment())
                await context.Response.WriteAsync($"\r\n\r\n{e.Message}");

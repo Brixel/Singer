@@ -61,6 +61,15 @@ namespace Singer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to De gegeven data kon niet verwerkt worden op de server..
+        /// </summary>
+        public static string BadInputError {
+            get {
+                return ResourceManager.GetString("BadInputError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to De geboortedatum van de zorggebruiker kan niet na vandaag vallen..
         /// </summary>
         public static string BirthDayInTheFuture {
@@ -178,11 +187,39 @@ namespace Singer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} moet tussen {1} en {2} zijn..
+        /// </summary>
+        public static string FieldMustBeBetween {
+            get {
+                return ResourceManager.GetString("FieldMustBeBetween", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} moet een lengte hebben van {2} karakters..
         /// </summary>
         public static string FieldMustHaveChars {
             get {
                 return ResourceManager.GetString("FieldMustHaveChars", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You shall not pass!!!.
+        /// </summary>
+        public static string ForbiddenError {
+            get {
+                return ResourceManager.GetString("ForbiddenError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sorry er is iets misgegaan. Het aapje dat deze pagina hoort terug te geven is ontsnapt...
+        ///We zijn bezig met hem terug te zoeken..
+        /// </summary>
+        public static string InternalServerError {
+            get {
+                return ResourceManager.GetString("InternalServerError", resourceCulture);
             }
         }
         
@@ -232,6 +269,15 @@ namespace Singer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to These are not the droids you&apos;re looking for....
+        /// </summary>
+        public static string NotFoundError {
+            get {
+                return ResourceManager.GetString("NotFoundError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to De paginagrootte moet minstens 1 zijn..
         /// </summary>
         public static string PageSizeLessThanOne {
@@ -268,6 +314,24 @@ namespace Singer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to One does not simply make a request to this API and gets all the data..
+        /// </summary>
+        public static string UnauthorizedError {
+            get {
+                return ResourceManager.GetString("UnauthorizedError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sorry, er is een fout gebeurd op de server die niet juist werd afgehandeld..
+        /// </summary>
+        public static string UnhandledServerError {
+            get {
+                return ResourceManager.GetString("UnhandledServerError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ongekende sorteer opdracht voor de server..
         /// </summary>
         public static string UnknownSortDirection {
@@ -282,6 +346,15 @@ namespace Singer.Resources {
         public static string UserAlreadyRegisteredOnEventSlot {
             get {
                 return ResourceManager.GetString("UserAlreadyRegisteredOnEventSlot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Er is geen gebruiker gevonden met het opgegeven ID..
+        /// </summary>
+        public static string UserNotFoundError {
+            get {
+                return ResourceManager.GetString("UserNotFoundError", resourceCulture);
             }
         }
     }
