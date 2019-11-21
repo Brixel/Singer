@@ -13,6 +13,7 @@ using Singer.Helpers.Exceptions;
 using Singer.Helpers.Extensions;
 using Singer.Models;
 using Singer.Profiles;
+using Singer.Resources;
 using Singer.Services.Interfaces;
 
 namespace Singer.Services
@@ -75,7 +76,7 @@ namespace Singer.Services
       public async Task<IReadOnlyList<EventRegistrationDTO>> CreateAsync(CreateEventRegistrationDTO dto)
       {
          if (dto == null)
-            throw new BadInputException("Input to create registration cannot be null");
+            throw new BadInputException("Input to create registration cannot be null", ErrorMessages.NoDataPassed);
 
          var eventSlots = Context.EventSlots
             .Where(x => x.EventId == dto.EventId)
@@ -117,7 +118,7 @@ namespace Singer.Services
          int itemsPerPage = 15)
       {
          if (itemsPerPage < 1)
-            throw new BadInputException("Invalid pageSize provided");
+            throw new BadInputException("Invalid pageSize provided", ErrorMessages.PageSizeLessThanOne);
 
          var emptyEventSlots = await Context.EventSlots.Where(x => x.EventId == eventId)
             .Select(x => new EventSlotRegistrationsDTO
@@ -268,25 +269,26 @@ namespace Singer.Services
       public async Task<EventRegistrationDTO> CreateOneBySlotAsync(CreateEventSlotRegistrationDTO dto)
       {
          if (dto == null)
-            throw new BadInputException("Input to create registration cannot be null");
+            throw new BadInputException("Input to create registration cannot be null", ErrorMessages.NoDataPassed);
 
          var slot = await Context.EventSlots.FirstOrDefaultAsync(x => x.Id == dto.EventSlotId);
          if (slot == null)
-         {
-            throw new BadInputException("Event slot Id could not be found!");
-         }
-
+            throw new NotFoundException("Event slot Id could not be found!", ErrorMessages.EventSlotNotFound);
+         
          DbSet.Add(new EventRegistration()
          {
             CareUserId = dto.CareUserId,
             EventSlotId = dto.EventSlotId,
             Status = dto.Status.Value
          });
+
          await Context.SaveChangesAsync().ConfigureAwait(false);
 
          var registration = await Queryable
             .Where(x => x.EventSlotId == dto.EventSlotId && x.CareUserId == dto.CareUserId)
-            .Select(Projector).FirstOrDefaultAsync().ConfigureAwait(false);
+            .Select(Projector)
+            .FirstOrDefaultAsync()
+            .ConfigureAwait(false);
 
          return registration;
       }

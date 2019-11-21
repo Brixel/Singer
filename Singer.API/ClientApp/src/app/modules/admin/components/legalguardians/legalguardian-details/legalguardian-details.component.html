@@ -19,11 +19,39 @@
             <mat-error
                *ngIf="formControlGroup.controls.lastNameFieldControl.invalid"
             >
-               {{
-                  getRequiredFieldErrorMessage(
-                     formControlGroup.controls.lastNameFieldControl
-                  )
-               }}
+               <div
+                  *ngIf="
+                     formControlGroup.controls.lastNameFieldControl.errors
+                        .required
+                  "
+               >
+                  Achternaam is een verplicht veld.
+               </div>
+               <div
+                  *ngIf="
+                     formControlGroup.controls.lastNameFieldControl.errors
+                        .minlength
+                  "
+               >
+                  Achternaam moet minstens {{ minNameLength }} karakters
+                  bevatten.
+               </div>
+               <div
+                  *ngIf="
+                     formControlGroup.controls.lastNameFieldControl.errors
+                        .maxlength
+                  "
+               >
+                  Achternaam mag maximum {{ maxNameLength }} karakters bevatten.
+               </div>
+               <div
+                  *ngIf="
+                     formControlGroup.controls.lastNameFieldControl.errors
+                        .pattern
+                  "
+               >
+                  Gebruik alleen normale karakters in je naam.
+               </div>
             </mat-error>
          </mat-form-field>
 
@@ -37,11 +65,38 @@
             <mat-error
                *ngIf="formControlGroup.controls.firstNameFieldControl.invalid"
             >
-               {{
-                  getRequiredFieldErrorMessage(
-                     formControlGroup.controls.firstNameFieldControl
-                  )
-               }}
+               <div
+                  *ngIf="
+                     formControlGroup.controls.firstNameFieldControl.errors
+                        .required
+                  "
+               >
+                  Voornaam is een verplicht veld.
+               </div>
+               <div
+                  *ngIf="
+                     formControlGroup.controls.firstNameFieldControl.errors
+                        .minlength
+                  "
+               >
+                  Voornaam moet minstens {{ minNameLength }} karakters bevatten.
+               </div>
+               <div
+                  *ngIf="
+                     formControlGroup.controls.firstNameFieldControl.errors
+                        .maxlength
+                  "
+               >
+                  Voornaam mag maximum {{ maxNameLength }} karakters bevatten.
+               </div>
+               <div
+                  *ngIf="
+                     formControlGroup.controls.firstNameFieldControl.errors
+                        .pattern
+                  "
+               >
+                  Gebruik alleen normale karakters in je naam.
+               </div>
             </mat-error>
          </mat-form-field>
 
@@ -55,7 +110,29 @@
             <mat-error
                *ngIf="formControlGroup.controls.emailFieldControl.invalid"
             >
-               {{ getEmailFieldErrorMessage() }}
+               <div
+                  *ngIf="
+                     formControlGroup.controls.emailFieldControl.errors.required
+                  "
+               >
+                  Email adres is een verplicht veld.
+               </div>
+               <div
+                  *ngIf="
+                     formControlGroup.controls.emailFieldControl.errors
+                        .maxLength
+                  "
+               >
+                  Email adres mag maximum {{ maxEmailLength }} karakters
+                  bevatten.
+               </div>
+               <div
+                  *ngIf="
+                     formControlGroup.controls.emailFieldControl.errors.email
+                  "
+               >
+                  Geen geldig mail adres.
+               </div>
             </mat-error>
          </mat-form-field>
       </div>
@@ -76,11 +153,22 @@
             <mat-error
                *ngIf="formControlGroup.controls.addressFieldControl.invalid"
             >
-               {{
-                  getRequiredFieldErrorMessage(
-                     formControlGroup.controls.addressFieldControl
-                  )
-               }}
+               <div
+                  *ngIf="
+                     formControlGroup.controls.addressFieldControl.errors
+                        .required
+                  "
+               >
+                  Adres is een verplicht veld.
+               </div>
+               <div
+                  *ngIf="
+                     formControlGroup.controls.addressFieldControl.errors
+                        .maxlength
+                  "
+               >
+                  Adres mag maximum {{ maxAddressLength }} karakters bevatten.
+               </div>
             </mat-error>
          </mat-form-field>
 
@@ -94,11 +182,23 @@
             <mat-error
                *ngIf="formControlGroup.controls.postalCodeFieldControl.invalid"
             >
-               {{
-                  getRequiredFieldErrorMessage(
-                     formControlGroup.controls.postalCodeFieldControl
-                  )
-               }}
+               <div
+                  *ngIf="
+                     formControlGroup.controls.postalCodeFieldControl.errors
+                        .required
+                  "
+               >
+                  Postcode is een verplicht veld.
+               </div>
+               <div
+                  *ngIf="
+                     formControlGroup.controls.postalCodeFieldControl.errors
+                        .maxlength
+                  "
+               >
+                  Postcode mag maximum {{ postalCodeFieldControl }} karakters
+                  bevatten.
+               </div>
             </mat-error>
          </mat-form-field>
 
@@ -112,11 +212,21 @@
             <mat-error
                *ngIf="formControlGroup.controls.cityFieldControl.invalid"
             >
-               {{
-                  getRequiredFieldErrorMessage(
-                     formControlGroup.controls.cityFieldControl
-                  )
-               }}
+               <div
+                  *ngIf="
+                     formControlGroup.controls.cityFieldControl.errors.required
+                  "
+               >
+                  Gemeente is een verplicht veld.
+               </div>
+               <div
+                  *ngIf="
+                     formControlGroup.controls.cityFieldControl.errors.maxlength
+                  "
+               >
+                  Gemeente mag maximum {{ cityFieldControl }} karakters
+                  bevatten.
+               </div>
             </mat-error>
          </mat-form-field>
 
@@ -130,11 +240,22 @@
             <mat-error
                *ngIf="formControlGroup.controls.countryFieldControl.invalid"
             >
-               {{
-                  getRequiredFieldErrorMessage(
-                     formControlGroup.controls.countryFieldControl
-                  )
-               }}
+               <div
+                  *ngIf="
+                     formControlGroup.controls.countryFieldControl.errors
+                        .required
+                  "
+               >
+                  Land is een verplicht veld.
+               </div>
+               <div
+                  *ngIf="
+                     formControlGroup.controls.countryFieldControl.errors
+                        .maxlength
+                  "
+               >
+                  Land mag maximum {{ maxCountryLength }} karakters bevatten.
+               </div>
             </mat-error>
          </mat-form-field>
       </div>

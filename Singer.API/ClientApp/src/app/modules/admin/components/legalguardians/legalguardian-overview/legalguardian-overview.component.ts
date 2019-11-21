@@ -17,6 +17,7 @@ import { LegalGuardian } from 'src/app/modules/core/models/legalguardian.model';
 import { fromEvent, merge } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 import { LegalguardianDetailsComponent } from '../legalguardian-details/legalguardian-details.component';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
    selector: 'app-legalguardian-overview',
@@ -37,6 +38,15 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
 
    /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
    displayedColumns = ['firstName', 'lastName', 'email', 'address'];
+
+   readonly maxFilterLength = 2048;
+
+   formControlGroup: FormGroup = new FormGroup({
+      // Form controls
+      filterFieldControl: new FormControl(this.filter, [
+         Validators.maxLength(this.maxFilterLength),
+      ]),
+   });
 
    constructor(
       public dialog: MatDialog,

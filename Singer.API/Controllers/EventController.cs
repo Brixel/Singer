@@ -13,6 +13,7 @@ using System.ComponentModel;
 using Singer.Configuration;
 using System.Collections.Generic;
 using System.Linq;
+using Singer.Resources;
 
 namespace Singer.Controllers
 {
@@ -22,6 +23,7 @@ namespace Singer.Controllers
       #region FIELDS
 
       private readonly IEventRegistrationService _eventRegistrationService;
+      private readonly IDateValidator _dateValidator;
       private readonly IEventService _eventService;
       private readonly ICareUserService _careUserService;
 
@@ -30,10 +32,12 @@ namespace Singer.Controllers
 
       #region CONSTRUCTOR
 
-      public EventController(IEventService eventService, IEventRegistrationService eventRegistrationService, ICareUserService careUserService)
+      public EventController(IEventService eventService, IEventRegistrationService eventRegistrationService,
+         ICareUserService careUserService, IDateValidator dateValidator)
          : base(eventService)
       {
          _eventRegistrationService = eventRegistrationService;
+         _dateValidator = dateValidator;
          _eventService = eventService;
          _careUserService = careUserService;
       }
@@ -45,13 +49,29 @@ namespace Singer.Controllers
 
       #region post
 
+      [HttpPost]
+      [ProducesResponseType(StatusCodes.Status201Created)]
+      [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+      public override async Task<IActionResult> Create([FromBody]CreateEventDTO dto)
+      {
+         if (dto is null)
+            throw new BadInputException("DTO is null", ErrorMessages.NoDataPassed);
+         _dateValidator.Validate(dto);
+
+         return await base.Create(dto);
+      }
+
       [HttpPost("{eventId}/registrations")]
       [ProducesResponseType(StatusCodes.Status201Created)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
       public async Task<ActionResult<List<EventRegistrationDTO>>> Create(Guid eventId, [FromBody]CreateEventRegistrationDTO dto)
       {
          if (eventId != dto.EventId)
-            throw new BadInputException("The event id in the url and the body doe not match");
+            throw new BadInputException("The event id in the url and the body do not match", ErrorMessages.EventIdMismatchUrlBody);
+
+         var model = ModelState;
+         if (!model.IsValid)
+            return BadRequest(model);
 
          if (!User.IsInRole(Roles.ROLE_ADMINISTRATOR))
          {
@@ -82,9 +102,8 @@ namespace Singer.Controllers
          }
          var checkExisting = await _eventRegistrationService.GetOneBySlotAsync(dto.EventSlotId, dto.CareUserId);
          if (checkExisting != null)
-         {
-            throw new BadInputException("Deze gebruiker is reeds geregistreerd op dit tijdslot!");
-         }
+            throw new BadInputException("Care user already registered on this event slot.", ErrorMessages.UserAlreadyRegisteredOnEventSlot);
+
          var eventSlotRegistration = await _eventRegistrationService.CreateOneBySlotAsync(dto);
          return Created(nameof(Get), eventSlotRegistration);
       }
@@ -108,7 +127,7 @@ namespace Singer.Controllers
          if (sortDirection == "asc") sortDirection = "0";
          if (sortDirection == "desc") sortDirection = "1";
          if (!Enum.TryParse<ListSortDirection>(sortDirection, true, out var direction))
-            throw new BadInputException("The given sort-direction is unknown.");
+            throw new BadInputException("The given sort-direction is unknown.", ErrorMessages.UnknownSortDirection);
 
          var orderByLambda = PropertyHelpers.GetPropertySelector<EventSlotRegistrationsDTO>(sortColumn);
 
@@ -177,12 +196,35 @@ namespace Singer.Controllers
 
       #region put
 
+      /// <summary>
+      /// Updates a single entity in the database.
+      /// </summary>
+      /// <param name="id">The id of the entity to update.</param>
+      /// <param name="dto">The new value of the entity.</param>
+      /// <returns></returns>
+      [HttpPut("{id}")]
+      [ProducesResponseType(StatusCodes.Status200OK)]
+      [ProducesResponseType(StatusCodes.Status404NotFound)]
+      [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+      public override async Task<IActionResult> Update(Guid id, [FromBody]UpdateEventDTO dto)
+      {
+         if (dto is null)
+            throw new BadInputException("DTO is null", "Er is geen data meegegeven.");
+         _dateValidator.Validate(dto);
+
+         return await base.Update(id, dto);
+      }
+
       [HttpPut("{eventId}/registrations/{registrationId}/status")]
       [ProducesResponseType(StatusCodes.Status200OK)]
       [ProducesResponseType(StatusCodes.Status404NotFound)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
       public async Task<ActionResult<EventRegistrationDTO>> Update(Guid eventId, Guid registrationId, [FromBody]RegistrationStatus status)
       {
+         var model = ModelState;
+         if (!model.IsValid)
+            return BadRequest(model);
+
          var result = await _eventRegistrationService
             .UpdateStatusAsync(eventId, registrationId, status)
             .ConfigureAwait(false);
@@ -213,15 +255,14 @@ namespace Singer.Controllers
       public async Task<IActionResult> GetPublicEvents([FromBody] SearchEventParamsDTO searchEventParams)
       {
          var model = ModelState;
-         if (model.IsValid)
-         {
-            var events = await _eventService
-               .GetPublicEventsAsync(searchEventParams)
-               .ConfigureAwait(false);
-            return Ok(events);
-         }
+         if (!model.IsValid)
+            return BadRequest(model);
 
-         return BadRequest(model);
+         var events = await _eventService
+            .GetPublicEventsAsync(searchEventParams)
+            .ConfigureAwait(false);
+
+         return Ok(events);
       }
 
       [HttpGet("{eventId}/isuserregistered/{careUserId}")]

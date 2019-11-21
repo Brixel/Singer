@@ -43,25 +43,57 @@ export class LegalguardianDetailsComponent implements OnInit {
    //#region Binding properties for form:
 
    // Form placeholders
-   firstNameFieldPlaceholder = 'Voornaam';
-   lastNameFieldPlaceholder = 'Familienaam';
-   addressFieldPlaceholder = 'Straat en huisnummer (+ busnr)';
-   postalCodeFieldPlaceholder = 'Postcode';
-   cityFieldPlaceholder = 'Gemeente';
-   countryFieldPlaceholder = 'Land';
-   emailFieldPlaceholder = 'E-mail';
+   readonly firstNameFieldPlaceholder = 'Voornaam';
+   readonly lastNameFieldPlaceholder = 'Familienaam';
+   readonly addressFieldPlaceholder = 'Straat en huisnummer (+ busnr)';
+   readonly postalCodeFieldPlaceholder = 'Postcode';
+   readonly cityFieldPlaceholder = 'Gemeente';
+   readonly countryFieldPlaceholder = 'Land';
+   readonly emailFieldPlaceholder = 'E-mail';
+   // Form validation values
+   readonly maxNameLength = 100;
+   readonly minNameLength = 2;
+   readonly maxAddressLength = 100;
+   readonly maxPostalCodeLength = 10;
+   readonly maxCityLength = 100;
+   readonly maxCountryLength = 100;
+   readonly maxEmailLength = 255;
+   readonly nameRegex = /^[\w'À-ÿ][\w' À-ÿ]*[\w'À-ÿ]+$/;
 
    // Form control group
    formControlGroup: FormGroup = new FormGroup({
       // Form controls
-      firstNameFieldControl: new FormControl('', [Validators.required]),
-      lastNameFieldControl: new FormControl('', [Validators.required]),
-      addressFieldControl: new FormControl('', [Validators.required]),
-      postalCodeFieldControl: new FormControl('', [Validators.required]),
-      cityFieldControl: new FormControl('', [Validators.required]),
-      countryFieldControl: new FormControl('', [Validators.required]),
+      firstNameFieldControl: new FormControl('', [
+         Validators.required,
+         Validators.minLength(this.minNameLength),
+         Validators.maxLength(this.maxNameLength),
+         Validators.pattern(this.nameRegex),
+      ]),
+      lastNameFieldControl: new FormControl('', [
+         Validators.required,
+         Validators.minLength(this.minNameLength),
+         Validators.maxLength(this.maxNameLength),
+         Validators.pattern(this.nameRegex),
+      ]),
+      addressFieldControl: new FormControl('', [
+         Validators.required,
+         Validators.maxLength(this.maxAddressLength),
+      ]),
+      postalCodeFieldControl: new FormControl('', [
+         Validators.required,
+         Validators.maxLength(this.maxPostalCodeLength),
+      ]),
+      cityFieldControl: new FormControl('', [
+         Validators.required,
+         Validators.maxLength(this.maxCityLength),
+      ]),
+      countryFieldControl: new FormControl('', [
+         Validators.required,
+         Validators.maxLength(this.maxCountryLength),
+      ]),
       emailFieldControl: new FormControl('', [
          Validators.required,
+         Validators.maxLength(this.maxEmailLength),
          Validators.email,
       ]),
       careUsersSearchFieldcontrol: new FormControl(),

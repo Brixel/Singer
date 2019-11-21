@@ -17,6 +17,7 @@ import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { CareUserDetailsComponent } from '../care-user-details/care-user-details.component';
 import { CareUserService } from 'src/app/modules/core/services/care-users-api/careusers.service';
 import { CareUser } from 'src/app/modules/core/models/careuser.model';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
    selector: 'app-overview',
@@ -46,6 +47,14 @@ export class OverviewComponent implements OnInit, AfterViewInit {
       'hasResources',
    ];
    filter: string;
+   readonly maxFilterLength = 2048;
+
+   formControlGroup: FormGroup = new FormGroup({
+      // Form controls
+      filterFieldControl: new FormControl(this.filter, [
+         Validators.maxLength(this.maxFilterLength),
+      ]),
+   });
 
    constructor(
       public dialog: MatDialog,

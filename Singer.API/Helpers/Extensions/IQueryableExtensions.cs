@@ -9,6 +9,7 @@ using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using Singer.Helpers.Exceptions;
 using Singer.Models;
+using Singer.Resources;
 using Singer.Services;
 
 namespace Singer.Helpers.Extensions
@@ -64,9 +65,8 @@ namespace Singer.Helpers.Extensions
             int pageSize = 20)
       {
          if (pageSize < 1)
-         {
-            throw new ArgumentException("pageSize should be positive");
-         }
+            throw new BadInputException("PageSize should be positive", ErrorMessages.PageSizeLessThanOne);
+
          var filteredQueryable = queryable.Where(filterExpression);
          var totalItemsCount = filteredQueryable.Count();
 
@@ -107,7 +107,7 @@ namespace Singer.Helpers.Extensions
          if (mapper == null)
             throw new ArgumentNullException(nameof(mapper));
          if (pageSize < 1)
-            throw new BadInputException("Invalid pageSize provided");
+            throw new BadInputException("Invalid pageSize (-1) provided", ErrorMessages.PageSizeLessThanOne);
 
          var filteredQueryable = queryable.Where(filterExpression);
          var totalItemsCount = filteredQueryable.Count();
