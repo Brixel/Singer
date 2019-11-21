@@ -31,7 +31,7 @@ import {
    MomentDateAdapter,
    MAT_MOMENT_DATE_FORMATS,
 } from '@angular/material-moment-adapter';
-import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location';
+import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location.dto';
 import { SingerEventLocationService } from 'src/app/modules/core/services/singerevents-api/singerevent-location.service';
 import { isNullOrUndefined } from 'util';
 import { MY_FORMATS } from 'src/app/modules/core/core.module';
@@ -40,6 +40,7 @@ import { MY_FORMATS } from 'src/app/modules/core/core.module';
 export interface CareUserDetailsFormData {
    careUserInstance: CareUser;
    isAdding: boolean;
+   displayContactFields: boolean;
 }
 @Component({
    selector: 'app-care-user-details',
@@ -56,6 +57,7 @@ export class CareUserDetailsComponent implements OnInit {
 
    // Boolean to decide if we are adding a new user or editing an existing one
    isAdding: boolean;
+   displayContactFields: boolean;
 
    // Boolean to check if changes have been made when editing a user
    isChangesMade: boolean;
@@ -122,6 +124,7 @@ export class CareUserDetailsComponent implements OnInit {
    ) {
       this.currentCareUserInstance = data.careUserInstance;
       this.isAdding = data.isAdding;
+      this.displayContactFields = data.displayContactFields;
    }
 
    ngOnInit() {

@@ -21,7 +21,7 @@ import {
 import { SingerEventsService } from 'src/app/modules/core/services/singerevents-api/singerevents.service';
 import { SingerEvent } from 'src/app/modules/core/models/singerevent.model';
 import { SingerEventLocationService } from 'src/app/modules/core/services/singerevents-api/singerevent-location.service';
-import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location';
+import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location.dto';
 import {
    SingerEventRegistrationsComponent,
    SingerEventRegistrationData,
@@ -115,7 +115,7 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
    }
 
    manageRegistrations(row: SingerEvent) {
-      const dialogRef = this.dialog.open(SingerEventRegistrationsComponent, {
+      this.dialog.open(SingerEventRegistrationsComponent, {
          data: <SingerEventRegistrationData>{
             event: row,
          },
@@ -125,9 +125,9 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
    }
 
    addRegistration(row: SingerEvent) {
-      const dialogRef = this.dialog.open(SingerEventAdminRegisterComponent, {
+      this.dialog.open(SingerEventAdminRegisterComponent, {
          data: <SingerEventRegistrationData>{
-            event: row
+            event: row,
          },
          width: '50vw',
          maxHeight: '70vh',
@@ -165,7 +165,9 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
 
    // Returns true if the max number of registrants for the event have been exceeded
    isMaxRegistrantsExceeded(row: SingerEvent): boolean {
-      return row.currentRegistrants > row.maxRegistrants;
+      return row.eventSlots.some(
+         x => x.currentRegistrants > row.maxRegistrants
+      );
    }
 
    private loadSingerEvents() {
@@ -202,6 +204,12 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
             })
          )
          .subscribe();
+   }
+
+   getRegistrantsNumberString(row: SingerEvent): string {
+      return !row.registrationOnDailyBasis
+         ? `${row.eventSlots[0].currentRegistrants}/${row.maxRegistrants}`
+         : '';
    }
 
    handleApiError(err: any) {

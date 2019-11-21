@@ -8,11 +8,11 @@
 /* To make app-root fill 100% of the screen */
 :host {
    position: absolute;
-   overflow: scroll;
+   overflow: auto;
    left: 0;
    right: 0;
    bottom: 0;
    top: 0;
    background-image: url(../assets/svg/SingerFigures.svg);
    background-repeat: repeat;
- }
+}

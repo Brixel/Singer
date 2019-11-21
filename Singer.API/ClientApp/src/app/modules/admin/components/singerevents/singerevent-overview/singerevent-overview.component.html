@@ -50,7 +50,7 @@
                maxRegistrantsExceeded: isMaxRegistrantsExceeded(row)
             }"
          >
-            {{ row.currentRegistrants }}/{{ row.maxRegistrants }}
+         {{ getRegistrantsNumberString(row) }}
          </td>
       </ng-container>
 
@@ -109,10 +109,13 @@
                >
                   <mat-icon>edit</mat-icon>
                </button>
-               <!-- TODO Reintroduce this later (AB#28) -->
-               <!-- <button mat-stroked-button
-            matTooltip="Bekijk inschrijvingen"
-            (click)="manageRegistrations(row)"><mat-icon>people</mat-icon></button> -->
+               <button
+                  mat-stroked-button
+                  matTooltip="Bekijk inschrijvingen"
+                  (click)="manageRegistrations(row)"
+               >
+                  <mat-icon>people</mat-icon>
+               </button>
                <button
                   mat-stroked-button
                   matTooltip="Inschrijven"

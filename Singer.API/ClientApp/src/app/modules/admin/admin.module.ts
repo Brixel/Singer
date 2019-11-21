@@ -34,11 +34,12 @@ import { AdminUserProxy } from './services/adminuser.proxy';
 import { AdminUserService } from './services/admin-user.service';
 import { SingerEventLocationService } from '../core/services/singerevents-api/singerevent-location.service';
 import { SingerEventLocationProxy } from '../core/services/singerevents-api/singerevent-location.proxy';
-import { SingerEventRegistrationsComponent } from './components/singerevents/singer-event-registrations/singer-event-registrations.component';
 import { CareUserSearchComponent } from './components/shared/care-user-search/care-user-search.component';
 import { EventRegistrationComponent } from '../shared/components/event-registration/event-registration.component';
-import { SingerEventAdminRegisterComponent } from './components/singerevents/singer-eventadmin-register/singer-eventadmin-register.component';
 import { SharedModule } from '../shared/shared.module';
+import { AddFamilyWizardComponent } from './components/add-family-wizard/add-family-wizard.component';
+import { SingerEventRegistrationsComponent } from './components/singerevents/singer-event-registrations/singer-event-registrations.component';
+import { SingerEventAdminRegisterComponent } from './components/singerevents/singer-eventadmin-register/singer-eventadmin-register.component';
 
 @NgModule({
    declarations: [
@@ -52,7 +53,8 @@ import { SharedModule } from '../shared/shared.module';
       AdminDetailsComponent,
       SingerEventRegistrationsComponent,
       CareUserSearchComponent,
-      SingerEventAdminRegisterComponent
+      SingerEventAdminRegisterComponent,
+      AddFamilyWizardComponent,
    ],
    imports: [
       CoreModule,
@@ -66,14 +68,15 @@ import { SharedModule } from '../shared/shared.module';
       MatTableModule,
       MatPaginatorModule,
       MatSortModule,
-   ], entryComponents: [
+   ],
+   entryComponents: [
       CareUserDetailsComponent,
       LegalguardianDetailsComponent,
       SingerEventDetailsComponent,
       SingerEventRegistrationsComponent,
       EventRegistrationComponent,
       AdminDetailsComponent,
-      SingerEventAdminRegisterComponent
+      SingerEventAdminRegisterComponent,
    ],
    providers: [
       CareUserProxy,

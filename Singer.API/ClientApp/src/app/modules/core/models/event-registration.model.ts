@@ -1,5 +1,5 @@
 import { RegistrationStatus } from './enum';
-import { EventSlotDTO } from './event-slot';
+import { EventSlotDTO } from './eventslot.dto';
 import { EventDescription } from './singerevent.model';
 import { CareUserDTO } from './careuser.model';
 
