@@ -41,7 +41,20 @@ export class EventListComponent implements OnInit {
    }
 
    onResize(event) {
-      this.breakpoint = event.target.innerWidth <= 500 ? 1 : 3;
+      this.breakpoint = this.calculateColumns(event.target.innerWidth);
+   }
+
+   calculateColumns(width: number):number {
+      switch(true) {
+         case (width >= 1200):
+            return 3;
+         case (width >= 800):
+            return 2;
+         case (width >= 400):
+            return 1;
+         default:
+            return 1;
+      }
    }
 
    onSearchEvent(searchEventData: SearchEventData) {

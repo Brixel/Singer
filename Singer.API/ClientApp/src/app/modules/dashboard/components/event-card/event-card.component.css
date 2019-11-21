@@ -1,22 +1,28 @@
-mat-card-content p {
-   max-height: 50px;
-   text-overflow: ellipsis;
-   overflow: auto;
+.card {
+   max-width: 400px;
 }
+
 .event-subtitle {
    display: flex;
    justify-content: space-between;
 }
+
 .date-indicator {
    display: flex;
    align-items: center;
-   font-size: 12px;
-   min-width: 100px;
+   font-size: 0.9em;
+   min-width: 7em;
 }
 
 .agegroup-chips {
-   max-height: 50px;
-   overflow-y: auto;
-   overflow-x: hidden;
    min-height: 40px;
+   margin-top:8px;
+}
+
+.event-description {
+   height: 2.4em;
+   line-height: 1.2em;
+   max-width: 390px;
+   overflow: hidden;
+   white-space: pre-line;
 }
