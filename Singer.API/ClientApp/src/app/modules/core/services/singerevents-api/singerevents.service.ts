@@ -4,6 +4,8 @@ import {
    UpdateSingerEventDTO,
    CreateSingerEventDTO,
    EventRepeatSettingsDTO,
+   EventSlotRegistrations,
+   EventSlotRegistrationDTO,
    EventDescription,
 } from '../../models/singerevent.model';
 import { Observable } from 'rxjs';
@@ -105,6 +107,26 @@ export class SingerEventsService {
 
    getEventRegisterDetails(eventId: string) {
       return this.singerEventsProxy.getEventRegisterDetails(eventId);
+   }
+
+   getEventRegistrations(
+      eventId: string,
+      sortDirection?: string,
+      sortColumn?: string,
+      pageIndex?: number,
+      pageSize?: number,
+      filter?: string
+   ): Observable<EventSlotRegistrationDTO[]> {
+      return this.singerEventsProxy
+         .getEventRegistrations(
+            eventId,
+            sortDirection,
+            sortColumn,
+            pageIndex,
+            pageSize,
+            filter
+         )
+         .pipe(map(res => res.items));
    }
 
    registerCareUserOnEvent(eventId: string, careUserId: string) {

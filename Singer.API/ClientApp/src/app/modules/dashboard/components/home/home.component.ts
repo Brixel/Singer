@@ -9,7 +9,7 @@ import { HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { ApiService } from 'src/app/modules/core/services/api.service';
 import { SearchEventData } from '../event-search/event-search.component';
-import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location';
+import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location.dto';
 import { AuthService } from 'src/app/modules/core/services/auth.service';
 
 @Component({

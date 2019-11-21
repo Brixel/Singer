@@ -6,7 +6,7 @@ import { AgeGroup } from 'src/app/modules/core/models/enum';
 import { MAT_DATE_FORMATS } from '@angular/material';
 import * as moment from 'moment';
 import { isNullOrUndefined } from 'util';
-import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location';
+import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location.dto';
 import { MY_FORMATS } from 'src/app/modules/core/core.module';
 import { NgxMaterialTimepickerTheme } from 'ngx-material-timepicker';
 
@@ -310,7 +310,6 @@ export class SingerEventDetailsComponent implements OnInit {
          location: new SingerEventLocation(),
          allowedAgeGroups: [],
          maxRegistrants: 0,
-         currentRegistrants: 0,
          cost: 0,
          startRegistrationDateTime: new Date(),
          endRegistrationDateTime: new Date(),
@@ -322,6 +321,7 @@ export class SingerEventDetailsComponent implements OnInit {
          dayCareBeforeStartDateTime: new Date(),
          hasDayCareAfter: false,
          dayCareAfterEndDateTime: new Date(),
+         eventSlots:[]
       };
    }
 
