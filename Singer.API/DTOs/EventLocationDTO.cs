@@ -19,8 +19,8 @@ namespace Singer.DTOs
          ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
          ErrorMessageResourceType = typeof(ErrorMessages))]
       [StringLength(
-         maximumLength: ValidationValues.MinNameLength,
-         MinimumLength = ValidationValues.MaxNameLength,
+         maximumLength: ValidationValues.MaxNameLength,
+         MinimumLength = ValidationValues.MinNameLength,
          ErrorMessageResourceName = nameof(ErrorMessages.FieldLengthMustBeBetween),
          ErrorMessageResourceType = typeof(ErrorMessages))]
       [Display(
@@ -91,8 +91,8 @@ namespace Singer.DTOs
          ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
          ErrorMessageResourceType = typeof(ErrorMessages))]
       [StringLength(
-         maximumLength: ValidationValues.MinNameLength,
-         MinimumLength = ValidationValues.MaxNameLength,
+         maximumLength: ValidationValues.MaxNameLength,
+         MinimumLength = ValidationValues.MinNameLength,
          ErrorMessageResourceName = nameof(ErrorMessages.FieldLengthMustBeBetween),
          ErrorMessageResourceType = typeof(ErrorMessages))]
       [Display(
@@ -163,8 +163,8 @@ namespace Singer.DTOs
          ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
          ErrorMessageResourceType = typeof(ErrorMessages))]
       [StringLength(
-         maximumLength: ValidationValues.MinNameLength,
-         MinimumLength = ValidationValues.MaxNameLength,
+         maximumLength: ValidationValues.MaxNameLength,
+         MinimumLength = ValidationValues.MinNameLength,
          ErrorMessageResourceName = nameof(ErrorMessages.FieldLengthMustBeBetween),
          ErrorMessageResourceType = typeof(ErrorMessages))]
       [Display(
