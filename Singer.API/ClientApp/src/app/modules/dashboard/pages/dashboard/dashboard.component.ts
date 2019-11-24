@@ -7,7 +7,8 @@ import { AuthService } from 'src/app/modules/core/services/auth.service';
    styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
-   isAuthenticated = false;
+   isAuthenticated:boolean = false;
+   isAdmin:boolean = false;
 
    constructor(private authService: AuthService) {}
 
@@ -17,5 +18,9 @@ export class DashboardComponent implements OnInit {
       });
 
       this.authService.isAuthenticated();
+
+      this.authService.isAdmin$.subscribe(res => {
+         this.isAdmin = res;
+      });
    }
 }
