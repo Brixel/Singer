@@ -17,7 +17,7 @@ namespace Singer.Resources
       public const int MaxEventTitleLength = 100;
       public const int MinEventTitleLength = 2;
 
-      public const int MaxDescriptionLength = 1000;
+      public const int MaxDescriptionLength = 10000;
 
       public const int MaxMaxRegistrants = int.MaxValue;
       public const int MinMaxRegistrants = 1;
