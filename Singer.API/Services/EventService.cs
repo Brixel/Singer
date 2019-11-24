@@ -93,6 +93,8 @@ namespace Singer.Services
 
       private IEnumerable<EventSlot> GenerateEventSlots(CreateEventDTO dto)
       {
+         ValidateInput(dto);
+
          switch (dto.RepeatSettings?.RepeatType)
          {
             case RepeatType.OnDate:
@@ -114,6 +116,27 @@ namespace Singer.Services
                   1,
                   default);
          }
+      }
+
+      private void ValidateInput(CreateEventDTO createEvent)
+      {
+         // Currently only validate this for event slot creation
+         if(createEvent.StartDateTime > createEvent.EndDateTime) {
+            throw new BadInputException("Start date cannot be after end date",ErrorMessages.BadInputError);
+         }
+
+         // Not required for event slot creation, yet it's a logical validation
+         if (createEvent.StartRegistrationDateTime > createEvent.EndRegistrationDateTime)
+         {
+            throw new BadInputException("Start of registration cannot be after end of registration", ErrorMessages.BadInputError);
+         }
+
+         // Not required for event slot creation, yet it's a logical validation
+         if(createEvent.StartRegistrationDateTime > createEvent.FinalCancellationDateTime)
+         {
+            throw new BadInputException("Start of registration cannot be after cancellation date", ErrorMessages.BadInputError);
+         }
+
       }
    }
 }
