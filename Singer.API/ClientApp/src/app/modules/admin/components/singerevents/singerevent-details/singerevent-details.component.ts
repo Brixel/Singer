@@ -9,7 +9,10 @@ import { isNullOrUndefined } from 'util';
 import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location.dto';
 import { MY_FORMATS } from 'src/app/modules/core/core.module';
 import { mixinHasStickyInput } from '@angular/cdk/table';
-import { dateNotAfter } from 'src/app/modules/core/utils/custom-date-validators';
+import {
+   dateNotAfter,
+   dateNotBefore,
+} from 'src/app/modules/core/utils/custom-date-validators';
 import { NgxMaterialTimepickerTheme } from 'ngx-material-timepicker';
 
 // Data we pass along with the creation of the Mat-Dialog box
@@ -48,15 +51,15 @@ export class SingerEventDetailsComponent implements OnInit {
 
    singerTimePickerTheme: NgxMaterialTimepickerTheme = {
       container: {
-          buttonColor: '#6a9de1'
+         buttonColor: '#6a9de1',
       },
       dial: {
-          dialBackgroundColor: '#4a88da',
+         dialBackgroundColor: '#4a88da',
       },
       clockFace: {
-          clockHandColor: '#4a88da',
-      }
-  };
+         clockHandColor: '#4a88da',
+      },
+   };
 
    allowedAgeGroupsFormControlArray: FormArray = new FormArray([
       new FormControl('', [Validators.required]),
@@ -71,16 +74,16 @@ export class SingerEventDetailsComponent implements OnInit {
    readonly locationFieldPlaceholder = 'Locatie evenement';
    readonly allowedAgeGroupsFieldPlaceholder = 'Leeftijdsgroepen';
    readonly maxRegistrantsFieldPlaceholder = 'Aantal toegelaten personen';
-   readonly costFieldPlaceholder = 'Prijs';
-   readonly startRegistrationDateFieldPlaceholder = 'Start Datum Registratie';
-   readonly endRegistrationDateFieldPlaceholder = 'Eind Datum Registratie';
-   readonly finalCancellationDateFieldPlaceholder = 'Eind Datum Annulering';
+   readonly costFieldPlaceholder = 'Prijs (0 is gratis)';
+   readonly startRegistrationDateFieldPlaceholder = 'Startdatum registratie';
+   readonly endRegistrationDateFieldPlaceholder = 'Einddatum registratie';
+   readonly finalCancellationDateFieldPlaceholder = 'Uiterste annulatiedatum';
    readonly registrationOnDailyBasisFieldPlaceholder =
       'Registratie op dagelijkse basis';
-   readonly startDateFieldPlaceholder = 'Start Datum Evenement';
-   readonly endDateFieldPlaceholder = 'Eind Datum Evenement';
-   readonly dailyStartTimePlaceholder = 'Start Tijd Evenement';
-   readonly dailyEndTimePlaceholder = 'Eind Tijd Evenement';
+   readonly startDateFieldPlaceholder = 'Startdatum evenement';
+   readonly endDateFieldPlaceholder = 'Einddatum evenement';
+   readonly dailyStartTimePlaceholder = 'Starttijd evenement';
+   readonly dailyEndTimePlaceholder = 'Eindtijd evenement';
    readonly hasDayCareBeforeFieldPlaceholder = 'Opvang voor het evenement';
    readonly dayCareBeforeStartTimeFieldPlaceholder =
       'Start opvang voor het evenement';
@@ -192,6 +195,50 @@ export class SingerEventDetailsComponent implements OnInit {
       } else {
          this.loadCurrentSingerEventInstanceValues();
       }
+
+      this.formControlGroup
+         .controls.startRegistrationDateFieldControl
+         .valueChanges.subscribe(res => {
+            const minDate = res;
+            const endRegistrationControl = this.formControlGroup.controls
+               .endRegistrationDateFieldControl;
+            endRegistrationControl.setValidators([Validators.required, dateNotBefore(minDate)]);
+            endRegistrationControl.updateValueAndValidity();
+
+            const finalCancellationDateFieldControl = this.formControlGroup
+               .controls.finalCancellationDateFieldControl;
+            finalCancellationDateFieldControl.setValidators([
+               dateNotBefore(minDate),
+            ]);
+            finalCancellationDateFieldControl.updateValueAndValidity();
+         });
+
+      this.formControlGroup.controls
+         .startDateFieldControl.valueChanges.subscribe((res) => {
+            const minDate = res;
+            const endDateFieldControl = this.formControlGroup.controls.endDateFieldControl;
+            endDateFieldControl.setValidators([Validators.required, dateNotBefore(minDate)]);
+            endDateFieldControl.updateValueAndValidity();
+         })
+
+      this.formControlGroup.controls.hasDayCareBeforeFieldControl.valueChanges.subscribe(
+         res => {
+            const hasDayCareBefore = res;
+            const dayCareBeforeStartTimeFieldControl = this.formControlGroup
+               .controls.dayCareBeforeStartTimeFieldControl;
+            if (hasDayCareBefore) {
+               dayCareBeforeStartTimeFieldControl.setValidators([
+                  Validators.required,
+               ]);
+            } else {
+               dayCareBeforeStartTimeFieldControl.clearValidators();
+            }
+            dayCareBeforeStartTimeFieldControl.reset();
+            dayCareBeforeStartTimeFieldControl.updateValueAndValidity();
+
+         console.log(dayCareBeforeStartTimeFieldControl.errors)
+         }
+      );
 
       // TODO: The commented code below attempts to set the before/after
       // start times of daycare as required fields, only when before/after
@@ -350,7 +397,7 @@ export class SingerEventDetailsComponent implements OnInit {
          dayCareBeforeStartDateTime: new Date(),
          hasDayCareAfter: false,
          dayCareAfterEndDateTime: new Date(),
-         eventSlots:[]
+         eventSlots: [],
       };
    }
 
@@ -613,5 +660,4 @@ export class SingerEventDetailsComponent implements OnInit {
    closeForm() {
       this.dialogRef.close();
    }
-
 }
