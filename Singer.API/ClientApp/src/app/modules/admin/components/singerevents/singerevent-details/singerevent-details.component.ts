@@ -222,8 +222,8 @@ export class SingerEventDetailsComponent implements OnInit {
          })
 
       this.formControlGroup.controls.hasDayCareBeforeFieldControl.valueChanges.subscribe(
-         res => {
-            const hasDayCareBefore = res;
+         (res: string) => {
+            const hasDayCareBefore = res === 'true';
             const dayCareBeforeStartTimeFieldControl = this.formControlGroup
                .controls.dayCareBeforeStartTimeFieldControl;
             if (hasDayCareBefore) {
@@ -235,35 +235,25 @@ export class SingerEventDetailsComponent implements OnInit {
             }
             dayCareBeforeStartTimeFieldControl.reset();
             dayCareBeforeStartTimeFieldControl.updateValueAndValidity();
-
-         console.log(dayCareBeforeStartTimeFieldControl.errors)
          }
       );
 
-      // TODO: The commented code below attempts to set the before/after
-      // start times of daycare as required fields, only when before/after
-      // daycare has been set to true, this is however not working.
-
-      // this.formControlGroup
-      //    .get('hasDayCareBeforeFieldControl')
-      //    .valueChanges.subscribe(hasDayCareBefore => {
-      //       console.log(hasDayCareBefore);
-      //       let before = this.formControlGroup.get(
-      //          'dayCareBeforeStartTimeFieldControl'
-      //       );
-      //       let after = this.formControlGroup.get(
-      //          'dayCareBeforeEndTimeFieldControl'
-      //       );
-      //       if (hasDayCareBefore) {
-      //          before.setValidators([Validators.required]);
-      //          after.setValidators([Validators.required]);
-      //       } else {
-      //          before.clearValidators();
-      //          after.clearValidators();
-      //       }
-      //       before.updateValueAndValidity();
-      //       after.updateValueAndValidity();
-      //    });
+      this.formControlGroup.controls.hasDayCareAfterFieldControl.valueChanges.subscribe(
+         (res: string) => {
+            const hasDayCareAfter = res === 'true';
+            const dayCareAfterEndTimeFieldControl = this.formControlGroup
+               .controls.dayCareAfterEndTimeFieldControl;
+            if (hasDayCareAfter) {
+               dayCareAfterEndTimeFieldControl.setValidators([
+                  Validators.required,
+               ]);
+            } else {
+               dayCareAfterEndTimeFieldControl.clearValidators();
+            }
+            dayCareAfterEndTimeFieldControl.reset();
+            dayCareAfterEndTimeFieldControl.updateValueAndValidity();
+         }
+      );
    }
 
    getRequiredFieldErrorMessage(formControl: FormControl) {
