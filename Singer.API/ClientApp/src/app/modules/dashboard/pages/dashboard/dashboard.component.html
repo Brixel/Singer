@@ -1,5 +1,5 @@
 <div class="body">
-   <app-home class="body__home"></app-home>
+   <app-home class="body__home" *ngIf="!isAdmin"></app-home>
 
    <app-admin-menu class="body__admin-menu" *ngIf="isAuthenticated && isAdmin"></app-admin-menu>
 
