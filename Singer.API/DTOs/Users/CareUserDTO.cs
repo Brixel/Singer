@@ -8,6 +8,8 @@ namespace Singer.DTOs.Users
 {
    public class CareUserDTO : UserDTO
    {
+      public new string Email { get; set; }
+
       [Required(
          ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
          ErrorMessageResourceType = typeof(ErrorMessages))]
@@ -66,6 +68,8 @@ namespace Singer.DTOs.Users
 
    public class CreateCareUserDTO : CreateUserDTO
    {
+      public new string Email { get; set; }
+
       [Required(
          ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
          ErrorMessageResourceType = typeof(ErrorMessages))]
@@ -129,6 +133,8 @@ namespace Singer.DTOs.Users
 
    public class UpdateCareUserDTO : UpdateUserDTO
    {
+      public new string Email { get; set; }
+
       [Required(
          ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
          ErrorMessageResourceType = typeof(ErrorMessages))]
