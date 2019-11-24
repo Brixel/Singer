@@ -11,9 +11,7 @@ namespace Singer.Resources
       public const int MaxPostalCodeLength = 10;
       public const int MaxCityLength = 100;
       public const int MaxCountryLength = 100;
-
-      public const int CaseNumberLength = 10;
-
+      
       public const int MaxEventTitleLength = 100;
       public const int MinEventTitleLength = 2;
 

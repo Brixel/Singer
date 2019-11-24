@@ -8,6 +8,8 @@ namespace Singer.DTOs.Users
 {
    public class CareUserDTO : UserDTO
    {
+      public new string Email { get; set; }
+
       [Required(
          ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
          ErrorMessageResourceType = typeof(ErrorMessages))]
@@ -19,11 +21,6 @@ namespace Singer.DTOs.Users
 
       [Required(
          ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
-         ErrorMessageResourceType = typeof(ErrorMessages))]
-      [StringLength(
-         maximumLength: ValidationValues.CaseNumberLength,
-         MinimumLength = ValidationValues.CaseNumberLength,
-         ErrorMessageResourceName = nameof(ErrorMessages.FieldMustHaveChars),
          ErrorMessageResourceType = typeof(ErrorMessages))]
       [Display(
          ResourceType = typeof(DisplayNames),
@@ -71,6 +68,8 @@ namespace Singer.DTOs.Users
 
    public class CreateCareUserDTO : CreateUserDTO
    {
+      public new string Email { get; set; }
+
       [Required(
          ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
          ErrorMessageResourceType = typeof(ErrorMessages))]
@@ -82,11 +81,6 @@ namespace Singer.DTOs.Users
 
       [Required(
          ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
-         ErrorMessageResourceType = typeof(ErrorMessages))]
-      [StringLength(
-         maximumLength: ValidationValues.CaseNumberLength,
-         MinimumLength = ValidationValues.CaseNumberLength,
-         ErrorMessageResourceName = nameof(ErrorMessages.FieldMustHaveChars),
          ErrorMessageResourceType = typeof(ErrorMessages))]
       [Display(
          ResourceType = typeof(DisplayNames),
@@ -139,6 +133,8 @@ namespace Singer.DTOs.Users
 
    public class UpdateCareUserDTO : UpdateUserDTO
    {
+      public new string Email { get; set; }
+
       [Required(
          ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
          ErrorMessageResourceType = typeof(ErrorMessages))]
@@ -150,11 +146,6 @@ namespace Singer.DTOs.Users
 
       [Required(
          ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
-         ErrorMessageResourceType = typeof(ErrorMessages))]
-      [StringLength(
-         maximumLength: ValidationValues.CaseNumberLength,
-         MinimumLength = ValidationValues.CaseNumberLength,
-         ErrorMessageResourceName = nameof(ErrorMessages.FieldMustHaveChars),
          ErrorMessageResourceType = typeof(ErrorMessages))]
       [Display(
          ResourceType = typeof(DisplayNames),
