@@ -94,7 +94,7 @@ export class SingerEventDetailsComponent implements OnInit {
    // Form validation values
    readonly maxTitleLength = 100;
    readonly minTitleLength = 2;
-   readonly maxDescriptionLength = 1000;
+   readonly maxDescriptionLength = 10000;
    readonly maxMaxRegistrants = 2000000000;
    readonly minMaxRegistrants = 1;
    readonly maxCost = 2000000000;
