@@ -186,7 +186,7 @@
                <div
                   *ngIf="formControlGroup.controls.costFieldControl.errors.min"
                >
-                  Prijs mag minstens {{ minCost }} zijn.
+                  Prijs mag niet negatief zijn.
                </div>
                <div
                   *ngIf="formControlGroup.controls.costFieldControl.errors.max"
@@ -223,7 +223,7 @@
                         .errors.required
                   "
                >
-                  Start datum registratie is een verplicht veld.
+                  Startdatum registratie is een verplicht veld.
                </div>
             </mat-error>
             <mat-datepicker-toggle
@@ -247,21 +247,25 @@
                      .invalid
                "
             >
-               <mat-error
+               <div
                   *ngIf="
                      formControlGroup.controls.endRegistrationDateFieldControl
-                        .invalid
+                        .errors.required
                   "
                >
-                  <div
-                     *ngIf="
-                        formControlGroup.controls
-                           .endRegistrationDateFieldControl.errors.required
-                     "
-                  >
-                     Eind datum registratie is een verplicht veld.
-                  </div>
-               </mat-error>
+                  Einddatum registratie is een verplicht veld.
+               </div>
+               <div
+                  *ngIf="
+                     formControlGroup.controls.endRegistrationDateFieldControl
+                        .errors.dateNotBefore
+                  "
+               >
+                  Einddatum registratie mag niet voor de begin datum ({{
+                     formControlGroup.controls.endRegistrationDateFieldControl
+                        .errors.dateNotBefore.value | date: 'dd-MM-yyyy'
+                  }}) liggen
+               </div>
             </mat-error>
             <mat-datepicker-toggle
                matSuffix
@@ -290,7 +294,18 @@
                         .errors.required
                   "
                >
-                  Uiterste registratie datum is een verplicht veld.
+                  Annulatiedatum is een verplicht veld.
+               </div>
+               <div
+                  *ngIf="
+                     formControlGroup.controls.finalCancellationDateFieldControl
+                        .errors.dateNotBefore
+                  "
+               >
+                  Annulatiedatum mag niet voor de begin datum ({{
+                     formControlGroup.controls.finalCancellationDateFieldControl
+                        .errors.dateNotBefore.value | date: 'dd-MM-yyyy'
+                  }}) liggen
                </div>
             </mat-error>
             <mat-datepicker-toggle
@@ -344,7 +359,7 @@
                         .required
                   "
                >
-                  Start datum is een verplicht veld.
+                  Startdatum is een verplicht veld.
                </div>
             </mat-error>
             <mat-datepicker-toggle
@@ -371,7 +386,18 @@
                         .required
                   "
                >
-                  Eind datum is een verplicht veld.
+                  Einddatum is een verplicht veld.
+               </div>
+               <div
+                  *ngIf="
+                     formControlGroup.controls.endDateFieldControl
+                        .errors.dateNotBefore
+                  "
+               >
+               Einddatum mag niet voor de begin datum ({{
+                     formControlGroup.controls.endDateFieldControl
+                        .errors.dateNotBefore.value | date: 'dd-MM-yyyy'
+                  }}) liggen
                </div>
             </mat-error>
             <mat-datepicker-toggle

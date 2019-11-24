@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.1.0-issue-timepicker-colors.995",
+   "version": "0.1.0-issue-apply-date-logic.993",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",
