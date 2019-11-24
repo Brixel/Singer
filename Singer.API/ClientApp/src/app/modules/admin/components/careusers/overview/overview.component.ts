@@ -17,6 +17,7 @@ import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { CareUserDetailsComponent } from '../care-user-details/care-user-details.component';
 import { CareUserService } from 'src/app/modules/core/services/care-users-api/careusers.service';
 import { CareUser } from 'src/app/modules/core/models/careuser.model';
+import { LoadingService } from 'src/app/modules/core/services/loading.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
@@ -58,12 +59,13 @@ export class OverviewComponent implements OnInit, AfterViewInit {
 
    constructor(
       public dialog: MatDialog,
-      private careUserService: CareUserService,
-      private snackBar: MatSnackBar
+      private _careUserService: CareUserService,
+      private _snackBar: MatSnackBar,
+      private _loadingService: LoadingService
    ) {}
 
    ngOnInit() {
-      this.dataSource = new OverviewDataSource(this.careUserService);
+      this.dataSource = new OverviewDataSource(this._careUserService);
       this.sort.active = 'firstName';
       this.sort.direction = 'asc';
       this.loadCareUsers();
@@ -78,13 +80,12 @@ export class OverviewComponent implements OnInit, AfterViewInit {
       });
 
       dialogRef.componentInstance.submitEvent.subscribe((result: CareUser) => {
-
          // Update the Careuser
-         this.careUserService.updateUser(result).subscribe(
+         this._careUserService.updateUser(result).subscribe(
             () => {
                // Reload Careusers
                this.loadCareUsers();
-               this.snackBar.open(
+               this._snackBar.open(
                   `Gebruiker ${result.firstName} ${result.lastName} werd aangepast.`,
                   'OK',
                   { duration: 2000 }
@@ -104,10 +105,10 @@ export class OverviewComponent implements OnInit, AfterViewInit {
       });
 
       dialogRef.componentInstance.submitEvent.subscribe((result: CareUser) => {
-         this.careUserService.createCareUser(result).subscribe(
+         this._careUserService.createCareUser(result).subscribe(
             _ => {
                this.loadCareUsers();
-               this.snackBar.open(
+               this._snackBar.open(
                   `Gebruiker ${result.firstName} ${result.lastName} werd toegevoegd.`,
                   'OK',
                   { duration: 2000 }
@@ -154,17 +155,25 @@ export class OverviewComponent implements OnInit, AfterViewInit {
             })
          )
          .subscribe();
+
+      this.dataSource.loading$.subscribe(res => {
+         if (res) {
+            this._loadingService.show();
+         } else {
+            this._loadingService.hide();
+         }
+      });
    }
 
    handleApiError(err: any) {
       if (typeof err === 'string') {
-         this.snackBar.open(`⚠ ${err}`, 'OK');
+         this._snackBar.open(`⚠ ${err}`, 'OK');
       } else if (typeof err === 'object' && err !== null) {
          let messages = [];
          for (var k in err) {
             messages.push(err[k]);
          }
-         this.snackBar.open(
+         this._snackBar.open(
             `⚠ Er zijn fouten opgetreden bij het opslaan:\n${messages.join(
                '\n'
             )}`,

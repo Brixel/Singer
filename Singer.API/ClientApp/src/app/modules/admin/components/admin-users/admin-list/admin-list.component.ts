@@ -12,6 +12,7 @@ import { fromEvent, merge } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 import { AdminUser } from 'src/app/modules/core/models/adminuser.model';
 import { AdminDetailsComponent } from '../admin-details/admin-details.component';
+import { LoadingService } from 'src/app/modules/core/services/loading.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
@@ -43,7 +44,8 @@ export class AdminListComponent implements OnInit, AfterViewInit {
 
    constructor(
       public dialog: MatDialog,
-      private adminUserService: AdminUserService
+      private adminUserService: AdminUserService,
+      private _loadingService: LoadingService
    ) {}
 
    ngOnInit() {
@@ -71,8 +73,8 @@ export class AdminListComponent implements OnInit, AfterViewInit {
       });
 
       dialogRef.componentInstance.submitEvent.subscribe((result: AdminUser) => {
-         //Update the Careuser
-         this.adminUserService.update(result).subscribe(res => {
+         // Update the Careuser
+         this.adminUserService.update(result).subscribe(() => {
             // Reload Careusers
             this.loadAdmins();
          });
@@ -82,7 +84,7 @@ export class AdminListComponent implements OnInit, AfterViewInit {
       const dialogRef = this.dialog.open(AdminDetailsComponent);
 
       dialogRef.componentInstance.submitEvent.subscribe((result: AdminUser) => {
-         this.adminUserService.create(result).subscribe(res => {
+         this.adminUserService.create(result).subscribe(() => {
             this.loadAdmins();
          });
       });
@@ -109,5 +111,12 @@ export class AdminListComponent implements OnInit, AfterViewInit {
             })
          )
          .subscribe();
+      this.dataSource.loading$.subscribe(res => {
+         if (res) {
+            this._loadingService.show();
+         } else {
+            this._loadingService.hide();
+         }
+      });
    }
 }
