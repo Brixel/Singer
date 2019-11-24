@@ -164,7 +164,7 @@
          <mat-form-field>
             <input
                matInput
-               type="number"
+               type="text"
                [placeholder]="caseNumberFieldPlaceholder"
                formControlName="caseNumberFieldControl"
             />
@@ -178,17 +178,6 @@
                   "
                >
                   {{ caseNumberFieldPlaceholder }} is een verplicht veld.
-               </div>
-               <div
-                  *ngIf="
-                     formControlGroup.controls.caseNumberFieldControl.errors
-                        .maxNameLength ||
-                     formControlGroup.controls.caseNumberFieldControl.errors
-                        .minNameLength
-                  "
-               >
-                  {{ caseNumberFieldPlaceholder }} moet een lengte hebben van
-                  {{ caseNumberLength }} karakters. {{ caseNumberLength }}.
                </div>
             </mat-error>
          </mat-form-field>

@@ -92,7 +92,6 @@ export class CareUserDetailsComponent implements OnInit {
    // Form validation values
    readonly minBirthday: Date = new Date(1900, 0, 1);
    readonly maxBirthday: Date = new Date();
-   readonly caseNumberLength = 10;
    readonly maxNameLength = 100;
    readonly minNameLength = 2;
    readonly maxEmailLength = 255;
@@ -120,8 +119,6 @@ export class CareUserDetailsComponent implements OnInit {
       ]),
       caseNumberFieldControl: new FormControl('', [
          Validators.required,
-         Validators.minLength(this.caseNumberLength),
-         Validators.maxLength(this.caseNumberLength),
       ]),
       ageGroupFieldControl: new FormControl('', [Validators.required]),
       isExternFieldControl: new FormControl('', [Validators.required]),

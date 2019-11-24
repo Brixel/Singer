@@ -20,11 +20,6 @@ namespace Singer.DTOs.Users
       [Required(
          ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
          ErrorMessageResourceType = typeof(ErrorMessages))]
-      [StringLength(
-         maximumLength: ValidationValues.CaseNumberLength,
-         MinimumLength = ValidationValues.CaseNumberLength,
-         ErrorMessageResourceName = nameof(ErrorMessages.FieldMustHaveChars),
-         ErrorMessageResourceType = typeof(ErrorMessages))]
       [Display(
          ResourceType = typeof(DisplayNames),
          Name = nameof(DisplayNames.CaseNumber))]
@@ -82,11 +77,6 @@ namespace Singer.DTOs.Users
 
       [Required(
          ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
-         ErrorMessageResourceType = typeof(ErrorMessages))]
-      [StringLength(
-         maximumLength: ValidationValues.CaseNumberLength,
-         MinimumLength = ValidationValues.CaseNumberLength,
-         ErrorMessageResourceName = nameof(ErrorMessages.FieldMustHaveChars),
          ErrorMessageResourceType = typeof(ErrorMessages))]
       [Display(
          ResourceType = typeof(DisplayNames),
@@ -150,11 +140,6 @@ namespace Singer.DTOs.Users
 
       [Required(
          ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
-         ErrorMessageResourceType = typeof(ErrorMessages))]
-      [StringLength(
-         maximumLength: ValidationValues.CaseNumberLength,
-         MinimumLength = ValidationValues.CaseNumberLength,
-         ErrorMessageResourceName = nameof(ErrorMessages.FieldMustHaveChars),
          ErrorMessageResourceType = typeof(ErrorMessages))]
       [Display(
          ResourceType = typeof(DisplayNames),
