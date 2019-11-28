@@ -10,7 +10,7 @@ export class EventSlot {
       this.startDateTime = new Date(startDateTime);
       this.endDateTime = new Date(endDateTime);
       this.registrants = registrations
-         .map(reg => new Registrant(reg.registrationId, reg.careUserId, reg.firstName, reg.lastName, reg.status))
+         .map(reg => new Registrant(reg.registrationId, reg.careUserId, reg.firstName, reg.lastName, reg.status, reg.daycareLocation))
          .sort(this.sorter());
    }
    private sorter(): (a: Registrant, b: Registrant) => number {

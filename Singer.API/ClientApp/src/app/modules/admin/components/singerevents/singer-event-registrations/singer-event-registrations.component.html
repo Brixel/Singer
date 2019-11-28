@@ -4,24 +4,55 @@
 <!-- Form Dialog Content -->
 
 <mat-dialog-content>
-   <mat-form-field>
-      <mat-label>Datum</mat-label>
-      <mat-select [(value)]="selectedEventSlot">
-         <mat-option *ngFor="let eventSlot of eventSlots" [value]="eventSlot"
-            >{{ eventSlot.startDateTime | date: 'dd-MM-yyyy HH:mm' }} -
-            {{ eventSlot.endDateTime | date: 'dd-MM-yyyy HH:mm' }}</mat-option
-         >
-      </mat-select>
-   </mat-form-field>
+   <div class="date-selector">
+      <mat-form-field *ngIf="eventSlots.length > 1">
+         <mat-label>Datum</mat-label>
+         <mat-select [(value)]="selectedEventSlot">
+            <mat-option *ngFor="let eventSlot of eventSlots" [value]="eventSlot"
+               >{{ eventSlot.startDateTime | date: 'dd-MM-yyyy HH:mm' }} -
+               {{
+                  eventSlot.endDateTime | date: 'dd-MM-yyyy HH:mm'
+               }}</mat-option
+            >
+         </mat-select>
+      </mat-form-field>
+      <p *ngIf="eventSlots.length === 1">
+         {{ selectedEventSlot.startDateTime | date: 'dd-MM-yyyy HH:mm' }} -
+         {{ selectedEventSlot.endDateTime | date: 'dd-MM-yyyy HH:mm' }}
+      </p>
+   </div>
    <mat-list *ngIf="selectedEventSlot">
-      <p *ngIf="selectedEventSlot.registrants.length === 0 || !selectedEventSlot.registrants">Geen inschrijvingen gevonden voor deze datum</p>
+      <p
+         *ngIf="
+            selectedEventSlot.registrants.length === 0 ||
+            !selectedEventSlot.registrants
+         "
+      >
+         Geen inschrijvingen gevonden voor deze datum
+      </p>
       <mat-list-item *ngFor="let registrant of selectedEventSlot.registrants">
          <div class="registrant">
             <span>{{ registrant.name }}</span>
+            <mat-form-field class="location-selector" *ngIf="hasDaycare">
+               <mat-label>Opvanglocatie</mat-label>
+               <mat-select
+                  [compareWith]="compareLocations"
+                  [(value)]="registrant.daycareLocation"
+                  (selectionChange)="
+                     changeLocation($event, registrant.registrationId)
+                  "
+               >
+                  <mat-option
+                     *ngFor="let location of availableLocations"
+                     [value]="location"
+                     >{{ location.name }}</mat-option
+                  >
+               </mat-select>
+            </mat-form-field>
             <mat-button-toggle-group
                class="status-icon"
                [value]="registrant.registrationStatus"
-               (change)="changeSelection($event, registrant.registrationId)"
+               (change)="changeRegistration($event, registrant.registrationId)"
             >
                <mat-button-toggle
                   [value]="registrationStatus.Accepted"

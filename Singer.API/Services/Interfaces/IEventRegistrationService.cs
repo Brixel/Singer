@@ -33,5 +33,6 @@ namespace Singer.Services.Interfaces
 
       Task<RegistrationStatus> AcceptRegistration(Guid registrationId);
       Task<RegistrationStatus> RejectRegistration(Guid registrationId);
+      Task<DaycareLocationDTO> UpdateDaycareLocationForRegistration(Guid registrationId, Guid locationId);
    }
 }
