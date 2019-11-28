@@ -81,8 +81,6 @@ export class CareUser {
    ageGroup: AgeGroup;
    isExtern: boolean;
    hasTrajectory: boolean;
-   normalDaycareLocation: SingerEventLocation;
-   vacationDaycareLocation: SingerEventLocation;
    hasResources: boolean;
    legalGuardianUsers: LinkedLegalGuardian[];
    legalGuardianUsersToAdd: string[];
@@ -100,7 +98,5 @@ export class LinkedCareUser {
    ageGroup: AgeGroup;
    isExtern: boolean;
    hasTrajectory: boolean;
-   normalDaycareLocation: SingerEventLocation;
-   vacationDaycareLocation: SingerEventLocation;
    hasResources: boolean;
 }
