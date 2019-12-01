@@ -131,7 +131,7 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
          data: <SingerEventRegistrationData>{
             event: row,
          },
-         width: '80vw',
+         width: '60vw',
          maxHeight: '70vh',
       });
    }
