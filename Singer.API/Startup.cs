@@ -54,10 +54,12 @@ namespace Singer
 
          // This line uses 'UseSqlServer' in the 'options' parameter
          // with the connection string defined above.
+
+         var passwordOptions = Configuration.GetSection("PasswordOptions").Get<PasswordOptions>();
          services
             .AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString,
                opt => opt.EnableRetryOnFailure()))
-            .AddIdentity<User, IdentityRole<Guid>>()
+            .AddIdentity<User, IdentityRole<Guid>>(opts => { opts.Password = passwordOptions; })
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 
@@ -174,6 +176,8 @@ namespace Singer
          services.AddScoped<IEventService, EventService>();
          services.AddScoped<IEventRegistrationService, EventRegistrationService>()
             .AddScoped<IDateValidator, DateValidator>();
+         services.Configure<PasswordOptions>(Configuration.GetSection("PasswordOptions"));
+         services.AddScoped<IPasswordGenerator, PasswordGenerator>();
 
       }
 

@@ -15,6 +15,7 @@ using Singer.Helpers.Extensions;
 using Singer.Models;
 using Singer.Models.Users;
 using Singer.Resources;
+using Singer.Services.Interfaces;
 
 namespace Singer.Services
 {
@@ -24,9 +25,12 @@ namespace Singer.Services
       where TCreateUserDTO : class, ICreateUserDTO
       where TUpdateUserDTO : class, IUpdateUserDTO
    {
+      private readonly IPasswordGenerator _passwordGenerator;
       protected UserManager<User> UserManager { get; }
-      protected UserService(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager) : base(context, mapper)
+      protected UserService(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager,
+         IPasswordGenerator passwordGenerator) : base(context, mapper)
       {
+         _passwordGenerator = passwordGenerator;
          UserManager = userManager;
       }
 
@@ -44,7 +48,7 @@ namespace Singer.Services
             var existingEmail = await Queryable.SingleOrDefaultAsync(x => x.User.Email == dto.Email);
 
             if (existingEmail != null)
-               throw new BadInputException("The email addres must be unique to each user.", ErrorMessages.DuplicateEmail);
+               throw new BadInputException("The email address must be unique to each user.", ErrorMessages.DuplicateEmail);
          }
 
          var baseUser = new User()
@@ -55,8 +59,8 @@ namespace Singer.Services
             UserName = dto.Email
          };
 
-         // TODO Replace by better temporary password generation approach
-         var userCreationResult = await UserManager.CreateAsync(baseUser, "Testpassword123!");
+         var password = _passwordGenerator.Generate();
+         var userCreationResult = await UserManager.CreateAsync(baseUser, password);
          if (!userCreationResult.Succeeded)
          {
             Debug.WriteLine($"User can not be created. {userCreationResult.Errors.First().Code}");
@@ -136,5 +140,4 @@ namespace Singer.Services
       }
 
    }
-
 }

@@ -31,8 +31,8 @@ namespace Singer.Services
          .Include(x => x.VacationDaycareLocation)
          .AsQueryable();
 
-      public CareUserService(ApplicationDbContext appContext, IMapper mapper, UserManager<User> userManager)
-      : base(appContext, mapper, userManager)
+      public CareUserService(ApplicationDbContext appContext, IMapper mapper, UserManager<User> userManager, IPasswordGenerator passwordGenerator)
+      : base(appContext, mapper, userManager, passwordGenerator)
       {
       }
       protected override Expression<Func<CareUser, bool>> Filter(string filter)

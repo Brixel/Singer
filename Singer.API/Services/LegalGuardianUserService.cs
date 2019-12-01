@@ -18,8 +18,8 @@ namespace Singer.Services
    public class LegalGuardianUserService : UserService<LegalGuardianUser, LegalGuardianUserDTO, CreateLegalGuardianUserDTO, UpdateLegalGuardianUserDTO>,
       ILegalGuardianUserService
    {
-      public LegalGuardianUserService(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager)
-      : base(context, mapper, userManager)
+      public LegalGuardianUserService(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager, IPasswordGenerator passwordGenerator)
+      : base(context, mapper, userManager, passwordGenerator)
       {
       }
 
