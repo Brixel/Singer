@@ -70,9 +70,6 @@ export class CareUserDetailsComponent implements OnInit {
 
    // Current care user instance
    currentCareUserInstance: CareUser;
-
-   selectedNormalDaycareLocation: SingerEventLocation;
-   selectedVacationDaycareLocation: SingerEventLocation;
    private availableLocationsSubject = new BehaviorSubject<SingerEventLocation[]>([]);
    availableLocations$ = this.availableLocationsSubject.asObservable();
    //#region Binding properties for form:
@@ -85,8 +82,6 @@ export class CareUserDetailsComponent implements OnInit {
    readonly ageGroupFieldPlaceholder = 'Leeftijdsgroep';
    readonly isExternFieldPlaceholder = 'Klas of extern';
    readonly hasTrajectoryFieldPlaceholder = 'Trajectfunctie';
-   readonly normalDaycareLocationFieldPlaceholder = 'Opvang normaal';
-   readonly vacationDaycareLocationFieldPlaceholder = 'Opvang vakantie';
    readonly hasResourcesFieldPlaceholder = 'Voldoende middelen';
 
    // Form validation values
@@ -123,12 +118,6 @@ export class CareUserDetailsComponent implements OnInit {
       ageGroupFieldControl: new FormControl('', [Validators.required]),
       isExternFieldControl: new FormControl('', [Validators.required]),
       hasTrajectoryFieldControl: new FormControl('', [Validators.required]),
-      normalDaycareLocationFieldControl: new FormControl('', [
-         Validators.required,
-      ]),
-      vacationDaycareLocationFieldControl: new FormControl('', [
-         Validators.required,
-      ]),
       hasResourcesFieldControl: new FormControl('', [Validators.required]),
       legalGuardianUsersSearchFieldcontrol: new FormControl(),
    });
@@ -249,8 +238,6 @@ export class CareUserDetailsComponent implements OnInit {
       this.formControlGroup.controls.ageGroupFieldControl.reset();
       this.formControlGroup.controls.isExternFieldControl.reset();
       this.formControlGroup.controls.hasTrajectoryFieldControl.reset();
-      this.formControlGroup.controls.normalDaycareLocationFieldControl.reset();
-      this.formControlGroup.controls.vacationDaycareLocationFieldControl.reset();
       this.formControlGroup.controls.hasResourcesFieldControl.reset();
    }
 
