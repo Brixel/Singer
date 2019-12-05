@@ -70,9 +70,6 @@ export class CareUserDetailsComponent implements OnInit {
 
    // Current care user instance
    currentCareUserInstance: CareUser;
-
-   selectedNormalDaycareLocation: SingerEventLocation;
-   selectedVacationDaycareLocation: SingerEventLocation;
    private availableLocationsSubject = new BehaviorSubject<SingerEventLocation[]>([]);
    availableLocations$ = this.availableLocationsSubject.asObservable();
    //#region Binding properties for form:
@@ -85,8 +82,6 @@ export class CareUserDetailsComponent implements OnInit {
    readonly ageGroupFieldPlaceholder = 'Leeftijdsgroep';
    readonly isExternFieldPlaceholder = 'Klas of extern';
    readonly hasTrajectoryFieldPlaceholder = 'Trajectfunctie';
-   readonly normalDaycareLocationFieldPlaceholder = 'Opvang normaal';
-   readonly vacationDaycareLocationFieldPlaceholder = 'Opvang vakantie';
    readonly hasResourcesFieldPlaceholder = 'Voldoende middelen';
 
    // Form validation values
@@ -123,12 +118,6 @@ export class CareUserDetailsComponent implements OnInit {
       ageGroupFieldControl: new FormControl('', [Validators.required]),
       isExternFieldControl: new FormControl('', [Validators.required]),
       hasTrajectoryFieldControl: new FormControl('', [Validators.required]),
-      normalDaycareLocationFieldControl: new FormControl('', [
-         Validators.required,
-      ]),
-      vacationDaycareLocationFieldControl: new FormControl('', [
-         Validators.required,
-      ]),
       hasResourcesFieldControl: new FormControl('', [Validators.required]),
       legalGuardianUsersSearchFieldcontrol: new FormControl(),
    });
@@ -235,12 +224,6 @@ export class CareUserDetailsComponent implements OnInit {
       this.formControlGroup.controls.hasTrajectoryFieldControl.reset(
          this.currentCareUserInstance.hasTrajectory ? 'true' : 'false'
       );
-      this.formControlGroup.controls.normalDaycareLocationFieldControl.setValue(
-         this.currentCareUserInstance.normalDaycareLocation
-      );
-      this.formControlGroup.controls.vacationDaycareLocationFieldControl.setValue(
-         this.currentCareUserInstance.vacationDaycareLocation
-      );
       this.formControlGroup.controls.hasResourcesFieldControl.reset(
          this.currentCareUserInstance.hasResources ? 'true' : 'false'
       );
@@ -255,8 +238,6 @@ export class CareUserDetailsComponent implements OnInit {
       this.formControlGroup.controls.ageGroupFieldControl.reset();
       this.formControlGroup.controls.isExternFieldControl.reset();
       this.formControlGroup.controls.hasTrajectoryFieldControl.reset();
-      this.formControlGroup.controls.normalDaycareLocationFieldControl.reset();
-      this.formControlGroup.controls.vacationDaycareLocationFieldControl.reset();
       this.formControlGroup.controls.hasResourcesFieldControl.reset();
    }
 
@@ -272,8 +253,6 @@ export class CareUserDetailsComponent implements OnInit {
          ageGroup: AgeGroup.Toddler,
          isExtern: false,
          hasTrajectory: false,
-         normalDaycareLocation: new SingerEventLocation(),
-         vacationDaycareLocation: new SingerEventLocation(),
          hasResources: false,
          legalGuardianUsersToAdd: [],
          legalGuardianUsersToRemove: [],
@@ -340,34 +319,7 @@ export class CareUserDetailsComponent implements OnInit {
       ) {
          return true;
       }
-      if (
-         (isNullOrUndefined(
-            this.currentCareUserInstance.normalDaycareLocation
-         ) &&
-            !isNullOrUndefined(
-               this.formControlGroup.controls.normalDaycareLocationFieldControl
-                  .value
-            )) ||
-         this.currentCareUserInstance.normalDaycareLocation.id !==
-            this.formControlGroup.controls.normalDaycareLocationFieldControl
-               .value
-      ) {
-         return true;
-      }
-      if (
-         (isNullOrUndefined(
-            this.currentCareUserInstance.vacationDaycareLocation
-         ) &&
-            !isNullOrUndefined(
-               this.formControlGroup.controls
-                  .vacationDaycareLocationFieldControl.value
-            )) ||
-         this.currentCareUserInstance.vacationDaycareLocation.id !==
-            this.formControlGroup.controls.vacationDaycareLocationFieldControl
-               .value
-      ) {
-         return true;
-      }
+
       if (
          this.currentCareUserInstance.hasResources !==
          (this.formControlGroup.controls.hasResourcesFieldControl.value ===
@@ -477,8 +429,6 @@ export class CareUserDetailsComponent implements OnInit {
          'true'
             ? true
             : false;
-      this.currentCareUserInstance.normalDaycareLocation = this.formControlGroup.controls.normalDaycareLocationFieldControl.value;
-      this.currentCareUserInstance.vacationDaycareLocation = this.formControlGroup.controls.vacationDaycareLocationFieldControl.value;
       this.currentCareUserInstance.hasResources =
          this.formControlGroup.controls.hasResourcesFieldControl.value ===
          'true'

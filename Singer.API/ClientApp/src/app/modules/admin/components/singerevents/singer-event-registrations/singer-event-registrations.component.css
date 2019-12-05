@@ -6,8 +6,12 @@
 
    width: 100%;
 }
-mat-form-field{
-   width:100%;
+.date-selector mat-form-field{
+      width:100%;
+   }
+.location-selector{
+   margin-left: auto;
+   margin-right: 16px;;
 }
 .registration-rejected {
    color: red;

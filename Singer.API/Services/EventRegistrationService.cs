@@ -149,7 +149,12 @@ namespace Singer.Services
                      CareUserId = reg.CareUserId,
                      FirstName = reg.CareUser.User.FirstName,
                      LastName = reg.CareUser.User.LastName,
-                     Status = reg.Status
+                     Status = reg.Status,
+                     DaycareLocation = reg.DaycareLocationId != null ? new DaycareLocationDTO()
+                     {
+                        Id = reg.DaycareLocationId.Value,
+                        Name = reg.DaycareLocation.Name
+                     } : null
                   }).ToList()
                })
                .OrderBy(orderer, sortDirection)
@@ -307,6 +312,19 @@ namespace Singer.Services
          registration.Status = RegistrationStatus.Rejected;
          await Context.SaveChangesAsync();
          return registration.Status;
+      }
+
+      public async Task<DaycareLocationDTO> UpdateDaycareLocationForRegistration(Guid registrationId, Guid locationId)
+      {
+         var location = await Context.EventLocations.SingleAsync(x => x.Id == locationId);
+         var registration = await Context.EventRegistrations.SingleAsync(x => x.Id == registrationId);
+         registration.DaycareLocationId = locationId;
+         await Context.SaveChangesAsync();
+         return new DaycareLocationDTO()
+         {
+            Name = location.Name,
+            Id = location.Id
+         };
       }
    }
 }
