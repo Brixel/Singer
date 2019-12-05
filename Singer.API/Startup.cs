@@ -29,6 +29,7 @@ using NSwag.Generation.Processors.Security;
 using NSwag;
 using System.Net;
 using Singer.Controllers;
+using Singer.DTOs.Users;
 
 namespace Singer
 {
@@ -180,6 +181,9 @@ namespace Singer
          services.Configure<PasswordOptions>(Configuration.GetSection("PasswordOptions"));
          services.AddScoped<IPasswordGenerator, PasswordGenerator>();
          services.AddScoped<IUserProfileService, UserProfileService>();
+         services.Configure<EmailOptions>(Configuration.GetSection("EmailOptions"));
+         services.AddScoped(typeof(IEmailService<LegalGuardianUserDTO>), typeof(EmailService<LegalGuardianUserDTO>));
+         services.AddScoped(typeof(IEmailService<AdminUserDTO>), typeof(EmailService<AdminUserDTO>));
 
       }
 

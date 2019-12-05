@@ -32,7 +32,7 @@ namespace Singer.Services
          .AsQueryable();
 
       public CareUserService(ApplicationDbContext appContext, IMapper mapper, UserManager<User> userManager, IPasswordGenerator passwordGenerator)
-      : base(appContext, mapper, userManager, passwordGenerator)
+      : base(appContext, mapper, userManager, passwordGenerator, null)
       {
       }
       protected override Expression<Func<CareUser, bool>> Filter(string filter)
@@ -56,7 +56,7 @@ namespace Singer.Services
          var careUser = await Context.CareUsers.FindAsync(CareUserId);
          if (careUser == null)
             throw new NotFoundException($"Tried to add user link for non existing CareUser with id {CareUserId}", ErrorMessages.CareUserDoesntExist);
-         
+
          List<LegalGuardianCareUser> NewCareUsers = new List<LegalGuardianCareUser>();
          foreach (var u in NewLinkedUsers)
          {
@@ -83,7 +83,7 @@ namespace Singer.Services
          var careUser = await Context.CareUsers.FindAsync(CareUserId);
          if (careUser == null)
             throw new NotFoundException($"Tried to remove user link for non existing CareUser with id {CareUserId}", ErrorMessages.CareUserDoesntExist);
-      
+
          foreach (var u in UsersToRemove)
          {
             var linkedUserExists = await Context.LegalGuardianCareUsers

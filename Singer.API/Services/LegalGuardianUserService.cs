@@ -18,8 +18,8 @@ namespace Singer.Services
    public class LegalGuardianUserService : UserService<LegalGuardianUser, LegalGuardianUserDTO, CreateLegalGuardianUserDTO, UpdateLegalGuardianUserDTO>,
       ILegalGuardianUserService
    {
-      public LegalGuardianUserService(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager, IPasswordGenerator passwordGenerator)
-      : base(context, mapper, userManager, passwordGenerator)
+      public LegalGuardianUserService(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager, IPasswordGenerator passwordGenerator, IEmailService<LegalGuardianUserDTO> emailService)
+      : base(context, mapper, userManager, passwordGenerator, emailService)
       {
       }
 
@@ -77,7 +77,7 @@ namespace Singer.Services
          var legalGuardianUser = await Context.LegalGuardianUsers.FindAsync(LegalGuardianUserId);
          if (legalGuardianUser == null)
             throw new NotFoundException($"Tried to remove user link for non existing LG User with id {LegalGuardianUserId}", ErrorMessages.LegalGuardianDoesntExist);
-        
+
          foreach (var u in UsersToRemove)
          {
             var LinkedUserExists = await Context.LegalGuardianCareUsers

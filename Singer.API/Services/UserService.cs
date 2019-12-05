@@ -27,11 +27,13 @@ namespace Singer.Services
    {
       private readonly IPasswordGenerator _passwordGenerator;
       protected UserManager<User> UserManager { get; }
+      private readonly IEmailService<TUserDTO> _emailService;
       protected UserService(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager,
-         IPasswordGenerator passwordGenerator) : base(context, mapper)
+         IPasswordGenerator passwordGenerator, IEmailService<TUserDTO> emailService) : base(context, mapper)
       {
          _passwordGenerator = passwordGenerator;
          UserManager = userManager;
+         _emailService = emailService;
       }
 
       public override async Task<TUserDTO> CreateAsync(
@@ -75,7 +77,12 @@ namespace Singer.Services
          entity.UserId = createdUser.Id;
          var changeTracker = await Context.AddAsync(entity);
          await Context.SaveChangesAsync();
-         return Mapper.Map<TUserDTO>(changeTracker.Entity);
+         var userDTO = Mapper.Map<TUserDTO>(changeTracker.Entity);
+         if (_emailService != null)
+         {
+            await _emailService.SendAccountDetailsAsync(userDTO, passwordResetToken);
+         }
+         return userDTO;
       }
 
       private string GenerateRandomUserName(string firstName, string lastName)

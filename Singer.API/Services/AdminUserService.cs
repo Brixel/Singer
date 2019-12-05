@@ -16,7 +16,8 @@ namespace Singer.Services
 {
    public class AdminUserService : UserService<AdminUser, AdminUserDTO, CreateAdminUserDTO, UpdateAdminUserDTO>, IAdminUserService
    {
-      public AdminUserService(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager, IPasswordGenerator passwordGenerator) : base(context, mapper, userManager, passwordGenerator)
+      public AdminUserService(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager, IPasswordGenerator passwordGenerator, IEmailService<AdminUserDTO> emailService)
+      : base(context, mapper, userManager, passwordGenerator, emailService)
       {
       }
 
