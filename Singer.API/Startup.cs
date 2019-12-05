@@ -28,6 +28,7 @@ using Singer.Services.Interfaces;
 using NSwag.Generation.Processors.Security;
 using NSwag;
 using System.Net;
+using Singer.Controllers;
 
 namespace Singer
 {
@@ -80,7 +81,7 @@ namespace Singer
 
          if (cert == null)
          {
-            throw new ArgumentNullException("Not able to load certificate");
+            throw new Exception("Not able to load certificate");
          }
 
          services.AddIdentityServer()
@@ -178,6 +179,7 @@ namespace Singer
             .AddScoped<IDateValidator, DateValidator>();
          services.Configure<PasswordOptions>(Configuration.GetSection("PasswordOptions"));
          services.AddScoped<IPasswordGenerator, PasswordGenerator>();
+         services.AddScoped<IUserProfileService, UserProfileService>();
 
       }
 

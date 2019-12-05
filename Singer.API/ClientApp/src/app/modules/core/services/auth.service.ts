@@ -19,10 +19,23 @@ export class AuthService {
    constructor(
       private http: HttpClient,
       private jwtHelper: JwtHelperService,
-      @Inject('BASE_URL') private baseUrl: string) {}
+      @Inject('BASE_URL') private baseUrl: string
+   ) {}
 
    getUserInfo(): Observable<any> {
       return this.http.get(this.userInfoURL).pipe(map(res => res));
+   }
+
+   updatePassword(userId: string, token: string, password: string) {
+      const updatePasswordDTO = <UpdatePasswordDTO>{
+         newPassword: password,
+         token,
+         userId
+      };
+      console.log(updatePasswordDTO);
+      this.http.put(`${this.baseUrl}api/user/password`, updatePasswordDTO).subscribe((res) => {
+         console.log(res);
+      });
    }
 
    authenticate(username: string, password: string): Observable<any> {
@@ -81,4 +94,9 @@ export class AuthService {
       this.isAuthenticated();
       this.isAdminSubject.next(false);
    }
+}
+export class UpdatePasswordDTO {
+   userId: string;
+   token: string;
+   newPassword: string;
 }
