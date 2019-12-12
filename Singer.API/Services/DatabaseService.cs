@@ -187,7 +187,7 @@ namespace Singer.Services
          int entitiesPerPage = 15,
          bool showArchived = false)
       {
-         var queryable = !typeof(IArchivable).IsAssignableFrom(typeof(TDTO))
+         var queryable = !typeof(IArchivable).IsAssignableFrom(typeof(TEntity))
             ? Queryable
             : showArchived
             ? Queryable
