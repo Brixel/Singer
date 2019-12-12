@@ -653,6 +653,7 @@ export class SingerEventDetailsComponent implements OnInit {
          return;
       }
       this.deleteEvent.emit(this.currentSingerEventInstance);
+      this.closeForm();
    }
 
    // Close the form
