@@ -78,9 +78,10 @@ namespace Singer.Services
          var changeTracker = await Context.AddAsync(entity);
          await Context.SaveChangesAsync();
          var userDTO = Mapper.Map<TUserDTO>(changeTracker.Entity);
+         var passwordResetURL = $"http://localhost:5001/auth/reset?userId={userDTO.Id}&token={passwordResetToken}";
          if (_emailService != null)
          {
-            await _emailService.SendAccountDetailsAsync(userDTO, passwordResetToken);
+            await _emailService.SendAccountDetailsAsync(userDTO, passwordResetURL);
          }
          return userDTO;
       }

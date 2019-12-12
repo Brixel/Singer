@@ -1,3 +1,4 @@
+using System;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
@@ -11,19 +12,23 @@ namespace Singer.Services
    public class EmailService<TUserDTO> : IEmailService<TUserDTO>
    where TUserDTO : IUserDTO
    {
-      private SmtpClient _smtp;
-      private string _mailFrom;
-      private readonly EmailOptions _options;
+      private readonly SmtpClient _smtp;
+      private readonly string _mailFrom;
+
       public EmailService(IOptions<EmailOptions> options = null)
       {
-         _options = options.Value;
+         if(options == null)
+         {
+            throw new ArgumentNullException(nameof(options));
+         }
+         var options1 = options.Value;
          _smtp = new SmtpClient
          {
-            Credentials = new NetworkCredential(_options.SmtpUsername, _options.SmtpPassword),
-            Host = _options.SmtpHost,
-            Port = _options.SmtpPort
+            Credentials = new NetworkCredential(options1.SmtpUsername, options1.SmtpPassword),
+            Host = options1.SmtpHost,
+            Port = options1.SmtpPort
          };
-         _mailFrom = _options.MailFrom;
+         _mailFrom = options1.MailFrom;
       }
       public async Task SendAccountDetailsAsync(TUserDTO user, string resetPasswordLink)
       {

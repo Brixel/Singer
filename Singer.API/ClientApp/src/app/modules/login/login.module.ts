@@ -7,7 +7,10 @@ import { MaterialModule } from 'src/app/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
-const ROUTES: Routes = [{ path: '', component: AuthComponent },{path: 'reset', component: ResetPasswordComponent}];
+const ROUTES: Routes = [
+   { path: '', component: AuthComponent },
+   { path: 'reset', component: ResetPasswordComponent },
+];
 
 @NgModule({
    declarations: [AuthComponent, ResetPasswordComponent],
