@@ -184,6 +184,7 @@ namespace Singer
          services.Configure<EmailOptions>(Configuration.GetSection("EmailOptions"));
          services.AddScoped(typeof(IEmailService<LegalGuardianUserDTO>), typeof(EmailService<LegalGuardianUserDTO>));
          services.AddScoped(typeof(IEmailService<AdminUserDTO>), typeof(EmailService<AdminUserDTO>));
+         services.AddScoped(typeof(IEmailService<UserDTO>), typeof(EmailService<UserDTO>));
 
       }
 

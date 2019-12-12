@@ -16,6 +16,9 @@ export class AuthService {
    private isAuthenticatedSubject = new Subject<boolean>();
    isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
+   private passwordResetErrorSubject = new Subject<string>();
+   passwordResetError$ = this.passwordResetErrorSubject.asObservable();
+
    constructor(
       private http: HttpClient,
       private jwtHelper: JwtHelperService,
@@ -30,12 +33,26 @@ export class AuthService {
       const updatePasswordDTO = <UpdatePasswordDTO>{
          newPassword: password,
          token,
-         userId
+         userId,
       };
-      console.log(updatePasswordDTO);
-      this.http.put(`${this.baseUrl}api/user/password`, updatePasswordDTO).subscribe((res) => {
-         console.log(res);
-      });
+      return this.http
+         .put(`${this.baseUrl}api/user/password`, updatePasswordDTO).pipe(map((res => res)));
+   }
+
+   requestPasswordReset(userId: string) {
+      const httpOptions = {
+         headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+         }),
+      };
+      this.http
+         .post(`${this.baseUrl}api/user/resetpassword`, JSON.stringify(userId), httpOptions)
+         .subscribe(
+            () => {},
+            error => {
+               console.log(error);
+            }
+         );
    }
 
    authenticate(username: string, password: string): Observable<any> {

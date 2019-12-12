@@ -21,14 +21,14 @@ namespace Singer.Services
          {
             throw new ArgumentNullException(nameof(options));
          }
-         var options1 = options.Value;
+         var emailOptions = options.Value;
          _smtp = new SmtpClient
          {
-            Credentials = new NetworkCredential(options1.SmtpUsername, options1.SmtpPassword),
-            Host = options1.SmtpHost,
-            Port = options1.SmtpPort
+            Credentials = new NetworkCredential(emailOptions.SmtpUsername, emailOptions.SmtpPassword),
+            Host = emailOptions.SmtpHost,
+            Port = emailOptions.SmtpPort
          };
-         _mailFrom = options1.MailFrom;
+         _mailFrom = emailOptions.MailFrom;
       }
       public async Task SendAccountDetailsAsync(TUserDTO user, string resetPasswordLink)
       {
@@ -37,6 +37,15 @@ namespace Singer.Services
          msg.Body = "Hierunder vind u uw gebruikersnaam voor Sint-Gerardus, en een link om uw wachtwoord de eerste in te stellen:\n";
          msg.Body += $"Gebruikersnaam: {user.Email}\n";
          msg.Body += $"Klik hier om uw wachtwoord in te stellen: {resetPasswordLink}";
+         await _smtp.SendMailAsync(msg);
+      }
+
+      public async Task SendPasswordResetLink(TUserDTO user, string resetPasswordLink)
+      {
+         var msg = new MailMessage(_mailFrom, user.Email);
+         msg.Subject = "Herstel uw Sint Gerardus wachtwoord";
+         msg.Body = $"Beste {user.FirstName} {user.LastName},\n Klik op onderstaande link om uw wachtwoord te wijzigenn:\n";
+         msg.Body += $"{resetPasswordLink}";
          await _smtp.SendMailAsync(msg);
       }
    }

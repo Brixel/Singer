@@ -9,6 +9,7 @@ namespace Singer.Services.Interfaces
    public interface IEmailService<TUserDTO>
    where TUserDTO : IUserDTO
    {
-      Task SendAccountDetailsAsync(TUserDTO userDTO, string resetPasswordLink);
+      Task SendAccountDetailsAsync(TUserDTO user, string resetPasswordLink);
+      Task SendPasswordResetLink(TUserDTO user, string resetPasswordLink);
    }
 }

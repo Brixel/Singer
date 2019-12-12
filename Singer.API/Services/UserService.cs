@@ -61,7 +61,6 @@ namespace Singer.Services
             UserName = dto.Email
          };
 
-         var password = _passwordGenerator.Generate();
          var userCreationResult = await UserManager.CreateAsync(baseUser);
          var passwordResetToken = await UserManager.GeneratePasswordResetTokenAsync(baseUser);
          Console.WriteLine($"Password reset token: {passwordResetToken}");
@@ -78,7 +77,7 @@ namespace Singer.Services
          var changeTracker = await Context.AddAsync(entity);
          await Context.SaveChangesAsync();
          var userDTO = Mapper.Map<TUserDTO>(changeTracker.Entity);
-         var passwordResetURL = $"http://localhost:5001/auth/reset?userId={userDTO.Id}&token={passwordResetToken}";
+         var passwordResetURL = $"https://localhost:5001/auth/reset?userId={createdUser.Id}&token={passwordResetToken}";
          if (_emailService != null)
          {
             await _emailService.SendAccountDetailsAsync(userDTO, passwordResetURL);
