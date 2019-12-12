@@ -27,8 +27,6 @@ namespace Singer.Services
          .Include(x => x.LegalGuardianCareUsers)
             .ThenInclude(x => x.LegalGuardian)
             .ThenInclude(x => x.User)
-         .Include(x => x.NormalDaycareLocation)
-         .Include(x => x.VacationDaycareLocation)
          .AsQueryable();
 
       public CareUserService(ApplicationDbContext appContext, IMapper mapper, UserManager<User> userManager, IPasswordGenerator passwordGenerator)

@@ -120,10 +120,8 @@ namespace Singer.Configuration
                   AgeGroup = AgeGroup.Child,
                   CaseNumber = new Random().Next(1000, 5000).ToString(),
                   BirthDay = DateTime.UtcNow.AddYears(new Random().Next(-14, -5)),
-                  NormalDaycareLocation = _eventLocations[0],
                   HasResources = false,
                   HasTrajectory = false,
-                  VacationDaycareLocation = _eventLocations[1],
                   IsExtern = false,
                   UserId = user.Id
                };

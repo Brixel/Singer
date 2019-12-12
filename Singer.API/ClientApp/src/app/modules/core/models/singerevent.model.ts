@@ -8,6 +8,7 @@ import {
 import { SingerEventLocation } from './singer-event-location.dto';
 import { CareUserDTO } from './careuser.model';
 import { EventSlotDTO } from './eventslot.dto';
+import { DaycareLocationDTO } from './daycarelocation.dto';
 
 export interface SingerEventDTO {
    id: string;
@@ -198,4 +199,5 @@ export interface EventCareUserRegistrationDTO {
    status: RegistrationStatus;
    firstName: string;
    lastName: string;
+   daycareLocation: DaycareLocationDTO;
 }

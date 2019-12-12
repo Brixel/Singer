@@ -108,6 +108,22 @@ namespace Singer.Controllers
          return Created(nameof(Get), eventSlotRegistration);
       }
 
+
+
+      [HttpPost("{eventId}/registrations/{eventRegistrationId}/accept")]
+      public async Task<ActionResult> AcceptRegistration(Guid eventId, Guid eventRegistrationId)
+      {
+         var status = await _eventRegistrationService.AcceptRegistration(eventRegistrationId);
+         return Ok(status);
+      }
+
+      [HttpPost("{eventId}/registrations/{eventRegistrationId}/reject")]
+      public async Task<ActionResult> RejectRegistration(Guid eventId, Guid eventRegistrationId)
+      {
+         var status = await _eventRegistrationService.RejectRegistration(eventRegistrationId);
+         return Ok(status);
+      }
+
       #endregion post
 
       #region get
@@ -178,20 +194,6 @@ namespace Singer.Controllers
          return Ok(registration);
       }
 
-      [HttpPost("{eventId}/registrations/{eventRegistrationId}/accept")]
-      public async Task<ActionResult> AcceptRegistration(Guid eventId, Guid eventRegistrationId)
-      {
-         var status = await _eventRegistrationService.AcceptRegistration(eventRegistrationId);
-         return Ok(status);
-      }
-
-      [HttpPost("{eventId}/registrations/{eventRegistrationId}/reject")]
-      public async Task<ActionResult> RejectRegistration(Guid eventId, Guid eventRegistrationId)
-      {
-         var status = await _eventRegistrationService.RejectRegistration(eventRegistrationId);
-         return Ok(status);
-      }
-
       #endregion get
 
       #region put
@@ -229,6 +231,16 @@ namespace Singer.Controllers
             .UpdateStatusAsync(eventId, registrationId, status)
             .ConfigureAwait(false);
 
+         return Ok(result);
+      }
+
+      [HttpPut("{eventId}/registrations/{registrationId}/location")]
+      [ProducesResponseType(StatusCodes.Status200OK)]
+      [ProducesResponseType(StatusCodes.Status404NotFound)]
+      [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+      public async Task<ActionResult<DaycareLocationDTO>> Update(Guid eventId, Guid registrationId, [FromBody] Guid locationId)
+      {
+         var result = await _eventRegistrationService.UpdateDaycareLocationForRegistration(registrationId, locationId);
          return Ok(result);
       }
 
