@@ -246,6 +246,7 @@ namespace Singer.Controllers
 
       #region delete
 
+      [Authorize]
       [HttpDelete("{id}")]
       [ProducesResponseType(StatusCodes.Status204NoContent)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
