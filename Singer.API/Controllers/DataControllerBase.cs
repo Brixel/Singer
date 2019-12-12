@@ -190,7 +190,7 @@ namespace Singer.Controllers
       [HttpDelete("{id}")]
       [ProducesResponseType(StatusCodes.Status204NoContent)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public async Task<IActionResult> Delete(Guid id)
+      public virtual async Task<IActionResult> Delete(Guid id)
       {
          await DatabaseService.DeleteAsync(id);
          return NoContent();

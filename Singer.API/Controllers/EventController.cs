@@ -248,6 +248,15 @@ namespace Singer.Controllers
 
       #region delete
 
+      [HttpDelete("{id}")]
+      [ProducesResponseType(StatusCodes.Status204NoContent)]
+      [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+      public override async Task<IActionResult> Delete(Guid id)
+      {
+         await DatabaseService.ArchiveAsync(id);
+         return NoContent();
+      }
+
       [HttpDelete("{eventId}/registrations/{registrationId}")]
       [ProducesResponseType(StatusCodes.Status204NoContent)]
       [ProducesResponseType(StatusCodes.Status404NotFound)]

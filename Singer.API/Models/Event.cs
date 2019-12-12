@@ -5,7 +5,7 @@ using Singer.Helpers;
 
 namespace Singer.Models
 {
-   public class Event : IIdentifiable
+   public class Event : IIdentifiable, IArchivable
    {
       public Event()
       {
@@ -29,5 +29,6 @@ namespace Singer.Models
       public bool HasDayCareAfter { get; set; }
       public DateTime DayCareAfterEndDateTime { get; set; }
       public IList<EventSlot> EventSlots { get; set; }
+      public bool IsArchived { get; set; }
    }
 }
