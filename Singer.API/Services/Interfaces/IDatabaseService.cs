@@ -42,10 +42,11 @@ namespace Singer.Services.Interfaces
       ///     Returns all the <see cref="TEntity"/> s stored in the database, converted to
       ///     <see cref="TDTO"/> s.
       /// </summary>
+      /// <param name="showArchived">Indicates whether archived entities should also be returned.</param>
       /// <returns>
       ///     All the <see cref="TEntity"/> s in the database, converted to <see cref="TDTO"/> s.
       /// </returns>
-      Task<IReadOnlyList<TDTO>> GetAllAsync();
+      Task<IReadOnlyList<TDTO>> GetAllAsync(bool showArchived = false);
 
       /// <summary>
       ///     Returns a selection of <see cref="TEntity"/> s, converted <see cref="TDTO"/> s. The
@@ -85,13 +86,15 @@ namespace Singer.Services.Interfaces
       /// <param name="sortDirection">The direction to sort the column on.</param>
       /// <param name="pageIndex">The pagenumber to return.</param>
       /// <param name="itemsPerPage">The number of items on a pageIndex.</param>
+      /// <param name="showArchived">Indicates whether archived entities should also be returned.</param>
       /// <returns></returns>
       Task<SearchResults<TDTO>> GetAsync(
          string filter = null,
          Expression<Func<TDTO, object>> orderer = null,
          ListSortDirection sortDirection = ListSortDirection.Ascending,
          int pageIndex = 0,
-         int itemsPerPage = 15);
+         int itemsPerPage = 15,
+         bool showArchived = false);
 
       /// <summary>
       ///     Updates a single <see cref="TEntity"/> in the database. This <see cref="TEntity"/> is

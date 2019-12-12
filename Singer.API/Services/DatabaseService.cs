@@ -119,15 +119,21 @@ namespace Singer.Services
       ///     Returns all the <see cref="TEntity"/> s stored in the database, converted to
       ///     <see cref="TDTO"/> s.
       /// </summary>
+      /// <param name="showArchived">Indicates whether archived entities should also be returned.</param>
       /// <returns>
       ///     All the <see cref="TEntity"/> s in the database, converted to <see cref="TDTO"/> s.
       /// </returns>
-      public virtual async Task<IReadOnlyList<TDTO>> GetAllAsync()
+      public virtual async Task<IReadOnlyList<TDTO>> GetAllAsync(bool showArchived = false)
       {
-         // fetch all the entities from the database
-         var items = await Queryable
-            .ProjectTo<TDTO>(Mapper.ConfigurationProvider)
-            .ToListAsync();
+         var queryable = !typeof(IArchivable).IsAssignableFrom(typeof(TDTO))
+            ? Queryable.ProjectTo<TDTO>(Mapper.ConfigurationProvider)
+            : showArchived
+            ? Queryable.ProjectTo<TDTO>(Mapper.ConfigurationProvider)
+            : Queryable
+               .Where(x => !((IArchivable)x).IsArchived)
+               .ProjectTo<TDTO>(Mapper.ConfigurationProvider);
+
+         var items = await queryable.ToListAsync();
 
          // return all the items
          return new ReadOnlyCollection<TDTO>(items);
@@ -167,21 +173,28 @@ namespace Singer.Services
       /// <param name="filter">
       ///     The string value to compare to the properties of the <see cref="TEntity"/> s.
       /// </param>
-      /// ///
       /// <param name="orderer">The column to sort the returned list on.</param>
       /// <param name="sortDirection">The direction to sort the column on.</param>
       /// <param name="pageIndex">The pageIndex-number to return.</param>
       /// <param name="entitiesPerPage">The number of entities on a pageIndex.</param>
+      /// <param name="showArchived">Indicates whether archived entities should also be returned.</param>
       /// <returns></returns>
       public virtual async Task<SearchResults<TDTO>> GetAsync(
          string filter = null,
          Expression<Func<TDTO, object>> orderer = null,
          ListSortDirection sortDirection = ListSortDirection.Ascending,
          int pageIndex = 0,
-         int entitiesPerPage = 15)
+         int entitiesPerPage = 15,
+         bool showArchived = false)
       {
+         var queryable = !typeof(IArchivable).IsAssignableFrom(typeof(TDTO))
+            ? Queryable
+            : showArchived
+            ? Queryable
+            : Queryable.Where(x => !((IArchivable)x).IsArchived);
+
          // return the paged results
-         return await Queryable
+         return await queryable
             .ToPagedListAsync(
                Mapper,
                filterExpression: Filter(filter),

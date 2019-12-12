@@ -108,8 +108,6 @@ namespace Singer.Controllers
          return Created(nameof(Get), eventSlotRegistration);
       }
 
-
-
       [HttpPost("{eventId}/registrations/{eventRegistrationId}/accept")]
       public async Task<ActionResult> AcceptRegistration(Guid eventId, Guid eventRegistrationId)
       {

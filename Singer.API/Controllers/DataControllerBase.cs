@@ -91,18 +91,14 @@ namespace Singer.Controllers
       [HttpGet]
       [ProducesResponseType(StatusCodes.Status200OK)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public virtual async Task<IActionResult> Get(string sortDirection = "0", string sortColumn = "Id", int pageIndex = 0, int pageSize = 15, string filter = "")
+      public virtual async Task<IActionResult> Get(string sortDirection = "0", string sortColumn = "Id", int pageIndex = 0, int pageSize = 15, string filter = "", bool showArchived = false)
       {
-         switch (sortDirection)
+         sortDirection = sortDirection switch
          {
-            default:
-            case "asc":
-               sortDirection = "0";
-               break;
-            case "desc":
-               sortDirection = "1";
-               break;
-         }
+            "desc" => "1",
+            _ => "0",
+         };
+
          if (!Enum.TryParse<ListSortDirection>(sortDirection, true, out var direction))
             throw new BadInputException("The given sort-direction is unknown.", ErrorMessages.UnknownSortDirection);
 
@@ -114,7 +110,8 @@ namespace Singer.Controllers
            orderer: orderByLambda,
            sortDirection: direction,
            pageIndex: pageIndex,
-           itemsPerPage: pageSize);
+           itemsPerPage: pageSize,
+           showArchived: showArchived);
 
 
          var requestPath = HttpContext.Request.Path;
