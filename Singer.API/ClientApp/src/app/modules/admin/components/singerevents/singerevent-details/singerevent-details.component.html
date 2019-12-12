@@ -607,6 +607,22 @@
       </div>
       <!-- Button Row -->
       <mat-dialog-actions class="button-row">
+
+         <!-- Delete Button -->
+         <button
+            mat-raised-button
+            (click)="submitDeleteEvent()"
+            title="Evenement verwijderen"
+            aria-label="Evenement verwijderen"
+            type="button"
+            *ngIf="!isAdding"
+         >
+            Evenement Verwijderen
+         </button>
+
+         <!-- Spacer -->
+         <span class="flex--spacer"></span>
+
          <!-- Close Button -->
          <button
             mat-raised-button

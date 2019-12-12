@@ -124,6 +124,27 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
             );
          }
       );
+
+      dialogRef.componentInstance.deleteEvent.subscribe(
+         (result: SingerEvent) => {
+            this._singerEventsService.deleteSingerEvent(result.id).subscribe(
+               res => {
+                  // Reload SingerEvents
+                  this.loadSingerEvents();
+                  this._snackBar.open(
+                     `Evenement ${result.title} werd verwijdert.`,
+                     'OK',
+                     { duration: 2000 }
+                  );
+               },
+               err => {
+                  this.handleApiError(err);
+                  // TODO: Should be optimised, reloading results should be necessary
+                  this.loadSingerEvents();
+               }
+            )
+         }
+      );
    }
 
    manageRegistrations(row: SingerEvent) {

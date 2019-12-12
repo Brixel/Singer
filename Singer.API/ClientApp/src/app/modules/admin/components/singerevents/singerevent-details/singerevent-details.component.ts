@@ -31,6 +31,7 @@ export interface SingerEventDetailsFormData {
 export class SingerEventDetailsComponent implements OnInit {
    // Submit event for when the user submits the form
    @Output() submitEvent: EventEmitter<SingerEvent> = new EventEmitter();
+   @Output() deleteEvent: EventEmitter<SingerEvent> = new EventEmitter();
 
    // Boolean to decide if we are adding a new user or editing an existing one
    isAdding: boolean;
@@ -644,6 +645,14 @@ export class SingerEventDetailsComponent implements OnInit {
          this.submitEvent.emit(this.currentSingerEventInstance);
       }
       this.closeForm();
+   }
+
+   submitDeleteEvent() {
+      // Check if form is valid
+      if (this.formControlGroup.invalid) {
+         return;
+      }
+      this.deleteEvent.emit(this.currentSingerEventInstance);
    }
 
    // Close the form

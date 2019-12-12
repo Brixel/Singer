@@ -58,6 +58,10 @@ export class SingerEventsProxy {
          .pipe(map(res => res));
    }
 
+   deleteSingerEvent(eventId: string): Observable<any> {
+      return this.apiService.delete(`api/event/${eventId}`).pipe(map(res => res));
+   }
+
    getEventRegisterDetails(eventId: string): Observable<EventRegisterDetails> {
       return this.apiService
          .get(`api/event/${eventId}/geteventregisterdetails`)

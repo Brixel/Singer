@@ -105,6 +105,10 @@ export class SingerEventsService {
          .pipe(map(res => res));
    }
 
+   deleteSingerEvent(eventId: string) {
+      return this.singerEventsProxy.deleteSingerEvent(eventId).pipe(map(res => res));
+   }
+
    getEventRegisterDetails(eventId: string) {
       return this.singerEventsProxy.getEventRegisterDetails(eventId);
    }
