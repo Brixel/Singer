@@ -3,19 +3,16 @@ using System;
 namespace Singer.Helpers.Attributes
 {
    [AttributeUsage(AttributeTargets.Property, Inherited = true, AllowMultiple = false)]
-   sealed class CsvPropertyAttribute : Attribute
+   public sealed class CsvPropertyAttribute : Attribute
    {
       private string _propertyName;
 
-      public CsvPropertyAttribute()
+      public CsvPropertyAttribute(string propertyName = null)
       {
+         _propertyName = propertyName;
       }
 
-      public string PropertyName
-      {
-         get => _propertyName ?? PropertyNameResourceType?.GetProperty(PropertyNmeResourceName)?.GetValue(null, null) as string;
-         set => _propertyName = value;
-      }
+      public string PropertyName => _propertyName ?? PropertyNameResourceType?.GetProperty(PropertyNmeResourceName)?.GetValue(null, null) as string;
       public string PropertyNmeResourceName { get; set; }
       public Type PropertyNameResourceType { get; set; }
    }
