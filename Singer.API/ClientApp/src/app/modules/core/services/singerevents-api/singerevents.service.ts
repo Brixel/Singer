@@ -4,13 +4,17 @@ import { Observable } from 'rxjs';
 import { SingerEventsProxy } from './singerevents.proxy';
 import { map } from 'rxjs/operators';
 import { PaginationDTO } from '../../DTOs/pagination.dto';
-import {
-   CreateEventSlotRegistrationDTO,
-   CreateEventRegistrationDTO,
-   UserRegisteredDTO,
-} from '../../models/event-registration.model';
 import { TimeUnit, RepeatType } from '../../models/enum';
 import { SearchEventData } from 'src/app/modules/dashboard/components/event-search/event-search.component';
+import {
+   UpdateSingerEventDTO,
+   CreateSingerEventDTO,
+   EventRepeatSettingsDTO,
+   EventSlotRegistrationDTO,
+   CreateEventRegistrationDTO,
+   CreateEventSlotRegistrationDTO,
+   UserRegisteredDTO,
+} from '../../DTOs/event-registration.dto';
 
 @Injectable({
    providedIn: 'root',
