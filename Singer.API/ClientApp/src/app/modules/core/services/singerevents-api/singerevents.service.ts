@@ -1,17 +1,9 @@
 import { Injectable } from '@angular/core';
-import {
-   SingerEvent,
-   UpdateSingerEventDTO,
-   CreateSingerEventDTO,
-   EventRepeatSettingsDTO,
-   EventSlotRegistrations,
-   EventSlotRegistrationDTO,
-   EventDescription,
-} from '../../models/singerevent.model';
+import { SingerEvent, EventDescription } from '../../models/singerevent.model';
 import { Observable } from 'rxjs';
 import { SingerEventsProxy } from './singerevents.proxy';
 import { map } from 'rxjs/operators';
-import { PaginationDTO } from '../../models/pagination.model';
+import { PaginationDTO } from '../../DTOs/pagination.dto';
 import {
    CreateEventSlotRegistrationDTO,
    CreateEventRegistrationDTO,

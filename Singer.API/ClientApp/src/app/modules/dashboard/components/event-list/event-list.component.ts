@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { EventDescription } from 'src/app/modules/core/models/singerevent.model';
+import {
+   EventDescription,
+   SingerEventLocation,
+} from 'src/app/modules/core/models/singerevent.model';
 import { SearchEventData } from '../event-search/event-search.component';
 import { SingerEventsService } from 'src/app/modules/core/services/singerevents-api/singerevents.service';
 import { SingerEventLocationService } from 'src/app/modules/core/services/singerevents-api/singerevent-location.service';
-import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location.dto';
 import { LoadingService } from 'src/app/modules/core/services/loading.service';
 
 @Component({

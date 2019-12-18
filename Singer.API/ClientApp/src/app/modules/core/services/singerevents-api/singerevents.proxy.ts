@@ -1,23 +1,21 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { ApiService } from '../api.service';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import {
-   UpdateSingerEventDTO,
-   CreateSingerEventDTO,
-   SingerEventDTO,
-   EventRegisterDetails,
-   EventDescriptionDTO,
-   SearchEventDTO,
-} from '../../models/singerevent.model';
-import { PaginationDTO } from '../../models/pagination.model';
+import { EventRegisterDetails } from '../../models/singerevent.model';
+import { PaginationDTO } from '../../DTOs/pagination.dto';
 import {
    EventRegistrationDTO,
    CreateEventSlotRegistrationDTO,
    CreateEventRegistrationDTO,
    UserRegisteredDTO,
-} from '../../models/event-registration.model';
+   UpdateSingerEventDTO,
+   CreateSingerEventDTO,
+   SingerEventDTO,
+   EventDescriptionDTO,
+   SearchEventDTO,
+} from '../../DTOs/event-registration.dto';
 import { SearchEventData } from 'src/app/modules/dashboard/components/event-search/event-search.component';
 
 @Injectable({

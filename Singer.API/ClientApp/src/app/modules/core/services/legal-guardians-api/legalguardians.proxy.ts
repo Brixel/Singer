@@ -8,7 +8,7 @@ import {
    CreateLegalGuardianDTO,
    LegalGuardianDTO,
 } from '../../models/legalguardian.model';
-import { PaginationDTO } from '../../models/pagination.model';
+import { PaginationDTO } from '../../DTOs/pagination.dto';
 
 @Injectable({
    providedIn: 'root',

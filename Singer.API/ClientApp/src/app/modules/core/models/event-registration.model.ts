@@ -2,29 +2,11 @@ import { RegistrationStatus } from './enum';
 import { EventSlotDTO } from './eventslot.dto';
 import { EventDescription } from './singerevent.model';
 import { CareUserDTO } from './careuser.model';
+import { GenericModel } from './generic-model';
 
-export interface CreateEventRegistrationDTO {
-   eventId: string;
-   careUserId: string;
-   status?: RegistrationStatus;
-}
-
-export interface CreateEventSlotRegistrationDTO {
-   eventSlotId: string;
-   careUserId: string;
-   status?: RegistrationStatus;
-}
-
-export interface EventRegistrationDTO {
-   id: string;
+export class EventRegistration extends GenericModel {
    eventSlot: EventSlotDTO;
    eventDescription: EventDescription;
    careUser: CareUserDTO;
-   status: RegistrationStatus;
-}
-export interface UserRegisteredDTO {
-   careUserId: string;
-   isRegisteredForAllEventslots: boolean;
-   pendingStatesRemaining: number;
    status: RegistrationStatus;
 }

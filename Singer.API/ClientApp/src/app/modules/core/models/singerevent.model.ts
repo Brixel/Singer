@@ -1,75 +1,6 @@
-import {
-   AgeGroup,
-   WeekDay,
-   MonthRepeatMoment,
-   RepeatType,
-   TimeUnit,
-} from './enum';
-import { SingerEventLocation } from './singer-event-location.dto';
-import { CareUserDTO } from './careuser.model';
-import { EventSlotDTO } from './eventslot.dto';
-import { DaycareLocationDTO } from './daycarelocation.dto';
-
-export interface SingerEventDTO {
-   id: string;
-   title: string;
-   description: string;
-   allowedAgeGroups: AgeGroup[];
-   location: SingerEventLocation;
-   maxRegistrants: number;
-   currentRegistrants: number;
-   cost: number;
-   startDateTime: Date;
-   endDateTime: Date;
-   startRegistrationDateTime: Date;
-   endRegistrationDateTime: Date;
-   finalCancellationDateTime: Date;
-   registrationOnDailyBasis: boolean;
-   hasDayCareBefore: boolean;
-   dayCareBeforeStartDateTime: Date;
-   hasDayCareAfter: boolean;
-   dayCareAfterEndDateTime: Date;
-}
-
-export interface UpdateSingerEventDTO {
-   id: string;
-   title: string;
-   description: string;
-   allowedAgeGroups: AgeGroup[];
-   locationId: string;
-   maxRegistrants: number;
-   cost: number;
-   startDateTime: Date;
-   endDateTime: Date;
-   startRegistrationDateTime: Date;
-   endRegistrationDateTime: Date;
-   finalCancellationDateTime: Date;
-   registrationOnDailyBasis: boolean;
-   hasDayCareBefore: boolean;
-   dayCareBeforeStartDateTime: Date;
-   hasDayCareAfter: boolean;
-   dayCareAfterEndDateTime: Date;
-}
-
-export interface CreateSingerEventDTO {
-   title: string;
-   description: string;
-   allowedAgeGroups: AgeGroup[];
-   locationId: string;
-   maxRegistrants: number;
-   cost: number;
-   startDateTime: Date;
-   endDateTime: Date;
-   startRegistrationDateTime: Date;
-   endRegistrationDateTime: Date;
-   finalCancellationDateTime: Date;
-   registrationOnDailyBasis: boolean;
-   hasDayCareBefore: boolean;
-   dayCareBeforeStartDateTime: Date;
-   hasDayCareAfter: boolean;
-   dayCareAfterEndDateTime: Date;
-   repeatSettings: EventRepeatSettingsDTO;
-}
+import { AgeGroup, RegistrationStatus } from './enum';
+import { EventSlot } from './eventslot';
+import { DaycareLocation } from './daycarelocation.model';
 
 export class SingerEvent {
    id: string;
@@ -89,17 +20,9 @@ export class SingerEvent {
    dayCareBeforeStartDateTime: Date;
    hasDayCareAfter: boolean;
    dayCareAfterEndDateTime: Date;
-   eventSlots: EventSlotDTO[];
+   eventSlots: EventSlot[];
 }
 
-export interface EventDescriptionDTO {
-   id: string;
-   title: string;
-   description: string;
-   ageGroups: AgeGroup[];
-   startDateTime: Date;
-   endDateTime: Date;
-}
 export class EventDescription {
    id: string;
    title: string;
@@ -107,30 +30,6 @@ export class EventDescription {
    ageGroups: AgeGroup[];
    startDateTime: Date;
    endDateTime: Date;
-}
-
-export class SearchEventDTO {
-   startDate: Date;
-   endDate: Date;
-   locationId: string;
-}
-
-export class EventRelevantCareUserDTO {
-   id: string;
-   firstName: string;
-   lastName: string;
-   ageGroup: AgeGroup;
-   appropriateAgeGroup: boolean;
-}
-
-export interface EventRepeatSettingsDTO {
-   interval: number;
-   intervalUnit: TimeUnit;
-   weekRepeatMoment: WeekDay;
-   monthRepeatMoment: MonthRepeatMoment;
-   repeatType: RepeatType;
-   numberOfRepeats: number;
-   stopRepeatDate: Date;
 }
 
 export class EventRegisterDetails {
@@ -141,10 +40,16 @@ export class EventRegisterDetails {
    startDateTime: Date;
    endDateTime: Date;
    eventSlots: EventSlotRegistrations[];
-   relevantCareUsers: EventRelevantCareUserDTO[];
+   relevantCareUsers: EventRelevantCareUser[];
    registrationsOnDailyBasis: boolean;
 }
-
+export class EventRelevantCareUser {
+   id: string;
+   firstName: string;
+   lastName: string;
+   ageGroup: AgeGroup;
+   appropriateAgeGroup: boolean;
+}
 export class EventSlotRegistrations {
    id: string;
    startDateTime: Date;
@@ -155,28 +60,10 @@ export class EventSlotRegistrations {
 export class EventCareUserRegistration {
    careUserId: string;
    status: RegistrationStatus;
-}
-
-export interface EventRegistrationDTO {
-   id: string;
-   eventSlot: EventSlotDTO;
-   eventDescription: EventDescriptionDTO;
-   careUser: CareUserDTO;
-   status: RegistrationStatus;
-}
-export interface EventDescriptionDTO {
-   title: string;
-   description: string;
-   startDate: Date;
-   endDate: Date;
-   ageGroup: AgeGroup[];
-}
-
-
-export enum RegistrationStatus {
-   Pending = 1,
-   Accepted = 2,
-   Rejected = 4,
+   registrationId: string;
+   firstName: string;
+   lastName: string;
+   daycareLocation: DaycareLocation;
 }
 
 export class UserInfo {
@@ -186,18 +73,11 @@ export class UserInfo {
    status: RegistrationStatus;
 }
 
-export interface EventSlotRegistrationDTO {
+export class SingerEventLocation {
    id: string;
-   startDateTime: Date;
-   endDateTime: Date;
-   registrations: EventCareUserRegistrationDTO[];
-}
-
-export interface EventCareUserRegistrationDTO {
-   registrationId: string;
-   careUserId: string;
-   status: RegistrationStatus;
-   firstName: string;
-   lastName: string;
-   daycareLocation: DaycareLocationDTO;
+   name: string;
+   address: string;
+   postalCode: string;
+   city: string;
+   country: string;
 }

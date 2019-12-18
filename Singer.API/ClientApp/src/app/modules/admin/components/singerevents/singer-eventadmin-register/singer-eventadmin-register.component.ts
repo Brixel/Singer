@@ -2,9 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import {
    SingerEvent,
-   RegistrationStatus,
    EventSlotRegistrations,
-   EventCareUserRegistration,
    UserInfo,
 } from 'src/app/modules/core/models/singerevent.model';
 import { SingerEventsService } from 'src/app/modules/core/services/singerevents-api/singerevents.service';
@@ -70,12 +68,12 @@ export class SingerEventAdminRegisterComponent implements OnInit {
                careUser.ageGroup
             );
             this.careUsers = [];
-           const registrant = <Registrant>{
-              careUserId: userInfo.careUserId,
-              name: userInfo.name,
-              registrationStatus: userInfo.status,
-           };
-           this.careUsers = [registrant];
+            const registrant = <Registrant>{
+               careUserId: userInfo.careUserId,
+               name: userInfo.name,
+               registrationStatus: userInfo.status,
+            };
+            this.careUsers = [registrant];
          });
    }
    private canBeRegisteredForEvent(
