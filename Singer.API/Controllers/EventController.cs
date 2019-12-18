@@ -340,7 +340,8 @@ namespace Singer.Controllers
          return Ok(details);
       }
 
-      [HttpGet("/status/pending")]
+      [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
+      [HttpGet("registrations/status/pending")]
       public async Task<ActionResult<PaginationDTO<EventRegistrationDTO>>> GetPendingRegistrations(
          ListSortDirection sortDirection = ListSortDirection.Ascending,
          string sortColumn = "Id",
