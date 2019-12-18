@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AdminUserProxy } from './adminuser.proxy';
 import { map } from 'rxjs/operators';
-import { PaginationDTO } from '../../core/models/pagination.model';
+import { PaginationDTO } from '../../core/DTOs/pagination.dto';
 import {
    AdminUser,
    UpdateAdminUserDTO,
