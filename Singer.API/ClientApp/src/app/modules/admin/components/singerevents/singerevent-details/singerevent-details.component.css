@@ -19,6 +19,11 @@
    flex-direction: row;
    justify-content: flex-start;
    align-items: center;
+
+}
+
+.confirmTitleField {
+   margin: 0 15px;
 }
 
 .flex--spacer {

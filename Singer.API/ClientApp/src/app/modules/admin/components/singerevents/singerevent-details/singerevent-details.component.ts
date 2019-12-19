@@ -33,11 +33,15 @@ export class SingerEventDetailsComponent implements OnInit {
    @Output() submitEvent: EventEmitter<SingerEvent> = new EventEmitter();
    @Output() deleteEvent: EventEmitter<SingerEvent> = new EventEmitter();
 
-   // Boolean to decide if we are adding a new user or editing an existing one
+   // Boolean to decide if we are adding a new event or editing an existing one
    isAdding: boolean;
 
-   // Boolean to check if changes have been made when editing a user
+   // Boolean to check if changes have been made when editing an event
    isChangesMade: boolean;
+
+   // Boolean to check if we are attempting to delete an event
+   isDeleting: boolean;
+   deleteConfirmationOK: boolean = true;
 
    ageGroups = Object.keys(AgeGroup).filter(
       k => typeof AgeGroup[k as any] === 'number'
@@ -95,6 +99,7 @@ export class SingerEventDetailsComponent implements OnInit {
       'Start opvang na het evenement';
    readonly dayCareAfterEndTimeFieldPlaceholder =
       'Einde opvang na het evenement';
+   readonly confirmTitleFieldPlaceholder = 'Naam evenement.';
    // Form validation values
    readonly maxTitleLength = 100;
    readonly minTitleLength = 2;
@@ -149,6 +154,10 @@ export class SingerEventDetailsComponent implements OnInit {
       dayCareBeforeStartTimeFieldControl: new FormControl('00:00'),
       hasDayCareAfterFieldControl: new FormControl('', [Validators.required]),
       dayCareAfterEndTimeFieldControl: new FormControl('00:00'),
+      confirmTitleFieldControl: new FormControl('', [
+         Validators.minLength(this.minTitleLength),
+         Validators.maxLength(this.maxTitleLength),
+      ]),
    });
 
    careBeforeRequired() {
@@ -197,13 +206,15 @@ export class SingerEventDetailsComponent implements OnInit {
          this.loadCurrentSingerEventInstanceValues();
       }
 
-      this.formControlGroup
-         .controls.startRegistrationDateFieldControl
-         .valueChanges.subscribe(res => {
+      this.formControlGroup.controls.startRegistrationDateFieldControl.valueChanges.subscribe(
+         res => {
             const minDate = res;
             const endRegistrationControl = this.formControlGroup.controls
                .endRegistrationDateFieldControl;
-            endRegistrationControl.setValidators([Validators.required, dateNotBefore(minDate)]);
+            endRegistrationControl.setValidators([
+               Validators.required,
+               dateNotBefore(minDate),
+            ]);
             endRegistrationControl.updateValueAndValidity();
 
             const finalCancellationDateFieldControl = this.formControlGroup
@@ -212,15 +223,21 @@ export class SingerEventDetailsComponent implements OnInit {
                dateNotBefore(minDate),
             ]);
             finalCancellationDateFieldControl.updateValueAndValidity();
-         });
+         }
+      );
 
-      this.formControlGroup.controls
-         .startDateFieldControl.valueChanges.subscribe((res) => {
+      this.formControlGroup.controls.startDateFieldControl.valueChanges.subscribe(
+         res => {
             const minDate = res;
-            const endDateFieldControl = this.formControlGroup.controls.endDateFieldControl;
-            endDateFieldControl.setValidators([Validators.required, dateNotBefore(minDate)]);
+            const endDateFieldControl = this.formControlGroup.controls
+               .endDateFieldControl;
+            endDateFieldControl.setValidators([
+               Validators.required,
+               dateNotBefore(minDate),
+            ]);
             endDateFieldControl.updateValueAndValidity();
-         })
+         }
+      );
 
       this.formControlGroup.controls.hasDayCareBeforeFieldControl.valueChanges.subscribe(
          (res: string) => {
@@ -367,6 +384,7 @@ export class SingerEventDetailsComponent implements OnInit {
       this.formControlGroup.controls.dayCareBeforeStartTimeFieldControl.reset();
       this.formControlGroup.controls.hasDayCareAfterFieldControl.reset();
       this.formControlGroup.controls.dayCareAfterEndTimeFieldControl.reset();
+      this.formControlGroup.controls.confirmTitleFieldControl.reset();
    }
 
    createEmptySingerEvent() {
@@ -647,13 +665,47 @@ export class SingerEventDetailsComponent implements OnInit {
       this.closeForm();
    }
 
-   submitDeleteEvent() {
-      // Check if form is valid
-      if (this.formControlGroup.invalid) {
+   enableDeleteEvent() {
+      if (this.isDeleting) {
+         this.submitDeleteEvent();
          return;
       }
-      this.deleteEvent.emit(this.currentSingerEventInstance);
-      this.closeForm();
+
+      this.isDeleting = true;
+
+      // Make confirmTitleFieldControl required
+      this.formControlGroup.controls.confirmTitleFieldControl = new FormControl(this.formControlGroup.controls.confirmTitleFieldControl.value, [
+         Validators.required,
+         Validators.minLength(this.minTitleLength),
+         Validators.maxLength(this.maxTitleLength),
+      ]);
+   }
+
+   disableDeleteEvent() {
+      this.isDeleting = false;
+
+      // Make confirmTitleFieldControl required
+      this.formControlGroup.controls.confirmTitleFieldControl = new FormControl(this.formControlGroup.controls.confirmTitleFieldControl.value, [
+         Validators.minLength(this.minTitleLength),
+         Validators.maxLength(this.maxTitleLength),
+      ]);
+   }
+
+   isConfirmTitleFieldMatching(): boolean {
+      return this.formControlGroup.controls.titleFieldControl.value ===
+         this.formControlGroup.controls.confirmTitleFieldControl.value
+   }
+
+   submitDeleteEvent() {
+      this.deleteConfirmationOK = this.isConfirmTitleFieldMatching();
+
+      if (this.deleteConfirmationOK) {
+         this.deleteEvent.emit(this.currentSingerEventInstance);
+         this.closeForm();
+      }
+      else {
+         this.formControlGroup.controls.confirmTitleFieldControl.setErrors({invalid: true});
+      }
    }
 
    // Close the form
