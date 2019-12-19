@@ -33,9 +33,12 @@ export class SingerEventOverviewDataSource extends DataSource<SingerEvent> {
    ) {
       this.loadingSubject$.next(true);
       this.singerEventsService
-         .fetchSingerEventsData(sortDirection, sortColumn, pageIndex, pageSize, filter)
+         .fetch(sortDirection, sortColumn, pageIndex, pageSize, filter)
          .subscribe(res => {
-            this.singerEventsSubject$.next(res.items as SingerEvent[]);
+            let models = res.items.map(x =>
+               this.singerEventsService.toModel(x)
+            );
+            this.singerEventsSubject$.next(models);
             this.totalSizeSubject$.next(res.totalSize);
             this.queryCountSubject$.next(res.size);
             this.loadingSubject$.next(false);

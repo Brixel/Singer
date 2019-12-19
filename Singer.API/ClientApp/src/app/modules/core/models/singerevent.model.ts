@@ -1,9 +1,10 @@
 import { AgeGroup, RegistrationStatus } from './enum';
 import { EventSlot } from './eventslot';
 import { DaycareLocation } from './daycarelocation.model';
+import { CareUser } from './careuser.model';
+import { GenericModel } from './generic-model';
 
-export class SingerEvent {
-   id: string;
+export class SingerEvent extends GenericModel {
    title: string;
    description: string;
    allowedAgeGroups: AgeGroup[];
@@ -23,8 +24,7 @@ export class SingerEvent {
    eventSlots: EventSlot[];
 }
 
-export class EventDescription {
-   id: string;
+export class EventDescription extends GenericModel {
    title: string;
    description: string;
    ageGroups: AgeGroup[];
@@ -32,8 +32,7 @@ export class EventDescription {
    endDateTime: Date;
 }
 
-export class EventRegisterDetails {
-   id: string;
+export class EventRegisterDetails extends GenericModel {
    title: string;
    description: string;
    ageGroups: AgeGroup[];
@@ -43,15 +42,13 @@ export class EventRegisterDetails {
    relevantCareUsers: EventRelevantCareUser[];
    registrationsOnDailyBasis: boolean;
 }
-export class EventRelevantCareUser {
-   id: string;
+export class EventRelevantCareUser extends GenericModel {
    firstName: string;
    lastName: string;
    ageGroup: AgeGroup;
    appropriateAgeGroup: boolean;
 }
-export class EventSlotRegistrations {
-   id: string;
+export class EventSlotRegistrations extends GenericModel {
    startDateTime: Date;
    endDateTime: Date;
    registrations: EventCareUserRegistration[];
@@ -73,11 +70,17 @@ export class UserInfo {
    status: RegistrationStatus;
 }
 
-export class SingerEventLocation {
-   id: string;
+export class SingerEventLocation extends GenericModel {
    name: string;
    address: string;
    postalCode: string;
    city: string;
    country: string;
+}
+
+export class EventRegistration extends GenericModel {
+   eventSlot: EventSlot;
+   eventDescription: EventDescription;
+   careUser: CareUser;
+   status: RegistrationStatus;
 }
