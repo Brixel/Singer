@@ -32,7 +32,7 @@ export abstract class GenericService<
          .set('pageSize', pageSize.toString())
          .set('filter', filter);
       return this.httpClient
-         .get<PaginationDTO<DTO>>(endpoint, {
+         .get<PaginationDTO<TDTO>>(this.endpoint, {
             params: searchParams,
          })
          .pipe(catchError(error => this.handleError(error)));
