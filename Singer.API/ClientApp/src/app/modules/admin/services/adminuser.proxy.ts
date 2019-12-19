@@ -3,7 +3,7 @@ import { ApiService } from '../../core/services/api.service';
 import { Observable } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { PaginationDTO } from '../../core/models/pagination.model';
+import { PaginationDTO } from '../../core/DTOs/pagination.dto';
 import {
    CreateAdminUserDTO,
    AdminUserDTO,

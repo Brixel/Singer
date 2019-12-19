@@ -8,7 +8,7 @@ import {
    CreateCareUserDTO,
    CareUserDTO,
 } from '../../models/careuser.model';
-import { PaginationDTO } from '../../models/pagination.model';
+import { PaginationDTO } from '../../DTOs/pagination.dto';
 
 @Injectable({
    providedIn: 'root',

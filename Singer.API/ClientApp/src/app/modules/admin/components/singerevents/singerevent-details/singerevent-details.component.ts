@@ -1,18 +1,16 @@
 import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { FormControl, Validators, FormGroup, FormArray } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { SingerEvent } from 'src/app/modules/core/models/singerevent.model';
+import {
+   SingerEvent,
+   SingerEventLocation,
+} from 'src/app/modules/core/models/singerevent.model';
 import { AgeGroup } from 'src/app/modules/core/models/enum';
 import { MAT_DATE_FORMATS } from '@angular/material';
 import * as moment from 'moment';
 import { isNullOrUndefined } from 'util';
-import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location.dto';
 import { MY_FORMATS } from 'src/app/modules/core/core.module';
-import { mixinHasStickyInput } from '@angular/cdk/table';
-import {
-   dateNotAfter,
-   dateNotBefore,
-} from 'src/app/modules/core/utils/custom-date-validators';
+import { dateNotBefore } from 'src/app/modules/core/utils/custom-date-validators';
 import { NgxMaterialTimepickerTheme } from 'ngx-material-timepicker';
 
 // Data we pass along with the creation of the Mat-Dialog box
@@ -196,13 +194,15 @@ export class SingerEventDetailsComponent implements OnInit {
          this.loadCurrentSingerEventInstanceValues();
       }
 
-      this.formControlGroup
-         .controls.startRegistrationDateFieldControl
-         .valueChanges.subscribe(res => {
+      this.formControlGroup.controls.startRegistrationDateFieldControl.valueChanges.subscribe(
+         res => {
             const minDate = res;
             const endRegistrationControl = this.formControlGroup.controls
                .endRegistrationDateFieldControl;
-            endRegistrationControl.setValidators([Validators.required, dateNotBefore(minDate)]);
+            endRegistrationControl.setValidators([
+               Validators.required,
+               dateNotBefore(minDate),
+            ]);
             endRegistrationControl.updateValueAndValidity();
 
             const finalCancellationDateFieldControl = this.formControlGroup
@@ -211,15 +211,21 @@ export class SingerEventDetailsComponent implements OnInit {
                dateNotBefore(minDate),
             ]);
             finalCancellationDateFieldControl.updateValueAndValidity();
-         });
+         }
+      );
 
-      this.formControlGroup.controls
-         .startDateFieldControl.valueChanges.subscribe((res) => {
+      this.formControlGroup.controls.startDateFieldControl.valueChanges.subscribe(
+         res => {
             const minDate = res;
-            const endDateFieldControl = this.formControlGroup.controls.endDateFieldControl;
-            endDateFieldControl.setValidators([Validators.required, dateNotBefore(minDate)]);
+            const endDateFieldControl = this.formControlGroup.controls
+               .endDateFieldControl;
+            endDateFieldControl.setValidators([
+               Validators.required,
+               dateNotBefore(minDate),
+            ]);
             endDateFieldControl.updateValueAndValidity();
-         })
+         }
+      );
 
       this.formControlGroup.controls.hasDayCareBeforeFieldControl.valueChanges.subscribe(
          (res: string) => {
