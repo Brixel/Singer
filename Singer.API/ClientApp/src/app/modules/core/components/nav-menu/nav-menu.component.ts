@@ -81,6 +81,10 @@ export class NavMenuComponent implements OnInit {
       });
    }
 
+   handleLogoClick() {
+      this.router.navigateByUrl('/dashboard');
+   }
+
    onLogoutClicked() {
       this.updateRequirements();
       this.logoutEvent.emit();
