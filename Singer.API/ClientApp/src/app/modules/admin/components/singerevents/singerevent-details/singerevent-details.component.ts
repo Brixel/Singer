@@ -690,8 +690,9 @@ export class SingerEventDetailsComponent implements OnInit {
    }
 
    isConfirmTitleFieldMatching(): boolean {
-      return this.formControlGroup.controls.titleFieldControl.value ===
-         this.formControlGroup.controls.confirmTitleFieldControl.value
+      let titleFieldString: string = this.formControlGroup.controls.titleFieldControl.value;
+      let confirmTitleFiledString: string = this.formControlGroup.controls.confirmTitleFieldControl.value;
+      return titleFieldString.toLowerCase() === confirmTitleFiledString.toLowerCase();
    }
 
    submitDeleteEvent() {
