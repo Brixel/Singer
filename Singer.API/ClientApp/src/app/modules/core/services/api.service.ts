@@ -15,9 +15,12 @@ export class ApiService {
       @Inject('BASE_URL') private baseUrl: string
    ) {}
 
-   get(path: string, params: HttpParams = new HttpParams()): Observable<any> {
+   get<T = any>(
+      path: string,
+      params: HttpParams = new HttpParams()
+   ): Observable<any> {
       return this.httpClient
-         .get(`${this.baseUrl}${path}`, { params })
+         .get<T>(`${this.baseUrl}${path}`, { params })
          .pipe(catchError(error => this.handleError(error)));
    }
 
