@@ -3,11 +3,7 @@ import { MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { GenericOverviewComponent } from 'src/app/modules/shared/components/generic-overview/generic-overview.component';
 import { EventRegistrationDTO } from 'src/app/modules/core/DTOs/event-registration.dto';
 import { PendingRegistrationsDatasource } from './pending-registrations-datasource';
-import {
-   EventRegistration,
-   EventDescription,
-   SingerEvent,
-} from 'src/app/modules/core/models/singerevent.model';
+import { EventRegistration } from 'src/app/modules/core/models/singerevent.model';
 import { PendingRegistrationsService } from 'src/app/modules/core/services/singerevents-api/pending-registrations-service';
 import {
    SingerEventRegistrationsComponent,

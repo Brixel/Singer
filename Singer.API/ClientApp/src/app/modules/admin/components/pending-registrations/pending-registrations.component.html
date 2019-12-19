@@ -1,4 +1,12 @@
-<div class="mat-elevation-z8 overview-table">
+<div [hidden]="(dataSource.totalSize$ | async) > 0">
+   <mat-card class="no-results-card">
+      Er zijn geen te verwerken registraties op dit moment.
+   </mat-card>
+</div>
+<div
+   class="mat-elevation-z8 overview-table"
+   [hidden]="(dataSource.totalSize$ | async) === 0"
+>
    <mat-table [dataSource]="dataSource" matSort>
       <!-- Id column -->
       <ng-container matColumnDef="eventDescription.title">
