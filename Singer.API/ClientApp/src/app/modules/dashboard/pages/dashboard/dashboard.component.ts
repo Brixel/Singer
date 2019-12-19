@@ -17,10 +17,6 @@ export class DashboardComponent implements OnInit {
          this.isAuthenticated = res;
       });
 
-      this.authService.isAuthenticated();
-
-      this.authService.isAdmin$.subscribe(res => {
-         this.isAdmin = res;
-      });
+      this.isAdmin = this.authService.isAuthenticated();
    }
 }
