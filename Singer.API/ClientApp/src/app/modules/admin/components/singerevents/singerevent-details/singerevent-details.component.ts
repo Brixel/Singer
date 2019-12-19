@@ -97,7 +97,7 @@ export class SingerEventDetailsComponent implements OnInit {
       'Start opvang na het evenement';
    readonly dayCareAfterEndTimeFieldPlaceholder =
       'Einde opvang na het evenement';
-   readonly confirmTitleFieldPlaceholder = 'Naam evenement.';
+   readonly confirmTitleFieldPlaceholder = 'Naam evenement';
    // Form validation values
    readonly maxTitleLength = 100;
    readonly minTitleLength = 2;
