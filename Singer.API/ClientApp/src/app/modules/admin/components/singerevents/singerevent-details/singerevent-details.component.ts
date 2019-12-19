@@ -1,18 +1,16 @@
 import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { FormControl, Validators, FormGroup, FormArray } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { SingerEvent } from 'src/app/modules/core/models/singerevent.model';
+import {
+   SingerEvent,
+   SingerEventLocation,
+} from 'src/app/modules/core/models/singerevent.model';
 import { AgeGroup } from 'src/app/modules/core/models/enum';
 import { MAT_DATE_FORMATS } from '@angular/material';
 import * as moment from 'moment';
 import { isNullOrUndefined } from 'util';
-import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location.dto';
 import { MY_FORMATS } from 'src/app/modules/core/core.module';
-import { mixinHasStickyInput } from '@angular/cdk/table';
-import {
-   dateNotAfter,
-   dateNotBefore,
-} from 'src/app/modules/core/utils/custom-date-validators';
+import { dateNotBefore } from 'src/app/modules/core/utils/custom-date-validators';
 import { NgxMaterialTimepickerTheme } from 'ngx-material-timepicker';
 
 // Data we pass along with the creation of the Mat-Dialog box

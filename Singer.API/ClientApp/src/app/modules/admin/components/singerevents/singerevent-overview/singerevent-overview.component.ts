@@ -19,15 +19,16 @@ import {
    SingerEventDetailsFormData,
 } from '../singerevent-details/singerevent-details.component';
 import { SingerEventsService } from 'src/app/modules/core/services/singerevents-api/singerevents.service';
-import { SingerEvent } from 'src/app/modules/core/models/singerevent.model';
+import {
+   SingerEvent,
+   SingerEventLocation,
+} from 'src/app/modules/core/models/singerevent.model';
 import { SingerEventLocationService } from 'src/app/modules/core/services/singerevents-api/singerevent-location.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location.dto';
 import {
    SingerEventRegistrationsComponent,
    SingerEventRegistrationData,
 } from '../singer-event-registrations/singer-event-registrations.component';
-import { EventRegistrationComponent } from 'src/app/modules/shared/components/event-registration/event-registration.component';
 import { SingerEventAdminRegisterComponent } from '../singer-eventadmin-register/singer-eventadmin-register.component';
 import { LoadingService } from 'src/app/modules/core/services/loading.service';
 

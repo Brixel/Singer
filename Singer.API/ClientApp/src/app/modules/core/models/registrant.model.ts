@@ -1,7 +1,5 @@
-import {
-   RegistrationStatus,
-} from 'src/app/modules/core/models/singerevent.model';
-import { DaycareLocationDTO } from './daycarelocation.dto';
+import { DaycareLocationDTO } from '../DTOs/daycarelocation.dto';
+import { RegistrationStatus } from './enum';
 export class Registrant {
    registrationId: string;
    careUserId: string;
@@ -24,5 +22,3 @@ export class Registrant {
       this.daycareLocation = daycareLocation;
    }
 }
-
-

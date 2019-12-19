@@ -1,12 +1,8 @@
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { SingerEventsService } from 'src/app/modules/core/services/singerevents-api/singerevents.service';
 import { DataSource } from '@angular/cdk/table';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CollectionViewer } from '@angular/cdk/collections';
-import {
-   SingerEventDTO,
-   SingerEvent,
-} from 'src/app/modules/core/models/singerevent.model';
+import { SingerEvent } from 'src/app/modules/core/models/singerevent.model';
 
 /**
  * Data source for the EventsOverview view. This class should
