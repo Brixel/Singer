@@ -18,9 +18,11 @@ import { RegistrationStatus } from 'src/app/modules/core/models/enum';
 import { SingerAdminEventService } from '../../../services/singer-admin-event.service';
 import { SingerEventLocationService } from 'src/app/modules/core/services/singerevents-api/singerevent-location.service';
 import { DaycareLocationDTO } from 'src/app/modules/core/DTOs/daycarelocation.dto';
+import { isNullOrUndefined } from 'util';
 
 export class SingerEventRegistrationData {
    event: SingerEvent;
+   defaultEventSlot?: EventSlot;
 }
 
 @Component({
@@ -31,7 +33,6 @@ export class SingerEventRegistrationData {
 export class SingerEventRegistrationsComponent implements OnInit {
    formGroup: FormGroup;
    event: SingerEvent;
-   eventSlots: EventSlot[];
    selectedEventSlot: EventSlot;
    registrationStatus = RegistrationStatus;
    availableLocations: SingerEventLocation[];
@@ -49,6 +50,7 @@ export class SingerEventRegistrationsComponent implements OnInit {
       this.hasDaycare =
          data.event.hasDayCareAfter || data.event.hasDayCareBefore;
       this.formGroup = new FormGroup({});
+      this.selectedEventSlot = data.defaultEventSlot;
    }
 
    ngOnInit() {
@@ -62,7 +64,7 @@ export class SingerEventRegistrationsComponent implements OnInit {
             ''
          )
          .subscribe(res => {
-            this.eventSlots = res.map(
+            this.event.eventSlots = res.map(
                r =>
                   new EventSlot(
                      r.id,
@@ -72,20 +74,25 @@ export class SingerEventRegistrationsComponent implements OnInit {
                      r.registrations.length
                   )
             );
-
-            // Search for the next upcoming event
-            const currentDate = Date.now();
-            const nextEventSlots = this.eventSlots
-               .filter(a => a.startDateTime.getTime() >= currentDate)
-               .sort(
-                  (a, b) =>
-                     a.startDateTime.getTime() - b.startDateTime.getTime()
+            if (isNullOrUndefined(this.selectedEventSlot)) {
+               // Search for the next upcoming event
+               const currentDate = Date.now();
+               const nextEventSlots = this.event.eventSlots
+                  .filter(a => a.startDateTime.getTime() >= currentDate)
+                  .sort(
+                     (a, b) =>
+                        a.startDateTime.getTime() - b.startDateTime.getTime()
+                  );
+               // If no upcoming event is found, take the first in the list
+               this.selectedEventSlot =
+                  nextEventSlots.length > 0
+                     ? nextEventSlots[0]
+                     : this.event.eventSlots[0];
+            } else {
+               this.selectedEventSlot = this.event.eventSlots.find(
+                  x => x.id === this.selectedEventSlot.id
                );
-            // If no upcoming event is found, take the first in the list
-            this.selectedEventSlot =
-               nextEventSlots.length > 0
-                  ? nextEventSlots[0]
-                  : this.eventSlots[0];
+            }
          });
 
       this._singerEventLocationService

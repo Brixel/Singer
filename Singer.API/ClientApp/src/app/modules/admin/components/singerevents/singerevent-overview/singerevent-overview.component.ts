@@ -107,8 +107,8 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
       dialogRef.componentInstance.submitEvent.subscribe(
          (result: SingerEvent) => {
             // Update the SingerEvent
-            this._singerEventsService.updateSingerEvent(result).subscribe(
-               res => {
+            this._singerEventsService.update(result).subscribe(
+               () => {
                   // Reload SingerEvents
                   this.loadSingerEvents();
                   this._snackBar.open(
@@ -159,8 +159,8 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
 
       dialogRef.componentInstance.submitEvent.subscribe(
          (result: SingerEvent) => {
-            this._singerEventsService.createSingerEvent(result).subscribe(
-               res => {
+            this._singerEventsService.create(result).subscribe(
+               () => {
                   this.loadSingerEvents();
                   this._snackBar.open(
                      `Evenement ${result.title} werd toegevoegd.`,
