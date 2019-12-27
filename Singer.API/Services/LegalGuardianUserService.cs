@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Singer.Data;
+using Singer.Data.Models.Configuration;
 using Singer.DTOs.Users;
 using Singer.Helpers.Exceptions;
 using Singer.Models.Users;
@@ -18,8 +20,9 @@ namespace Singer.Services
    public class LegalGuardianUserService : UserService<LegalGuardianUser, LegalGuardianUserDTO, CreateLegalGuardianUserDTO, UpdateLegalGuardianUserDTO>,
       ILegalGuardianUserService
    {
-      public LegalGuardianUserService(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager, IPasswordGenerator passwordGenerator, IEmailService<LegalGuardianUserDTO> emailService)
-      : base(context, mapper, userManager, passwordGenerator, emailService)
+      public LegalGuardianUserService(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager,
+         IEmailService<LegalGuardianUserDTO> emailService, IOptions<ApplicationConfig> applicationConfigurationOptions)
+      : base(context, mapper, userManager, emailService, applicationConfigurationOptions)
       {
       }
 

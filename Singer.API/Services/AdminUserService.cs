@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Singer.Configuration;
 using Singer.Data;
+using Singer.Data.Models.Configuration;
 using Singer.DTOs.Users;
 using Singer.Models.Users;
 using Singer.Services.Interfaces;
@@ -16,8 +18,8 @@ namespace Singer.Services
 {
    public class AdminUserService : UserService<AdminUser, AdminUserDTO, CreateAdminUserDTO, UpdateAdminUserDTO>, IAdminUserService
    {
-      public AdminUserService(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager, IPasswordGenerator passwordGenerator, IEmailService<AdminUserDTO> emailService)
-      : base(context, mapper, userManager, passwordGenerator, emailService)
+      public AdminUserService(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager, IEmailService<AdminUserDTO> emailService, IOptions<ApplicationConfig> applicationConfigurationOptions
+      ): base(context, mapper, userManager, emailService, applicationConfigurationOptions)
       {
       }
 

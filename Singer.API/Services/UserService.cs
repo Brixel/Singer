@@ -7,8 +7,11 @@ using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.CodeAnalysis.Options;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Singer.Data;
+using Singer.Data.Models.Configuration;
 using Singer.DTOs.Users;
 using Singer.Helpers.Exceptions;
 using Singer.Helpers.Extensions;
@@ -25,15 +28,21 @@ namespace Singer.Services
       where TCreateUserDTO : class, ICreateUserDTO
       where TUpdateUserDTO : class, IUpdateUserDTO
    {
-      private readonly IPasswordGenerator _passwordGenerator;
       protected UserManager<User> UserManager { get; }
       private readonly IEmailService<TUserDTO> _emailService;
+      private readonly string _frontendURL;
+
       protected UserService(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager,
-         IPasswordGenerator passwordGenerator, IEmailService<TUserDTO> emailService) : base(context, mapper)
+        IEmailService<TUserDTO> emailService, IOptions<ApplicationConfig> applicationConfigurationOptions) : base(context, mapper)
       {
-         _passwordGenerator = passwordGenerator;
          UserManager = userManager;
          _emailService = emailService;
+         if (applicationConfigurationOptions == null)
+         {
+            throw new ArgumentNullException(nameof(applicationConfigurationOptions));
+         }
+
+         _frontendURL = applicationConfigurationOptions.Value.FrontendURL;
       }
 
       public override async Task<TUserDTO> CreateAsync(
@@ -77,7 +86,7 @@ namespace Singer.Services
          var changeTracker = await Context.AddAsync(entity);
          await Context.SaveChangesAsync();
          var userDTO = Mapper.Map<TUserDTO>(changeTracker.Entity);
-         var passwordResetURL = $"https://localhost:5001/auth/reset?userId={createdUser.Id}&token={passwordResetToken}";
+         var passwordResetURL = $"{_frontendURL}/auth/reset?userId={createdUser.Id}&token={passwordResetToken}";
          if (_emailService != null)
          {
             await _emailService.SendAccountDetailsAsync(userDTO, passwordResetURL);

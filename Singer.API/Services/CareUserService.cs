@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Singer.Data;
+using Singer.Data.Models.Configuration;
 using Singer.DTOs.Users;
 using Singer.DTOs;
 using Singer.Helpers.Exceptions;
@@ -29,8 +31,9 @@ namespace Singer.Services
             .ThenInclude(x => x.User)
          .AsQueryable();
 
-      public CareUserService(ApplicationDbContext appContext, IMapper mapper, UserManager<User> userManager, IPasswordGenerator passwordGenerator)
-      : base(appContext, mapper, userManager, passwordGenerator, null)
+      public CareUserService(ApplicationDbContext appContext, IMapper mapper, UserManager<User> userManager,
+         IOptions<ApplicationConfig> applicationConfigurationOptions)
+      : base(appContext, mapper, userManager, null, applicationConfigurationOptions)
       {
       }
       protected override Expression<Func<CareUser, bool>> Filter(string filter)

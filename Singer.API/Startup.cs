@@ -179,12 +179,15 @@ namespace Singer
          services.AddScoped<IEventRegistrationService, EventRegistrationService>()
             .AddScoped<IDateValidator, DateValidator>();
          services.Configure<PasswordOptions>(Configuration.GetSection("PasswordOptions"));
-         services.AddScoped<IPasswordGenerator, PasswordGenerator>();
          services.AddScoped<IUserProfileService, UserProfileService>();
          services.Configure<EmailOptions>(Configuration.GetSection("EmailOptions"));
-         services.AddScoped(typeof(IEmailService<LegalGuardianUserDTO>), typeof(EmailService<LegalGuardianUserDTO>));
-         services.AddScoped(typeof(IEmailService<AdminUserDTO>), typeof(EmailService<AdminUserDTO>));
-         services.AddScoped(typeof(IEmailService<UserDTO>), typeof(EmailService<UserDTO>));
+         services.Configure<ApplicationConfig>(Configuration.GetSection("Application"));
+         services.AddScoped(typeof(IEmailService<LegalGuardianUserDTO>),
+            typeof(EmailService<LegalGuardianUserDTO>));
+         services.AddScoped(typeof(IEmailService<AdminUserDTO>),
+            typeof(EmailService<AdminUserDTO>));
+         services.AddScoped(typeof(IEmailService<UserDTO>),
+            typeof(EmailService<UserDTO>));
 
       }
 
