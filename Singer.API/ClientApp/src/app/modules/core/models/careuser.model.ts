@@ -3,7 +3,7 @@ import {
    LinkedLegalGuardianDTO,
    LinkedLegalGuardian,
 } from './legalguardian.model';
-import { SingerEventLocation } from './singer-event-location.dto';
+import { SingerEventLocation } from './singerevent.model';
 
 export interface CareUserDTO {
    id: string;
@@ -11,7 +11,7 @@ export interface CareUserDTO {
    lastName: string;
    email: string;
    userName: string;
-   birthday: Date;
+   birthDay: Date;
    caseNumber: string;
    ageGroup: AgeGroup;
    isExtern: boolean;
@@ -83,8 +83,8 @@ export class CareUser {
    hasTrajectory: boolean;
    hasResources: boolean;
    legalGuardianUsers: LinkedLegalGuardian[];
-   legalGuardianUsersToAdd: string[];
-   legalGuardianUsersToRemove: string[];
+   legalGuardianUsersToAdd?: string[];
+   legalGuardianUsersToRemove?: string[];
 }
 
 export class LinkedCareUser {

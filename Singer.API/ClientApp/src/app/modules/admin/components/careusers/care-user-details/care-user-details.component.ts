@@ -10,7 +10,6 @@ import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CareUser } from 'src/app/modules/core/models/careuser.model';
 import { AgeGroup } from 'src/app/modules/core/models/enum';
-import { CareUserService } from 'src/app/modules/core/services/care-users-api/careusers.service';
 import {
    startWith,
    debounceTime,
@@ -21,24 +20,14 @@ import {
 import { of, Observable, BehaviorSubject } from 'rxjs';
 import { LegalGuardian } from 'src/app/modules/core/models/legalguardian.model';
 import { LegalguardiansService } from 'src/app/modules/core/services/legal-guardians-api/legalguardians.service';
-import {
-   MatDatepicker,
-   DateAdapter,
-   MAT_DATE_LOCALE,
-   MAT_DATE_FORMATS,
-} from '@angular/material';
-import {
-   MomentDateAdapter,
-   MAT_MOMENT_DATE_FORMATS,
-} from '@angular/material-moment-adapter';
-import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location.dto';
+import { MatDatepicker, MAT_DATE_FORMATS } from '@angular/material';
 import { SingerEventLocationService } from 'src/app/modules/core/services/singerevents-api/singerevent-location.service';
-import { isNullOrUndefined } from 'util';
 import { MY_FORMATS } from 'src/app/modules/core/core.module';
 import {
    dateNotAfter,
    dateNotBefore,
 } from 'src/app/modules/core/utils/custom-date-validators';
+import { SingerEventLocation } from 'src/app/modules/core/models/singerevent.model';
 
 // Data we pass along with the creation of the Mat-Dialog box
 export interface CareUserDetailsFormData {
@@ -70,7 +59,9 @@ export class CareUserDetailsComponent implements OnInit {
 
    // Current care user instance
    currentCareUserInstance: CareUser;
-   private availableLocationsSubject = new BehaviorSubject<SingerEventLocation[]>([]);
+   private availableLocationsSubject = new BehaviorSubject<
+      SingerEventLocation[]
+   >([]);
    availableLocations$ = this.availableLocationsSubject.asObservable();
    //#region Binding properties for form:
 
@@ -112,9 +103,7 @@ export class CareUserDetailsComponent implements OnInit {
          dateNotBefore(this.minBirthday),
          dateNotAfter(this.maxBirthday),
       ]),
-      caseNumberFieldControl: new FormControl('', [
-         Validators.required,
-      ]),
+      caseNumberFieldControl: new FormControl('', [Validators.required]),
       ageGroupFieldControl: new FormControl('', [Validators.required]),
       isExternFieldControl: new FormControl('', [Validators.required]),
       hasTrajectoryFieldControl: new FormControl('', [Validators.required]),
@@ -262,7 +251,9 @@ export class CareUserDetailsComponent implements OnInit {
 
    // If we are editing an existing user and there are no changes return false
    checkForChanges(): boolean {
-      if (this.isAdding) { return true; }
+      if (this.isAdding) {
+         return true;
+      }
       if (
          this.currentCareUserInstance.firstName !==
          this.formControlGroup.controls.firstNameFieldControl.value

@@ -19,15 +19,16 @@ import {
    SingerEventDetailsFormData,
 } from '../singerevent-details/singerevent-details.component';
 import { SingerEventsService } from 'src/app/modules/core/services/singerevents-api/singerevents.service';
-import { SingerEvent } from 'src/app/modules/core/models/singerevent.model';
+import {
+   SingerEvent,
+   SingerEventLocation,
+} from 'src/app/modules/core/models/singerevent.model';
 import { SingerEventLocationService } from 'src/app/modules/core/services/singerevents-api/singerevent-location.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location.dto';
 import {
    SingerEventRegistrationsComponent,
    SingerEventRegistrationData,
 } from '../singer-event-registrations/singer-event-registrations.component';
-import { EventRegistrationComponent } from 'src/app/modules/shared/components/event-registration/event-registration.component';
 import { SingerEventAdminRegisterComponent } from '../singer-eventadmin-register/singer-eventadmin-register.component';
 import { LoadingService } from 'src/app/modules/core/services/loading.service';
 
@@ -106,8 +107,8 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
       dialogRef.componentInstance.submitEvent.subscribe(
          (result: SingerEvent) => {
             // Update the SingerEvent
-            this._singerEventsService.updateSingerEvent(result).subscribe(
-               res => {
+            this._singerEventsService.update(result).subscribe(
+               () => {
                   // Reload SingerEvents
                   this.loadSingerEvents();
                   this._snackBar.open(
@@ -158,8 +159,8 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
 
       dialogRef.componentInstance.submitEvent.subscribe(
          (result: SingerEvent) => {
-            this._singerEventsService.createSingerEvent(result).subscribe(
-               res => {
+            this._singerEventsService.create(result).subscribe(
+               () => {
                   this.loadSingerEvents();
                   this._snackBar.open(
                      `Evenement ${result.title} werd toegevoegd.`,

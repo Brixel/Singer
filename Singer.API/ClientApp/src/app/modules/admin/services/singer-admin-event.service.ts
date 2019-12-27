@@ -3,7 +3,7 @@ import { SingerAdminEventProxy } from './singer-admin-event.proxy';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { RegistrationStatus } from '../../core/models/enum';
-import { DaycareLocationDTO } from '../../core/models/daycarelocation.dto';
+import { DaycareLocationDTO } from '../../core/DTOs/daycarelocation.dto';
 
 @Injectable({
    providedIn: 'root',

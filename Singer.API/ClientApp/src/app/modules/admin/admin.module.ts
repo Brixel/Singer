@@ -41,6 +41,7 @@ import { AddFamilyWizardComponent } from './components/add-family-wizard/add-fam
 import { SingerEventRegistrationsComponent } from './components/singerevents/singer-event-registrations/singer-event-registrations.component';
 import { SingerEventAdminRegisterComponent } from './components/singerevents/singer-eventadmin-register/singer-eventadmin-register.component';
 import { ConfirmComponent } from '../core/components/confirm/confirm.component';
+import { PendingRegistrationsComponent } from './components/pending-registrations/pending-registrations.component';
 
 @NgModule({
    declarations: [
@@ -56,6 +57,7 @@ import { ConfirmComponent } from '../core/components/confirm/confirm.component';
       CareUserSearchComponent,
       SingerEventAdminRegisterComponent,
       AddFamilyWizardComponent,
+      PendingRegistrationsComponent,
    ],
    imports: [
       CoreModule,
