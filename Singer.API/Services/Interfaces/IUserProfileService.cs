@@ -5,7 +5,7 @@ namespace Singer.Controllers
 {
    public interface IUserProfileService
    {
-      Task UpdatePassword(Guid userId, string token, string password);
+      Task UpdatePassword(Guid userId, string rawToken, string password);
       Task RequestPasswordReset(string userId);
    }
 }
