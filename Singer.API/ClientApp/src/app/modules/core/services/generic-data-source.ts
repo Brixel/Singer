@@ -30,7 +30,7 @@ export abstract class GenericDataSource<
       filter?: string
    ) {
       this.loadingSubject$.next(true);
-      sortDirection = sortDirection == 'asc' ? '0' : '1';
+      sortDirection = sortDirection === 'asc' ? '0' : '1';
       this._dataService
          .fetch(sortDirection, sortColumn, pageIndex, pageSize, filter)
          .subscribe(res => {

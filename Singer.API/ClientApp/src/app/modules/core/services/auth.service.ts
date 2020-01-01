@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { UpdatePasswordDTO } from '../DTOs/updatepassword.dto';
 @Injectable({
    providedIn: 'root',
 })
@@ -50,7 +51,7 @@ export class AuthService {
          .subscribe(
             () => {},
             error => {
-               console.log(error);
+               console.error(error);
             }
          );
    }
@@ -111,9 +112,4 @@ export class AuthService {
       this.isAuthenticated();
       this.isAdminSubject.next(false);
    }
-}
-export class UpdatePasswordDTO {
-   userId: string;
-   token: string;
-   newPassword: string;
 }

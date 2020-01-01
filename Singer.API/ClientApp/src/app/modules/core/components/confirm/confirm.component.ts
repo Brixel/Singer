@@ -1,7 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { ConfirmRequest } from './confirmrequest.model';
-import { ConfirmResponse } from './confirmresponse.model';
 
 @Component({
    selector: 'app-confirm',
@@ -9,7 +7,7 @@ import { ConfirmResponse } from './confirmresponse.model';
    styleUrls: ['./confirm.component.css'],
 })
 export class ConfirmComponent implements OnInit {
-   private confirmResponse = <ConfirmResponse>{ isConfirmed: false };
+   private isConfirmed = false;
 
    constructor(
       private dialogRef: MatDialogRef<ConfirmComponent>,
@@ -19,11 +17,15 @@ export class ConfirmComponent implements OnInit {
    ngOnInit() {}
 
    confirm() {
-      this.confirmResponse.isConfirmed = true;
-      this.dialogRef.close(this.confirmResponse);
+      this.isConfirmed = true;
+      this.dialogRef.close(this.isConfirmed);
    }
 
    cancel() {
-      this.dialogRef.close(this.confirmResponse);
+      this.dialogRef.close(this.isConfirmed);
    }
+}
+
+export interface ConfirmRequest {
+   confirmMessage: string;
 }

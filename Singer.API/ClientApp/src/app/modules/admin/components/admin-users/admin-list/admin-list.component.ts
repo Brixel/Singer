@@ -14,10 +14,8 @@ import { AdminUser } from 'src/app/modules/core/models/adminuser.model';
 import { AdminDetailsComponent } from '../admin-details/admin-details.component';
 import { LoadingService } from 'src/app/modules/core/services/loading.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ConfirmComponent } from 'src/app/modules/core/components/confirm/confirm.component';
-import { ConfirmResponse } from 'src/app/modules/core/components/confirm/confirmresponse.model';
+import { ConfirmComponent, ConfirmRequest } from 'src/app/modules/core/components/confirm/confirm.component';
 import { AuthService } from 'src/app/modules/core/services/auth.service';
-import { ConfirmRequest } from 'src/app/modules/core/components/confirm/confirmrequest.model';
 
 @Component({
    selector: 'app-admin-list',
@@ -100,9 +98,8 @@ export class AdminListComponent implements OnInit, AfterViewInit {
       const dialogRef = this.dialog.open(ConfirmComponent, {
          data: <ConfirmRequest>{confirmMessage: `Wilt u het wachtwoord van ${row.firstName} ${row.lastName} wijzigen?`}
       });
-      console.log(row.userId);
-      dialogRef.afterClosed().subscribe((result: ConfirmResponse) => {
-         if (result.isConfirmed) {
+      dialogRef.afterClosed().subscribe((isConfirmed: boolean) => {
+         if (isConfirmed) {
             this.authService.requestPasswordReset(row.userId);
          }
       });

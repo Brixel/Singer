@@ -46,11 +46,11 @@ export class ResetPasswordComponent implements OnInit {
       this._authService.passwordResetError$.subscribe((res) => this.processError(res));
    }
 
-   private processError(error: string){
+   private processError(error: string) {
 
-      switch(error){
+      switch (error) {
          case 'InvalidToken':
-            this.errorMessage = 'De gebruikte URL is vervallen'
+            this.errorMessage = 'De gebruikte URL is vervallen';
             break;
          default:
             this.errorMessage = 'Wijzigen van wachtwoord is mislukt';
@@ -60,7 +60,6 @@ export class ResetPasswordComponent implements OnInit {
    }
 
    submit() {
-      console.log(this.formGroup.controls);
       if (!this.formGroup.valid) {
          return;
       }

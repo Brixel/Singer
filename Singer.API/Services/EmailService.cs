@@ -33,19 +33,21 @@ namespace Singer.Services
       public async Task SendAccountDetailsAsync(TUserDTO user, string resetPasswordLink)
       {
          var msg = new MailMessage(_mailFrom, user.Email);
+         msg.IsBodyHtml = true;
          msg.Subject = "Uw Sint-Gerardus account gegevens";
-         msg.Body = "Hierunder vind u uw gebruikersnaam voor Sint-Gerardus, en een link om uw wachtwoord de eerste in te stellen:\n";
-         msg.Body += $"Gebruikersnaam: {user.Email}\n";
-         msg.Body += $"Klik hier om uw wachtwoord in te stellen: {resetPasswordLink}";
+         msg.Body = "Hieronder vind u uw gebruikersnaam voor Sint-Gerardus, en een link om uw wachtwoord de eerste in te stellen:<br />";
+         msg.Body += $"Gebruikersnaam: {user.Email}<br />";
+         msg.Body += $"Klik hier om uw wachtwoord in te stellen: <a href=\"{resetPasswordLink}\">Herstel wachtwoord</a><br />";
          await _smtp.SendMailAsync(msg);
       }
 
       public async Task SendPasswordResetLink(TUserDTO user, string resetPasswordLink)
       {
          var msg = new MailMessage(_mailFrom, user.Email);
+         msg.IsBodyHtml = true;
          msg.Subject = "Herstel uw Sint Gerardus wachtwoord";
-         msg.Body = $"Beste {user.FirstName} {user.LastName},\n Klik op onderstaande link om uw wachtwoord te wijzigenn:\n";
-         msg.Body += $"{resetPasswordLink}";
+         msg.Body = $"Beste {user.FirstName} {user.LastName},\n Klik op onderstaande link om uw wachtwoord te wijzigen:<br />";
+         msg.Body += $"<a href=\"{resetPasswordLink}\">Herstel wachtwoord</a>";
          await _smtp.SendMailAsync(msg);
       }
    }

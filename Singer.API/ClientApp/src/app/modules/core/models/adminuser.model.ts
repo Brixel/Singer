@@ -11,7 +11,6 @@ export interface UpdateAdminUserDTO {
    firstName: string;
    lastName: string;
    email: string;
-   id: string;
 }
 
 export interface CreateAdminUserDTO {
@@ -28,7 +27,7 @@ export class AdminUser {
    userName: string;
    userId: string;
 
-   constructor(id: string, firstName: string, lastName: string, userName: string, userId:string, email: string) {
+   constructor(id: string, firstName: string, lastName: string, userName: string, userId: string, email: string) {
      this.id = id;
      this.firstName = firstName;
      this.lastName = lastName;
