@@ -20,7 +20,6 @@ namespace Singer.Configuration
 {
    public static class Seed
    {
-      private static List<string> _careUsers = new List<string>() { "user1", "user2", "user3" };
 
       private static List<EventLocation> _eventLocations = new List<EventLocation>() {
          new EventLocation{
