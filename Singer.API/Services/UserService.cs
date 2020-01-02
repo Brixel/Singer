@@ -72,7 +72,6 @@ namespace Singer.Services
 
          var userCreationResult = await UserManager.CreateAsync(baseUser);
          var passwordResetToken = await UserManager.GeneratePasswordResetTokenAsync(baseUser);
-         Console.WriteLine($"Password reset token: {passwordResetToken}");
          if (!userCreationResult.Succeeded)
          {
             Debug.WriteLine($"User can not be created. {userCreationResult.Errors.First().Code}");
