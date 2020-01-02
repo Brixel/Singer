@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { Observable, Subject } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UpdatePasswordDTO } from '../DTOs/updatepassword.dto';
 @Injectable({
@@ -11,10 +11,10 @@ export class AuthService {
    private tokenURL = this.baseUrl + 'connect/token';
    private userInfoURL = this.baseUrl + 'connect/userinfo';
 
-   private isAdminSubject = new Subject<boolean>();
+   private isAdminSubject = new ReplaySubject<boolean>();
    isAdmin$ = this.isAdminSubject.asObservable();
 
-   private isAuthenticatedSubject = new Subject<boolean>();
+   private isAuthenticatedSubject = new ReplaySubject<boolean>();
    isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
    private passwordResetErrorSubject = new Subject<string>();
