@@ -32,7 +32,6 @@ export class CareUserService {
          email: updateUser.email,
          firstName: updateUser.firstName,
          lastName: updateUser.lastName,
-         hasResources: updateUser.hasResources,
          hasTrajectory: updateUser.hasTrajectory,
          isExtern: updateUser.isExtern,
          legalGuardianUsersToAdd: updateUser.legalGuardianUsersToAdd,
@@ -51,7 +50,6 @@ export class CareUserService {
          email: createUser.email,
          firstName: createUser.firstName,
          lastName: createUser.lastName,
-         hasResources: createUser.hasResources,
          hasTrajectory: createUser.hasTrajectory,
          isExtern: createUser.isExtern,
       };

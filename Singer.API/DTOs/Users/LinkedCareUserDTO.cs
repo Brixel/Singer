@@ -52,9 +52,5 @@ namespace Singer.DTOs.Users
          Name = nameof(DisplayNames.VacationDaycareLocation))]
       public EventLocation VacationDaycareLocation { get; set; }
 
-      [Display(
-         ResourceType = typeof(DisplayNames),
-         Name = nameof(DisplayNames.HasResources))]
-      public bool HasResources { get; set; }
    }
 }

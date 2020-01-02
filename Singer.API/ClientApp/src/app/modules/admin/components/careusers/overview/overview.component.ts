@@ -45,7 +45,6 @@ export class OverviewComponent implements OnInit, AfterViewInit {
       'hasTrajectory',
       'normalDaycareLocation',
       'vacationDaycareLocation',
-      'hasResources',
    ];
    filter: string;
    readonly maxFilterLength = 2048;
@@ -75,7 +74,11 @@ export class OverviewComponent implements OnInit, AfterViewInit {
       //Dereference row to avoid updating row in overview when API might refuse the update
       const deRefRow = { ...row };
       const dialogRef = this.dialog.open(CareUserDetailsComponent, {
-         data: { careUserInstance: deRefRow, isAdding: false, displayContactFields: true, },
+         data: {
+            careUserInstance: deRefRow,
+            isAdding: false,
+            displayContactFields: true,
+         },
          width: '80vw',
       });
 
@@ -100,7 +103,11 @@ export class OverviewComponent implements OnInit, AfterViewInit {
 
    addCareUser(): void {
       const dialogRef = this.dialog.open(CareUserDetailsComponent, {
-         data: { careUserInstance: null, isAdding: true, displayContactFields: false, },
+         data: {
+            careUserInstance: null,
+            isAdding: true,
+            displayContactFields: false,
+         },
          width: '80vw',
       });
 
