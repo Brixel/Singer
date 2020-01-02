@@ -174,7 +174,7 @@ namespace Singer
          services.AddScoped<IEventService, EventService>();
          services.AddScoped<IEventRegistrationService, EventRegistrationService>()
             .AddScoped<IDateValidator, DateValidator>();
-
+         services.AddScoped<IEventRegistrationLoggingService, EventRegistrationLoggingService>();
       }
 
       private static IIdentityServerBuilder AddIdentityService(IServiceCollection services, X509Certificate2 cert)

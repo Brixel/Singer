@@ -20,8 +20,12 @@ namespace Singer.Services
 {
    public class EventRegistrationService : IEventRegistrationService
    {
-      public EventRegistrationService(ApplicationDbContext context, IMapper mapper)
+      private readonly IEventRegistrationLoggingService _eventRegistrationLoggingService;
+
+      public EventRegistrationService(ApplicationDbContext context, IMapper mapper,
+         IEventRegistrationLoggingService eventRegistrationLoggingService)
       {
+         _eventRegistrationLoggingService = eventRegistrationLoggingService;
          Context = context;
          Mapper = mapper;
       }
@@ -304,6 +308,7 @@ namespace Singer.Services
          var registration = await Context.EventRegistrations.SingleAsync(x => x.Id == registrationId);
          registration.Status = RegistrationStatus.Accepted;
          await Context.SaveChangesAsync();
+         await _eventRegistrationLoggingService.LogEventRegistration(registrationId, EventRegistrationChanges.RegistrationStatusChange);
          return registration.Status;
       }
 
@@ -312,6 +317,8 @@ namespace Singer.Services
          var registration = await Context.EventRegistrations.SingleAsync(x => x.Id == registrationId);
          registration.Status = RegistrationStatus.Rejected;
          await Context.SaveChangesAsync();
+
+         await _eventRegistrationLoggingService.LogEventRegistration(registrationId, EventRegistrationChanges.RegistrationStatusChange);
          return registration.Status;
       }
 
@@ -321,6 +328,8 @@ namespace Singer.Services
          var registration = await Context.EventRegistrations.SingleAsync(x => x.Id == registrationId);
          registration.DaycareLocationId = locationId;
          await Context.SaveChangesAsync();
+
+         await _eventRegistrationLoggingService.LogEventRegistration(registrationId, EventRegistrationChanges.LocationChange);
          return new DaycareLocationDTO()
          {
             Name = location.Name,

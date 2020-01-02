@@ -21,6 +21,7 @@ namespace Singer.Data
       public DbSet<EventSlot> EventSlots { get; set; }
       public DbSet<EventRegistration> EventRegistrations { get; set; }
       public DbSet<AdminUser> AdminUsers { get; set; }
+      public DbSet<EventRegistrationLog> EventRegistrationLogs { get; set; }
 
       protected override void OnModelCreating(ModelBuilder builder)
       {
@@ -52,6 +53,9 @@ namespace Singer.Data
             .HasMany(x => x.EventRegistrations)
             .WithOne(x => x.CareUser)
             .OnDelete(DeleteBehavior.Restrict);
+
+         builder.Entity<EventRegistrationLog>()
+            .HasOne(x => x.EventRegistration);
 
       }
    }
