@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { Observable, ReplaySubject } from 'rxjs';
+import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UpdatePasswordDTO } from '../DTOs/updatepassword.dto';
 @Injectable({
@@ -37,7 +37,8 @@ export class AuthService {
          userId,
       };
       return this.http
-         .put(`${this.baseUrl}api/user/password`, updatePasswordDTO).pipe(map((res => res)));
+         .put(`${this.baseUrl}api/user/password`, updatePasswordDTO)
+         .pipe(map(res => res));
    }
 
    requestPasswordReset(userId: string) {
@@ -47,7 +48,11 @@ export class AuthService {
          }),
       };
       this.http
-         .post(`${this.baseUrl}api/user/resetpassword`, JSON.stringify(userId), httpOptions)
+         .post(
+            `${this.baseUrl}api/user/resetpassword`,
+            JSON.stringify(userId),
+            httpOptions
+         )
          .subscribe(
             () => {},
             error => {
