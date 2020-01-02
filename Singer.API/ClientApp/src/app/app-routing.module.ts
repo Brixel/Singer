@@ -7,6 +7,10 @@ const routes: Routes = [
       loadChildren: './modules/login/login.module#LoginModule'
    },
    {
+      path: 'auth',
+      loadChildren: './modules/login/login.module#LoginModule'
+   },
+   {
       path: 'dashboard',
       loadChildren: './modules/dashboard/dashboard.module#DashboardModule',
       component: MainComponent,
