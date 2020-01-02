@@ -15,16 +15,11 @@ import { NavMenuComponent } from './modules/core/components/nav-menu/nav-menu.co
 import { NativeDateModule } from '@angular/material';
 import { AdminModule } from './modules/admin/admin.module';
 
-
 export function tokenGetter(): string {
    return localStorage.getItem('token');
- }
+}
 @NgModule({
-   declarations: [
-      AppComponent,
-      MainComponent,
-      NavMenuComponent
-   ],
+   declarations: [AppComponent, MainComponent, NavMenuComponent],
    imports: [
       BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
       AppRoutingModule,
@@ -51,16 +46,16 @@ export function tokenGetter(): string {
          provide: APP_INITIALIZER,
          useFactory: initializeApp,
          deps: [AuthService],
-         multi: true},
+         multi: true,
+      },
       BrowserAnimationsModule,
    ],
-   bootstrap: [AppComponent]
+   bootstrap: [AppComponent],
 })
 export class AppModule {}
 
 export function initializeApp(authService: AuthService) {
    return () => {
-      authService
-        .restore();
-      };
-   }
+      authService.restore();
+   };
+}
