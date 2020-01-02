@@ -1,6 +1,6 @@
 using System;
 
-namespace Singer.Controllers
+namespace Singer.DTOs.Users
 {
    public class UpdatePasswordDTO
    {

@@ -39,7 +39,7 @@ namespace Singer.Controllers
          var user = await _userManager.FindByIdAsync(userId.ToString());
          if (user == null)
          {
-            throw new Exception("No user found");
+            throw new UserNotFoundException("No user found");
          }
 
          var identityResult = await _userManager.ResetPasswordAsync(user, token, password);
@@ -54,7 +54,7 @@ namespace Singer.Controllers
          var user = await _userManager.FindByIdAsync(userId);
          if (user == null)
          {
-            throw new Exception("No user found");
+            throw new UserNotFoundException("No user found");
          }
 
          var passwordResetToken = await _userManager.GeneratePasswordResetTokenAsync(user);

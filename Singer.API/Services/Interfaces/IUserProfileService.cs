@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace Singer.Controllers
+namespace Singer.Services.Interfaces
 {
    public interface IUserProfileService
    {

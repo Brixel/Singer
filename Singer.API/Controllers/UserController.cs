@@ -1,5 +1,8 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Singer.DTOs;
+using Singer.DTOs.Users;
+using Singer.Services.Interfaces;
 
 namespace Singer.Controllers
 {
