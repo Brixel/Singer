@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.1.0-issue-registrations-overview.1021",
+   "version": "0.1.0-issue-registrations-overview.1028",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",
