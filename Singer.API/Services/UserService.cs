@@ -5,7 +5,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Singer.Data;
@@ -79,17 +78,20 @@ namespace Singer.Services
          return $"{firstName}.{lastName}.{randomGuid}@test.com";
       }
 
+      /// <summary>
+      /// Returns one <see cref="TUserEntity"/> from the database, converted to a <see cref="TUserDTO"/>.
+      /// </summary>
+      /// <param name="id">The Id OR UserId of the <see cref="TUserEntity"/> to get.</param>
+      /// <returns>The <see cref="TUserEntity"/> in the database with Id or UserId <paramref name="id"/> converted to a <see cref="TUserDTO"/>.</returns>
+      /// <exception cref="NotFoundException">There is no element found with the id <paramref name="id"/>.</exception>
       public override async Task<TUserDTO> GetOneAsync(Guid id)
       {
-         // No async usage due to Automapper not being able to process IAsyncEnumerables
-         var item = await Queryable
-            .ProjectTo<TUserDTO>(Mapper.ConfigurationProvider)
-            .SingleOrDefaultAsync(x => x.Id == id);
+         var item = await Queryable.SingleOrDefaultAsync(x => x.Id == id || x.UserId == id);
          if (item == null)
             throw new NotFoundException();
 
          // return the found entity projected to it's DTO
-         return item;
+         return Mapper.Map<TUserDTO>(item);
       }
 
       public override async Task DeleteAsync(Guid id)
