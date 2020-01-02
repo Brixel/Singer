@@ -1,7 +1,23 @@
 <!-- Mat Form Field Filter -->
-<mat-form-field>
-   <input matInput #filterInput placeholder="Filter" />
-</mat-form-field>
+<form [formGroup]="formControlGroup">
+   <mat-form-field>
+      <input
+         matInput
+         #filterInput
+         placeholder="Filter"
+         formControlName="filterFieldControl"
+      />
+      <mat-error *ngIf="formControlGroup.controls.filterFieldControl.invalid">
+         <div
+            *ngIf="
+               formControlGroup.controls.filterFieldControl.errors.maxlength
+            "
+         >
+            Filter mag maximum {{ maxFilterLength }} karakters bevatten.
+         </div>
+      </mat-error>
+   </mat-form-field>
+</form>
 
 <!-- Mat Table -->
 <div class="mat-elevation-z8 overview-table">
@@ -50,7 +66,7 @@
                maxRegistrantsExceeded: isMaxRegistrantsExceeded(row)
             }"
          >
-            {{ row.currentRegistrants }}/{{ row.maxRegistrants }}
+         {{ getRegistrantsNumberString(row) }}
          </td>
       </ng-container>
 
@@ -109,10 +125,13 @@
                >
                   <mat-icon>edit</mat-icon>
                </button>
-               <!-- TODO Reintroduce this later (AB#28) -->
-               <!-- <button mat-stroked-button
-            matTooltip="Bekijk inschrijvingen"
-            (click)="manageRegistrations(row)"><mat-icon>people</mat-icon></button> -->
+               <button
+                  mat-stroked-button
+                  matTooltip="Bekijk inschrijvingen"
+                  (click)="manageRegistrations(row)"
+               >
+                  <mat-icon>people</mat-icon>
+               </button>
                <button
                   mat-stroked-button
                   matTooltip="Inschrijven"

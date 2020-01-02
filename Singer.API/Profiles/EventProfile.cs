@@ -16,9 +16,16 @@ namespace Singer.Profiles
          CreateMap<CreateEventLocationDTO, EventLocation>();
          CreateMap<UpdateEventLocationDTO, EventLocation>();
 
+         CreateMap<EventSlot, EventSlotDTO>()
+            .ForMember(x => x.CurrentRegistrants, opt => opt.MapFrom(src =>
+               src.Registrations.Count(x => x.Status == RegistrationStatus.Accepted)));
+
          CreateMap<Event, EventDTO>()
+            .ForMember(x => x.StartDateTime, opt => opt.MapFrom(src => src.EventSlots.Min(x => x.StartDateTime)))
+            .ForMember(x => x.EndDateTime, opt => opt.MapFrom(src => src.EventSlots.Max(x => x.EndDateTime)))
             .ForMember(x => x.AllowedAgeGroups, opt => opt.MapFrom(src =>
-               ToAgeGroupList(src.AllowedAgeGroups)));
+               ToAgeGroupList(src.AllowedAgeGroups)))
+            .ForMember(x => x.EventSlots, options => options.MapFrom(src => src.EventSlots));
 
          CreateMap<CreateEventDTO, Event>()
             .ForMember(x => x.AllowedAgeGroups, opt => opt.MapFrom(src =>

@@ -10,7 +10,6 @@ import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CareUser } from 'src/app/modules/core/models/careuser.model';
 import { AgeGroup } from 'src/app/modules/core/models/enum';
-import { CareUserService } from 'src/app/modules/core/services/care-users-api/careusers.service';
 import {
    startWith,
    debounceTime,
@@ -21,25 +20,20 @@ import {
 import { of, Observable, BehaviorSubject } from 'rxjs';
 import { LegalGuardian } from 'src/app/modules/core/models/legalguardian.model';
 import { LegalguardiansService } from 'src/app/modules/core/services/legal-guardians-api/legalguardians.service';
-import {
-   MatDatepicker,
-   DateAdapter,
-   MAT_DATE_LOCALE,
-   MAT_DATE_FORMATS,
-} from '@angular/material';
-import {
-   MomentDateAdapter,
-   MAT_MOMENT_DATE_FORMATS,
-} from '@angular/material-moment-adapter';
-import { SingerEventLocation } from 'src/app/modules/core/models/singer-event-location';
+import { MatDatepicker, MAT_DATE_FORMATS } from '@angular/material';
 import { SingerEventLocationService } from 'src/app/modules/core/services/singerevents-api/singerevent-location.service';
-import { isNullOrUndefined } from 'util';
 import { MY_FORMATS } from 'src/app/modules/core/core.module';
+import {
+   dateNotAfter,
+   dateNotBefore,
+} from 'src/app/modules/core/utils/custom-date-validators';
+import { SingerEventLocation } from 'src/app/modules/core/models/singerevent.model';
 
 // Data we pass along with the creation of the Mat-Dialog box
 export interface CareUserDetailsFormData {
    careUserInstance: CareUser;
    isAdding: boolean;
+   displayContactFields: boolean;
 }
 @Component({
    selector: 'app-care-user-details',
@@ -56,6 +50,7 @@ export class CareUserDetailsComponent implements OnInit {
 
    // Boolean to decide if we are adding a new user or editing an existing one
    isAdding: boolean;
+   displayContactFields: boolean;
 
    // Boolean to check if changes have been made when editing a user
    isChangesMade: boolean;
@@ -64,45 +59,54 @@ export class CareUserDetailsComponent implements OnInit {
 
    // Current care user instance
    currentCareUserInstance: CareUser;
-
-   selectedNormalDaycareLocation: SingerEventLocation;
-   selectedVacationDaycareLocation: SingerEventLocation;
-   private availableLocationsSubject = new BehaviorSubject<SingerEventLocation[]>([]);
+   private availableLocationsSubject = new BehaviorSubject<
+      SingerEventLocation[]
+   >([]);
    availableLocations$ = this.availableLocationsSubject.asObservable();
    //#region Binding properties for form:
 
    // Form placeholders
-   firstNameFieldPlaceholder = 'Voornaam';
-   lastNameFieldPlaceholder = 'Familienaam';
-   birthdayFieldPlaceholder = 'Geboortedatum';
-   caseNumberFieldPlaceholder = 'Dossiernr';
-   ageGroupFieldPlaceholder = 'Leeftijdsgroep';
-   isExternFieldPlaceholder = 'Klas of extern';
-   hasTrajectoryFieldPlaceholder = 'Trajectfunctie';
-   normalDaycareLocationFieldPlaceholder = 'Opvang normaal';
-   vacationDaycareLocationFieldPlaceholder = 'Opvang vakantie';
-   hasResourcesFieldPlaceholder = 'Voldoende middelen';
+   readonly firstNameFieldPlaceholder = 'Voornaam';
+   readonly lastNameFieldPlaceholder = 'Familienaam';
+   readonly birthdayFieldPlaceholder = 'Geboortedatum';
+   readonly caseNumberFieldPlaceholder = 'Dossiernr';
+   readonly ageGroupFieldPlaceholder = 'Leeftijdsgroep';
+   readonly isExternFieldPlaceholder = 'Klas of extern';
+   readonly hasTrajectoryFieldPlaceholder = 'Trajectfunctie';
+   readonly hasResourcesFieldPlaceholder = 'Voldoende middelen';
 
-   // Min and Max dates for the birthday datepicker
-   birthdayDatePickerMinDate: Date = new Date(1900, 0, 1);
-   birthdayDatePickerMaxDate: Date = new Date();
+   // Form validation values
+   readonly minBirthday: Date = new Date(1900, 0, 1);
+   readonly maxBirthday: Date = new Date();
+   readonly maxNameLength = 100;
+   readonly minNameLength = 2;
+   readonly maxEmailLength = 255;
+   readonly nameRegex = /^[\w'À-ÿ][\w' À-ÿ]*[\w'À-ÿ]+$/;
 
    // Form control group
    formControlGroup: FormGroup = new FormGroup({
       // Form controls
-      firstNameFieldControl: new FormControl('', [Validators.required]),
-      lastNameFieldControl: new FormControl('', [Validators.required]),
-      birthdayFieldControl: new FormControl(null, [Validators.required]),
+      firstNameFieldControl: new FormControl('', [
+         Validators.required,
+         Validators.maxLength(this.maxNameLength),
+         Validators.minLength(this.minNameLength),
+         Validators.pattern(this.nameRegex),
+      ]),
+      lastNameFieldControl: new FormControl('', [
+         Validators.required,
+         Validators.maxLength(this.maxNameLength),
+         Validators.minLength(this.minNameLength),
+         Validators.pattern(this.nameRegex),
+      ]),
+      birthdayFieldControl: new FormControl(null, [
+         Validators.required,
+         dateNotBefore(this.minBirthday),
+         dateNotAfter(this.maxBirthday),
+      ]),
       caseNumberFieldControl: new FormControl('', [Validators.required]),
       ageGroupFieldControl: new FormControl('', [Validators.required]),
       isExternFieldControl: new FormControl('', [Validators.required]),
       hasTrajectoryFieldControl: new FormControl('', [Validators.required]),
-      normalDaycareLocationFieldControl: new FormControl('', [
-         Validators.required,
-      ]),
-      vacationDaycareLocationFieldControl: new FormControl('', [
-         Validators.required,
-      ]),
       hasResourcesFieldControl: new FormControl('', [Validators.required]),
       legalGuardianUsersSearchFieldcontrol: new FormControl(),
    });
@@ -122,6 +126,7 @@ export class CareUserDetailsComponent implements OnInit {
    ) {
       this.currentCareUserInstance = data.careUserInstance;
       this.isAdding = data.isAdding;
+      this.displayContactFields = data.displayContactFields;
    }
 
    ngOnInit() {
@@ -208,12 +213,6 @@ export class CareUserDetailsComponent implements OnInit {
       this.formControlGroup.controls.hasTrajectoryFieldControl.reset(
          this.currentCareUserInstance.hasTrajectory ? 'true' : 'false'
       );
-      this.formControlGroup.controls.normalDaycareLocationFieldControl.setValue(
-         this.currentCareUserInstance.normalDaycareLocation
-      );
-      this.formControlGroup.controls.vacationDaycareLocationFieldControl.setValue(
-         this.currentCareUserInstance.vacationDaycareLocation
-      );
       this.formControlGroup.controls.hasResourcesFieldControl.reset(
          this.currentCareUserInstance.hasResources ? 'true' : 'false'
       );
@@ -228,8 +227,6 @@ export class CareUserDetailsComponent implements OnInit {
       this.formControlGroup.controls.ageGroupFieldControl.reset();
       this.formControlGroup.controls.isExternFieldControl.reset();
       this.formControlGroup.controls.hasTrajectoryFieldControl.reset();
-      this.formControlGroup.controls.normalDaycareLocationFieldControl.reset();
-      this.formControlGroup.controls.vacationDaycareLocationFieldControl.reset();
       this.formControlGroup.controls.hasResourcesFieldControl.reset();
    }
 
@@ -245,8 +242,6 @@ export class CareUserDetailsComponent implements OnInit {
          ageGroup: AgeGroup.Toddler,
          isExtern: false,
          hasTrajectory: false,
-         normalDaycareLocation: new SingerEventLocation(),
-         vacationDaycareLocation: new SingerEventLocation(),
          hasResources: false,
          legalGuardianUsersToAdd: [],
          legalGuardianUsersToRemove: [],
@@ -256,7 +251,9 @@ export class CareUserDetailsComponent implements OnInit {
 
    // If we are editing an existing user and there are no changes return false
    checkForChanges(): boolean {
-      if (this.isAdding) { return true; }
+      if (this.isAdding) {
+         return true;
+      }
       if (
          this.currentCareUserInstance.firstName !==
          this.formControlGroup.controls.firstNameFieldControl.value
@@ -313,34 +310,7 @@ export class CareUserDetailsComponent implements OnInit {
       ) {
          return true;
       }
-      if (
-         (isNullOrUndefined(
-            this.currentCareUserInstance.normalDaycareLocation
-         ) &&
-            !isNullOrUndefined(
-               this.formControlGroup.controls.normalDaycareLocationFieldControl
-                  .value
-            )) ||
-         this.currentCareUserInstance.normalDaycareLocation.id !==
-            this.formControlGroup.controls.normalDaycareLocationFieldControl
-               .value
-      ) {
-         return true;
-      }
-      if (
-         (isNullOrUndefined(
-            this.currentCareUserInstance.vacationDaycareLocation
-         ) &&
-            !isNullOrUndefined(
-               this.formControlGroup.controls
-                  .vacationDaycareLocationFieldControl.value
-            )) ||
-         this.currentCareUserInstance.vacationDaycareLocation.id !==
-            this.formControlGroup.controls.vacationDaycareLocationFieldControl
-               .value
-      ) {
-         return true;
-      }
+
       if (
          this.currentCareUserInstance.hasResources !==
          (this.formControlGroup.controls.hasResourcesFieldControl.value ===
@@ -450,8 +420,6 @@ export class CareUserDetailsComponent implements OnInit {
          'true'
             ? true
             : false;
-      this.currentCareUserInstance.normalDaycareLocation = this.formControlGroup.controls.normalDaycareLocationFieldControl.value;
-      this.currentCareUserInstance.vacationDaycareLocation = this.formControlGroup.controls.vacationDaycareLocationFieldControl.value;
       this.currentCareUserInstance.hasResources =
          this.formControlGroup.controls.hasResourcesFieldControl.value ===
          'true'

@@ -27,15 +27,15 @@
          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
          <PrivateAssets>all</PrivateAssets>
       </PackageReference>
-      <PackageReference Include="IdentityServer4" Version="2.4.0" />
+      <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
       <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.7.0" />
       <PackageReference Include="IdentityServer4.AspNetIdentity" Version="2.4.0" />
       <PackageReference Include="IdentityServer4.EntityFramework" Version="2.4.0" />
+      <PackageReference Include="IdentityServer4" Version="2.4.0" />
       <PackageReference Include="Microsoft.AspNetCore.App" />
       <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.2.0" />
       <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
       <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
-      <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
       <PackageReference Include="nswag.aspnetcore" Version="13.1.3" />
    </ItemGroup>
 
@@ -57,6 +57,8 @@
       <Compile Remove="Migrations\20191016202947_create-eventregistrations-and-eventslots.Designer.cs" />
       <Compile Remove="Migrations\20191016203050_create-eventregistrations-and-eventslots.cs" />
       <Compile Remove="Migrations\20191016203050_create-eventregistrations-and-eventslots.Designer.cs" />
+      <Compile Remove="Migrations\20191128185717_DaycareLocationOnRegistration.cs" />
+      <Compile Remove="Migrations\20191128185717_DaycareLocationOnRegistration.Designer.cs" />
       <Compile Remove="Models\PaginationModel.cs" />
    </ItemGroup>
 
@@ -68,6 +70,30 @@
       <Content Include="Migrations\Sql\CleanAdmin.sql">
          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
+   </ItemGroup>
+
+   <ItemGroup>
+      <Compile Update="Resources\DisplayNames.Designer.cs">
+         <DesignTime>True</DesignTime>
+         <AutoGen>True</AutoGen>
+         <DependentUpon>DisplayNames.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\ErrorMessages.Designer.cs">
+         <DesignTime>True</DesignTime>
+         <AutoGen>True</AutoGen>
+         <DependentUpon>ErrorMessages.resx</DependentUpon>
+      </Compile>
+   </ItemGroup>
+
+   <ItemGroup>
+      <EmbeddedResource Update="Resources\DisplayNames.resx">
+         <Generator>PublicResXFileCodeGenerator</Generator>
+         <LastGenOutput>DisplayNames.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\ErrorMessages.resx">
+         <Generator>PublicResXFileCodeGenerator</Generator>
+         <LastGenOutput>ErrorMessages.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
    </ItemGroup>
 
    <ItemGroup>

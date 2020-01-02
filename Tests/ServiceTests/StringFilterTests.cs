@@ -28,8 +28,6 @@ namespace Tests.ServiceTests
                AgeGroup = AgeGroup.Child,
                IsExtern = false,
                HasTrajectory = true,
-               NormalDaycareLocationId = null,
-               VacationDaycareLocationId = null,
                HasResources = true
             },
             new CareUser
@@ -41,8 +39,6 @@ namespace Tests.ServiceTests
                AgeGroup = AgeGroup.Child,
                IsExtern = true,
                HasTrajectory = true,
-               NormalDaycareLocationId = null,
-               VacationDaycareLocationId = null,
                HasResources = true
             },
             new CareUser
@@ -54,8 +50,6 @@ namespace Tests.ServiceTests
                AgeGroup = AgeGroup.Youngster,
                IsExtern = false,
                HasTrajectory = true,
-               NormalDaycareLocationId = null,
-               VacationDaycareLocationId = null,
                HasResources = false
             },
          };
@@ -84,8 +78,6 @@ namespace Tests.ServiceTests
                AgeGroup = AgeGroup.Child,
                IsExtern = false,
                HasTrajectory = true,
-               NormalDaycareLocationId = null,
-               VacationDaycareLocationId = null,
                HasResources = true
             },
             new CareUser
@@ -98,8 +90,6 @@ namespace Tests.ServiceTests
                AgeGroup = AgeGroup.Child,
                IsExtern = true,
                HasTrajectory = true,
-               NormalDaycareLocationId = null,
-               VacationDaycareLocationId = null,
                HasResources = true
             },
             new CareUser
@@ -112,8 +102,6 @@ namespace Tests.ServiceTests
                AgeGroup = AgeGroup.Youngster,
                IsExtern = false,
                HasTrajectory = true,
-               NormalDaycareLocationId = null,
-               VacationDaycareLocationId = null,
                HasResources = false
             },
          };
@@ -142,8 +130,6 @@ namespace Tests.ServiceTests
                AgeGroup = AgeGroup.Child,
                IsExtern = false,
                HasTrajectory = true,
-               NormalDaycareLocationId = null,
-               VacationDaycareLocationId = null,
                HasResources = true
             },
             new CareUser
@@ -156,8 +142,6 @@ namespace Tests.ServiceTests
                AgeGroup = AgeGroup.Child,
                IsExtern = true,
                HasTrajectory = true,
-               NormalDaycareLocationId = null,
-               VacationDaycareLocationId = null,
                HasResources = true
             },
             new CareUser
@@ -169,8 +153,6 @@ namespace Tests.ServiceTests
                AgeGroup = AgeGroup.Youngster,
                IsExtern = false,
                HasTrajectory = true,
-               NormalDaycareLocationId = null,
-               VacationDaycareLocationId = null,
                HasResources = false
             },
          };
@@ -199,8 +181,6 @@ namespace Tests.ServiceTests
                AgeGroup = AgeGroup.Child,
                IsExtern = false,
                HasTrajectory = true,
-               NormalDaycareLocationId = null,
-               VacationDaycareLocationId = null,
                HasResources = true
             },
             new CareUser
@@ -212,8 +192,6 @@ namespace Tests.ServiceTests
                AgeGroup = AgeGroup.Child,
                IsExtern = true,
                HasTrajectory = true,
-               NormalDaycareLocationId = null,
-               VacationDaycareLocationId = null,
                HasResources = true
             },
             new CareUser
@@ -225,8 +203,6 @@ namespace Tests.ServiceTests
                AgeGroup = AgeGroup.Youngster,
                IsExtern = false,
                HasTrajectory = true,
-               NormalDaycareLocationId = null,
-               VacationDaycareLocationId = null,
                HasResources = false
             },
          };

@@ -7,7 +7,7 @@ import {
    CareUser,
    CreateCareUserDTO,
 } from '../../models/careuser.model';
-import { PaginationDTO } from '../../models/pagination.model';
+import { PaginationDTO } from '../../DTOs/pagination.dto';
 @Injectable({
    providedIn: 'root',
 })
@@ -32,10 +32,8 @@ export class CareUserService {
          email: updateUser.email,
          firstName: updateUser.firstName,
          lastName: updateUser.lastName,
-         normalDaycareLocationId: updateUser.normalDaycareLocation.id,
          hasResources: updateUser.hasResources,
          hasTrajectory: updateUser.hasTrajectory,
-         vacationDaycareLocationId: updateUser.vacationDaycareLocation.id,
          isExtern: updateUser.isExtern,
          legalGuardianUsersToAdd: updateUser.legalGuardianUsersToAdd,
          legalGuardianUsersToRemove: updateUser.legalGuardianUsersToRemove,
@@ -53,10 +51,8 @@ export class CareUserService {
          email: createUser.email,
          firstName: createUser.firstName,
          lastName: createUser.lastName,
-         normalDaycareLocationId: createUser.normalDaycareLocation.id,
          hasResources: createUser.hasResources,
          hasTrajectory: createUser.hasTrajectory,
-         vacationDaycareLocationId: createUser.vacationDaycareLocation.id,
          isExtern: createUser.isExtern,
       };
       return this.careuserProxy

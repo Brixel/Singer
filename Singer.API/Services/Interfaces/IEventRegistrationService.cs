@@ -10,10 +10,10 @@ namespace Singer.Services.Interfaces
 {
    public interface IEventRegistrationService
    {
-      Task<SearchResults<EventRegistrationDTO>> GetAsync(
+      Task<SearchResults<EventSlotRegistrationsDTO>> GetAsync(
          Guid eventId,
          string filter,
-         Expression<Func<EventRegistrationDTO, object>> orderer = null,
+         Expression<Func<EventSlotRegistrationsDTO, object>> orderer = null,
          ListSortDirection sortDirection = ListSortDirection.Ascending,
          int pageIndex = 0,
          int itemsPerPage = 15);
@@ -30,5 +30,10 @@ namespace Singer.Services.Interfaces
 
       Task DeleteAsync(Guid eventId, Guid registrationId);
       Task<UserRegisteredDTO> GetUserRegistrationStatus(Guid eventId, Guid careUserId);
+
+      Task<RegistrationStatus> AcceptRegistration(Guid registrationId);
+      Task<RegistrationStatus> RejectRegistration(Guid registrationId);
+      Task<DaycareLocationDTO> UpdateDaycareLocationForRegistration(Guid registrationId, Guid locationId);
+      Task<SearchResults<EventRegistrationDTO>> GetPendingRegistrations(Expression<Func<EventRegistrationDTO, object>> orderer = null, ListSortDirection sortDirection = ListSortDirection.Ascending, int pageSize = 15, int pageIndex = 0);
    }
 }

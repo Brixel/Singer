@@ -4,6 +4,7 @@ import {
    SingerRouterLink,
    singerRouterLinkRequirements,
 } from '../../models/singer-routerlink.model';
+import { Router } from '@angular/router';
 
 @Component({
    selector: 'app-nav-menu',
@@ -63,20 +64,11 @@ export class NavMenuComponent implements OnInit {
       },
    ];
 
-   activeRouterLink: SingerRouterLink = this.routerLinks[0];
-
-   emptyRouterLink: SingerRouterLink = {
-      RouterLinkName: '',
-      RouterLinkRequirements: [singerRouterLinkRequirements.none],
-      routerLink: '/',
-   };
    isAuthenticated: boolean;
 
-   routerLinkRequirements: {[name: string]: boolean} = {};
+   routerLinkRequirements: { [name: string]: boolean } = {};
 
-   constructor(private authService: AuthService) {
-
-   }
+   constructor(private authService: AuthService, public router: Router) {}
 
    ngOnInit() {
       this.authService.isAdmin$.subscribe(res => {
@@ -89,19 +81,27 @@ export class NavMenuComponent implements OnInit {
       });
    }
 
+   handleLogoClick() {
+      this.router.navigateByUrl('/dashboard');
+   }
+
    onLogoutClicked() {
       this.updateRequirements();
       this.logoutEvent.emit();
    }
 
    private updateRequirements() {
-      const routerLinkRequirements: {[name: string]: boolean} = {};
+      const routerLinkRequirements: { [name: string]: boolean } = {};
       this.routerLinks.forEach(routerLink => {
-         const routerLinkRequirement = this.routerLinkRequirements[routerLink.RouterLinkName];
+         const routerLinkRequirement = this.routerLinkRequirements[
+            routerLink.RouterLinkName
+         ];
          if (routerLinkRequirement === undefined) {
             routerLinkRequirements[routerLink.RouterLinkName] = false;
          }
-         const isValid = this.checkRequirements(routerLink.RouterLinkRequirements);
+         const isValid = this.checkRequirements(
+            routerLink.RouterLinkRequirements
+         );
          routerLinkRequirements[routerLink.RouterLinkName] = isValid;
       });
       this.routerLinkRequirements = routerLinkRequirements;
@@ -126,9 +126,17 @@ export class NavMenuComponent implements OnInit {
 
    // Checks an individual RouterLinkRequirement
    checkRequirement(requirement: string): boolean {
-      if (requirement === singerRouterLinkRequirements.none) { return true; }
-      if (requirement === singerRouterLinkRequirements.isAdmin) { return this.isAdmin; }
-      if (requirement === singerRouterLinkRequirements.isAuthenticated) { return this.isAuthenticated; }
-      if (requirement === singerRouterLinkRequirements.isNotAuthenticated) { return !this.isAuthenticated; }
+      if (requirement === singerRouterLinkRequirements.none) {
+         return true;
+      }
+      if (requirement === singerRouterLinkRequirements.isAdmin) {
+         return this.isAdmin;
+      }
+      if (requirement === singerRouterLinkRequirements.isAuthenticated) {
+         return this.isAuthenticated;
+      }
+      if (requirement === singerRouterLinkRequirements.isNotAuthenticated) {
+         return !this.isAuthenticated;
+      }
    }
 }

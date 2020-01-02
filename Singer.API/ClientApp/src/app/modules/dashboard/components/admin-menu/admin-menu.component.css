@@ -1,0 +1,11 @@
+mat-card {
+   margin: 8px;
+}
+
+mat-card-content {
+   padding-top: 0.5rem;
+}
+
+button {
+   margin-right: 2em;
+}

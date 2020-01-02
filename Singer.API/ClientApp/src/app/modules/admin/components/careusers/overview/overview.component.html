@@ -1,7 +1,23 @@
 <!-- Mat Form Field Filter -->
-<mat-form-field>
-   <input matInput #filterInput placeholder="Filter" />
-</mat-form-field>
+<form [formGroup]="formControlGroup">
+   <mat-form-field>
+      <input
+         matInput
+         #filterInput
+         placeholder="Filter"
+         formControlName="filterFieldControl"
+      />
+      <mat-error *ngIf="formControlGroup.controls.filterFieldControl.invalid">
+         <div
+            *ngIf="
+               formControlGroup.controls.filterFieldControl.errors.maxlength
+            "
+         >
+            Filter mag maximum {{ maxFilterLength }} karakters bevatten.
+         </div>
+      </mat-error>
+   </mat-form-field>
+</form>
 
 <!-- Mat Table -->
 <div class="mat-elevation-z8 overview-table">
@@ -130,7 +146,7 @@
                title="Zorggebruiker toevoegen"
                aria-label="Toevoegen knop"
             >
-               <mat-icon>add_box</mat-icon>
+               <mat-icon>person_add</mat-icon>
             </button>
          </td>
       </ng-container>

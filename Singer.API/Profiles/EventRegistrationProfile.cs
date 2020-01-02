@@ -9,6 +9,8 @@ namespace Singer.Profiles
       public EventRegistrationProfile()
       {
          CreateMap<CreateEventRegistrationDTO, EventRegistration>();
+         CreateMap<EventRegistration, EventRegistrationDTO>()
+            .ForMember(x => x.EventDescription, opts => opts.MapFrom(x => x.EventSlot.Event));
       }
    }
 }

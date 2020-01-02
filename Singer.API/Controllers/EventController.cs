@@ -13,6 +13,7 @@ using System.ComponentModel;
 using Singer.Configuration;
 using System.Collections.Generic;
 using System.Linq;
+using Singer.Resources;
 
 namespace Singer.Controllers
 {
@@ -22,6 +23,7 @@ namespace Singer.Controllers
       #region FIELDS
 
       private readonly IEventRegistrationService _eventRegistrationService;
+      private readonly IDateValidator _dateValidator;
       private readonly IEventService _eventService;
       private readonly ICareUserService _careUserService;
 
@@ -30,10 +32,12 @@ namespace Singer.Controllers
 
       #region CONSTRUCTOR
 
-      public EventController(IEventService eventService, IEventRegistrationService eventRegistrationService, ICareUserService careUserService)
+      public EventController(IEventService eventService, IEventRegistrationService eventRegistrationService,
+         ICareUserService careUserService, IDateValidator dateValidator)
          : base(eventService)
       {
          _eventRegistrationService = eventRegistrationService;
+         _dateValidator = dateValidator;
          _eventService = eventService;
          _careUserService = careUserService;
       }
@@ -45,13 +49,29 @@ namespace Singer.Controllers
 
       #region post
 
+      [HttpPost]
+      [ProducesResponseType(StatusCodes.Status201Created)]
+      [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+      public override async Task<IActionResult> Create([FromBody]CreateEventDTO dto)
+      {
+         if (dto is null)
+            throw new BadInputException("DTO is null", ErrorMessages.NoDataPassed);
+         _dateValidator.Validate(dto);
+
+         return await base.Create(dto);
+      }
+
       [HttpPost("{eventId}/registrations")]
       [ProducesResponseType(StatusCodes.Status201Created)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
       public async Task<ActionResult<List<EventRegistrationDTO>>> Create(Guid eventId, [FromBody]CreateEventRegistrationDTO dto)
       {
          if (eventId != dto.EventId)
-            throw new BadInputException("The event id in the url and the body doe not match");
+            throw new BadInputException("The event id in the url and the body do not match", ErrorMessages.EventIdMismatchUrlBody);
+
+         var model = ModelState;
+         if (!model.IsValid)
+            return BadRequest(model);
 
          if (!User.IsInRole(Roles.ROLE_ADMINISTRATOR))
          {
@@ -82,11 +102,26 @@ namespace Singer.Controllers
          }
          var checkExisting = await _eventRegistrationService.GetOneBySlotAsync(dto.EventSlotId, dto.CareUserId);
          if (checkExisting != null)
-         {
-            throw new BadInputException("Deze gebruiker is reeds geregistreerd op dit tijdslot!");
-         }
+            throw new BadInputException("Care user already registered on this event slot.", ErrorMessages.UserAlreadyRegisteredOnEventSlot);
+
          var eventSlotRegistration = await _eventRegistrationService.CreateOneBySlotAsync(dto);
          return Created(nameof(Get), eventSlotRegistration);
+      }
+
+
+
+      [HttpPost("{eventId}/registrations/{eventRegistrationId}/accept")]
+      public async Task<ActionResult> AcceptRegistration(Guid eventId, Guid eventRegistrationId)
+      {
+         var status = await _eventRegistrationService.AcceptRegistration(eventRegistrationId);
+         return Ok(status);
+      }
+
+      [HttpPost("{eventId}/registrations/{eventRegistrationId}/reject")]
+      public async Task<ActionResult> RejectRegistration(Guid eventId, Guid eventRegistrationId)
+      {
+         var status = await _eventRegistrationService.RejectRegistration(eventRegistrationId);
+         return Ok(status);
       }
 
       #endregion post
@@ -97,7 +132,7 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status200OK)]
       [ProducesResponseType(StatusCodes.Status404NotFound)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public async Task<ActionResult<PaginationDTO<EventRegistrationDTO>>> Get(
+      public async Task<ActionResult<PaginationDTO<EventSlotRegistrationsDTO>>> Get(
          Guid eventId,
          string filter,
          string sortDirection = "0",
@@ -108,9 +143,9 @@ namespace Singer.Controllers
          if (sortDirection == "asc") sortDirection = "0";
          if (sortDirection == "desc") sortDirection = "1";
          if (!Enum.TryParse<ListSortDirection>(sortDirection, true, out var direction))
-            throw new BadInputException("The given sort-direction is unknown.");
+            throw new BadInputException("The given sort-direction is unknown.", ErrorMessages.UnknownSortDirection);
 
-         var orderByLambda = PropertyHelpers.GetPropertySelector<EventRegistrationDTO>(sortColumn);
+         var orderByLambda = PropertyHelpers.GetPropertySelector<EventSlotRegistrationsDTO>(sortColumn);
 
          // get the search results of the database query
          var result = await _eventRegistrationService
@@ -130,7 +165,7 @@ namespace Singer.Controllers
             : $"{requestPath}?PageIndex={pageIndex++}&Size={pageSize}";
 
          // create object that holds the paginated elements
-         var page = new PaginationDTO<EventRegistrationDTO>
+         var page = new PaginationDTO<EventSlotRegistrationsDTO>
          {
             Items = result.Items,
             Size = result.Items.Count,
@@ -163,16 +198,49 @@ namespace Singer.Controllers
 
       #region put
 
+      /// <summary>
+      /// Updates a single entity in the database.
+      /// </summary>
+      /// <param name="id">The id of the entity to update.</param>
+      /// <param name="dto">The new value of the entity.</param>
+      /// <returns></returns>
+      [HttpPut("{id}")]
+      [ProducesResponseType(StatusCodes.Status200OK)]
+      [ProducesResponseType(StatusCodes.Status404NotFound)]
+      [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+      public override async Task<IActionResult> Update(Guid id, [FromBody]UpdateEventDTO dto)
+      {
+         if (dto is null)
+            throw new BadInputException("DTO is null", "Er is geen data meegegeven.");
+         _dateValidator.Validate(dto);
+
+         return await base.Update(id, dto);
+      }
+
       [HttpPut("{eventId}/registrations/{registrationId}/status")]
       [ProducesResponseType(StatusCodes.Status200OK)]
       [ProducesResponseType(StatusCodes.Status404NotFound)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
       public async Task<ActionResult<EventRegistrationDTO>> Update(Guid eventId, Guid registrationId, [FromBody]RegistrationStatus status)
       {
+         var model = ModelState;
+         if (!model.IsValid)
+            return BadRequest(model);
+
          var result = await _eventRegistrationService
             .UpdateStatusAsync(eventId, registrationId, status)
             .ConfigureAwait(false);
 
+         return Ok(result);
+      }
+
+      [HttpPut("{eventId}/registrations/{registrationId}/location")]
+      [ProducesResponseType(StatusCodes.Status200OK)]
+      [ProducesResponseType(StatusCodes.Status404NotFound)]
+      [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+      public async Task<ActionResult<DaycareLocationDTO>> Update(Guid eventId, Guid registrationId, [FromBody] Guid locationId)
+      {
+         var result = await _eventRegistrationService.UpdateDaycareLocationForRegistration(registrationId, locationId);
          return Ok(result);
       }
 
@@ -199,15 +267,14 @@ namespace Singer.Controllers
       public async Task<IActionResult> GetPublicEvents([FromBody] SearchEventParamsDTO searchEventParams)
       {
          var model = ModelState;
-         if (model.IsValid)
-         {
-            var events = await _eventService
-               .GetPublicEventsAsync(searchEventParams)
-               .ConfigureAwait(false);
-            return Ok(events);
-         }
+         if (!model.IsValid)
+            return BadRequest(model);
 
-         return BadRequest(model);
+         var events = await _eventService
+            .GetPublicEventsAsync(searchEventParams)
+            .ConfigureAwait(false);
+
+         return Ok(events);
       }
 
       [HttpGet("{eventId}/isuserregistered/{careUserId}")]
@@ -250,22 +317,57 @@ namespace Singer.Controllers
          }
 
          details.RelevantCareUsers = careUsers;
-         
+
          var registrations = await _eventRegistrationService.GetAllSlotsForEventAsync(eventId);
-         details.EventSlots = singerEvent.EventSlots.Select(x => new EventSlotRegistrationsDTO
+         details.EventSlots = singerEvent.EventSlots.Select(eventSlot => new EventSlotRegistrationsDTO
          {
-            EndDateTime = x.EndDateTime,
-            Id = x.Id,
-            StartDateTime = x.StartDateTime,
-            Registrations = registrations.Where(y => y.EventSlot.Id == x.Id).Select(z => new EventCareUserRegistrationDTO
-            {
-               CareUserId = z.CareUser.Id,
-               Status = z.Status
-            }).ToList()
+            EndDateTime = eventSlot.EndDateTime,
+            Id = eventSlot.Id,
+            StartDateTime = eventSlot.StartDateTime,
+            Registrations = registrations
+               .Where(registration => registration.EventSlot.Id == eventSlot.Id)
+               .Select(registration => new EventCareUserRegistrationDTO
+               {
+                  RegistrationId = registration.Id,
+                  CareUserId = registration.CareUser.Id,
+                  FirstName = registration.CareUser.FirstName,
+                  LastName = registration.CareUser.LastName,
+                  Status = registration.Status
+               }).ToList()
          }).ToList();
 
 
          return Ok(details);
+      }
+
+      [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
+      [HttpGet("registrations/status/pending")]
+      public async Task<ActionResult<PaginationDTO<EventRegistrationDTO>>> GetPendingRegistrations(
+         ListSortDirection sortDirection = ListSortDirection.Ascending,
+         string sortColumn = "Id",
+         int pageIndex = 0,
+         int pageSize = 15)
+      {
+         var orderByLambda = PropertyHelpers.GetPropertySelector<EventRegistrationDTO>(sortColumn);
+         var result = await _eventRegistrationService.GetPendingRegistrations(orderByLambda, sortDirection, pageSize, pageIndex);
+         var requestPath = HttpContext.Request.Path;
+         var nextPage = (pageIndex * pageSize) + result.Size >= result.TotalCount
+            ? null
+            : $"{requestPath}?PageIndex={pageIndex++}&Size={pageSize}";
+         var page = new PaginationDTO<EventRegistrationDTO>
+         {
+            Items = result.Items,
+            Size = result.Items.Count,
+            PageIndex = pageIndex,
+            CurrentPageUrl = $"{requestPath}?{HttpContext.Request.QueryString.ToString()}",
+            NextPageUrl = nextPage,
+            PreviousPageUrl = pageIndex == 0
+               ? null
+               : $"{requestPath}?PageIndex={pageIndex--}&Size={pageSize}",
+            TotalSize = result.TotalCount
+         };
+
+         return Ok(page);
       }
 
       #endregion METHODS

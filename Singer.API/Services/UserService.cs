@@ -13,6 +13,7 @@ using Singer.Helpers.Exceptions;
 using Singer.Helpers.Extensions;
 using Singer.Models;
 using Singer.Models.Users;
+using Singer.Resources;
 
 namespace Singer.Services
 {
@@ -42,9 +43,7 @@ namespace Singer.Services
             var existingEmail = await Queryable.SingleOrDefaultAsync(x => x.User.Email == dto.Email);
 
             if (existingEmail != null)
-            {
-               throw new BadInputException("Het email adres dat je opgaf bestaat reeds in de database");
-            }
+               throw new BadInputException("The email addres must be unique to each user.", ErrorMessages.DuplicateEmail);
          }
 
          var baseUser = new User()
@@ -133,9 +132,7 @@ namespace Singer.Services
             x.Id != id);
 
          if (existingEmail != null)
-         {
-            throw new BadInputException("Het email adres dat je opgaf bestaat reeds in de database");
-         }
+            throw new BadInputException("The email addres must be unique to each user.", ErrorMessages.DuplicateEmail);
 
          return await base.UpdateAsync(id, dto);
       }

@@ -1,0 +1,65 @@
+<mat-card class="card">
+   <mat-card-content>
+      <div class="card-content">
+
+         <div class="head">
+            <div class="head__initials"
+               [class.background--green]="colorOption == 0 || colorOption == 4 || colorOption == 8"
+               [class.background--pink]="colorOption == 1 || colorOption == 5 || colorOption == 9"
+               [class.background--purple]="colorOption == 2 || colorOption == 6"
+               [class.background--blue]="colorOption == 3 || colorOption == 7">
+
+               {{ user?.firstName.toUpperCase().charAt(0) + user.lastName?.toUpperCase().charAt(0) }}
+            </div>
+            <div class="head__title">
+               {{ user?.firstName + ' ' + user?.lastName }}
+            </div>
+         </div>
+
+         <div class="body">
+            <div class="body__info">
+
+               <div class="body__info__mail" *ngIf="user?.email">
+                  <mat-icon color="primary">email</mat-icon>
+                  <div class="body__info__text">
+                     {{ user?.email }}
+                  </div>
+               </div>
+
+               <div class="body__info__address" *ngIf="user?.address">
+                  <mat-icon color="primary">house</mat-icon>
+                  <div class="body__info__text">
+                     {{ user?.address }}
+                  </div>
+               </div>
+
+               <div class="body__info__birthdate" *ngIf="user?.birthDay">
+                  <mat-icon color="primary">calendar_today</mat-icon>
+                  <div class="body__info__text">
+                     {{ user?.birthDay | date: 'dd-MM-yyyy' }}
+                  </div>
+               </div>
+
+               <div class="body__info__agegroup" *ngIf="user?.ageGroup">
+                  <app-agegroup-chips [agegroup]="user?.ageGroup"></app-agegroup-chips>
+               </div>
+
+            </div>
+         </div>
+
+         <div class="buttons">
+            <div *ngIf="edit.observers.length > 0" class="buttons__edit">
+               <button mat-mini-fab color="primary" (click)="editUser()" aria-label="Edit User">
+                  <mat-icon>edit</mat-icon>
+               </button>
+            </div>
+            <div *ngIf="delete.observers.length > 0" class="buttons__delete">
+               <button mat-mini-fab color="warn" (click)="deleteUser()" aria-label="Remove User">
+                  <mat-icon>delete</mat-icon>
+               </button>
+            </div>
+         </div>
+
+      </div>
+   </mat-card-content>
+</mat-card>

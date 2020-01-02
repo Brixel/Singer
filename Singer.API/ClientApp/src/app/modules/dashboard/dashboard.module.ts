@@ -13,6 +13,7 @@ import { EventSearchComponent } from './components/event-search/event-search.com
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ApiService } from '../core/services/api.service';
 import { SharedModule } from '../shared/shared.module';
+import { AdminMenuComponent } from './components/admin-menu/admin-menu.component';
 
 @NgModule({
    declarations: [
@@ -22,6 +23,7 @@ import { SharedModule } from '../shared/shared.module';
       EventListComponent,
       EventCardComponent,
       EventSearchComponent,
+      AdminMenuComponent,
    ],
    imports: [
       CoreModule,

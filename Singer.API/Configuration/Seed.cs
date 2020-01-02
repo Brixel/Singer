@@ -20,7 +20,6 @@ namespace Singer.Configuration
 {
    public static class Seed
    {
-      private static List<string> _careUsers = new List<string>() { "user1", "user2", "user3" };
 
       private static List<EventLocation> _eventLocations = new List<EventLocation>() {
          new EventLocation{
@@ -120,10 +119,8 @@ namespace Singer.Configuration
                   AgeGroup = AgeGroup.Child,
                   CaseNumber = new Random().Next(1000, 5000).ToString(),
                   BirthDay = DateTime.UtcNow.AddYears(new Random().Next(-14, -5)),
-                  NormalDaycareLocation = _eventLocations[0],
                   HasResources = false,
                   HasTrajectory = false,
-                  VacationDaycareLocation = _eventLocations[1],
                   IsExtern = false,
                   UserId = user.Id
                };

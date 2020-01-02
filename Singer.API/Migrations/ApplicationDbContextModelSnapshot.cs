@@ -15,7 +15,7 @@ namespace Singer.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
+                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -141,8 +141,6 @@ namespace Singer.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<DateTime>("EndDateTime");
-
                     b.Property<DateTime>("EndRegistrationDateTime");
 
                     b.Property<DateTime>("FinalCancellationDateTime");
@@ -156,8 +154,6 @@ namespace Singer.Migrations
                     b.Property<int>("MaxRegistrants");
 
                     b.Property<bool>("RegistrationOnDailyBasis");
-
-                    b.Property<DateTime>("StartDateTime");
 
                     b.Property<DateTime>("StartRegistrationDateTime");
 
@@ -197,11 +193,15 @@ namespace Singer.Migrations
 
                     b.Property<Guid>("CareUserId");
 
+                    b.Property<Guid?>("DaycareLocationId");
+
                     b.Property<Guid>("EventSlotId");
 
                     b.Property<int>("Status");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DaycareLocationId");
 
                     b.HasIndex("EventSlotId");
 
@@ -260,19 +260,11 @@ namespace Singer.Migrations
 
                     b.Property<bool>("IsExtern");
 
-                    b.Property<Guid?>("NormalDaycareLocationId");
-
                     b.Property<Guid>("UserId");
-
-                    b.Property<Guid?>("VacationDaycareLocationId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("NormalDaycareLocationId");
-
                     b.HasIndex("UserId");
-
-                    b.HasIndex("VacationDaycareLocationId");
 
                     b.ToTable("CareUsers");
                 });
@@ -427,6 +419,10 @@ namespace Singer.Migrations
                         .HasForeignKey("CareUserId")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("Singer.Models.EventLocation", "DaycareLocation")
+                        .WithMany()
+                        .HasForeignKey("DaycareLocationId");
+
                     b.HasOne("Singer.Models.EventSlot", "EventSlot")
                         .WithMany("Registrations")
                         .HasForeignKey("EventSlotId")
@@ -451,18 +447,10 @@ namespace Singer.Migrations
 
             modelBuilder.Entity("Singer.Models.Users.CareUser", b =>
                 {
-                    b.HasOne("Singer.Models.EventLocation", "NormalDaycareLocation")
-                        .WithMany()
-                        .HasForeignKey("NormalDaycareLocationId");
-
                     b.HasOne("Singer.Models.Users.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Singer.Models.EventLocation", "VacationDaycareLocation")
-                        .WithMany()
-                        .HasForeignKey("VacationDaycareLocationId");
                 });
 
             modelBuilder.Entity("Singer.Models.Users.LegalGuardianCareUser", b =>

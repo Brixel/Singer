@@ -9,6 +9,7 @@ using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Singer.Resources;
 
 namespace Singer.Controllers
 {
@@ -62,16 +63,14 @@ namespace Singer.Controllers
       [HttpPost]
       [ProducesResponseType(StatusCodes.Status201Created)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public async Task<IActionResult> Create([FromBody]TCreateDTO dto)
+      public virtual async Task<IActionResult> Create([FromBody]TCreateDTO dto)
       {
          var model = ModelState;
-         if (model.IsValid)
-         {
-            var returnItem = await DatabaseService.CreateAsync(dto);
-            return Created(nameof(Get), returnItem);
-         }
+         if (!model.IsValid)
+            throw new BadInputException("Invalid dto", $"De data is niet geldig: {model}");
 
-         return BadRequest(model);
+         var returnItem = await DatabaseService.CreateAsync(dto);
+         return Created(nameof(Get), returnItem);
       }
 
       #endregion post
@@ -105,7 +104,7 @@ namespace Singer.Controllers
                break;
          }
          if (!Enum.TryParse<ListSortDirection>(sortDirection, true, out var direction))
-            throw new BadInputException("The given sort-direction is unknown.");
+            throw new BadInputException("The given sort-direction is unknown.", ErrorMessages.UnknownSortDirection);
 
          var orderByLambda = PropertyHelpers.GetPropertySelector<TDTO>(sortColumn);
 
@@ -171,6 +170,10 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
       public virtual async Task<IActionResult> Update(Guid id, [FromBody]TUpdateDTO dto)
       {
+         var model = ModelState;
+         if (!model.IsValid)
+            throw new BadInputException("Invalid dto", $"De data is niet geldig: {model}");
+
          var result = await DatabaseService.UpdateAsync(id, dto);
          return Ok(result);
       }
