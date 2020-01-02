@@ -29,6 +29,10 @@ namespace Singer.Models
          CreationDateTimeUTC = DateTime.UtcNow;
       }
 
+      public EventRegistrationLog()
+      {
+         
+      }
       public static EventRegistrationLog Create(Guid eventRegistrationId,
          EventRegistrationChanges registrationChange)
       {
