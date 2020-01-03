@@ -19,6 +19,7 @@ import { SingerAdminEventService } from '../../../services/singer-admin-event.se
 import { SingerEventLocationService } from 'src/app/modules/core/services/singerevents-api/singerevent-location.service';
 import { DaycareLocationDTO } from 'src/app/modules/core/DTOs/daycarelocation.dto';
 import { isNullOrUndefined } from 'util';
+import { LoadingService } from 'src/app/modules/core/services/loading.service';
 
 export class SingerEventRegistrationData {
    event: SingerEvent;
@@ -44,7 +45,8 @@ export class SingerEventRegistrationsComponent implements OnInit {
       private _singerEventLocationService: SingerEventLocationService,
       private _snackBar: MatSnackBar,
       private dialogRef: MatDialogRef<SingerEventRegistrationsComponent>,
-      @Inject(MAT_DIALOG_DATA) data: SingerEventRegistrationData
+      @Inject(MAT_DIALOG_DATA) data: SingerEventRegistrationData,
+      private _loadingService: LoadingService
    ) {
       this.event = data.event;
       this.hasDaycare =
@@ -54,6 +56,7 @@ export class SingerEventRegistrationsComponent implements OnInit {
    }
 
    ngOnInit() {
+      this._loadingService.show();
       this.singerEventService
          .getEventRegistrations(
             this.event.id,
@@ -93,6 +96,7 @@ export class SingerEventRegistrationsComponent implements OnInit {
                   x => x.id === this.selectedEventSlot.id
                );
             }
+            this._loadingService.hide();
          });
 
       this._singerEventLocationService

@@ -50,7 +50,8 @@ namespace Singer.Profiles
             .ForMember(x => x.FirstName, opt => opt.MapFrom(src => src.User.FirstName))
             .ForMember(x => x.LastName, opt => opt.MapFrom(src => src.User.LastName))
             .ForMember(x => x.UserName, opt => opt.MapFrom(src => src.User.UserName))
-            .ForMember(x => x.Email, opt => opt.MapFrom(src => src.User.Email));
+            .ForMember(x => x.Email, opt => opt.MapFrom(src => src.User.Email))
+            .ForMember(x => x.UserId, opt => opt.MapFrom(src => src.UserId));
          CreateMap<CreateAdminUserDTO, AdminUser>()
             .ForMember(m => m.User, o => o.MapFrom(src => src));
          CreateMap<UpdateAdminUserDTO, AdminUser>()

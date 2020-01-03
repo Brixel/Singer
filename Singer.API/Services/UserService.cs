@@ -7,14 +7,18 @@ using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.CodeAnalysis.Options;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Singer.Data;
+using Singer.Data.Models.Configuration;
 using Singer.DTOs.Users;
 using Singer.Helpers.Exceptions;
 using Singer.Helpers.Extensions;
 using Singer.Models;
 using Singer.Models.Users;
 using Singer.Resources;
+using Singer.Services.Interfaces;
 
 namespace Singer.Services
 {
@@ -25,9 +29,20 @@ namespace Singer.Services
       where TUpdateUserDTO : class, IUpdateUserDTO
    {
       protected UserManager<User> UserManager { get; }
-      protected UserService(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager) : base(context, mapper)
+      private readonly IEmailService<TUserDTO> _emailService;
+      private readonly string _frontendURL;
+
+      protected UserService(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager,
+        IEmailService<TUserDTO> emailService, IOptions<ApplicationConfig> applicationConfigurationOptions) : base(context, mapper)
       {
          UserManager = userManager;
+         _emailService = emailService;
+         if (applicationConfigurationOptions == null)
+         {
+            throw new ArgumentNullException(nameof(applicationConfigurationOptions));
+         }
+
+         _frontendURL = applicationConfigurationOptions.Value.FrontendURL;
       }
 
       public override async Task<TUserDTO> CreateAsync(
@@ -44,7 +59,7 @@ namespace Singer.Services
             var existingEmail = await Queryable.SingleOrDefaultAsync(x => x.User.Email == dto.Email);
 
             if (existingEmail != null)
-               throw new BadInputException("The email addres must be unique to each user.", ErrorMessages.DuplicateEmail);
+               throw new BadInputException("The email address must be unique to each user.", ErrorMessages.DuplicateEmail);
          }
 
          var baseUser = new User()
@@ -55,8 +70,8 @@ namespace Singer.Services
             UserName = dto.Email
          };
 
-         // TODO Replace by better temporary password generation approach
-         var userCreationResult = await UserManager.CreateAsync(baseUser, "Testpassword123!");
+         var userCreationResult = await UserManager.CreateAsync(baseUser);
+         var passwordResetToken = await UserManager.GeneratePasswordResetTokenAsync(baseUser);
          if (!userCreationResult.Succeeded)
          {
             Debug.WriteLine($"User can not be created. {userCreationResult.Errors.First().Code}");
@@ -69,7 +84,13 @@ namespace Singer.Services
          entity.UserId = createdUser.Id;
          var changeTracker = await Context.AddAsync(entity);
          await Context.SaveChangesAsync();
-         return Mapper.Map<TUserDTO>(changeTracker.Entity);
+         var userDTO = Mapper.Map<TUserDTO>(changeTracker.Entity);
+         var passwordResetURL = $"{_frontendURL}/auth/reset?userId={createdUser.Id}&token={passwordResetToken}";
+         if (_emailService != null)
+         {
+            await _emailService.SendAccountDetailsAsync(userDTO, passwordResetURL);
+         }
+         return userDTO;
       }
 
       private string GenerateRandomUserName(string firstName, string lastName)
@@ -136,5 +157,4 @@ namespace Singer.Services
       }
 
    }
-
 }
