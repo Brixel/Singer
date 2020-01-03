@@ -168,7 +168,18 @@ export class SingerEventRegistrationsComponent implements OnInit {
                let blob: any = new Blob([response], {
                   type: 'text/plain; charset=utf-8',
                });
-               FileSaver.saveAs(blob, 'deelnemers.csv');
+
+               let eventDate =
+                  `${this.selectedEventSlot.startDateTime.getFullYear()}-` +
+                  `${this.selectedEventSlot.startDateTime.getMonth()}-` +
+                  `${this.selectedEventSlot.startDateTime.getDay()} ` +
+                  `${this.selectedEventSlot.startDateTime.getHours()}u` +
+                  `${this.selectedEventSlot.startDateTime.getMinutes()}`;
+
+               FileSaver.saveAs(
+                  blob,
+                  `${this.event.title} - ${eventDate} - deelnemers.csv`
+               );
             },
             error => {
                console.log('Error downloading the file');
