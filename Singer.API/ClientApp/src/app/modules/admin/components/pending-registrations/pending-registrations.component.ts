@@ -21,18 +21,19 @@ export class PendingRegistrationsComponent extends GenericOverviewComponent<
    EventRegistrationDTO,
    PendingRegistrationsDatasource
 > {
-   myOnInit() {}
    @ViewChild(MatPaginator) paginator: MatPaginator;
    @ViewChild(MatSort) sort: MatSort;
    public dialog: MatDialog;
    private _eventService: SingerEventsService;
+
+   myOnInit() {}
    constructor(
       dataService: PendingRegistrationsService,
       cd: ChangeDetectorRef,
       dialog: MatDialog,
       eventService: SingerEventsService
    ) {
-      let ds = new PendingRegistrationsDatasource(dataService);
+      const ds = new PendingRegistrationsDatasource(dataService);
       super(cd, ds, 'id');
       this.displayedColumns.push(
          'eventDescription.title',
@@ -47,7 +48,6 @@ export class PendingRegistrationsComponent extends GenericOverviewComponent<
       this._eventService
          .getSingleEvent(row.eventDescription.id)
          .subscribe(res => {
-            console.log(res);
             this.dialog
                .open(SingerEventRegistrationsComponent, {
                   data: <SingerEventRegistrationData>{

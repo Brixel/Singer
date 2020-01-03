@@ -28,6 +28,8 @@ using Singer.Services.Interfaces;
 using NSwag.Generation.Processors.Security;
 using NSwag;
 using System.Net;
+using Singer.Controllers;
+using Singer.DTOs.Users;
 
 namespace Singer
 {
@@ -54,10 +56,12 @@ namespace Singer
 
          // This line uses 'UseSqlServer' in the 'options' parameter
          // with the connection string defined above.
+
+         var passwordOptions = Configuration.GetSection("PasswordOptions").Get<PasswordOptions>();
          services
             .AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString,
                opt => opt.EnableRetryOnFailure()))
-            .AddIdentity<User, IdentityRole<Guid>>()
+            .AddIdentity<User, IdentityRole<Guid>>(opts => { opts.Password = passwordOptions; })
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 
@@ -78,7 +82,7 @@ namespace Singer
 
          if (cert == null)
          {
-            throw new ArgumentNullException("Not able to load certificate");
+            throw new Exception("Not able to load certificate");
          }
 
          services.AddIdentityServer()
@@ -175,6 +179,17 @@ namespace Singer
          services.AddScoped<IEventRegistrationService, EventRegistrationService>()
             .AddScoped<IDateValidator, DateValidator>();
          services.AddScoped<IEventRegistrationLoggingService, EventRegistrationLoggingService>();
+         services.Configure<PasswordOptions>(Configuration.GetSection("PasswordOptions"));
+         services.AddScoped<IUserProfileService, UserProfileService>();
+         services.Configure<EmailOptions>(Configuration.GetSection("EmailOptions"));
+         services.Configure<ApplicationConfig>(Configuration.GetSection("Application"));
+         services.AddScoped(typeof(IEmailService<LegalGuardianUserDTO>),
+            typeof(EmailService<LegalGuardianUserDTO>));
+         services.AddScoped(typeof(IEmailService<AdminUserDTO>),
+            typeof(EmailService<AdminUserDTO>));
+         services.AddScoped(typeof(IEmailService<UserDTO>),
+            typeof(EmailService<UserDTO>));
+
       }
 
       private static IIdentityServerBuilder AddIdentityService(IServiceCollection services, X509Certificate2 cert)

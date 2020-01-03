@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Singer.Data;
+using Singer.Data.Models.Configuration;
 using Singer.DTOs.Users;
 using Singer.DTOs;
 using Singer.Helpers.Exceptions;
@@ -29,8 +31,9 @@ namespace Singer.Services
             .ThenInclude(x => x.User)
          .AsQueryable();
 
-      public CareUserService(ApplicationDbContext appContext, IMapper mapper, UserManager<User> userManager)
-      : base(appContext, mapper, userManager)
+      public CareUserService(ApplicationDbContext appContext, IMapper mapper, UserManager<User> userManager,
+         IOptions<ApplicationConfig> applicationConfigurationOptions)
+      : base(appContext, mapper, userManager, null, applicationConfigurationOptions)
       {
       }
       protected override Expression<Func<CareUser, bool>> Filter(string filter)
@@ -54,7 +57,7 @@ namespace Singer.Services
          var careUser = await Context.CareUsers.FindAsync(CareUserId);
          if (careUser == null)
             throw new NotFoundException($"Tried to add user link for non existing CareUser with id {CareUserId}", ErrorMessages.CareUserDoesntExist);
-         
+
          List<LegalGuardianCareUser> NewCareUsers = new List<LegalGuardianCareUser>();
          foreach (var u in NewLinkedUsers)
          {
@@ -81,7 +84,7 @@ namespace Singer.Services
          var careUser = await Context.CareUsers.FindAsync(CareUserId);
          if (careUser == null)
             throw new NotFoundException($"Tried to remove user link for non existing CareUser with id {CareUserId}", ErrorMessages.CareUserDoesntExist);
-      
+
          foreach (var u in UsersToRemove)
          {
             var linkedUserExists = await Context.LegalGuardianCareUsers
