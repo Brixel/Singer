@@ -20,7 +20,6 @@
       <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
       <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
       <UserSecretsId>2c603b24-5e3c-4e7c-afca-070947f91e24</UserSecretsId>
-      <ApplicationInsightsResourceId>/subscriptions/28761fc2-0e1e-4057-8ad0-49b62d36c596/resourcegroups/singer/providers/microsoft.insights/components/singer</ApplicationInsightsResourceId>
    </PropertyGroup>
 
    <ItemGroup>
