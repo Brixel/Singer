@@ -3,10 +3,12 @@ import {
    HttpParams,
    HttpHeaders,
    HttpErrorResponse,
+   HttpResponse,
 } from '@angular/common/http';
 import { Inject } from '@angular/core';
 import { Observable, Subject, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { ResponseContentType } from '@angular/http';
 
 export class ApiService {
    error$ = new Subject<HttpErrorResponse>();
@@ -47,6 +49,14 @@ export class ApiService {
    delete(path): Observable<any> {
       return this.httpClient
          .delete(`${this.baseUrl}${path}`)
+         .pipe(catchError(error => this.handleError(error)));
+   }
+
+   downloadFile(path: string): Observable<Blob> {
+      return this.httpClient
+         .get(path, {
+            responseType: 'blob',
+         })
          .pipe(catchError(error => this.handleError(error)));
    }
 

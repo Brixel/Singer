@@ -214,15 +214,6 @@ namespace Singer.Services
                BirthDay = x.CareUser.BirthDay,
                HasTrajectory = x.CareUser.HasTrajectory,
                IsExtern = x.CareUser.IsExtern,
-               //LegalGuardians = x.CareUser
-               //   .LegalGuardianCareUsers
-               //   .Select(y => new CsvCareUserLegalGuardianDTO
-               //   {
-               //      Email = y.LegalGuardian.User.Email,
-               //      FirstName = y.LegalGuardian.User.FirstName,
-               //      LastName = y.LegalGuardian.User.LastName,
-               //   })
-               //   .ToList()
             })
             .ToListAsync();
       }

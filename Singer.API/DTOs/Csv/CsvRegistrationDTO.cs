@@ -2,7 +2,6 @@ using CsvHelper.Configuration;
 using Singer.Models;
 using Singer.Resources;
 using System;
-using System.Collections.Generic;
 
 namespace Singer.DTOs.Csv
 {
@@ -15,8 +14,7 @@ namespace Singer.DTOs.Csv
       public AgeGroup AgeGroup { get; set; }
       public bool IsExtern { get; set; }
       public bool HasTrajectory { get; set; }
-      //public List<CsvCareUserLegalGuardianDTO> LegalGuardians { get; set; }
-
+      
       public class Mapper : ClassMap<CsvRegistrationDTO>
       {
          public Mapper()
@@ -28,7 +26,6 @@ namespace Singer.DTOs.Csv
             Map(x => x.AgeGroup).Index(4).Name(DisplayNames.AgeGroup);
             Map(x => x.IsExtern).Index(5).Name(DisplayNames.IsExtern);
             Map(x => x.HasTrajectory).Index(6).Name(DisplayNames.HasTrajectory);
-            //Map(x => x.LegalGuardians).Index(7).Name(DisplayNames.LegalGuardianUsers);
          }
       }
    }

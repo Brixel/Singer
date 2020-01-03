@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { ApiService } from '../api.service';
 import { map } from 'rxjs/operators';
@@ -125,5 +125,14 @@ export class SingerEventsProxy {
       return this.apiService
          .post('api/event/search', searchParams)
          .pipe(map(res => res));
+   }
+
+   downloadEventSlotRegistartionCsv(
+      eventId: string,
+      eventSlotId: string
+   ): Observable<Blob> {
+      return this.apiService.downloadFile(
+         `api/Event/${eventId}/registrations/${eventSlotId}/deelnemerslijst.csv`
+      );
    }
 }

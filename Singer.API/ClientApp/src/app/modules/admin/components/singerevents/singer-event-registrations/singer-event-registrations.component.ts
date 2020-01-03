@@ -1,3 +1,4 @@
+import * as FileSaver from 'file-saver';
 import { Component, OnInit, Inject, Output, EventEmitter } from '@angular/core';
 import { SingerEvent } from 'src/app/modules/core/models/singerevent.model';
 import { FormGroup } from '@angular/forms';
@@ -45,7 +46,8 @@ export class SingerEventRegistrationsComponent implements OnInit {
       @Inject(MAT_DIALOG_DATA) data: SingerEventRegistrationData
    ) {
       this.event = data.event;
-      this.hasDaycare =data.event.hasDayCareAfter || data.event.hasDayCareBefore;
+      this.hasDaycare =
+         data.event.hasDayCareAfter || data.event.hasDayCareBefore;
       this.formGroup = new FormGroup({});
    }
 
@@ -85,18 +87,18 @@ export class SingerEventRegistrationsComponent implements OnInit {
                   : this.eventSlots[0];
          });
 
-         this._singerEventLocationService.fetchSingerEventLocationsData('asc', 'name', 0, 1000, '')
+      this._singerEventLocationService
+         .fetchSingerEventLocationsData('asc', 'name', 0, 1000, '')
          .subscribe(res => {
             this.availableLocations = res.items as SingerEventLocation[];
          });
    }
 
-
    compareLocations(
       locationX: SingerEventLocation,
       locationY: DaycareLocationDTO
    ) {
-      if(!locationY){
+      if (!locationY) {
          return false;
       }
       return locationX.id === locationY.id;
@@ -110,7 +112,9 @@ export class SingerEventRegistrationsComponent implements OnInit {
             registrationId,
             daycareLocation.id
          )
-         .subscribe(res => this._snackBar.open(`Opvanglocatie naar ${res.name} gewijzigd`));
+         .subscribe(res =>
+            this._snackBar.open(`Opvanglocatie naar ${res.name} gewijzigd`)
+         );
    }
 
    changeRegistration(event: MatButtonToggleChange, registrationId: string) {
@@ -151,5 +155,26 @@ export class SingerEventRegistrationsComponent implements OnInit {
 
    close() {
       this.dialogRef.close();
+   }
+
+   export() {
+      this.singerEventService
+         .downloadEventSlotRegistartionCsv(
+            this.event.id,
+            this.selectedEventSlot.id
+         )
+         .subscribe(
+            response => {
+               let blob: any = new Blob([response], {
+                  type: 'text/plain; charset=utf-8',
+               });
+               FileSaver.saveAs(blob, 'deelnemers.csv');
+            },
+            error => {
+               console.log('Error downloading the file');
+               console.log(error);
+            },
+            () => console.info('File downloaded successfully')
+         );
    }
 }

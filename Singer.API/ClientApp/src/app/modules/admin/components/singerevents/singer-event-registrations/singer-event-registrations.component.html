@@ -83,5 +83,21 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-   <button mat-stroked-button color="primary" (click)="close()">Sluit</button>
+   <button
+      mat-raised-button
+      color="primary"
+      title="Lijst downloaden"
+      aria-label="Lijst downloaden"
+      (click)="export()"
+   >
+      Download
+   </button>
+   <button
+      mat-raised-button
+      (click)="close()"
+      title="Sluiten"
+      aria-label="sluiten"
+   >
+      Sluit
+   </button>
 </mat-dialog-actions>

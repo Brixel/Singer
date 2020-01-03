@@ -19,6 +19,7 @@ import {
 } from '../../models/event-registration.model';
 import { TimeUnit, RepeatType } from '../../models/enum';
 import { SearchEventData } from 'src/app/modules/dashboard/components/event-search/event-search.component';
+import { HttpResponse } from '@angular/common/http';
 
 @Injectable({
    providedIn: 'root',
@@ -181,6 +182,16 @@ export class SingerEventsService {
                };
             })
          )
+      );
+   }
+
+   downloadEventSlotRegistartionCsv(
+      eventId: string,
+      eventSlotId: string
+   ): Observable<Blob> {
+      return this.singerEventsProxy.downloadEventSlotRegistartionCsv(
+         eventId,
+         eventSlotId
       );
    }
 }
