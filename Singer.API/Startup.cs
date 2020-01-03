@@ -188,6 +188,7 @@ namespace Singer
             typeof(EmailService<AdminUserDTO>));
          services.AddScoped(typeof(IEmailService<UserDTO>),
             typeof(EmailService<UserDTO>));
+            services.AddApplicationInsightsTelemetry();
 
       }
 

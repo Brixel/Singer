@@ -20,6 +20,7 @@
       <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
       <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
       <UserSecretsId>2c603b24-5e3c-4e7c-afca-070947f91e24</UserSecretsId>
+      <ApplicationInsightsResourceId>/subscriptions/28761fc2-0e1e-4057-8ad0-49b62d36c596/resourcegroups/singer/providers/microsoft.insights/components/singer</ApplicationInsightsResourceId>
    </PropertyGroup>
 
    <ItemGroup>
@@ -32,6 +33,7 @@
       <PackageReference Include="IdentityServer4.AspNetIdentity" Version="2.4.0" />
       <PackageReference Include="IdentityServer4.EntityFramework" Version="2.4.0" />
       <PackageReference Include="IdentityServer4" Version="2.4.0" />
+      <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.8.1" />
       <PackageReference Include="Microsoft.AspNetCore.App" />
       <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.2.0" />
       <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
@@ -100,6 +102,10 @@
       <None Update="example.pfx">
          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+   </ItemGroup>
+
+   <ItemGroup>
+     <WCFMetadata Include="Connected Services" />
    </ItemGroup>
 
    <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
