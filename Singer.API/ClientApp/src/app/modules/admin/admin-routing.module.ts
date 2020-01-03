@@ -7,6 +7,7 @@ import { LegalguardianOverviewComponent } from './components/legalguardians/lega
 import { SingerEventOverviewComponent } from './components/singerevents/singerevent-overview/singerevent-overview.component';
 import { AddFamilyWizardComponent } from './components/add-family-wizard/add-family-wizard.component';
 import { MainComponent } from 'src/app/main.component';
+import { PendingRegistrationsComponent } from './components/pending-registrations/pending-registrations.component';
 
 const routes: Routes = [
    {
@@ -14,7 +15,6 @@ const routes: Routes = [
       component: MainComponent,
       canActivate: [AuthGuard],
       children: [
-
          {
             path: 'beheerders',
             component: AdminListComponent,
@@ -34,12 +34,16 @@ const routes: Routes = [
          {
             path: 'familie-toevoegen',
             component: AddFamilyWizardComponent,
-         }]
+         },
+         {
+            path: 'te-verwerken-inschrijvingen',
+            component: PendingRegistrationsComponent,
+         },
+      ],
    },
-
 ];
 @NgModule({
    imports: [RouterModule.forChild(routes)],
-   exports: [RouterModule]
+   exports: [RouterModule],
 })
 export class AdminRoutingModule {}

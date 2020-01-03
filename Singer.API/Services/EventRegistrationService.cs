@@ -33,8 +33,9 @@ namespace Singer.Services
       protected DbSet<EventRegistration> DbSet =>
          Context.EventRegistrations;
       protected IQueryable<EventRegistration> Queryable => Context.EventRegistrations
-         .Include(x => x.CareUser)
-         .ThenInclude(x => x.User).AsQueryable();
+         .Include(x => x.CareUser).ThenInclude(x => x.User)
+         .Include(x => x.EventSlot).ThenInclude(x => x.Event)
+         .AsQueryable();
 
       public Expression<Func<EventRegistration, EventRegistrationDTO>> Projector => x => new EventRegistrationDTO
       {
@@ -304,7 +305,7 @@ namespace Singer.Services
          var slot = await Context.EventSlots.FirstOrDefaultAsync(x => x.Id == dto.EventSlotId);
          if (slot == null)
             throw new NotFoundException("Event slot Id could not be found!", ErrorMessages.EventSlotNotFound);
-         
+
          DbSet.Add(new EventRegistration()
          {
             CareUserId = dto.CareUserId,
@@ -350,6 +351,20 @@ namespace Singer.Services
             Name = location.Name,
             Id = location.Id
          };
+      }
+
+      public async Task<SearchResults<EventRegistrationDTO>> GetPendingRegistrations(
+         Expression<Func<EventRegistrationDTO, object>> orderer = null,
+         ListSortDirection sortDirection = ListSortDirection.Ascending,
+         int pageSize = 15, int pageIndex = 0)
+      {
+         Expression<Func<EventRegistration, bool>> filterExpression = f => f.Status == RegistrationStatus.Pending;
+
+         var registrations = await Queryable.ToPagedListAsync<EventRegistration, EventRegistrationDTO>(
+            Mapper, filterExpression, orderer, sortDirection, pageIndex, pageSize
+         );
+
+         return registrations;
       }
    }
 }

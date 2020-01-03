@@ -1,14 +1,16 @@
 <!-- Form Dialog Title -->
-<h2 mat-dialog-title>Inschrijvingslijst</h2>
+<h2 mat-dialog-title>Inschrijvingslijst voor evenement: {{ event.title }}</h2>
 
 <!-- Form Dialog Content -->
 
 <mat-dialog-content>
    <div class="date-selector">
-      <mat-form-field *ngIf="eventSlots.length > 1">
+      <mat-form-field *ngIf="event.eventSlots.length > 1">
          <mat-label>Datum</mat-label>
          <mat-select [(value)]="selectedEventSlot">
-            <mat-option *ngFor="let eventSlot of eventSlots" [value]="eventSlot"
+            <mat-option
+               *ngFor="let eventSlot of event.eventSlots"
+               [value]="eventSlot"
                >{{ eventSlot.startDateTime | date: 'dd-MM-yyyy HH:mm' }} -
                {{
                   eventSlot.endDateTime | date: 'dd-MM-yyyy HH:mm'
@@ -16,7 +18,7 @@
             >
          </mat-select>
       </mat-form-field>
-      <p *ngIf="eventSlots.length === 1">
+      <p *ngIf="event.eventSlots.length === 1">
          {{ selectedEventSlot.startDateTime | date: 'dd-MM-yyyy HH:mm' }} -
          {{ selectedEventSlot.endDateTime | date: 'dd-MM-yyyy HH:mm' }}
       </p>
@@ -24,8 +26,8 @@
    <mat-list *ngIf="selectedEventSlot">
       <p
          *ngIf="
-            selectedEventSlot.registrants.length === 0 ||
-            !selectedEventSlot.registrants
+            !selectedEventSlot.registrants ||
+            selectedEventSlot.registrants.length === 0
          "
       >
          Geen inschrijvingen gevonden voor deze datum

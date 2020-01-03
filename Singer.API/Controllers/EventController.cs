@@ -349,6 +349,36 @@ namespace Singer.Controllers
          return Ok(details);
       }
 
+      [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
+      [HttpGet("registrations/status/pending")]
+      public async Task<ActionResult<PaginationDTO<EventRegistrationDTO>>> GetPendingRegistrations(
+         ListSortDirection sortDirection = ListSortDirection.Ascending,
+         string sortColumn = "Id",
+         int pageIndex = 0,
+         int pageSize = 15)
+      {
+         var orderByLambda = PropertyHelpers.GetPropertySelector<EventRegistrationDTO>(sortColumn);
+         var result = await _eventRegistrationService.GetPendingRegistrations(orderByLambda, sortDirection, pageSize, pageIndex);
+         var requestPath = HttpContext.Request.Path;
+         var nextPage = (pageIndex * pageSize) + result.Size >= result.TotalCount
+            ? null
+            : $"{requestPath}?PageIndex={pageIndex++}&Size={pageSize}";
+         var page = new PaginationDTO<EventRegistrationDTO>
+         {
+            Items = result.Items,
+            Size = result.Items.Count,
+            PageIndex = pageIndex,
+            CurrentPageUrl = $"{requestPath}?{HttpContext.Request.QueryString.ToString()}",
+            NextPageUrl = nextPage,
+            PreviousPageUrl = pageIndex == 0
+               ? null
+               : $"{requestPath}?PageIndex={pageIndex--}&Size={pageSize}",
+            TotalSize = result.TotalCount
+         };
+
+         return Ok(page);
+      }
+
       #endregion METHODS
    }
 }

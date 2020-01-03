@@ -36,5 +36,6 @@ namespace Singer.Services.Interfaces
       Task<RegistrationStatus> AcceptRegistration(Guid registrationId);
       Task<RegistrationStatus> RejectRegistration(Guid registrationId);
       Task<DaycareLocationDTO> UpdateDaycareLocationForRegistration(Guid registrationId, Guid locationId);
+      Task<SearchResults<EventRegistrationDTO>> GetPendingRegistrations(Expression<Func<EventRegistrationDTO, object>> orderer = null, ListSortDirection sortDirection = ListSortDirection.Ascending, int pageSize = 15, int pageIndex = 0);
    }
 }

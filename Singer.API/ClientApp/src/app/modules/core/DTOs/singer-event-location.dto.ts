@@ -1,12 +1,3 @@
-export class SingerEventLocation {
-   id: string;
-   name: string;
-   address: string;
-   postalCode: string;
-   city: string;
-   country: string;
-}
-
 export interface SingerEventLocationDTO {
    id: string;
    name: string;

@@ -2,13 +2,11 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AdminUserProxy } from './adminuser.proxy';
 import { map } from 'rxjs/operators';
-import { PaginationDTO } from '../../core/models/pagination.model';
+import { PaginationDTO } from '../../core/DTOs/pagination.dto';
 import {
-   AdminUser,
-   UpdateAdminUserDTO,
-   CreateAdminUserDTO,
-   AdminUserDTO,
+   AdminUser
 } from '../../core/models/adminuser.model';
+import { AdminUserDTO, CreateAdminUserDTO } from '../../core/DTOs/adminuser.dto';
 
 @Injectable({
    providedIn: 'root',

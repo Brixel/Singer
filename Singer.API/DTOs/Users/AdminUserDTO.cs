@@ -1,3 +1,4 @@
+using System;
 using Singer.Resources;
 using System.ComponentModel.DataAnnotations;
 
@@ -17,6 +18,8 @@ namespace Singer.DTOs.Users
          ResourceType = typeof(DisplayNames),
          Name = nameof(DisplayNames.UserName))]
       public string UserName { get; set; }
+
+      public Guid UserId { get; set; }
    }
 
    public class CreateAdminUserDTO : CreateUserDTO
