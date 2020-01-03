@@ -212,8 +212,10 @@ namespace Singer.Services
                FirstName = x.CareUser.User.FirstName,
                LastName = x.CareUser.User.LastName,
                AgeGroup = x.CareUser.AgeGroup,
-               BirthDay = x.CareUser.BirthDay,
-               HasTrajectory = x.CareUser.HasTrajectory,
+               DayCareAfterEndDateTime = x.EventSlot.Event.DayCareAfterEndDateTime,
+               DayCareBeforeStartDateTime = x.EventSlot.Event.DayCareBeforeStartDateTime,
+               LegalGuardianName = "NOT IMPLEMENTED YET",
+               Status = x.Status,
                IsExtern = x.CareUser.IsExtern,
             })
             .ToListAsync();
