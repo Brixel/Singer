@@ -194,11 +194,28 @@ export class SingerEventRegistrationsComponent implements OnInit {
                   `${this.event.title} - ${eventDate} - deelnemers.csv`
                );
             },
-            error => {
-               console.log('Error downloading the file');
-               console.log(error);
-            },
+            error => this.handleDownloadError(error),
             () => console.info('File downloaded successfully')
          );
+   }
+
+   handleDownloadError(err: any) {
+      if (typeof err === 'string') {
+         this._snackBar.open(`⚠ ${err}`, 'OK');
+      } else if (typeof err === 'object' && err !== null) {
+         let messages = [];
+         for (var k in err) {
+            messages.push(err[k]);
+         }
+         this._snackBar.open(
+            `⚠ Er zijn fouten opgetreden bij het downloaden:\n${messages.join(
+               '\n'
+            )}`,
+            'OK',
+            {
+               panelClass: 'multi-line-snackbar',
+            }
+         );
+      }
    }
 }
