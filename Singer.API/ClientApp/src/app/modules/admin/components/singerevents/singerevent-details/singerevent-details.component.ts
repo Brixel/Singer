@@ -37,10 +37,6 @@ export class SingerEventDetailsComponent implements OnInit {
    // Boolean to check if changes have been made when editing an event
    isChangesMade: boolean;
 
-   // Boolean to check if we are attempting to delete an event
-   isDeleting: boolean;
-   deleteConfirmationOK: boolean = true;
-
    ageGroups = Object.keys(AgeGroup).filter(
       k => typeof AgeGroup[k as any] === 'number'
    );
@@ -152,10 +148,6 @@ export class SingerEventDetailsComponent implements OnInit {
       dayCareBeforeStartTimeFieldControl: new FormControl('00:00'),
       hasDayCareAfterFieldControl: new FormControl('', [Validators.required]),
       dayCareAfterEndTimeFieldControl: new FormControl('00:00'),
-      confirmTitleFieldControl: new FormControl('', [
-         Validators.minLength(this.minTitleLength),
-         Validators.maxLength(this.maxTitleLength),
-      ]),
    });
 
    careBeforeRequired() {
@@ -663,48 +655,9 @@ export class SingerEventDetailsComponent implements OnInit {
       this.closeForm();
    }
 
-   enableDeleteEvent() {
-      if (this.isDeleting) {
-         this.submitDeleteEvent();
-         return;
-      }
-
-      this.isDeleting = true;
-
-      // Make confirmTitleFieldControl required
-      this.formControlGroup.controls.confirmTitleFieldControl = new FormControl(this.formControlGroup.controls.confirmTitleFieldControl.value, [
-         Validators.required,
-         Validators.minLength(this.minTitleLength),
-         Validators.maxLength(this.maxTitleLength),
-      ]);
-   }
-
-   disableDeleteEvent() {
-      this.isDeleting = false;
-
-      // Make confirmTitleFieldControl not required
-      this.formControlGroup.controls.confirmTitleFieldControl = new FormControl(this.formControlGroup.controls.confirmTitleFieldControl.value, [
-         Validators.minLength(this.minTitleLength),
-         Validators.maxLength(this.maxTitleLength),
-      ]);
-   }
-
-   isConfirmTitleFieldMatching(): boolean {
-      let titleFieldString: string = this.formControlGroup.controls.titleFieldControl.value;
-      let confirmTitleFiledString: string = this.formControlGroup.controls.confirmTitleFieldControl.value;
-      return titleFieldString.toLowerCase() === confirmTitleFiledString.toLowerCase();
-   }
-
    submitDeleteEvent() {
-      this.deleteConfirmationOK = this.isConfirmTitleFieldMatching();
-
-      if (this.deleteConfirmationOK) {
          this.deleteEvent.emit(this.currentSingerEventInstance);
          this.closeForm();
-      }
-      else {
-         this.formControlGroup.controls.confirmTitleFieldControl.setErrors({invalid: true});
-      }
    }
 
    // Close the form

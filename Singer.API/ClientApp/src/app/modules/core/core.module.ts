@@ -40,6 +40,7 @@ export const MY_FORMATS = {
       AgegroupToColorPipePipe,
       SingleRegistrationComponent,
       DailybasisRegistrationsComponent,
+      DeleteConfirmationComponent,
    ],
 })
 export class CoreModule {}

@@ -419,36 +419,7 @@
       <mat-dialog-actions class="button-row">
 
          <!-- Delete Button -->
-         <button mat-raised-button color="warn" (click)="enableDeleteEvent()" title="Evenement verwijderen"
-            aria-label="Evenement verwijderen" type="button" *ngIf="!isAdding">
-            Evenement Verwijderen
-         </button>
-
-         <!-- Title Field -->
-         <mat-form-field *ngIf="isDeleting" class="confirmTitleField">
-            <input matInput [placeholder]="confirmTitleFieldPlaceholder" formControlName="confirmTitleFieldControl"/>
-            <mat-error *ngIf="formControlGroup.controls.confirmTitleFieldControl.invalid">
-               <div *ngIf="!deleteConfirmationOK">
-                  Het Bevestigingsveld komt niet overeen met de naam van het evenement
-               </div>
-               <div *ngIf="
-                  formControlGroup.controls.confirmTitleFieldControl.errors.minlength
-               ">
-                  Titel moet minstens {{ minTitleLength }} karakters bevatten.
-               </div>
-               <div *ngIf="
-                  formControlGroup.controls.confirmTitleFieldControl.errors.maxlength
-               ">
-                  Titel mag maximum {{ maxTitleLength }} karakters bevatten.
-               </div>
-            </mat-error>
-         </mat-form-field>
-
-         <!-- Cancel Button -->
-         <button mat-raised-button (click)="disableDeleteEvent()" title="Annuleren"
-            aria-label="Annuleren" type="button" *ngIf="!isAdding && isDeleting">
-            Annuleren
-         </button>
+        <app-delete-confirmation [name]="currentSingerEventInstance.title" (delete)="submitDeleteEvent()" class="deleteConfirmation"></app-delete-confirmation>
 
          <!-- Spacer -->
          <span class="flex--spacer"></span>

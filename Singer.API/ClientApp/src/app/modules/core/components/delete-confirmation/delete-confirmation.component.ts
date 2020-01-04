@@ -63,12 +63,20 @@ export class DeleteConfirmationComponent {
    }
 
    submitDeleteEvent() {
-      if (this.isDeleting) {
-         if (this.isConfirmFieldMatching()) {
-            this.delete.emit('');
-         }
-      } else {
+      if (!this.isDeleting) {
          this.enableDeleteEvent();
+         return;
       }
+
+      if (!this.isConfirmFieldMatching()) {
+         this.confirmFieldControl.setErrors({invalid: true});
+         return;
+      }
+
+      if(!this.confirmFieldControl.valid){
+         return;
+      }
+
+      this.delete.emit('');
    }
 }
