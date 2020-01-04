@@ -1,8 +1,9 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { Observable, Subject } from 'rxjs';
+import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { UpdatePasswordDTO } from '../DTOs/updatepassword.dto';
 @Injectable({
    providedIn: 'root',
 })
@@ -10,19 +11,54 @@ export class AuthService {
    private tokenURL = this.baseUrl + 'connect/token';
    private userInfoURL = this.baseUrl + 'connect/userinfo';
 
-   private isAdminSubject = new Subject<boolean>();
+   private isAdminSubject = new ReplaySubject<boolean>();
    isAdmin$ = this.isAdminSubject.asObservable();
 
-   private isAuthenticatedSubject = new Subject<boolean>();
+   private isAuthenticatedSubject = new ReplaySubject<boolean>();
    isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
+
+   private passwordResetErrorSubject = new Subject<string>();
+   passwordResetError$ = this.passwordResetErrorSubject.asObservable();
 
    constructor(
       private http: HttpClient,
       private jwtHelper: JwtHelperService,
-      @Inject('BASE_URL') private baseUrl: string) {}
+      @Inject('BASE_URL') private baseUrl: string
+   ) {}
 
    getUserInfo(): Observable<any> {
       return this.http.get(this.userInfoURL).pipe(map(res => res));
+   }
+
+   updatePassword(userId: string, token: string, password: string) {
+      const updatePasswordDTO = <UpdatePasswordDTO>{
+         newPassword: password,
+         token,
+         userId,
+      };
+      return this.http
+         .put(`${this.baseUrl}api/user/password`, updatePasswordDTO)
+         .pipe(map(res => res));
+   }
+
+   requestPasswordReset(userId: string) {
+      const httpOptions = {
+         headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+         }),
+      };
+      this.http
+         .post(
+            `${this.baseUrl}api/user/resetpassword`,
+            JSON.stringify(userId),
+            httpOptions
+         )
+         .subscribe(
+            () => {},
+            error => {
+               console.error(error);
+            }
+         );
    }
 
    authenticate(username: string, password: string): Observable<any> {
