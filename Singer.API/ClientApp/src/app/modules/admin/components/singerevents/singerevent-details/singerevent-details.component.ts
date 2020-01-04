@@ -682,7 +682,7 @@ export class SingerEventDetailsComponent implements OnInit {
    disableDeleteEvent() {
       this.isDeleting = false;
 
-      // Make confirmTitleFieldControl required
+      // Make confirmTitleFieldControl not required
       this.formControlGroup.controls.confirmTitleFieldControl = new FormControl(this.formControlGroup.controls.confirmTitleFieldControl.value, [
          Validators.minLength(this.minTitleLength),
          Validators.maxLength(this.maxTitleLength),
