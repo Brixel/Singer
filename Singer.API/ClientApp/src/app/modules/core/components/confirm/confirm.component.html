@@ -1,0 +1,29 @@
+<h2 mat-dialog-title>Bevestig</h2>
+
+<!-- Form Dialog Content -->
+<mat-dialog-content>
+   <p>{{ data.confirmMessage }}</p>
+</mat-dialog-content>
+<mat-dialog-actions class="button-row">
+   <!-- Close Button -->
+   <button
+      mat-raised-button
+      (click)="cancel()"
+      title="Annuleer"
+      aria-label="Annuleer"
+      type="button"
+   >
+      Annuleer
+   </button>
+
+   <!-- Confirm Button -->
+   <button
+      mat-raised-button
+      color="primary"
+      (click)="confirm()"
+      title="Bevestig"
+      aria-label="Bevestig"
+   >
+      Bevestig
+   </button>
+</mat-dialog-actions>

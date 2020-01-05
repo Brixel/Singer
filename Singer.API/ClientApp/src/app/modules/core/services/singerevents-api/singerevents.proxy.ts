@@ -128,4 +128,8 @@ export class SingerEventsProxy {
          .post('api/event/search', searchParams)
          .pipe(map(res => res));
    }
+
+   getSingleEvent(eventId: string): Observable<SingerEventDTO> {
+      return this.apiService.get<SingerEventDTO>(`api/event/${eventId}`);
+   }
 }

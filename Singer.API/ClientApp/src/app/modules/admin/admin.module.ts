@@ -40,6 +40,8 @@ import { SharedModule } from '../shared/shared.module';
 import { AddFamilyWizardComponent } from './components/add-family-wizard/add-family-wizard.component';
 import { SingerEventRegistrationsComponent } from './components/singerevents/singer-event-registrations/singer-event-registrations.component';
 import { SingerEventAdminRegisterComponent } from './components/singerevents/singer-eventadmin-register/singer-eventadmin-register.component';
+import { ConfirmComponent } from '../core/components/confirm/confirm.component';
+import { PendingRegistrationsComponent } from './components/pending-registrations/pending-registrations.component';
 
 @NgModule({
    declarations: [
@@ -55,6 +57,8 @@ import { SingerEventAdminRegisterComponent } from './components/singerevents/sin
       CareUserSearchComponent,
       SingerEventAdminRegisterComponent,
       AddFamilyWizardComponent,
+      PendingRegistrationsComponent,
+      ConfirmComponent,
    ],
    imports: [
       CoreModule,
@@ -77,6 +81,7 @@ import { SingerEventAdminRegisterComponent } from './components/singerevents/sin
       EventRegistrationComponent,
       AdminDetailsComponent,
       SingerEventAdminRegisterComponent,
+      ConfirmComponent,
    ],
    providers: [
       CareUserProxy,

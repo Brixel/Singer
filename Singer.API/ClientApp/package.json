@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.1.0-issue-AB-65-delete-event.1030",
+   "version": "0.1.0-issue-AB-65-delete-event.1032",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",
