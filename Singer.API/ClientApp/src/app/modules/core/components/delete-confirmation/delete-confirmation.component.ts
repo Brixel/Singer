@@ -61,7 +61,7 @@ export class DeleteConfirmationComponent {
    }
 
    isConfirmFieldMatching(): boolean {
-      let confirmFieldString: string = this.confirmFieldControl.value;
+      const confirmFieldString: string = this.confirmFieldControl.value;
       return this.name.toLowerCase() === confirmFieldString.toLowerCase();
    }
 

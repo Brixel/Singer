@@ -82,7 +82,7 @@ export class SingerEventsService extends GenericService<
       };
    }
    toModel(dto: SingerEventDTO): SingerEvent {
-      let model = <SingerEvent>{
+      const model = <SingerEvent>{
          allowedAgeGroups: dto.allowedAgeGroups,
          cost: dto.cost,
          dayCareAfterEndDateTime: dto.dayCareAfterEndDateTime,
