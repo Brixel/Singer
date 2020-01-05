@@ -1,6 +1,6 @@
-import { Component, Input, Output } from '@angular/core';
-import { EventEmitter } from 'protractor';
+import { Component, Input, Output} from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { EventEmitter } from 'events';
 
 @Component({
    selector: 'app-delete-confirmation',
@@ -11,7 +11,7 @@ export class DeleteConfirmationComponent {
    @Input() name: string;
    @Output() delete: EventEmitter = new EventEmitter();
 
-   isDeleting: boolean = false;
+   isDeleting = false;
 
    // Form validation values
    readonly maxNameLength = 100;
@@ -58,7 +58,7 @@ export class DeleteConfirmationComponent {
    }
 
    isConfirmFieldMatching(): boolean {
-      let confirmFieldString: string = this.confirmFieldControl.value;
+      const confirmFieldString: string = this.confirmFieldControl.value;
       return this.name.toLowerCase() === confirmFieldString.toLowerCase();
    }
 
