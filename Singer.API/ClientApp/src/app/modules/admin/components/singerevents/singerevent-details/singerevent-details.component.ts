@@ -181,7 +181,6 @@ export class SingerEventDetailsComponent implements OnInit {
       @Inject(MAT_DIALOG_DATA) public data: SingerEventDetailsFormData
    ) {
       this.currentSingerEventInstance = data.singerEventInstance;
-      console.log(this.currentSingerEventInstance);
       this.isAdding = data.isAdding;
       this.availableLocations = data.availableLocations;
    }

@@ -47,7 +47,6 @@ export class DeleteConfirmationComponent {
             Validators.maxLength(this.maxNameLength),
          ]
       );
-      console.log(this.confirmFieldControl);
    }
 
    enableDeleteEvent() {
