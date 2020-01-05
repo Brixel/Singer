@@ -181,6 +181,7 @@ export class SingerEventDetailsComponent implements OnInit {
       @Inject(MAT_DIALOG_DATA) public data: SingerEventDetailsFormData
    ) {
       this.currentSingerEventInstance = data.singerEventInstance;
+      console.log(this.currentSingerEventInstance);
       this.isAdding = data.isAdding;
       this.availableLocations = data.availableLocations;
    }
@@ -188,7 +189,6 @@ export class SingerEventDetailsComponent implements OnInit {
    ngOnInit() {
       // If we are adding a new singer event then clear all fields
       // If we are editing an existing singer event then fill in the data
-
       if (this.isAdding) {
          this.resetFormControls();
          this.createEmptySingerEvent();
@@ -374,7 +374,6 @@ export class SingerEventDetailsComponent implements OnInit {
       this.formControlGroup.controls.dayCareBeforeStartTimeFieldControl.reset();
       this.formControlGroup.controls.hasDayCareAfterFieldControl.reset();
       this.formControlGroup.controls.dayCareAfterEndTimeFieldControl.reset();
-      this.formControlGroup.controls.confirmTitleFieldControl.reset();
    }
 
    createEmptySingerEvent() {

@@ -143,7 +143,7 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
                   // TODO: Should be optimised, reloading results should be necessary
                   this.loadSingerEvents();
                }
-            )
+            );
          }
       );
    }
@@ -257,7 +257,7 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
       if (typeof err === 'string') {
          this._snackBar.open(`⚠ ${err}`, 'OK');
       } else if (typeof err === 'object' && err !== null) {
-         let messages = [];
+         const messages = [];
          for (const k in err) {
             messages.push(err[k]);
          }

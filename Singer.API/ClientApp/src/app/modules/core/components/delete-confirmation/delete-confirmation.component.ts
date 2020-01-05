@@ -10,8 +10,8 @@ export class DeleteConfirmationComponent {
    @Input() name: string;
    @Output() delete: EventEmitter<string> = new EventEmitter();
 
-   isDeleting: boolean = false;
-   deleteConfirmationOK: boolean = true;
+   isDeleting = false;
+   deleteConfirmationOK = true;
 
    // Form validation values
    readonly maxNameLength = 100;
@@ -77,7 +77,7 @@ export class DeleteConfirmationComponent {
          return;
       }
 
-      if(!this.confirmFieldControl.valid){
+      if (!this.confirmFieldControl.valid) {
          return;
       }
 
