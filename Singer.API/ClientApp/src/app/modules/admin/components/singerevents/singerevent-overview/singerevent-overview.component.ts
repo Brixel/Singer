@@ -125,6 +125,27 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
             );
          }
       );
+
+      dialogRef.componentInstance.deleteEvent.subscribe(
+         (result: SingerEvent) => {
+            this._singerEventsService.deleteSingerEvent(result.id).subscribe(
+               res => {
+                  // Reload SingerEvents
+                  this.loadSingerEvents();
+                  this._snackBar.open(
+                     `Evenement ${result.title} werd verwijderd.`,
+                     'OK',
+                     { duration: 2000 }
+                  );
+               },
+               err => {
+                  this.handleApiError(err);
+                  // TODO: Should be optimised, reloading results should be necessary
+                  this.loadSingerEvents();
+               }
+            );
+         }
+      );
    }
 
    manageRegistrations(row: SingerEvent) {
@@ -236,8 +257,8 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
       if (typeof err === 'string') {
          this._snackBar.open(`⚠ ${err}`, 'OK');
       } else if (typeof err === 'object' && err !== null) {
-         let messages = [];
-         for (var k in err) {
+         const messages = [];
+         for (const k in err) {
             messages.push(err[k]);
          }
          this._snackBar.open(
