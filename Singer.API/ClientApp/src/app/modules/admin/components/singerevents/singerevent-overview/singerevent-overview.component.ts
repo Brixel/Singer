@@ -133,7 +133,7 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
                   // Reload SingerEvents
                   this.loadSingerEvents();
                   this._snackBar.open(
-                     `Evenement ${result.title} werd verwijdert.`,
+                     `Evenement ${result.title} werd verwijderd.`,
                      'OK',
                      { duration: 2000 }
                   );
@@ -258,7 +258,7 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
          this._snackBar.open(`⚠ ${err}`, 'OK');
       } else if (typeof err === 'object' && err !== null) {
          let messages = [];
-         for (var k in err) {
+         for (const k in err) {
             messages.push(err[k]);
          }
          this._snackBar.open(
