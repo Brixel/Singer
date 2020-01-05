@@ -2,6 +2,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
+import {
+   ApplicationInsightsModule,
+   AppInsightsService,
+} from '@markpieszak/ng-application-insights';
 import { AppComponent } from './app.component';
 import { MaterialModule } from './material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -14,6 +18,8 @@ import { AuthInterceptor } from './modules/core/services/auth-interceptor';
 import { NavMenuComponent } from './modules/core/components/nav-menu/nav-menu.component';
 import { NativeDateModule } from '@angular/material';
 import { AdminModule } from './modules/admin/admin.module';
+import { ConfigurationService } from './modules/core/services/clientconfiguration.service';
+import { ApplicationInsightsService } from './modules/core/services/applicationinsights.service';
 
 export function tokenGetter(): string {
    return localStorage.getItem('token');
@@ -33,6 +39,9 @@ export function tokenGetter(): string {
             tokenGetter: tokenGetter,
          },
       }),
+      ApplicationInsightsModule.forRoot({
+         instrumentationKeySetLater: true,
+      }),
    ],
    providers: [
       JwtHelperService,
@@ -45,17 +54,23 @@ export function tokenGetter(): string {
       {
          provide: APP_INITIALIZER,
          useFactory: initializeApp,
-         deps: [AuthService],
+         deps: [AuthService, ConfigurationService, ApplicationInsightsService],
          multi: true,
       },
       BrowserAnimationsModule,
+      AppInsightsService,
    ],
    bootstrap: [AppComponent],
 })
 export class AppModule {}
 
-export function initializeApp(authService: AuthService) {
+export function initializeApp(authService: AuthService, configurationService: ConfigurationService) {
    return () => {
-      authService.restore();
+      configurationService
+         .load()
+         .toPromise()
+         .then(() => {
+            authService.restore();
+      });
    };
 }

@@ -188,7 +188,9 @@ namespace Singer
             typeof(EmailService<AdminUserDTO>));
          services.AddScoped(typeof(IEmailService<UserDTO>),
             typeof(EmailService<UserDTO>));
-            services.AddApplicationInsightsTelemetry();
+         
+         var instrumentationKey = Configuration.GetSection("ApplicationInsights").GetChildren().SingleOrDefault(x => x.Value == "InstrumentationKey")?.Value;
+         services.AddApplicationInsightsTelemetry(instrumentationKey);
 
       }
 

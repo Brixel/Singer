@@ -4,6 +4,8 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UpdatePasswordDTO } from '../DTOs/updatepassword.dto';
+import { ConfigurationService } from './clientconfiguration.service';
+
 @Injectable({
    providedIn: 'root',
 })
@@ -23,6 +25,7 @@ export class AuthService {
    constructor(
       private http: HttpClient,
       private jwtHelper: JwtHelperService,
+      private configurationService: ConfigurationService,
       @Inject('BASE_URL') private baseUrl: string
    ) {}
 
@@ -69,8 +72,8 @@ export class AuthService {
       body.set('username', username);
       body.set('password', password);
       body.set('grant_type', 'password');
-      body.set('client_id', 'singer.client');
-      body.set('client_secret', 'secret');
+      body.set('client_id', this.configurationService.configuration.client_id);
+      body.set('client_secret', this.configurationService.configuration.client_secret);
 
       return this.http
          .post<any>(this.tokenURL, body.toString(), {
