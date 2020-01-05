@@ -10,6 +10,7 @@ import { DailybasisRegistrationsComponent } from './components/dailybasis-regist
 import { SingleRegistrationComponent } from './components/single-registration/single-registration.component';
 import { DeleteConfirmationComponent } from './components/delete-confirmation/delete-confirmation.component';
 import { ConfirmComponent } from './components/confirm/confirm.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 export const MY_FORMATS = {
    parse: {
@@ -32,7 +33,7 @@ export const MY_FORMATS = {
       DeleteConfirmationComponent,
       ConfirmComponent,
    ],
-   imports: [CommonModule, MaterialModule],
+   imports: [CommonModule, MaterialModule, ReactiveFormsModule],
    providers: [
       {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS}, {provide: MAT_DATE_LOCALE, useValue: 'nl-BE'}],
    exports: [

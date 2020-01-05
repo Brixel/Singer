@@ -1,5 +1,4 @@
-import { Component, Input, Output } from '@angular/core';
-import { EventEmitter } from 'protractor';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 
 @Component({
@@ -9,9 +8,10 @@ import { FormControl, Validators } from '@angular/forms';
 })
 export class DeleteConfirmationComponent {
    @Input() name: string;
-   @Output() delete: EventEmitter = new EventEmitter();
+   @Output() delete: EventEmitter<string> = new EventEmitter();
 
    isDeleting: boolean = false;
+   deleteConfirmationOK: boolean = true;
 
    // Form validation values
    readonly maxNameLength = 100;
@@ -22,12 +22,14 @@ export class DeleteConfirmationComponent {
       Validators.maxLength(this.maxNameLength),
    ]);
 
-   constructor() {}
+   constructor() {
+      this.makeConfirmFieldNotRequired();
+   }
 
    makeConfirmFieldRequired() {
       // Make confirmTitleFieldControl required
       this.confirmFieldControl = new FormControl(
-         this.confirmFieldControl.value,
+         '',
          [
             Validators.required,
             Validators.minLength(this.minNameLength),
@@ -39,12 +41,13 @@ export class DeleteConfirmationComponent {
    makeConfirmFieldNotRequired() {
       // Make confirmTitleFieldControl not required
       this.confirmFieldControl = new FormControl(
-         this.confirmFieldControl.value,
+         '',
          [
             Validators.minLength(this.minNameLength),
             Validators.maxLength(this.maxNameLength),
          ]
       );
+      console.log(this.confirmFieldControl);
    }
 
    enableDeleteEvent() {
@@ -69,6 +72,7 @@ export class DeleteConfirmationComponent {
       }
 
       if (!this.isConfirmFieldMatching()) {
+         this.deleteConfirmationOK = false;
          this.confirmFieldControl.setErrors({invalid: true});
          return;
       }
