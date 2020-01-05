@@ -32,6 +32,7 @@
       <PackageReference Include="IdentityServer4.AspNetIdentity" Version="2.4.0" />
       <PackageReference Include="IdentityServer4.EntityFramework" Version="2.4.0" />
       <PackageReference Include="IdentityServer4" Version="2.4.0" />
+      <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.8.1" />
       <PackageReference Include="Microsoft.AspNetCore.App" />
       <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.2.0" />
       <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
@@ -100,6 +101,10 @@
       <None Update="example.pfx">
          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+   </ItemGroup>
+
+   <ItemGroup>
+     <WCFMetadata Include="Connected Services" />
    </ItemGroup>
 
    <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
