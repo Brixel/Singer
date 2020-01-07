@@ -9,6 +9,19 @@ using Singer.Services.Interfaces;
 
 namespace Singer.Services
 {
+   public class NoActualEmailService<T> : IEmailService<T>
+      where T : IUserDTO
+   {
+      public Task SendAccountDetailsAsync(T user, string resetPasswordLink)
+      {
+         return Task.CompletedTask;
+      }
+
+      public Task SendPasswordResetLink(T user, string resetPasswordLink)
+      {
+         return Task.CompletedTask;
+      }
+   }
    public class EmailService<TUserDTO> : IEmailService<TUserDTO>
    where TUserDTO : IUserDTO
    {
