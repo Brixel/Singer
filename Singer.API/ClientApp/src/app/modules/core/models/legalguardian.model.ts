@@ -61,6 +61,10 @@ export class LegalGuardian {
    careUsers: LinkedCareUser[];
    careUsersToAdd: string[];
    careUsersToRemove: string[];
+
+   getFullName(): string {
+      return this.firstName + ' ' + this.lastName;
+   };
 }
 
 export class LinkedLegalGuardian {

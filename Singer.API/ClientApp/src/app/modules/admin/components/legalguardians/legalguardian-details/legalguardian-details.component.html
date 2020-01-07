@@ -315,6 +315,14 @@
       </div>
       <!-- Button Row -->
       <mat-dialog-actions class="button-row">
+
+         <!-- Delete Button -->
+        <app-delete-confirmation
+            [name]="currentLegalGuardianInstance.getFullName()"
+            (delete)="emitDeleteEvent()"
+            *ngIf="!isAdding">
+         </app-delete-confirmation>
+
          <!-- Close Button -->
          <button
             mat-raised-button
