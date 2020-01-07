@@ -10,6 +10,7 @@ export class AgegroupChipsComponent implements OnInit {
 
    @Input() agegroups: AgeGroup[];
    @Input() agegroup: AgeGroup;
+   @Input() verticalAligned: boolean;
 
   constructor() { }
 

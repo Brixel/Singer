@@ -1,3 +1,21 @@
+.agegroup-chip {
+   color: var(--singer-theme-dark-secondary-text);
+}
+
+.chiplist {
+   display: grid;
+   grid-template:
+   'one' 2em
+   'two' 2em
+   / auto;
+}
+
+.verticalAligned {
+   grid-template:
+   'one two' 6em
+   / auto;
+}
+
 .agegroup-toddler{
    background-color: rgb(241, 241, 21);
 }
