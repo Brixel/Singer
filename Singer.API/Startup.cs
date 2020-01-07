@@ -185,7 +185,8 @@ namespace Singer
 
 
          var configurationSection = Configuration.GetSection("EmailOptions");
-         if (configurationSection.GetChildren().Any(x => !string.IsNullOrWhiteSpace(x.Value)))
+         var hasValidEmailOptions = configurationSection.GetChildren().All(x => !string.IsNullOrWhiteSpace(x.Value));
+         if (hasValidEmailOptions)
          {
             services.Configure<EmailOptions>(configurationSection);
             services.AddScoped(typeof(IEmailService<LegalGuardianUserDTO>),
