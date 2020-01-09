@@ -72,6 +72,8 @@ namespace Singer.Services
             .Where(x =>
                // not archived
                !x.IsArchived &&
+               // Only events today or in the future
+               x.EventSlots.OrderBy(y => y.StartDateTime).First().StartDateTime.Date >= DateTime.Now.Date &&
                // check location
                (!searchEventParamsDto.LocationId.HasValue || x.LocationId == searchEventParamsDto.LocationId.Value) &&
                // check start date
@@ -123,8 +125,9 @@ namespace Singer.Services
       private void ValidateInput(CreateEventDTO createEvent)
       {
          // Currently only validate this for event slot creation
-         if(createEvent.StartDateTime > createEvent.EndDateTime) {
-            throw new BadInputException("Start date cannot be after end date",ErrorMessages.BadInputError);
+         if (createEvent.StartDateTime > createEvent.EndDateTime)
+         {
+            throw new BadInputException("Start date cannot be after end date", ErrorMessages.BadInputError);
          }
 
          // Not required for event slot creation, yet it's a logical validation
@@ -134,7 +137,7 @@ namespace Singer.Services
          }
 
          // Not required for event slot creation, yet it's a logical validation
-         if(createEvent.StartRegistrationDateTime > createEvent.FinalCancellationDateTime)
+         if (createEvent.StartRegistrationDateTime > createEvent.FinalCancellationDateTime)
          {
             throw new BadInputException("Start of registration cannot be after cancellation date", ErrorMessages.BadInputError);
          }
