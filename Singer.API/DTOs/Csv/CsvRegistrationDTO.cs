@@ -15,7 +15,8 @@ namespace Singer.DTOs.Csv
       public DateTime? DayCareBeforeStartDateTime { get; set; }
       public DateTime? DayCareAfterEndDateTime { get; set; }
       public RegistrationStatus Status { get; set; }
-      public string LegalGuardianName { get; set; }
+      // TODO add legal guardian name
+      //public string LegalGuardianName { get; set; }
 
       public class Mapper : ClassMap<CsvRegistrationDTO>
       {
@@ -29,7 +30,8 @@ namespace Singer.DTOs.Csv
             Map(x => x.DayCareBeforeStartDateTime).TypeConverterOption.Format("dd/MM/yy hh:mm").Index(5).Name(DisplayNames.DayCareBeforeStartDateTime);
             Map(x => x.DayCareAfterEndDateTime).TypeConverterOption.Format("dd/MM/yy hh:mm").Index(6).Name(DisplayNames.DayCareAfterEndDateTime);
             Map(x => x.Status).Index(7).Name(DisplayNames.Status);
-            Map(x => x.LegalGuardianName).Index(8).Name(DisplayNames.LegalGuardianUsers);
+            // TODO add legal guardian name
+            // Map(x => x.LegalGuardianName).Index(8).Name(DisplayNames.LegalGuardianUsers);
          }
       }
    }
