@@ -130,7 +130,8 @@ namespace Singer.Services
          Expression<Func<TUserDTO, object>> orderer = null,
          ListSortDirection sortDirection = ListSortDirection.Ascending,
          int pageIndex = 0,
-         int entitiesPerPage = 15)
+         int entitiesPerPage = 15,
+         bool showArchived = false)
       {
          // return the paged results
          return await Queryable

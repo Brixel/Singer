@@ -6,10 +6,15 @@ export function comparePassword(): ValidatorFn {
    ): {
       [key: string]: any;
    } | null => {
-      const password = control.get('password').value;
-      const verifyPassword = control.get('passwordVerify').value;
-      return verifyPassword !== password
-         ? { passwordDontMatch: { value: true } }
+      const password = control.get('password');
+      const verifyPassword = control.get('passwordVerify');
+
+      if (password.value !== verifyPassword.value) {
+         verifyPassword.setErrors({ passwordsDontMatch: true });
+      }
+
+      return verifyPassword.value !== password.value
+         ? { passwordsDontMatch: true }
          : null;
    };
 }
