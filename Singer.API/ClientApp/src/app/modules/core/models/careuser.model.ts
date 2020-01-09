@@ -18,7 +18,6 @@ export interface CareUserDTO {
    hasTrajectory: boolean;
    normalDaycareLocation: SingerEventLocation;
    vacationDaycareLocation: SingerEventLocation;
-   hasResources: boolean;
    legalGuardianUsers: LinkedLegalGuardianDTO[];
 }
 
@@ -35,7 +34,6 @@ export interface LinkedCareUserDTO {
    hasTrajectory: boolean;
    normalDaycareLocation: SingerEventLocation;
    vacationDaycareLocation: SingerEventLocation;
-   hasResources: boolean;
 }
 
 export interface UpdateCareUserDTO {
@@ -50,7 +48,6 @@ export interface UpdateCareUserDTO {
    hasTrajectory: boolean;
    normalDaycareLocationId: string;
    vacationDaycareLocationId: string;
-   hasResources: boolean;
    legalGuardianUsersToAdd: string[];
    legalGuardianUsersToRemove: string[];
 }
@@ -67,7 +64,6 @@ export interface CreateCareUserDTO {
    hasTrajectory: boolean;
    normalDaycareLocationId: string;
    vacationDaycareLocationId: string;
-   hasResources: boolean;
 }
 
 export class CareUser {
@@ -81,7 +77,6 @@ export class CareUser {
    ageGroup: AgeGroup;
    isExtern: boolean;
    hasTrajectory: boolean;
-   hasResources: boolean;
    legalGuardianUsers: LinkedLegalGuardian[];
    legalGuardianUsersToAdd?: string[];
    legalGuardianUsersToRemove?: string[];
@@ -98,5 +93,4 @@ export class LinkedCareUser {
    ageGroup: AgeGroup;
    isExtern: boolean;
    hasTrajectory: boolean;
-   hasResources: boolean;
 }
