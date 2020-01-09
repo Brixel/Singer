@@ -73,7 +73,6 @@ export class CareUserDetailsComponent implements OnInit {
    readonly ageGroupFieldPlaceholder = 'Leeftijdsgroep';
    readonly isExternFieldPlaceholder = 'Klas of extern';
    readonly hasTrajectoryFieldPlaceholder = 'Trajectfunctie';
-   readonly hasResourcesFieldPlaceholder = 'Voldoende middelen';
 
    // Form validation values
    readonly minBirthday: Date = new Date(1900, 0, 1);
@@ -107,7 +106,6 @@ export class CareUserDetailsComponent implements OnInit {
       ageGroupFieldControl: new FormControl('', [Validators.required]),
       isExternFieldControl: new FormControl('', [Validators.required]),
       hasTrajectoryFieldControl: new FormControl('', [Validators.required]),
-      hasResourcesFieldControl: new FormControl('', [Validators.required]),
       legalGuardianUsersSearchFieldcontrol: new FormControl(),
    });
 
@@ -213,9 +211,6 @@ export class CareUserDetailsComponent implements OnInit {
       this.formControlGroup.controls.hasTrajectoryFieldControl.reset(
          this.currentCareUserInstance.hasTrajectory ? 'true' : 'false'
       );
-      this.formControlGroup.controls.hasResourcesFieldControl.reset(
-         this.currentCareUserInstance.hasResources ? 'true' : 'false'
-      );
    }
 
    // Clear all form fields
@@ -227,7 +222,6 @@ export class CareUserDetailsComponent implements OnInit {
       this.formControlGroup.controls.ageGroupFieldControl.reset();
       this.formControlGroup.controls.isExternFieldControl.reset();
       this.formControlGroup.controls.hasTrajectoryFieldControl.reset();
-      this.formControlGroup.controls.hasResourcesFieldControl.reset();
    }
 
    createEmptyUser() {
@@ -242,7 +236,6 @@ export class CareUserDetailsComponent implements OnInit {
          ageGroup: AgeGroup.Toddler,
          isExtern: false,
          hasTrajectory: false,
-         hasResources: false,
          legalGuardianUsersToAdd: [],
          legalGuardianUsersToRemove: [],
          legalGuardianUsers: [],
@@ -304,16 +297,6 @@ export class CareUserDetailsComponent implements OnInit {
       if (
          this.currentCareUserInstance.hasTrajectory !==
          (this.formControlGroup.controls.hasTrajectoryFieldControl.value ===
-         'true'
-            ? true
-            : false)
-      ) {
-         return true;
-      }
-
-      if (
-         this.currentCareUserInstance.hasResources !==
-         (this.formControlGroup.controls.hasResourcesFieldControl.value ===
          'true'
             ? true
             : false)
@@ -417,11 +400,6 @@ export class CareUserDetailsComponent implements OnInit {
             : false;
       this.currentCareUserInstance.hasTrajectory =
          this.formControlGroup.controls.hasTrajectoryFieldControl.value ===
-         'true'
-            ? true
-            : false;
-      this.currentCareUserInstance.hasResources =
-         this.formControlGroup.controls.hasResourcesFieldControl.value ===
          'true'
             ? true
             : false;

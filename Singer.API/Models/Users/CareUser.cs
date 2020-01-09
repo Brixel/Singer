@@ -32,9 +32,6 @@ namespace Singer.Models.Users
       [PersonalData]
       public bool HasTrajectory { get; set; }
 
-      [PersonalData]
-      public bool HasResources { get; set; }
-
       public List<EventRegistration> EventRegistrations { get; set; }
    }
 }
