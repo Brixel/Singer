@@ -101,7 +101,7 @@ namespace Singer.Services
          // First check if LGUser exists
          var legalGuardianUser = await Context.LegalGuardianUsers.FindAsync(LegalGuardianUserId);
          if (legalGuardianUser == null)
-            throw new NotFoundException($"Tried to remove user link for non existing LG User with id {LegalGuardianUserId}", ErrorMessages.LegalGuardianDoesntExist);
+            throw new NotFoundException($"LG User with id {LegalGuardianUserId} was not found.", ErrorMessages.LegalGuardianDoesntExist);
 
          // Get LGUser properties
          var properties = legalGuardianUser
