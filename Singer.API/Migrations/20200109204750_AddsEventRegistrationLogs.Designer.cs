@@ -11,7 +11,7 @@ using Singer.Models;
 namespace Singer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200109200739_AddsEventRegistrationLogs")]
+    [Migration("20200109204750_AddsEventRegistrationLogs")]
     partial class AddsEventRegistrationLogs
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -229,9 +229,13 @@ namespace Singer.Migrations
 
                     b.Property<Guid>("EventRegistrationId");
 
+                    b.Property<Guid>("ExecutedByUserId");
+
                     b.HasKey("Id");
 
                     b.HasIndex("EventRegistrationId");
+
+                    b.HasIndex("ExecutedByUserId");
 
                     b.ToTable("EventRegistrationLog");
 
@@ -481,6 +485,11 @@ namespace Singer.Migrations
                     b.HasOne("Singer.Models.EventRegistration", "EventRegistration")
                         .WithMany()
                         .HasForeignKey("EventRegistrationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Singer.Models.Users.User", "User")
+                        .WithMany()
+                        .HasForeignKey("ExecutedByUserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

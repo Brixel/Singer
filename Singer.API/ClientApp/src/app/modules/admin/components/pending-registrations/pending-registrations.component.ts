@@ -1,4 +1,4 @@
-import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, ViewChild, ChangeDetectorRef, OnInit } from '@angular/core';
 import { MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { GenericOverviewComponent } from 'src/app/modules/shared/components/generic-overview/generic-overview.component';
 import { EventRegistrationDTO } from 'src/app/modules/core/DTOs/event-registration.dto';

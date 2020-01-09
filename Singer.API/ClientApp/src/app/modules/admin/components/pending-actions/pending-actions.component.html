@@ -1,0 +1,72 @@
+<div [hidden]="(dataSource.totalSize$ | async) > 0">
+   <mat-card class="no-results-card">
+      Er zijn geen te verwerken registraties op dit moment.
+   </mat-card>
+</div>
+<div
+   class="mat-elevation-z8 overview-table"
+   [hidden]="(dataSource.totalSize$ | async) === 0"
+>
+   <mat-table [dataSource]="dataSource" matSort>
+      <!-- Id column -->
+      <ng-container matColumnDef="eventTitle">
+         <mat-header-cell *matHeaderCellDef>Titel</mat-header-cell>
+         <mat-cell *matCellDef="let row">{{
+            row.eventTitle
+         }}</mat-cell>
+      </ng-container>
+
+      <!-- careUser column -->
+      <ng-container matColumnDef="careUser">
+         <mat-header-cell *matHeaderCellDef>Zorggebruiker</mat-header-cell>
+         <mat-cell *matCellDef="let row"
+            >{{ row.careUser }}</mat-cell
+         >
+      </ng-container>
+      <!-- careUser column -->
+      <ng-container matColumnDef="legalGuardians">
+         <mat-header-cell *matHeaderCellDef>Voogd(en)</mat-header-cell>
+         <mat-cell *matCellDef="let row"
+            >{{ row.legalGuardians.join(', ') }}</mat-cell
+         >
+      </ng-container>
+      <!-- careUser column -->
+      <ng-container matColumnDef="creationDateTimeUTC">
+         <mat-header-cell *matHeaderCellDef>Datum wijziging</mat-header-cell>
+         <mat-cell *matCellDef="let row"
+            >{{ row.creationDateTimeUTC | date: 'dd-MM-yyyy HH:mm' }}</mat-cell
+         >
+      </ng-container>
+      <!-- Action column -->
+      <ng-container matColumnDef="actions">
+         <mat-header-cell *matHeaderCellDef>Acties</mat-header-cell>
+         <mat-cell *matCellDef="let row">
+            <button
+               mat-stroked-button
+               matTooltip="Bekijk inschrijvingen"
+               (click)="manageRegistrations(row)"
+            >
+               <mat-icon>people</mat-icon>
+            </button>
+         </mat-cell>
+      </ng-container>
+      <!-- Paginator column -->
+      <ng-container matColumnDef="paginator">
+         <mat-footer-cell *matFooterCellDef colspan="20">
+            <!-- Paginator -->
+            <mat-paginator
+               #paginator
+               [length]="dataSource?.totalSize$ | async"
+               [pageIndex]="pageIndex"
+               [pageSize]="pageSize"
+               [pageSizeOptions]="[1, 15, 25, 50, 100]"
+               showFirstLastButtons
+            >
+            </mat-paginator>
+         </mat-footer-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      <mat-footer-row *matFooterRowDef="['paginator']"></mat-footer-row>
+   </mat-table>
+</div>

@@ -16,6 +16,7 @@ namespace Singer.Migrations
                     EventRegistrationChanges = table.Column<int>(nullable: false),
                     EmailSent = table.Column<bool>(nullable: false),
                     CreationDateTimeUTC = table.Column<DateTime>(nullable: false),
+                    ExecutedByUserId = table.Column<Guid>(nullable: false),
                     NewLocationIdId = table.Column<Guid>(nullable: true),
                     PreviousLocationId = table.Column<Guid>(nullable: true),
                     NewStatus = table.Column<int>(nullable: true),
@@ -30,12 +31,23 @@ namespace Singer.Migrations
                         principalTable: "EventRegistrations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EventRegistrationLog_AspNetUsers_ExecutedByUserId",
+                        column: x => x.ExecutedByUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_EventRegistrationLog_EventRegistrationId",
                 table: "EventRegistrationLog",
                 column: "EventRegistrationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EventRegistrationLog_ExecutedByUserId",
+                table: "EventRegistrationLog",
+                column: "ExecutedByUserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

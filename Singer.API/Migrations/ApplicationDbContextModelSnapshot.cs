@@ -227,9 +227,13 @@ namespace Singer.Migrations
 
                     b.Property<Guid>("EventRegistrationId");
 
+                    b.Property<Guid>("ExecutedByUserId");
+
                     b.HasKey("Id");
 
                     b.HasIndex("EventRegistrationId");
+
+                    b.HasIndex("ExecutedByUserId");
 
                     b.ToTable("EventRegistrationLog");
 
@@ -479,6 +483,11 @@ namespace Singer.Migrations
                     b.HasOne("Singer.Models.EventRegistration", "EventRegistration")
                         .WithMany()
                         .HasForeignKey("EventRegistrationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Singer.Models.Users.User", "User")
+                        .WithMany()
+                        .HasForeignKey("ExecutedByUserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

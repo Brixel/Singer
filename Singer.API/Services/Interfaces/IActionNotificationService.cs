@@ -9,8 +9,10 @@ namespace Singer.Services.Interfaces
    public interface IActionNotificationService
    {
       Task<List<EventRegistrationLogDTO>> GetEventRegistrationLogsWaitingForAction();
-      Task RegisterEventRegistrationLocationChange(Guid eventRegistrationId,
+      Task RegisterEventRegistrationStatusChange(Guid eventRegistrationId,
+         Guid executedByUserId,
          RegistrationStatus originalStatus, RegistrationStatus newRegistrationStatus);
-      Task RegisterEventRegistrationLocationChange(Guid eventRegistrationId, Guid previousLocationId, Guid newLocationId);
+      Task RegisterEventRegistrationLocationChange(Guid eventRegistrationId,
+         Guid executedByUserId, Guid previousLocationId, Guid newLocationId);
    }
 }

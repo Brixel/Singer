@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using Singer.Helpers;
+using Singer.Models.Users;
 
 namespace Singer.Models
 {
@@ -15,16 +16,22 @@ namespace Singer.Models
       public bool EmailSent { get; set; }
       public DateTime CreationDateTimeUTC { get; set; }
 
+      [ForeignKey(nameof(User))]
+      public Guid ExecutedByUserId { get; set; }
+      public User User { get; set; }
+
       public bool ActionTaken()
       {
          return EmailSent;
       }
 
-      protected EventRegistrationLog(Guid eventRegistrationId, EventRegistrationChanges registrationChange)
+      protected EventRegistrationLog(Guid eventRegistrationId,
+         Guid executedByUserId, EventRegistrationChanges registrationChange)
       {
          EventRegistrationId = eventRegistrationId;
          EventRegistrationChanges = registrationChange;
          EmailSent = false;
+         ExecutedByUserId = executedByUserId;
          CreationDateTimeUTC = DateTime.UtcNow;
       }
 
@@ -40,19 +47,21 @@ namespace Singer.Models
 
       public RegistrationStatus PreviousStatus { get; set; }
 
-      public EventRegistrationStatusChange(Guid eventRegistrationId, RegistrationStatus previousStatus,
+      public EventRegistrationStatusChange(Guid eventRegistrationId,
+         Guid executedByUserId, RegistrationStatus previousStatus,
          RegistrationStatus newStatus) :
-         base(eventRegistrationId, EventRegistrationChanges.RegistrationStatusChange)
+         base(eventRegistrationId, executedByUserId, EventRegistrationChanges.RegistrationStatusChange)
       {
          PreviousStatus = previousStatus;
          NewStatus = newStatus;
       }
 
       public static EventRegistrationStatusChange Create(Guid eventRegistrationId,
+         Guid executedByUserId,
          RegistrationStatus previousStatus,
          RegistrationStatus newStatus)
       {
-         return new EventRegistrationStatusChange(eventRegistrationId, previousStatus, newStatus);
+         return new EventRegistrationStatusChange(eventRegistrationId, executedByUserId, previousStatus, newStatus);
       }
    }
 
@@ -66,18 +75,18 @@ namespace Singer.Models
       {
          
       }
-      public EventRegistrationLocationChange(Guid eventRegistrationId, Guid previousLocationId, Guid newLocationId) :
-         base(eventRegistrationId, EventRegistrationChanges.LocationChange)
+      public EventRegistrationLocationChange(Guid eventRegistrationId, Guid executedByUserId, Guid previousLocationId, Guid newLocationId) :
+         base(eventRegistrationId, executedByUserId, EventRegistrationChanges.LocationChange)
       {
          PreviousLocationId = previousLocationId;
          NewLocationIdId = newLocationId;
 
       }
 
-      public static EventRegistrationLocationChange Create(Guid eventRegistrationId,
+      public static EventRegistrationLocationChange Create(Guid eventRegistrationId, Guid executedByUserId,
          Guid previousLocationId, Guid newLocationId)
       {
-         return new EventRegistrationLocationChange(eventRegistrationId, previousLocationId, newLocationId);
+         return new EventRegistrationLocationChange(eventRegistrationId, executedByUserId, previousLocationId, newLocationId);
       }
    }
 

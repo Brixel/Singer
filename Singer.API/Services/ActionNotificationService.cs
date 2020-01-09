@@ -26,20 +26,27 @@ namespace Singer.Services
       /// <param name="eventRegistrationId"></param>
       /// <param name="registrationChange"></param>
       /// <returns></returns>
-      public async Task RegisterEventRegistrationLocationChange(Guid eventRegistrationId, Guid previousLocationId, Guid newLocationId)
+      public async Task RegisterEventRegistrationLocationChange(Guid eventRegistrationId, Guid executedByUserId, Guid previousLocationId, Guid newLocationId)
       {
          var eventRegistrationLog = EventRegistrationLocationChange.Create
-            (eventRegistrationId, previousLocationId, newLocationId);
-         await _context.AddAsync(eventRegistrationLog);
+            (eventRegistrationId, executedByUserId, previousLocationId, newLocationId);
+         await _context.EventRegistrationLocationChanges.AddAsync(eventRegistrationLog);
       }
 
       public async Task<List<EventRegistrationLogDTO>> GetEventRegistrationLogsWaitingForAction()
       {
-         var logs = await _context.EventRegistrationLocationChanges.Where(x => !x.ActionTaken())
+         var x = await _context.EventRegistrationStatusChanges.ToListAsync();
+         var logs = await _context.EventRegistrationStatusChanges.AsQueryable().Where(x => !x.ActionTaken())
             .Select(x => new
             {
                Id = x.Id,
-               EventRegistrationId  = x.EventRegistrationId,
+               EventRegistration  = new
+               {
+                  x.EventRegistrationId,
+                  EventTitle = x.EventRegistration.EventSlot.Event.Title,
+                  EventSlotStartDateTime = x.EventRegistration.EventSlot.StartDateTime,
+                  EventSlotEndDateTime = x.EventRegistration.EventSlot.EndDateTime
+               },
                CareUser = new
                {
                   x.EventRegistration.CareUser.User.FirstName,
@@ -57,18 +64,21 @@ namespace Singer.Services
          {
             Id = x.Id,
             CreationDateTimeUTC = x.CreationDateTimeUTC,
-            EventRegistrationId = x.EventRegistrationId,
+            EventRegistrationId = x.EventRegistration.EventRegistrationId,
+            EventTitle = x.EventRegistration.EventTitle,
+            EventSlotStartDateTime = x.EventRegistration.EventSlotStartDateTime,
+            EventSlotEndDateTime = x.EventRegistration.EventSlotStartDateTime,
             CareUser = $"{x.CareUser.FirstName} {x.CareUser.LastName}",
             LegalGuardians = x.LegalGuardians.Select(lc => $"{lc.FirstName} {lc.LastName}").ToList()
          }).ToList();
          return eventRegistrationLogs;
       }
 
-      public async Task RegisterEventRegistrationLocationChange(Guid eventRegistrationId,
+      public async Task RegisterEventRegistrationStatusChange(Guid eventRegistrationId, Guid executedByUserId,
          RegistrationStatus previousStatus, RegistrationStatus newRegistrationStatus)
       {
-         var eventRegistrationLog = EventRegistrationStatusChange.Create(eventRegistrationId, previousStatus, newRegistrationStatus);
-         await _context.AddAsync(eventRegistrationLog);
+         var eventRegistrationLog = EventRegistrationStatusChange.Create(eventRegistrationId, executedByUserId, previousStatus, newRegistrationStatus);
+         await _context.EventRegistrationStatusChanges.AddAsync(eventRegistrationLog);
       }
    }
 }
