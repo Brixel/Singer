@@ -57,11 +57,6 @@ namespace Singer.DTOs.Users
 
       [Display(
          ResourceType = typeof(DisplayNames),
-         Name = nameof(DisplayNames.HasResources))]
-      public bool HasResources { get; set; }
-
-      [Display(
-         ResourceType = typeof(DisplayNames),
          Name = nameof(DisplayNames.LegalGuardianUsers))]
       public List<LinkedLegalGuardianDTO> LegalGuardianUsers { get; set; }
    }
@@ -124,11 +119,6 @@ namespace Singer.DTOs.Users
          ResourceType = typeof(DisplayNames),
          Name = nameof(DisplayNames.VacationDaycareLocation))]
       public Guid? VacationDaycareLocationId { get; set; }
-
-      [Display(
-         ResourceType = typeof(DisplayNames),
-         Name = nameof(DisplayNames.HasResources))]
-      public bool HasResources { get; set; }
    }
 
    public class UpdateCareUserDTO : UpdateUserDTO
@@ -189,11 +179,6 @@ namespace Singer.DTOs.Users
          ResourceType = typeof(DisplayNames),
          Name = nameof(DisplayNames.VacationDaycareLocation))]
       public Guid? VacationDaycareLocationId { get; set; }
-
-      [Display(
-         ResourceType = typeof(DisplayNames),
-         Name = nameof(DisplayNames.HasResources))]
-      public bool HasResources { get; set; }
 
       [Display(
          ResourceType = typeof(DisplayNames),
