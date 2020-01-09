@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Singer.Data;
 
 namespace Singer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200102213234_RemovesHasResourcesField")]
+    partial class RemovesHasResourcesField
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -149,8 +151,6 @@ namespace Singer.Migrations
 
                     b.Property<bool>("HasDayCareBefore");
 
-                    b.Property<bool>("IsArchived");
-
                     b.Property<Guid>("LocationId");
 
                     b.Property<int>("MaxRegistrants");
@@ -211,26 +211,6 @@ namespace Singer.Migrations
                         .IsUnique();
 
                     b.ToTable("EventRegistrations");
-                });
-
-            modelBuilder.Entity("Singer.Models.EventRegistrationLog", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreationDateTimeUTC");
-
-                    b.Property<bool>("EmailSent");
-
-                    b.Property<int>("EventRegistrationChanges");
-
-                    b.Property<Guid>("EventRegistrationId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EventRegistrationId");
-
-                    b.ToTable("EventRegistrationLogs");
                 });
 
             modelBuilder.Entity("Singer.Models.EventSlot", b =>
@@ -446,14 +426,6 @@ namespace Singer.Migrations
                     b.HasOne("Singer.Models.EventSlot", "EventSlot")
                         .WithMany("Registrations")
                         .HasForeignKey("EventSlotId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Singer.Models.EventRegistrationLog", b =>
-                {
-                    b.HasOne("Singer.Models.EventRegistration", "EventRegistration")
-                        .WithMany()
-                        .HasForeignKey("EventRegistrationId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

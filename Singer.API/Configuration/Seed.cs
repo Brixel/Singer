@@ -119,7 +119,6 @@ namespace Singer.Configuration
                   AgeGroup = AgeGroup.Child,
                   CaseNumber = new Random().Next(1000, 5000).ToString(),
                   BirthDay = DateTime.UtcNow.AddYears(new Random().Next(-14, -5)),
-                  HasResources = false,
                   HasTrajectory = false,
                   IsExtern = false,
                   UserId = user.Id
