@@ -55,6 +55,8 @@ namespace Singer.Data
             .OnDelete(DeleteBehavior.Restrict);
 
          builder.Entity<EventRegistrationLog>()
+            .HasDiscriminator(x => x.EventRegistrationChanges);
+         builder.Entity<EventRegistrationLog>()
             .HasOne(x => x.EventRegistration);
 
       }

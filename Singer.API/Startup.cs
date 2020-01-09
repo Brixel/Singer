@@ -179,7 +179,7 @@ namespace Singer
          services.AddScoped<IEventService, EventService>();
          services.AddScoped<IEventRegistrationService, EventRegistrationService>()
             .AddScoped<IDateValidator, DateValidator>();
-         services.AddScoped<IEventRegistrationLoggingService, EventRegistrationLoggingService>();
+         services.AddScoped<IActionNotificationService, ActionNotificationService>();
          services.Configure<PasswordOptions>(Configuration.GetSection("PasswordOptions"));
          services.AddScoped<IUserProfileService, UserProfileService>();
          services.Configure<ApplicationConfig>(Configuration.GetSection("Application"));

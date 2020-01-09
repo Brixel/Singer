@@ -20,12 +20,12 @@ namespace Singer.Services
 {
    public class EventRegistrationService : IEventRegistrationService
    {
-      private readonly IEventRegistrationLoggingService _eventRegistrationLoggingService;
+      private readonly IActionNotificationService _actionNotificationService;
 
       public EventRegistrationService(ApplicationDbContext context, IMapper mapper,
-         IEventRegistrationLoggingService eventRegistrationLoggingService)
+         IActionNotificationService actionNotificationService)
       {
-         _eventRegistrationLoggingService = eventRegistrationLoggingService;
+         _actionNotificationService = actionNotificationService;
          Context = context;
          Mapper = mapper;
       }
@@ -306,19 +306,27 @@ namespace Singer.Services
       public async Task<RegistrationStatus> AcceptRegistration(Guid registrationId)
       {
          var registration = await Context.EventRegistrations.SingleAsync(x => x.Id == registrationId);
+         var originalStatus = registration.Status;
          registration.Status = RegistrationStatus.Accepted;
+
+         await _actionNotificationService.RegisterEventRegistrationLocationChange(
+            registrationId, originalStatus, registration.Status);
+
          await Context.SaveChangesAsync();
-         await _eventRegistrationLoggingService.LogEventRegistration(registrationId, EventRegistrationChanges.RegistrationStatusChange);
          return registration.Status;
       }
 
       public async Task<RegistrationStatus> RejectRegistration(Guid registrationId)
       {
          var registration = await Context.EventRegistrations.SingleAsync(x => x.Id == registrationId);
+         var previousRegistrationStatus = registration.Status;
          registration.Status = RegistrationStatus.Rejected;
+
+         await _actionNotificationService.RegisterEventRegistrationLocationChange(registrationId,
+            previousRegistrationStatus, registration.Status);
+
          await Context.SaveChangesAsync();
 
-         await _eventRegistrationLoggingService.LogEventRegistration(registrationId, EventRegistrationChanges.RegistrationStatusChange);
          return registration.Status;
       }
 
@@ -327,9 +335,10 @@ namespace Singer.Services
          var location = await Context.EventLocations.SingleAsync(x => x.Id == locationId);
          var registration = await Context.EventRegistrations.SingleAsync(x => x.Id == registrationId);
          registration.DaycareLocationId = locationId;
-         await Context.SaveChangesAsync();
 
-         await _eventRegistrationLoggingService.LogEventRegistration(registrationId, EventRegistrationChanges.LocationChange);
+         await _actionNotificationService.RegisterEventRegistrationLocationChange(registrationId, location.Id, locationId);
+
+         await Context.SaveChangesAsync();
          return new DaycareLocationDTO()
          {
             Name = location.Name,

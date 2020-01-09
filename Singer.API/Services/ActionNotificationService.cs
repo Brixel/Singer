@@ -10,18 +10,26 @@ using Singer.Services.Interfaces;
 
 namespace Singer.Services
 {
-   class EventRegistrationLoggingService : IEventRegistrationLoggingService
+   class ActionNotificationService : IActionNotificationService
    {
       private readonly ApplicationDbContext _context;
 
-      public EventRegistrationLoggingService(ApplicationDbContext context)
+      public ActionNotificationService(ApplicationDbContext context)
       {
          _context = context;
       }
 
-      public async Task LogEventRegistration(Guid eventRegistrationId, EventRegistrationChanges registrationChange)
+      /// <summary>
+      /// Method to track actions taken on an event registration
+      /// If a log exists for the corresponding action, it cancels the action, meaning the log can be deleted
+      /// </summary>
+      /// <param name="eventRegistrationId"></param>
+      /// <param name="registrationChange"></param>
+      /// <returns></returns>
+      public async Task RegisterEventRegistrationLocationChange(Guid eventRegistrationId, Guid previousLocationId, Guid newLocationId)
       {
-         var eventRegistrationLog = EventRegistrationLog.Create(eventRegistrationId, registrationChange);
+         var eventRegistrationLog = EventRegistrationLocationChange.Create
+            (eventRegistrationId, previousLocationId, newLocationId);
          await _context.AddAsync(eventRegistrationLog);
       }
 
@@ -54,6 +62,13 @@ namespace Singer.Services
             LegalGuardians = x.LegalGuardians.Select(lc => $"{lc.FirstName} {lc.LastName}").ToList()
          }).ToList();
          return eventRegistrationLogs;
+      }
+
+      public async Task RegisterEventRegistrationLocationChange(Guid eventRegistrationId,
+         RegistrationStatus previousStatus, RegistrationStatus newRegistrationStatus)
+      {
+         var eventRegistrationLog = EventRegistrationStatusChange.Create(eventRegistrationId, previousStatus, newRegistrationStatus);
+         await _context.AddAsync(eventRegistrationLog);
       }
    }
 }
