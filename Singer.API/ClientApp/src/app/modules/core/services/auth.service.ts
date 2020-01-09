@@ -73,7 +73,10 @@ export class AuthService {
       body.set('password', password);
       body.set('grant_type', 'password');
       body.set('client_id', this.configurationService.configuration.client_id);
-      body.set('client_secret', this.configurationService.configuration.client_secret);
+      body.set(
+         'client_secret',
+         this.configurationService.configuration.client_secret
+      );
 
       return this.http
          .post<any>(this.tokenURL, body.toString(), {

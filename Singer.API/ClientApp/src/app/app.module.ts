@@ -64,13 +64,18 @@ export function tokenGetter(): string {
 })
 export class AppModule {}
 
-export function initializeApp(authService: AuthService, configurationService: ConfigurationService) {
+export function initializeApp(
+   authService: AuthService,
+   configurationService: ConfigurationService,
+   applicationInsightService: ApplicationInsightsService
+) {
    return () => {
       configurationService
          .load()
          .toPromise()
          .then(() => {
             authService.restore();
-      });
+            applicationInsightService.init();
+         });
    };
 }

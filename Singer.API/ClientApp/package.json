@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.1.0-issue-app-insights-angular.1107",
+   "version": "0.1.0-issue-app-insights-angular.1115",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",
