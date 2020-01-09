@@ -8,7 +8,9 @@ import { AgegroupToColorPipePipe } from './services/agegroup-to-color-pipe.pipe'
 import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material';
 import { DailybasisRegistrationsComponent } from './components/dailybasis-registrations/dailybasis-registrations.component';
 import { SingleRegistrationComponent } from './components/single-registration/single-registration.component';
+import { DeleteConfirmationComponent } from './components/delete-confirmation/delete-confirmation.component';
 import { ConfirmComponent } from './components/confirm/confirm.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 export const MY_FORMATS = {
    parse: {
@@ -28,9 +30,10 @@ export const MY_FORMATS = {
       AgegroupToColorPipePipe,
       DailybasisRegistrationsComponent,
       SingleRegistrationComponent,
+      DeleteConfirmationComponent,
       ConfirmComponent,
    ],
-   imports: [CommonModule, MaterialModule],
+   imports: [CommonModule, MaterialModule, ReactiveFormsModule],
    providers: [
       {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS}, {provide: MAT_DATE_LOCALE, useValue: 'nl-BE'}],
    exports: [
@@ -40,6 +43,7 @@ export const MY_FORMATS = {
       AgegroupToColorPipePipe,
       SingleRegistrationComponent,
       DailybasisRegistrationsComponent,
+      DeleteConfirmationComponent,
    ],
 })
 export class CoreModule {}

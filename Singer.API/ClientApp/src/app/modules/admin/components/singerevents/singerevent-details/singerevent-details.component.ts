@@ -29,11 +29,12 @@ export interface SingerEventDetailsFormData {
 export class SingerEventDetailsComponent implements OnInit {
    // Submit event for when the user submits the form
    @Output() submitEvent: EventEmitter<SingerEvent> = new EventEmitter();
+   @Output() deleteEvent: EventEmitter<SingerEvent> = new EventEmitter();
 
-   // Boolean to decide if we are adding a new user or editing an existing one
+   // Boolean to decide if we are adding a new event or editing an existing one
    isAdding: boolean;
 
-   // Boolean to check if changes have been made when editing a user
+   // Boolean to check if changes have been made when editing an event
    isChangesMade: boolean;
 
    ageGroups = Object.keys(AgeGroup).filter(
@@ -92,6 +93,7 @@ export class SingerEventDetailsComponent implements OnInit {
       'Start opvang na het evenement';
    readonly dayCareAfterEndTimeFieldPlaceholder =
       'Einde opvang na het evenement';
+   readonly confirmTitleFieldPlaceholder = 'Naam evenement';
    // Form validation values
    readonly maxTitleLength = 100;
    readonly minTitleLength = 2;
@@ -186,7 +188,6 @@ export class SingerEventDetailsComponent implements OnInit {
    ngOnInit() {
       // If we are adding a new singer event then clear all fields
       // If we are editing an existing singer event then fill in the data
-
       if (this.isAdding) {
          this.resetFormControls();
          this.createEmptySingerEvent();
@@ -650,6 +651,11 @@ export class SingerEventDetailsComponent implements OnInit {
          this.submitEvent.emit(this.currentSingerEventInstance);
       }
       this.closeForm();
+   }
+
+   submitDeleteEvent() {
+         this.deleteEvent.emit(this.currentSingerEventInstance);
+         this.closeForm();
    }
 
    // Close the form
