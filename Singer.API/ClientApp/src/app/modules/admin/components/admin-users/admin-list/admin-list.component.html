@@ -49,6 +49,13 @@
                >
                   <mat-icon>lock</mat-icon>
                </button>
+               <button
+                  mat-stroked-button
+                  matTooltip="Verwijder beheerder"
+                  (click)="deleteUser(row)"
+               >
+                  <mat-icon>delete</mat-icon>
+               </button>
             </div>
          </td>
       </ng-container>
@@ -85,11 +92,7 @@
       <!-- Header Row -->
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <!-- Data Row -->
-      <tr
-         mat-row
-         *matRowDef="let row; columns: displayedColumns"
-
-      ></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       <!-- Footer Row -->
       <tr mat-footer-row *matFooterRowDef="['addButton', 'paginator']"></tr>
    </table>

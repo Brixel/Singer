@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, Inject } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 
 @Component({
@@ -8,7 +8,8 @@ import { FormControl, Validators } from '@angular/forms';
 })
 export class DeleteConfirmationComponent {
    @Input() name: string;
-   @Output() delete: EventEmitter<string> = new EventEmitter();
+   @Input() whatToDelete: string;
+   @Output() delete: EventEmitter<boolean> = new EventEmitter();
 
    isDeleting = false;
    deleteConfirmationOK = true;
@@ -28,25 +29,19 @@ export class DeleteConfirmationComponent {
 
    makeConfirmFieldRequired() {
       // Make confirmTitleFieldControl required
-      this.confirmFieldControl = new FormControl(
-         '',
-         [
-            Validators.required,
-            Validators.minLength(this.minNameLength),
-            Validators.maxLength(this.maxNameLength),
-         ]
-      );
+      this.confirmFieldControl = new FormControl('', [
+         Validators.required,
+         Validators.minLength(this.minNameLength),
+         Validators.maxLength(this.maxNameLength),
+      ]);
    }
 
    makeConfirmFieldNotRequired() {
       // Make confirmTitleFieldControl not required
-      this.confirmFieldControl = new FormControl(
-         '',
-         [
-            Validators.minLength(this.minNameLength),
-            Validators.maxLength(this.maxNameLength),
-         ]
-      );
+      this.confirmFieldControl = new FormControl('', [
+         Validators.minLength(this.minNameLength),
+         Validators.maxLength(this.maxNameLength),
+      ]);
    }
 
    enableDeleteEvent() {
@@ -61,6 +56,7 @@ export class DeleteConfirmationComponent {
 
    isConfirmFieldMatching(): boolean {
       const confirmFieldString: string = this.confirmFieldControl.value;
+      console.log(`should be ${this.name}`);
       return this.name.toLowerCase() === confirmFieldString.toLowerCase();
    }
 
@@ -72,7 +68,7 @@ export class DeleteConfirmationComponent {
 
       if (!this.isConfirmFieldMatching()) {
          this.deleteConfirmationOK = false;
-         this.confirmFieldControl.setErrors({invalid: true});
+         this.confirmFieldControl.setErrors({ invalid: true });
          return;
       }
 
@@ -80,6 +76,6 @@ export class DeleteConfirmationComponent {
          return;
       }
 
-      this.delete.emit('');
+      this.delete.emit(true);
    }
 }

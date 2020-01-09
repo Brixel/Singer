@@ -654,8 +654,8 @@ export class SingerEventDetailsComponent implements OnInit {
    }
 
    submitDeleteEvent() {
-         this.deleteEvent.emit(this.currentSingerEventInstance);
-         this.closeForm();
+      this.deleteEvent.emit(this.currentSingerEventInstance);
+      this.closeForm();
    }
 
    // Close the form

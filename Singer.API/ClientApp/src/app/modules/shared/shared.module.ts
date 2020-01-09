@@ -9,6 +9,8 @@ import { SingerEventsService } from '../core/services/singerevents-api/singereve
 import { SingerEventsProxy } from '../core/services/singerevents-api/singerevents.proxy';
 import { CoreModule } from '../core/core.module';
 import { LoadingComponent } from './components/loading/loading.component';
+import { DeleteConfirmationComponent } from './components/delete-confirmation/delete-confirmation.component';
+import { DeleteConfirmationDialogComponent } from './components/delete-confirmation-dialog/delete-confirmation-dialog.component';
 
 @NgModule({
    declarations: [
@@ -16,6 +18,7 @@ import { LoadingComponent } from './components/loading/loading.component';
       UserCardComponent,
       DetailedUserCardComponent,
       LoadingComponent,
+      DeleteConfirmationDialogComponent,
    ],
    imports: [CommonModule, MaterialModule, CoreModule],
    exports: [
@@ -24,7 +27,12 @@ import { LoadingComponent } from './components/loading/loading.component';
       DetailedUserCardComponent,
       LoadingComponent,
    ],
-   entryComponents: [EventRegistrationComponent, LoadingComponent],
+   entryComponents: [
+      EventRegistrationComponent,
+      LoadingComponent,
+      DeleteConfirmationComponent,
+      DeleteConfirmationDialogComponent,
+   ],
    providers: [ApiService, SingerEventsService, SingerEventsProxy],
 })
 export class SharedModule {}

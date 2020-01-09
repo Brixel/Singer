@@ -5,7 +5,12 @@ import {
    ElementRef,
    AfterViewInit,
 } from '@angular/core';
-import { MatPaginator, MatSort, MatDialog } from '@angular/material';
+import {
+   MatPaginator,
+   MatSort,
+   MatDialog,
+   MatSnackBar,
+} from '@angular/material';
 import { AdminDatasource } from '../../../services/admin.datasource';
 import { AdminUserService } from '../../../services/admin-user.service';
 import { fromEvent, merge } from 'rxjs';
@@ -14,8 +19,15 @@ import { AdminUser } from 'src/app/modules/core/models/adminuser.model';
 import { AdminDetailsComponent } from '../admin-details/admin-details.component';
 import { LoadingService } from 'src/app/modules/core/services/loading.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ConfirmComponent, ConfirmRequest } from 'src/app/modules/core/components/confirm/confirm.component';
+import {
+   ConfirmComponent,
+   ConfirmRequest,
+} from 'src/app/modules/core/components/confirm/confirm.component';
 import { AuthService } from 'src/app/modules/core/services/auth.service';
+import {
+   DeleteConfirmationDialogComponent,
+   ConfirmationData,
+} from 'src/app/modules/shared/components/delete-confirmation-dialog/delete-confirmation-dialog.component';
 
 @Component({
    selector: 'app-admin-list',
@@ -48,7 +60,8 @@ export class AdminListComponent implements OnInit, AfterViewInit {
       public dialog: MatDialog,
       private adminUserService: AdminUserService,
       private authService: AuthService,
-      private _loadingService: LoadingService
+      private _loadingService: LoadingService,
+      private _snackBar: MatSnackBar
    ) {}
 
    ngOnInit() {
@@ -96,11 +109,36 @@ export class AdminListComponent implements OnInit, AfterViewInit {
 
    changePassword(row: AdminUser) {
       const dialogRef = this.dialog.open(ConfirmComponent, {
-         data: <ConfirmRequest>{confirmMessage: `Wilt u het wachtwoord van ${row.firstName} ${row.lastName} wijzigen?`}
+         data: <ConfirmRequest>{
+            confirmMessage: `Wilt u het wachtwoord van ${row.firstName} ${row.lastName} wijzigen?`,
+         },
       });
       dialogRef.afterClosed().subscribe((isConfirmed: boolean) => {
          if (isConfirmed) {
             this.authService.requestPasswordReset(row.userId);
+         }
+      });
+   }
+
+   deleteUser(row: AdminUser) {
+      const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent, {
+         data: <ConfirmationData>{
+            name: `${row.firstName} ${row.lastName}`,
+            whatToDelete: 'Beheerder',
+         },
+      });
+      dialogRef.afterClosed().subscribe((isConfirmed: boolean) => {
+         if (isConfirmed) {
+            this.adminUserService.delete(row).subscribe(() => {
+               this._snackBar.open(
+                  `Beheerder ${row.firstName} ${row.lastName} werd verwijderd.`,
+                  'OK',
+                  {
+                     duration: 2000,
+                  }
+               );
+               this.loadAdmins();
+            });
          }
       });
    }

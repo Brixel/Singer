@@ -4,7 +4,10 @@ import { Observable } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { PaginationDTO } from '../../core/DTOs/pagination.dto';
-import { CreateAdminUserDTO, AdminUserDTO } from '../../core/DTOs/adminuser.dto';
+import {
+   CreateAdminUserDTO,
+   AdminUserDTO,
+} from '../../core/DTOs/adminuser.dto';
 
 @Injectable({
    providedIn: 'root',
@@ -37,5 +40,11 @@ export class AdminUserProxy {
 
    createAdmin(admin: CreateAdminUserDTO) {
       return this.apiService.post('api/admin', admin).pipe(map(res => res));
+   }
+
+   deleteAdmin(adminId: string) {
+      return this.apiService
+         .delete(`api/admin/${adminId}`)
+         .pipe(map(res => res));
    }
 }
