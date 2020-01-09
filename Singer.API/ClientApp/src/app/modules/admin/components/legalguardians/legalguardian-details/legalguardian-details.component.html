@@ -318,10 +318,14 @@
 
          <!-- Delete Button -->
         <app-delete-confirmation
-            [name]="currentLegalGuardianInstance.getFullName()"
+            deleteButtonText="Voogd Verwijderen"
+            [name]="currentLegalGuardianInstance.firstName + ' ' + currentLegalGuardianInstance.lastName"
             (delete)="emitDeleteEvent()"
             *ngIf="!isAdding">
          </app-delete-confirmation>
+
+         <!-- Spacer -->
+         <span class="flex--spacer"></span>
 
          <!-- Close Button -->
          <button
