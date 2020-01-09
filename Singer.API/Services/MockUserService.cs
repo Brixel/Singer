@@ -35,7 +35,6 @@ namespace Singer.Services
    //             HasTrajectory = true,
    //             HasNormalDayCare = true,
    //             HasVacationDayCare = true,
-   //             HasResources = true
    //          },
    //          new CareUser
    //          {
@@ -52,7 +51,6 @@ namespace Singer.Services
    //             HasTrajectory = true,
    //             HasNormalDayCare = true,
    //             HasVacationDayCare = true,
-   //             HasResources = true
    //          },
    //          new CareUser
    //          {
@@ -70,7 +68,6 @@ namespace Singer.Services
    //             HasTrajectory = true,
    //             HasNormalDayCare = true,
    //             HasVacationDayCare = true,
-   //             HasResources = false
    //          },
    //       };
 
@@ -137,7 +134,6 @@ namespace Singer.Services
    //             HasVacationDayCare = x.HasVacationDayCare,
    //             BirthDay = x.BirthDay,
    //             HasNormalDayCare = x.HasNormalDayCare,
-   //             HasResources = x.HasResources,
    //             CaseNumber = x.CaseNumber,
    //             IsExtern = x.IsExtern,
    //             Email = x.User.Email
@@ -173,7 +169,6 @@ namespace Singer.Services
    //          userToUpdate.BirthDay = user.BirthDay;
    //          userToUpdate.CaseNumber = user.CaseNumber;
    //          userToUpdate.HasNormalDayCare = user.HasNormalDayCare;
-   //          userToUpdate.HasResources = user.HasResources;
    //          userToUpdate.HasTrajectory = user.HasTrajectory;
    //          userToUpdate.HasVacationDayCare = user.HasVacationDayCare;
    //          userToUpdate.IsExtern = user.IsExtern;
@@ -188,7 +183,6 @@ namespace Singer.Services
    //             BirthDay = user.BirthDay,
    //             CaseNumber = user.CaseNumber,
    //             HasNormalDayCare = user.HasNormalDayCare,
-   //             HasResources = user.HasResources,
    //             HasTrajectory = user.HasTrajectory,
    //             HasVacationDayCare = user.HasVacationDayCare,
    //             IsExtern = user.IsExtern
