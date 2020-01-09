@@ -15,7 +15,7 @@ namespace Singer.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
+                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -148,6 +148,8 @@ namespace Singer.Migrations
                     b.Property<bool>("HasDayCareAfter");
 
                     b.Property<bool>("HasDayCareBefore");
+
+                    b.Property<bool>("IsArchived");
 
                     b.Property<Guid>("LocationId");
 

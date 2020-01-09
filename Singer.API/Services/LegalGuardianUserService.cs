@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Singer.Data;
+using Singer.Data.Models.Configuration;
 using Singer.DTOs.Users;
 using Singer.Helpers.Exceptions;
 using Singer.Models.Users;
@@ -18,8 +20,9 @@ namespace Singer.Services
    public class LegalGuardianUserService : UserService<LegalGuardianUser, LegalGuardianUserDTO, CreateLegalGuardianUserDTO, UpdateLegalGuardianUserDTO>,
       ILegalGuardianUserService
    {
-      public LegalGuardianUserService(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager)
-      : base(context, mapper, userManager)
+      public LegalGuardianUserService(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager,
+         IEmailService<LegalGuardianUserDTO> emailService, IOptions<ApplicationConfig> applicationConfigurationOptions)
+      : base(context, mapper, userManager, emailService, applicationConfigurationOptions)
       {
       }
 
@@ -77,7 +80,7 @@ namespace Singer.Services
          var legalGuardianUser = await Context.LegalGuardianUsers.FindAsync(LegalGuardianUserId);
          if (legalGuardianUser == null)
             throw new NotFoundException($"Tried to remove user link for non existing LG User with id {LegalGuardianUserId}", ErrorMessages.LegalGuardianDoesntExist);
-        
+
          foreach (var u in UsersToRemove)
          {
             var LinkedUserExists = await Context.LegalGuardianCareUsers
