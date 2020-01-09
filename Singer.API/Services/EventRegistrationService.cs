@@ -214,7 +214,8 @@ namespace Singer.Services
                AgeGroup = x.CareUser.AgeGroup,
                DayCareAfterEndDateTime = x.EventSlot.Event.DayCareAfterEndDateTime,
                DayCareBeforeStartDateTime = x.EventSlot.Event.DayCareBeforeStartDateTime,
-               LegalGuardianName = "TODO add legal guardian",
+               // TODO add legal guardian
+               // LegalGuardianName = "",
                Status = x.Status,
                IsExtern = x.CareUser.IsExtern,
             })
