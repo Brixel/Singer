@@ -35,5 +35,11 @@ namespace Singer.Services.Interfaces
       /// A List of Guids, one for each CareUser which should be removed from the LegalGuardianUser
       /// </param>
       Task RemoveLinkedUsers(Guid LegalGuardianUserId, List<Guid> UsersToRemove);
+
+      /// <summary>
+      /// Clears all properties of the legalGuardianUser
+      /// </summary>
+      /// <param name="LegalGuardianUserId">The ID of the LegalGuardianUser.</param>
+      Task ClearProperties(Guid LegalGuardianUserId);
    }
 }

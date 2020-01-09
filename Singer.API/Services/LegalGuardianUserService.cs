@@ -10,6 +10,7 @@ using Microsoft.Extensions.Options;
 using Singer.Data;
 using Singer.Data.Models.Configuration;
 using Singer.DTOs.Users;
+using Singer.Helpers;
 using Singer.Helpers.Exceptions;
 using Singer.Models.Users;
 using Singer.Resources;
@@ -93,6 +94,38 @@ namespace Singer.Services
          }
 
          await Context.SaveChangesAsync();
+      }
+
+      public async Task ClearProperties(Guid LegalGuardianUserId)
+      {
+         // First check if LGUser exists
+         var legalGuardianUser = await Context.LegalGuardianUsers.FindAsync(LegalGuardianUserId);
+         if (legalGuardianUser == null)
+            throw new NotFoundException($"Tried to remove user link for non existing LG User with id {LegalGuardianUserId}", ErrorMessages.LegalGuardianDoesntExist);
+
+         // Get LGUser properties
+         var properties = legalGuardianUser
+            .GetType()
+            .GetProperties()
+            .Where(x =>
+            {
+               return x.Name switch
+               {
+                  nameof(IIdentifiable.Id) => false,
+                  nameof(LegalGuardianUser.UserId) => false,
+                  nameof(LegalGuardianUser.User) => false,
+                  _ => true,
+               };
+            });
+
+         // Reset LGUser properties
+         foreach (var propertyInfo in properties)
+         {
+            var value = propertyInfo.PropertyType.IsValueType
+               ? Activator.CreateInstance(propertyInfo.PropertyType)
+               : null;
+            propertyInfo.SetValue(legalGuardianUser, value);
+         }
       }
    }
 }

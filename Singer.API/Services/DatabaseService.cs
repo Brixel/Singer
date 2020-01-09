@@ -251,7 +251,7 @@ namespace Singer.Services
       ///     Archives the <see cref="TEntity"/> with the given id. If it is not an
       ///     <see cref="IArchivable"/>, an exception is thrown.
       /// </summary>
-      /// <param name="id">The id fo the <see cref="TEntity"/> to archive.</param>
+      /// <param name="id">The id of the <see cref="TEntity"/> to archive.</param>
       /// <returns></returns>
       /// <exception cref="NotFoundException">There is no element found with the id <paramref name="id"/>.</exception>
       /// <exception cref="InvalidOperationException">
