@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Singer.Data;
+using Singer.Models;
 
 namespace Singer.Migrations
 {
@@ -15,7 +16,7 @@ namespace Singer.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
+                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -230,7 +231,9 @@ namespace Singer.Migrations
 
                     b.HasIndex("EventRegistrationId");
 
-                    b.ToTable("EventRegistrationLogs");
+                    b.ToTable("EventRegistrationLog");
+
+                    b.HasDiscriminator<int>("EventRegistrationChanges");
                 });
 
             modelBuilder.Entity("Singer.Models.EventSlot", b =>
@@ -377,6 +380,28 @@ namespace Singer.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("Singer.Models.EventRegistrationLocationChange", b =>
+                {
+                    b.HasBaseType("Singer.Models.EventRegistrationLog");
+
+                    b.Property<Guid>("NewLocationIdId");
+
+                    b.Property<Guid>("PreviousLocationId");
+
+                    b.HasDiscriminator().HasValue(1);
+                });
+
+            modelBuilder.Entity("Singer.Models.EventRegistrationStatusChange", b =>
+                {
+                    b.HasBaseType("Singer.Models.EventRegistrationLog");
+
+                    b.Property<int>("NewStatus");
+
+                    b.Property<int>("PreviousStatus");
+
+                    b.HasDiscriminator().HasValue(0);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>

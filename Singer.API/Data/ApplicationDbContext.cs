@@ -21,7 +21,8 @@ namespace Singer.Data
       public DbSet<EventSlot> EventSlots { get; set; }
       public DbSet<EventRegistration> EventRegistrations { get; set; }
       public DbSet<AdminUser> AdminUsers { get; set; }
-      public DbSet<EventRegistrationLog> EventRegistrationLogs { get; set; }
+      public DbSet<EventRegistrationLocationChange> EventRegistrationLocationChanges { get; set; }
+      public DbSet<EventRegistrationStatusChange> EventRegistrationStatusChanges { get; set; }
 
       protected override void OnModelCreating(ModelBuilder builder)
       {
@@ -55,7 +56,9 @@ namespace Singer.Data
             .OnDelete(DeleteBehavior.Restrict);
 
          builder.Entity<EventRegistrationLog>()
-            .HasDiscriminator(x => x.EventRegistrationChanges);
+            .HasDiscriminator(x => x.EventRegistrationChanges)
+            .HasValue<EventRegistrationLocationChange>(EventRegistrationChanges.RegistrationStatusChange)
+            .HasValue<EventRegistrationStatusChange>(EventRegistrationChanges.LocationChange);
          builder.Entity<EventRegistrationLog>()
             .HasOne(x => x.EventRegistration);
 

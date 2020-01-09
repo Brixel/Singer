@@ -27,6 +27,10 @@ namespace Singer.Models
          EmailSent = false;
          CreationDateTimeUTC = DateTime.UtcNow;
       }
+
+      protected EventRegistrationLog()
+      {
+      }
    }
 
    public class EventRegistrationStatusChange : EventRegistrationLog
@@ -35,6 +39,7 @@ namespace Singer.Models
       public RegistrationStatus NewStatus { get; set; }
 
       public RegistrationStatus PreviousStatus { get; set; }
+
       public EventRegistrationStatusChange(Guid eventRegistrationId, RegistrationStatus previousStatus,
          RegistrationStatus newStatus) :
          base(eventRegistrationId, EventRegistrationChanges.RegistrationStatusChange)
@@ -56,6 +61,11 @@ namespace Singer.Models
       public Guid NewLocationIdId { get; set; }
 
       public Guid PreviousLocationId { get; set; }
+
+      public EventRegistrationLocationChange()
+      {
+         
+      }
       public EventRegistrationLocationChange(Guid eventRegistrationId, Guid previousLocationId, Guid newLocationId) :
          base(eventRegistrationId, EventRegistrationChanges.LocationChange)
       {

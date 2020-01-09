@@ -6,11 +6,12 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Singer.Data;
+using Singer.Models;
 
 namespace Singer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200102215913_AddsEventRegistrationLogs")]
+    [Migration("20200109200739_AddsEventRegistrationLogs")]
     partial class AddsEventRegistrationLogs
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -151,6 +152,8 @@ namespace Singer.Migrations
 
                     b.Property<bool>("HasDayCareBefore");
 
+                    b.Property<bool>("IsArchived");
+
                     b.Property<Guid>("LocationId");
 
                     b.Property<int>("MaxRegistrants");
@@ -230,7 +233,9 @@ namespace Singer.Migrations
 
                     b.HasIndex("EventRegistrationId");
 
-                    b.ToTable("EventRegistrationLogs");
+                    b.ToTable("EventRegistrationLog");
+
+                    b.HasDiscriminator<int>("EventRegistrationChanges");
                 });
 
             modelBuilder.Entity("Singer.Models.EventSlot", b =>
@@ -275,8 +280,6 @@ namespace Singer.Migrations
                     b.Property<DateTime>("BirthDay");
 
                     b.Property<string>("CaseNumber");
-
-                    b.Property<bool>("HasResources");
 
                     b.Property<bool>("HasTrajectory");
 
@@ -379,6 +382,28 @@ namespace Singer.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("Singer.Models.EventRegistrationLocationChange", b =>
+                {
+                    b.HasBaseType("Singer.Models.EventRegistrationLog");
+
+                    b.Property<Guid>("NewLocationIdId");
+
+                    b.Property<Guid>("PreviousLocationId");
+
+                    b.HasDiscriminator().HasValue(1);
+                });
+
+            modelBuilder.Entity("Singer.Models.EventRegistrationStatusChange", b =>
+                {
+                    b.HasBaseType("Singer.Models.EventRegistrationLog");
+
+                    b.Property<int>("NewStatus");
+
+                    b.Property<int>("PreviousStatus");
+
+                    b.HasDiscriminator().HasValue(0);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>

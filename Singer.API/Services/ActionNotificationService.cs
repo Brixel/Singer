@@ -35,7 +35,7 @@ namespace Singer.Services
 
       public async Task<List<EventRegistrationLogDTO>> GetEventRegistrationLogsWaitingForAction()
       {
-         var logs = await _context.EventRegistrationLogs.Where(x => !x.ActionTaken())
+         var logs = await _context.EventRegistrationLocationChanges.Where(x => !x.ActionTaken())
             .Select(x => new
             {
                Id = x.Id,
