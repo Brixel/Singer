@@ -259,32 +259,6 @@
                </div>
             </mat-error>
          </mat-form-field>
-
-         <!-- HasResources Field -->
-         <mat-form-field>
-            <mat-select
-               mat-input
-               [placeholder]="hasResourcesFieldPlaceholder"
-               formControlName="hasResourcesFieldControl"
-            >
-               <mat-option value="true">Ja</mat-option>
-               <mat-option value="false">Nee</mat-option>
-            </mat-select>
-            <mat-error
-               *ngIf="
-                  formControlGroup.controls.hasResourcesFieldControl.invalid
-               "
-            >
-               <div
-                  *ngIf="
-                     formControlGroup.controls.hasResourcesFieldControl.errors
-                        .required
-                  "
-               >
-                  {{ hasResourcesFieldPlaceholder }} is een verplicht veld.
-               </div>
-            </mat-error>
-         </mat-form-field>
       </div>
       <div *ngIf="displayContactFields && !isAdding">
          <mat-divider></mat-divider>

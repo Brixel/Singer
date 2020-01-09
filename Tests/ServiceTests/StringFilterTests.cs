@@ -27,8 +27,7 @@ namespace Tests.ServiceTests
                CaseNumber = "0123456789",
                AgeGroup = AgeGroup.Child,
                IsExtern = false,
-               HasTrajectory = true,
-               HasResources = true
+               HasTrajectory = true
             },
             new CareUser
             {
@@ -38,8 +37,7 @@ namespace Tests.ServiceTests
                CaseNumber = "9876543210",
                AgeGroup = AgeGroup.Child,
                IsExtern = true,
-               HasTrajectory = true,
-               HasResources = true
+               HasTrajectory = true
             },
             new CareUser
             {
@@ -49,8 +47,7 @@ namespace Tests.ServiceTests
                CaseNumber = "091837465",
                AgeGroup = AgeGroup.Youngster,
                IsExtern = false,
-               HasTrajectory = true,
-               HasResources = false
+               HasTrajectory = true
             },
          };
 
@@ -77,8 +74,7 @@ namespace Tests.ServiceTests
                CaseNumber = "0123456789",
                AgeGroup = AgeGroup.Child,
                IsExtern = false,
-               HasTrajectory = true,
-               HasResources = true
+               HasTrajectory = true
             },
             new CareUser
             {
@@ -89,8 +85,7 @@ namespace Tests.ServiceTests
                CaseNumber = "9876543210",
                AgeGroup = AgeGroup.Child,
                IsExtern = true,
-               HasTrajectory = true,
-               HasResources = true
+               HasTrajectory = true
             },
             new CareUser
             {
@@ -101,8 +96,7 @@ namespace Tests.ServiceTests
                CaseNumber = "091837465",
                AgeGroup = AgeGroup.Youngster,
                IsExtern = false,
-               HasTrajectory = true,
-               HasResources = false
+               HasTrajectory = true
             },
          };
 
@@ -129,8 +123,7 @@ namespace Tests.ServiceTests
                CaseNumber = "0123456789",
                AgeGroup = AgeGroup.Child,
                IsExtern = false,
-               HasTrajectory = true,
-               HasResources = true
+               HasTrajectory = true
             },
             new CareUser
             {
@@ -141,8 +134,7 @@ namespace Tests.ServiceTests
                CaseNumber = "9876543210",
                AgeGroup = AgeGroup.Child,
                IsExtern = true,
-               HasTrajectory = true,
-               HasResources = true
+               HasTrajectory = true
             },
             new CareUser
             {
@@ -152,8 +144,7 @@ namespace Tests.ServiceTests
                CaseNumber = "caseNumber",
                AgeGroup = AgeGroup.Youngster,
                IsExtern = false,
-               HasTrajectory = true,
-               HasResources = false
+               HasTrajectory = true
             },
          };
 
@@ -180,8 +171,7 @@ namespace Tests.ServiceTests
                CaseNumber = "0123456789",
                AgeGroup = AgeGroup.Child,
                IsExtern = false,
-               HasTrajectory = true,
-               HasResources = true
+               HasTrajectory = true
             },
             new CareUser
             {
@@ -191,8 +181,7 @@ namespace Tests.ServiceTests
                CaseNumber = "caseNUMBER1",
                AgeGroup = AgeGroup.Child,
                IsExtern = true,
-               HasTrajectory = true,
-               HasResources = true
+               HasTrajectory = true
             },
             new CareUser
             {
@@ -202,8 +191,7 @@ namespace Tests.ServiceTests
                CaseNumber = "caseNUMBER",
                AgeGroup = AgeGroup.Youngster,
                IsExtern = false,
-               HasTrajectory = true,
-               HasResources = false
+               HasTrajectory = true
             },
          };
 
