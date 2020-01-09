@@ -1,0 +1,30 @@
+<div class="container">
+
+   <!-- Confirm Field -->
+   <div *ngIf="isDeleting" class="confirmField">
+      <mat-form-field>
+         <input matInput placeholder="Naam" [formControl]="confirmFieldControl" />
+         <mat-error *ngIf="confirmFieldControl.invalid">
+            <div *ngIf="!deleteConfirmationOK">
+               Het bevestigingsveld komt niet overeen met de naam.
+            </div>
+            <div *ngIf="confirmFieldControl.errors.minlength">
+               Het bevestigingsveld moet minstens {{ minNameLength }} karakters bevatten.
+            </div>
+            <div *ngIf="confirmFieldControl.errors.maxlength">
+               Het bevestigingsveld mag maximum {{ maxNameLength }} karakters bevatten.
+            </div>
+         </mat-error>
+      </mat-form-field>
+   </div>
+
+   <!-- Cancel Button -->
+   <button mat-raised-button (click)="disableDeleteEvent()" aria-label="Annuleren" type="button" *ngIf="isDeleting">
+      Annuleren
+   </button>
+
+   <!-- Delete Button -->
+   <button mat-raised-button color="warn" (click)="submitDeleteEvent()" aria-label="Verwijderen" type="button">
+      Evenement Verwijderen
+   </button>
+</div>

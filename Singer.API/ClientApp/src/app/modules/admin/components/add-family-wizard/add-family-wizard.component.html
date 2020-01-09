@@ -59,9 +59,9 @@
                      </div>
 
                      <!-- CareUser UserCards -->
-                     <div class="step-content__careuser-user-cards">
+                     <div *ngIf="i > 1 && i < wizardSteps.length - 1" class="step-content__careuser-user-cards">
 
-                        <div *ngIf="i > 1 && i < wizardSteps.length - 1" class="careuser-user-cards__label">
+                        <div class="careuser-user-cards__label">
                            Zorggebruikers:
                         </div>
 
@@ -72,6 +72,7 @@
                         </ng-container>
 
                      </div>
+
                      <!-- Add User Button -->
                      <ng-container *ngIf="wizardStep.addButtonText != ''">
                         <div class="body__button-add" (click)="handleAddButtonClick(i)"
