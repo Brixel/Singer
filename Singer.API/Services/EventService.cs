@@ -70,6 +70,8 @@ namespace Singer.Services
       {
          return await Queryable
             .Where(x =>
+               // not archived
+               !x.IsArchived &&
                // check location
                (!searchEventParamsDto.LocationId.HasValue || x.LocationId == searchEventParamsDto.LocationId.Value) &&
                // check start date

@@ -82,7 +82,7 @@ export class SingerEventsService extends GenericService<
       };
    }
    toModel(dto: SingerEventDTO): SingerEvent {
-      let model = <SingerEvent>{
+      const model = <SingerEvent>{
          allowedAgeGroups: dto.allowedAgeGroups,
          cost: dto.cost,
          dayCareAfterEndDateTime: dto.dayCareAfterEndDateTime,
@@ -134,6 +134,71 @@ export class SingerEventsService extends GenericService<
             filter
          )
          .pipe(map(res => res));
+   }
+
+   updateSingerEvent(updateSingerEvent: SingerEvent) {
+      const updateSingerEventDTO = <UpdateSingerEventDTO>{
+         id: updateSingerEvent.id,
+         title: updateSingerEvent.title,
+         description: updateSingerEvent.description,
+         locationId: updateSingerEvent.location.id,
+         allowedAgeGroups: updateSingerEvent.allowedAgeGroups,
+         maxRegistrants: updateSingerEvent.maxRegistrants,
+         cost: updateSingerEvent.cost,
+         startRegistrationDateTime: updateSingerEvent.startRegistrationDateTime,
+         endRegistrationDateTime: updateSingerEvent.endRegistrationDateTime,
+         finalCancellationDateTime: updateSingerEvent.finalCancellationDateTime,
+         registrationOnDailyBasis: updateSingerEvent.registrationOnDailyBasis,
+         startDateTime: updateSingerEvent.startDateTime,
+         endDateTime: updateSingerEvent.endDateTime,
+         hasDayCareBefore: updateSingerEvent.hasDayCareBefore,
+         dayCareBeforeStartDateTime:
+            updateSingerEvent.dayCareBeforeStartDateTime,
+         hasDayCareAfter: updateSingerEvent.hasDayCareAfter,
+         dayCareAfterEndDateTime: updateSingerEvent.dayCareAfterEndDateTime,
+      };
+      return this.singerEventsProxy
+         .updateSingerEvents(updateSingerEventDTO.id, updateSingerEventDTO)
+         .pipe(map(res => res));
+   }
+
+   createSingerEvent(createSingerEvent: SingerEvent) {
+      const endDateTime = new Date(createSingerEvent.startDateTime);
+      endDateTime.setHours(createSingerEvent.endDateTime.getHours());
+      endDateTime.setMinutes(createSingerEvent.endDateTime.getMinutes());
+      const createSingerEventDTO = <CreateSingerEventDTO>{
+         title: createSingerEvent.title,
+         description: createSingerEvent.description,
+         locationId: createSingerEvent.location.id,
+         allowedAgeGroups: createSingerEvent.allowedAgeGroups,
+         maxRegistrants: createSingerEvent.maxRegistrants,
+         cost: createSingerEvent.cost,
+         startRegistrationDateTime: createSingerEvent.startRegistrationDateTime,
+         endRegistrationDateTime: createSingerEvent.endRegistrationDateTime,
+         finalCancellationDateTime: createSingerEvent.finalCancellationDateTime,
+         registrationOnDailyBasis: createSingerEvent.registrationOnDailyBasis,
+         startDateTime: createSingerEvent.startDateTime,
+         endDateTime: endDateTime,
+         hasDayCareBefore: createSingerEvent.hasDayCareBefore,
+         dayCareBeforeStartDateTime:
+            createSingerEvent.dayCareBeforeStartDateTime,
+         hasDayCareAfter: createSingerEvent.hasDayCareAfter,
+         dayCareAfterEndDateTime: createSingerEvent.dayCareAfterEndDateTime,
+         // TODO: These are default repeat settings to ensure events overlapping multiple days will be created with daily timeslots
+         repeatSettings: <EventRepeatSettingsDTO>{
+            interval: 1,
+            intervalUnit: TimeUnit.Day,
+            repeatType: RepeatType.OnDate,
+            stopRepeatDate: createSingerEvent.endDateTime,
+         },
+      };
+      return this.singerEventsProxy
+         .createSingerEvents(createSingerEventDTO)
+         .pipe(map(res => res));
+   }
+
+   deleteSingerEvent(eventId: string) {
+      return this.singerEventsProxy.deleteSingerEvent(eventId).pipe(map(res => res));
    }
 
    getEventRegisterDetails(eventId: string) {

@@ -39,7 +39,6 @@ export class SingleRegistrationComponent implements OnInit {
                ).registrationStatus = res[0].status;
             },
             err => {
-               console.log(err);
                this._snackBar.open(`⚠ ${err}`, 'OK');
             }
          );

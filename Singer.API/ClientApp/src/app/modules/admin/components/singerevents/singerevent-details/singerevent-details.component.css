@@ -1,3 +1,4 @@
+
 /* GLOBAL FORM STYLING */
 .details-form-container {
    margin: 10px auto;
@@ -14,12 +15,15 @@
 
 /* BUTTON ROW STYLING */
 .button-row {
-   margin-left: auto;
-   margin-right: 10px;
+   display: flex;
+   flex-direction: row;
+   justify-content: flex-start;
+   align-items: center;
+
 }
 
-.button-row *:last-child {
-   margin-right: 0px;
+.flex--spacer {
+   flex: 1 1 auto;
 }
 
 div .mat-form-field {

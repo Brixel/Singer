@@ -5,16 +5,19 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.CodeAnalysis.Options;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Singer.Data;
+using Singer.Data.Models.Configuration;
 using Singer.DTOs.Users;
 using Singer.Helpers.Exceptions;
 using Singer.Helpers.Extensions;
 using Singer.Models;
 using Singer.Models.Users;
 using Singer.Resources;
+using Singer.Services.Interfaces;
 
 namespace Singer.Services
 {
@@ -25,9 +28,20 @@ namespace Singer.Services
       where TUpdateUserDTO : class, IUpdateUserDTO
    {
       protected UserManager<User> UserManager { get; }
-      protected UserService(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager) : base(context, mapper)
+      private readonly IEmailService<TUserDTO> _emailService;
+      private readonly string _frontendURL;
+
+      protected UserService(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager,
+        IEmailService<TUserDTO> emailService, IOptions<ApplicationConfig> applicationConfigurationOptions) : base(context, mapper)
       {
          UserManager = userManager;
+         _emailService = emailService;
+         if (applicationConfigurationOptions == null)
+         {
+            throw new ArgumentNullException(nameof(applicationConfigurationOptions));
+         }
+
+         _frontendURL = applicationConfigurationOptions.Value.FrontendURL;
       }
 
       public override async Task<TUserDTO> CreateAsync(
@@ -44,7 +58,7 @@ namespace Singer.Services
             var existingEmail = await Queryable.SingleOrDefaultAsync(x => x.User.Email == dto.Email);
 
             if (existingEmail != null)
-               throw new BadInputException("The email addres must be unique to each user.", ErrorMessages.DuplicateEmail);
+               throw new BadInputException("The email address must be unique to each user.", ErrorMessages.DuplicateEmail);
          }
 
          var baseUser = new User()
@@ -55,8 +69,8 @@ namespace Singer.Services
             UserName = dto.Email
          };
 
-         // TODO Replace by better temporary password generation approach
-         var userCreationResult = await UserManager.CreateAsync(baseUser, "Testpassword123!");
+         var userCreationResult = await UserManager.CreateAsync(baseUser);
+         var passwordResetToken = await UserManager.GeneratePasswordResetTokenAsync(baseUser);
          if (!userCreationResult.Succeeded)
          {
             Debug.WriteLine($"User can not be created. {userCreationResult.Errors.First().Code}");
@@ -69,7 +83,13 @@ namespace Singer.Services
          entity.UserId = createdUser.Id;
          var changeTracker = await Context.AddAsync(entity);
          await Context.SaveChangesAsync();
-         return Mapper.Map<TUserDTO>(changeTracker.Entity);
+         var userDTO = Mapper.Map<TUserDTO>(changeTracker.Entity);
+         var passwordResetURL = $"{_frontendURL}/auth/reset?userId={createdUser.Id}&token={passwordResetToken}";
+         if (_emailService != null)
+         {
+            await _emailService.SendAccountDetailsAsync(userDTO, passwordResetURL);
+         }
+         return userDTO;
       }
 
       private string GenerateRandomUserName(string firstName, string lastName)
@@ -78,17 +98,20 @@ namespace Singer.Services
          return $"{firstName}.{lastName}.{randomGuid}@test.com";
       }
 
+      /// <summary>
+      /// Returns one <see cref="TUserEntity"/> from the database, converted to a <see cref="TUserDTO"/>.
+      /// </summary>
+      /// <param name="id">The Id OR UserId of the <see cref="TUserEntity"/> to get.</param>
+      /// <returns>The <see cref="TUserEntity"/> in the database with Id or UserId <paramref name="id"/> converted to a <see cref="TUserDTO"/>.</returns>
+      /// <exception cref="NotFoundException">There is no element found with the id <paramref name="id"/>.</exception>
       public override async Task<TUserDTO> GetOneAsync(Guid id)
       {
-         // No async usage due to Automapper not being able to process IAsyncEnumerables
-         var item = await Queryable
-            .ProjectTo<TUserDTO>(Mapper.ConfigurationProvider)
-            .SingleOrDefaultAsync(x => x.Id == id);
+         var item = await Queryable.SingleOrDefaultAsync(x => x.Id == id || x.UserId == id);
          if (item == null)
             throw new NotFoundException();
 
          // return the found entity projected to it's DTO
-         return item;
+         return Mapper.Map<TUserDTO>(item);
       }
 
       public override async Task DeleteAsync(Guid id)
@@ -109,7 +132,8 @@ namespace Singer.Services
          Expression<Func<TUserDTO, object>> orderer = null,
          ListSortDirection sortDirection = ListSortDirection.Ascending,
          int pageIndex = 0,
-         int entitiesPerPage = 15)
+         int entitiesPerPage = 15,
+         bool showArchived = false)
       {
          // return the paged results
          return await Queryable
@@ -136,5 +160,4 @@ namespace Singer.Services
       }
 
    }
-
 }

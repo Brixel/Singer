@@ -149,6 +149,8 @@ namespace Singer.Migrations
 
                     b.Property<bool>("HasDayCareBefore");
 
+                    b.Property<bool>("IsArchived");
+
                     b.Property<Guid>("LocationId");
 
                     b.Property<int>("MaxRegistrants");
