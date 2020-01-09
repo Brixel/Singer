@@ -12,12 +12,28 @@ import { AuthService } from './modules/core/services/auth.service';
 import { AuthGuard } from './modules/core/services/auth.guard';
 import { AuthInterceptor } from './modules/core/services/auth-interceptor';
 import { NavMenuComponent } from './modules/core/components/nav-menu/nav-menu.component';
-import { NativeDateModule } from '@angular/material';
+import {
+   NativeDateModule,
+   MAT_DATE_LOCALE,
+   DateAdapter,
+   MAT_DATE_FORMATS,
+} from '@angular/material';
 import { AdminModule } from './modules/admin/admin.module';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
 export function tokenGetter(): string {
    return localStorage.getItem('token');
 }
+export const MY_FORMATS = {
+   parse: {
+      dateInput: 'D-MM-YYYY',
+   },
+   display: {
+      dateInput: 'D-MM-YYYY',
+      monthYearLabel: 'MMM YYYY',
+   },
+};
+
 @NgModule({
    declarations: [AppComponent, MainComponent, NavMenuComponent],
    imports: [
@@ -49,6 +65,9 @@ export function tokenGetter(): string {
          multi: true,
       },
       BrowserAnimationsModule,
+      { provide: MAT_DATE_LOCALE, useValue: 'nl-BE' },
+      { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+      { provide: DateAdapter, useClass: MomentDateAdapter },
    ],
    bootstrap: [AppComponent],
 })

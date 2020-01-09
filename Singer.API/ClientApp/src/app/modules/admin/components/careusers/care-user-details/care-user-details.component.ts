@@ -20,9 +20,8 @@ import {
 import { of, Observable, BehaviorSubject } from 'rxjs';
 import { LegalGuardian } from 'src/app/modules/core/models/legalguardian.model';
 import { LegalguardiansService } from 'src/app/modules/core/services/legal-guardians-api/legalguardians.service';
-import { MatDatepicker, MAT_DATE_FORMATS } from '@angular/material';
+import { MatDatepicker } from '@angular/material';
 import { SingerEventLocationService } from 'src/app/modules/core/services/singerevents-api/singerevent-location.service';
-import { MY_FORMATS } from 'src/app/modules/core/core.module';
 import {
    dateNotAfter,
    dateNotBefore,
@@ -39,7 +38,6 @@ export interface CareUserDetailsFormData {
    selector: 'app-care-user-details',
    templateUrl: './care-user-details.component.html',
    styleUrls: ['./care-user-details.component.css'],
-   providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }],
 })
 export class CareUserDetailsComponent implements OnInit {
    // Submit event for when the user submits the form

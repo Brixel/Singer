@@ -12,16 +12,6 @@ import { DeleteConfirmationComponent } from './components/delete-confirmation/de
 import { ConfirmComponent } from './components/confirm/confirm.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
-export const MY_FORMATS = {
-   parse: {
-     dateInput: 'D-MM-YYYY',
-   },
-   display: {
-     dateInput: 'D-MM-YYYY',
-     monthYearLabel: 'MMM YYYY'
-   },
- };
-
 @NgModule({
    declarations: [
       AgegroupPipe,
@@ -34,8 +24,6 @@ export const MY_FORMATS = {
       ConfirmComponent,
    ],
    imports: [CommonModule, MaterialModule, ReactiveFormsModule],
-   providers: [
-      {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS}, {provide: MAT_DATE_LOCALE, useValue: 'nl-BE'}],
    exports: [
       AgegroupPipe,
       KeysPipe,
