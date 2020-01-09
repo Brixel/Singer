@@ -15,6 +15,7 @@ import {
    MatTableModule,
    MatPaginatorModule,
    MatSortModule,
+   MAT_DATE_LOCALE,
 } from '@angular/material';
 import { LegalguardianOverviewComponent } from './components/legalguardians/legalguardian-overview/legalguardian-overview.component';
 import { LegalguardianDetailsComponent } from './components/legalguardians/legalguardian-details/legalguardian-details.component';
@@ -100,6 +101,7 @@ import { PendingRegistrationsComponent } from './components/pending-registration
             useUtc: true,
          },
       },
+      { provide: MAT_DATE_LOCALE, useValue: 'nl-BE' },
    ],
 })
 export class AdminModule {}
