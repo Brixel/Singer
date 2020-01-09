@@ -112,10 +112,6 @@ tr.selectable:active {
    padding: 10px;
 }
 
-.mat-column-hasResources {
-   padding: 10px;
-}
-
 /* TABLE FOOTER STYLING */
 .tableButton {
    font-family: Roboto, Arial, sans-serif;
