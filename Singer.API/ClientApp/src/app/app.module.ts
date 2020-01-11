@@ -2,6 +2,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
+import {
+   ApplicationInsightsModule,
+   AppInsightsService,
+} from '@markpieszak/ng-application-insights';
 import { AppComponent } from './app.component';
 import { MaterialModule } from './material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -12,12 +16,30 @@ import { AuthService } from './modules/core/services/auth.service';
 import { AuthGuard } from './modules/core/services/auth.guard';
 import { AuthInterceptor } from './modules/core/services/auth-interceptor';
 import { NavMenuComponent } from './modules/core/components/nav-menu/nav-menu.component';
-import { NativeDateModule } from '@angular/material';
+import {
+   NativeDateModule,
+   MAT_DATE_LOCALE,
+   DateAdapter,
+   MAT_DATE_FORMATS,
+} from '@angular/material';
 import { AdminModule } from './modules/admin/admin.module';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { ConfigurationService } from './modules/core/services/clientconfiguration.service';
+import { ApplicationInsightsService } from './modules/core/services/applicationinsights.service';
 
 export function tokenGetter(): string {
    return localStorage.getItem('token');
 }
+export const MY_FORMATS = {
+   parse: {
+      dateInput: 'D-MM-YYYY',
+   },
+   display: {
+      dateInput: 'D-MM-YYYY',
+      monthYearLabel: 'MMM YYYY',
+   },
+};
+
 @NgModule({
    declarations: [AppComponent, MainComponent, NavMenuComponent],
    imports: [
@@ -33,6 +55,9 @@ export function tokenGetter(): string {
             tokenGetter: tokenGetter,
          },
       }),
+      ApplicationInsightsModule.forRoot({
+         instrumentationKeySetLater: true,
+      }),
    ],
    providers: [
       JwtHelperService,
@@ -45,17 +70,31 @@ export function tokenGetter(): string {
       {
          provide: APP_INITIALIZER,
          useFactory: initializeApp,
-         deps: [AuthService],
+         deps: [AuthService, ConfigurationService, ApplicationInsightsService],
          multi: true,
       },
       BrowserAnimationsModule,
+      { provide: MAT_DATE_LOCALE, useValue: 'nl-BE' },
+      { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+      { provide: DateAdapter, useClass: MomentDateAdapter },
+      AppInsightsService,
    ],
    bootstrap: [AppComponent],
 })
 export class AppModule {}
 
-export function initializeApp(authService: AuthService) {
+export function initializeApp(
+   authService: AuthService,
+   configurationService: ConfigurationService,
+   applicationInsightService: ApplicationInsightsService
+) {
    return () => {
-      authService.restore();
+      configurationService
+         .load()
+         .toPromise()
+         .then(() => {
+            authService.restore();
+            applicationInsightService.init();
+         });
    };
 }

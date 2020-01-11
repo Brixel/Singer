@@ -28,6 +28,7 @@ using Singer.Services.Interfaces;
 using NSwag.Generation.Processors.Security;
 using NSwag;
 using System.Net;
+using Namotion.Reflection;
 using Singer.Controllers;
 using Singer.DTOs.Users;
 
@@ -180,16 +181,33 @@ namespace Singer
             .AddScoped<IDateValidator, DateValidator>();
          services.Configure<PasswordOptions>(Configuration.GetSection("PasswordOptions"));
          services.AddScoped<IUserProfileService, UserProfileService>();
-         services.Configure<EmailOptions>(Configuration.GetSection("EmailOptions"));
          services.Configure<ApplicationConfig>(Configuration.GetSection("Application"));
-         services.AddScoped(typeof(IEmailService<LegalGuardianUserDTO>),
-            typeof(EmailService<LegalGuardianUserDTO>));
-         services.AddScoped(typeof(IEmailService<AdminUserDTO>),
-            typeof(EmailService<AdminUserDTO>));
-         services.AddScoped(typeof(IEmailService<UserDTO>),
-            typeof(EmailService<UserDTO>));
-            services.AddApplicationInsightsTelemetry();
 
+         var configurationSection = Configuration.GetSection("EmailOptions");
+         var hasValidEmailOptions = configurationSection.GetChildren().All(x => !string.IsNullOrWhiteSpace(x.Value));
+         if (hasValidEmailOptions)
+         {
+            services.Configure<EmailOptions>(configurationSection);
+            services.AddScoped(typeof(IEmailService<LegalGuardianUserDTO>),
+               typeof(EmailService<LegalGuardianUserDTO>));
+            services.AddScoped(typeof(IEmailService<AdminUserDTO>),
+               typeof(EmailService<AdminUserDTO>));
+            services.AddScoped(typeof(IEmailService<UserDTO>),
+               typeof(EmailService<UserDTO>));
+
+         }
+         else
+         {
+            services.AddScoped(typeof(IEmailService<LegalGuardianUserDTO>),
+               typeof(NoActualEmailService<LegalGuardianUserDTO>));
+            services.AddScoped(typeof(IEmailService<AdminUserDTO>),
+               typeof(NoActualEmailService<AdminUserDTO>));
+            services.AddScoped(typeof(IEmailService<UserDTO>),
+               typeof(NoActualEmailService<UserDTO>));
+         }
+         
+         var instrumentationKey = Configuration.GetSection("ApplicationInsights").GetChildren().SingleOrDefault(x => x.Value == "InstrumentationKey")?.Value;
+         services.AddApplicationInsightsTelemetry(instrumentationKey);
       }
 
       private static IIdentityServerBuilder AddIdentityService(IServiceCollection services, X509Certificate2 cert)
