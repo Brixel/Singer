@@ -1,0 +1,20 @@
+.timeline {
+   display: flex;
+   flex-direction: row;
+   justify-content: flex-start;
+}
+
+.orb {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+}
+
+.start-registration-orb,
+.end-registration-orb,
+.final-cancelation-orb,
+.start-event-orb,
+.end-event-orb {
+   border-radius: 50%;
+   background: var(--singer-theme-primary);
+}

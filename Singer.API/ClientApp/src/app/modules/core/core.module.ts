@@ -34,6 +34,7 @@ import { EventTimelineComponent } from './components/event-timeline/event-timeli
       SingleRegistrationComponent,
       DailybasisRegistrationsComponent,
       DeleteConfirmationComponent,
+      EventTimelineComponent,
    ],
 })
 export class CoreModule {}
