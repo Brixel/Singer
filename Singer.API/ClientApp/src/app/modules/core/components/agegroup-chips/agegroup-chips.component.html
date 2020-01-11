@@ -1,6 +1,33 @@
 <div class="chiplist" [class.verticalAligned]="verticalAligned">
    <ng-container *ngIf="agegroups != null">
-      <div class="agegroup-chip" [ngClass]="getClass(agegroup)" *ngFor="let agegroup of agegroups; index as i" [class.chip-one]="i == 1">{{ agegroup | agegroupPipe }}</div>
+      <div class="chip-group-one">
+
+         <div *ngIf="agegroups.length > 0" class="agegroup-chip" [ngClass]="getClass(agegroups[0])">
+            {{ agegroups[0] | agegroupPipe }}
+         </div>
+
+         <div *ngIf="agegroups.length > 1" class="agegroup-chip" [ngClass]="getClass(agegroups[1])">
+            {{ agegroups[1] | agegroupPipe }}
+         </div>
+
+         <div *ngIf="agegroups.length > 2" class="agegroup-chip" [ngClass]="getClass(agegroups[2])">
+            {{ agegroups[2] | agegroupPipe }}
+         </div>
+
+      </div>
+      <div class="chip-group-two">
+
+         <div *ngIf="agegroups.length > 3" class="agegroup-chip" [ngClass]="getClass(agegroups[3])">
+            {{ agegroups[3] | agegroupPipe }}
+         </div>
+
+         <div *ngIf="agegroups.length > 4" class="agegroup-chip" [ngClass]="getClass(agegroups[4])">
+            {{ agegroups[4] | agegroupPipe }}
+         </div>
+
+      </div>
    </ng-container>
-   <div class="agegroup-chip" [ngClass]="getClass(agegroup)" *ngIf="agegroup != null">{{ agegroup | agegroupPipe }}</div>
+   <div class="agegroup-chip" [ngClass]="getClass(agegroup)" *ngIf="agegroup != null">
+      {{ agegroup | agegroupPipe }}
+   </div>
 </div>

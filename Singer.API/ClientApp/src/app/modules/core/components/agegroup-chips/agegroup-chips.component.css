@@ -1,33 +1,72 @@
-.agegroup-chip {
-   color: var(--singer-theme-dark-secondary-text);
-}
+/*
+   ===============
+       Layout
+   ===============
+*/
 
 .chiplist {
-   display: grid;
-   grid-template:
-   'one' 2em
-   'two' 2em
-   / auto;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   height: 4em;
 }
 
 .verticalAligned {
-   grid-template:
-   'one two' 6em
-   / auto;
+   flex-direction: row;
+   height: 5em;
 }
 
-.agegroup-toddler{
-   background-color: rgb(241, 241, 21);
+.chip-group-one,
+.chip-group-two {
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+   align-items: center;
 }
-.agegroup-kindergartener{
-   background-color: rgb(236, 19, 66);
+
+.verticalAligned .chip-group-one,
+.verticalAligned .chip-group-two {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
 }
-.agegroup-child{
-   background-color: #4ab;
+
+/*
+   ===============
+       Styling
+   ===============
+*/
+
+.agegroup-chip {
+   margin: 2.5px;
+   width: 5.9em;
+   font-size: 0.9em;
+   text-align: center;
+   color: var(--singer-theme-dark-secondary-text);
+   border-radius: 1em;
+   padding: 1px 6px;
 }
-.agegroup-youngster{
-   background-color: rgb(36, 182, 78);
+
+/*
+   ===============
+      Background
+   ===============
+*/
+
+.agegroup-toddler {
+   border: 1.6px solid var(--singer-theme-accent-toddler);
 }
-.agegroup-adult{
-   background-color: #e39;
+.agegroup-kindergartener {
+   border: 1.6px solid var(--singer-theme-accent-kindergartener);
+}
+.agegroup-child {
+   border: 1.6px solid var(--singer-theme-accent-child);
+}
+.agegroup-youngster {
+   border: 1.6px solid var(--singer-theme-accent-youngster);
+}
+.agegroup-adult {
+   border: 1.6px solid var(--singer-theme-accent-adult);
 }
