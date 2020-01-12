@@ -4,20 +4,35 @@
    justify-content: flex-start;
 }
 
-.orb {
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   margin: 5px 20px;
-}
-
 .start-registration-orb,
 .end-registration-orb,
 .final-cancelation-orb,
 .start-event-orb,
 .end-event-orb {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   margin: 0.5em 0em;
+   text-align: center;
+}
+
+.orb__icon {
+   position: relative;
+   font-size: 1.3em;
+   padding-top: 0.3em;
+   padding-bottom: 0.1em;
    color: white;
    width: 2em;
    border-radius: 50%;
    background: var(--singer-theme-primary);
+}
+
+.end-registration-connector,
+.final-cancelation-connector,
+.start-event-connector,
+.end-event-connector {
+   margin: 1.6em -0.5em;
+   width: 5em;
+   height: 0.5em;
+   background-color: var(--singer-theme-accent-light-blue);
 }
