@@ -8,10 +8,39 @@ import { SingerEvent } from 'src/app/modules/core/models/singerevent.model';
 })
 export class AdminMenuComponent {
 
-   startRegistrationDate: Date = new Date('11/01/2020');
-   endRegistrationDate: Date = new Date('13/01/2020');
-   finalCancelationDate: Date = new Date('15/01/2020');
-   startEventDate: Date = new Date('20/01/2020');
-   endEventDate: Date = new Date('21/01/2020');
+   startRegistrationDate: Date;
+   endRegistrationDate: Date;
+   finalCancelationDate: Date;
+   startEventDate: Date;
+   endEventDate: Date;
    constructor() {}
+
+   buttonClick() {
+      if(this.startRegistrationDate == null) {
+         this.startRegistrationDate = new Date('11/01/2020');
+         return;
+      }
+
+      if(this.endRegistrationDate == null) {
+         this.endRegistrationDate = new Date('11/03/2020');
+         return;
+      }
+
+      if(this.finalCancelationDate == null) {
+         this.finalCancelationDate = new Date('11/05/2020');
+         return;
+      }
+
+      if(this.startEventDate == null) {
+         this.startEventDate = new Date('11/07/2020');
+         return;
+      }
+
+      if(this.endEventDate == null) {
+         this.endEventDate = new Date('11/08/2020');
+         return;
+      }
+
+
+   }
 }

@@ -8,7 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class EventTimelineComponent {
 
    @Input() displayEventOnly: boolean;
-   @Input() isAnimated: boolean;
+   @Input() animated: boolean;
    @Input() startRegistrationDate: Date;
    @Input() endRegistrationDate: Date;
    @Input() finalCancelationDate: Date;

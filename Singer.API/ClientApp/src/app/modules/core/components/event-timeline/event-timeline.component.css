@@ -1,14 +1,13 @@
+ /*
+   Layout
+*/
 .timeline {
    display: flex;
    flex-direction: row;
    justify-content: flex-start;
 }
 
-.start-registration-orb,
-.end-registration-orb,
-.final-cancelation-orb,
-.start-event-orb,
-.end-event-orb {
+.orb {
    display: flex;
    flex-direction: column;
    align-items: center;
@@ -21,33 +20,58 @@
    font-size: 1.3em;
    padding-top: 0.3em;
    padding-bottom: 0.1em;
-   color: white;
    width: 2em;
-   border-radius: 50%;
-   background-color: var(--singer-theme-timeline-dark-empty);
 }
 
-.end-registration-connector,
-.final-cancelation-connector,
-.start-event-connector,
-.end-event-connector {
-   margin: 1.6em -0.5em;
+.connector {
+   margin: 1.6em -0.2em;
    width: 5em;
    height: 0.5em;
-   background-color: var(--singer-theme-timeline-light-empty);
 }
 
-.filled {
+/*
+   Styling
+*/
+.orb__icon {
+   color: white;
+   border-radius: 50%;
+   background-color: var(--singer-theme-timeline-dark-empty);
+   transition: background-color 0s ease;
+}
+
+.orb-filled {
    background-color: var(--singer-theme-timeline-dark-filled);
 }
 
-.connected {
-   background-color: var(--singer-theme-timeline-light-filled);
+.orb__date {
+   color: var(--singer-theme-dark-primary-text);
 }
 
-.end-registration-connector .color,
-.final-cancelation-connector .color,
-.start-event-connector .color,
-.end-event-connector  .color {
-   background-color: var(--singer-theme-timeline-light-filled);
+.connector {
+   background: linear-gradient(
+      to left,
+      var(--singer-theme-timeline-light-empty) 50%,
+      var(--singer-theme-timeline-light-filled) 50%
+   );
+   background-size: 200% 100%;
+   background-position: right bottom;
+}
+
+.connected {
+   background-position: left bottom;
+}
+
+/*
+   Animation
+*/
+.timeline {
+   --transition-time: 1s;
+}
+
+.animated {
+   transition: all var(--transition-time) ease;
+}
+
+.animated-orb {
+   transition-delay: calc(var(--transition-time) * 0.85);
 }
