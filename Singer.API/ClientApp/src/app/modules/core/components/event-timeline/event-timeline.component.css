@@ -24,7 +24,7 @@
    color: white;
    width: 2em;
    border-radius: 50%;
-   background: var(--singer-theme-primary);
+   background-color: var(--singer-theme-timeline-dark-empty);
 }
 
 .end-registration-connector,
@@ -34,5 +34,20 @@
    margin: 1.6em -0.5em;
    width: 5em;
    height: 0.5em;
-   background-color: var(--singer-theme-accent-light-blue);
+   background-color: var(--singer-theme-timeline-light-empty);
+}
+
+.filled {
+   background-color: var(--singer-theme-timeline-dark-filled);
+}
+
+.connected {
+   background-color: var(--singer-theme-timeline-light-filled);
+}
+
+.end-registration-connector .color,
+.final-cancelation-connector .color,
+.start-event-connector .color,
+.end-event-connector  .color {
+   background-color: var(--singer-theme-timeline-light-filled);
 }

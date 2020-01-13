@@ -1,26 +1,28 @@
 <div class="timeline">
-   <div class="start-registration-orb">
-      <div class="orb__icon"><mat-icon>event_available</mat-icon></div>
-      <div class="orb__date"></div>
+   <div *ngIf="!displayEventOnly" class="timeline">
+      <div class="start-registration-orb">
+         <div class="orb__icon" [class.filled]="startRegistrationDate != null"><mat-icon>event_available</mat-icon></div>
+         <div class="orb__date"></div>
+      </div>
+      <div class="end-registration-connector" [class.connected]="startRegistrationDate != null && endRegistrationDate != null"></div>
+      <div class="end-registration-orb">
+         <div class="orb__icon" [class.filled]="endRegistrationDate != null"><mat-icon>event_note</mat-icon></div>
+         <div class="orb__date"></div>
+      </div>
+      <div class="final-cancelation-connector" [class.connected]="endRegistrationDate != null && finalCancelationDate != null"></div>
+      <div class="final-cancelation-orb">
+         <div class="orb__icon" [class.filled]="finalCancelationDate != null"><mat-icon>event_busy</mat-icon></div>
+         <div class="orb__date"></div>
+      </div>
+      <div class="start-event-connector" [class.connected]="finalCancelationDate != null && startEventDate != null"></div>
    </div>
-   <div class="end-registration-connector"></div>
-   <div class="end-registration-orb">
-      <div class="orb__icon"><mat-icon>event_note</mat-icon></div>
-      <div class="orb__date"></div>
-   </div>
-   <div class="final-cancelation-connector"></div>
-   <div class="final-cancelation-orb">
-      <div class="orb__icon"><mat-icon>event_busy</mat-icon></div>
-      <div class="orb__date"></div>
-   </div>
-   <div class="start-event-connector"></div>
    <div class="start-event-orb">
-      <div class="orb__icon"><mat-icon>outlined_flag</mat-icon></div>
+      <div class="orb__icon" [class.filled]="startEventDate != null"><mat-icon>outlined_flag</mat-icon></div>
       <div class="orb__date"></div>
    </div>
-   <div class="end-event-connector"></div>
+   <div class="end-event-connector" [class.connected]="startEventDate != null && endEventDate != null"></div>
    <div class="end-event-orb">
-      <div class="orb__icon"><mat-icon>flag</mat-icon></div>
+      <div class="orb__icon" [class.filled]="endEventDate != null"><mat-icon>flag</mat-icon></div>
       <div class="orb__date"></div>
    </div>
 </div>
