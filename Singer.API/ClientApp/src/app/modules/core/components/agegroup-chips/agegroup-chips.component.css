@@ -56,17 +56,17 @@
 */
 
 .agegroup-toddler {
-   border: 1.6px solid var(--singer-theme-accent-toddler);
+   border: 1.6px solid var(--singer-theme-agegroup-toddler);
 }
 .agegroup-kindergartener {
-   border: 1.6px solid var(--singer-theme-accent-kindergartener);
+   border: 1.6px solid var(--singer-theme-agegroup-kindergartener);
 }
 .agegroup-child {
-   border: 1.6px solid var(--singer-theme-accent-child);
+   border: 1.6px solid var(--singer-theme-agegroup-child);
 }
 .agegroup-youngster {
-   border: 1.6px solid var(--singer-theme-accent-youngster);
+   border: 1.6px solid var(--singer-theme-agegroup-youngster);
 }
 .agegroup-adult {
-   border: 1.6px solid var(--singer-theme-accent-adult);
+   border: 1.6px solid var(--singer-theme-agegroup-adult);
 }
