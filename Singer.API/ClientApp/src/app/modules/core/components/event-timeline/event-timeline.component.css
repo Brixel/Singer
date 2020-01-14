@@ -1,4 +1,4 @@
- /*
+/*
    Layout
 */
 .timeline {
@@ -33,7 +33,7 @@
    Styling
 */
 .orb__icon {
-   color: white;
+   color: var(--singer-theme-light-primary-text);
    border-radius: 50%;
    background-color: var(--singer-theme-timeline-dark-empty);
    transition: background-color 0s ease;
