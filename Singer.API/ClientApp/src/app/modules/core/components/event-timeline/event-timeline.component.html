@@ -49,7 +49,7 @@
 
    <!-- start-event-orb -->
    <div class="orb">
-      <div class="orb__icon" [class.orb-filled]="startEventDate != null" [class.animated-orb]="animated">
+      <div class="orb__icon" [class.orb-filled]="startEventDate != null" [class.animated-orb]="animated && !displayEventOnly">
          <mat-icon>outlined_flag</mat-icon>
       </div>
       <div class="orb__date" *ngIf="startEventDate != null">{{ startEventDate | date:'dd/MM' }}</div>
