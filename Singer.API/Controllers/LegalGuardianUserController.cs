@@ -50,8 +50,7 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
       public override async Task<IActionResult> Delete(Guid id)
       {
-         await _legalGuardianUserService.ClearProperties(id);
-         await DatabaseService.ArchiveAsync(id);
+         await _legalGuardianUserService.ArchiveAsync(id);
          return NoContent();
       }
    }

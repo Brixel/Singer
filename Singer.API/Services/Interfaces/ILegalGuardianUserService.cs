@@ -20,26 +20,20 @@ namespace Singer.Services.Interfaces
       /// Adds a link in the database between the given LegalGuardianUserId and each of the
       /// NewLinkUsers ID's
       /// </summary>
-      /// <param name="LegalGuardianUserId">The ID of the LegalGuardianUser.</param>
-      /// <param name="NewLinkedUsers">
+      /// <param name="legalGuardianUserId">The ID of the LegalGuardianUser.</param>
+      /// <param name="newLinkedUsers">
       /// A List of Guids, one for each CareUser which should be linked to the LegalGuardianUser
       /// </param>
-      Task AddLinkedUsers(Guid LegalGuardianUserId, List<Guid> NewLinkedUsers);
+      Task AddLinkedUsers(Guid legalGuardianUserId, List<Guid> newLinkedUsers);
 
       /// <summary>
       /// Removes links in the database between the LegalGuardianUserId and each of the
       ///  UsersToRemove ID's
       /// </summary>
-      /// <param name="LegalGuardianUserId">The ID of the CareUser.</param>
-      /// <param name="UsersToRemove">
+      /// <param name="legalGuardianUserId">The ID of the CareUser.</param>
+      /// <param name="usersToRemove">
       /// A List of Guids, one for each CareUser which should be removed from the LegalGuardianUser
       /// </param>
-      Task RemoveLinkedUsers(Guid LegalGuardianUserId, List<Guid> UsersToRemove);
-
-      /// <summary>
-      /// Clears all properties of the legalGuardianUser
-      /// </summary>
-      /// <param name="LegalGuardianUserId">The ID of the LegalGuardianUser.</param>
-      Task ClearProperties(Guid LegalGuardianUserId);
+      Task RemoveLinkedUsers(Guid legalGuardianUserId, List<Guid> usersToRemove);
    }
 }

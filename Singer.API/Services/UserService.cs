@@ -159,5 +159,44 @@ namespace Singer.Services
          return await base.UpdateAsync(id, dto);
       }
 
+      public override async Task ArchiveAsync(Guid id)
+      {
+         // First check if LGUser exists
+         var user = await Queryable.SingleOrDefaultAsync(x => x.Id == id || x.UserId == id);
+         if (user == null)
+            throw new NotFoundException($"LegalGuardianUserId with id {id} was not found", ErrorMessages.LegalGuardianDoesntExist);
+
+         // Reset LGUser properties
+         user.GetType().GetProperties()
+            .Where(x => x.Name switch
+            {
+               nameof(IIdentifiable.Id) => false,
+               nameof(IUser.UserId) => false,
+               nameof(IUser.User) => false,
+               _ => true,
+            })
+            .ForEach(x => x.SetToDefaultValue(user));
+
+         var identity = await UserManager.FindByIdAsync(user.UserId.ToString());
+         identity.GetType().GetProperties()
+            .Where(x =>
+            {
+               return x.Name switch
+               {
+                  nameof(User.Id) => false,
+                  nameof(User.NormalizedEmail) => true,
+                  nameof(User.NormalizedUserName) => true,
+                  _ => x.HasAttribute<PersonalDataAttribute>(),
+               };
+            })
+            .ForEach(x => x.SetToDefaultValue(identity));
+
+         if (user is IArchivable archivable)
+            archivable.IsArchived = true;
+
+         DbSet.Update(user);
+         await UserManager.UpdateAsync(identity);
+         await Context.SaveChangesAsync();
+      }
    }
 }
