@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -10,11 +5,15 @@ using Microsoft.Extensions.Options;
 using Singer.Data;
 using Singer.Data.Models.Configuration;
 using Singer.DTOs.Users;
-using Singer.Helpers;
 using Singer.Helpers.Exceptions;
 using Singer.Models.Users;
 using Singer.Resources;
 using Singer.Services.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace Singer.Services
 {
@@ -34,7 +33,6 @@ namespace Singer.Services
          .Include(x => x.LegalGuardianCareUsers).ThenInclude(x => x.CareUser)
          .AsQueryable();
 
-
       protected override Expression<Func<LegalGuardianUser, bool>> Filter(string filter)
       {
          if (string.IsNullOrWhiteSpace(filter))
@@ -48,44 +46,44 @@ namespace Singer.Services
          return filterExpression;
       }
 
-      public async Task AddLinkedUsers(Guid LegalGuardianUserId, List<Guid> NewLinkedUsers)
+      public async Task AddLinkedUsers(Guid legalGuardianUserId, List<Guid> newLinkedUsers)
       {
          // First check if LGUser exists
-         var LegalGuardianUser = await Context.LegalGuardianUsers.FindAsync(LegalGuardianUserId);
+         var LegalGuardianUser = await Context.LegalGuardianUsers.FindAsync(legalGuardianUserId);
          if (LegalGuardianUser == null)
-            throw new NotFoundException($"Tried to add user link for non existing LG User with id {LegalGuardianUserId}", ErrorMessages.LegalGuardianDoesntExist);
+            throw new NotFoundException($"Tried to add user link for non existing LG User with id {legalGuardianUserId}", ErrorMessages.LegalGuardianDoesntExist);
 
          List<LegalGuardianCareUser> NewCareUsers = new List<LegalGuardianCareUser>();
-         foreach (var u in NewLinkedUsers)
+         foreach (var u in newLinkedUsers)
          {
             var CareUser = await Context.CareUsers.FirstOrDefaultAsync(c => c.Id == u);
             if (CareUser == null)
                throw new NotFoundException($"Tried to link careuser which does not exist (id={u})", ErrorMessages.CareUserDoesntExist);
 
             var LinkedUserExists = await Context.LegalGuardianCareUsers
-               .FirstOrDefaultAsync(x => x.CareUserId == u && x.LegalGuardianId == LegalGuardianUserId);
+               .FirstOrDefaultAsync(x => x.CareUserId == u && x.LegalGuardianId == legalGuardianUserId);
 
             if (LinkedUserExists != null)
-               throw new BadInputException($"Duplicate link was attempted to add: LGUserId: {LegalGuardianUserId}, CareUserID: {u}", ErrorMessages.DuplicateCareUserLGUserLink);
+               throw new BadInputException($"Duplicate link was attempted to add: LGUserId: {legalGuardianUserId}, CareUserID: {u}", ErrorMessages.DuplicateCareUserLGUserLink);
 
-            NewCareUsers.Add(new LegalGuardianCareUser() { CareUserId = u, LegalGuardianId = LegalGuardianUserId });
+            NewCareUsers.Add(new LegalGuardianCareUser() { CareUserId = u, LegalGuardianId = legalGuardianUserId });
          }
 
          LegalGuardianUser.LegalGuardianCareUsers = NewCareUsers;
          await Context.SaveChangesAsync();
       }
 
-      public async Task RemoveLinkedUsers(Guid LegalGuardianUserId, List<Guid> UsersToRemove)
+      public async Task RemoveLinkedUsers(Guid legalGuardianUserId, List<Guid> usersToRemove)
       {
          // First check if LGUser exists
-         var legalGuardianUser = await Context.LegalGuardianUsers.FindAsync(LegalGuardianUserId);
+         var legalGuardianUser = await Context.LegalGuardianUsers.FindAsync(legalGuardianUserId);
          if (legalGuardianUser == null)
-            throw new NotFoundException($"Tried to remove user link for non existing LG User with id {LegalGuardianUserId}", ErrorMessages.LegalGuardianDoesntExist);
+            throw new NotFoundException($"Tried to remove user link for non existing LG User with id {legalGuardianUserId}", ErrorMessages.LegalGuardianDoesntExist);
 
-         foreach (var u in UsersToRemove)
+         foreach (var u in usersToRemove)
          {
             var LinkedUserExists = await Context.LegalGuardianCareUsers
-               .FirstOrDefaultAsync(x => x.CareUserId == u && x.LegalGuardianId == LegalGuardianUserId);
+               .FirstOrDefaultAsync(x => x.CareUserId == u && x.LegalGuardianId == legalGuardianUserId);
 
             if (LinkedUserExists == null)
                throw new NotFoundException($"You tried to remove a care user from an LG user which was not linked to begin with (CareUser ID: {u})", ErrorMessages.LinkCareUserLGUserDoesntExist);
@@ -94,38 +92,6 @@ namespace Singer.Services
          }
 
          await Context.SaveChangesAsync();
-      }
-
-      public async Task ClearProperties(Guid LegalGuardianUserId)
-      {
-         // First check if LGUser exists
-         var legalGuardianUser = await Context.LegalGuardianUsers.FindAsync(LegalGuardianUserId);
-         if (legalGuardianUser == null)
-            throw new NotFoundException($"Tried to remove user link for non existing LG User with id {LegalGuardianUserId}", ErrorMessages.LegalGuardianDoesntExist);
-
-         // Get LGUser properties
-         var properties = legalGuardianUser
-            .GetType()
-            .GetProperties()
-            .Where(x =>
-            {
-               return x.Name switch
-               {
-                  nameof(IIdentifiable.Id) => false,
-                  nameof(LegalGuardianUser.UserId) => false,
-                  nameof(LegalGuardianUser.User) => false,
-                  _ => true,
-               };
-            });
-
-         // Reset LGUser properties
-         foreach (var propertyInfo in properties)
-         {
-            var value = propertyInfo.PropertyType.IsValueType
-               ? Activator.CreateInstance(propertyInfo.PropertyType)
-               : null;
-            propertyInfo.SetValue(legalGuardianUser, value);
-         }
       }
    }
 }

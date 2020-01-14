@@ -1,23 +1,21 @@
-using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.CodeAnalysis.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Singer.Data;
 using Singer.Data.Models.Configuration;
 using Singer.DTOs.Users;
+using Singer.Helpers;
 using Singer.Helpers.Exceptions;
 using Singer.Helpers.Extensions;
 using Singer.Models;
 using Singer.Models.Users;
 using Singer.Resources;
 using Singer.Services.Interfaces;
+using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Singer.Services
 {
@@ -47,8 +45,8 @@ namespace Singer.Services
       public override async Task<TUserDTO> CreateAsync(
          TCreateUserDTO dto)
       {
-         // We need usernames for AspNetUsers. However, careusers don't have an e-mail address, so no username can be generated
-         // For that reason, we generate a random username.
+         // We need usernames for AspNetUsers. However, careusers don't have an e-mail address, so
+         // no username can be generated For that reason, we generate a random username.
          if (dto.GetType() == typeof(CreateCareUserDTO) && string.IsNullOrEmpty(dto.Email))
          {
             dto.Email = GenerateRandomUserName(dto.FirstName, dto.LastName);
@@ -99,10 +97,13 @@ namespace Singer.Services
       }
 
       /// <summary>
-      /// Returns one <see cref="TUserEntity"/> from the database, converted to a <see cref="TUserDTO"/>.
+      ///     Returns one <see cref="TUserEntity"/> from the database, converted to a <see cref="TUserDTO"/>.
       /// </summary>
       /// <param name="id">The Id OR UserId of the <see cref="TUserEntity"/> to get.</param>
-      /// <returns>The <see cref="TUserEntity"/> in the database with Id or UserId <paramref name="id"/> converted to a <see cref="TUserDTO"/>.</returns>
+      /// <returns>
+      ///     The <see cref="TUserEntity"/> in the database with Id or UserId <paramref name="id"/>
+      ///     converted to a <see cref="TUserDTO"/>.
+      /// </returns>
       /// <exception cref="NotFoundException">There is no element found with the id <paramref name="id"/>.</exception>
       public override async Task<TUserDTO> GetOneAsync(Guid id)
       {
@@ -125,25 +126,6 @@ namespace Singer.Services
          var userToDelete = await Context.Users.FindAsync(itemToDelete.UserId);
          Context.Users.Remove(userToDelete);
          await Context.SaveChangesAsync();
-      }
-
-      public override async Task<SearchResults<TUserDTO>> GetAsync(
-         string filter = null,
-         Expression<Func<TUserDTO, object>> orderer = null,
-         ListSortDirection sortDirection = ListSortDirection.Ascending,
-         int pageIndex = 0,
-         int entitiesPerPage = 15,
-         bool showArchived = false)
-      {
-         // return the paged results
-         return await Queryable
-            .ToPagedListAsync(
-               Mapper,
-               filterExpression: Filter(filter),
-               orderByLambda: orderer,
-               sortDirection: sortDirection,
-               pageIndex: pageIndex,
-               pageSize: entitiesPerPage);
       }
 
       public override async Task<TUserDTO> UpdateAsync(Guid id, TUpdateUserDTO dto)

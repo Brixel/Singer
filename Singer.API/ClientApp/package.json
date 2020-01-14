@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.1.0-issue-AB-88-delete-legalguardian.1131",
+   "version": "0.1.0-issue-AB-88-delete-legalguardian.1132",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",
