@@ -10,6 +10,7 @@
 .inline-fields {
    display: flex;
    flex-direction: row;
+   flex-wrap: wrap;
 }
 
 /* Form field spacing */
