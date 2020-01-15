@@ -1,19 +1,22 @@
-using Microsoft.AspNetCore.Http;
-using System.Threading.Tasks;
+using CsvHelper;
 using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Singer.Configuration;
 using Singer.DTOs;
+using Singer.DTOs.Csv;
 using Singer.Helpers;
 using Singer.Helpers.Exceptions;
 using Singer.Models;
+using Singer.Resources;
 using Singer.Services.Interfaces;
 using System;
-using System.ComponentModel;
-using Singer.Configuration;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
 using System.Linq;
-using Singer.Resources;
+using System.Threading.Tasks;
 
 namespace Singer.Controllers
 {
@@ -29,7 +32,6 @@ namespace Singer.Controllers
 
       #endregion FIELDS
 
-
       #region CONSTRUCTOR
 
       public EventController(IEventService eventService, IEventRegistrationService eventRegistrationService,
@@ -43,7 +45,6 @@ namespace Singer.Controllers
       }
 
       #endregion CONSTRUCTOR
-
 
       #region METHODS
 
@@ -156,7 +157,6 @@ namespace Singer.Controllers
                itemsPerPage: pageSize)
             .ConfigureAwait(false);
 
-
          var requestPath = HttpContext.Request.Path;
          var nextPage = (pageIndex * pageSize) + result.Size >= result.TotalCount
             ? null
@@ -192,13 +192,25 @@ namespace Singer.Controllers
          return Ok(registration);
       }
 
+      [HttpGet("{eventId}/registrations/{eventSlotId}/deelnemerslijst.csv")]
+      public async Task<ActionResult> GetRegistrationsAsCsv(Guid eventId, Guid eventSlotId)
+      {
+         var list = await _eventRegistrationService.GetParticipantsForSlotAsync(eventId, eventSlotId);
+
+         using var writer = new StringWriter();
+         using var csv = new CsvWriter(writer);
+
+         csv.Configuration.RegisterClassMap<CsvRegistrationDTO.Mapper>();
+         csv.WriteRecords(list);
+
+         return Ok(writer.ToString());
+      }
+
       #endregion get
 
       #region put
 
-      /// <summary>
-      /// Updates a single entity in the database.
-      /// </summary>
+      /// <summary>Updates a single entity in the database.</summary>
       /// <param name="id">The id of the entity to update.</param>
       /// <param name="dto">The new value of the entity.</param>
       /// <returns></returns>
@@ -343,7 +355,6 @@ namespace Singer.Controllers
                   Status = registration.Status
                }).ToList()
          }).ToList();
-
 
          return Ok(details);
       }
