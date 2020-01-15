@@ -76,8 +76,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
       const dialogRef = this.dialog.open(CareUserDetailsComponent, {
          data: {
             careUserInstance: deRefRow,
-            isAdding: false,
-            displayContactFields: true,
+            displayLinkedUserFields: true,
          },
          width: '80vw',
       });
@@ -105,8 +104,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
       const dialogRef = this.dialog.open(CareUserDetailsComponent, {
          data: {
             careUserInstance: null,
-            isAdding: true,
-            displayContactFields: false,
+            displayLinkedUserFields: false,
          },
          width: '80vw',
       });

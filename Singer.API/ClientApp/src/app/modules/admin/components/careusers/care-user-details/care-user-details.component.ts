@@ -4,7 +4,6 @@ import {
    Output,
    EventEmitter,
    Inject,
-   ViewChild,
 } from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -20,7 +19,6 @@ import {
 import { of, Observable, BehaviorSubject } from 'rxjs';
 import { LegalGuardian } from 'src/app/modules/core/models/legalguardian.model';
 import { LegalguardiansService } from 'src/app/modules/core/services/legal-guardians-api/legalguardians.service';
-import { MatDatepicker } from '@angular/material';
 import { SingerEventLocationService } from 'src/app/modules/core/services/singerevents-api/singerevent-location.service';
 import {
    dateNotAfter,
@@ -31,8 +29,7 @@ import { SingerEventLocation } from 'src/app/modules/core/models/singerevent.mod
 // Data we pass along with the creation of the Mat-Dialog box
 export interface CareUserDetailsFormData {
    careUserInstance: CareUser;
-   isAdding: boolean;
-   displayContactFields: boolean;
+   displayLinkedUserFields: boolean;
 }
 @Component({
    selector: 'app-care-user-details',
@@ -40,28 +37,30 @@ export interface CareUserDetailsFormData {
    styleUrls: ['./care-user-details.component.css'],
 })
 export class CareUserDetailsComponent implements OnInit {
+
    // Submit event for when the user submits the form
-
-   @ViewChild(MatDatepicker) picker: MatDatepicker<Date>;
-
    @Output() submitEvent: EventEmitter<CareUser> = new EventEmitter();
 
    // Boolean to decide if we are adding a new user or editing an existing one
    isAdding: boolean;
-   displayContactFields: boolean;
-
-   // Boolean to check if changes have been made when editing a user
-   isChangesMade: boolean;
-
-   ageGroups = AgeGroup;
+   // Boolean to decide if we want to dispaly the legalguardian Fields
+   displayLinkedUserFields: boolean;
 
    // Current care user instance
    currentCareUserInstance: CareUser;
-   private availableLocationsSubject = new BehaviorSubject<
-      SingerEventLocation[]
-   >([]);
+
+   // Available Agegroups
+   ageGroups = AgeGroup;
+
+   // Available DayCare Locations
+   private availableLocationsSubject = new BehaviorSubject<SingerEventLocation[]>([]);
    availableLocations$ = this.availableLocationsSubject.asObservable();
-   //#region Binding properties for form:
+
+   // For holding result from Legalguardian lookup change events
+   legalGuardianUsersAutoComplete$: Observable<LegalGuardian[]> = null;
+
+   // Number of colums for legalguardian user cards
+   columns: number;
 
    // Form placeholders
    readonly firstNameFieldPlaceholder = 'Voornaam';
@@ -107,13 +106,8 @@ export class CareUserDetailsComponent implements OnInit {
       legalGuardianUsersSearchFieldcontrol: new FormControl(),
    });
 
-   public legalGuardianUsersAutoComplete$: Observable<LegalGuardian[]> = null;
-   breakpoint: number;
-
-   //#endregion
-
    constructor(
-      // dialogreference to close this dialog
+      // Dialogreference to close this dialog
       public dialogRef: MatDialogRef<CareUserDetailsComponent>,
       // Care user that we want to edit
       @Inject(MAT_DIALOG_DATA) public data: CareUserDetailsFormData,
@@ -121,16 +115,20 @@ export class CareUserDetailsComponent implements OnInit {
       private _singerEventLocationService: SingerEventLocationService
    ) {
       this.currentCareUserInstance = data.careUserInstance;
-      this.isAdding = data.isAdding;
-      this.displayContactFields = data.displayContactFields;
+      this.isAdding = data.careUserInstance == null ? true : false;
+      this.displayLinkedUserFields = data.displayLinkedUserFields;
    }
 
    ngOnInit() {
+      //Load currentCareUser Instance
+      this._loadInstance();
+
+      // Load dayCare locations
       this._singerEventLocationService
          .fetchSingerEventLocationsData('asc', 'name', 0, 1000, '')
          .subscribe(res => this.availableLocationsSubject.next(res.items));
-      this._loadInstance();
 
+      // Subscribe to Legalguardian lookup events
       this.legalGuardianUsersAutoComplete$ = this.formControlGroup.controls[
          'legalGuardianUsersSearchFieldcontrol'
       ].valueChanges.pipe(
@@ -144,173 +142,42 @@ export class CareUserDetailsComponent implements OnInit {
             }
          })
       );
-      this.breakpoint = window.innerWidth <= 500 ? 1 : 3;
 
-      if (this.currentCareUserInstance.legalGuardianUsers === null) {
-         this.currentCareUserInstance.legalGuardianUsers = new Array<
-            LegalGuardian
-         >();
-      }
-      this.currentCareUserInstance.legalGuardianUsersToAdd = new Array<
-         string
-      >();
-      this.currentCareUserInstance.legalGuardianUsersToRemove = new Array<
-         string
-      >();
+      this.clearLegalGuardianArrays();
+
+      // Set colums for legalguardian user cards
+      this.columns = this.calculateColumns(window.innerWidth);
    }
 
    private _loadInstance() {
       // If we are adding a new user then clear all fields
       // If we are editing an existing user then fill in his data
       if (this.isAdding) {
-         this.resetFormControls();
-         this.createEmptyUser();
+         this.formControlGroup.reset();
+         this.currentCareUserInstance = new CareUser();
       } else {
          this.loadCurrentCareUserInstanceValues();
       }
    }
 
-   //#region Error messages for required fields
-   getRequiredFieldErrorMessage(formControl: FormControl) {
-      return formControl.hasError('required') ? 'Dit veld is verplicht' : '';
-   }
-
-   getEmailFieldErrorMessage() {
-      return this.formControlGroup.controls.emailFieldControl.hasError(
-         'required'
-      )
-         ? 'Dit veld is verplicht'
-         : this.formControlGroup.controls.emailFieldControl.hasError('email')
-         ? 'Dit is geen geldig email adres'
-         : '';
-   }
-   //#endregion
-
    // Fill in the data of the current care usrers instance
    private loadCurrentCareUserInstanceValues() {
-      this.formControlGroup.controls.firstNameFieldControl.reset(
-         this.currentCareUserInstance.firstName
-      );
-      this.formControlGroup.controls.lastNameFieldControl.reset(
-         this.currentCareUserInstance.lastName
-      );
-      this.formControlGroup.controls.birthdayFieldControl.reset(
-         this.currentCareUserInstance.birthDay
-      );
-      this.formControlGroup.controls.caseNumberFieldControl.reset(
-         this.currentCareUserInstance.caseNumber
-      );
-      this.formControlGroup.controls.ageGroupFieldControl.setValue(
-         this.currentCareUserInstance.ageGroup
-      );
-      this.formControlGroup.controls.isExternFieldControl.reset(
-         this.currentCareUserInstance.isExtern ? 'true' : 'false'
-      );
-      this.formControlGroup.controls.hasTrajectoryFieldControl.reset(
-         this.currentCareUserInstance.hasTrajectory ? 'true' : 'false'
-      );
+      this.formControlGroup.controls.firstNameFieldControl.reset(this.currentCareUserInstance.firstName);
+      this.formControlGroup.controls.lastNameFieldControl.reset(this.currentCareUserInstance.lastName);
+      this.formControlGroup.controls.birthdayFieldControl.reset(this.currentCareUserInstance.birthDay);
+      this.formControlGroup.controls.caseNumberFieldControl.reset(this.currentCareUserInstance.caseNumber);
+      this.formControlGroup.controls.ageGroupFieldControl.setValue(this.currentCareUserInstance.ageGroup);
+      this.formControlGroup.controls.isExternFieldControl.reset(this.currentCareUserInstance.isExtern ? 'true' : 'false');
+      this.formControlGroup.controls.hasTrajectoryFieldControl.reset(this.currentCareUserInstance.hasTrajectory ? 'true' : 'false');
    }
 
-   // Clear all form fields
-   private resetFormControls() {
-      this.formControlGroup.controls.firstNameFieldControl.reset();
-      this.formControlGroup.controls.lastNameFieldControl.reset();
-      this.formControlGroup.controls.birthdayFieldControl.reset();
-      this.formControlGroup.controls.caseNumberFieldControl.reset();
-      this.formControlGroup.controls.ageGroupFieldControl.reset();
-      this.formControlGroup.controls.isExternFieldControl.reset();
-      this.formControlGroup.controls.hasTrajectoryFieldControl.reset();
-   }
-
-   createEmptyUser() {
-      this.currentCareUserInstance = {
-         id: '',
-         firstName: '',
-         lastName: '',
-         email: '',
-         userName: '',
-         birthDay: new Date(),
-         caseNumber: '',
-         ageGroup: AgeGroup.Toddler,
-         isExtern: false,
-         hasTrajectory: false,
-         legalGuardianUsersToAdd: [],
-         legalGuardianUsersToRemove: [],
-         legalGuardianUsers: [],
-      };
-   }
-
-   // If we are editing an existing user and there are no changes return false
-   checkForChanges(): boolean {
-      if (this.isAdding) {
-         return true;
+   // Clear the currentCareUserInstance legalguardian properties
+   private clearLegalGuardianArrays() {
+      if (this.currentCareUserInstance.legalGuardianUsers === null) {
+         this.currentCareUserInstance.legalGuardianUsers = new Array<LegalGuardian>();
       }
-      if (
-         this.currentCareUserInstance.firstName !==
-         this.formControlGroup.controls.firstNameFieldControl.value
-      ) {
-         return true;
-      }
-      if (
-         this.currentCareUserInstance.lastName !==
-         this.formControlGroup.controls.lastNameFieldControl.value
-      ) {
-         return true;
-      }
-
-      const instanceDate = new Date(this.currentCareUserInstance.birthDay);
-      const formDate = new Date(
-         this.formControlGroup.controls.birthdayFieldControl.value
-      );
-
-      if (instanceDate.getFullYear() !== formDate.getFullYear()) {
-         return true;
-      }
-      if (instanceDate.getMonth() !== formDate.getMonth()) {
-         return true;
-      }
-      if (instanceDate.getDay() !== formDate.getDay()) {
-         return true;
-      }
-      if (
-         this.currentCareUserInstance.caseNumber !==
-         this.formControlGroup.controls.caseNumberFieldControl.value
-      ) {
-         return true;
-      }
-      if (
-         this.currentCareUserInstance.ageGroup !==
-         this.formControlGroup.controls.ageGroupFieldControl.value
-      ) {
-         return true;
-      }
-      if (
-         this.currentCareUserInstance.isExtern !==
-         (this.formControlGroup.controls.isExternFieldControl.value === 'true'
-            ? true
-            : false)
-      ) {
-         return true;
-      }
-      if (
-         this.currentCareUserInstance.hasTrajectory !==
-         (this.formControlGroup.controls.hasTrajectoryFieldControl.value ===
-         'true'
-            ? true
-            : false)
-      ) {
-         return true;
-      }
-      if (
-         (this.currentCareUserInstance.legalGuardianUsersToAdd !== undefined &&
-            this.currentCareUserInstance.legalGuardianUsersToAdd.length > 0) ||
-         (this.currentCareUserInstance.legalGuardianUsersToRemove !==
-            undefined &&
-            this.currentCareUserInstance.legalGuardianUsersToRemove.length > 0)
-      ) {
-         return true;
-      }
-      return false;
+      this.currentCareUserInstance.legalGuardianUsersToAdd = new Array<string>();
+      this.currentCareUserInstance.legalGuardianUsersToRemove = new Array<string>();
    }
 
    legalGuardianUserLookup(value: string): Observable<LegalGuardian[]> {
@@ -335,20 +202,12 @@ export class CareUserDetailsComponent implements OnInit {
       if (event === null || !event.isUserInput) {
          return;
       }
-      if (
-         this.currentCareUserInstance.legalGuardianUsersToRemove.indexOf(
-            legalGuardianUser.id
-         ) > -1
-      ) {
+      if (this.currentCareUserInstance.legalGuardianUsersToRemove.indexOf(legalGuardianUser.id) > -1) {
          this.currentCareUserInstance.legalGuardianUsersToRemove.splice(
-            this.currentCareUserInstance.legalGuardianUsersToRemove.indexOf(
-               legalGuardianUser.id
-            )
+            this.currentCareUserInstance.legalGuardianUsersToRemove.indexOf(legalGuardianUser.id)
          );
       } else {
-         this.currentCareUserInstance.legalGuardianUsersToAdd.push(
-            legalGuardianUser.id
-         );
+         this.currentCareUserInstance.legalGuardianUsersToAdd.push(legalGuardianUser.id);
       }
 
       this.currentCareUserInstance.legalGuardianUsers.push(legalGuardianUser);
@@ -356,20 +215,12 @@ export class CareUserDetailsComponent implements OnInit {
    }
 
    deleteLegalGuardianUser(legalGuardianUser: LegalGuardian) {
-      if (
-         this.currentCareUserInstance.legalGuardianUsersToAdd.indexOf(
-            legalGuardianUser.id
-         ) > -1
-      ) {
+      if (this.currentCareUserInstance.legalGuardianUsersToAdd.indexOf(legalGuardianUser.id) > -1) {
          this.currentCareUserInstance.legalGuardianUsersToAdd.splice(
-            this.currentCareUserInstance.legalGuardianUsersToAdd.indexOf(
-               legalGuardianUser.id
-            )
+            this.currentCareUserInstance.legalGuardianUsersToAdd.indexOf(legalGuardianUser.id)
          );
       } else {
-         this.currentCareUserInstance.legalGuardianUsersToRemove.push(
-            legalGuardianUser.id
-         );
+         this.currentCareUserInstance.legalGuardianUsersToRemove.push(legalGuardianUser.id);
       }
 
       if (this.currentCareUserInstance.legalGuardianUsers !== null) {
@@ -382,7 +233,20 @@ export class CareUserDetailsComponent implements OnInit {
    }
 
    onResize(event) {
-      this.breakpoint = event.target.innerWidth <= 500 ? 1 : 3;
+      this.columns = this.calculateColumns(event.target.innerWidth);
+   }
+
+   calculateColumns(width: number): number {
+      switch (true) {
+         case width >= 1200:
+            return 3;
+         case width >= 800:
+            return 2;
+         case width >= 400:
+            return 1;
+         default:
+            return 1;
+      }
    }
 
    // Load form field values into current care user instance
@@ -403,13 +267,6 @@ export class CareUserDetailsComponent implements OnInit {
             : false;
    }
 
-   compareLocations(
-      locationX: SingerEventLocation,
-      locationY: SingerEventLocation
-   ) {
-      return locationX.id === locationY.id;
-   }
-
    // Submit the form
    submitForm() {
       // Check if form is valid
@@ -417,11 +274,8 @@ export class CareUserDetailsComponent implements OnInit {
          return;
       }
 
-      // Check for changes and determine of an API call is necesarry
-      if (this.checkForChanges()) {
-         this.updateCurrentCareUserInstance();
-         this.submitEvent.emit(this.currentCareUserInstance);
-      }
+      this.updateCurrentCareUserInstance();
+      this.submitEvent.emit(this.currentCareUserInstance);
       this.closeForm();
    }
 
