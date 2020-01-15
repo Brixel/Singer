@@ -5,7 +5,7 @@
 <!-- Form Dialog Content -->
 <mat-dialog-content>
    <!-- Details Form -->
-   <form [formGroup]="formControlGroup" class="details-form-container">
+   <form [formGroup]="formControlGroup" class="details-form">
       <!-- Personal Fields Title -->
       <h3>Persoonlijke gegevens</h3>
       <!-- Name Fields -->
@@ -140,7 +140,7 @@
          </mat-form-field>
       </div>
 
-      <div class="adding" *ngIf="displayContactFields && !isAdding">
+      <div *ngIf="displayLinkedUserFields && !isAdding">
          <!-- End Of Section -->
          <mat-divider></mat-divider>
 

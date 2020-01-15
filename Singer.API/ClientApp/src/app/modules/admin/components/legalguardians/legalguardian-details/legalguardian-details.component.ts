@@ -1,7 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { LegalGuardian } from 'src/app/modules/core/models/legalguardian.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { MaterialModule } from '../../../../../material.module';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { CareUserService } from 'src/app/modules/core/services/care-users-api/careusers.service';
 import { CareUser } from 'src/app/modules/core/models/careuser.model';
