@@ -139,6 +139,7 @@
             </button>
          </td>
       </ng-container>
+
       <!-- Paginator column -->
       <ng-container matColumnDef="paginator">
          <td mat-footer-cell *matFooterCellDef colspan="20">
@@ -154,8 +155,10 @@
             </mat-paginator>
          </td>
       </ng-container>
+
       <!-- Header Row -->
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
       <!-- Data Row -->
       <tr
          mat-row
@@ -163,7 +166,9 @@
          class="selectable"
          (click)="selectRow(row)"
       ></tr>
+
       <!-- Footer Row -->
       <tr mat-footer-row *matFooterRowDef="['addButton', 'paginator']"></tr>
+
    </table>
 </div>
