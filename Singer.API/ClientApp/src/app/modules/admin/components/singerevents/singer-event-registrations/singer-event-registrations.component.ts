@@ -1,3 +1,4 @@
+import * as FileSaver from 'file-saver';
 import { Component, OnInit, Inject } from '@angular/core';
 import {
    SingerEvent,
@@ -167,5 +168,54 @@ export class SingerEventRegistrationsComponent implements OnInit {
 
    close() {
       this.dialogRef.close();
+   }
+
+   export() {
+      this.singerEventService
+         .downloadEventSlotRegistartionCsv(
+            this.event.id,
+            this.selectedEventSlot.id
+         )
+         .subscribe(
+            response => {
+               let blob: any = new Blob([response], {
+                  type: 'text/plain; charset=utf-8',
+               });
+
+               let eventDate =
+                  `${this.selectedEventSlot.startDateTime.getFullYear()}-` +
+                  `${this.selectedEventSlot.startDateTime.getMonth()}-` +
+                  `${this.selectedEventSlot.startDateTime.getDay()} ` +
+                  `${this.selectedEventSlot.startDateTime.getHours()}u` +
+                  `${this.selectedEventSlot.startDateTime.getMinutes()}`;
+
+               FileSaver.saveAs(
+                  blob,
+                  `${this.event.title} - ${eventDate} - deelnemers.csv`
+               );
+            },
+            error => this.handleDownloadError(error),
+            () => console.info('File downloaded successfully')
+         );
+   }
+
+   handleDownloadError(err: any) {
+      if (typeof err === 'string') {
+         this._snackBar.open(`⚠ ${err}`, 'OK');
+      } else if (typeof err === 'object' && err !== null) {
+         let messages = [];
+         for (var k in err) {
+            messages.push(err[k]);
+         }
+         this._snackBar.open(
+            `⚠ Er zijn fouten opgetreden bij het downloaden:\n${messages.join(
+               '\n'
+            )}`,
+            'OK',
+            {
+               panelClass: 'multi-line-snackbar',
+            }
+         );
+      }
    }
 }
