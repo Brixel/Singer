@@ -9,7 +9,7 @@ import { CareUser } from 'src/app/modules/core/models/careuser.model';
  * encapsulate all logic for fetching and manipulating the displayed data
  * (including sorting, pagination, and filtering).
  */
-export class OverviewDataSource extends DataSource<CareUser> {
+export class CareUserOverviewDataSource extends DataSource<CareUser> {
 
    private careUsersSubject$ = new BehaviorSubject<CareUser[]>([]);
    private totalSizeSubject$ = new BehaviorSubject<number>(0);

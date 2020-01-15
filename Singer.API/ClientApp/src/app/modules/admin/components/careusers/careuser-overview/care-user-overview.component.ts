@@ -11,21 +11,21 @@ import {
    MatDialog,
    MatSnackBar,
 } from '@angular/material';
-import { OverviewDataSource } from './overview-datasource';
+import { CareUserOverviewDataSource } from './care-user-overview-datasource';
 import { merge, fromEvent } from 'rxjs';
 import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { CareUserDetailsComponent } from '../care-user-details/care-user-details.component';
+import { CareUserDetailsComponent } from '../careuser-details/care-user-details.component';
 import { CareUserService } from 'src/app/modules/core/services/care-users-api/careusers.service';
 import { CareUser } from 'src/app/modules/core/models/careuser.model';
 import { LoadingService } from 'src/app/modules/core/services/loading.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
-   selector: 'app-overview',
-   templateUrl: './overview.component.html',
-   styleUrls: ['./overview.component.css'],
+   selector: 'app-care-user-overview',
+   templateUrl: './care-user-overview.component.html',
+   styleUrls: ['./care-user-overview.component.css'],
 })
-export class OverviewComponent implements OnInit, AfterViewInit {
+export class CareUserOverviewComponent implements OnInit, AfterViewInit {
 
    @ViewChild(MatPaginator) paginator: MatPaginator;
    @ViewChild(MatSort) sort: MatSort;
@@ -43,7 +43,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
    });
 
    // Datatable
-   dataSource: OverviewDataSource;
+   dataSource: CareUserOverviewDataSource;
 
    /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
    displayedColumns = [
@@ -68,7 +68,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
    ) {}
 
    ngOnInit() {
-      this.dataSource = new OverviewDataSource(this._careUserService);
+      this.dataSource = new CareUserOverviewDataSource(this._careUserService);
       this.sort.active = 'firstName';
       this.sort.direction = 'asc';
       this.loadCareUsers();

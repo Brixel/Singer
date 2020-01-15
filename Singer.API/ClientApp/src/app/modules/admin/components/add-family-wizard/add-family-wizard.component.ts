@@ -4,7 +4,7 @@ import { LegalGuardian } from 'src/app/modules/core/models/legalguardian.model';
 import { CareUser } from 'src/app/modules/core/models/careuser.model';
 import { MatSnackBar, MatDialog, MatStepper } from '@angular/material';
 import { LegalguardianDetailsComponent } from '../legalguardians/legalguardian-details/legalguardian-details.component';
-import { CareUserDetailsComponent } from '../careusers/care-user-details/care-user-details.component';
+import { CareUserDetailsComponent } from '../careusers/careuser-details/care-user-details.component';
 import { Router } from '@angular/router';
 import { CareUserService } from 'src/app/modules/core/services/care-users-api/careusers.service';
 import { LegalguardiansService } from 'src/app/modules/core/services/legal-guardians-api/legalguardians.service';
