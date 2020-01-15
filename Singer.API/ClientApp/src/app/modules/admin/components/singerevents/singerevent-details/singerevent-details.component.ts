@@ -9,7 +9,6 @@ import { AgeGroup } from 'src/app/modules/core/models/enum';
 import { MAT_DATE_FORMATS } from '@angular/material';
 import * as moment from 'moment';
 import { isNullOrUndefined } from 'util';
-import { MY_FORMATS } from 'src/app/modules/core/core.module';
 import { dateNotBefore } from 'src/app/modules/core/utils/custom-date-validators';
 import { NgxMaterialTimepickerTheme } from 'ngx-material-timepicker';
 
@@ -24,7 +23,6 @@ export interface SingerEventDetailsFormData {
    selector: 'app-singerevent-details',
    templateUrl: './singerevent-details.component.html',
    styleUrls: ['./singerevent-details.component.css'],
-   providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }],
 })
 export class SingerEventDetailsComponent implements OnInit {
    // Submit event for when the user submits the form
@@ -654,8 +652,8 @@ export class SingerEventDetailsComponent implements OnInit {
    }
 
    submitDeleteEvent() {
-         this.deleteEvent.emit(this.currentSingerEventInstance);
-         this.closeForm();
+      this.deleteEvent.emit(this.currentSingerEventInstance);
+      this.closeForm();
    }
 
    // Close the form
