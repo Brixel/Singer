@@ -186,8 +186,7 @@ export class AddFamilyWizardComponent {
       const dialogRef = this.dialog.open(CareUserDetailsComponent, {
          data: {
             careUserInstance: null,
-            isAdding: true,
-            displayContactFields: false,
+            displayLinkedUserFields: false,
          },
          width: '80vw',
       });
@@ -218,8 +217,7 @@ export class AddFamilyWizardComponent {
       const dialogRef = this.dialog.open(CareUserDetailsComponent, {
          data: {
             careUserInstance: deRefCareUser,
-            isAdding: false,
-            displayContactFields: false,
+            displayLinkedUserFields: false,
          },
          width: '80vw',
       });

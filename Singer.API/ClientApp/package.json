@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.1.0-issue-careuser-component-refactor.1149",
+   "version": "0.1.0-issue-careuser-component-refactor.1150",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",
