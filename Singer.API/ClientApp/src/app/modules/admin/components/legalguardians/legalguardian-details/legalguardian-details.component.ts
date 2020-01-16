@@ -109,7 +109,7 @@ export class LegalguardianDetailsComponent implements OnInit {
       @Inject(MAT_DIALOG_DATA) public data: LegalGuardianDetailsFormData
    ) {
       this.currentLegalGuardianInstance = data.legalGuardianInstance;
-      this.isAdding = data.legalGuardianInstance == null ? true : false;
+      this.isAdding = data.legalGuardianInstance === null;
       this.displayLinkedUserFields = data.displayLinkedUserFields;
    }
 

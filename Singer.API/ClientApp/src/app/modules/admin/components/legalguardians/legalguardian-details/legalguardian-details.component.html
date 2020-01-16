@@ -1,6 +1,5 @@
 <!-- Form Dialog Title -->
-<h2 mat-dialog-title *ngIf="isAdding">Voogd toevoegen</h2>
-<h2 mat-dialog-title *ngIf="!isAdding">Voogd bewerken</h2>
+<h2 mat-dialog-title>Voogd {{ isAdding ? 'toevoegen' : 'bewerken'}}</h2>
 
 <!-- Form Dialog Content -->
 <mat-dialog-content>
@@ -204,28 +203,15 @@
             Sluiten
          </button>
 
-         <!-- Add Button -->
+         <!-- Submit Button -->
          <button
             mat-raised-button
             color="primary"
             (click)="submitForm()"
             title="Formulier sluiten"
             aria-label="Formulier sluiten"
-            *ngIf="isAdding"
          >
-            Toevoegen
-         </button>
-
-         <!-- Save Button -->
-         <button
-            mat-raised-button
-            color="primary"
-            (click)="submitForm()"
-            title="Formulier sluiten"
-            aria-label="Formulier sluiten"
-            *ngIf="!isAdding"
-         >
-            Opslaan
+         {{ isAdding ? 'Toevoegen' : 'Opslaan'}}
          </button>
       </mat-dialog-actions>
    </form>
