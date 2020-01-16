@@ -9,6 +9,7 @@ import { SingerEventsService } from '../core/services/singerevents-api/singereve
 import { SingerEventsProxy } from '../core/services/singerevents-api/singerevents.proxy';
 import { CoreModule } from '../core/core.module';
 import { LoadingComponent } from './components/loading/loading.component';
+import { EventTimelineComponent } from './components/event-timeline/event-timeline.component';
 
 @NgModule({
    declarations: [
@@ -16,6 +17,7 @@ import { LoadingComponent } from './components/loading/loading.component';
       UserCardComponent,
       DetailedUserCardComponent,
       LoadingComponent,
+      EventTimelineComponent,
    ],
    imports: [CommonModule, MaterialModule, CoreModule],
    exports: [
@@ -23,6 +25,7 @@ import { LoadingComponent } from './components/loading/loading.component';
       UserCardComponent,
       DetailedUserCardComponent,
       LoadingComponent,
+      EventTimelineComponent,
    ],
    entryComponents: [EventRegistrationComponent, LoadingComponent],
    providers: [ApiService, SingerEventsService, SingerEventsProxy],
