@@ -315,6 +315,18 @@
       </div>
       <!-- Button Row -->
       <mat-dialog-actions class="button-row">
+
+         <!-- Delete Button -->
+        <app-delete-confirmation
+            deleteButtonText="Voogd Verwijderen"
+            [name]="currentLegalGuardianInstance.firstName + ' ' + currentLegalGuardianInstance.lastName"
+            (delete)="emitDeleteEvent()"
+            *ngIf="!isAdding">
+         </app-delete-confirmation>
+
+         <!-- Spacer -->
+         <span class="flex--spacer"></span>
+
          <!-- Close Button -->
          <button
             mat-raised-button
