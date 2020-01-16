@@ -67,7 +67,7 @@ namespace Singer.Models
 
    public class EventRegistrationLocationChange : EventRegistrationLog
    {
-      public Guid NewLocationIdId { get; set; }
+      public Guid NewLocationId { get; set; }
 
       public Guid PreviousLocationId { get; set; }
 
@@ -79,7 +79,7 @@ namespace Singer.Models
          base(eventRegistrationId, executedByUserId, EventRegistrationChanges.LocationChange)
       {
          PreviousLocationId = previousLocationId;
-         NewLocationIdId = newLocationId;
+         NewLocationId = newLocationId;
 
       }
 

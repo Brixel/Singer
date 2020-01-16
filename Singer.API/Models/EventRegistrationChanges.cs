@@ -2,7 +2,7 @@ namespace Singer.Models
 {
    public enum EventRegistrationChanges
    {
-      LocationChange,
-      RegistrationStatusChange
+      LocationChange = 1,
+      RegistrationStatusChange = 2
    }
 }

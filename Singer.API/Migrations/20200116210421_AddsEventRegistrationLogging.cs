@@ -3,12 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Singer.Migrations
 {
-    public partial class AddsEventRegistrationLogs : Migration
+    public partial class AddsEventRegistrationLogging : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "EventRegistrationLog",
+                name: "EventRegistrationLogs",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -17,22 +17,22 @@ namespace Singer.Migrations
                     EmailSent = table.Column<bool>(nullable: false),
                     CreationDateTimeUTC = table.Column<DateTime>(nullable: false),
                     ExecutedByUserId = table.Column<Guid>(nullable: false),
-                    NewLocationIdId = table.Column<Guid>(nullable: true),
+                    NewLocationId = table.Column<Guid>(nullable: true),
                     PreviousLocationId = table.Column<Guid>(nullable: true),
                     NewStatus = table.Column<int>(nullable: true),
                     PreviousStatus = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EventRegistrationLog", x => x.Id);
+                    table.PrimaryKey("PK_EventRegistrationLogs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_EventRegistrationLog_EventRegistrations_EventRegistrationId",
+                        name: "FK_EventRegistrationLogs_EventRegistrations_EventRegistrationId",
                         column: x => x.EventRegistrationId,
                         principalTable: "EventRegistrations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_EventRegistrationLog_AspNetUsers_ExecutedByUserId",
+                        name: "FK_EventRegistrationLogs_AspNetUsers_ExecutedByUserId",
                         column: x => x.ExecutedByUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -40,20 +40,21 @@ namespace Singer.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_EventRegistrationLog_EventRegistrationId",
-                table: "EventRegistrationLog",
+                name: "IX_EventRegistrationLogs_EventRegistrationId",
+                table: "EventRegistrationLogs",
                 column: "EventRegistrationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EventRegistrationLog_ExecutedByUserId",
-                table: "EventRegistrationLog",
+                name: "IX_EventRegistrationLogs_ExecutedByUserId",
+                table: "EventRegistrationLogs",
                 column: "ExecutedByUserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "EventRegistrationLog");
+                name: "EventRegistrationLogs");
+
         }
     }
 }

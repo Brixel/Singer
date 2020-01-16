@@ -8,7 +8,7 @@ namespace Singer.Services.Interfaces
 {
    public interface IActionNotificationService
    {
-      Task<List<EventRegistrationLogDTO>> GetEventRegistrationLogsWaitingForAction();
+      Task<List<EventRegistrationLogCareUserDTO>> GetEventRegistrationLogsWaitingForAction();
       Task RegisterEventRegistrationStatusChange(Guid eventRegistrationId,
          Guid executedByUserId,
          RegistrationStatus originalStatus, RegistrationStatus newRegistrationStatus);

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Singer.DTOs;
+using Singer.Models;
 using Singer.Services.Interfaces;
 
 namespace Singer.Controllers
@@ -23,7 +24,7 @@ namespace Singer.Controllers
       }
 
       [HttpGet("pending")]
-      public async Task<List<EventRegistrationLogDTO>> GetEventRegistrationLogsWaitingForAction()
+      public async Task<List<EventRegistrationLogCareUserDTO>> GetEventRegistrationLogsWaitingForAction()
       {
          return await _actionNotificationService.GetEventRegistrationLogsWaitingForAction();
       }

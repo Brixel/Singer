@@ -11,8 +11,8 @@ using Singer.Models;
 namespace Singer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200109204750_AddsEventRegistrationLogs")]
-    partial class AddsEventRegistrationLogs
+    [Migration("20200116210421_AddsEventRegistrationLogging")]
+    partial class AddsEventRegistrationLogging
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -237,7 +237,7 @@ namespace Singer.Migrations
 
                     b.HasIndex("ExecutedByUserId");
 
-                    b.ToTable("EventRegistrationLog");
+                    b.ToTable("EventRegistrationLogs");
 
                     b.HasDiscriminator<int>("EventRegistrationChanges");
                 });
@@ -392,7 +392,7 @@ namespace Singer.Migrations
                 {
                     b.HasBaseType("Singer.Models.EventRegistrationLog");
 
-                    b.Property<Guid>("NewLocationIdId");
+                    b.Property<Guid>("NewLocationId");
 
                     b.Property<Guid>("PreviousLocationId");
 
@@ -407,7 +407,7 @@ namespace Singer.Migrations
 
                     b.Property<int>("PreviousStatus");
 
-                    b.HasDiscriminator().HasValue(0);
+                    b.HasDiscriminator().HasValue(2);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>

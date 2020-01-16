@@ -4,69 +4,42 @@
    </mat-card>
 </div>
 <div
-   class="mat-elevation-z8 overview-table"
+   class="mat-elevation-z8 overview-list"
    [hidden]="(dataSource.totalSize$ | async) === 0"
 >
-   <mat-table [dataSource]="dataSource" matSort>
-      <!-- Id column -->
-      <ng-container matColumnDef="eventTitle">
-         <mat-header-cell *matHeaderCellDef>Titel</mat-header-cell>
-         <mat-cell *matCellDef="let row">{{
-            row.eventTitle
-         }}</mat-cell>
-      </ng-container>
+<mat-accordion>
+   <mat-expansion-panel *ngFor="let item of dataSource.models$ | async">
+     <mat-expansion-panel-header>
+       <mat-panel-title>
+         {{item.careUser}}
+       </mat-panel-title>
+       <mat-panel-description>
+         {{ item.legalGuardians.join(', ')}}
+       </mat-panel-description>
+     </mat-expansion-panel-header>
+     <mat-list dense *ngFor="let registration of item.registrationStateChanges">
+        <mat-list-item>Inschrijving voor {{ registration.eventTitle }}
+           van {{ registration.eventSlotStartDateTime | date: 'dd-MM-yyyy HH:mm'}}
+           tot {{ registration.eventSlotEndDateTime | date: 'dd-MM-yyyy HH:mm'}}
+           is gewijzigd naar {{ registration.newStatus | registrationStatusPipe }}
+           <mat-icon class="registration-accepted" *ngIf="registration.newStatus === RegistrationStatus.Accepted"
+                     >check_circle_outline</mat-icon
+                  >
+           <mat-icon class="registration-pending" *ngIf="registration.newStatus === RegistrationStatus.Pending">
+            access_time
+         </mat-icon>
+         <mat-icon class="registration-rejected" *ngIf="registration.newStatus === RegistrationStatus.Rejected"
+                     >error_outline</mat-icon
+                  >
+        </mat-list-item>
+     </mat-list>
+     <mat-list dense *ngFor="let registration of item.registrationLocationChanges">
+      <mat-list-item>Inschrijvingslocatie voor {{ registration.eventTitle }}
+         van {{ registration.eventSlotStartDateTime | date: 'dd-MM-yyyy HH:mm'}}
+         tot {{ registration.eventSlotEndDateTime | date: 'dd-MM-yyyy HH:mm'}}
+         is gewijzigd naar {{ registration.newLocation }}</mat-list-item>
 
-      <!-- careUser column -->
-      <ng-container matColumnDef="careUser">
-         <mat-header-cell *matHeaderCellDef>Zorggebruiker</mat-header-cell>
-         <mat-cell *matCellDef="let row"
-            >{{ row.careUser }}</mat-cell
-         >
-      </ng-container>
-      <!-- careUser column -->
-      <ng-container matColumnDef="legalGuardians">
-         <mat-header-cell *matHeaderCellDef>Voogd(en)</mat-header-cell>
-         <mat-cell *matCellDef="let row"
-            >{{ row.legalGuardians.join(', ') }}</mat-cell
-         >
-      </ng-container>
-      <!-- careUser column -->
-      <ng-container matColumnDef="creationDateTimeUTC">
-         <mat-header-cell *matHeaderCellDef>Datum wijziging</mat-header-cell>
-         <mat-cell *matCellDef="let row"
-            >{{ row.creationDateTimeUTC | date: 'dd-MM-yyyy HH:mm' }}</mat-cell
-         >
-      </ng-container>
-      <!-- Action column -->
-      <ng-container matColumnDef="actions">
-         <mat-header-cell *matHeaderCellDef>Acties</mat-header-cell>
-         <mat-cell *matCellDef="let row">
-            <button
-               mat-stroked-button
-               matTooltip="Bekijk inschrijvingen"
-               (click)="manageRegistrations(row)"
-            >
-               <mat-icon>people</mat-icon>
-            </button>
-         </mat-cell>
-      </ng-container>
-      <!-- Paginator column -->
-      <ng-container matColumnDef="paginator">
-         <mat-footer-cell *matFooterCellDef colspan="20">
-            <!-- Paginator -->
-            <mat-paginator
-               #paginator
-               [length]="dataSource?.totalSize$ | async"
-               [pageIndex]="pageIndex"
-               [pageSize]="pageSize"
-               [pageSizeOptions]="[1, 15, 25, 50, 100]"
-               showFirstLastButtons
-            >
-            </mat-paginator>
-         </mat-footer-cell>
-      </ng-container>
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-      <mat-footer-row *matFooterRowDef="['paginator']"></mat-footer-row>
-   </mat-table>
+   </mat-list>
+   </mat-expansion-panel>
+ </mat-accordion>
 </div>

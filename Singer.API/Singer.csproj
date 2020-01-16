@@ -60,6 +60,14 @@
       <Compile Remove="Migrations\20191016203050_create-eventregistrations-and-eventslots.Designer.cs" />
       <Compile Remove="Migrations\20191128185717_DaycareLocationOnRegistration.cs" />
       <Compile Remove="Migrations\20191128185717_DaycareLocationOnRegistration.Designer.cs" />
+      <Compile Remove="Migrations\20200109204750_AddsEventRegistrationLogs.cs" />
+      <Compile Remove="Migrations\20200109204750_AddsEventRegistrationLogs.Designer.cs" />
+      <Compile Remove="Migrations\20200116175217_AddsEventRegistrationLogging.cs" />
+      <Compile Remove="Migrations\20200116175217_AddsEventRegistrationLogging.Designer.cs" />
+      <Compile Remove="Migrations\20200116182641_AddsEventRegistrationLogging.cs" />
+      <Compile Remove="Migrations\20200116182641_AddsEventRegistrationLogging.Designer.cs" />
+      <Compile Remove="Migrations\20200116183209_AddsEventRegistrationLogging.cs" />
+      <Compile Remove="Migrations\20200116183209_AddsEventRegistrationLogging.Designer.cs" />
       <Compile Remove="Models\PaginationModel.cs" />
    </ItemGroup>
 

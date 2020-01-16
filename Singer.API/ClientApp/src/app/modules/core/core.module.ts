@@ -11,6 +11,7 @@ import { SingleRegistrationComponent } from './components/single-registration/si
 import { DeleteConfirmationComponent } from './components/delete-confirmation/delete-confirmation.component';
 import { ConfirmComponent } from './components/confirm/confirm.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RegistrationStatusPipe } from './services/registration-status.pipe';
 
 export const MY_FORMATS = {
    parse: {
@@ -32,11 +33,13 @@ export const MY_FORMATS = {
       SingleRegistrationComponent,
       DeleteConfirmationComponent,
       ConfirmComponent,
+      RegistrationStatusPipe,
    ],
    imports: [CommonModule, MaterialModule, ReactiveFormsModule],
    providers: [
       {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS}, {provide: MAT_DATE_LOCALE, useValue: 'nl-BE'}],
    exports: [
+      RegistrationStatusPipe,
       AgegroupPipe,
       KeysPipe,
       AgegroupChipsComponent,

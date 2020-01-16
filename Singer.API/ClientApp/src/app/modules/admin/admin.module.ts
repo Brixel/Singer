@@ -44,6 +44,7 @@ import { PendingRegistrationsComponent } from './components/pending-registration
 import { PendingActionsComponent } from './components/pending-actions/pending-actions.component';
 import { PendingRegistrationsService } from '../core/services/singerevents-api/pending-registrations-service';
 import { ActionNotificationsService } from '../core/services/action-notification.service';
+import { RegistrationStatusPipe } from '../core/services/registration-status.pipe';
 
 @NgModule({
    declarations: [
@@ -98,6 +99,7 @@ import { ActionNotificationsService } from '../core/services/action-notification
       ApiService,
       AgegroupPipe,
       KeysPipe,
+      RegistrationStatusPipe,
       {
          provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS,
          useValue: {
