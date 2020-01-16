@@ -64,4 +64,8 @@ export class LegalguardiansService {
          .createLegalGuardian(createLegalGuardianDTO)
          .pipe(map(res => res));
    }
+
+   deleteLegalGuardian(id: string) {
+      return this.legalguardianProxy.deleteLegalGuardian(id).pipe(map(res => res));
+   }
 }

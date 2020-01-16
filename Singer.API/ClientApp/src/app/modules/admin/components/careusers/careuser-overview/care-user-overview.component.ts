@@ -11,28 +11,39 @@ import {
    MatDialog,
    MatSnackBar,
 } from '@angular/material';
-import { OverviewDataSource } from './overview-datasource';
+import { CareUserOverviewDataSource } from './care-user-overview-datasource';
 import { merge, fromEvent } from 'rxjs';
 import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { CareUserDetailsComponent } from '../care-user-details/care-user-details.component';
+import { CareUserDetailsComponent } from '../careuser-details/care-user-details.component';
 import { CareUserService } from 'src/app/modules/core/services/care-users-api/careusers.service';
 import { CareUser } from 'src/app/modules/core/models/careuser.model';
 import { LoadingService } from 'src/app/modules/core/services/loading.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
-   selector: 'app-overview',
-   templateUrl: './overview.component.html',
-   styleUrls: ['./overview.component.css'],
+   selector: 'app-care-user-overview',
+   templateUrl: './care-user-overview.component.html',
+   styleUrls: ['./care-user-overview.component.css'],
 })
-export class OverviewComponent implements OnInit, AfterViewInit {
+export class CareUserOverviewComponent implements OnInit, AfterViewInit {
+
    @ViewChild(MatPaginator) paginator: MatPaginator;
    @ViewChild(MatSort) sort: MatSort;
    @ViewChild('filterInput') filterInput: ElementRef;
-   dataSource: OverviewDataSource;
 
-   pageSize = 15;
-   pageIndex = 0;
+   // Filter
+   filter: string;
+
+   readonly maxFilterLength = 2048;
+
+   formControlGroup: FormGroup = new FormGroup({
+      filterFieldControl: new FormControl(this.filter, [
+         Validators.maxLength(this.maxFilterLength),
+      ]),
+   });
+
+   // Datatable
+   dataSource: CareUserOverviewDataSource;
 
    /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
    displayedColumns = [
@@ -43,18 +54,11 @@ export class OverviewComponent implements OnInit, AfterViewInit {
       'ageGroup',
       'isExtern',
       'hasTrajectory',
-      'normalDaycareLocation',
-      'vacationDaycareLocation',
    ];
-   filter: string;
-   readonly maxFilterLength = 2048;
 
-   formControlGroup: FormGroup = new FormGroup({
-      // Form controls
-      filterFieldControl: new FormControl(this.filter, [
-         Validators.maxLength(this.maxFilterLength),
-      ]),
-   });
+   // Paginator
+   pageSize = 15;
+   pageIndex = 0;
 
    constructor(
       public dialog: MatDialog,
@@ -64,81 +68,10 @@ export class OverviewComponent implements OnInit, AfterViewInit {
    ) {}
 
    ngOnInit() {
-      this.dataSource = new OverviewDataSource(this._careUserService);
+      this.dataSource = new CareUserOverviewDataSource(this._careUserService);
       this.sort.active = 'firstName';
       this.sort.direction = 'asc';
       this.loadCareUsers();
-   }
-
-   selectRow(row: CareUser): void {
-      //Dereference row to avoid updating row in overview when API might refuse the update
-      const deRefRow = { ...row };
-      const dialogRef = this.dialog.open(CareUserDetailsComponent, {
-         data: {
-            careUserInstance: deRefRow,
-            isAdding: false,
-            displayContactFields: true,
-         },
-         width: '80vw',
-      });
-
-      dialogRef.componentInstance.submitEvent.subscribe((result: CareUser) => {
-         // Update the Careuser
-         this._careUserService.updateUser(result).subscribe(
-            () => {
-               // Reload Careusers
-               this.loadCareUsers();
-               this._snackBar.open(
-                  `Gebruiker ${result.firstName} ${result.lastName} werd aangepast.`,
-                  'OK',
-                  { duration: 2000 }
-               );
-            },
-            err => {
-               this.handleApiError(err);
-            }
-         );
-      });
-   }
-
-   addCareUser(): void {
-      const dialogRef = this.dialog.open(CareUserDetailsComponent, {
-         data: {
-            careUserInstance: null,
-            isAdding: true,
-            displayContactFields: false,
-         },
-         width: '80vw',
-      });
-
-      dialogRef.componentInstance.submitEvent.subscribe((result: CareUser) => {
-         this._careUserService.createCareUser(result).subscribe(
-            _ => {
-               this.loadCareUsers();
-               this._snackBar.open(
-                  `Gebruiker ${result.firstName} ${result.lastName} werd toegevoegd.`,
-                  'OK',
-                  { duration: 2000 }
-               );
-            },
-            err => {
-               this.handleApiError(err);
-            }
-         );
-      });
-   }
-
-   private loadCareUsers() {
-      const sortDirection = this.sort.direction;
-      const sortColumn = this.sort.active;
-      this.filter = this.filterInput.nativeElement.value;
-      this.dataSource.loadCareUsers(
-         sortDirection,
-         sortColumn,
-         this.pageIndex,
-         this.pageSize,
-         this.filter
-      );
    }
 
    ngAfterViewInit() {
@@ -169,6 +102,75 @@ export class OverviewComponent implements OnInit, AfterViewInit {
          } else {
             this._loadingService.hide();
          }
+      });
+   }
+
+   private loadCareUsers() {
+      const sortDirection = this.sort.direction;
+      const sortColumn = this.sort.active;
+      this.filter = this.filterInput.nativeElement.value;
+      this.dataSource.loadCareUsers(
+         sortDirection,
+         sortColumn,
+         this.pageIndex,
+         this.pageSize,
+         this.filter
+      );
+   }
+
+   addCareUser(): void {
+      const dialogRef = this.dialog.open(CareUserDetailsComponent, {
+         data: {
+            careUserInstance: null,
+            displayLinkedUserFields: false,
+         },
+         width: '80vw',
+      });
+
+      dialogRef.componentInstance.submitEvent.subscribe((result: CareUser) => {
+         this._careUserService.createCareUser(result).subscribe(
+            _ => {
+               this.loadCareUsers();
+               this._snackBar.open(
+                  `Gebruiker ${result.firstName} ${result.lastName} werd toegevoegd.`,
+                  'OK',
+                  { duration: 2000 }
+               );
+            },
+            err => {
+               this.handleApiError(err);
+            }
+         );
+      });
+   }
+
+   selectRow(row: CareUser): void {
+      //Dereference row to avoid updating row in overview when API might refuse the update
+      const deRefRow = { ...row };
+      const dialogRef = this.dialog.open(CareUserDetailsComponent, {
+         data: {
+            careUserInstance: deRefRow,
+            displayLinkedUserFields: true,
+         },
+         width: '80vw',
+      });
+
+      dialogRef.componentInstance.submitEvent.subscribe((result: CareUser) => {
+         // Update the Careuser
+         this._careUserService.updateUser(result).subscribe(
+            () => {
+               // Reload Careusers
+               this.loadCareUsers();
+               this._snackBar.open(
+                  `Gebruiker ${result.firstName} ${result.lastName} werd aangepast.`,
+                  'OK',
+                  { duration: 2000 }
+               );
+            },
+            err => {
+               this.handleApiError(err);
+            }
+         );
       });
    }
 
