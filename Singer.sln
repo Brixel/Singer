@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Singer", "Singer.API\Singer.csproj", "{BB65227C-EBA5-439D-B142-62C8937EB8C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{241E6213-7352-4615-BFBD-2EC3028324C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{241E6213-7352-4615-BFBD-2EC3028324C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Singer.DummyDataSeeder", "Singer.DummyDataSeeder\Singer.DummyDataSeeder.csproj", "{2F256262-0B7E-40FA-ADF3-113A8DE34FF5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{241E6213-7352-4615-BFBD-2EC3028324C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{241E6213-7352-4615-BFBD-2EC3028324C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{241E6213-7352-4615-BFBD-2EC3028324C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F256262-0B7E-40FA-ADF3-113A8DE34FF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F256262-0B7E-40FA-ADF3-113A8DE34FF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F256262-0B7E-40FA-ADF3-113A8DE34FF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F256262-0B7E-40FA-ADF3-113A8DE34FF5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
