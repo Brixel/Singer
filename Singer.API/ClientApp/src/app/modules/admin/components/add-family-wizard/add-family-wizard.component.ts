@@ -114,8 +114,7 @@ export class AddFamilyWizardComponent {
       const dialogRef = this.dialog.open(LegalguardianDetailsComponent, {
          data: {
             legalGuardianInstance: null,
-            isAdding: true,
-            displayContactFields: false,
+            displayLinkedUserFields: false,
          },
          width: '80vw',
       });
@@ -149,8 +148,7 @@ export class AddFamilyWizardComponent {
       const dialogRef = this.dialog.open(LegalguardianDetailsComponent, {
          data: {
             legalGuardianInstance: deRefLegalGuardian,
-            isAdding: false,
-            displayContactFields: false,
+            displayLinkedUserFields: false,
          },
          width: '80vw',
       });

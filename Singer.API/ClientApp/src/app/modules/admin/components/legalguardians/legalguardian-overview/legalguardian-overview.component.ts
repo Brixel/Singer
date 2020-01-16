@@ -26,19 +26,13 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
    styleUrls: ['./legalguardian-overview.component.css'],
 })
 export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
+
    @ViewChild(MatPaginator) paginator: MatPaginator;
    @ViewChild(MatSort) sort: MatSort;
    @ViewChild('filterInput') filterInput: ElementRef;
 
-   dataSource: LegalguardianOverviewDataSource;
-
-   pageSize = 15;
-   pageIndex = 0;
-
+   // Filter
    filter: string;
-
-   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-   displayedColumns = ['firstName', 'lastName', 'email', 'address'];
 
    readonly maxFilterLength = 2048;
 
@@ -48,6 +42,16 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
          Validators.maxLength(this.maxFilterLength),
       ]),
    });
+
+   // Datatable
+   dataSource: LegalguardianOverviewDataSource;
+
+   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
+   displayedColumns = ['firstName', 'lastName', 'email', 'address'];
+
+   // Paginator
+   pageSize = 15;
+   pageIndex = 0;
 
    constructor(
       public dialog: MatDialog,
@@ -65,23 +69,65 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
       this.loadLegalGuardians();
    }
 
-   selectRow(row: LegalGuardian): void {
-      //Dereference row to avoid updating row in overview when API might refuse the update
-      const deRefRow = { ...row };
+   ngAfterViewInit() {
+      fromEvent(this.filterInput.nativeElement, 'keyup')
+         .pipe(
+            debounceTime(400),
+            distinctUntilChanged(),
+            tap(() => {
+               this.paginator.pageIndex = 0;
+               this.loadLegalGuardians();
+            })
+         )
+         .subscribe();
+      this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+      merge(this.sort.sortChange, this.paginator.page)
+         .pipe(
+            tap(() => {
+               this.pageIndex = this.paginator.pageIndex;
+               this.pageSize = this.paginator.pageSize;
+               this.loadLegalGuardians();
+            })
+         )
+         .subscribe();
+      this.dataSource.loading$.subscribe(res => {
+         if (res) {
+            this._loadingService.show();
+         } else {
+            this._loadingService.hide();
+         }
+      });
+   }
+
+   private loadLegalGuardians() {
+      const sortDirection = this.sort.direction;
+      const sortColumn = this.sort.active;
+      this.filter = this.filterInput.nativeElement.value;
+      this.dataSource.loadLegalGuardians(
+         sortDirection,
+         sortColumn,
+         this.pageIndex,
+         this.pageSize,
+         this.filter
+      );
+   }
+
+   addLegalGuardian(): void {
       const dialogRef = this.dialog.open(LegalguardianDetailsComponent, {
-         data: { legalGuardianInstance: deRefRow, isAdding: false, displayContactFields: true, },
+         data: { legalGuardianInstance: null, displayLinkedUserFields: false, },
          width: '80vw',
       });
 
       dialogRef.componentInstance.submitEvent.subscribe(
          (result: LegalGuardian) => {
-            //Update the legal guardian
-            this._legalguardiansService.updateLegalGuardian(result).subscribe(
+            // Add the legal guardian
+            this._legalguardiansService.createLegalGuardian(result).subscribe(
                res => {
-                  // Reload LegalGuardians
+                   // Reload LegalGuardians
                   this.loadLegalGuardians();
+
                   this._snackBar.open(
-                     `${result.firstName} ${result.lastName} werd aangepast.`,
+                     `${result.firstName} ${result.lastName} werd toegevoegd als voogd.`,
                      'OK',
                      { duration: 2000 }
                   );
@@ -114,22 +160,23 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
       );
    }
 
-   addLegalGuardian(): void {
+   selectRow(row: LegalGuardian): void {
+      //Dereference row to avoid updating row in overview when API might refuse the update
+      const deRefRow = { ...row };
       const dialogRef = this.dialog.open(LegalguardianDetailsComponent, {
-         data: { legalGuardianInstance: null, isAdding: true, displayContactFields: false, },
+         data: { legalGuardianInstance: deRefRow, displayLinkedUserFields: true, },
          width: '80vw',
       });
 
       dialogRef.componentInstance.submitEvent.subscribe(
          (result: LegalGuardian) => {
-            // Add the legal guardian
-            this._legalguardiansService.createLegalGuardian(result).subscribe(
+            //Update the legal guardian
+            this._legalguardiansService.updateLegalGuardian(result).subscribe(
                res => {
-                   // Reload LegalGuardians
+                  // Reload LegalGuardians
                   this.loadLegalGuardians();
-
                   this._snackBar.open(
-                     `${result.firstName} ${result.lastName} werd toegevoegd als voogd.`,
+                     `${result.firstName} ${result.lastName} werd aangepast.`,
                      'OK',
                      { duration: 2000 }
                   );
@@ -140,49 +187,6 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
             );
          }
       );
-   }
-
-   private loadLegalGuardians() {
-      const sortDirection = this.sort.direction;
-      const sortColumn = this.sort.active;
-      this.filter = this.filterInput.nativeElement.value;
-      this.dataSource.loadLegalGuardians(
-         sortDirection,
-         sortColumn,
-         this.pageIndex,
-         this.pageSize,
-         this.filter
-      );
-   }
-
-   ngAfterViewInit() {
-      fromEvent(this.filterInput.nativeElement, 'keyup')
-         .pipe(
-            debounceTime(400),
-            distinctUntilChanged(),
-            tap(() => {
-               this.paginator.pageIndex = 0;
-               this.loadLegalGuardians();
-            })
-         )
-         .subscribe();
-      this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
-      merge(this.sort.sortChange, this.paginator.page)
-         .pipe(
-            tap(() => {
-               this.pageIndex = this.paginator.pageIndex;
-               this.pageSize = this.paginator.pageSize;
-               this.loadLegalGuardians();
-            })
-         )
-         .subscribe();
-      this.dataSource.loading$.subscribe(res => {
-         if (res) {
-            this._loadingService.show();
-         } else {
-            this._loadingService.hide();
-         }
-      });
    }
 
    handleApiError(err: any) {
