@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Singer.DummyDataSeeder.Data
+namespace Singer.DummyDataSeeder
 {
     /// <summary>Static class that generates random numbers.</summary>
     public class Randomizer

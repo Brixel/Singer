@@ -1,4 +1,4 @@
-﻿namespace Singer.DummyDataSeeder.Data
+﻿namespace Singer.DummyDataSeeder.Data.Bases
 {
     public interface IData<T>
     {
