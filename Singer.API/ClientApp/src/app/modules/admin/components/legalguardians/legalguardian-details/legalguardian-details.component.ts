@@ -29,6 +29,7 @@ export interface LegalGuardianDetailsFormData {
 export class LegalguardianDetailsComponent implements OnInit {
    // Submit event for when the user submits the form
    @Output() submitEvent: EventEmitter<LegalGuardian> = new EventEmitter();
+   @Output() deleteEvent: EventEmitter<LegalGuardian> = new EventEmitter();
 
    // Boolean to decide if we are adding a new user or editing an existing one
    isAdding: boolean;
@@ -202,19 +203,7 @@ export class LegalguardianDetailsComponent implements OnInit {
    }
 
    createEmptyGuardian() {
-      this.currentLegalGuardianInstance = {
-         id: '',
-         firstName: '',
-         lastName: '',
-         email: '',
-         address: '',
-         postalCode: '',
-         city: '',
-         country: '',
-         careUsersToAdd: [],
-         careUsersToRemove: [],
-         careUsers: [],
-      };
+      this.currentLegalGuardianInstance = new LegalGuardian();
    }
 
    // If we are editing an existing user and there are no changes return false
@@ -367,6 +356,11 @@ export class LegalguardianDetailsComponent implements OnInit {
          this.updateCurrentLegalGuardianInstance();
          this.submitEvent.emit(this.currentLegalGuardianInstance);
       }
+      this.closeForm();
+   }
+
+   emitDeleteEvent() {
+      this.deleteEvent.emit(this.currentLegalGuardianInstance);
       this.closeForm();
    }
 
