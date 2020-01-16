@@ -1,29 +1,14 @@
-import {
-   Component,
-   OnInit,
-   Output,
-   EventEmitter,
-   Inject,
-} from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CareUser } from 'src/app/modules/core/models/careuser.model';
 import { AgeGroup } from 'src/app/modules/core/models/enum';
-import {
-   startWith,
-   debounceTime,
-   switchMap,
-   catchError,
-   map,
-} from 'rxjs/operators';
+import { startWith, debounceTime, switchMap, catchError, map } from 'rxjs/operators';
 import { of, Observable, BehaviorSubject } from 'rxjs';
 import { LegalGuardian } from 'src/app/modules/core/models/legalguardian.model';
 import { LegalguardiansService } from 'src/app/modules/core/services/legal-guardians-api/legalguardians.service';
 import { SingerEventLocationService } from 'src/app/modules/core/services/singerevents-api/singerevent-location.service';
-import {
-   dateNotAfter,
-   dateNotBefore,
-} from 'src/app/modules/core/utils/custom-date-validators';
+import { dateNotAfter, dateNotBefore } from 'src/app/modules/core/utils/custom-date-validators';
 import { SingerEventLocation } from 'src/app/modules/core/models/singerevent.model';
 
 // Data we pass along with the creation of the Mat-Dialog box
@@ -37,7 +22,6 @@ export interface CareUserDetailsFormData {
    styleUrls: ['./care-user-details.component.css'],
 })
 export class CareUserDetailsComponent implements OnInit {
-
    // Submit event for when the user submits the form
    @Output() submitEvent: EventEmitter<CareUser> = new EventEmitter();
 
@@ -115,7 +99,7 @@ export class CareUserDetailsComponent implements OnInit {
       private _singerEventLocationService: SingerEventLocationService
    ) {
       this.currentCareUserInstance = data.careUserInstance;
-      this.isAdding = data.careUserInstance == null ? true : false;
+      this.isAdding = data.careUserInstance === null;
       this.displayLinkedUserFields = data.displayLinkedUserFields;
    }
 
@@ -167,8 +151,12 @@ export class CareUserDetailsComponent implements OnInit {
       this.formControlGroup.controls.birthdayFieldControl.reset(this.currentCareUserInstance.birthDay);
       this.formControlGroup.controls.caseNumberFieldControl.reset(this.currentCareUserInstance.caseNumber);
       this.formControlGroup.controls.ageGroupFieldControl.setValue(this.currentCareUserInstance.ageGroup);
-      this.formControlGroup.controls.isExternFieldControl.reset(this.currentCareUserInstance.isExtern ? 'true' : 'false');
-      this.formControlGroup.controls.hasTrajectoryFieldControl.reset(this.currentCareUserInstance.hasTrajectory ? 'true' : 'false');
+      this.formControlGroup.controls.isExternFieldControl.reset(
+         this.currentCareUserInstance.isExtern ? 'true' : 'false'
+      );
+      this.formControlGroup.controls.hasTrajectoryFieldControl.reset(
+         this.currentCareUserInstance.hasTrajectory ? 'true' : 'false'
+      );
    }
 
    // Clear the currentCareUserInstance legalguardian properties
@@ -181,21 +169,12 @@ export class CareUserDetailsComponent implements OnInit {
    }
 
    legalGuardianUserLookup(value: string): Observable<LegalGuardian[]> {
-      return this._legalGuardianUserService
-         .fetchLegalGuardiansData('asc', 'firstName', 0, 15, value)
-         .pipe(
-            map(res =>
-               res.items.filter(
-                  i =>
-                     !this.currentCareUserInstance.legalGuardianUsers.some(
-                        u => u.id === i.id
-                     )
-               )
-            ),
-            catchError(_ => {
-               return of(null);
-            })
-         );
+      return this._legalGuardianUserService.fetchLegalGuardiansData('asc', 'firstName', 0, 15, value).pipe(
+         map(res => res.items.filter(i => !this.currentCareUserInstance.legalGuardianUsers.some(u => u.id === i.id))),
+         catchError(_ => {
+            return of(null);
+         })
+      );
    }
 
    addLegalGuardianUser(legalGuardianUser: LegalGuardian, event: any = null) {
@@ -257,14 +236,9 @@ export class CareUserDetailsComponent implements OnInit {
       this.currentCareUserInstance.caseNumber = this.formControlGroup.controls.caseNumberFieldControl.value;
       this.currentCareUserInstance.ageGroup = this.formControlGroup.controls.ageGroupFieldControl.value;
       this.currentCareUserInstance.isExtern =
-         this.formControlGroup.controls.isExternFieldControl.value === 'true'
-            ? true
-            : false;
+         this.formControlGroup.controls.isExternFieldControl.value === 'true' ? true : false;
       this.currentCareUserInstance.hasTrajectory =
-         this.formControlGroup.controls.hasTrajectoryFieldControl.value ===
-         'true'
-            ? true
-            : false;
+         this.formControlGroup.controls.hasTrajectoryFieldControl.value === 'true' ? true : false;
    }
 
    // Submit the form
