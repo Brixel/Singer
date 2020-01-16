@@ -11,7 +11,7 @@ import { SingerEventLocationService } from 'src/app/modules/core/services/singer
 import { dateNotAfter, dateNotBefore } from 'src/app/modules/core/utils/custom-date-validators';
 import { SingerEventLocation } from 'src/app/modules/core/models/singerevent.model';
 
-// Data we pass along with the creation of the Mat-Dialog box
+// Data we pass along with the creation of the M at-Dialog box
 export interface CareUserDetailsFormData {
    careUserInstance: CareUser;
    displayLinkedUserFields: boolean;
