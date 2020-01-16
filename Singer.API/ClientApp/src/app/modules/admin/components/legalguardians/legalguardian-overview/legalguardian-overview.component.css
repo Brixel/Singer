@@ -41,11 +41,11 @@ tr.selectable:active {
 }
 
 /* Column */
-.mat-column {
-   padding: 10px;
-}
-
+.mat-column-firstName,
+.mat-column-lastName,
+.mat-column-email,
 .mat-column-address {
+   padding: 10px;
    flex-wrap: nowrap;
    white-space: nowrap;
 }
