@@ -41,7 +41,13 @@ tr.selectable:active {
 }
 
 /* Column */
-.mat-column {
+.mat-column-firstName,
+.mat-column-lastName,
+.mat-column-birthday,
+.mat-column-caseNumber,
+.mat-column-ageGroup,
+.mat-column-isExtern,
+.mat-column-hasTrajectory {
    padding: 10px;
 }
 
