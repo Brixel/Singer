@@ -1,16 +1,16 @@
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { CareUserService } from 'src/app/modules/core/services/care-users-api/careusers.service';
 import { DataSource } from '@angular/cdk/table';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CollectionViewer } from '@angular/cdk/collections';
-import { CareUserDTO, CareUser } from 'src/app/modules/core/models/careuser.model';
+import { CareUser } from 'src/app/modules/core/models/careuser.model';
 
 /**
  * Data source for the Overview view. This class should
  * encapsulate all logic for fetching and manipulating the displayed data
  * (including sorting, pagination, and filtering).
  */
-export class OverviewDataSource extends DataSource<CareUser> {
+export class CareUserOverviewDataSource extends DataSource<CareUser> {
+
    private careUsersSubject$ = new BehaviorSubject<CareUser[]>([]);
    private totalSizeSubject$ = new BehaviorSubject<number>(0);
    private queryCountSubject$ = new BehaviorSubject<number>(0);
@@ -20,7 +20,6 @@ export class OverviewDataSource extends DataSource<CareUser> {
    public totalSize$ = this.totalSizeSubject$.asObservable();
    public queryCount$ = this.queryCountSubject$.asObservable();
    public loading$ = this.loadingSubject$.asObservable();
-
 
    constructor(private careUserService: CareUserService) {
       super();
@@ -44,6 +43,7 @@ export class OverviewDataSource extends DataSource<CareUser> {
    connect(collectionViewer: CollectionViewer): Observable<CareUser[]> {
       return this.careUsersSubject$.asObservable();
    }
+
    disconnect() {
       this.careUsersSubject$.complete();
    }

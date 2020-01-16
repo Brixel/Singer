@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.1.0-issue-theme-new-agechips.1147",
+   "version": "0.1.0-issue-careuser-component-refactor.1151",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",
