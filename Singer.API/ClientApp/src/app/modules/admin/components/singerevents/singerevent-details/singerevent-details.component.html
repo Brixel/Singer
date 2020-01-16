@@ -1,32 +1,25 @@
 <!-- Form Dialog Title -->
-<h2 mat-dialog-title>Toevoegen/bewerken</h2>
+<h2 mat-dialog-title *ngIf="isAdding">Evenement toevoegen</h2>
+<h2 mat-dialog-title *ngIf="!isAdding">Evenement bewerken</h2>
 
 <!-- Form Dialog Content -->
 <mat-dialog-content>
    <!-- Details Form -->
    <form [formGroup]="formControlGroup" class="details-form-container">
       <!-- Event Fields Title -->
-      <h3 class="section-title">Evenement</h3>
+      <h3>Evenement</h3>
 
       <!-- Title Field -->
       <mat-form-field>
          <input matInput [placeholder]="titleFieldPlaceholder" formControlName="titleFieldControl" />
-         <mat-error *ngIf="formControlGroup.controls.titleFieldControl.invalid">
-            <div *ngIf="
-                  formControlGroup.controls.titleFieldControl.errors.required
-               ">
-               Titel is een verplicht veld.
-            </div>
-            <div *ngIf="
-                  formControlGroup.controls.titleFieldControl.errors.minlength
-               ">
-               Titel moet minstens {{ minTitleLength }} karakters bevatten.
-            </div>
-            <div *ngIf="
-                  formControlGroup.controls.titleFieldControl.errors.maxlength
-               ">
-               Titel mag maximum {{ maxTitleLength }} karakters bevatten.
-            </div>
+         <mat-error *ngIf="formControlGroup.controls.titleFieldControl.errors?.required">
+            Titel is een verplicht veld.
+         </mat-error>
+         <mat-error *ngIf="formControlGroup.controls.titleFieldControl.errors?.minlength">
+            Titel moet minstens {{ minTitleLength }} karakters bevatten.
+         </mat-error>
+         <mat-error *ngIf="formControlGroup.controls.titleFieldControl.errors?.maxlength">
+            Titel mag maximum {{ maxTitleLength }} karakters bevatten.
          </mat-error>
       </mat-form-field>
 
@@ -34,17 +27,11 @@
       <mat-form-field>
          <textarea matInput [placeholder]="descriptionFieldPlaceholder" formControlName="descriptionFieldControl"
             rows="4"></textarea>
-         <mat-error *ngIf="formControlGroup.controls.descriptionFieldControl.invalid">
-            <div *ngIf="
-                  formControlGroup.controls.descriptionFieldControl.errors
-                     .maxlength
-               ">
-               Beschrijving mag maximum {{ maxDescriptionLength }} karakters
-               bevatten.
-            </div>
+         <mat-error *ngIf="formControlGroup.controls.descriptionFieldControl.errors?.maxlength">
+            Beschrijving mag maximum {{ maxDescriptionLength }} karakters bevatten.
          </mat-error>
       </mat-form-field>
-      <div>
+      <div class="inline-fields">
          <!-- Location Field -->
          <mat-form-field>
             <mat-label>Locatie evenement</mat-label>
@@ -54,13 +41,8 @@
                   {{ availableLocation.name }}
                </mat-option>
             </mat-select>
-            <mat-error *ngIf="formControlGroup.controls.locationFieldControl.invalid">
-               <div *ngIf="
-                     formControlGroup.controls.locationFieldControl.errors
-                        .required
-                  ">
-                  Locatie is een verplicht veld.
-               </div>
+            <mat-error *ngIf="formControlGroup.controls.locationFieldControl.errors?.required">
+               Locatie is een verplicht veld.
             </mat-error>
          </mat-form-field>
 
@@ -72,15 +54,8 @@
                   {{ ageGroup | agegroupPipe }}
                </mat-option>
             </mat-select>
-            <mat-error *ngIf="
-                  formControlGroup.controls.allowedAgeGroupsFieldControl.invalid
-               ">
-               <div *ngIf="
-                     formControlGroup.controls.allowedAgeGroupsFieldControl
-                        .errors.required
-                  ">
-                  Leeftijdsgroepen is een verplicht veld.
-               </div>
+            <mat-error *ngIf="formControlGroup.controls.allowedAgeGroupsFieldControl.errors?.required">
+               Leeftijdsgroepen is een verplicht veld.
             </mat-error>
          </mat-form-field>
 
@@ -88,72 +63,114 @@
          <mat-form-field>
             <input matInput [placeholder]="maxRegistrantsFieldPlaceholder" formControlName="maxRegistrantsFieldControl"
                type="number" />
-            <mat-error *ngIf="
-                  formControlGroup.controls.maxRegistrantsFieldControl.invalid
-               ">
-               <div *ngIf="
-                     formControlGroup.controls.maxRegistrantsFieldControl.errors
-                        .required
-                  ">
-                  Aantal toegelaten personen is een verplicht veld.
-               </div>
-               <div *ngIf="
-                     formControlGroup.controls.maxRegistrantsFieldControl.errors
-                        .min
-                  ">
-                  Aantal toegelaten personen moet minstens
-                  {{ minMaxRegistrants }} zijn.
-               </div>
-               <div *ngIf="
-                     formControlGroup.controls.maxRegistrantsFieldControl.errors
-                        .max
-                  ">
-                  Aantal toegelaten personen mag maximum
-                  {{ maxMaxRegistrants }} zijn.
-               </div>
+            <mat-error *ngIf="formControlGroup.controls.maxRegistrantsFieldControl.errors?.required">
+               Aantal toegelaten personen is een verplicht veld.
+            </mat-error>
+            <mat-error *ngIf="formControlGroup.controls.maxRegistrantsFieldControl.errors?.min">
+               Aantal toegelaten personen moet minstens
+               {{ minMaxRegistrants }} zijn.
+            </mat-error>
+            <mat-error *ngIf="formControlGroup.controls.maxRegistrantsFieldControl.errors?.max">
+               Aantal toegelaten personen mag maximum
+               {{ maxMaxRegistrants }} zijn.
             </mat-error>
          </mat-form-field>
 
          <!-- Cost Field -->
          <mat-form-field>
-            <input matInput [placeholder]="costFieldPlaceholder" formControlName="costFieldControl" type="number" />
-            <mat-error *ngIf="formControlGroup.controls.costFieldControl.invalid">
-               <div *ngIf="
-                     formControlGroup.controls.costFieldControl.errors.required
-                  ">
-                  Prijs is een verplicht veld.
-               </div>
-               <div *ngIf="formControlGroup.controls.costFieldControl.errors.min">
-                  Prijs mag niet negatief zijn.
-               </div>
-               <div *ngIf="formControlGroup.controls.costFieldControl.errors.max">
-                  Prijs mag maximum {{ maxCost }} zijn.
-               </div>
+            <input matInput [placeholder]="costFieldPlaceholder" formControlName="costFieldControl" type="number"/>
+            <mat-error *ngIf="formControlGroup.controls.costFieldControl.errors?.required">
+               Prijs is een verplicht veld.
+            </mat-error>
+            <mat-error *ngIf="formControlGroup.controls.costFieldControl.errors?.min">
+               Prijs mag niet negatief zijn.
+            </mat-error>
+            <mat-error *ngIf="formControlGroup.controls.costFieldControl.errors?.max">
+               Prijs mag maximum {{ maxCost }} zijn.
             </mat-error>
          </mat-form-field>
       </div>
+
       <!-- End Of Section -->
       <mat-divider></mat-divider>
 
       <!-- Date Fields Title -->
-      <h3 class="section-title">Datums</h3>
+      <h3>Datums</h3>
 
-      <div>
+      <div class="inline-fields">
+         <!-- StartDate Field -->
+         <mat-form-field>
+            <input matInput [matDatepicker]="startDatePicker" [placeholder]="startDateFieldPlaceholder"
+               formControlName="startDateFieldControl" />
+            <mat-error *ngIf="formControlGroup.controls.startDateFieldControl.errors?.required">
+               Startdatum is een verplicht veld.
+            </mat-error>
+            <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #startDatePicker></mat-datepicker>
+         </mat-form-field>
+
+         <!-- EndDate Field -->
+         <mat-form-field>
+            <input matInput [matDatepicker]="endDatePicker" [placeholder]="endDateFieldPlaceholder"
+               formControlName="endDateFieldControl" />
+            <mat-error *ngIf="formControlGroup.controls.endDateFieldControl.errors?.required">
+               Einddatum is een verplicht veld.
+            </mat-error>
+            <mat-error *ngIf="formControlGroup.controls.endDateFieldControl.errors?.dateNotBefore">
+               Einddatum mag niet voor de begin datum ({{
+                  formControlGroup.controls.endDateFieldControl
+                     .errors.dateNotBefore.value | date: 'dd-MM-yyyy'
+               }}) liggen
+            </mat-error>
+            <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #endDatePicker></mat-datepicker>
+         </mat-form-field>
+
+         <!-- dailyStartTime Field -->
+         <mat-form-field>
+            <input matInput [ngxTimepicker]="dailyStartTimePicker" [format]="24"
+               [placeholder]="dailyStartTimePlaceholder" formControlName="dailyStartTimeFieldControl"
+               [value]="formControlGroup.controls.dailyStartTimeFieldControl.value"/>
+            <mat-error *ngIf="formControlGroup.controls.dailyStartTimeFieldControl.errors?.required">
+               Start tijd is een verplicht veld.
+            </mat-error>
+            <ngx-material-timepicker #dailyStartTimePicker [ngxMaterialTimepickerTheme]="singerTimePickerTheme">
+            </ngx-material-timepicker>
+         </mat-form-field>
+
+         <!-- DailyEndTime Field -->
+         <mat-form-field>
+            <input matInput [ngxTimepicker]="dailyEndTimePicker" [format]="24" [placeholder]="dailyEndTimePlaceholder"
+               formControlName="dailyEndTimeFieldControl"
+               [value]="formControlGroup.controls.dailyEndTimeFieldControl.value"/>
+            <mat-error *ngIf="formControlGroup.controls.dailyEndTimeFieldControl.errors?.required">
+               Eind tijd is een verplicht veld.
+            </mat-error>
+            <ngx-material-timepicker #dailyEndTimePicker [ngxMaterialTimepickerTheme]="singerTimePickerTheme">
+            </ngx-material-timepicker>
+         </mat-form-field>
+      </div>
+
+      <!-- RegistrationOnDailyBasis Field -->
+      <mat-form-field class="registrationOnDailyBasisField">
+         <mat-select mat-input [placeholder]="registrationOnDailyBasisFieldPlaceholder"
+            formControlName="registrationOnDailyBasisFieldControl">
+            <mat-option value="true">Ja</mat-option>
+            <mat-option value="false">Nee</mat-option>
+         </mat-select>
+         <mat-error *ngIf="formControlGroup.controls.registrationOnDailyBasisFieldControl.errors?.required">
+            Registratie op dagelijkse basis is een verplicht veld.
+         </mat-error>
+      </mat-form-field>
+
+      <div class="inline-fields">
          <!-- StartRegistrationDate Field -->
          <mat-form-field>
             <input matInput [matDatepicker]="startRegistrationDatePicker"
                [placeholder]="startRegistrationDateFieldPlaceholder"
                formControlName="startRegistrationDateFieldControl" />
-            <mat-error *ngIf="
-                  formControlGroup.controls.startRegistrationDateFieldControl
-                     .invalid
-               ">
-               <div *ngIf="
-                     formControlGroup.controls.startRegistrationDateFieldControl
-                        .errors.required
-                  ">
-                  Startdatum registratie is een verplicht veld.
-               </div>
+            <mat-error *ngIf="formControlGroup.controls.startRegistrationDateFieldControl.errors?.required">
+               Startdatum registratie is een verplicht veld.
             </mat-error>
             <mat-datepicker-toggle matSuffix [for]="startRegistrationDatePicker"></mat-datepicker-toggle>
             <mat-datepicker #startRegistrationDatePicker></mat-datepicker>
@@ -163,25 +180,14 @@
          <mat-form-field>
             <input matInput [matDatepicker]="endRegistrationDatePicker"
                [placeholder]="endRegistrationDateFieldPlaceholder" formControlName="endRegistrationDateFieldControl" />
-            <mat-error *ngIf="
+            <mat-error *ngIf="formControlGroup.controls.endRegistrationDateFieldControl.errors?.required">
+               Einddatum registratie is een verplicht veld.
+            </mat-error>
+            <mat-error *ngIf="formControlGroup.controls.endRegistrationDateFieldControl.errors?.dateNotBefore">
+               Einddatum registratie mag niet voor de begin datum ({{
                   formControlGroup.controls.endRegistrationDateFieldControl
-                     .invalid
-               ">
-               <div *ngIf="
-                     formControlGroup.controls.endRegistrationDateFieldControl
-                        .errors.required
-                  ">
-                  Einddatum registratie is een verplicht veld.
-               </div>
-               <div *ngIf="
-                     formControlGroup.controls.endRegistrationDateFieldControl
-                        .errors.dateNotBefore
-                  ">
-                  Einddatum registratie mag niet voor de begin datum ({{
-                     formControlGroup.controls.endRegistrationDateFieldControl
-                        .errors.dateNotBefore.value | date: 'dd-MM-yyyy'
-                  }}) liggen
-               </div>
+                     .errors.dateNotBefore.value | date: 'dd-MM-yyyy'
+               }}) liggen
             </mat-error>
             <mat-datepicker-toggle matSuffix [for]="endRegistrationDatePicker"></mat-datepicker-toggle>
             <mat-datepicker #endRegistrationDatePicker></mat-datepicker>
@@ -192,129 +198,17 @@
             <input matInput [matDatepicker]="finalCancellationDatePicker"
                [placeholder]="finalCancellationDateFieldPlaceholder"
                formControlName="finalCancellationDateFieldControl" />
-            <mat-error *ngIf="
+            <mat-error *ngIf="formControlGroup.controls.finalCancellationDateFieldControl.errors?.required">
+               Annulatiedatum is een verplicht veld.
+            </mat-error>
+            <mat-error *ngIf="formControlGroup.controls.finalCancellationDateFieldControl.errors?.dateNotBefore">
+               Annulatiedatum mag niet voor de begin datum ({{
                   formControlGroup.controls.finalCancellationDateFieldControl
-                     .invalid
-               ">
-               <div *ngIf="
-                     formControlGroup.controls.finalCancellationDateFieldControl
-                        .errors.required
-                  ">
-                  Annulatiedatum is een verplicht veld.
-               </div>
-               <div *ngIf="
-                     formControlGroup.controls.finalCancellationDateFieldControl
-                        .errors.dateNotBefore
-                  ">
-                  Annulatiedatum mag niet voor de begin datum ({{
-                     formControlGroup.controls.finalCancellationDateFieldControl
-                        .errors.dateNotBefore.value | date: 'dd-MM-yyyy'
-                  }}) liggen
-               </div>
+                     .errors.dateNotBefore.value | date: 'dd-MM-yyyy'
+               }}) liggen
             </mat-error>
             <mat-datepicker-toggle matSuffix [for]="finalCancellationDatePicker"></mat-datepicker-toggle>
             <mat-datepicker #finalCancellationDatePicker></mat-datepicker>
-         </mat-form-field>
-      </div>
-      <!-- RegistrationOnDailyBasis Field -->
-      <mat-form-field>
-         <mat-select mat-input [placeholder]="registrationOnDailyBasisFieldPlaceholder"
-            formControlName="registrationOnDailyBasisFieldControl">
-            <mat-option value="true">Ja</mat-option>
-            <mat-option value="false">Nee</mat-option>
-         </mat-select>
-         <mat-error *ngIf="
-               formControlGroup.controls.registrationOnDailyBasisFieldControl
-                  .invalid
-            ">
-            <div *ngIf="
-                  formControlGroup.controls.registrationOnDailyBasisFieldControl
-                     .errors.required
-               ">
-               Registratie op dagelijkse basis is een verplicht veld.
-            </div>
-         </mat-error>
-      </mat-form-field>
-      <div>
-         <!-- StartDate Field -->
-         <mat-form-field>
-            <input matInput [matDatepicker]="startDatePicker" [placeholder]="startDateFieldPlaceholder"
-               formControlName="startDateFieldControl" />
-            <mat-error *ngIf="formControlGroup.controls.startDateFieldControl.invalid">
-               <div *ngIf="
-                     formControlGroup.controls.startDateFieldControl.errors
-                        .required
-                  ">
-                  Startdatum is een verplicht veld.
-               </div>
-            </mat-error>
-            <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
-            <mat-datepicker #startDatePicker></mat-datepicker>
-         </mat-form-field>
-
-         <!-- EndDate Field -->
-         <mat-form-field>
-            <input matInput [matDatepicker]="endDatePicker" [placeholder]="endDateFieldPlaceholder"
-               formControlName="endDateFieldControl" />
-            <mat-error *ngIf="formControlGroup.controls.endDateFieldControl.invalid">
-               <div *ngIf="
-                     formControlGroup.controls.endDateFieldControl.errors
-                        .required
-                  ">
-                  Einddatum is een verplicht veld.
-               </div>
-               <div *ngIf="
-                     formControlGroup.controls.endDateFieldControl
-                        .errors.dateNotBefore
-                  ">
-                  Einddatum mag niet voor de begin datum ({{
-                     formControlGroup.controls.endDateFieldControl
-                        .errors.dateNotBefore.value | date: 'dd-MM-yyyy'
-                  }}) liggen
-               </div>
-            </mat-error>
-            <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
-            <mat-datepicker #endDatePicker></mat-datepicker>
-         </mat-form-field>
-
-         <!-- dailyStartTime Field -->
-         <mat-form-field>
-            <input matInput [ngxTimepicker]="dailyStartTimePicker" [format]="24"
-               [placeholder]="dailyStartTimePlaceholder" formControlName="dailyStartTimeFieldControl" [value]="
-                  formControlGroup.controls.dailyStartTimeFieldControl.value
-               " />
-            <mat-error *ngIf="
-                  formControlGroup.controls.dailyStartTimeFieldControl.invalid
-               ">
-               <div *ngIf="
-                     formControlGroup.controls.dailyStartTimeFieldControl.errors
-                        .required
-                  ">
-                  Start tijd is een verplicht veld.
-               </div>
-            </mat-error>
-            <ngx-material-timepicker #dailyStartTimePicker [ngxMaterialTimepickerTheme]="singerTimePickerTheme">
-            </ngx-material-timepicker>
-         </mat-form-field>
-
-         <!-- DailyEndTime Field -->
-         <mat-form-field>
-            <input matInput [ngxTimepicker]="dailyEndTimePicker" [format]="24" [placeholder]="dailyEndTimePlaceholder"
-               formControlName="dailyEndTimeFieldControl" [value]="
-                  formControlGroup.controls.dailyEndTimeFieldControl.value
-               " />
-            <mat-error *ngIf="
-                  formControlGroup.controls.dailyEndTimeFieldControl.invalid
-               ">
-               <div *ngIf="
-                     formControlGroup.controls.dailyEndTimeFieldControl.errors
-                        .required
-                  ">
-                  Eind tijd is een verplicht veld.
-               </div>
-            </mat-error>
-            <ngx-material-timepicker #dailyEndTimePicker [ngxMaterialTimepickerTheme]="singerTimePickerTheme">
-            </ngx-material-timepicker>
          </mat-form-field>
       </div>
 
@@ -322,9 +216,9 @@
       <mat-divider></mat-divider>
 
       <!-- Care Fields Title -->
-      <h3 class="section-title">Opvang</h3>
+      <h3>Opvang</h3>
 
-      <div>
+      <div class="inline-fields">
          <!-- HasDayCareBefore Field -->
          <mat-form-field>
             <mat-select mat-input [placeholder]="hasDayCareBeforeFieldPlaceholder"
@@ -332,45 +226,25 @@
                <mat-option value="true">Ja</mat-option>
                <mat-option value="false">Nee</mat-option>
             </mat-select>
-            <mat-error *ngIf="
-                  formControlGroup.controls.hasDayCareBeforeFieldControl.invalid
-               ">
-               <div *ngIf="
-                     formControlGroup.controls.hasDayCareBeforeFieldControl
-                        .errors.required
-                  ">
-                  Heeft opvang voor het evenement is een verplicht veld.
-               </div>
+            <mat-error *ngIf="formControlGroup.controls.hasDayCareBeforeFieldControl.errors?.required">
+               Heeft opvang voor het evenement is een verplicht veld.
             </mat-error>
          </mat-form-field>
 
          <!-- DayCareBeforeStartTime Field -->
-         <mat-form-field *ngIf="
-               formControlGroup.controls.hasDayCareBeforeFieldControl.value ===
-               'true'
-            ">
+         <mat-form-field *ngIf="formControlGroup.controls.hasDayCareBeforeFieldControl.value === 'true'">
             <input matInput [ngxTimepicker]="dayCareBeforeStartTimePicker" [format]="24"
                [placeholder]="dayCareBeforeStartTimeFieldPlaceholder"
-               formControlName="dayCareBeforeStartTimeFieldControl" [value]="
-                  formControlGroup.controls.dayCareBeforeStartTimeFieldControl
-                     .value
-               " />
-            <mat-error *ngIf="
-                  formControlGroup.controls.dayCareBeforeStartTimeFieldControl
-                     .invalid
-               ">
-               {{
-                  getRequiredFieldErrorMessage(
-                     formControlGroup.controls
-                        .dayCareBeforeStartTimeFieldControl
-                  )
-               }}
+               formControlName="dayCareBeforeStartTimeFieldControl"
+               [value]="formControlGroup.controls.dayCareBeforeStartTimeFieldControl.value"/>
+            <mat-error *ngIf="formControlGroup.controls.dayCareBeforeStartTimeFieldControl.errors?.required">
+               Begintijd van de opvang is een verplicht veld.
             </mat-error>
             <ngx-material-timepicker #dayCareBeforeStartTimePicker [ngxMaterialTimepickerTheme]="singerTimePickerTheme">
             </ngx-material-timepicker>
          </mat-form-field>
       </div>
-      <div>
+      <div  class="inline-fields">
          <!-- HasDayCareAfter Field -->
          <mat-form-field>
             <mat-select mat-input [placeholder]="hasDayCareAfterFieldPlaceholder"
@@ -378,43 +252,24 @@
                <mat-option value="true">Ja</mat-option>
                <mat-option value="false">Nee</mat-option>
             </mat-select>
-            <mat-error *ngIf="
-                  formControlGroup.controls.hasDayCareAfterFieldControl.invalid
-               ">
-               <div *ngIf="
-                     formControlGroup.controls.hasDayCareAfterFieldControl
-                        .errors.required
-                  ">
-                  Heeft opvang na het evenement is een verplicht veld.
-               </div>
+            <mat-error *ngIf="formControlGroup.controls.hasDayCareAfterFieldControl.errors?.required">
+               Heeft opvang na het evenement is een verplicht veld.
             </mat-error>
          </mat-form-field>
 
          <!-- DayCareAfterEndTime Field -->
-         <mat-form-field *ngIf="
-               formControlGroup.controls.hasDayCareAfterFieldControl.value ===
-               'true'
-            ">
+         <mat-form-field *ngIf="formControlGroup.controls.hasDayCareAfterFieldControl.value === 'true'">
             <input matInput [ngxTimepicker]="dayCareAfterEndTimePicker" [format]="24"
                [placeholder]="dayCareAfterEndTimeFieldPlaceholder" formControlName="dayCareAfterEndTimeFieldControl"
-               [value]="
-                  formControlGroup.controls.dayCareAfterEndTimeFieldControl
-                     .value
-               " />
-            <mat-error *ngIf="
-                  formControlGroup.controls.dayCareAfterEndTimeFieldControl
-                     .invalid
-               ">
-               {{
-                  getRequiredFieldErrorMessage(
-                     formControlGroup.controls.dayCareAfterEndTimeFieldControl
-                  )
-               }}
+               [value]="formControlGroup.controls.dayCareAfterEndTimeFieldControl.value"/>
+            <mat-error *ngIf="formControlGroup.controls.dayCareAfterEndTimeFieldControl.errors?.required">
+               Eindtijd van de opvang is een verplicht veld.
             </mat-error>
             <ngx-material-timepicker #dayCareAfterEndTimePicker [ngxMaterialTimepickerTheme]="singerTimePickerTheme">
             </ngx-material-timepicker>
          </mat-form-field>
       </div>
+
       <!-- Button Row -->
       <mat-dialog-actions class="button-row">
 
