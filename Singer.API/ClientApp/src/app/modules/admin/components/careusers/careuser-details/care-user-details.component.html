@@ -1,58 +1,63 @@
 <!-- Form Dialog Title -->
-<h2 mat-dialog-title *ngIf="isAdding">Zorggebruiker toevoegen</h2>
-<h2 mat-dialog-title *ngIf="!isAdding">Zorggebruiker bewerken</h2>
+<h2 mat-dialog-title>Zorggebruiker {{ isAdding ? 'toevoegen' : 'bewerken' }}</h2>
 
 <!-- Form Dialog Content -->
 <mat-dialog-content>
    <!-- Details Form -->
    <form [formGroup]="formControlGroup" class="details-form-container">
       <!-- Personal Fields Title -->
-      <h3>Persoonlijke gegevens</h3>
+      <h3>
+         Persoonlijke gegevens
+      </h3>
       <!-- Name Fields -->
       <div class="inline-fields">
          <!-- Lastname Field -->
          <mat-form-field>
-            <input
-               matInput
-               [placeholder]="lastNameFieldPlaceholder"
-               formControlName="lastNameFieldControl"
-            />
+            <input matInput [placeholder]="lastNameFieldPlaceholder" formControlName="lastNameFieldControl" />
             <mat-error *ngIf="formControlGroup.controls.lastNameFieldControl.errors?.required">
-               {{ lastNameFieldPlaceholder }} is een verplicht veld.
+               {{ lastNameFieldPlaceholder }}
+               is een verplicht veld.
             </mat-error>
             <mat-error *ngIf="formControlGroup.controls.lastNameFieldControl.errors?.minlength">
-               {{ lastNameFieldPlaceholder }} moet minstens
-               {{ minNameLength }} karakters bevatten.
+               {{ lastNameFieldPlaceholder }}
+               moet minstens
+               {{ minNameLength }}
+               karakters bevatten.
             </mat-error>
             <mat-error *ngIf="formControlGroup.controls.lastNameFieldControl.errors?.maxlength">
-               {{ lastNameFieldPlaceholder }} mag maximum
-               {{ maxNameLength }} karakters bevatten.
+               {{ lastNameFieldPlaceholder }}
+               mag maximum
+               {{ maxNameLength }}
+               karakters bevatten.
             </mat-error>
             <mat-error *ngIf="formControlGroup.controls.lastNameFieldControl.errors?.pattern">
-               {{ lastNameFieldPlaceholder }} bevat ongeldige karakters.
+               {{ lastNameFieldPlaceholder }}
+               bevat ongeldige karakters.
             </mat-error>
          </mat-form-field>
 
          <!-- FirstName Field -->
          <mat-form-field>
-            <input
-               matInput
-               [placeholder]="firstNameFieldPlaceholder"
-               formControlName="firstNameFieldControl"
-            />
+            <input matInput [placeholder]="firstNameFieldPlaceholder" formControlName="firstNameFieldControl" />
             <mat-error *ngIf="formControlGroup.controls.firstNameFieldControl.errors?.required">
-               {{ firstNameFieldPlaceholder }} is een verplicht veld.
+               {{ firstNameFieldPlaceholder }}
+               is een verplicht veld.
             </mat-error>
             <mat-error *ngIf="formControlGroup.controls.firstNameFieldControl.errors?.minlength">
-               {{ firstNameFieldPlaceholder }} moet minstens
-               {{ minNameLength }} karakters bevatten.
+               {{ firstNameFieldPlaceholder }}
+               moet minstens
+               {{ minNameLength }}
+               karakters bevatten.
             </mat-error>
             <mat-error *ngIf="formControlGroup.controls.firstNameFieldControl.errors?.maxlength">
-               {{ firstNameFieldPlaceholder }} mag maximum
-               {{ maxNameLength }} karakters bevatten.
+               {{ firstNameFieldPlaceholder }}
+               mag maximum
+               {{ maxNameLength }}
+               karakters bevatten.
             </mat-error>
             <mat-error *ngIf="formControlGroup.controls.firstNameFieldControl.errors?.pattern">
-               {{ firstNameFieldPlaceholder }} bevat ongeldige karakters.
+               {{ firstNameFieldPlaceholder }}
+               bevat ongeldige karakters.
             </mat-error>
          </mat-form-field>
 
@@ -67,20 +72,22 @@
                formControlName="birthdayFieldControl"
             />
             <mat-error *ngIf="formControlGroup.controls.birthdayFieldControl.errors?.required">
-               {{ birthdayFieldPlaceholder }} is een verplicht veld.
+               {{ birthdayFieldPlaceholder }}
+               is een verplicht veld.
             </mat-error>
             <mat-error *ngIf="formControlGroup.controls.birthdayFieldControl.errors?.dateNotBefore">
-               {{ birthdayFieldPlaceholder }} mag niet voor
-               {{ minBirthday }} vallen.
+               {{ birthdayFieldPlaceholder }}
+               mag niet voor
+               {{ minBirthday }}
+               vallen.
             </mat-error>
             <mat-error *ngIf="formControlGroup.controls.birthdayFieldControl.errors?.dateNotAfter">
-               {{ birthdayFieldPlaceholder }} mag niet na
-               {{ maxBirthday }} vallen.
+               {{ birthdayFieldPlaceholder }}
+               mag niet na
+               {{ maxBirthday }}
+               vallen.
             </mat-error>
-            <mat-datepicker-toggle
-               matSuffix
-               [for]="picker"
-            ></mat-datepicker-toggle>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
          </mat-form-field>
       </div>
@@ -88,7 +95,9 @@
       <mat-divider></mat-divider>
 
       <!-- Administrative Fields Title -->
-      <h3>Administratieve gegevens</h3>
+      <h3>
+         Administratieve gegevens
+      </h3>
       <div class="inline-fields">
          <!-- CaseNumber Field -->
          <mat-form-field>
@@ -99,41 +108,33 @@
                formControlName="caseNumberFieldControl"
             />
             <mat-error *ngIf="formControlGroup.controls.caseNumberFieldControl.errors?.required">
-               {{ caseNumberFieldPlaceholder }} is een verplicht veld.
+               {{ caseNumberFieldPlaceholder }}
+               is een verplicht veld.
             </mat-error>
          </mat-form-field>
 
          <!-- AgeGroup Field -->
          <mat-form-field>
-            <mat-select
-               mat-input
-               [placeholder]="ageGroupFieldPlaceholder"
-               formControlName="ageGroupFieldControl"
-            >
-               <mat-option
-                  *ngFor="let ageGroup of ageGroups | keys"
-                  [value]="ageGroup.key"
-               >
+            <mat-select mat-input [placeholder]="ageGroupFieldPlaceholder" formControlName="ageGroupFieldControl">
+               <mat-option *ngFor="let ageGroup of ageGroups | keys" [value]="ageGroup.key">
                   {{ ageGroup.value | agegroupPipe }}
                </mat-option>
             </mat-select>
             <mat-error *ngIf="formControlGroup.controls.ageGroupFieldControl.errors?.required">
-               {{ ageGroupFieldPlaceholder }} is een verplicht veld.
+               {{ ageGroupFieldPlaceholder }}
+               is een verplicht veld.
             </mat-error>
          </mat-form-field>
 
          <!-- IsExtern Field -->
          <mat-form-field>
-            <mat-select
-               mat-input
-               [placeholder]="isExternFieldPlaceholder"
-               formControlName="isExternFieldControl"
-            >
+            <mat-select mat-input [placeholder]="isExternFieldPlaceholder" formControlName="isExternFieldControl">
                <mat-option value="false">Klas</mat-option>
                <mat-option value="true">Extern</mat-option>
             </mat-select>
             <mat-error *ngIf="formControlGroup.controls.isExternFieldControl.errors?.required">
-               {{ isExternFieldPlaceholder }} is een verplicht veld.
+               {{ isExternFieldPlaceholder }}
+               is een verplicht veld.
             </mat-error>
          </mat-form-field>
       </div>
@@ -141,7 +142,9 @@
       <mat-divider></mat-divider>
 
       <!-- Care Fields Title -->
-      <h3>Zorg gegevens</h3>
+      <h3>
+         Zorg gegevens
+      </h3>
       <div>
          <!-- HasTrajectory Field -->
          <mat-form-field>
@@ -154,13 +157,16 @@
                <mat-option value="false">Nee</mat-option>
             </mat-select>
             <mat-error *ngIf="formControlGroup.controls.hasTrajectoryFieldControl.errors?.required">
-               {{ hasTrajectoryFieldPlaceholder }} is een verplicht veld.
+               {{ hasTrajectoryFieldPlaceholder }}
+               is een verplicht veld.
             </mat-error>
          </mat-form-field>
       </div>
       <div *ngIf="displayLinkedUserFields && !isAdding">
          <mat-divider></mat-divider>
-         <h3>Voogden</h3>
+         <h3>
+            Voogden
+         </h3>
 
          <p *ngIf="currentCareUserInstance.legalGuardianUsers?.length > 0">
             Deze zorggebruiker heeft volgende voogden:
@@ -168,7 +174,9 @@
          <p *ngIf="!(currentCareUserInstance.legalGuardianUsers?.length > 0)">
             Deze zorggebruiker heeft nog geen voogden gekoppeld.
          </p>
-         <p>Voogd toevoegen:</p>
+         <p>
+            Voogd toevoegen:
+         </p>
          <mat-form-field>
             <input
                type="text"
@@ -183,7 +191,8 @@
                   *ngFor="let legalGuardianUser of legalGuardianUsersAutoComplete$ | async"
                   [value]="legalGuardianUser.id"
                   (click)="addLegalGuardianUser(legalGuardianUser)"
-                  (onSelectionChange)="addLegalGuardianUser(legalGuardianUser, $event)">
+                  (onSelectionChange)="addLegalGuardianUser(legalGuardianUser, $event)"
+               >
                   {{ legalGuardianUser.firstName }}
                   {{ legalGuardianUser.lastName }}
                </mat-option>
@@ -195,11 +204,10 @@
             [cols]="columns"
             rowHeight="200px"
             gutterSize="20px"
-            (window:resize)="onResize($event)">
+            (window:resize)="onResize($event)"
+         >
             <mat-grid-tile *ngFor="let legalGuardianUser of currentCareUserInstance.legalGuardianUsers">
-               <app-user-card
-                  [user]="legalGuardianUser"
-                  (delete)="deleteLegalGuardianUser(legalGuardianUser)">
+               <app-user-card [user]="legalGuardianUser" (delete)="deleteLegalGuardianUser(legalGuardianUser)">
                </app-user-card>
             </mat-grid-tile>
          </mat-grid-list>
@@ -212,30 +220,20 @@
             (click)="closeForm()"
             title="Formulier sluiten"
             aria-label="Formulier sluiten"
-            type="button">
+            type="button"
+         >
             Sluiten
          </button>
 
-         <!-- Add Button -->
+         <!-- Submit Button -->
          <button
             mat-raised-button
             color="primary"
             (click)="submitForm()"
             title="Formulier sluiten"
             aria-label="Formulier sluiten"
-            *ngIf="isAdding">
-            Toevoegen
-         </button>
-
-         <!-- Save Button -->
-         <button
-            mat-raised-button
-            color="primary"
-            (click)="submitForm()"
-            title="Formulier sluiten"
-            aria-label="Formulier sluiten"
-            *ngIf="!isAdding">
-            Opslaan
+         >
+            {{ isAdding ? 'Toevoegen' : 'Opslaan' }}
          </button>
       </mat-dialog-actions>
    </form>
