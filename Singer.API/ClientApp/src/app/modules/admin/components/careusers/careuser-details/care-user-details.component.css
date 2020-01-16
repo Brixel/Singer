@@ -1,9 +1,9 @@
 /* Form layout */
-.details-form {
+.details-form-container {
    display: flex;
    flex-direction: column;
    justify-content: flex-start;
-   min-height: 32em;
+   min-height: 27em;
 }
 
 /* Inline fields layout */
@@ -18,18 +18,10 @@
    margin-right: 20px;
 }
 
-.emailField {
-   min-width: 20em;
-}
-
 /* Button row layout */
 .button-row {
    display: flex;
    flex-direction: row;
-   justify-content: flex-start;
+   justify-content: flex-end;
    align-items: center;
-}
-
-.flex--spacer {
-   flex: 1 1 auto;
 }

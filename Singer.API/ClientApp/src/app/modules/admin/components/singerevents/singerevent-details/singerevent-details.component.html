@@ -273,7 +273,7 @@
       <mat-dialog-actions class="button-row">
 
          <!-- Delete Button -->
-        <app-delete-confirmation [name]="currentSingerEventInstance.title" (delete)="submitDeleteEvent()" class="deleteConfirmation" *ngIf="!isAdding"></app-delete-confirmation>
+        <app-delete-confirmation deleteButtonText="Evenement Verwijderen" [name]="currentSingerEventInstance.title" (delete)="submitDeleteEvent()" class="deleteConfirmation" *ngIf="!isAdding"></app-delete-confirmation>
 
          <!-- Spacer -->
          <span class="flex--spacer"></span>

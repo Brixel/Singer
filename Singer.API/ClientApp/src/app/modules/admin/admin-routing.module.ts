@@ -1,7 +1,7 @@
 import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { AuthGuard } from '../core/services/auth.guard';
-import { OverviewComponent } from './components/careusers/overview/overview.component';
+import { CareUserOverviewComponent } from './components/careusers/careuser-overview/care-user-overview.component';
 import { AdminListComponent } from './components/admin-users/admin-list/admin-list.component';
 import { LegalguardianOverviewComponent } from './components/legalguardians/legalguardian-overview/legalguardian-overview.component';
 import { SingerEventOverviewComponent } from './components/singerevents/singerevent-overview/singerevent-overview.component';
@@ -21,7 +21,7 @@ const routes: Routes = [
          },
          {
             path: 'zorggebruikers',
-            component: OverviewComponent,
+            component: CareUserOverviewComponent,
          },
          {
             path: 'voogden',

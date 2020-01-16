@@ -43,11 +43,16 @@ tr.selectable:active {
 /* Column */
 .mat-column-firstName,
 .mat-column-lastName,
-.mat-column-email,
-.mat-column-address {
+.mat-column-birthday,
+.mat-column-caseNumber,
+.mat-column-ageGroup,
+.mat-column-isExtern,
+.mat-column-hasTrajectory {
    padding: 10px;
-   flex-wrap: nowrap;
-   white-space: nowrap;
+}
+
+.locationName {
+   font-weight: bold;
 }
 
 /* Table footer */

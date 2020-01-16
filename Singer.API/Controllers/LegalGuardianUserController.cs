@@ -44,5 +44,14 @@ namespace Singer.Controllers
          var result = await DatabaseService.UpdateAsync(id, dto);
          return Ok(result);
       }
+
+      [HttpDelete("{id}")]
+      [ProducesResponseType(StatusCodes.Status204NoContent)]
+      [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+      public override async Task<IActionResult> Delete(Guid id)
+      {
+         await _legalGuardianUserService.ArchiveAsync(id);
+         return NoContent();
+      }
    }
 }
