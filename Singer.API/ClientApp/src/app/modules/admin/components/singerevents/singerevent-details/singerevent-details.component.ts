@@ -174,7 +174,7 @@ export class SingerEventDetailsComponent implements OnInit {
       @Inject(MAT_DIALOG_DATA) public data: SingerEventDetailsFormData
    ) {
       this.currentSingerEventInstance = data.singerEventInstance;
-      this.isAdding = data.singerEventInstance == null ? true : false;
+      this.isAdding = data.singerEventInstance === null;
       this.availableLocations = data.availableLocations;
    }
 
