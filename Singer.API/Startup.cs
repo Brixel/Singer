@@ -184,7 +184,6 @@ namespace Singer
          services.AddScoped<IUserProfileService, UserProfileService>();
          services.Configure<ApplicationConfig>(Configuration.GetSection("Application"));
 
-
          var configurationSection = Configuration.GetSection("EmailOptions");
          var hasValidEmailOptions = configurationSection.GetChildren().All(x => !string.IsNullOrWhiteSpace(x.Value));
          if (hasValidEmailOptions)
@@ -207,8 +206,9 @@ namespace Singer
             services.AddScoped(typeof(IEmailService<UserDTO>),
                typeof(NoActualEmailService<UserDTO>));
          }
-         services.AddApplicationInsightsTelemetry();
-
+         
+         var instrumentationKey = Configuration.GetSection("ApplicationInsights").GetChildren().SingleOrDefault(x => x.Value == "InstrumentationKey")?.Value;
+         services.AddApplicationInsightsTelemetry(instrumentationKey);
       }
 
       private static IIdentityServerBuilder AddIdentityService(IServiceCollection services, X509Certificate2 cert)

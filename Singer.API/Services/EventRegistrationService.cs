@@ -8,6 +8,7 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Singer.Data;
 using Singer.DTOs;
+using Singer.DTOs.Csv;
 using Singer.DTOs.Users;
 using Singer.Helpers.Exceptions;
 using Singer.Helpers.Extensions;
@@ -187,6 +188,7 @@ namespace Singer.Services
 
          return registration;
       }
+
       public async Task<EventRegistrationDTO> GetOneAsync(Guid eventId, Guid registrationId)
       {
          var registration = await Queryable
@@ -199,6 +201,29 @@ namespace Singer.Services
             throw new NotFoundException($"There is no registration with id {registrationId} and event id {eventId}");
 
          return registration;
+      }
+
+      public Task<List<CsvRegistrationDTO>> GetParticipantsForSlotAsync(Guid eventId, Guid eventSlotId)
+      {
+         return Queryable
+            .Where(x =>
+               x.EventSlot.Event.Id == eventId &&
+               x.EventSlotId == eventSlotId &&
+               x.Status == RegistrationStatus.Accepted)
+            .Select(x => new CsvRegistrationDTO
+            {
+               CaseNumber = x.CareUser.CaseNumber,
+               FirstName = x.CareUser.User.FirstName,
+               LastName = x.CareUser.User.LastName,
+               AgeGroup = x.CareUser.AgeGroup,
+               DayCareAfterEndDateTime = x.EventSlot.Event.DayCareAfterEndDateTime,
+               DayCareBeforeStartDateTime = x.EventSlot.Event.DayCareBeforeStartDateTime,
+               // TODO add legal guardian
+               // LegalGuardianName = "",
+               Status = x.Status,
+               IsExtern = x.CareUser.IsExtern,
+            })
+            .ToListAsync();
       }
 
       public async Task<EventRegistrationDTO> UpdateStatusAsync(Guid eventId, Guid registrationId, RegistrationStatus status)
@@ -273,7 +298,10 @@ namespace Singer.Services
 
       public Task<List<EventRegistrationDTO>> GetAllSlotsForEventAsync(Guid eventId)
       {
-         return Queryable.Where(x => x.EventSlot.EventId == eventId).Select(Projector).ToListAsync();
+         return Queryable
+            .Where(x => x.EventSlot.EventId == eventId)
+            .Select(Projector)
+            .ToListAsync();
       }
 
       public async Task<EventRegistrationDTO> CreateOneBySlotAsync(CreateEventSlotRegistrationDTO dto)

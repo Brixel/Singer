@@ -8,11 +8,7 @@
          formControlName="filterFieldControl"
       />
       <mat-error *ngIf="formControlGroup.controls.filterFieldControl.invalid">
-         <div
-            *ngIf="
-               formControlGroup.controls.filterFieldControl.errors.maxlength
-            "
-         >
+         <div *ngIf="formControlGroup.controls.filterFieldControl.errors.maxlength">
             Filter mag maximum {{ maxFilterLength }} karakters bevatten.
          </div>
       </mat-error>
@@ -21,7 +17,7 @@
 
 <!-- Mat Table -->
 <div class="mat-elevation-z8 overview-table">
-   <table mat-table [dataSource]="dataSource" matSort aria-label="voogden">
+   <table mat-table [dataSource]="dataSource" matSort aria-label="Voogden">
       <!-- FirstName Column -->
       <ng-container matColumnDef="firstName">
          <th mat-header-cell *matHeaderCellDef mat-sort-header>Voornaam</th>
@@ -61,9 +57,9 @@
             >
                <mat-icon>person_add</mat-icon>
             </button>
-            <!-- <label class="tableButton">Toevoegen</label> -->
          </td>
       </ng-container>
+
       <!-- Paginator column -->
       <ng-container matColumnDef="paginator">
          <td mat-footer-cell *matFooterCellDef colspan="20">
@@ -79,16 +75,21 @@
             </mat-paginator>
          </td>
       </ng-container>
+
       <!-- Header Row -->
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
       <!-- Data Row -->
       <tr
          mat-row
          *matRowDef="let row; columns: displayedColumns"
          class="selectable"
          (click)="selectRow(row)"
-      ></tr>
+      >
+      </tr>
+
       <!-- Footer Row -->
       <tr mat-footer-row *matFooterRowDef="['addButton', 'paginator']"></tr>
+
    </table>
 </div>

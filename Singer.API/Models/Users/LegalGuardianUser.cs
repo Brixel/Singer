@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Singer.Models.Users
 {
-   public class LegalGuardianUser : IUser
+   public class LegalGuardianUser : IUser, IArchivable
    {
       public Guid Id { get; set; }
 
@@ -17,5 +17,6 @@ namespace Singer.Models.Users
       public string PostalCode { get; set; }
       public string City { get; set; }
       public string Country { get; set; }
+      public bool IsArchived { get; set; }
    }
 }

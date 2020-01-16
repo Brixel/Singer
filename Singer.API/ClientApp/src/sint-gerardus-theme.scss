@@ -141,5 +141,28 @@ $sint-gerardus-theme: mat-light-theme(
    --singer-theme-accent-dark-pink: #ff43a1;
    --singer-theme-accent-dark-purple: #a143ff;
    --singer-theme-accent-dark-blue: #256bcf;
+   --singer-theme-accent-dark-yellow: #e3e40e;
 
+   --singer-theme-accent-light-green: #A4DDB5;
+   --singer-theme-accent-light-pink: #FFB5D9;
+   --singer-theme-accent-light-purple: #E1C4FF;
+   --singer-theme-accent-light-blue: #4585D9;
+   --singer-theme-accent-light-yellow: #F6F6A2;
+
+   /*
+      Timeline Colors
+   */
+   --singer-theme-timeline-dark-empty: #707070;
+   --singer-theme-timeline-light-empty: #828282;
+   --singer-theme-timeline-dark-filled: #2a73d4;
+   --singer-theme-timeline-light-filled: #4585D9;
+
+   /*
+     Agegroup Colors
+   */
+   --singer-theme-agegroup-toddler: #F4F489;
+   --singer-theme-agegroup-kindergartener: #FFA0D0;
+   --singer-theme-agegroup-child: #8BD4A1;
+   --singer-theme-agegroup-youngster: #94B8E9;
+   --singer-theme-agegroup-adult: #D0A0FF;
 }

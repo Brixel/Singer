@@ -320,6 +320,8 @@ namespace Singer.Migrations
 
                     b.Property<string>("Country");
 
+                    b.Property<bool>("IsArchived");
+
                     b.Property<string>("PostalCode");
 
                     b.Property<Guid>("UserId");

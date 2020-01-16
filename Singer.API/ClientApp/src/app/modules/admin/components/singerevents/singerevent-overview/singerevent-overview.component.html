@@ -7,21 +7,15 @@
          placeholder="Filter"
          formControlName="filterFieldControl"
       />
-      <mat-error *ngIf="formControlGroup.controls.filterFieldControl.invalid">
-         <div
-            *ngIf="
-               formControlGroup.controls.filterFieldControl.errors.maxlength
-            "
-         >
-            Filter mag maximum {{ maxFilterLength }} karakters bevatten.
-         </div>
+      <mat-error *ngIf="formControlGroup.controls.filterFieldControl.errors?.maxlength">
+         Filter mag maximum {{ maxFilterLength }} karakters bevatten.
       </mat-error>
    </mat-form-field>
 </form>
 
 <!-- Mat Table -->
 <div class="mat-elevation-z8 overview-table">
-   <table mat-table [dataSource]="dataSource" matSort aria-label="evenementen">
+   <table mat-table [dataSource]="dataSource" matSort aria-label="Evenementen">
       <!-- title Column -->
       <ng-container matColumnDef="title">
          <th mat-header-cell *matHeaderCellDef mat-sort-header>Titel</th>

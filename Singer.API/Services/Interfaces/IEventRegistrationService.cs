@@ -1,4 +1,5 @@
 using Singer.DTOs;
+using Singer.DTOs.Csv;
 using Singer.Models;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ namespace Singer.Services.Interfaces
 
       Task<EventRegistrationDTO> GetOneBySlotAsync(Guid eventSlotId, Guid careUserId);
       Task<EventRegistrationDTO> GetOneAsync(Guid eventId, Guid registrationId);
+      Task<List<CsvRegistrationDTO>> GetParticipantsForSlotAsync(Guid eventId, Guid eventSlotId);
 
       Task<IReadOnlyList<EventRegistrationDTO>> CreateAsync(CreateEventRegistrationDTO dto);
       Task<EventRegistrationDTO> CreateOneBySlotAsync(CreateEventSlotRegistrationDTO dto);
