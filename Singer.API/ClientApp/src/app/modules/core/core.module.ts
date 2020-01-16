@@ -11,7 +11,6 @@ import { SingleRegistrationComponent } from './components/single-registration/si
 import { DeleteConfirmationComponent } from './components/delete-confirmation/delete-confirmation.component';
 import { ConfirmComponent } from './components/confirm/confirm.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { EventTimelineComponent } from './components/event-timeline/event-timeline.component';
 
 @NgModule({
    declarations: [
@@ -23,7 +22,6 @@ import { EventTimelineComponent } from './components/event-timeline/event-timeli
       SingleRegistrationComponent,
       DeleteConfirmationComponent,
       ConfirmComponent,
-      EventTimelineComponent,
    ],
    imports: [CommonModule, MaterialModule, ReactiveFormsModule],
    exports: [
@@ -34,7 +32,6 @@ import { EventTimelineComponent } from './components/event-timeline/event-timeli
       SingleRegistrationComponent,
       DailybasisRegistrationsComponent,
       DeleteConfirmationComponent,
-      EventTimelineComponent,
    ],
 })
 export class CoreModule {}
