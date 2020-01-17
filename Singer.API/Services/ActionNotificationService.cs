@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.EntityFrameworkCore;
 using Singer.Data;
 using Singer.DTOs;
@@ -15,10 +14,12 @@ namespace Singer.Services
    class ActionNotificationService : IActionNotificationService
    {
       private readonly ApplicationDbContext _context;
+      private readonly IEmailService _emailService;
 
-      public ActionNotificationService(ApplicationDbContext context)
+      public ActionNotificationService(ApplicationDbContext context, IEmailService emailService)
       {
          _context = context;
+         _emailService = emailService;
       }
 
       /// <summary>
@@ -51,16 +52,78 @@ namespace Singer.Services
          }
       }
 
-      public async Task<List<EventRegistrationLogCareUserDTO>> GetEventRegistrationLogsWaitingForAction()
+      public async Task SendEmails(Guid userId)
+      {
+         var logsAwaitingAction
+            = await GetEventRegistrationLogsWaitingForAction(userId);
+         foreach (var actionsForCareUser in logsAwaitingAction)
+         {
+            var careTakers = string.Join(", ", actionsForCareUser.LegalGuardians);
+            var emailTemplate = $"Beste {careTakers}<br />Er zijn wijzigingen in de inschrijvingen voor" +
+                                $" {actionsForCareUser.CareUser} geweest. Hieronder is een samenvatting:<br /><br />";
+            if (actionsForCareUser.RegistrationStateChanges.Any())
+            {
+               emailTemplate += "Goedkeuringen en afkeuringen<br /><ul>";
+
+               foreach (var registration in actionsForCareUser.RegistrationStateChanges)
+               {
+                  var newStatus = registration.NewStatus;
+                  var statusString = newStatus switch
+                  {
+                     RegistrationStatus.Accepted => "Goedgekeurd",
+                     RegistrationStatus.Rejected => "Afgekeurd",
+                     _ => "Afwachting"
+                  };
+                  emailTemplate += $"<li>{registration.EventTitle} " +
+                                   $"van {registration.EventSlotStartDateTime:dd-MM-yyyy HH:mm}" +
+                                   $"tot {registration.EventSlotEndDateTime:dd-MM-yyyy HH:mm}:" +
+                                   $"{statusString}</li>";
+               }
+
+               emailTemplate += "</ul>";
+            }
+
+            if (actionsForCareUser.RegistrationLocationChanges.Any())
+            {
+               emailTemplate += "Locatiewijzigingen<br /><ul>";
+
+               foreach (var registration in actionsForCareUser.RegistrationLocationChanges)
+               {
+                  emailTemplate += $"<li>{registration.EventTitle} " +
+                                   $"van {registration.EventSlotStartDateTime:dd-MM-yyyy HH:mm}" +
+                                   $"tot {registration.EventSlotEndDateTime:dd-MM-yyyy HH:mm}:" +
+                                   $"{registration.NewLocation}</li>";
+               }
+
+               emailTemplate += "</ul>";
+            }
+
+            await _emailService.Send("Inschrijvingen", emailTemplate,
+               actionsForCareUser.LegalGuardians.Select(x => x.Email).ToList());
+         }
+      }
+
+      public async Task<List<EventRegistrationLogCareUserDTO>> GetEventRegistrationLogsWaitingForAction(Guid? userId = null)
       {
          var locations = _context.EventLocations
             .Select(x => new {x.Id, x.Name})
             .ToDictionary(x => x.Id, x => x.Name);
-
+         Expression<Func<EventRegistrationStatusChange, bool>> statusChangeExpression;
+         Expression<Func<EventRegistrationLocationChange, bool>> locationChangeExpression;
+         if (userId.HasValue)
+         {
+            statusChangeExpression = x => !x.EmailSent && x.ExecutedByUserId == userId;
+            locationChangeExpression = x => !x.EmailSent && x.ExecutedByUserId == userId;
+         }
+         else
+         {
+            statusChangeExpression = x => !x.EmailSent;
+            locationChangeExpression = x => !x.EmailSent;
+         }
          var registrationLocationChanges =
             await _context.EventRegistrationLogs
             .OfType<EventRegistrationLocationChange>()
-            .Where(x => !x.EmailSent)
+            .Where(locationChangeExpression)
             .Select(x => new
             {
                Id = x.Id,
@@ -78,18 +141,20 @@ namespace Singer.Services
                   x.EventRegistration.CareUser.User.FirstName,
                   x.EventRegistration.CareUser.User.LastName
                },
-               LegalGuardians = x.EventRegistration.CareUser.LegalGuardianCareUsers.Select(lc => new
+               LegalGuardians = x.EventRegistration.CareUser
+                  .LegalGuardianCareUsers.Select(lc => new
                {
                   lc.LegalGuardian.User.FirstName,
-                  lc.LegalGuardian.User.LastName
-               }),
+                  lc.LegalGuardian.User.LastName,
+                  lc.LegalGuardian.User.Email
+                  }),
                CreationDateTimeUTC = x.CreationDateTimeUTC
             }).ToListAsync();
 
 
          var registrationStatusChanges = await _context.EventRegistrationLogs
             .OfType<EventRegistrationStatusChange>()
-            .Where(x => !x.EmailSent)
+            .Where(statusChangeExpression)
             .Select(x => new
             {
                EventRegistration  = new
@@ -109,7 +174,8 @@ namespace Singer.Services
                LegalGuardians = x.EventRegistration.CareUser.LegalGuardianCareUsers.Select(lc => new
                {
                   lc.LegalGuardian.User.FirstName,
-                  lc.LegalGuardian.User.LastName
+                  lc.LegalGuardian.User.LastName,
+                  lc.LegalGuardian.User.Email
                }),
                CreationDateTimeUTC = x.CreationDateTimeUTC
             }).ToListAsync();
@@ -121,7 +187,10 @@ namespace Singer.Services
                   {
                      var careUser = careUserId.First().CareUser;
                      var legalGuardians = careUserId.First().LegalGuardians
-                        .Select(lc => $"{lc.FirstName} {lc.LastName}").ToList();
+                        .Select(lc => new EventRegistrationLogCareUserDTO.LegalGuardianDTO(){
+                           Name = $"{lc.FirstName} {lc.LastName}",
+                           Email = lc.Email
+                        }).ToList();
                      return new EventRegistrationLogCareUserDTO()
                      {
                         Id = careUserId.Key,
@@ -148,7 +217,10 @@ namespace Singer.Services
                {
                   var careUser = careUserId.First().CareUser;
                   var legalGuardians = careUserId.First().LegalGuardians
-                     .Select(lc => $"{lc.FirstName} {lc.LastName}").ToList();
+                     .Select(lc => new EventRegistrationLogCareUserDTO.LegalGuardianDTO(){
+                        Name = $"{lc.FirstName} {lc.LastName}",
+                        Email = lc.Email
+                     }).ToList();
                   return new EventRegistrationLogCareUserDTO()
                   {
                      Id = careUserId.Key,
@@ -164,7 +236,6 @@ namespace Singer.Services
                            EventSlotEndDateTime = eventRegistration.EventRegistration.EventSlotStartDateTime,
                            NewLocation = eventRegistration.EventRegistration.NewLocation
                         }).ToList()
-
                   };
                }).ToList();
 

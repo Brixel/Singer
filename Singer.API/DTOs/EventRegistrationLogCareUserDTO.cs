@@ -10,7 +10,7 @@ namespace Singer.DTOs
    {
       public Guid Id { get; set; }
       public string CareUser { get; set; }
-      public List<string> LegalGuardians { get; set; }
+      public List<LegalGuardianDTO> LegalGuardians { get; set; }
       public DateTime CreationDateTimeUTC { get; set; }
 
       public IReadOnlyList<CareUserRegistrationStateChangedDTO> RegistrationStateChanges { get; set; }
@@ -20,6 +20,12 @@ namespace Singer.DTOs
       {
          RegistrationStateChanges = new List<CareUserRegistrationStateChangedDTO>();
          RegistrationLocationChanges = new List<CareUserRegistrationLocationChangedDTO>();
+      }
+
+      public class LegalGuardianDTO
+      {
+         public string Name { get; set; }
+         public string Email { get; set; }
       }
    }
 

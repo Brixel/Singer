@@ -15,9 +15,14 @@ export class ActionNotificationsService {
    error$: Subject<HttpErrorResponse>;
    constructor(protected httpClient: HttpClient) {   }
 
-   fetch(){
+   fetch() {
       return this.httpClient
          .get<EventRegistrationLogCareUser[]>('api/actionnotification/pending')
+         .pipe(catchError(error => this.handleError(error)));
+   }
+
+   sendEmails() {
+      return this.httpClient.put('api/actionnotification/sendemail', null)
          .pipe(catchError(error => this.handleError(error)));
    }
 

@@ -7,6 +7,15 @@
    class="mat-elevation-z8 overview-list"
    [hidden]="(dataSource.totalSize$ | async) === 0"
 >
+<mat-card>
+   <mat-card-content>
+      Hieronder staan alle acties die op inschrijvingen zijn uitgevoerd.
+   </mat-card-content>
+   <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="sendEmails()">
+         Verzend e-mails naar voogden</button>
+   </mat-card-actions>
+</mat-card>
 <mat-accordion>
    <mat-expansion-panel *ngFor="let item of dataSource.models$ | async">
      <mat-expansion-panel-header>

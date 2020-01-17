@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
@@ -61,6 +63,45 @@ namespace Singer.Services
          msg.Subject = "Herstel uw Sint Gerardus wachtwoord";
          msg.Body = $"Beste {user.FirstName} {user.LastName},\n Klik op onderstaande link om uw wachtwoord te wijzigen:<br />";
          msg.Body += $"<a href=\"{resetPasswordLink}\">Herstel wachtwoord</a>";
+         await _smtp.SendMailAsync(msg);
+      }
+   }
+
+
+   public class EmailService : IEmailService
+   {
+      private readonly string _mailFrom;
+      private readonly SmtpClient _smtp;
+
+      public EmailService(IOptions<EmailOptions> options = null)
+      {
+
+         if (options == null)
+         {
+            throw new ArgumentNullException(nameof(options));
+         }
+         var emailOptions = options.Value;
+         _smtp = new SmtpClient
+         {
+            Credentials = new NetworkCredential(emailOptions.SmtpUsername, emailOptions.SmtpPassword),
+            Host = emailOptions.SmtpHost,
+            Port = emailOptions.SmtpPort
+         };
+         _mailFrom = emailOptions.MailFrom;
+      }
+      public async Task Send(string subject, string body, IReadOnlyList<string> recipients)
+      {
+         var msg = new MailMessage
+         {
+            From = new MailAddress(_mailFrom),
+            IsBodyHtml = true,
+            Subject = subject,
+            Body = body
+         };
+         foreach (var recipient in recipients)
+         {
+            msg.To.Add(new MailAddress(recipient));
+         }
          await _smtp.SendMailAsync(msg);
       }
    }

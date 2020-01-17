@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +28,14 @@ namespace Singer.Controllers
       public async Task<List<EventRegistrationLogCareUserDTO>> GetEventRegistrationLogsWaitingForAction()
       {
          return await _actionNotificationService.GetEventRegistrationLogsWaitingForAction();
+      }
+
+      [HttpPut("sendemail")]
+      public async Task SendEmail()
+      {
+         var subjectId = User.GetSubjectId();
+         var userId = Guid.Parse(subjectId);
+         await _actionNotificationService.SendEmails(userId);
       }
    }
 }

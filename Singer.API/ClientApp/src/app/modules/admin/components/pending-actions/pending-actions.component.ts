@@ -18,15 +18,19 @@ export class PendingActionsComponent implements OnInit {
    RegistrationStatus = RegistrationStatus;
 
    constructor(
-      dataService: ActionNotificationsService,
+      private actionNotificationService: ActionNotificationsService,
       dialog: MatDialog
    ){
 
-      this.dataSource = new PendingActionsDataSource(dataService);
+      this.dataSource = new PendingActionsDataSource(actionNotificationService);
       this.dialog = dialog;
    }
    ngOnInit(){
       this.dataSource.load();
+   }
+
+   sendEmails(){
+      this.actionNotificationService.sendEmails();
    }
 }
 
