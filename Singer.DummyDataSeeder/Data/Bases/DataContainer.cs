@@ -1,9 +1,9 @@
 ﻿namespace Singer.DummyDataSeeder.Data.Bases
 {
-    internal abstract class DataContainer<T> : IData<T>
+    internal abstract class DataContainer<TDto, TCreateDto> : IDataContainer<TDto, TCreateDto>
     {
         protected static Randomizer R => Randomizer.Instance;
 
-        public abstract T[] Data { get; }
+        public abstract IDtoStorer<TDto, TCreateDto>[] Data { get; }
     }
 }

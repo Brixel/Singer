@@ -3,11 +3,11 @@ using Singer.DummyDataSeeder.Data.Bases;
 
 namespace Singer.DummyDataSeeder.Data
 {
-    internal class LegalGuardians : DataContainer<LegalGuardian>
+    internal class LegalGuardians : DataContainer<LegalGuardianUserDTO, CreateLegalGuardianUserDTO>
     {
-        private LegalGuardian[] _data;
+        private IDtoStorer<LegalGuardianUserDTO, CreateLegalGuardianUserDTO>[] _data;
 
-        public override LegalGuardian[] Data => _data ??= new[]
+        public override IDtoStorer<LegalGuardianUserDTO, CreateLegalGuardianUserDTO>[] Data => _data ??= new IDtoStorer<LegalGuardianUserDTO, CreateLegalGuardianUserDTO>[]
         {
             new LegalGuardian
             {

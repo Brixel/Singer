@@ -6,11 +6,11 @@ using Singer.Models;
 
 namespace Singer.DummyDataSeeder.Data
 {
-    internal sealed class CareUsers : DataContainer<CareUser>
+    internal sealed class CareUsers : DataContainer<CareUserDTO, CreateCareUserDTO>
     {
-        private CareUser[] _data;
-
-        public override CareUser[] Data => _data ??= new []
+        private IDtoStorer<CareUserDTO, CreateCareUserDTO>[] _data;
+        
+        public override IDtoStorer<CareUserDTO, CreateCareUserDTO>[] Data => _data ??= new IDtoStorer<CareUserDTO, CreateCareUserDTO>[]
         {
             new CareUser
             {
@@ -373,5 +373,7 @@ namespace Singer.DummyDataSeeder.Data
                 }
             },
         };
+
+        
     }
 }
