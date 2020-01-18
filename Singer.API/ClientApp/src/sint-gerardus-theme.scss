@@ -102,7 +102,6 @@ $sint-gerardus-theme: mat-light-theme(
    /*
       Primary Colors
    */
-
    --singer-theme-primary: #{mat-color($sint-gerardus-theme-primary)};
    --singer-theme-primary-lighter: #{mat-color(
          $sint-gerardus-theme-primary,
@@ -121,12 +120,11 @@ $sint-gerardus-theme: mat-light-theme(
    /*
       Text Colors
    */
-
-   --singer-theme-dark-primary-text: rgba(black, 0.87);
-   --singer-theme-dark-secondary-text: rgba(black, 0.54);
-   --singer-theme-dark-disabled-text: rgba(black, 0.38);
-   --singer-theme-dark-dividers: rgba(black, 0.12);
-   --singer-theme-dark-focused: rgba(black, 0.12);
+   --singer-theme-dark-primary-text: #212121; // Black 87%
+   --singer-theme-dark-secondary-text: #757575; // Black 54%
+   --singer-theme-dark-disabled-text: #9E9E9E; // Black 38%
+   --singer-theme-dark-dividers: #E0E0E0; // Black 12%
+   --singer-theme-dark-focused: #E0E0E0; // Black 12%
 
    --singer-theme-light-primary-text: white;
    --singer-theme-light-secondary-text: rgba(white, 0.7);

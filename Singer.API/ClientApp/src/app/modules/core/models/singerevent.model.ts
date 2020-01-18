@@ -28,6 +28,7 @@ export class EventDescription extends GenericModel {
    title: string;
    description: string;
    ageGroups: AgeGroup[];
+   cost: number;
    startDateTime: Date;
    endDateTime: Date;
 }
