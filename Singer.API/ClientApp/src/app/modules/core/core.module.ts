@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AgegroupPipe } from './services/agegroup.pipe';
-import { KeysPipe } from './services/keys.pipe';
+import { AgegroupPipe } from './Pipes/agegroup.pipe';
+import { KeysPipe } from './Pipes/keys.pipe';
 import { AgegroupChipsComponent } from './components/agegroup-chips/agegroup-chips.component';
 import { MaterialModule } from 'src/app/material.module';
-import { AgegroupToColorPipePipe } from './services/agegroup-to-color-pipe.pipe';
+import { AgegroupToColorPipePipe } from './Pipes/agegroup-to-color-pipe.pipe';
 import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material';
 import { DailybasisRegistrationsComponent } from './components/dailybasis-registrations/dailybasis-registrations.component';
 import { SingleRegistrationComponent } from './components/single-registration/single-registration.component';
