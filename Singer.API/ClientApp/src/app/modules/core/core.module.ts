@@ -11,6 +11,7 @@ import { SingleRegistrationComponent } from './components/single-registration/si
 import { DeleteConfirmationComponent } from './components/delete-confirmation/delete-confirmation.component';
 import { ConfirmComponent } from './components/confirm/confirm.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SingereventCostPipe } from './Pipes/singerevent-cost.pipe';
 
 @NgModule({
    declarations: [
@@ -22,6 +23,7 @@ import { ReactiveFormsModule } from '@angular/forms';
       SingleRegistrationComponent,
       DeleteConfirmationComponent,
       ConfirmComponent,
+      SingereventCostPipe,
    ],
    imports: [CommonModule, MaterialModule, ReactiveFormsModule],
    exports: [
@@ -32,6 +34,7 @@ import { ReactiveFormsModule } from '@angular/forms';
       SingleRegistrationComponent,
       DailybasisRegistrationsComponent,
       DeleteConfirmationComponent,
+      SingereventCostPipe,
    ],
 })
 export class CoreModule {}
