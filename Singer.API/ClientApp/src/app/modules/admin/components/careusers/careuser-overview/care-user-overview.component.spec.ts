@@ -13,7 +13,7 @@ import {
 
 import { CareUserOverviewComponent } from './care-user-overview.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { AgegroupPipe } from 'src/app/modules/core/services/agegroup.pipe';
+import { AgegroupPipe } from 'src/app/modules/core/Pipes/agegroup.pipe';
 import { CoreModule } from 'src/app/modules/core/core.module';
 import { CommonModule } from '@angular/common';
 import { CareUserProxy } from 'src/app/modules/core/services/care-users-api/careuser.proxy';

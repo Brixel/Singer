@@ -2,8 +2,11 @@ mat-card {
    margin: 8px;
 }
 
-mat-card-content {
-   padding-top: 0.5rem;
+.flex--row {
+   margin: 2em 0em;
+   display: flex;
+   flex-direction: row;
+   justify-content: flex-start;
 }
 
 button {

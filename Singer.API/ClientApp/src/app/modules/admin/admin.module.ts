@@ -6,11 +6,11 @@ import { MaterialModule } from '../../material.module';
 import { CareUserProxy } from '../core/services/care-users-api/careuser.proxy';
 import { CareUserService } from '../core/services/care-users-api/careusers.service';
 import { ApiService } from '../core/services/api.service';
-import { AgegroupPipe } from '../core/services/agegroup.pipe';
+import { AgegroupPipe } from '../core/Pipes/agegroup.pipe';
 import { CoreModule } from '../core/core.module';
 import { CareUserDetailsComponent } from './components/careusers/careuser-details/care-user-details.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { KeysPipe } from '../core/services/keys.pipe';
+import { KeysPipe } from '../core/Pipes/keys.pipe';
 import {
    MatTableModule,
    MatPaginatorModule,
