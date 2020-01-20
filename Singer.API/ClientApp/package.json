@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.1.0-issue-theme-update-dashboard.1215",
+   "version": "0.1.0-dev.1212",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",

@@ -1,10 +1,4 @@
-import {
-   Component,
-   OnInit,
-   ViewChild,
-   ElementRef,
-   AfterViewInit,
-} from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { AdminDatasource } from '../../../services/admin.datasource';
 import { AdminUserService } from '../../../services/admin-user.service';
@@ -14,7 +8,7 @@ import { AdminUser } from 'src/app/modules/core/models/adminuser.model';
 import { AdminDetailsComponent } from '../admin-details/admin-details.component';
 import { LoadingService } from 'src/app/modules/core/services/loading.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ConfirmComponent, ConfirmRequest } from 'src/app/modules/core/components/confirm/confirm.component';
+import { ConfirmComponent, ConfirmRequest } from 'src/app/modules/shared/components/confirm/confirm.component';
 import { AuthService } from 'src/app/modules/core/services/auth.service';
 
 @Component({
@@ -39,9 +33,7 @@ export class AdminListComponent implements OnInit, AfterViewInit {
 
    formControlGroup: FormGroup = new FormGroup({
       // Form controls
-      filterFieldControl: new FormControl(this.filter, [
-         Validators.maxLength(this.maxFilterLength),
-      ]),
+      filterFieldControl: new FormControl(this.filter, [Validators.maxLength(this.maxFilterLength)]),
    });
 
    constructor(
@@ -62,13 +54,7 @@ export class AdminListComponent implements OnInit, AfterViewInit {
       const sortDirection = this.sort.direction;
       const sortColumn = this.sort.active;
       this.filter = this.filterInput.nativeElement.value;
-      this.dataSource.loadAdmins(
-         sortDirection,
-         sortColumn,
-         this.pageIndex,
-         this.pageSize,
-         this.filter
-      );
+      this.dataSource.loadAdmins(sortDirection, sortColumn, this.pageIndex, this.pageSize, this.filter);
    }
 
    editAdmin(row: AdminUser): void {
@@ -96,7 +82,9 @@ export class AdminListComponent implements OnInit, AfterViewInit {
 
    changePassword(row: AdminUser) {
       const dialogRef = this.dialog.open(ConfirmComponent, {
-         data: <ConfirmRequest>{confirmMessage: `Wilt u het wachtwoord van ${row.firstName} ${row.lastName} wijzigen?`}
+         data: <ConfirmRequest>{
+            confirmMessage: `Wilt u het wachtwoord van ${row.firstName} ${row.lastName} wijzigen?`,
+         },
       });
       dialogRef.afterClosed().subscribe((isConfirmed: boolean) => {
          if (isConfirmed) {

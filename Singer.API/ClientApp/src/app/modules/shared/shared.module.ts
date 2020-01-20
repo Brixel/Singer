@@ -10,6 +10,7 @@ import { SingerEventsProxy } from '../core/services/singerevents-api/singerevent
 import { CoreModule } from '../core/core.module';
 import { LoadingComponent } from './components/loading/loading.component';
 import { EventTimelineComponent } from './components/event-timeline/event-timeline.component';
+import { ConfirmComponent } from './components/confirm/confirm.component';
 
 @NgModule({
    declarations: [
@@ -18,6 +19,7 @@ import { EventTimelineComponent } from './components/event-timeline/event-timeli
       DetailedUserCardComponent,
       LoadingComponent,
       EventTimelineComponent,
+      ConfirmComponent,
    ],
    imports: [CommonModule, MaterialModule, CoreModule],
    exports: [
@@ -26,8 +28,9 @@ import { EventTimelineComponent } from './components/event-timeline/event-timeli
       DetailedUserCardComponent,
       LoadingComponent,
       EventTimelineComponent,
+      ConfirmComponent,
    ],
-   entryComponents: [EventRegistrationComponent, LoadingComponent],
+   entryComponents: [EventRegistrationComponent, LoadingComponent, ConfirmComponent],
    providers: [ApiService, SingerEventsService, SingerEventsProxy],
 })
 export class SharedModule {}
