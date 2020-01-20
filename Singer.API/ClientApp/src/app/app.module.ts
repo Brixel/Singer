@@ -26,6 +26,11 @@ import { AdminModule } from './modules/admin/admin.module';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { ConfigurationService } from './modules/core/services/clientconfiguration.service';
 import { ApplicationInsightsService } from './modules/core/services/applicationinsights.service';
+import { registerLocaleData } from '@angular/common';
+import localeBe from '@angular/common/locales/be';
+
+// Import locale settings for Belgium
+registerLocaleData(localeBe);
 
 export function tokenGetter(): string {
    return localStorage.getItem('token');
