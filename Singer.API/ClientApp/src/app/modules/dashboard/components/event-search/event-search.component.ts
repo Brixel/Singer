@@ -2,19 +2,25 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { SingerEventLocation } from 'src/app/modules/core/models/singerevent.model';
 import { GenericFilter } from 'src/app/modules/core/components/Generics/generic-filter.component';
+import { GenericFilterParameters } from 'src/app/modules/core/models/generics/generic-filter-parameters.model';
 
 @Component({
    selector: 'app-event-search',
    templateUrl: './event-search.component.html',
    styleUrls: ['./event-search.component.css'],
 })
-export class EventSearchComponent {
+export class EventSearchComponent extends GenericFilter {
+   @Output()
+   get filterEvent(): EventEmitter<GenericFilterParameters> {
+      return this.genericFilterEvent;
+   }
 
-   @Input() availableLocations: SingerEventLocation[];
-   @Output() filterEvent: EventEmitter<GenericFilter> = new EventEmitter();
    currentDate = new Date();
+   availableLocations: SingerEventLocation[];
 
-   constructor() {}
+   constructor() {
+      super();
+   }
 
    formControlGroup: FormGroup = new FormGroup({
       // Form controls
@@ -27,14 +33,17 @@ export class EventSearchComponent {
       if (this.formControlGroup.invalid) {
          return;
       }
-      const location = this.formControlGroup.controls.locationControl
-         .value as SingerEventLocation;
+      const location = this.formControlGroup.controls.locationControl.value as SingerEventLocation;
       const searchEventData = <SearchEventData>{
          startDateTime: this.formControlGroup.controls.startDateControl.value,
          endDateTime: this.formControlGroup.controls.endDateControl.value,
          locationId: location.id,
       };
-      this.searchEvent.emit(searchEventData);
+
+   }
+
+   resetFilter() {
+      throw new Error('Method not implemented.');
    }
 }
 
