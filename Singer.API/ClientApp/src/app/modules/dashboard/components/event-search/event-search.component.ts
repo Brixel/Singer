@@ -9,11 +9,7 @@ import { SingerEventLocation } from 'src/app/modules/core/models/singerevent.mod
 })
 export class EventSearchComponent {
    @Input() availableLocations: SingerEventLocation[];
-   @Input() isOpen: boolean;
    @Output() searchEvent: EventEmitter<SearchEventData> = new EventEmitter();
-   @Output() toggleDrawerEvent: EventEmitter<boolean> = new EventEmitter(
-      this.isOpen
-   );
    currentDate = new Date();
 
    constructor() {}
@@ -37,15 +33,6 @@ export class EventSearchComponent {
          locationId: location.id,
       };
       this.searchEvent.emit(searchEventData);
-   }
-
-   toggleDrawer() {
-      this.isOpen = !this.isOpen;
-      this.toggleDrawerEvent.emit(this.isOpen);
-   }
-
-   getRequiredFieldErrorMessage(formControl: FormControl) {
-      return formControl.hasError('required') ? 'Dit veld is verplicht' : '';
    }
 }
 
