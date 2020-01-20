@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { SingerEventLocation } from 'src/app/modules/core/models/singerevent.model';
+import { GenericFilter } from 'src/app/modules/core/components/Generics/generic-filter.component';
 
 @Component({
    selector: 'app-event-search',
@@ -8,16 +9,17 @@ import { SingerEventLocation } from 'src/app/modules/core/models/singerevent.mod
    styleUrls: ['./event-search.component.css'],
 })
 export class EventSearchComponent {
+
    @Input() availableLocations: SingerEventLocation[];
-   @Output() searchEvent: EventEmitter<SearchEventData> = new EventEmitter();
+   @Output() filterEvent: EventEmitter<GenericFilter> = new EventEmitter();
    currentDate = new Date();
 
    constructor() {}
 
    formControlGroup: FormGroup = new FormGroup({
       // Form controls
-      startDateControl: new FormControl({ value: '', disabled: true }),
-      endDateControl: new FormControl({ value: '', disabled: true }),
+      startDateControl: new FormControl({ value: null, disabled: true }),
+      endDateControl: new FormControl({ value: null, disabled: true }),
       locationControl: new FormControl(''),
    });
 

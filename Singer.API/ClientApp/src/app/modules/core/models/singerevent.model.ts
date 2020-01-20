@@ -2,7 +2,8 @@ import { AgeGroup, RegistrationStatus } from './enum';
 import { EventSlot } from './eventslot';
 import { DaycareLocation } from './daycarelocation.model';
 import { CareUser } from './careuser.model';
-import { GenericModel } from './generic-model';
+import { GenericModel } from './generics/generic-model';
+import { GenericFilterParameters } from "./generics/generic-filter-parameters.model";
 
 export class SingerEvent extends GenericModel {
    title: string;
@@ -84,4 +85,12 @@ export class EventRegistration extends GenericModel {
    eventDescription: EventDescription;
    careUser: CareUser;
    status: RegistrationStatus;
+}
+
+export class EventFilter extends GenericFilterParameters {
+   startDate: Date;
+   endDate: Date;
+   location: SingerEventLocation;
+   ageGroup: AgeGroup;
+   cost: number;
 }
