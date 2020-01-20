@@ -2,7 +2,7 @@ import { HttpParams } from '@angular/common/http';
 import { ApiService } from '../api.service';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { EventRegisterDetails } from '../../models/singerevent.model';
+import { EventRegisterDetails, EventFilterParameters } from '../../models/singerevent.model';
 import { PaginationDTO } from '../../DTOs/pagination.dto';
 import {
    EventRegistrationDTO,
@@ -13,9 +13,8 @@ import {
    CreateSingerEventDTO,
    SingerEventDTO,
    EventDescriptionDTO,
-   SearchEventDTO,
+   EventFilterParametersDTO,
 } from '../../DTOs/event-registration.dto';
-import { SearchEventData } from 'src/app/modules/dashboard/components/event-search/event-search.component';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -117,15 +116,17 @@ export class SingerEventsProxy {
    }
 
    getPublicEvents(
-      searchEventData: SearchEventData
+      eventFilterData: EventFilterParameters
    ): Observable<EventDescriptionDTO[]> {
-      const searchParams = <SearchEventDTO>{
-         startDate: searchEventData.startDateTime,
-         endDate: searchEventData.endDateTime,
-         locationId: searchEventData.locationId,
+      const filterParams = <EventFilterParametersDTO>{
+         startDate: eventFilterData.startDate,
+         endDate: eventFilterData.endDate,
+         locationId: eventFilterData.location.id,
+         ageGroups: eventFilterData.ageGroups,
+         cost: eventFilterData.cost,
       };
       return this.apiService
-         .post('api/event/search', searchParams)
+         .post('api/event/search', filterParams)
          .pipe(map(res => res));
    }
 

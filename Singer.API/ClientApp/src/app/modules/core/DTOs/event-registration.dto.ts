@@ -61,10 +61,12 @@ export interface EventDescriptionDTO {
    endDate: Date;
 }
 
-export class SearchEventDTO {
+export class EventFilterParametersDTO {
    startDate: Date;
    endDate: Date;
    locationId: string;
+   ageGroups: AgeGroup[];
+   cost: number;
 }
 
 export class EventRelevantCareUserDTO {

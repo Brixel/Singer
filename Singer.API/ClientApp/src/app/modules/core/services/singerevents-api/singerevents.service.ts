@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { SingerEvent, EventDescription } from '../../models/singerevent.model';
+import { SingerEvent, EventDescription, EventFilterParameters } from '../../models/singerevent.model';
 import { Observable } from 'rxjs';
 import { SingerEventsProxy } from './singerevents.proxy';
 import { map } from 'rxjs/operators';
 import { PaginationDTO } from '../../DTOs/pagination.dto';
 import { TimeUnit, RepeatType } from '../../models/enum';
-import { SearchEventData } from 'src/app/modules/dashboard/components/event-search/event-search.component';
 import {
    UpdateSingerEventDTO,
    CreateSingerEventDTO,
@@ -262,9 +261,9 @@ export class SingerEventsService extends GenericService<
    }
 
    getPublicEvents(
-      searchEventData: SearchEventData
+      eventFilterData: EventFilterParameters
    ): Observable<EventDescription[]> {
-      return this.singerEventsProxy.getPublicEvents(searchEventData).pipe(
+      return this.singerEventsProxy.getPublicEvents(eventFilterData).pipe(
          map(res =>
             res.map(y => {
                return <EventDescription>{

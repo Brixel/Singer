@@ -1,8 +1,10 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { SingerEventLocation } from 'src/app/modules/core/models/singerevent.model';
+import { SingerEventLocation, EventFilterParameters } from 'src/app/modules/core/models/singerevent.model';
 import { GenericFilter } from 'src/app/modules/core/components/Generics/generic-filter.component';
 import { GenericFilterParameters } from 'src/app/modules/core/models/generics/generic-filter-parameters.model';
+import { SingerEventLocationService } from 'src/app/modules/core/services/singerevents-api/singerevent-location.service';
+import { AgeGroup } from 'src/app/modules/core/models/enum';
 
 @Component({
    selector: 'app-event-search',
@@ -17,38 +19,39 @@ export class EventSearchComponent extends GenericFilter {
 
    currentDate = new Date();
    availableLocations: SingerEventLocation[];
+   // Available agegroups
+   ageGroups = Object.keys(AgeGroup).filter(k => typeof AgeGroup[k as any] === 'number');
 
-   constructor() {
+   // Form placeholders
+   startDateFieldPlaceholder: string = 'Start Datum';
+   endDateFieldPlaceholder: string = 'Eind Datum';
+   locationFieldPlaceholder: string = 'Locatie';
+   ageGroupsFieldPlaceholder: string = 'Leeftijdsgroep';
+   nameFieldPlaceholder: string = 'Naam';
+   priceFieldPlaceholder: string = 'Prijs';
+
+   constructor(private eventLocationService: SingerEventLocationService) {
       super();
+
+      this.eventLocationService.fetchSingerEventLocationsData('asc', 'name', 0, 1000, '').subscribe(res => {
+         this.availableLocations = res.items as SingerEventLocation[];
+      });
    }
 
-   formControlGroup: FormGroup = new FormGroup({
-      // Form controls
-      startDateControl: new FormControl({ value: null, disabled: true }),
-      endDateControl: new FormControl({ value: null, disabled: true }),
-      locationControl: new FormControl(''),
-   });
-
-   submitForm() {
-      if (this.formControlGroup.invalid) {
-         return;
-      }
-      const location = this.formControlGroup.controls.locationControl.value as SingerEventLocation;
-      const searchEventData = <SearchEventData>{
-         startDateTime: this.formControlGroup.controls.startDateControl.value,
-         endDateTime: this.formControlGroup.controls.endDateControl.value,
-         locationId: location.id,
-      };
-
+   initializeFilterForm(): void {
+      this.formGroup.addControl('startDateFieldControl', new FormControl());
+      this.formGroup.addControl('endDateFieldControl', new FormControl());
+      this.formGroup.addControl('locationFieldControl', new FormControl());
+      this.formGroup.addControl('ageGroupsFieldControl', new FormControl());
+      this.formGroup.addControl('priceFieldControl', new FormControl());
    }
 
    resetFilter() {
-      throw new Error('Method not implemented.');
+      this.formGroup.reset();
+      this.filterParameters = new EventFilterParameters();
    }
-}
 
-export class SearchEventData {
-   startDateTime: Date;
-   endDateTime: Date;
-   locationId: string;
+   compareAgeGroups(ageGroupX: number, ageGroupY: string) {
+      return AgeGroup[ageGroupX] === ageGroupY;
+   }
 }

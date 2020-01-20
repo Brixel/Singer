@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { EventDescription, SingerEventLocation } from 'src/app/modules/core/models/singerevent.model';
-import { SearchEventData } from '../event-search/event-search.component';
+import { EventDescription, SingerEventLocation, EventFilterParameters } from 'src/app/modules/core/models/singerevent.model';
 import { SingerEventsService } from 'src/app/modules/core/services/singerevents-api/singerevents.service';
 import { SingerEventLocationService } from 'src/app/modules/core/services/singerevents-api/singerevent-location.service';
 import { LoadingService } from 'src/app/modules/core/services/loading.service';
@@ -12,32 +11,16 @@ import { LoadingService } from 'src/app/modules/core/services/loading.service';
 })
 export class EventListComponent implements OnInit {
    events: EventDescription[] = [];
-   availableLocations: SingerEventLocation[];
 
    // Number of colums for the event cards
    columns: number;
 
-   constructor(
-      private _eventService: SingerEventsService,
-      private _eventLocationService: SingerEventLocationService,
-      private _loadingService: LoadingService
-   ) {}
+   constructor(private _eventService: SingerEventsService, private _loadingService: LoadingService) {}
 
    ngOnInit(): void {
-      this._eventLocationService.fetchSingerEventLocationsData('asc', 'name', 0, 1000, '').subscribe(res => {
-         this.availableLocations = res.items as SingerEventLocation[];
-      });
-
       this.columns = this.calculateColumns(window.innerWidth);
 
-      // Make first searchevent to load all events
-      var emptySearchEventData: SearchEventData = {
-         startDateTime: null,
-         endDateTime: null,
-         locationId: '',
-      };
-
-      this.onSearchEvent(emptySearchEventData);
+      this.onFilterEvent(new EventFilterParameters());
    }
 
    onResize(event) {
@@ -57,9 +40,9 @@ export class EventListComponent implements OnInit {
       }
    }
 
-   onSearchEvent(searchEventData: SearchEventData) {
+   onFilterEvent(filterParameters: EventFilterParameters) {
       this._loadingService.show();
-      this._eventService.getPublicEvents(searchEventData).subscribe(res => {
+      this._eventService.getPublicEvents(filterParameters).subscribe(res => {
          this.events = res;
          this._loadingService.hide();
       });

@@ -1,10 +1,10 @@
 <div class="container">
-   <form [formGroup]="formControlGroup" class="form">
+   <form [formGroup]="formGroup" class="form">
 
       <!-- StartDate Field -->
       <mat-form-field>
-         <input matInput [min]="currentDate" [matDatepicker]="startDatePicker" placeholder="Startdatum"
-            formControlName="startDateControl" (click)="startDatePicker.open()" />
+         <input matInput [min]="currentDate" [matDatepicker]="startDatePicker" [placeholder]="startDateFieldPlaceholder"
+            formControlName="startDateFieldControl" (click)="startDatePicker.open()" />
          <mat-datepicker-toggle matSuffix [for]="startDatePicker">
          </mat-datepicker-toggle>
          <mat-datepicker #startDatePicker touchUi [startAt]="currentDate" disabled="false">
@@ -13,8 +13,8 @@
 
       <!-- EndDate Field -->
       <mat-form-field>
-         <input matInput [min]="currentDate" [matDatepicker]="endDatePicker" placeholder="Einddatum"
-            formControlName="endDateControl" (click)="endDatePicker.open()" />
+         <input matInput [min]="currentDate" [matDatepicker]="endDatePicker" [placeholder]="endDateFieldPlaceholder"
+            formControlName="endDateFieldControl" (click)="endDatePicker.open()" />
          <mat-datepicker-toggle matSuffix [for]="endDatePicker">
          </mat-datepicker-toggle>
          <mat-datepicker #endDatePicker touchUi [startAt]="currentDate" disabled="false">
@@ -23,7 +23,7 @@
 
       <!-- Location Field -->
       <mat-form-field>
-         <mat-select formControlName="locationControl" placeholder="Locatie">
+         <mat-select formControlName="locationFieldControl" [placeholder]="locationFieldPlaceholder">
             <mat-option *ngFor="let availableLocation of availableLocations" [value]="availableLocation">
                {{ availableLocation.name }}
             </mat-option>
@@ -32,33 +32,29 @@
 
       <!-- AgeGroup Field -->
       <mat-form-field>
-         <mat-select formControlName="locationControl" placeholder="Locatie">
-            <mat-option *ngFor="let availableLocation of availableLocations" [value]="availableLocation">
-               {{ availableLocation.name }}
+         <mat-select [compareWith]="compareAgeGroups" formControlName="ageGroupsFieldControl"
+            [placeholder]="ageGroupsFieldPlaceholder" multiple>
+            <mat-option *ngFor="let ageGroup of ageGroups" [value]="ageGroup">
+               {{ ageGroup | agegroupPipe }}
             </mat-option>
          </mat-select>
       </mat-form-field>
 
       <!-- Name Field -->
       <mat-form-field>
-         <mat-select formControlName="locationControl" placeholder="Locatie">
-            <mat-option *ngFor="let availableLocation of availableLocations" [value]="availableLocation">
-               {{ availableLocation.name }}
-            </mat-option>
-         </mat-select>
+         <input matInput [placeholder]="nameFieldPlaceholder" formControlName="nameFieldControl" />
+         <mat-error *ngIf="formGroup.controls.nameFieldControl.errors?.maxlength">
+            Naam mag maximum {{ maxNameLength }} karakters bevatten.
+         </mat-error>
       </mat-form-field>
 
       <!-- Price Field -->
       <mat-form-field>
-         <mat-select formControlName="locationControl" placeholder="Locatie">
-            <mat-option *ngFor="let availableLocation of availableLocations" [value]="availableLocation">
-               {{ availableLocation.name }}
-            </mat-option>
-         </mat-select>
+         <input matInput [placeholder]="priceFieldPlaceholder" formControlName="priceFieldControl" />
       </mat-form-field>
 
       <!-- Buttons -->
-      <button type="button" mat-stroked-button color="primary" (click)="setFilter()">
+      <button type="button" mat-stroked-button color="primary" (click)="emitFilterEvent()">
          Zoek
       </button>
       <button type="button" mat-strokedstroked-button (click)="resetFilter()">

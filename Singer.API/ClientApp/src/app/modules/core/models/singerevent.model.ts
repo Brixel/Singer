@@ -87,10 +87,10 @@ export class EventRegistration extends GenericModel {
    status: RegistrationStatus;
 }
 
-export class EventFilter extends GenericFilterParameters {
+export class EventFilterParameters extends GenericFilterParameters {
    startDate: Date;
    endDate: Date;
    location: SingerEventLocation;
-   ageGroup: AgeGroup;
+   ageGroups: AgeGroup[];
    cost: number;
 }
