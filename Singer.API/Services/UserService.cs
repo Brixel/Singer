@@ -53,7 +53,7 @@ namespace Singer.Services
          }
          else
          {
-            var existingEmail = await Queryable.SingleOrDefaultAsync(x => x.User.Email == dto.Email);
+            var existingEmail = await UserManager.FindByEmailAsync(dto.Email);
 
             if (existingEmail != null)
                throw new BadInputException("The email address must be unique to each user.", ErrorMessages.DuplicateEmail);
@@ -68,12 +68,13 @@ namespace Singer.Services
          };
 
          var userCreationResult = await UserManager.CreateAsync(baseUser);
-         var passwordResetToken = await UserManager.GeneratePasswordResetTokenAsync(baseUser);
+
          if (!userCreationResult.Succeeded)
          {
             Debug.WriteLine($"User can not be created. {userCreationResult.Errors.First().Code}");
             throw new InternalServerException($"User can not be created. {userCreationResult.Errors.First().Description}");
          }
+         var passwordResetToken = await UserManager.GeneratePasswordResetTokenAsync(baseUser);
 
          var createdUser = await UserManager.FindByEmailAsync(dto.Email);
          var entity = Mapper.Map<TUserEntity>(dto);
