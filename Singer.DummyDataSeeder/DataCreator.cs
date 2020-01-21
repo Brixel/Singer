@@ -1,5 +1,10 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Security;
+using System.Threading;
 using System.Threading.Tasks;
 using Flurl.Http;
 using Singer.Controllers;
@@ -14,15 +19,18 @@ namespace Singer.DummyDataSeeder
     internal class DataCreator
     {
         private readonly string _apiUrl;
-        private readonly string _token;
+        private const string ClientId = "dataGenerator.client";
+        private const string ClientSecret = "A12F8B27-EFD7-47CD-9AE0-97D9CC7C451C";
+
 
         private readonly IDataContainer<CareUserDTO, CreateCareUserDTO> _careUsers = new CareUsers();
         private readonly IDataContainer<LegalGuardianUserDTO, CreateLegalGuardianUserDTO> _legalGuardians = new LegalGuardians();
 
-        public DataCreator(string apiUrl, string token)
+        private string _token;
+
+        public DataCreator(string apiUrl)
         {
             _apiUrl = apiUrl;
-            _token = token;
         }
 
         public async Task CreateCareUsersAsync() 
@@ -35,16 +43,69 @@ namespace Singer.DummyDataSeeder
         {
             var url = $"{_apiUrl}/{typeof(TController).GetRoute()}";
 
-            foreach (var createDto in storer.Data)
-            {
-                var response = await url
+            foreach (var dataItem in storer.Data)
+                dataItem.Dto = await PostAsync<TDto, TCreateDto>(url, dataItem.CreateDto);
+        }
+
+        private async Task<TDto> PostAsync<TDto, TCreateDto>(string url, TCreateDto payload)
+        {
+            var response = await url
                     .WithOAuthBearerToken(_token)
-                    .PostJsonAsync(createDto.CreateDto);
+                    .PostJsonAsync(payload);
 
-                using var stream = await response.Content.ReadAsStreamAsync();
-                using var reader = new StreamReader(stream);
+            using var stream = await response.Content.ReadAsStreamAsync();
+            using var reader = new StreamReader(stream);
 
-                createDto.Dto = await reader.DeserializeJsonAsync<TDto>();
+            return await reader.DeserializeJsonAsync<TDto>();
+        }
+
+        private async void EnsureToken(bool resetToken = false)
+        {
+            if (_token != default && !resetToken)
+                return;
+
+            _token = GetToken();
+        }
+
+        [SecurityCritical]
+        public string GetToken()
+        {
+            var url = $"{_apiUrl}/connect/token";
+
+            Console.Write("Username: ");
+            var userName = Console.ReadLine();
+            Console.Write("Password: ");
+            var password = Console.ReadLine();
+
+            var loginTask = url.PostAsync(new FormUrlEncodedContent(new Dictionary<string, string>
+            {
+                { "username", userName },
+                { "password", password },
+                { "grant_type", "password" },
+                { "client_id", ClientId },
+                { "client_secret", ClientSecret },
+            }));
+
+            Console.Write("Waiting for authentication response from server");
+            var cts = new CancellationTokenSource();
+            _ = WriteDotsAsync(cts.Token);
+
+            loginTask.Wait();
+            cts.Cancel();
+
+            // TODO debug why this throws error
+            var response = loginTask.Result;
+
+            return default;
+        }
+
+        private async Task WriteDotsAsync(CancellationToken cancellationToken)
+        {
+            await Task.Delay(1000);
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                Console.Write(".");
+                await Task.Delay(1000);
             }
         }
     }

@@ -8,11 +8,14 @@
 
   <ItemGroup>
     <PackageReference Include="Flurl.Http" Version="2.4.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="WSharp" Version="1.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Singer.API\Singer.csproj" />
+    <Reference Include="Singer">
+      <HintPath>..\Singer.API\bin\Debug\netcoreapp2.2\Singer.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
