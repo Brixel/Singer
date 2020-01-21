@@ -66,8 +66,9 @@ export class EventFilterParametersDTO {
    startDate: Date;
    endDate: Date;
    locationId: string;
-   ageGroups: AgeGroup[];
-   cost: CostFilterParameter;
+   allowedAgeGroups: AgeGroup[];
+   title: string;
+   maxCost: number;
 }
 
 export class EventRelevantCareUserDTO {

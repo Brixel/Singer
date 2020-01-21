@@ -42,9 +42,9 @@ export enum RepeatType {
 
 export enum CostFilterParameter {
    Free = 0,
-   UpToFive = 1,
-   UpToTen = 2,
-   UpToFifteen = 3,
-   UpToTwentyFive = 4,
-   UpToFifty = 5,
+   UpToFive = 5,
+   UpToTen = 10,
+   UpToFifteen = 15,
+   UpToTwentyFive = 25,
+   UpToFifty = 50,
 }

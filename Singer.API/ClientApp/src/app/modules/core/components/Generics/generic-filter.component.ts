@@ -19,8 +19,10 @@ export abstract class GenericFilter {
    }
 
    emitFilterEvent(): void {
+      this.loadFilterParameters();
       this.genericFilterEvent.emit(this.filterParameters);
    }
    abstract initializeFilterForm(): void;
+   abstract loadFilterParameters(): void;
    abstract resetFilter(): void;
 }

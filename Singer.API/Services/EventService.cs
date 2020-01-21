@@ -66,7 +66,7 @@ namespace Singer.Services
          return filterExpression;
       }
 
-      public async Task<IReadOnlyList<EventDescriptionDTO>> GetPublicEventsAsync(SearchEventParamsDTO searchEventParamsDto)
+      public async Task<IReadOnlyList<EventDescriptionDTO>> GetPublicEventsAsync(EventFilterParameters eventFilterParametersDto)
       {
          return await Queryable
             .Where(x =>
@@ -74,14 +74,20 @@ namespace Singer.Services
                !x.IsArchived &&
                // Only events today or in the future
                x.EventSlots.OrderBy(y => y.StartDateTime).First().StartDateTime.Date >= DateTime.Now.Date &&
-               // check location
-               (!searchEventParamsDto.LocationId.HasValue || x.LocationId == searchEventParamsDto.LocationId.Value) &&
                // check start date
-               (!searchEventParamsDto.StartDate.HasValue ||
-                  x.EventSlots.OrderBy(y => y.StartDateTime).First().StartDateTime.Date == searchEventParamsDto.StartDate.Value.Date) &&
+               (!eventFilterParametersDto.StartDate.HasValue ||
+                  x.EventSlots.OrderBy(y => y.StartDateTime).First().StartDateTime.Date == eventFilterParametersDto.StartDate.Value.Date) &&
                // check end date
-               (!searchEventParamsDto.EndDate.HasValue ||
-                  x.EventSlots.OrderBy(y => y.EndDateTime).First().EndDateTime.Date <= searchEventParamsDto.EndDate.Value.Date))
+               (!eventFilterParametersDto.EndDate.HasValue ||
+                  x.EventSlots.OrderBy(y => y.EndDateTime).First().EndDateTime.Date <= eventFilterParametersDto.EndDate.Value.Date) &&
+               // check location
+               (!eventFilterParametersDto.LocationId.HasValue || x.LocationId == eventFilterParametersDto.LocationId.Value) &&
+               // check allowed agegroups
+               (eventFilterParametersDto.AllowedAgeGroups.Count == 0 || EventProfile.ToAgeGroupList(x.AllowedAgeGroups) == eventFilterParametersDto.AllowedAgeGroups) &&
+               // check event title
+               (eventFilterParametersDto.Title.Length == 0 || x.Title == eventFilterParametersDto.Title) &&
+               // check allowed agegroups
+               (!eventFilterParametersDto.MaxCost.HasValue || x.Cost <= eventFilterParametersDto.MaxCost))
             .Select(x => new EventDescriptionDTO
             {
                Id = x.Id,

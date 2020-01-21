@@ -12,6 +12,7 @@ import { AgeGroup, CostFilterParameter } from 'src/app/modules/core/models/enum'
    styleUrls: ['./event-search.component.css'],
 })
 export class EventSearchComponent extends GenericFilter {
+
    @Output()
    get filterEvent(): EventEmitter<GenericFilterParameters> {
       return this.genericFilterEvent;
@@ -46,6 +47,10 @@ export class EventSearchComponent extends GenericFilter {
       this.formGroup.addControl('locationFieldControl', new FormControl());
       this.formGroup.addControl('ageGroupsFieldControl', new FormControl());
       this.formGroup.addControl('priceFieldControl', new FormControl());
+   }
+
+   loadFilterParameters(): void {
+      throw new Error("Method not implemented.");
    }
 
    resetFilter() {
