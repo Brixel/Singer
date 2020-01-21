@@ -1,5 +1,5 @@
 import { Component, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { SingerEventLocation, EventFilterParameters } from 'src/app/modules/core/models/singerevent.model';
 import { GenericFilter } from 'src/app/modules/core/components/Generics/generic-filter.component';
 import { GenericFilterParameters } from 'src/app/modules/core/models/generics/generic-filter-parameters.model';
@@ -12,7 +12,6 @@ import { AgeGroup, CostFilterParameter } from 'src/app/modules/core/models/enum'
    styleUrls: ['./event-search.component.css'],
 })
 export class EventSearchComponent extends GenericFilter {
-
    @Output()
    get filterEvent(): EventEmitter<GenericFilterParameters> {
       return this.genericFilterEvent;
@@ -23,7 +22,9 @@ export class EventSearchComponent extends GenericFilter {
    // Available agegroups
    ageGroups = Object.keys(AgeGroup).filter(k => typeof AgeGroup[k as any] === 'number');
    // Available cost filter parameters
-   costFilterParameters = Object.keys(CostFilterParameter).filter(k => typeof CostFilterParameter[k as any] === 'number');
+   costFilterParameters = Object.keys(CostFilterParameter).filter(
+      k => typeof CostFilterParameter[k as any] === 'number'
+   );
 
    // Form placeholders
    startDateFieldPlaceholder: string = 'Start Datum';
@@ -31,10 +32,12 @@ export class EventSearchComponent extends GenericFilter {
    locationFieldPlaceholder: string = 'Locatie';
    ageGroupsFieldPlaceholder: string = 'Leeftijdsgroep';
    nameFieldPlaceholder: string = 'Naam';
-   priceFieldPlaceholder: string = 'Prijs';
+   costFieldPlaceholder: string = 'Prijs';
 
    constructor(private eventLocationService: SingerEventLocationService) {
       super();
+
+      this.filterParameters = new EventFilterParameters();
 
       this.eventLocationService.fetchSingerEventLocationsData('asc', 'name', 0, 1000, '').subscribe(res => {
          this.availableLocations = res.items as SingerEventLocation[];
@@ -46,16 +49,25 @@ export class EventSearchComponent extends GenericFilter {
       this.formGroup.addControl('endDateFieldControl', new FormControl());
       this.formGroup.addControl('locationFieldControl', new FormControl());
       this.formGroup.addControl('ageGroupsFieldControl', new FormControl());
-      this.formGroup.addControl('priceFieldControl', new FormControl());
+      this.formGroup.addControl('costFieldControl', new FormControl());
    }
 
    loadFilterParameters(): void {
-      throw new Error("Method not implemented.");
+      let filterParameters: EventFilterParameters = {
+         startDate: this.formGroup.controls.startDateFieldControl.value,
+         endDate: this.formGroup.controls.endDateFieldControl.value,
+         locationId: this.formGroup.controls.locationFieldControl.value,
+         allowedAgeGroups: this.formGroup.controls.ageGroupsFieldControl.value,
+         name: this.formGroup.controls.nameFieldControl.value,
+         cost: this.formGroup.controls.costFieldControl.value,
+      };
+      this.filterParameters = filterParameters;
    }
 
    resetFilter() {
       this.formGroup.reset();
       this.filterParameters = new EventFilterParameters();
+      this.emitFilterEvent();
    }
 
    compareAgeGroups(ageGroupX: number, ageGroupY: string) {

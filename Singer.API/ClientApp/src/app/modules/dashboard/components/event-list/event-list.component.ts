@@ -23,9 +23,9 @@ export class EventListComponent implements OnInit {
       let filterParameters: EventFilterParameters = {
          startDate: null,
          endDate: null,
-         location: new SingerEventLocation(),
-         allowedAgeGroups: [],
-         name: '',
+         locationId: null,
+         allowedAgeGroups: null,
+         name: null,
          cost: null,
       }
       this.onFilterEvent(filterParameters);

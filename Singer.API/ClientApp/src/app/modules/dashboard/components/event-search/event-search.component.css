@@ -1,11 +1,37 @@
 .form {
    display: flex;
-   justify-content: space-evenly;
    flex-direction: row;
-   align-items: baseline;
+   justify-content: flex-start;
+   align-items: center;
+   flex-wrap: wrap;
 }
 
-.date-fields {
-   display: flex;
-   flex-direction: row;
+.small--width {
+   width: 6em;
+}
+
+.medium--width {
+   width: 10em;
+}
+
+.large--width {
+   width: 11em;
+}
+
+p,
+mat-form-field,
+button {
+   margin: 0.2em 1em;
+}
+
+p {
+   margin-right: 0em;
+}
+
+mat-form-field {
+   margin-top: 0.2em;
+}
+
+.secondary--text {
+   color: var(--singer-theme-dark-secondary-text);
 }

@@ -121,7 +121,7 @@ export class SingerEventsProxy {
       const filterParams = <EventFilterParametersDTO>{
          startDate: eventFilterData.startDate,
          endDate: eventFilterData.endDate,
-         locationId: eventFilterData.location.id,
+         locationId: eventFilterData.locationId,
          allowedAgeGroups: eventFilterData.allowedAgeGroups,
          title: eventFilterData.name,
          maxCost: eventFilterData.cost,

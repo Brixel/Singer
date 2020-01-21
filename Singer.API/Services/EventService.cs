@@ -83,9 +83,11 @@ namespace Singer.Services
                // check location
                (!eventFilterParametersDto.LocationId.HasValue || x.LocationId == eventFilterParametersDto.LocationId.Value) &&
                // check allowed agegroups
-               (eventFilterParametersDto.AllowedAgeGroups.Count == 0 || EventProfile.ToAgeGroupList(x.AllowedAgeGroups) == eventFilterParametersDto.AllowedAgeGroups) &&
+               (eventFilterParametersDto.AllowedAgeGroups == null ||
+               eventFilterParametersDto.AllowedAgeGroups.Count == 0 ||
+               EventProfile.ToAgeGroupList(x.AllowedAgeGroups) == eventFilterParametersDto.AllowedAgeGroups) &&
                // check event title
-               (eventFilterParametersDto.Title.Length == 0 || x.Title == eventFilterParametersDto.Title) &&
+               (string.IsNullOrEmpty(eventFilterParametersDto.Title) || x.Title == eventFilterParametersDto.Title) &&
                // check allowed agegroups
                (!eventFilterParametersDto.MaxCost.HasValue || x.Cost <= eventFilterParametersDto.MaxCost))
             .Select(x => new EventDescriptionDTO

@@ -90,7 +90,7 @@ export class EventRegistration extends GenericModel {
 export class EventFilterParameters extends GenericFilterParameters {
    startDate: Date;
    endDate: Date;
-   location: SingerEventLocation = new SingerEventLocation();
+   locationId: string;
    allowedAgeGroups: AgeGroup[];
    cost: CostFilterParameter;
 }

@@ -10,12 +10,11 @@ export abstract class GenericFilter {
    readonly maxNameLength = 100;
 
    formGroup: FormGroup = new FormGroup({
-      nameFieldControl: new FormControl([Validators.maxLength(this.maxNameLength)]),
+      nameFieldControl: new FormControl(null, [Validators.maxLength(this.maxNameLength)]),
    });
 
    constructor() {
       this.initializeFilterForm();
-      this.resetFilter();
    }
 
    emitFilterEvent(): void {

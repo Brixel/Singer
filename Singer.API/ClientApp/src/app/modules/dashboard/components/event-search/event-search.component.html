@@ -1,8 +1,10 @@
 <div class="container">
    <form [formGroup]="formGroup" class="form">
 
+      <p class="secondary--text">Zoeken op:</p>
+
       <!-- StartDate Field -->
-      <mat-form-field>
+      <mat-form-field class="medium--width">
          <input matInput [min]="currentDate" [matDatepicker]="startDatePicker" [placeholder]="startDateFieldPlaceholder"
             formControlName="startDateFieldControl" (click)="startDatePicker.open()" />
          <mat-datepicker-toggle matSuffix [for]="startDatePicker">
@@ -12,7 +14,7 @@
       </mat-form-field>
 
       <!-- EndDate Field -->
-      <mat-form-field>
+      <mat-form-field class="medium--width">
          <input matInput [min]="currentDate" [matDatepicker]="endDatePicker" [placeholder]="endDateFieldPlaceholder"
             formControlName="endDateFieldControl" (click)="endDatePicker.open()" />
          <mat-datepicker-toggle matSuffix [for]="endDatePicker">
@@ -22,7 +24,7 @@
       </mat-form-field>
 
       <!-- Location Field -->
-      <mat-form-field>
+      <mat-form-field class="medium--width">
          <mat-select formControlName="locationFieldControl" [placeholder]="locationFieldPlaceholder">
             <mat-option *ngFor="let availableLocation of availableLocations" [value]="availableLocation">
                {{ availableLocation.name }}
@@ -31,7 +33,7 @@
       </mat-form-field>
 
       <!-- AgeGroup Field -->
-      <mat-form-field>
+      <mat-form-field class="medium--width">
          <mat-select [compareWith]="compareAgeGroups" formControlName="ageGroupsFieldControl"
             [placeholder]="ageGroupsFieldPlaceholder" multiple>
             <mat-option *ngFor="let ageGroup of ageGroups" [value]="ageGroup">
@@ -41,7 +43,7 @@
       </mat-form-field>
 
       <!-- Name Field -->
-      <mat-form-field>
+      <mat-form-field class="large--width">
          <input matInput [placeholder]="nameFieldPlaceholder" formControlName="nameFieldControl" />
          <mat-error *ngIf="formGroup.controls.nameFieldControl.errors?.maxlength">
             Naam mag maximum {{ maxNameLength }} karakters bevatten.
@@ -49,9 +51,9 @@
       </mat-form-field>
 
       <!-- Price Field -->
-      <mat-form-field>
-         <mat-select [compareWith]="compareCostFilterParameters" formControlName="priceFieldControl"
-            [placeholder]="priceFieldPlaceholder" multiple>
+      <mat-form-field class="small--width">
+         <mat-select [compareWith]="compareCostFilterParameters" formControlName="costFieldControl"
+            [placeholder]="costFieldPlaceholder">
             <mat-option *ngFor="let costFilterParameter of costFilterParameters" [value]="costFilterParameter">
                {{ costFilterParameter | singerEventCostFilterParameterPipe }}
             </mat-option>
@@ -62,7 +64,7 @@
       <button type="button" mat-stroked-button color="primary" (click)="emitFilterEvent()">
          Zoek
       </button>
-      <button type="button" mat-strokedstroked-button (click)="resetFilter()">
+      <button type="button" mat-stroked-button (click)="resetFilter()">
          Reset Filter
       </button>
    </form>
