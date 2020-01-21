@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 using Singer.DTOs.Users;
 using Singer.DummyDataSeeder.Data.Bases;
@@ -19,8 +19,8 @@ namespace Singer.DummyDataSeeder.Data
                     AgeGroup = AgeGroup.Child,
                     BirthDay = new DateTime(2002, 07, 20),
                     CaseNumber = R.NewCaseNumber(),
-                    FirstName = "jimmy",
-                    LastName = "neutron",
+                    FirstName = "Jimmy",
+                    LastName = "Neutron",
                     HasNormalDayCare = R.NewBool(),
                     HasTrajectory = R.NewBool(),
                     HasVacationDayCare = R.NewBool(),
@@ -64,8 +64,8 @@ namespace Singer.DummyDataSeeder.Data
                     AgeGroup = AgeGroup.Toddler,
                     BirthDay = new DateTime(1993, 09, 13),
                     CaseNumber = R.NewCaseNumber(),
-                    FirstName = "dot",
-                    LastName = "animaniac",
+                    FirstName = "Dot",
+                    LastName = "Animaniac",
                     HasNormalDayCare = R.NewBool(),
                     HasTrajectory = R.NewBool(),
                     HasVacationDayCare = R.NewBool(),
