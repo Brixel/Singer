@@ -1,15 +1,18 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using Singer.DTOs;
+using Singer.Models;
 
 namespace Singer.DummyDataSeeder
 {
     /// <summary>Static class that generates random numbers.</summary>
     public class Randomizer
     {
-        private static Randomizer _instance;
+        private static Randomizer instance;
 
         /// <summary>Singleton instance of a <see cref="Randomizer"/>.</summary>
-        public static Randomizer Instance => _instance ??= new Randomizer();
+        public static Randomizer Instance => instance ??= new Randomizer();
 
         private static Random random;
 
@@ -86,5 +89,24 @@ namespace Singer.DummyDataSeeder
         }
 
         public bool NewBool() => Random.NextDouble() > 0.5;
+
+        public DateTime NewDateTime(DateTime min, DateTime max)
+        {
+            var d = random.NextDouble();
+            var diff = max.Ticks - min.Ticks;
+
+            // if d == 0 => new DateTime = min
+            // if d == 1 => new DateTime = max
+            // if d == 0.5 => new DateTime = min + max * 0.5
+
+            var add = diff * d;
+            return min.AddTicks((long)add);
+        }
+
+        public T Pick<T>(IList<T> items)
+        {
+            var i = Random.Next(0, items.Count);
+            return items[i];
+        }
     }
 }

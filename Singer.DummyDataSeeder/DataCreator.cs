@@ -61,7 +61,7 @@ namespace Singer.DummyDataSeeder
             return await reader.DeserializeJsonAsync<TDto>();
         }
 
-        private async void EnsureToken(bool resetToken = false)
+        private void EnsureToken(bool resetToken = false)
         {
             if (_token != default && !resetToken)
                 return;
