@@ -4,7 +4,7 @@ import { SingerEventLocation, EventFilterParameters } from 'src/app/modules/core
 import { GenericFilter } from 'src/app/modules/core/components/Generics/generic-filter.component';
 import { GenericFilterParameters } from 'src/app/modules/core/models/generics/generic-filter-parameters.model';
 import { SingerEventLocationService } from 'src/app/modules/core/services/singerevents-api/singerevent-location.service';
-import { AgeGroup } from 'src/app/modules/core/models/enum';
+import { AgeGroup, CostFilterParameter } from 'src/app/modules/core/models/enum';
 
 @Component({
    selector: 'app-event-search',
@@ -21,6 +21,8 @@ export class EventSearchComponent extends GenericFilter {
    availableLocations: SingerEventLocation[];
    // Available agegroups
    ageGroups = Object.keys(AgeGroup).filter(k => typeof AgeGroup[k as any] === 'number');
+   // Available cost filter parameters
+   costFilterParameters = Object.keys(CostFilterParameter).filter(k => typeof CostFilterParameter[k as any] === 'number');
 
    // Form placeholders
    startDateFieldPlaceholder: string = 'Start Datum';
@@ -53,5 +55,9 @@ export class EventSearchComponent extends GenericFilter {
 
    compareAgeGroups(ageGroupX: number, ageGroupY: string) {
       return AgeGroup[ageGroupX] === ageGroupY;
+   }
+
+   compareCostFilterParameters(costFilterParameterX: number, costFilterParameterY: string) {
+      return CostFilterParameter[costFilterParameterX] === costFilterParameterY;
    }
 }

@@ -50,7 +50,12 @@
 
       <!-- Price Field -->
       <mat-form-field>
-         <input matInput [placeholder]="priceFieldPlaceholder" formControlName="priceFieldControl" />
+         <mat-select [compareWith]="compareCostFilterParameters" formControlName="priceFieldControl"
+            [placeholder]="priceFieldPlaceholder" multiple>
+            <mat-option *ngFor="let costFilterParameter of costFilterParameters" [value]="costFilterParameter">
+               {{ costFilterParameter | singerEventCostFilterParameterPipe }}
+            </mat-option>
+         </mat-select>
       </mat-form-field>
 
       <!-- Buttons -->

@@ -10,6 +10,7 @@ import { SingleRegistrationComponent } from './components/single-registration/si
 import { DeleteConfirmationComponent } from './components/delete-confirmation/delete-confirmation.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SingereventCostPipe } from './Pipes/singerevent-cost.pipe';
+import { SingereventCostFilterparametersPipe } from './Pipes/singerevent-cost-filterparameters.pipe';
 
 @NgModule({
    declarations: [
@@ -21,6 +22,7 @@ import { SingereventCostPipe } from './Pipes/singerevent-cost.pipe';
       SingleRegistrationComponent,
       DeleteConfirmationComponent,
       SingereventCostPipe,
+      SingereventCostFilterparametersPipe,
    ],
    imports: [CommonModule, MaterialModule, ReactiveFormsModule],
    exports: [

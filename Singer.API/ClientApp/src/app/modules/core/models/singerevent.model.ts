@@ -1,4 +1,4 @@
-import { AgeGroup, RegistrationStatus } from './enum';
+import { AgeGroup, RegistrationStatus, CostFilterParameter } from './enum';
 import { EventSlot } from './eventslot';
 import { DaycareLocation } from './daycarelocation.model';
 import { CareUser } from './careuser.model';
@@ -92,5 +92,5 @@ export class EventFilterParameters extends GenericFilterParameters {
    endDate: Date;
    location: SingerEventLocation;
    ageGroups: AgeGroup[];
-   cost: number;
+   cost: CostFilterParameter;
 }

@@ -39,3 +39,12 @@ export enum RepeatType {
    OnDate = 0,
    AfterXTimes = 1,
 }
+
+export enum CostFilterParameter {
+   Free = 0,
+   UpToFive = 1,
+   UpToTen = 2,
+   UpToFifteen = 3,
+   UpToTwentyFive = 4,
+   UpToFifty = 5,
+}
