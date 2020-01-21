@@ -11,9 +11,7 @@ export class EventSearchComponent {
    @Input() availableLocations: SingerEventLocation[];
    @Input() isOpen: boolean;
    @Output() searchEvent: EventEmitter<SearchEventData> = new EventEmitter();
-   @Output() toggleDrawerEvent: EventEmitter<boolean> = new EventEmitter(
-      this.isOpen
-   );
+   @Output() toggleDrawerEvent: EventEmitter<boolean> = new EventEmitter(this.isOpen);
    currentDate = new Date();
 
    constructor() {}
@@ -29,8 +27,7 @@ export class EventSearchComponent {
       if (this.formControlGroup.invalid) {
          return;
       }
-      const location = this.formControlGroup.controls.locationControl
-         .value as SingerEventLocation;
+      const location = this.formControlGroup.controls.locationControl.value as SingerEventLocation;
       const searchEventData = <SearchEventData>{
          startDateTime: this.formControlGroup.controls.startDateControl.value,
          endDateTime: this.formControlGroup.controls.endDateControl.value,

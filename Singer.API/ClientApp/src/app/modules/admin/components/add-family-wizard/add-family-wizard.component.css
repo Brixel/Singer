@@ -153,15 +153,13 @@
    width: 9.5em;
    height: 9.5em;
    /* Change add button Color to #b3b3b3 */
-   filter: invert(82%) sepia(4%) saturate(0%) hue-rotate(342deg) brightness(90%)
-      contrast(84%);
+   filter: invert(82%) sepia(4%) saturate(0%) hue-rotate(342deg) brightness(90%) contrast(84%);
 }
 
 .body__button-add:hover .body__button-add__img,
 .body__button-add:focus .body__button-add__img {
    /* Change add button Color to #4a88da */
-   filter: invert(67%) sepia(43%) saturate(6412%) hue-rotate(193deg)
-      brightness(90%) contrast(88%);
+   filter: invert(67%) sepia(43%) saturate(6412%) hue-rotate(193deg) brightness(90%) contrast(88%);
 }
 
 /*

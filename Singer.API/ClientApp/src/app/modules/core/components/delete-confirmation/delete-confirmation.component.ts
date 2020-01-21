@@ -29,25 +29,19 @@ export class DeleteConfirmationComponent {
 
    makeConfirmFieldRequired() {
       // Make confirmTitleFieldControl required
-      this.confirmFieldControl = new FormControl(
-         '',
-         [
-            Validators.required,
-            Validators.minLength(this.minNameLength),
-            Validators.maxLength(this.maxNameLength),
-         ]
-      );
+      this.confirmFieldControl = new FormControl('', [
+         Validators.required,
+         Validators.minLength(this.minNameLength),
+         Validators.maxLength(this.maxNameLength),
+      ]);
    }
 
    makeConfirmFieldNotRequired() {
       // Make confirmTitleFieldControl not required
-      this.confirmFieldControl = new FormControl(
-         '',
-         [
-            Validators.minLength(this.minNameLength),
-            Validators.maxLength(this.maxNameLength),
-         ]
-      );
+      this.confirmFieldControl = new FormControl('', [
+         Validators.minLength(this.minNameLength),
+         Validators.maxLength(this.maxNameLength),
+      ]);
    }
 
    enableDeleteEvent() {
@@ -73,7 +67,7 @@ export class DeleteConfirmationComponent {
 
       if (!this.isConfirmFieldMatching()) {
          this.deleteConfirmationOK = false;
-         this.confirmFieldControl.setErrors({invalid: true});
+         this.confirmFieldControl.setErrors({ invalid: true });
          return;
       }
 

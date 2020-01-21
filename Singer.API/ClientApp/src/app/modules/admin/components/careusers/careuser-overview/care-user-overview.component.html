@@ -1,12 +1,7 @@
 <!-- Mat Form Field Filter -->
 <form [formGroup]="formControlGroup">
    <mat-form-field>
-      <input
-         matInput
-         #filterInput
-         placeholder="Filter"
-         formControlName="filterFieldControl"
-      />
+      <input matInput #filterInput placeholder="Filter" formControlName="filterFieldControl" />
       <mat-error *ngIf="formControlGroup.controls.filterFieldControl.invalid">
          <div *ngIf="formControlGroup.controls.filterFieldControl.errors.maxlength">
             Filter mag maximum {{ maxFilterLength }} karakters bevatten.
@@ -17,12 +12,7 @@
 
 <!-- Mat Table -->
 <div class="mat-elevation-z8 overview-table">
-   <table
-      mat-table
-      [dataSource]="dataSource"
-      matSort
-      aria-label="zorg-gebruikers"
-   >
+   <table mat-table [dataSource]="dataSource" matSort aria-label="zorg-gebruikers">
       <!-- FirstName Column -->
       <ng-container matColumnDef="firstName">
          <th mat-header-cell *matHeaderCellDef mat-sort-header>Voornaam</th>
@@ -96,9 +86,7 @@
          <th mat-header-cell *matHeaderCellDef mat-sort-header>Opv. normaal</th>
          <td mat-cell *matCellDef="let row">
             <p>
-               <span class="locationName">{{
-                  row.normalDaycareLocation?.name
-               }}</span>
+               <span class="locationName">{{ row.normalDaycareLocation?.name }}</span>
                <br />
                {{ row.normalDaycareLocation?.address }} <br />
                {{ row.normalDaycareLocation?.postalCode }}
@@ -114,9 +102,7 @@
          </th>
          <td mat-cell *matCellDef="let row">
             <p>
-               <span class="locationName">{{
-                  row.vacationDaycareLocation?.name
-               }}</span>
+               <span class="locationName">{{ row.vacationDaycareLocation?.name }}</span>
                <br />
                {{ row.vacationDaycareLocation?.address }} <br />
                {{ row.vacationDaycareLocation?.postalCode }}
@@ -160,15 +146,9 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 
       <!-- Data Row -->
-      <tr
-         mat-row
-         *matRowDef="let row; columns: displayedColumns"
-         class="selectable"
-         (click)="selectRow(row)"
-      ></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns" class="selectable" (click)="selectRow(row)"></tr>
 
       <!-- Footer Row -->
       <tr mat-footer-row *matFooterRowDef="['addButton', 'paginator']"></tr>
-
    </table>
 </div>

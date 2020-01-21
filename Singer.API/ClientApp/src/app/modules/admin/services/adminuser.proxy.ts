@@ -25,14 +25,10 @@ export class AdminUserProxy {
          .set('pageIndex', pageIndex.toString())
          .set('pageSize', pageSize.toString())
          .set('filter', filter);
-      return this.apiService
-         .get('api/admin', searchParams)
-         .pipe(map(res => res));
+      return this.apiService.get('api/admin', searchParams).pipe(map(res => res));
    }
    updateAdmin(id: string, admin: AdminUserDTO) {
-      return this.apiService
-         .put(`api/admin/${id}`, admin)
-         .pipe(map(res => res));
+      return this.apiService.put(`api/admin/${id}`, admin).pipe(map(res => res));
    }
 
    createAdmin(admin: CreateAdminUserDTO) {

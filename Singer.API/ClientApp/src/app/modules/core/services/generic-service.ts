@@ -1,19 +1,10 @@
 import { GenericModel } from '../models/generic-model';
-import {
-   HttpClient,
-   HttpParams,
-   HttpErrorResponse,
-} from '@angular/common/http';
+import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { Observable, Subject, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { PaginationDTO } from '../DTOs/pagination.dto';
 
-export abstract class GenericService<
-   TModel extends GenericModel,
-   TDTO,
-   TCreateDTO,
-   TUpdateDTO
-> {
+export abstract class GenericService<TModel extends GenericModel, TDTO, TCreateDTO, TUpdateDTO> {
    error$: Subject<HttpErrorResponse>;
    protected abstract httpClient: HttpClient;
    constructor(protected endpoint: string) {}
@@ -53,9 +44,7 @@ export abstract class GenericService<
 
    create(model: TModel): Observable<TDTO> {
       let dto = this.toCreateDTO(model);
-      return this.httpClient
-         .post<TDTO>(this.endpoint, dto)
-         .pipe(catchError(error => this.handleError(error)));
+      return this.httpClient.post<TDTO>(this.endpoint, dto).pipe(catchError(error => this.handleError(error)));
    }
 
    protected handleError(error: HttpErrorResponse) {

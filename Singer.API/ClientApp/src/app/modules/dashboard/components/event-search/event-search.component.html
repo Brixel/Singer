@@ -3,23 +3,29 @@
       <!-- Name Fields -->
       <!-- Lastname Field -->
       <mat-form-field>
-         <input matInput [min]="currentDate" [matDatepicker]="startDatePicker" placeholder="Startdatum"
-            formControlName="startDateControl" (click)="startDatePicker.open()" />
-         <mat-datepicker-toggle matSuffix [for]="startDatePicker">
-         </mat-datepicker-toggle>
-         <mat-datepicker #startDatePicker touchUi [startAt]="currentDate" disabled="false">
-         </mat-datepicker>
-
+         <input
+            matInput
+            [min]="currentDate"
+            [matDatepicker]="startDatePicker"
+            placeholder="Startdatum"
+            formControlName="startDateControl"
+            (click)="startDatePicker.open()"
+         />
+         <mat-datepicker-toggle matSuffix [for]="startDatePicker"> </mat-datepicker-toggle>
+         <mat-datepicker #startDatePicker touchUi [startAt]="currentDate" disabled="false"> </mat-datepicker>
       </mat-form-field>
 
       <mat-form-field>
-         <input matInput [min]="currentDate" [matDatepicker]="endDatePicker" placeholder="Einddatum"
-            formControlName="endDateControl" (click)="endDatePicker.open()" />
-         <mat-datepicker-toggle matSuffix [for]="endDatePicker">
-         </mat-datepicker-toggle>
-         <mat-datepicker #endDatePicker touchUi [startAt]="currentDate" disabled="false">
-         </mat-datepicker>
-
+         <input
+            matInput
+            [min]="currentDate"
+            [matDatepicker]="endDatePicker"
+            placeholder="Einddatum"
+            formControlName="endDateControl"
+            (click)="endDatePicker.open()"
+         />
+         <mat-datepicker-toggle matSuffix [for]="endDatePicker"> </mat-datepicker-toggle>
+         <mat-datepicker #endDatePicker touchUi [startAt]="currentDate" disabled="false"> </mat-datepicker>
       </mat-form-field>
       <mat-form-field>
          <mat-select formControlName="locationControl" placeholder="Locatie">

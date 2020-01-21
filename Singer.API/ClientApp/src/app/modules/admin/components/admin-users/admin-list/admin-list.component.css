@@ -13,7 +13,7 @@
    overflow-y: hidden;
    margin: 10px auto;
 }
-table{
+table {
    width: 100%;
 }
 
@@ -83,7 +83,6 @@ tr.selectable:active {
 .mat-column-userName {
    padding: 10px;
 }
-
 
 /* TABLE FOOTER STYLING */
 .tableButton {

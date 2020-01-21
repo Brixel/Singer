@@ -1,12 +1,7 @@
 <!-- Mat Form Field Filter -->
 <form [formGroup]="formControlGroup">
    <mat-form-field>
-      <input
-         matInput
-         #filterInput
-         placeholder="Filter"
-         formControlName="filterFieldControl"
-      />
+      <input matInput #filterInput placeholder="Filter" formControlName="filterFieldControl" />
       <mat-error *ngIf="formControlGroup.controls.filterFieldControl.invalid">
          <div *ngIf="formControlGroup.controls.filterFieldControl.errors.maxlength">
             Filter mag maximum {{ maxFilterLength }} karakters bevatten.
@@ -80,16 +75,9 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 
       <!-- Data Row -->
-      <tr
-         mat-row
-         *matRowDef="let row; columns: displayedColumns"
-         class="selectable"
-         (click)="selectRow(row)"
-      >
-      </tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns" class="selectable" (click)="selectRow(row)"></tr>
 
       <!-- Footer Row -->
       <tr mat-footer-row *matFooterRowDef="['addButton', 'paginator']"></tr>
-
    </table>
 </div>

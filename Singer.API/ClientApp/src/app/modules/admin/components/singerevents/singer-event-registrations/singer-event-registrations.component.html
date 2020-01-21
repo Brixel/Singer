@@ -8,13 +8,9 @@
       <mat-form-field *ngIf="event.eventSlots.length > 1">
          <mat-label>Datum</mat-label>
          <mat-select [(value)]="selectedEventSlot">
-            <mat-option
-               *ngFor="let eventSlot of event.eventSlots"
-               [value]="eventSlot"
+            <mat-option *ngFor="let eventSlot of event.eventSlots" [value]="eventSlot"
                >{{ eventSlot.startDateTime | date: 'dd-MM-yyyy HH:mm' }} -
-               {{
-                  eventSlot.endDateTime | date: 'dd-MM-yyyy HH:mm'
-               }}</mat-option
+               {{ eventSlot.endDateTime | date: 'dd-MM-yyyy HH:mm' }}</mat-option
             >
          </mat-select>
       </mat-form-field>
@@ -24,12 +20,7 @@
       </p>
    </div>
    <mat-list *ngIf="selectedEventSlot">
-      <p
-         *ngIf="
-            !selectedEventSlot.registrants ||
-            selectedEventSlot.registrants.length === 0
-         "
-      >
+      <p *ngIf="!selectedEventSlot.registrants || selectedEventSlot.registrants.length === 0">
          Geen inschrijvingen gevonden voor deze datum
       </p>
       <mat-list-item *ngFor="let registrant of selectedEventSlot.registrants">
@@ -40,15 +31,11 @@
                <mat-select
                   [compareWith]="compareLocations"
                   [(value)]="registrant.daycareLocation"
-                  (selectionChange)="
-                     changeLocation($event, registrant.registrationId)
-                  "
+                  (selectionChange)="changeLocation($event, registrant.registrationId)"
                >
-                  <mat-option
-                     *ngFor="let location of availableLocations"
-                     [value]="location"
-                     >{{ location.name }}</mat-option
-                  >
+                  <mat-option *ngFor="let location of availableLocations" [value]="location">{{
+                     location.name
+                  }}</mat-option>
                </mat-select>
             </mat-form-field>
             <mat-button-toggle-group
@@ -56,12 +43,8 @@
                [value]="registrant.registrationStatus"
                (change)="changeRegistration($event, registrant.registrationId)"
             >
-               <mat-button-toggle
-                  [value]="registrationStatus.Accepted"
-                  matTooltip="Inschrijving goedkeuren"
-                  ><mat-icon class="registration-accepted"
-                     >check_circle_outline</mat-icon
-                  ></mat-button-toggle
+               <mat-button-toggle [value]="registrationStatus.Accepted" matTooltip="Inschrijving goedkeuren"
+                  ><mat-icon class="registration-accepted">check_circle_outline</mat-icon></mat-button-toggle
                >
                <mat-button-toggle
                   [disabled]="'true'"
@@ -71,12 +54,8 @@
                      access_time
                   </mat-icon></mat-button-toggle
                >
-               <mat-button-toggle
-                  [value]="registrationStatus.Rejected"
-                  matTooltip="Inschrijving niet goedkeuren"
-                  ><mat-icon class="registration-rejected"
-                     >error_outline</mat-icon
-                  ></mat-button-toggle
+               <mat-button-toggle [value]="registrationStatus.Rejected" matTooltip="Inschrijving niet goedkeuren"
+                  ><mat-icon class="registration-rejected">error_outline</mat-icon></mat-button-toggle
                >
             </mat-button-toggle-group>
          </div></mat-list-item
@@ -85,21 +64,10 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-   <button
-      mat-raised-button
-      color="primary"
-      title="Lijst downloaden"
-      aria-label="Lijst downloaden"
-      (click)="export()"
-   >
+   <button mat-raised-button color="primary" title="Lijst downloaden" aria-label="Lijst downloaden" (click)="export()">
       Download
    </button>
-   <button
-      mat-raised-button
-      (click)="close()"
-      title="Sluiten"
-      aria-label="sluiten"
-   >
+   <button mat-raised-button (click)="close()" title="Sluiten" aria-label="sluiten">
       Sluit
    </button>
 </mat-dialog-actions>

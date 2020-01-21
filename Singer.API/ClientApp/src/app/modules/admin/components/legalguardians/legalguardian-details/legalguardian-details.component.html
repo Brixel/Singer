@@ -1,5 +1,5 @@
 <!-- Form Dialog Title -->
-<h2 mat-dialog-title>Voogd {{ isAdding ? 'toevoegen' : 'bewerken'}}</h2>
+<h2 mat-dialog-title>Voogd {{ isAdding ? 'toevoegen' : 'bewerken' }}</h2>
 
 <!-- Form Dialog Content -->
 <mat-dialog-content>
@@ -11,17 +11,12 @@
       <div class="inline-fields">
          <!-- Lastname Field -->
          <mat-form-field>
-            <input
-               matInput
-               [placeholder]="lastNameFieldPlaceholder"
-               formControlName="lastNameFieldControl"
-            />
+            <input matInput [placeholder]="lastNameFieldPlaceholder" formControlName="lastNameFieldControl" />
             <mat-error *ngIf="formControlGroup.controls.lastNameFieldControl.errors?.required">
                Achternaam is een verplicht veld.
             </mat-error>
             <mat-error *ngIf="formControlGroup.controls.lastNameFieldControl.errors?.minlength">
-               Achternaam moet minstens {{ minNameLength }} karakters
-               bevatten.
+               Achternaam moet minstens {{ minNameLength }} karakters bevatten.
             </mat-error>
             <mat-error *ngIf="formControlGroup.controls.lastNameFieldControl.errors?.maxlength">
                Achternaam mag maximum {{ maxNameLength }} karakters bevatten.
@@ -33,11 +28,7 @@
 
          <!-- FirstName Field -->
          <mat-form-field>
-            <input
-               matInput
-               [placeholder]="firstNameFieldPlaceholder"
-               formControlName="firstNameFieldControl"
-            />
+            <input matInput [placeholder]="firstNameFieldPlaceholder" formControlName="firstNameFieldControl" />
             <mat-error *ngIf="formControlGroup.controls.firstNameFieldControl.errors?.required">
                Voornaam is een verplicht veld.
             </mat-error>
@@ -54,17 +45,12 @@
 
          <!-- Email Field -->
          <mat-form-field class="emailField">
-            <input
-               matInput
-               [placeholder]="emailFieldPlaceholder"
-               formControlName="emailFieldControl"
-            />
+            <input matInput [placeholder]="emailFieldPlaceholder" formControlName="emailFieldControl" />
             <mat-error *ngIf="formControlGroup.controls.emailFieldControl.errors?.required">
                Email adres is een verplicht veld.
             </mat-error>
             <mat-error *ngIf="formControlGroup.controls.emailFieldControl.errors?.maxLength">
-               Email adres mag maximum {{ maxEmailLength }} karakters
-               bevatten.
+               Email adres mag maximum {{ maxEmailLength }} karakters bevatten.
             </mat-error>
             <mat-error *ngIf="formControlGroup.controls.emailFieldControl.errors?.email">
                Geen geldig mail adres.
@@ -80,11 +66,7 @@
       <div class="inline-fields">
          <!-- Address Field -->
          <mat-form-field>
-            <input
-               matInput
-               [placeholder]="addressFieldPlaceholder"
-               formControlName="addressFieldControl"
-            />
+            <input matInput [placeholder]="addressFieldPlaceholder" formControlName="addressFieldControl" />
             <mat-error *ngIf="formControlGroup.controls.addressFieldControl.errors?.required">
                Adres is een verplicht veld.
             </mat-error>
@@ -95,11 +77,7 @@
 
          <!-- PostalCode Field -->
          <mat-form-field>
-            <input
-               matInput
-               [placeholder]="postalCodeFieldPlaceholder"
-               formControlName="postalCodeFieldControl"
-            />
+            <input matInput [placeholder]="postalCodeFieldPlaceholder" formControlName="postalCodeFieldControl" />
             <mat-error *ngIf="formControlGroup.controls.postalCodeFieldControl.errors?.required">
                Postcode is een verplicht veld.
             </mat-error>
@@ -110,11 +88,7 @@
 
          <!-- city Field -->
          <mat-form-field>
-            <input
-               matInput
-               [placeholder]="cityFieldPlaceholder"
-               formControlName="cityFieldControl"
-            />
+            <input matInput [placeholder]="cityFieldPlaceholder" formControlName="cityFieldControl" />
             <mat-error *ngIf="formControlGroup.controls.cityFieldControl.errors?.required">
                Gemeente is een verplicht veld.
             </mat-error>
@@ -125,11 +99,7 @@
 
          <!-- country Field -->
          <mat-form-field>
-            <input
-               matInput
-               [placeholder]="countryFieldPlaceholder"
-               formControlName="countryFieldControl"
-            />
+            <input matInput [placeholder]="countryFieldPlaceholder" formControlName="countryFieldControl" />
             <mat-error *ngIf="formControlGroup.controls.countryFieldControl.errors?.required">
                Land is een verplicht veld.
             </mat-error>
@@ -179,26 +149,20 @@
             gutterSize="20px"
             (window:resize)="onResize($event)"
          >
-            <mat-grid-tile
-               *ngFor="let careUser of currentLegalGuardianInstance.careUsers"
-            >
-               <app-user-card
-                  [user]="careUser"
-                  (delete)="deleteCareUser(careUser)"
-                  class="user-card"
-               ></app-user-card>
+            <mat-grid-tile *ngFor="let careUser of currentLegalGuardianInstance.careUsers">
+               <app-user-card [user]="careUser" (delete)="deleteCareUser(careUser)" class="user-card"></app-user-card>
             </mat-grid-tile>
          </mat-grid-list>
       </div>
       <!-- Button Row -->
       <mat-dialog-actions class="button-row">
-
          <!-- Delete Button -->
-        <app-delete-confirmation
+         <app-delete-confirmation
             deleteButtonText="Voogd Verwijderen"
             [name]="currentLegalGuardianInstance.firstName + ' ' + currentLegalGuardianInstance.lastName"
             (delete)="emitDeleteEvent()"
-            *ngIf="!isAdding">
+            *ngIf="!isAdding"
+         >
          </app-delete-confirmation>
 
          <!-- Spacer -->
@@ -223,7 +187,7 @@
             title="Formulier sluiten"
             aria-label="Formulier sluiten"
          >
-         {{ isAdding ? 'Toevoegen' : 'Opslaan'}}
+            {{ isAdding ? 'Toevoegen' : 'Opslaan' }}
          </button>
       </mat-dialog-actions>
    </form>

@@ -2,11 +2,7 @@ import { Injectable } from '@angular/core';
 import { CareUserProxy } from './careuser.proxy';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import {
-   UpdateCareUserDTO,
-   CareUser,
-   CreateCareUserDTO,
-} from '../../models/careuser.model';
+import { UpdateCareUserDTO, CareUser, CreateCareUserDTO } from '../../models/careuser.model';
 import { PaginationDTO } from '../../DTOs/pagination.dto';
 @Injectable({
    providedIn: 'root',
@@ -37,9 +33,7 @@ export class CareUserService {
          legalGuardianUsersToAdd: updateUser.legalGuardianUsersToAdd,
          legalGuardianUsersToRemove: updateUser.legalGuardianUsersToRemove,
       };
-      return this.careuserProxy
-         .updateCareUser(updateUser.id, updateCareUserDTo)
-         .pipe(map(res => res));
+      return this.careuserProxy.updateCareUser(updateUser.id, updateCareUserDTo).pipe(map(res => res));
    }
 
    createCareUser(createUser: CareUser) {
@@ -53,8 +47,6 @@ export class CareUserService {
          hasTrajectory: createUser.hasTrajectory,
          isExtern: createUser.isExtern,
       };
-      return this.careuserProxy
-         .createCareuser(createCareUserDTO)
-         .pipe(map(res => res));
+      return this.careuserProxy.createCareuser(createCareUserDTO).pipe(map(res => res));
    }
 }

@@ -4,13 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { CareUserService } from 'src/app/modules/core/services/care-users-api/careusers.service';
 import { CareUser } from 'src/app/modules/core/models/careuser.model';
-import {
-   startWith,
-   debounceTime,
-   switchMap,
-   catchError,
-   map,
-} from 'rxjs/operators';
+import { startWith, debounceTime, switchMap, catchError, map } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
 
 // Data we pass along with the creation of the Mat-Dialog box
@@ -25,7 +19,6 @@ export interface LegalGuardianDetailsFormData {
    styleUrls: ['./legalguardian-details.component.css'],
 })
 export class LegalguardianDetailsComponent implements OnInit {
-
    // Submit event for when the user submits the form
    @Output() submitEvent: EventEmitter<LegalGuardian> = new EventEmitter();
    @Output() deleteEvent: EventEmitter<LegalGuardian> = new EventEmitter();
@@ -78,22 +71,13 @@ export class LegalguardianDetailsComponent implements OnInit {
          Validators.maxLength(this.maxNameLength),
          Validators.pattern(this.nameRegex),
       ]),
-      addressFieldControl: new FormControl('', [
-         Validators.required,
-         Validators.maxLength(this.maxAddressLength),
-      ]),
+      addressFieldControl: new FormControl('', [Validators.required, Validators.maxLength(this.maxAddressLength)]),
       postalCodeFieldControl: new FormControl('', [
          Validators.required,
          Validators.maxLength(this.maxPostalCodeLength),
       ]),
-      cityFieldControl: new FormControl('', [
-         Validators.required,
-         Validators.maxLength(this.maxCityLength),
-      ]),
-      countryFieldControl: new FormControl('', [
-         Validators.required,
-         Validators.maxLength(this.maxCountryLength),
-      ]),
+      cityFieldControl: new FormControl('', [Validators.required, Validators.maxLength(this.maxCityLength)]),
+      countryFieldControl: new FormControl('', [Validators.required, Validators.maxLength(this.maxCountryLength)]),
       emailFieldControl: new FormControl('', [
          Validators.required,
          Validators.maxLength(this.maxEmailLength),
@@ -119,9 +103,7 @@ export class LegalguardianDetailsComponent implements OnInit {
       this._loadInstance();
 
       // Subscribe to CareUser lookup events
-      this.careUsersAutoComplete$ = this.formControlGroup.controls[
-         'careUsersSearchFieldcontrol'
-      ].valueChanges.pipe(
+      this.careUsersAutoComplete$ = this.formControlGroup.controls['careUsersSearchFieldcontrol'].valueChanges.pipe(
          startWith(''),
          debounceTime(300),
          switchMap(value => {
@@ -145,8 +127,7 @@ export class LegalguardianDetailsComponent implements OnInit {
       if (this.isAdding) {
          this.formControlGroup.reset();
          this.currentLegalGuardianInstance = new LegalGuardian();
-      }
-      else {
+      } else {
          this.loadCurrentLegalGuardianInstanceValues();
       }
    }
@@ -172,21 +153,12 @@ export class LegalguardianDetailsComponent implements OnInit {
    }
 
    careUserLookup(value: string): Observable<CareUser[]> {
-      return this._careUserService
-         .fetchCareUsersData('asc', 'firstName', 0, 15, value)
-         .pipe(
-            map(res =>
-               res.items.filter(
-                  i =>
-                     !this.currentLegalGuardianInstance.careUsers.some(
-                        u => u.id === i.id
-                     )
-               )
-            ),
-            catchError(_ => {
-               return of(null);
-            })
-         );
+      return this._careUserService.fetchCareUsersData('asc', 'firstName', 0, 15, value).pipe(
+         map(res => res.items.filter(i => !this.currentLegalGuardianInstance.careUsers.some(u => u.id === i.id))),
+         catchError(_ => {
+            return of(null);
+         })
+      );
    }
 
    addCareUser(careUser: CareUser, event: any = null) {

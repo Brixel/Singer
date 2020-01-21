@@ -1,11 +1,4 @@
-import {
-   RegistrationStatus,
-   AgeGroup,
-   TimeUnit,
-   WeekDay,
-   MonthRepeatMoment,
-   RepeatType,
-} from '../models/enum';
+import { RegistrationStatus, AgeGroup, TimeUnit, WeekDay, MonthRepeatMoment, RepeatType } from '../models/enum';
 import { EventSlotDTO } from '../models/eventslot.dto';
 import { CareUserDTO } from '../models/careuser.model';
 import { SingerEventLocationDTO } from './singer-event-location.dto';

@@ -1,10 +1,4 @@
-import {
-   HttpClient,
-   HttpParams,
-   HttpHeaders,
-   HttpErrorResponse,
-   HttpResponse,
-} from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Inject } from '@angular/core';
 import { Observable, Subject, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -12,15 +6,9 @@ import { ResponseContentType } from '@angular/http';
 
 export class ApiService {
    error$ = new Subject<HttpErrorResponse>();
-   constructor(
-      private httpClient: HttpClient,
-      @Inject('BASE_URL') private baseUrl: string
-   ) {}
+   constructor(private httpClient: HttpClient, @Inject('BASE_URL') private baseUrl: string) {}
 
-   get<T = any>(
-      path: string,
-      params: HttpParams = new HttpParams()
-   ): Observable<any> {
+   get<T = any>(path: string, params: HttpParams = new HttpParams()): Observable<any> {
       return this.httpClient
          .get<T>(`${this.baseUrl}${path}`, { params })
          .pipe(catchError(error => this.handleError(error)));
@@ -50,9 +38,7 @@ export class ApiService {
    }
 
    delete(path): Observable<any> {
-      return this.httpClient
-         .delete(`${this.baseUrl}${path}`)
-         .pipe(catchError(error => this.handleError(error)));
+      return this.httpClient.delete(`${this.baseUrl}${path}`).pipe(catchError(error => this.handleError(error)));
    }
 
    downloadFile(path: string): Observable<Blob> {

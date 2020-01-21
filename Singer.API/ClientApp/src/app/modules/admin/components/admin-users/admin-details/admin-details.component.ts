@@ -1,12 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { AdminUser } from 'src/app/modules/core/models/adminuser.model';
 import { AgeGroup } from 'src/app/modules/core/models/enum';
-import {
-   FormGroup,
-   FormControl,
-   Validators,
-   AbstractControl,
-} from '@angular/forms';
+import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
@@ -74,15 +69,9 @@ export class AdminDetailsComponent implements OnInit {
 
    ngOnInit() {
       if (!this.isAdding) {
-         this.formControlGroup.controls['firstNameFieldControl'].setValue(
-            this.adminUser.firstName
-         );
-         this.formControlGroup.controls['lastNameFieldControl'].setValue(
-            this.adminUser.lastName
-         );
-         this.formControlGroup.controls['emailFieldControl'].setValue(
-            this.adminUser.email
-         );
+         this.formControlGroup.controls['firstNameFieldControl'].setValue(this.adminUser.firstName);
+         this.formControlGroup.controls['lastNameFieldControl'].setValue(this.adminUser.lastName);
+         this.formControlGroup.controls['emailFieldControl'].setValue(this.adminUser.email);
       }
    }
 
@@ -91,15 +80,9 @@ export class AdminDetailsComponent implements OnInit {
       if (this.formControlGroup.invalid) {
          return;
       }
-      this.adminUser.firstName = this.formControlGroup.get(
-         'firstNameFieldControl'
-      ).value;
-      this.adminUser.lastName = this.formControlGroup.get(
-         'lastNameFieldControl'
-      ).value;
-      this.adminUser.email = this.formControlGroup.get(
-         'emailFieldControl'
-      ).value;
+      this.adminUser.firstName = this.formControlGroup.get('firstNameFieldControl').value;
+      this.adminUser.lastName = this.formControlGroup.get('lastNameFieldControl').value;
+      this.adminUser.email = this.formControlGroup.get('emailFieldControl').value;
       // Check for changes and determine of an API call is necesarry
       this.submitEvent.emit(this.adminUser);
       this.closeForm();

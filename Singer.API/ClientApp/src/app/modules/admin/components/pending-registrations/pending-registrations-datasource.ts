@@ -4,10 +4,7 @@ import { EventRegistrationDTO } from 'src/app/modules/core/DTOs/event-registrati
 import { SingerEventsService } from 'src/app/modules/core/services/singerevents-api/singerevents.service';
 import { PendingRegistrationsService } from 'src/app/modules/core/services/singerevents-api/pending-registrations-service';
 
-export class PendingRegistrationsDatasource extends GenericDataSource<
-   EventRegistration,
-   EventRegistrationDTO
-> {
+export class PendingRegistrationsDatasource extends GenericDataSource<EventRegistration, EventRegistrationDTO> {
    constructor(pendingRegistrationsService: PendingRegistrationsService) {
       super(pendingRegistrationsService);
    }
