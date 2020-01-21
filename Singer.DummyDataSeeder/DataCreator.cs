@@ -49,6 +49,8 @@ namespace Singer.DummyDataSeeder
 
         private async Task<TDto> PostAsync<TDto, TCreateDto>(string url, TCreateDto payload)
         {
+            EnsureToken();
+
             var response = await url
                     .WithOAuthBearerToken(_token)
                     .PostJsonAsync(payload);
@@ -77,26 +79,40 @@ namespace Singer.DummyDataSeeder
             Console.Write("Password: ");
             var password = Console.ReadLine();
 
-            var loginTask = url.PostAsync(new FormUrlEncodedContent(new Dictionary<string, string>
+            string token = default;
+            while (token != default)
             {
-                { "username", userName },
-                { "password", password },
-                { "grant_type", "password" },
-                { "client_id", ClientId },
-                { "client_secret", ClientSecret },
-            }));
+                var cts = new CancellationTokenSource();
 
-            Console.Write("Waiting for authentication response from server");
-            var cts = new CancellationTokenSource();
-            _ = WriteDotsAsync(cts.Token);
+                try
+                {
+                    var loginTask = url.PostAsync(new FormUrlEncodedContent(new Dictionary<string, string>
+                    {
+                        { "username", userName },
+                        { "password", password },
+                        { "grant_type", "password" },
+                        { "client_id", ClientId },
+                        { "client_secret", ClientSecret },
+                    }));
 
-            loginTask.Wait();
-            cts.Cancel();
+                    Console.Write("Waiting for authentication response from server");
+                    _ = WriteDotsAsync(cts.Token);
 
-            // TODO debug why this throws error
-            var response = loginTask.Result;
+                    loginTask.Wait();
+                    cts.Cancel();
 
-            return default;
+                    // TODO debug why this throws error
+                    var response = loginTask.Result;
+                }
+                catch (Exception e)
+                {
+                    cts.Cancel();
+                    Console.WriteLine();
+                    Console.WriteLine($"Error: {e.SerializeJson()}");
+                }
+            }
+
+            return token;
         }
 
         private async Task WriteDotsAsync(CancellationToken cancellationToken)
