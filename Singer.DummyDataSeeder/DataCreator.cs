@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Flurl.Http;
 using Singer.Controllers;
+using Singer.DTOs;
 using Singer.DTOs.Users;
 using Singer.DummyDataSeeder.Data;
 using Singer.DummyDataSeeder.Data.Bases;
@@ -23,8 +24,12 @@ namespace Singer.DummyDataSeeder
         private const string ClientSecret = "A12F8B27-EFD7-47CD-9AE0-97D9CC7C451C";
 
 
-        private readonly IDataContainer<CareUserDTO, CreateCareUserDTO> _careUsers = new CareUsers();
-        private readonly IDataContainer<LegalGuardianUserDTO, CreateLegalGuardianUserDTO> _legalGuardians = new LegalGuardians();
+        private CareUsers _careUsers;
+        private LegalGuardians _legalGuardians;
+        private Admins _admins = new Admins();
+
+        private Events _events;
+        private List<EventLocationDTO> _eventLocations;
 
         private string _token;
 
@@ -33,11 +38,70 @@ namespace Singer.DummyDataSeeder
             _apiUrl = apiUrl;
         }
 
-        public async Task CreateCareUsersAsync() 
-            => await CreateAsync<CareUserController, CareUserDTO, CreateCareUserDTO>(_careUsers);
+        public async Task CreateAdminsAsync()
+        {
+            if (_admins == default)
+                _admins = new Admins();
+
+            await CreateAsync<AdminController, AdminUserDTO, CreateAdminUserDTO>(_admins);
+        }
 
         public async Task CreateLegalGuardiansAsync()
-            => await CreateAsync<CareUserController, LegalGuardianUserDTO, CreateLegalGuardianUserDTO>(_legalGuardians);
+        {
+            if (_legalGuardians == default)
+                _legalGuardians = new LegalGuardians();
+
+            await CreateAsync<CareUserController, LegalGuardianUserDTO, CreateLegalGuardianUserDTO>(_legalGuardians);
+        }
+
+        public async Task CreateCareUsersAsync()
+        {
+            if (_careUsers == default)
+                _careUsers= new CareUsers(_legalGuardians);
+
+            await CreateAsync<CareUserController, CareUserDTO, CreateCareUserDTO>(_careUsers);
+        }
+
+        public async Task CreateEventsAsync()
+        {
+            if (_eventLocations == default)
+                _eventLocations = await $"{_apiUrl}/{typeof(EventLocationController).GetRoute()}".GetJsonAsync<List<EventLocationDTO>>();
+            if (_events == default)
+                _events = new Events(_eventLocations);
+
+            await CreateAsync<EventController, EventDTO, CreateEventDTO>(_events);
+        }
+
+        public async Task LinkCareUsersAndLegalGuardiansAsync()
+        {
+            await _careUsers.Data
+                .Cast<CareUser>()
+                .Select(x => new
+                {
+                    CareUser = x.Dto,
+                    LegalGuardians = x.LegalGuardians.Select(l => l.Dto),
+                })
+                .ForEachAsync(x => LinkCareUserAndLegalGuardianAsync(x.CareUser, x.LegalGuardians));
+        }
+
+        private async Task LinkCareUserAndLegalGuardianAsync(CareUserDTO careUser, IEnumerable<LegalGuardianUserDTO> legalGuardians)
+        {
+            _ = await $"{_apiUrl}/{typeof(CareUserController).GetRoute()}/{careUser.Id}"
+                .PutJsonAsync(new UpdateCareUserDTO
+                {
+                    AgeGroup = careUser.AgeGroup,
+                    BirthDay = careUser.BirthDay,
+                    CaseNumber = careUser.CaseNumber,
+                    Email = careUser.Email,
+                    FirstName = careUser.FirstName,
+                    HasTrajectory = careUser.HasTrajectory,
+                    IsExtern = careUser.IsExtern,
+                    LastName = careUser.LastName,
+                    LegalGuardianUsersToAdd = legalGuardians.Select(x => x.Id).ToList(),
+                    NormalDaycareLocationId = careUser.NormalDaycareLocation.Id,
+                    VacationDaycareLocationId = careUser.VacationDaycareLocation.Id,
+                });
+        }
 
         private async Task CreateAsync<TController, TDto, TCreateDto>(IDataContainer<TDto, TCreateDto> storer)
         {

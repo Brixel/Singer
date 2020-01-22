@@ -1,5 +1,5 @@
 using System;
-
+using System.Linq;
 using Singer.DTOs.Users;
 using Singer.DummyDataSeeder.Data.Bases;
 using Singer.Models;
@@ -9,7 +9,14 @@ namespace Singer.DummyDataSeeder.Data
     internal sealed class CareUsers : DataContainer<CareUserDTO, CreateCareUserDTO>
     {
         private IDtoStorer<CareUserDTO, CreateCareUserDTO>[] _data;
-        
+
+        private readonly DataContainer<LegalGuardianUserDTO, CreateLegalGuardianUserDTO> _legalGuardians;
+
+        public CareUsers(DataContainer<LegalGuardianUserDTO, CreateLegalGuardianUserDTO> legalGuardians)
+        {
+            _legalGuardians = legalGuardians;
+        }
+
         public override IDtoStorer<CareUserDTO, CreateCareUserDTO>[] Data => _data ??= new IDtoStorer<CareUserDTO, CreateCareUserDTO>[]
         {
             new CareUser
@@ -25,7 +32,12 @@ namespace Singer.DummyDataSeeder.Data
                     HasTrajectory = R.NewBool(),
                     HasVacationDayCare = R.NewBool(),
                     IsExtern = R.NewBool(),
-                }
+                },
+                LegalGuardians = _legalGuardians.Data.Where(x =>
+                    x.CreateDto.Email == "nick.elodeon@nickelodeon.com" ||
+                    x.CreateDto.Email == "hugh.neutron@nickelodeon.com" ||
+                    x.CreateDto.Email == "judy.neutron@nickelodeon.com"
+                )
             },
             new CareUser
             {
@@ -40,7 +52,8 @@ namespace Singer.DummyDataSeeder.Data
                     HasTrajectory = R.NewBool(),
                     HasVacationDayCare = R.NewBool(),
                     IsExtern = R.NewBool(),
-                }
+                },
+                LegalGuardians = _legalGuardians.Data.Where(x => x.CreateDto.Email == "post@sintgerardus.be")
             },
             new CareUser
             {
@@ -55,7 +68,8 @@ namespace Singer.DummyDataSeeder.Data
                     HasTrajectory = R.NewBool(),
                     HasVacationDayCare = R.NewBool(),
                     IsExtern = R.NewBool(),
-                }
+                },
+                LegalGuardians = _legalGuardians.Data.Where(x => x.CreateDto.Email == "post@sintgerardus.be")
             },
             new CareUser
             {
@@ -70,7 +84,8 @@ namespace Singer.DummyDataSeeder.Data
                     HasTrajectory = R.NewBool(),
                     HasVacationDayCare = R.NewBool(),
                     IsExtern = R.NewBool(),
-                }
+                },
+                LegalGuardians = _legalGuardians.Data.Where(x => x.CreateDto.Email == "post@sintgerardus.be")
             },
             new CareUser
             {
@@ -85,7 +100,12 @@ namespace Singer.DummyDataSeeder.Data
                     HasTrajectory = R.NewBool(),
                     HasVacationDayCare = R.NewBool(),
                     IsExtern = R.NewBool(),
-                }
+                },
+                LegalGuardians = _legalGuardians.Data.Where(x =>
+                    x.CreateDto.Email == "nick.elodeon@nickelodeon.com" ||
+                    x.CreateDto.Email == "katara@nickelodeon.com" ||
+                    x.CreateDto.Email == "sokka@nickelodeon.com"
+                )
             },
             new CareUser
             {
@@ -100,7 +120,8 @@ namespace Singer.DummyDataSeeder.Data
                     HasTrajectory = R.NewBool(),
                     HasVacationDayCare = R.NewBool(),
                     IsExtern = R.NewBool(),
-                }
+                },
+                LegalGuardians = _legalGuardians.Data.Where(x => x.CreateDto.Email == "max.tennyson@cartoon.cn")
             },
             new CareUser
             {
@@ -115,7 +136,12 @@ namespace Singer.DummyDataSeeder.Data
                     HasTrajectory = R.NewBool(),
                     HasVacationDayCare = R.NewBool(),
                     IsExtern = R.NewBool(),
-                }
+                },
+                LegalGuardians = _legalGuardians.Data.Where(x =>
+                    x.CreateDto.Email == "nick.elodeon@nickelodeon.com" ||
+                    x.CreateDto.Email == "jack.fenton@nickelodeon.com" ||
+                    x.CreateDto.Email == "maddie.fenton@nickelodeon.com"
+                )
             },
             new CareUser
             {
@@ -130,7 +156,8 @@ namespace Singer.DummyDataSeeder.Data
                     HasTrajectory = R.NewBool(),
                     HasVacationDayCare = R.NewBool(),
                     IsExtern = R.NewBool(),
-                }
+                },
+                LegalGuardians = _legalGuardians.Data.Where(x => x.CreateDto.Email == "kamesennin.muten.roshi@toei.jap")
             },
             new CareUser
             {
@@ -145,7 +172,15 @@ namespace Singer.DummyDataSeeder.Data
                     HasTrajectory = R.NewBool(),
                     HasVacationDayCare = R.NewBool(),
                     IsExtern = R.NewBool(),
-                }
+                },
+                LegalGuardians = _legalGuardians.Data.Where(x =>
+                    x.CreateDto.Email == "nick.elodeon@nickelodeon.com" ||
+                    x.CreateDto.Email == "dad@nickelodeon.com" ||
+                    x.CreateDto.Email == "mom@nickelodeon.com" ||
+                    x.CreateDto.Email == "cosmo@nickelodeon.com" ||
+                    x.CreateDto.Email == "wanda@nickelodeon.com" ||
+                    x.CreateDto.Email == "vicky@nickelodeon.com"
+                )
             },
             new CareUser
             {
@@ -160,7 +195,11 @@ namespace Singer.DummyDataSeeder.Data
                     HasTrajectory = R.NewBool(),
                     HasVacationDayCare = R.NewBool(),
                     IsExtern = R.NewBool(),
-                }
+                },
+                LegalGuardians = _legalGuardians.Data.Where(x =>
+                    x.CreateDto.Email == "fred.flinstone@stone.age" ||
+                    x.CreateDto.Email == "wilma.flinstone@stone.age"
+                )
             },
             new CareUser
             {
@@ -175,7 +214,11 @@ namespace Singer.DummyDataSeeder.Data
                     HasTrajectory = R.NewBool(),
                     HasVacationDayCare = R.NewBool(),
                     IsExtern = R.NewBool(),
-                }
+                },
+                LegalGuardians = _legalGuardians.Data.Where(x =>
+                    x.CreateDto.Email == "fred.flinstone@stone.age" ||
+                    x.CreateDto.Email == "wilma.flinstone@stone.age"
+                )
             },
             new CareUser
             {
@@ -190,7 +233,11 @@ namespace Singer.DummyDataSeeder.Data
                     HasTrajectory = R.NewBool(),
                     HasVacationDayCare = R.NewBool(),
                     IsExtern = R.NewBool(),
-                }
+                },
+                LegalGuardians = _legalGuardians.Data.Where(x =>
+                    x.CreateDto.Email == "james.timothy.possible@nickelodeon.com" ||
+                    x.CreateDto.Email == "ann.possible@nickelodeon.com"
+                )
             },
             new CareUser
             {
@@ -205,7 +252,8 @@ namespace Singer.DummyDataSeeder.Data
                     HasTrajectory = R.NewBool(),
                     HasVacationDayCare = R.NewBool(),
                     IsExtern = R.NewBool(),
-                }
+                },
+                LegalGuardians = _legalGuardians.Data.Where(x => x.CreateDto.Email == "marge.simpson@fox.usa")
             },
             new CareUser
             {
@@ -220,7 +268,8 @@ namespace Singer.DummyDataSeeder.Data
                     HasTrajectory = R.NewBool(),
                     HasVacationDayCare = R.NewBool(),
                     IsExtern = R.NewBool(),
-                }
+                },
+                LegalGuardians = _legalGuardians.Data.Where(x => x.CreateDto.Email == "marge.simpson@fox.usa")
             },
             new CareUser
             {
@@ -235,7 +284,8 @@ namespace Singer.DummyDataSeeder.Data
                     HasTrajectory = R.NewBool(),
                     HasVacationDayCare = R.NewBool(),
                     IsExtern = R.NewBool(),
-                }
+                },
+                LegalGuardians = _legalGuardians.Data.Where(x => x.CreateDto.Email == "marge.simpson@fox.usa")
             },
             new CareUser
             {
@@ -250,7 +300,8 @@ namespace Singer.DummyDataSeeder.Data
                     HasTrajectory = R.NewBool(),
                     HasVacationDayCare = R.NewBool(),
                     IsExtern = R.NewBool(),
-                }
+                },
+                LegalGuardians = _legalGuardians.Data.Where(x => x.CreateDto.Email == "marge.simpson@fox.usa")
             },
             new CareUser
             {
@@ -265,7 +316,8 @@ namespace Singer.DummyDataSeeder.Data
                     HasTrajectory = R.NewBool(),
                     HasVacationDayCare = R.NewBool(),
                     IsExtern = R.NewBool(),
-                }
+                },
+                LegalGuardians = _legalGuardians.Data.Where(x => x.CreateDto.Email == "herman.van_veen@nederland.nl")
             },
             new CareUser
             {
@@ -280,7 +332,11 @@ namespace Singer.DummyDataSeeder.Data
                     HasTrajectory = R.NewBool(),
                     HasVacationDayCare = R.NewBool(),
                     IsExtern = R.NewBool(),
-                }
+                },
+                LegalGuardians = _legalGuardians.Data.Where(x =>
+                    x.CreateDto.Email == "leonard.hofstadter@cbs.usa" ||
+                    x.CreateDto.Email == "penny@cbs.usa"
+                )
             },
             new CareUser
             {
@@ -295,7 +351,8 @@ namespace Singer.DummyDataSeeder.Data
                     HasTrajectory = R.NewBool(),
                     HasVacationDayCare = R.NewBool(),
                     IsExtern = R.NewBool(),
-                }
+                },
+                LegalGuardians = _legalGuardians.Data.Where(x => x.CreateDto.Email == "post@sintgerardus.be")
             },
             new CareUser
             {
@@ -310,7 +367,11 @@ namespace Singer.DummyDataSeeder.Data
                     HasTrajectory = R.NewBool(),
                     HasVacationDayCare = R.NewBool(),
                     IsExtern = R.NewBool(),
-                }
+                },
+                LegalGuardians = _legalGuardians.Data.Where(x =>
+                    x.CreateDto.Email == "phillip.banks@fresh.prince" ||
+                    x.CreateDto.Email == "vivian.banks@fresh.prince"
+                )
             },
             new CareUser 
             { 
@@ -325,7 +386,8 @@ namespace Singer.DummyDataSeeder.Data
                     HasTrajectory = R.NewBool(),
                     HasVacationDayCare = R.NewBool(),
                     IsExtern = R.NewBool(),
-                } 
+                },
+                LegalGuardians = _legalGuardians.Data.Where(x => x.CreateDto.Email == "teddy.bear@bbc.uk")
             },
             new CareUser 
             { 
@@ -340,7 +402,8 @@ namespace Singer.DummyDataSeeder.Data
                     HasTrajectory = R.NewBool(),
                     HasVacationDayCare = R.NewBool(),
                     IsExtern = R.NewBool(),
-                } 
+                },
+                LegalGuardians = _legalGuardians.Data.Where(x => x.CreateDto.Email == "john.watson@bbc.uk")
             },
             new CareUser
             {
@@ -355,7 +418,8 @@ namespace Singer.DummyDataSeeder.Data
                     HasTrajectory = R.NewBool(),
                     HasVacationDayCare = R.NewBool(),
                     IsExtern = R.NewBool(),
-                } 
+                },
+                LegalGuardians = _legalGuardians.Data.Where(x => x.CreateDto.Email == "bieke.crucke@vrt.be")
             },
             new CareUser 
             {
@@ -370,10 +434,9 @@ namespace Singer.DummyDataSeeder.Data
                     HasTrajectory = R.NewBool(),
                     HasVacationDayCare = R.NewBool(),
                     IsExtern = R.NewBool(),
-                }
+                },
+                LegalGuardians = _legalGuardians.Data.Where(x => x.CreateDto.Email == "gert.verhulst@studio100.be")
             },
         };
-
-        
     }
 }

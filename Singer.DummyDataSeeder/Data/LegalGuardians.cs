@@ -9,13 +9,6 @@ namespace Singer.DummyDataSeeder.Data
     {
         private IDtoStorer<LegalGuardianUserDTO, CreateLegalGuardianUserDTO>[] _data;
 
-        private readonly DataContainer<CareUserDTO, CreateCareUserDTO> _careUsers;
-
-        public LegalGuardians(DataContainer<CareUserDTO, CreateCareUserDTO> careUsers)
-        {
-            _careUsers = careUsers;
-        }
-
         public override IDtoStorer<LegalGuardianUserDTO, CreateLegalGuardianUserDTO>[] Data => _data ??= new IDtoStorer<LegalGuardianUserDTO, CreateLegalGuardianUserDTO>[]
         {
             new LegalGuardian
@@ -30,11 +23,6 @@ namespace Singer.DummyDataSeeder.Data
                     Email = "nick.elodeon@nickelodeon.com",
                     City = "Burbank",
                 },
-                CareUsers = _careUsers.Data.Where(x => 
-                        (x.CreateDto.FirstName == "Jimmy" && x.Dto.LastName == "Neutron") ||
-                        (x.CreateDto.FirstName == "Danny" && x.Dto.LastName == "Fenton") ||
-                        (x.CreateDto.FirstName == "Timmy" && x.Dto.LastName == "Turner") ||
-                        (x.CreateDto.FirstName == "Aang" && x.Dto.LastName == "Avatar"))
             },
             new LegalGuardian
             {
@@ -48,7 +36,6 @@ namespace Singer.DummyDataSeeder.Data
                     Email = "hugh.neutron@nickelodeon.com",
                     City = "Retroville Texas",
                 },
-                CareUsers = _careUsers.Data.Where(x => x.CreateDto.FirstName == "Jimmy" && x.Dto.LastName == "Neutron")
             },
             new LegalGuardian
             {
@@ -62,7 +49,6 @@ namespace Singer.DummyDataSeeder.Data
                     Email = "judy.neutron@nickelodeon.com",
                     City = "Retroville Texas",
                 },
-                CareUsers = _careUsers.Data.Where(x => x.CreateDto.FirstName == "Jimmy" && x.Dto.LastName == "Neutron")
             },
             new LegalGuardian
             {
@@ -76,7 +62,6 @@ namespace Singer.DummyDataSeeder.Data
                     Email = "max.tennyson@cartoon.cn",
                     City = "Its a camper, there is no village",
                 },
-                CareUsers = _careUsers.Data.Where(x => x.CreateDto.FirstName == "Ben" && x.Dto.LastName == "Tennyson")
             },
             new LegalGuardian
             {
@@ -90,7 +75,6 @@ namespace Singer.DummyDataSeeder.Data
                     Email = "katara@nickelodeon.com",
                     City = "The only village",
                 },
-                CareUsers = _careUsers.Data.Where(x => x.CreateDto.FirstName == "Aang" && x.Dto.LastName == "Avatar")
             },
             new LegalGuardian
             {
@@ -104,7 +88,6 @@ namespace Singer.DummyDataSeeder.Data
                     Email = "sokka@nickelodeon.com",
                     City = "The only village",
                 },
-                 CareUsers = _careUsers.Data.Where(x => x.CreateDto.FirstName == "Aang" && x.Dto.LastName == "Avatar")
             },
             new LegalGuardian
             {
@@ -118,7 +101,6 @@ namespace Singer.DummyDataSeeder.Data
                     Email = "jack.fenton@nickelodeon.com",
                     City = "Amity Park",
                 },
-                CareUsers = _careUsers.Data.Where(x => x.CreateDto.FirstName == "Danny" && x.Dto.LastName == "Fenton")
             },
             new LegalGuardian
             {
@@ -132,7 +114,6 @@ namespace Singer.DummyDataSeeder.Data
                     Email = "maddie.fenton@nickelodeon.com",
                     City = "Amity Park",
                 },
-                CareUsers = _careUsers.Data.Where(x => x.CreateDto.FirstName == "Danny" && x.Dto.LastName == "Fenton")
             },
             new LegalGuardian
             {
@@ -146,7 +127,6 @@ namespace Singer.DummyDataSeeder.Data
                     Email = "kamesennin.muten.roshi@toei.jap",
                     City = "No city",
                 },
-                CareUsers = _careUsers.Data.Where(x => x.CreateDto.FirstName == "Goku" && x.Dto.LastName == "Saiyan")
             },
             new LegalGuardian
             {
@@ -160,7 +140,6 @@ namespace Singer.DummyDataSeeder.Data
                     Email = "dad@nickelodeon.com",
                     City = "Dimmsdale California",
                 },
-                CareUsers = _careUsers.Data.Where(x => x.CreateDto.FirstName == "Timmy" && x.Dto.LastName == "Turner")
              },
             new LegalGuardian
             {
@@ -174,7 +153,6 @@ namespace Singer.DummyDataSeeder.Data
                     Email = "mom@nickelodeon.com",
                     City = "Dimmsdale California",
                 },
-                CareUsers = _careUsers.Data.Where(x => x.CreateDto.FirstName == "Timmy" && x.Dto.LastName == "Turner")
             },
             new LegalGuardian
             {
@@ -188,7 +166,6 @@ namespace Singer.DummyDataSeeder.Data
                     Email = "cosmo@nickelodeon.com",
                     City = "Dimmsdale California",
                 },
-                CareUsers = _careUsers.Data.Where(x => x.CreateDto.FirstName == "Timmy" && x.Dto.LastName == "Turner")
             },
             new LegalGuardian
             {
@@ -202,7 +179,6 @@ namespace Singer.DummyDataSeeder.Data
                     Email = "wanda@nickelodeon.com",
                     City = "Dimmsdale California",
                 },
-                CareUsers = _careUsers.Data.Where(x => x.CreateDto.FirstName == "Timmy" && x.Dto.LastName == "Turner")
             },
             new LegalGuardian
             {
@@ -216,7 +192,6 @@ namespace Singer.DummyDataSeeder.Data
                     Email = "vicky@nickelodeon.com",
                     City = "Dimmsdale California",
                 },
-                CareUsers = _careUsers.Data.Where(x => x.CreateDto.FirstName == "Timmy" && x.Dto.LastName == "Turner")
             },
             new LegalGuardian
             {
@@ -230,9 +205,6 @@ namespace Singer.DummyDataSeeder.Data
                     Email = "fred.flinstone@stone.age",
                     City = "Bedrock",
                 },
-                CareUsers = _careUsers.Data.Where(x =>
-                        (x.CreateDto.FirstName == "Pebbles" && x.Dto.LastName == "Flinstone") ||
-                        (x.CreateDto.FirstName == "Puss" && x.Dto.LastName == "Flinstone"))
             },
             new LegalGuardian
             {
@@ -243,12 +215,9 @@ namespace Singer.DummyDataSeeder.Data
                     PostalCode = "B894",
                     FirstName = "Wilma",
                     LastName = "Flinstone",
-                    Email = "fred.flinstone@stone.age",
+                    Email = "wilma.flinstone@stone.age",
                     City = "Bedrock",
                 },
-                CareUsers = _careUsers.Data.Where(x =>
-                        (x.CreateDto.FirstName == "Pebbles" && x.Dto.LastName == "Flinstone") ||
-                        (x.CreateDto.FirstName == "Puss" && x.Dto.LastName == "Flinstone"))
             },
             new LegalGuardian
             {
@@ -262,7 +231,6 @@ namespace Singer.DummyDataSeeder.Data
                     Email = "james.timothy.possible@nickelodeon.com",
                     City = "Middleton",
                 },
-                CareUsers = _careUsers.Data.Where(x => x.CreateDto.FirstName == "Kim" && x.Dto.LastName == "Possible")
             },
             new LegalGuardian
             {
@@ -276,7 +244,6 @@ namespace Singer.DummyDataSeeder.Data
                     Email = "ann.possible@nickelodeon.com",
                     City = "Middleton",
                 },
-                CareUsers = _careUsers.Data.Where(x => x.CreateDto.FirstName == "Kim" && x.Dto.LastName == "Possible")
             },
             new LegalGuardian
             {
@@ -290,11 +257,6 @@ namespace Singer.DummyDataSeeder.Data
                     Email = "marge.simpson@fox.usa",
                     City = "Springfield",
                 },
-                CareUsers = _careUsers.Data.Where(x =>
-                        (x.CreateDto.FirstName == "Homer" && x.Dto.LastName == "Simpson") ||
-                        (x.CreateDto.FirstName == "Bart" && x.Dto.LastName == "Simpson") ||
-                        (x.CreateDto.FirstName == "Lisa" && x.Dto.LastName == "Simpson") ||
-                        (x.CreateDto.FirstName == "Maggy" && x.Dto.LastName == "Simpson"))
             },
             new LegalGuardian
             {
@@ -308,7 +270,6 @@ namespace Singer.DummyDataSeeder.Data
                     Email = "herman.van_veen@nederland.nl",
                     City = "Soest",
                 },
-                CareUsers = _careUsers.Data.Where(x => x.CreateDto.FirstName == "Alfred Jodocus" && x.Dto.LastName == "Kwak")
             },
             new LegalGuardian
             {
@@ -322,7 +283,6 @@ namespace Singer.DummyDataSeeder.Data
                     Email = "leonard.hofstadter@cbs.usa",
                     City = "Pasadena California",
                 },
-                CareUsers = _careUsers.Data.Where(x => x.CreateDto.FirstName == "Sheldon" && x.Dto.LastName == "Cooper")
             },
             new LegalGuardian
             {
@@ -336,7 +296,6 @@ namespace Singer.DummyDataSeeder.Data
                     Email = "penny@cbs.usa",
                     City = "Pasadena California",
                 },
-                CareUsers = _careUsers.Data.Where(x => x.CreateDto.FirstName == "Sheldon" && x.Dto.LastName == "Cooper")
             },
             new LegalGuardian
             {
@@ -350,7 +309,6 @@ namespace Singer.DummyDataSeeder.Data
                     Email = "phillip.banks@fresh.prince",
                     City = "Los Angeles, CA",
                 },
-                CareUsers = _careUsers.Data.Where(x => x.CreateDto.FirstName == "Will" && x.Dto.LastName == "Smith")
             },
             new LegalGuardian
             {
@@ -364,7 +322,6 @@ namespace Singer.DummyDataSeeder.Data
                     Email = "vivian.banks@fresh.prince",
                     City = "Los Angeles, CA",
                 },
-                CareUsers = _careUsers.Data.Where(x => x.CreateDto.FirstName == "Will" && x.Dto.LastName == "Smith")
             },
             new LegalGuardian
             {
@@ -378,7 +335,6 @@ namespace Singer.DummyDataSeeder.Data
                     Email = "teddy.bear@bbc.uk",
                     City = "Highbury",
                 },
-                CareUsers = _careUsers.Data.Where(x => x.CreateDto.FirstName == "Bean" && x.Dto.LastName == "Mr.")
             },
             new LegalGuardian
             {
@@ -392,7 +348,6 @@ namespace Singer.DummyDataSeeder.Data
                     Email = "john.watson@bbc.uk",
                     City = "London",
                 },
-                CareUsers = _careUsers.Data.Where(x => x.CreateDto.FirstName == "Sherlock" && x.Dto.LastName == "Holmes")
             },
             new LegalGuardian
             {
@@ -403,10 +358,9 @@ namespace Singer.DummyDataSeeder.Data
                     PostalCode = "2520",
                     FirstName = "Bieke",
                     LastName = "Crucke",
-                    Email = "bieke.crucke@bbc.uk",
+                    Email = "bieke.crucke@vrt.be",
                     City = "Antwerpen",
                 },
-                CareUsers = _careUsers.Data.Where(x => x.CreateDto.FirstName == "Mark" && x.Dto.LastName == "Vertongen")
             },
             new LegalGuardian
             {
@@ -420,7 +374,6 @@ namespace Singer.DummyDataSeeder.Data
                     Email = "gert.verhulst@studio100.be",
                     City = "Hove",
                 },
-                CareUsers = _careUsers.Data.Where(x => x.CreateDto.FirstName == "Samson" && x.Dto.LastName == "De hond")
             },
             new LegalGuardian
             {
@@ -434,11 +387,6 @@ namespace Singer.DummyDataSeeder.Data
                     LastName = "Sociale dienst",
                     PostalCode = "3590"
                 },
-                CareUsers = _careUsers.Data.Where(x =>
-                        (x.CreateDto.FirstName == "Yakko" && x.Dto.LastName == "Animaniac") ||
-                        (x.CreateDto.FirstName == "Wakko" && x.Dto.LastName == "Animaniac") ||
-                        (x.CreateDto.FirstName == "Dot" && x.Dto.LastName == "Animaniac") ||
-                        (x.CreateDto.FirstName == "Doctor" && x.Dto.LastName == "The"))
             }
         };
     }
