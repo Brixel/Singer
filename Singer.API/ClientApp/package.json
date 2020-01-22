@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.1.0-issue-new-event-filter.1230",
+   "version": "0.1.0-issue-new-event-filter.1231",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",
