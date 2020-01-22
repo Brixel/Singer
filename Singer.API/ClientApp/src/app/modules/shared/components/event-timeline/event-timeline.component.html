@@ -1,0 +1,72 @@
+<div class="timeline">
+   <div *ngIf="!displayEventOnly" class="timeline">
+
+      <!-- start-registration-orb -->
+      <div class="orb">
+         <div class="orb__icon" [class.orb-filled]="startRegistrationDate != null">
+            <mat-icon>event_available</mat-icon>
+         </div>
+         <div class="orb__date" *ngIf="startRegistrationDate != null">{{ startRegistrationDate | date:'dd/MM' }}</div>
+      </div>
+
+      <!-- end-registration-connector -->
+      <div
+         class="connector"
+         [class.connected]="startRegistrationDate != null && endRegistrationDate != null"
+         [class.animated]="animated">
+      </div>
+
+      <!-- end-registration-orb -->
+      <div class="orb">
+         <div class="orb__icon" [class.orb-filled]="endRegistrationDate != null" [class.animated-orb]="animated">
+            <mat-icon>event_note</mat-icon>
+         </div>
+         <div class="orb__date" *ngIf="endRegistrationDate != null">{{ endRegistrationDate | date:'dd/MM' }}</div>
+      </div>
+
+      <!-- final-cancelation-connector -->
+      <div
+         class="connector"
+         [class.connected]="endRegistrationDate != null && finalCancelationDate != null"
+         [class.animated]="animated">
+      </div>
+
+      <!-- final-cancelation-orb -->
+      <div class="orb">
+         <div class="orb__icon" [class.orb-filled]="finalCancelationDate != null" [class.animated-orb]="animated">
+            <mat-icon>event_busy</mat-icon>
+         </div>
+         <div class="orb__date" *ngIf="finalCancelationDate != null">{{ finalCancelationDate | date:'dd/MM' }}</div>
+      </div>
+
+      <!-- start-event-connector -->
+      <div
+         class="connector"
+         [class.connected]="finalCancelationDate != null && startEventDate != null"
+         [class.animated]="animated">
+      </div>
+   </div>
+
+   <!-- start-event-orb -->
+   <div class="orb">
+      <div class="orb__icon" [class.orb-filled]="startEventDate != null" [class.animated-orb]="animated && !displayEventOnly">
+         <mat-icon>outlined_flag</mat-icon>
+      </div>
+      <div class="orb__date" *ngIf="startEventDate != null">{{ startEventDate | date:'dd/MM' }}</div>
+   </div>
+
+   <!-- end-event-connector -->
+   <div
+      class="connector"
+      [class.connected]="startEventDate != null && endEventDate != null"
+      [class.animated]="animated">
+   </div>
+
+   <!-- end-event-orb -->
+   <div class="orb">
+      <div class="orb__icon" [class.orb-filled]="endEventDate != null" [class.animated-orb]="animated">
+         <mat-icon>flag</mat-icon>
+      </div>
+      <div class="orb__date" *ngIf="endEventDate != null">{{ endEventDate | date:'dd/MM' }}</div>
+   </div>
+</div>

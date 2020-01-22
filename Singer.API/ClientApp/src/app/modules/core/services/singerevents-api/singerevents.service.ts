@@ -268,17 +268,29 @@ export class SingerEventsService extends GenericService<
          map(res =>
             res.map(y => {
                return <EventDescription>{
-                  ageGroups: y.ageGroups,
-                  description: y.description,
-                  endDateTime: new Date(y.endDateTime),
                   id: y.id,
-                  startDateTime: new Date(y.startDateTime),
                   title: y.title,
+                  description: y.description,
+                  ageGroups: y.ageGroups,
+                  cost: y.cost,
+                  endDateTime: new Date(y.endDateTime),
+                  startDateTime: new Date(y.startDateTime),
                };
             })
          )
       );
    }
+
+   downloadEventSlotRegistartionCsv(
+      eventId: string,
+      eventSlotId: string
+   ): Observable<Blob> {
+      return this.singerEventsProxy.downloadEventSlotRegistartionCsv(
+         eventId,
+         eventSlotId
+      );
+   }
+
    getSingleEvent(eventId: string): Observable<SingerEventDTO> {
       return this.singerEventsProxy.getSingleEvent(eventId);
    }

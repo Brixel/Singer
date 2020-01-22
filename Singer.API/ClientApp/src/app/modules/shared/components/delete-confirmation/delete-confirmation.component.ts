@@ -7,6 +7,7 @@ import { FormControl, Validators } from '@angular/forms';
    styleUrls: ['./delete-confirmation.component.css'],
 })
 export class DeleteConfirmationComponent {
+   @Input() deleteButtonText: string;
    @Input() name: string;
    @Input() whatToDelete: string;
    @Output() delete: EventEmitter<boolean> = new EventEmitter();

@@ -1,5 +1,4 @@
 import { HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
 import { ApiService } from '../api.service';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -17,6 +16,7 @@ import {
    SearchEventDTO,
 } from '../../DTOs/event-registration.dto';
 import { SearchEventData } from 'src/app/modules/dashboard/components/event-search/event-search.component';
+import { Injectable } from '@angular/core';
 
 @Injectable({
    providedIn: 'root',
@@ -127,6 +127,15 @@ export class SingerEventsProxy {
       return this.apiService
          .post('api/event/search', searchParams)
          .pipe(map(res => res));
+   }
+
+   downloadEventSlotRegistartionCsv(
+      eventId: string,
+      eventSlotId: string
+   ): Observable<Blob> {
+      return this.apiService.downloadFile(
+         `api/Event/${eventId}/registrations/${eventSlotId}/deelnemerslijst.csv`
+      );
    }
 
    getSingleEvent(eventId: string): Observable<SingerEventDTO> {

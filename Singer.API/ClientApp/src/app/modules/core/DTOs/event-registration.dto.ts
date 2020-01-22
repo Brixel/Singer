@@ -55,9 +55,10 @@ export interface EventRegistrationDTO {
 export interface EventDescriptionDTO {
    title: string;
    description: string;
+   ageGroup: AgeGroup[];
+   cost: number;
    startDate: Date;
    endDate: Date;
-   ageGroup: AgeGroup[];
 }
 
 export class SearchEventDTO {

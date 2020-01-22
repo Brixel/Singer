@@ -1,14 +1,11 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { MAT_DATE_FORMATS } from '@angular/material';
-import { MY_FORMATS } from 'src/app/modules/core/core.module';
 import { SingerEventLocation } from 'src/app/modules/core/models/singerevent.model';
 
 @Component({
    selector: 'app-event-search',
    templateUrl: './event-search.component.html',
    styleUrls: ['./event-search.component.css'],
-   providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }],
 })
 export class EventSearchComponent {
    @Input() availableLocations: SingerEventLocation[];

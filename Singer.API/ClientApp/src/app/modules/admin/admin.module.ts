@@ -1,20 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminRoutingModule } from './admin-routing.module';
-import { OverviewComponent } from './components/careusers/overview/overview.component';
+import { CareUserOverviewComponent } from './components/careusers/careuser-overview/care-user-overview.component';
 import { MaterialModule } from '../../material.module';
 import { CareUserProxy } from '../core/services/care-users-api/careuser.proxy';
 import { CareUserService } from '../core/services/care-users-api/careusers.service';
 import { ApiService } from '../core/services/api.service';
-import { AgegroupPipe } from '../core/services/agegroup.pipe';
+import { AgegroupPipe } from '../core/Pipes/agegroup.pipe';
 import { CoreModule } from '../core/core.module';
-import { CareUserDetailsComponent } from './components/careusers/care-user-details/care-user-details.component';
+import { CareUserDetailsComponent } from './components/careusers/careuser-details/care-user-details.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { KeysPipe } from '../core/services/keys.pipe';
+import { KeysPipe } from '../core/Pipes/keys.pipe';
 import {
    MatTableModule,
    MatPaginatorModule,
    MatSortModule,
+   MAT_DATE_LOCALE,
 } from '@angular/material';
 import { LegalguardianOverviewComponent } from './components/legalguardians/legalguardian-overview/legalguardian-overview.component';
 import { LegalguardianDetailsComponent } from './components/legalguardians/legalguardian-details/legalguardian-details.component';
@@ -44,7 +45,7 @@ import { PendingRegistrationsComponent } from './components/pending-registration
 
 @NgModule({
    declarations: [
-      OverviewComponent,
+      CareUserOverviewComponent,
       CareUserDetailsComponent,
       LegalguardianOverviewComponent,
       LegalguardianDetailsComponent,
@@ -100,6 +101,7 @@ import { PendingRegistrationsComponent } from './components/pending-registration
             useUtc: true,
          },
       },
+      { provide: MAT_DATE_LOCALE, useValue: 'nl-BE' },
    ],
 })
 export class AdminModule {}

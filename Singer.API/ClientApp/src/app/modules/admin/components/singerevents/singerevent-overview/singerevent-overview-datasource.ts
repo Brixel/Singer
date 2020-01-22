@@ -4,12 +4,9 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { CollectionViewer } from '@angular/cdk/collections';
 import { SingerEvent } from 'src/app/modules/core/models/singerevent.model';
 
-/**
- * Data source for the EventsOverview view. This class should
- * encapsulate all logic for fetching and manipulating the displayed data
- * (including sorting, pagination, and filtering).
- */
+/** Data source for the EventsOverview view.*/
 export class SingerEventOverviewDataSource extends DataSource<SingerEvent> {
+
    private singerEventsSubject$ = new BehaviorSubject<SingerEvent[]>([]);
    private totalSizeSubject$ = new BehaviorSubject<number>(0);
    private queryCountSubject$ = new BehaviorSubject<number>(0);
@@ -48,6 +45,7 @@ export class SingerEventOverviewDataSource extends DataSource<SingerEvent> {
    connect(collectionViewer: CollectionViewer): Observable<SingerEvent[]> {
       return this.singerEventsSubject$.asObservable();
    }
+
    disconnect() {
       this.singerEventsSubject$.complete();
    }

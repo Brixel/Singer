@@ -11,12 +11,11 @@ import {
    MatProgressSpinnerModule,
 } from '@angular/material';
 
-import { OverviewComponent } from './overview.component';
+import { CareUserOverviewComponent } from './care-user-overview.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { AgegroupPipe } from 'src/app/modules/core/services/agegroup.pipe';
+import { AgegroupPipe } from 'src/app/modules/core/Pipes/agegroup.pipe';
 import { CoreModule } from 'src/app/modules/core/core.module';
 import { CommonModule } from '@angular/common';
-import { CareUsersRoutingModule } from '../../careusers-routing.module';
 import { CareUserProxy } from 'src/app/modules/core/services/care-users-api/careuser.proxy';
 import { CareUserService } from 'src/app/modules/core/services/care-users-api/careusers.service';
 import { ApiService } from 'src/app/modules/core/services/api.service';
@@ -26,17 +25,16 @@ import { apiServiceMock } from 'testing/api.service.mock';
 import { of } from 'rxjs';
 
 describe('OverviewComponent', () => {
-   let component: OverviewComponent;
-   let fixture: ComponentFixture<OverviewComponent>;
+   let component: CareUserOverviewComponent;
+   let fixture: ComponentFixture<CareUserOverviewComponent>;
    let careUserService: CareUserService;
    beforeEach(async(() => {
       TestBed.configureTestingModule({
-         declarations: [OverviewComponent],
+         declarations: [CareUserOverviewComponent],
          imports: [
             NoopAnimationsModule,
             CoreModule,
             CommonModule,
-            CareUsersRoutingModule,
             MatTableModule,
             MatPaginatorModule,
             MatSortModule,
@@ -51,7 +49,7 @@ describe('OverviewComponent', () => {
    }));
 
    beforeEach(() => {
-      fixture = TestBed.createComponent(OverviewComponent);
+      fixture = TestBed.createComponent(CareUserOverviewComponent);
       component = fixture.componentInstance;
       careUserService = TestBed.get(CareUserService);
 

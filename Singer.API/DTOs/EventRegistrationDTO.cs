@@ -1,7 +1,7 @@
-using System;
 using Singer.DTOs.Users;
 using Singer.Models;
 using Singer.Resources;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Singer.DTOs
@@ -48,7 +48,6 @@ namespace Singer.DTOs
          Name = nameof(DisplayNames.Status))]
       public RegistrationStatus Status { get; set; }
    }
-
 
    public class CreateEventRegistrationDTO
    {
