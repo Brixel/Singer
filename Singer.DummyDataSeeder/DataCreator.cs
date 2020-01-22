@@ -86,21 +86,24 @@ namespace Singer.DummyDataSeeder
 
         private async Task LinkCareUserAndLegalGuardianAsync(CareUserDTO careUser, IEnumerable<LegalGuardianUserDTO> legalGuardians)
         {
-            _ = await $"{_apiUrl}/{typeof(CareUserController).GetRoute()}/{careUser.Id}"
-                .PutJsonAsync(new UpdateCareUserDTO
-                {
-                    AgeGroup = careUser.AgeGroup,
-                    BirthDay = careUser.BirthDay,
-                    CaseNumber = careUser.CaseNumber,
-                    Email = careUser.Email,
-                    FirstName = careUser.FirstName,
-                    HasTrajectory = careUser.HasTrajectory,
-                    IsExtern = careUser.IsExtern,
-                    LastName = careUser.LastName,
-                    LegalGuardianUsersToAdd = legalGuardians.Select(x => x.Id).ToList(),
-                    NormalDaycareLocationId = careUser.NormalDaycareLocation.Id,
-                    VacationDaycareLocationId = careUser.VacationDaycareLocation.Id,
-                });
+            var url = $"{_apiUrl}/{typeof(CareUserController).GetRoute()}/{careUser.Id}";
+            var payload = new UpdateCareUserDTO
+            {
+                AgeGroup = careUser.AgeGroup,
+                BirthDay = careUser.BirthDay,
+                CaseNumber = careUser.CaseNumber,
+                Email = careUser.Email,
+                FirstName = careUser.FirstName,
+                HasTrajectory = careUser.HasTrajectory,
+                IsExtern = careUser.IsExtern,
+                LastName = careUser.LastName,
+                LegalGuardianUsersToAdd = legalGuardians.Select(x => x.Id).ToList(),
+                NormalDaycareLocationId = careUser.NormalDaycareLocation.Id,
+                VacationDaycareLocationId = careUser.VacationDaycareLocation.Id,
+            };
+
+            Console.WriteLine($"Put to {url}: {payload.SerializeJson()}");
+            _ = await url.PutJsonAsync(payload);
         }
 
         private async Task CreateAsync<TController, TDto, TCreateDto>(IDataContainer<TDto, TCreateDto> storer)
@@ -115,6 +118,7 @@ namespace Singer.DummyDataSeeder
         {
             EnsureToken();
 
+            Console.WriteLine($"Posting to {url}: {payload.SerializeJson()}");
             var response = await url
                     .WithOAuthBearerToken(_token)
                     .PostJsonAsync(payload);
@@ -122,7 +126,9 @@ namespace Singer.DummyDataSeeder
             using var stream = await response.Content.ReadAsStreamAsync();
             using var reader = new StreamReader(stream);
 
-            return await reader.DeserializeJsonAsync<TDto>();
+            var dto = await reader.DeserializeJsonAsync<TDto>();
+
+            return dto;
         }
 
         private void EnsureToken(bool resetToken = false)
@@ -137,56 +143,30 @@ namespace Singer.DummyDataSeeder
         public string GetToken()
         {
             var url = $"{_apiUrl}/connect/token";
-
-            Console.Write("Username: ");
-            var userName = Console.ReadLine();
-            Console.Write("Password: ");
-            var password = Console.ReadLine();
-
             string token = default;
             while (token != default)
             {
-                var cts = new CancellationTokenSource();
+                Console.Write("Username: ");
+                var userName = Console.ReadLine();
+                Console.Write("Password: ");
+                var password = Console.ReadLine();
 
-                try
+                var loginTask = new Func<Task<HttpResponseMessage>>(() => url.PostAsync(new FormUrlEncodedContent(new Dictionary<string, string>
                 {
-                    var loginTask = url.PostAsync(new FormUrlEncodedContent(new Dictionary<string, string>
-                    {
-                        { "username", userName },
-                        { "password", password },
-                        { "grant_type", "password" },
-                        { "client_id", ClientId },
-                        { "client_secret", ClientSecret },
-                    }));
+                    { "username", userName },
+                    { "password", password },
+                    { "grant_type", "password" },
+                    { "client_id", ClientId },
+                    { "client_secret", ClientSecret },
+                }))).WaitForAsync("Waiting for authentication response from server");
 
-                    Console.Write("Waiting for authentication response from server");
-                    _ = WriteDotsAsync(cts.Token);
+                loginTask.Wait();
 
-                    loginTask.Wait();
-                    cts.Cancel();
-
-                    // TODO debug why this throws error
-                    var response = loginTask.Result;
-                }
-                catch (Exception e)
-                {
-                    cts.Cancel();
-                    Console.WriteLine();
-                    Console.WriteLine($"Error: {e.SerializeJson()}");
-                }
+                // TODO debug why this throws error and set token
+                var response = loginTask.Result;
             }
 
             return token;
-        }
-
-        private async Task WriteDotsAsync(CancellationToken cancellationToken)
-        {
-            await Task.Delay(1000);
-            while (!cancellationToken.IsCancellationRequested)
-            {
-                Console.Write(".");
-                await Task.Delay(1000);
-            }
         }
     }
 }
