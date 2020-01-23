@@ -5,7 +5,6 @@ import {
    WeekDay,
    MonthRepeatMoment,
    RepeatType,
-   CostFilterParameter,
 } from '../models/enum';
 import { EventSlotDTO } from '../models/eventslot.dto';
 import { CareUserDTO } from '../models/careuser.model';

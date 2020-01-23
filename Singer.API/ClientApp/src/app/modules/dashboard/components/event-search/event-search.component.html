@@ -26,7 +26,7 @@
       <!-- Location Field -->
       <mat-form-field class="medium--width">
          <mat-select formControlName="locationFieldControl" [placeholder]="locationFieldPlaceholder">
-            <mat-option *ngFor="let availableLocation of availableLocations" [value]="availableLocation">
+            <mat-option *ngFor="let availableLocation of availableLocations" [value]="availableLocation.id">
                {{ availableLocation.name }}
             </mat-option>
          </mat-select>

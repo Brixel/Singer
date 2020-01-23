@@ -59,7 +59,7 @@ export class EventSearchComponent extends GenericFilter {
          locationId: this.formGroup.controls.locationFieldControl.value,
          allowedAgeGroups: this.formGroup.controls.ageGroupsFieldControl.value,
          name: this.formGroup.controls.nameFieldControl.value,
-         cost: this.formGroup.controls.costFieldControl.value,
+         maxCost: this.formGroup.controls.costFieldControl.value == null ? null : CostFilterParameter[this.formGroup.controls.costFieldControl.value as string],
       };
       this.filterParameters = filterParameters;
    }

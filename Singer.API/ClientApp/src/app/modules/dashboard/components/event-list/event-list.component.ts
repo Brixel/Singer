@@ -26,7 +26,7 @@ export class EventListComponent implements OnInit {
          locationId: null,
          allowedAgeGroups: null,
          name: null,
-         cost: null,
+         maxCost: null,
       }
       this.onFilterEvent(filterParameters);
    }

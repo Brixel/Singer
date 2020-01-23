@@ -76,7 +76,7 @@ namespace Singer.Services
                x.EventSlots.OrderBy(y => y.StartDateTime).First().StartDateTime.Date >= DateTime.Now.Date &&
                // check start date
                (!eventFilterParametersDto.StartDate.HasValue ||
-                  x.EventSlots.OrderBy(y => y.StartDateTime).First().StartDateTime.Date == eventFilterParametersDto.StartDate.Value.Date) &&
+                  x.EventSlots.OrderBy(y => y.StartDateTime).First().StartDateTime.Date >= eventFilterParametersDto.StartDate.Value.Date) &&
                // check end date
                (!eventFilterParametersDto.EndDate.HasValue ||
                   x.EventSlots.OrderBy(y => y.EndDateTime).First().EndDateTime.Date <= eventFilterParametersDto.EndDate.Value.Date) &&
@@ -85,9 +85,9 @@ namespace Singer.Services
                // check allowed agegroups
                (eventFilterParametersDto.AllowedAgeGroups == null ||
                eventFilterParametersDto.AllowedAgeGroups.Count == 0 ||
-               EventProfile.ToAgeGroupList(x.AllowedAgeGroups) == eventFilterParametersDto.AllowedAgeGroups) &&
+               EventProfile.ToAgeGroupList(x.AllowedAgeGroups).All(eventFilterParametersDto.AllowedAgeGroups.Contains)) &&
                // check event title
-               (string.IsNullOrEmpty(eventFilterParametersDto.Title) || x.Title == eventFilterParametersDto.Title) &&
+               (string.IsNullOrEmpty(eventFilterParametersDto.Title) || x.Title.ToLower().Contains(eventFilterParametersDto.Title.ToLower())) &&
                // check allowed agegroups
                (!eventFilterParametersDto.MaxCost.HasValue || x.Cost <= eventFilterParametersDto.MaxCost))
             .Select(x => new EventDescriptionDTO
