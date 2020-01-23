@@ -1,5 +1,5 @@
 /* Form layout */
-.form {
+.details-form-container {
    display: flex;
    flex-direction: column;
    justify-content: flex-start;
