@@ -11,7 +11,9 @@ using Singer.Configuration;
 using Singer.Data;
 using Singer.Data.Models.Configuration;
 using Singer.DTOs.Users;
+using Singer.Helpers.Exceptions;
 using Singer.Models.Users;
+using Singer.Resources;
 using Singer.Services.Interfaces;
 
 namespace Singer.Services
@@ -19,7 +21,7 @@ namespace Singer.Services
    public class AdminUserService : UserService<AdminUser, AdminUserDTO, CreateAdminUserDTO, UpdateAdminUserDTO>, IAdminUserService
    {
       public AdminUserService(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager, IEmailService<AdminUserDTO> emailService, IOptions<ApplicationConfig> applicationConfigurationOptions
-      ): base(context, mapper, userManager, emailService, applicationConfigurationOptions)
+      ) : base(context, mapper, userManager, emailService, applicationConfigurationOptions)
       {
       }
 
@@ -50,6 +52,16 @@ namespace Singer.Services
          await UserManager.AddToRoleAsync(createdUser, Roles.ROLE_ADMINISTRATOR);
          await UserManager.AddClaimAsync(createdUser, new Claim(ClaimTypes.Role, Roles.ROLE_ADMINISTRATOR));
          return result;
+      }
+
+      public override async Task DeleteAsync(Guid id)
+      {
+         // Prevent extinction of admin users
+         if (Queryable.Count() <= 2)
+         {
+            throw new BadInputException("It is not allowed to remove the last admin user", ErrorMessages.LastAdminUser);
+         }
+         await base.DeleteAsync(id);
       }
    }
 }
