@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { EventDescription, SingerEventLocation, EventFilterParameters } from 'src/app/modules/core/models/singerevent.model';
+import {
+   EventDescription,
+   EventFilterParameters,
+} from 'src/app/modules/core/models/singerevent.model';
 import { SingerEventsService } from 'src/app/modules/core/services/singerevents-api/singerevents.service';
-import { SingerEventLocationService } from 'src/app/modules/core/services/singerevents-api/singerevent-location.service';
 import { LoadingService } from 'src/app/modules/core/services/loading.service';
 
 @Component({
@@ -27,7 +29,7 @@ export class EventListComponent implements OnInit {
          allowedAgeGroups: null,
          name: null,
          maxCost: null,
-      }
+      };
       this.onFilterEvent(filterParameters);
    }
 
