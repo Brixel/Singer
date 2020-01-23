@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { MatPaginator, MatSort, MatDialog } from '@angular/material';
+import { MatPaginator, MatSort, MatDialog, MatSnackBar } from '@angular/material';
 import { AdminDatasource } from '../../../services/admin.datasource';
 import { AdminUserService } from '../../../services/admin-user.service';
 import { fromEvent, merge } from 'rxjs';
@@ -40,7 +40,8 @@ export class AdminListComponent implements OnInit, AfterViewInit {
       public dialog: MatDialog,
       private adminUserService: AdminUserService,
       private authService: AuthService,
-      private _loadingService: LoadingService
+      private _loadingService: LoadingService,
+      private _snackBar: MatSnackBar
    ) {}
 
    ngOnInit() {
@@ -63,21 +64,49 @@ export class AdminListComponent implements OnInit, AfterViewInit {
       });
 
       dialogRef.componentInstance.submitEvent.subscribe((result: AdminUser) => {
-         // Update the Careuser
-         this.adminUserService.update(result).subscribe(() => {
-            // Reload Careusers
-            this.loadAdmins();
-         });
+         this.adminUserService.update(result).subscribe(
+            () => {
+               this._snackBar.open(`Gebruiker ${result.firstName} ${result.lastName} werd aangepast.`, 'OK', {
+                  duration: 2000,
+               });
+               this.loadAdmins();
+            },
+            err => {
+               this.handleApiError(err);
+            }
+         );
       });
    }
    addAdmin() {
       const dialogRef = this.dialog.open(AdminDetailsComponent);
 
       dialogRef.componentInstance.submitEvent.subscribe((result: AdminUser) => {
-         this.adminUserService.create(result).subscribe(() => {
-            this.loadAdmins();
-         });
+         this.adminUserService.create(result).subscribe(
+            () => {
+               this._snackBar.open(`Gebruiker ${result.firstName} ${result.lastName} werd toegevoegd.`, 'OK', {
+                  duration: 2000,
+               });
+               this.loadAdmins();
+            },
+            err => {
+               this.handleApiError(err);
+            }
+         );
       });
+   }
+
+   handleApiError(err: any) {
+      if (typeof err === 'string') {
+         this._snackBar.open(`⚠ ${err}`, 'OK');
+      } else if (typeof err === 'object' && err !== null) {
+         let messages = [];
+         for (var k in err) {
+            messages.push(err[k]);
+         }
+         this._snackBar.open(`⚠ Er zijn fouten opgetreden bij het opslaan:\n${messages.join('\n')}`, 'OK', {
+            panelClass: 'multi-line-snackbar',
+         });
+      }
    }
 
    changePassword(row: AdminUser) {
