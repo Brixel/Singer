@@ -10,6 +10,10 @@ import { LoadingService } from 'src/app/modules/core/services/loading.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ConfirmComponent, ConfirmRequest } from 'src/app/modules/shared/components/confirm/confirm.component';
 import { AuthService } from 'src/app/modules/core/services/auth.service';
+import {
+   DeleteConfirmationDialogComponent,
+   ConfirmationData,
+} from 'src/app/modules/shared/components/delete-confirmation-dialog/delete-confirmation-dialog.component';
 
 @Component({
    selector: 'app-admin-list',
@@ -118,6 +122,37 @@ export class AdminListComponent implements OnInit, AfterViewInit {
       dialogRef.afterClosed().subscribe((isConfirmed: boolean) => {
          if (isConfirmed) {
             this.authService.requestPasswordReset(row.userId);
+            this._snackBar.open(
+               `Nieuw wachtwoord voor gebruiker ${row.firstName} ${row.lastName} werd aangevraagd.`,
+               'OK',
+               {
+                  duration: 2000,
+               }
+            );
+         }
+      });
+   }
+
+   deleteUser(row: AdminUser) {
+      const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent, {
+         data: <ConfirmationData>{
+            name: `${row.firstName} ${row.lastName}`,
+            deleteButtonText: 'Beheerder verwijderen',
+         },
+      });
+      dialogRef.afterClosed().subscribe((isConfirmed: boolean) => {
+         if (isConfirmed) {
+            this.adminUserService.delete(row).subscribe(
+               () => {
+                  this._snackBar.open(`Beheerder ${row.firstName} ${row.lastName} werd verwijderd.`, 'OK', {
+                     duration: 2000,
+                  });
+                  this.loadAdmins();
+               },
+               err => {
+                  this.handleApiError(err);
+               }
+            );
          }
       });
    }
