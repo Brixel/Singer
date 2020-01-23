@@ -7,11 +7,11 @@ import { SingerEventLocationService } from 'src/app/modules/core/services/singer
 import { AgeGroup, CostFilterParameter } from 'src/app/modules/core/models/enum';
 
 @Component({
-   selector: 'app-event-search',
-   templateUrl: './event-search.component.html',
-   styleUrls: ['./event-search.component.css'],
+   selector: 'app-event-filter',
+   templateUrl: './event-filter.component.html',
+   styleUrls: ['./event-filter.component.css'],
 })
-export class EventSearchComponent extends GenericFilter implements OnInit {
+export class EventFilterComponent extends GenericFilter implements OnInit {
    @Output()
    get filterEvent(): EventEmitter<GenericFilterParameters> {
       return this.genericFilterEvent;

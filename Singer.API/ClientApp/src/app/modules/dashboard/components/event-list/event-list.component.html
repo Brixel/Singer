@@ -1,5 +1,5 @@
 <mat-card>
-   <app-event-search (filterEvent)="onFilterEvent($event)"></app-event-search>
+   <app-event-filter (filterEvent)="onFilterEvent($event)"></app-event-filter>
 </mat-card>
 
 <mat-grid-list [cols]="columns" rowHeight="250px" gutterSize="20px" (window:resize)="onResize($event)">
