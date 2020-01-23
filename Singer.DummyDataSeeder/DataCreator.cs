@@ -7,6 +7,7 @@ using System.Security;
 using System.Threading;
 using System.Threading.Tasks;
 using Flurl.Http;
+using Newtonsoft.Json;
 using Singer.Controllers;
 using Singer.DTOs;
 using Singer.DTOs.Users;
@@ -20,8 +21,8 @@ namespace Singer.DummyDataSeeder
     internal class DataCreator
     {
         private readonly string _apiUrl;
-        private const string ClientId = "dataGenerator.client";
-        private const string ClientSecret = "A12F8B27-EFD7-47CD-9AE0-97D9CC7C451C";
+        private const string ClientId = "singer.client";
+        private const string ClientSecret = "secret";
 
 
         private CareUsers _careUsers;
@@ -51,7 +52,7 @@ namespace Singer.DummyDataSeeder
             if (_legalGuardians == default)
                 _legalGuardians = new LegalGuardians();
 
-            await CreateAsync<CareUserController, LegalGuardianUserDTO, CreateLegalGuardianUserDTO>(_legalGuardians);
+            await CreateAsync<LegalGuardianUserController, LegalGuardianUserDTO, CreateLegalGuardianUserDTO>(_legalGuardians);
         }
 
         public async Task CreateCareUsersAsync()
@@ -144,29 +145,45 @@ namespace Singer.DummyDataSeeder
         {
             var url = $"{_apiUrl}/connect/token";
             string token = default;
-            while (token != default)
+            while (token == default)
             {
                 Console.Write("Username: ");
                 var userName = Console.ReadLine();
                 Console.Write("Password: ");
                 var password = Console.ReadLine();
-
-                var loginTask = new Func<Task<HttpResponseMessage>>(() => url.PostAsync(new FormUrlEncodedContent(new Dictionary<string, string>
+ 
+                var loginTask = new Func<Task>(async () =>
                 {
-                    { "username", userName },
-                    { "password", password },
-                    { "grant_type", "password" },
-                    { "client_id", ClientId },
-                    { "client_secret", ClientSecret },
-                }))).WaitForAsync("Waiting for authentication response from server");
+                    var response = await url.PostAsync(new FormUrlEncodedContent(new Dictionary<string, string>
+                    {
+                        { "username", userName },
+                        { "password", password },
+                        { "grant_type", "password" },
+                        { "client_id", ClientId },
+                        { "client_secret", ClientSecret },
+                    }));
+
+                    using var stream = await response.Content.ReadAsStreamAsync();
+                    using var reader = new StreamReader(stream);
+
+                    var jwt = await reader.DeserializeJsonAsync<Token>();
+                    token = jwt.Value;
+                }).WaitForAsync("Waiting for authentication response from server");
 
                 loginTask.Wait();
-
-                // TODO debug why this throws error and set token
-                var response = loginTask.Result;
             }
 
             return token;
+        }
+
+        private class Token
+        {
+            [JsonProperty("access_token")]
+            public string Value { get; set; }
+            [JsonProperty("expires_in")]
+            public int ExpiresIn { get; set; }
+            [JsonProperty("token_type")]
+            public string Type { get; set; }
         }
     }
 }
