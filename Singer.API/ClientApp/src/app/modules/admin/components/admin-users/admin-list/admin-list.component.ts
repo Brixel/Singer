@@ -122,6 +122,13 @@ export class AdminListComponent implements OnInit, AfterViewInit {
       dialogRef.afterClosed().subscribe((isConfirmed: boolean) => {
          if (isConfirmed) {
             this.authService.requestPasswordReset(row.userId);
+            this._snackBar.open(
+               `Nieuw wachtwoord voor gebruiker ${row.firstName} ${row.lastName} werd aangevraagd.`,
+               'OK',
+               {
+                  duration: 2000,
+               }
+            );
          }
       });
    }
@@ -135,12 +142,17 @@ export class AdminListComponent implements OnInit, AfterViewInit {
       });
       dialogRef.afterClosed().subscribe((isConfirmed: boolean) => {
          if (isConfirmed) {
-            this.adminUserService.delete(row).subscribe(() => {
-               this._snackBar.open(`Beheerder ${row.firstName} ${row.lastName} werd verwijderd.`, 'OK', {
-                  duration: 2000,
-               });
-               this.loadAdmins();
-            });
+            this.adminUserService.delete(row).subscribe(
+               () => {
+                  this._snackBar.open(`Beheerder ${row.firstName} ${row.lastName} werd verwijderd.`, 'OK', {
+                     duration: 2000,
+                  });
+                  this.loadAdmins();
+               },
+               err => {
+                  this.handleApiError(err);
+               }
+            );
          }
       });
    }
