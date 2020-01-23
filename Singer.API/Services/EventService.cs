@@ -85,7 +85,7 @@ namespace Singer.Services
                // check allowed agegroups
                (eventFilterParametersDto.AllowedAgeGroups == null ||
                eventFilterParametersDto.AllowedAgeGroups.Count == 0 ||
-               x.AllowedAgeGroups.HasFlag(eventFilterParametersDto.AllowedAgeGroups.Aggregate((prev, next) => prev | next))) &&
+               eventFilterParametersDto.AllowedAgeGroups.Any(ageGroup => x.AllowedAgeGroups.HasFlag(ageGroup))) &&
                // check event title
                (string.IsNullOrEmpty(eventFilterParametersDto.Title) || x.Title.ToLower().Contains(eventFilterParametersDto.Title.ToLower())) &&
                // check allowed agegroups
