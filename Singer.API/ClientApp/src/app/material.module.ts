@@ -28,10 +28,7 @@ import {
    MatStepperModule,
    MatExpansionModule,
 } from '@angular/material';
-import {
-   MatMomentDateModule,
-   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
-} from '@angular/material-moment-adapter';
+import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 @NgModule({
@@ -96,8 +93,6 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
       MatStepperModule,
       MatExpansionModule
    ],
-   providers: [
-      { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
-   ],
+   providers: [{ provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }],
 })
 export class MaterialModule {}

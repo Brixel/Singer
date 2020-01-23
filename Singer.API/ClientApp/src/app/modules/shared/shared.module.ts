@@ -10,6 +10,10 @@ import { SingerEventsProxy } from '../core/services/singerevents-api/singerevent
 import { CoreModule } from '../core/core.module';
 import { LoadingComponent } from './components/loading/loading.component';
 import { EventTimelineComponent } from './components/event-timeline/event-timeline.component';
+import { ConfirmComponent } from './components/confirm/confirm.component';
+import { DeleteConfirmationComponent } from './components/delete-confirmation/delete-confirmation.component';
+import { DeleteConfirmationDialogComponent } from './components/delete-confirmation-dialog/delete-confirmation-dialog.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
    declarations: [
@@ -18,16 +22,28 @@ import { EventTimelineComponent } from './components/event-timeline/event-timeli
       DetailedUserCardComponent,
       LoadingComponent,
       EventTimelineComponent,
+      ConfirmComponent,
+      DeleteConfirmationComponent,
+      DeleteConfirmationDialogComponent,
    ],
-   imports: [CommonModule, MaterialModule, CoreModule],
+   imports: [CommonModule, MaterialModule, CoreModule, ReactiveFormsModule],
    exports: [
       EventRegistrationComponent,
       UserCardComponent,
       DetailedUserCardComponent,
       LoadingComponent,
       EventTimelineComponent,
+      ConfirmComponent,
+      DeleteConfirmationComponent,
+      DeleteConfirmationDialogComponent,
    ],
-   entryComponents: [EventRegistrationComponent, LoadingComponent],
+   entryComponents: [
+      EventRegistrationComponent,
+      LoadingComponent,
+      ConfirmComponent,
+      DeleteConfirmationComponent,
+      DeleteConfirmationDialogComponent,
+   ],
    providers: [ApiService, SingerEventsService, SingerEventsProxy],
 })
 export class SharedModule {}

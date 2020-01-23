@@ -85,9 +85,10 @@ namespace Singer.Services
             .Select(x => new EventDescriptionDTO
             {
                Id = x.Id,
-               AgeGroups = EventProfile.ToAgeGroupList(x.AllowedAgeGroups),
-               Description = x.Description,
                Title = x.Title,
+               Description = x.Description,
+               AgeGroups = EventProfile.ToAgeGroupList(x.AllowedAgeGroups),
+               Cost = x.Cost,
                StartDateTime = x.EventSlots.OrderBy(y => y.StartDateTime).First().StartDateTime,
                EndDateTime = x.EventSlots.OrderByDescending(y => y.EndDateTime).First().EndDateTime
             })
