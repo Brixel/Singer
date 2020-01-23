@@ -21,16 +21,6 @@ export class EventListComponent implements OnInit {
 
    ngOnInit(): void {
       this.columns = this.calculateColumns(window.innerWidth);
-
-      let filterParameters: EventFilterParameters = {
-         startDate: null,
-         endDate: null,
-         locationId: null,
-         allowedAgeGroups: null,
-         name: null,
-         maxCost: null,
-      };
-      this.onFilterEvent(filterParameters);
    }
 
    onResize(event) {

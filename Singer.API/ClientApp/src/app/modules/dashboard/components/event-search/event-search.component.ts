@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { SingerEventLocation, EventFilterParameters } from 'src/app/modules/core/models/singerevent.model';
 import { GenericFilter } from 'src/app/modules/core/components/Generics/generic-filter.component';
@@ -11,7 +11,7 @@ import { AgeGroup, CostFilterParameter } from 'src/app/modules/core/models/enum'
    templateUrl: './event-search.component.html',
    styleUrls: ['./event-search.component.css'],
 })
-export class EventSearchComponent extends GenericFilter {
+export class EventSearchComponent extends GenericFilter implements OnInit {
    @Output()
    get filterEvent(): EventEmitter<GenericFilterParameters> {
       return this.genericFilterEvent;
@@ -42,6 +42,10 @@ export class EventSearchComponent extends GenericFilter {
       this.eventLocationService.fetchSingerEventLocationsData('asc', 'name', 0, 1000, '').subscribe(res => {
          this.availableLocations = res.items as SingerEventLocation[];
       });
+   }
+
+   ngOnInit() {
+      this.resetFilter();
    }
 
    initializeFilterForm(): void {
