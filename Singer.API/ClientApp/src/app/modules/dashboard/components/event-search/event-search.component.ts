@@ -1,7 +1,7 @@
 import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { SingerEventLocation, EventFilterParameters } from 'src/app/modules/core/models/singerevent.model';
-import { GenericFilter } from 'src/app/modules/core/components/Generics/generic-filter.component';
+import { GenericFilter } from 'src/app/modules/core/models/generics/generic-filter.model';
 import { GenericFilterParameters } from 'src/app/modules/core/models/generics/generic-filter-parameters.model';
 import { SingerEventLocationService } from 'src/app/modules/core/services/singerevents-api/singerevent-location.service';
 import { AgeGroup, CostFilterParameter } from 'src/app/modules/core/models/enum';

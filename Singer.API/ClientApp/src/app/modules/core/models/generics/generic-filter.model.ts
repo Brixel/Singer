@@ -1,4 +1,4 @@
-import { GenericFilterParameters } from '../../models/generics/generic-filter-parameters.model';
+import { GenericFilterParameters } from './generic-filter-parameters.model';
 import { EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
