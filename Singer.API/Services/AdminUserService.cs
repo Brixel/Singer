@@ -57,7 +57,7 @@ namespace Singer.Services
       public override async Task DeleteAsync(Guid id)
       {
          // Prevent extinction of admin users
-         if (Queryable.Count() <= 2)
+         if (Queryable.Count() <= 1)
          {
             throw new BadInputException("It is not allowed to remove the last admin user", ErrorMessages.LastAdminUser);
          }
