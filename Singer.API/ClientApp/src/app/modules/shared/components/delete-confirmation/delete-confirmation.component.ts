@@ -9,7 +9,6 @@ import { FormControl, Validators } from '@angular/forms';
 export class DeleteConfirmationComponent {
    @Input() deleteButtonText: string;
    @Input() name: string;
-   @Input() whatToDelete: string;
    @Output() delete: EventEmitter<boolean> = new EventEmitter();
 
    isDeleting = false;
@@ -57,7 +56,7 @@ export class DeleteConfirmationComponent {
 
    isConfirmFieldMatching(): boolean {
       const confirmFieldString: string = this.confirmFieldControl.value;
-      console.log(`should be ${this.name}`);
+      console.log(`'${confirmFieldString.toLocaleLowerCase()}' should match '${this.name.toLocaleLowerCase()}'`);
       return this.name.toLowerCase() === confirmFieldString.toLowerCase();
    }
 
@@ -68,6 +67,7 @@ export class DeleteConfirmationComponent {
       }
 
       if (!this.isConfirmFieldMatching()) {
+         console.log('not match');
          this.deleteConfirmationOK = false;
          this.confirmFieldControl.setErrors({ invalid: true });
          return;

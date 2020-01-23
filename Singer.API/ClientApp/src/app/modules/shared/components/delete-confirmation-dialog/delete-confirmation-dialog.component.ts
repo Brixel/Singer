@@ -4,7 +4,7 @@ import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confi
 
 export interface ConfirmationData {
    name: string;
-   whatToDelete: string;
+   deleteButtonText: string;
 }
 
 @Component({

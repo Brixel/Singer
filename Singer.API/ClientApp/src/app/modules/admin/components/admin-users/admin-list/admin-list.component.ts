@@ -130,19 +130,15 @@ export class AdminListComponent implements OnInit, AfterViewInit {
       const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent, {
          data: <ConfirmationData>{
             name: `${row.firstName} ${row.lastName}`,
-            whatToDelete: 'Beheerder',
+            deleteButtonText: 'Beheerder verwijderen',
          },
       });
       dialogRef.afterClosed().subscribe((isConfirmed: boolean) => {
          if (isConfirmed) {
             this.adminUserService.delete(row).subscribe(() => {
-               this._snackBar.open(
-                  `Beheerder ${row.firstName} ${row.lastName} werd verwijderd.`,
-                  'OK',
-                  {
-                     duration: 2000,
-                  }
-               );
+               this._snackBar.open(`Beheerder ${row.firstName} ${row.lastName} werd verwijderd.`, 'OK', {
+                  duration: 2000,
+               });
                this.loadAdmins();
             });
          }

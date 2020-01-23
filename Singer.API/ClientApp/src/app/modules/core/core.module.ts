@@ -7,7 +7,6 @@ import { MaterialModule } from 'src/app/material.module';
 import { AgegroupToColorPipePipe } from './Pipes/agegroup-to-color-pipe.pipe';
 import { DailybasisRegistrationsComponent } from './components/dailybasis-registrations/dailybasis-registrations.component';
 import { SingleRegistrationComponent } from './components/single-registration/single-registration.component';
-import { DeleteConfirmationComponent } from './components/delete-confirmation/delete-confirmation.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SingereventCostPipe } from './Pipes/singerevent-cost.pipe';
 
@@ -19,7 +18,6 @@ import { SingereventCostPipe } from './Pipes/singerevent-cost.pipe';
       AgegroupToColorPipePipe,
       DailybasisRegistrationsComponent,
       SingleRegistrationComponent,
-      DeleteConfirmationComponent,
       SingereventCostPipe,
    ],
    imports: [CommonModule, MaterialModule, ReactiveFormsModule],
@@ -30,7 +28,6 @@ import { SingereventCostPipe } from './Pipes/singerevent-cost.pipe';
       AgegroupToColorPipePipe,
       SingleRegistrationComponent,
       DailybasisRegistrationsComponent,
-      DeleteConfirmationComponent,
       SingereventCostPipe,
    ],
 })
