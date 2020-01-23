@@ -1,25 +1,39 @@
 .card {
-   max-width: 400px;
+   width: 400px;
 }
 
-.event-subtitle {
+.flex--row {
    display: flex;
-   justify-content: space-between;
+   flex-direction: row;
+   justify-content: flex-start;
+   align-items: flex-start;
 }
 
-.date-indicator {
+.flex--column {
    display: flex;
+   flex-direction: column;
+   justify-content: flex-start;
+   align-items: flex-start;
+}
+
+.align--center {
    align-items: center;
-   font-size: 0.9em;
-   min-width: 7em;
 }
 
-.agegroup-chips {
-   min-height: 40px;
-   margin-top:8px;
+.flex--spacer {
+   flex: 1 1 auto;
+}
+
+.secondary--text {
+   color: var(--singer-theme-dark-secondary-text);
+}
+
+.small--font {
+   font-size: 0.9em;
 }
 
 .event-description {
+   padding-top: 1em;
    height: 2.4em;
    line-height: 1.2em;
    max-width: 390px;

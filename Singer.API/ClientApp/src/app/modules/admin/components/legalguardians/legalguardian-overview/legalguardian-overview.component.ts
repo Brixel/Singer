@@ -26,19 +26,13 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
    styleUrls: ['./legalguardian-overview.component.css'],
 })
 export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
+
    @ViewChild(MatPaginator) paginator: MatPaginator;
    @ViewChild(MatSort) sort: MatSort;
    @ViewChild('filterInput') filterInput: ElementRef;
 
-   dataSource: LegalguardianOverviewDataSource;
-
-   pageSize = 15;
-   pageIndex = 0;
-
+   // Filter
    filter: string;
-
-   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-   displayedColumns = ['firstName', 'lastName', 'email', 'address'];
 
    readonly maxFilterLength = 2048;
 
@@ -48,6 +42,16 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
          Validators.maxLength(this.maxFilterLength),
       ]),
    });
+
+   // Datatable
+   dataSource: LegalguardianOverviewDataSource;
+
+   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
+   displayedColumns = ['firstName', 'lastName', 'email', 'address'];
+
+   // Paginator
+   pageSize = 15;
+   pageIndex = 0;
 
    constructor(
       public dialog: MatDialog,
@@ -63,76 +67,6 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
       this.sort.active = 'firstName';
       this.sort.direction = 'asc';
       this.loadLegalGuardians();
-   }
-
-   selectRow(row: LegalGuardian): void {
-      //Dereference row to avoid updating row in overview when API might refuse the update
-      const deRefRow = { ...row };
-      const dialogRef = this.dialog.open(LegalguardianDetailsComponent, {
-         data: { legalGuardianInstance: deRefRow, isAdding: false, displayContactFields: true, },
-         width: '80vw',
-      });
-
-      dialogRef.componentInstance.submitEvent.subscribe(
-         (result: LegalGuardian) => {
-            //Update the legal guardian
-            this._legalguardiansService.updateLegalGuardian(result).subscribe(
-               res => {
-                  // Reload LegalGuardians
-                  this.loadLegalGuardians();
-                  this._snackBar.open(
-                     `${result.firstName} ${result.lastName} werd aangepast.`,
-                     'OK',
-                     { duration: 2000 }
-                  );
-               },
-               err => {
-                  this.handleApiError(err);
-               }
-            );
-         }
-      );
-   }
-
-   addLegalGuardian(): void {
-      const dialogRef = this.dialog.open(LegalguardianDetailsComponent, {
-         data: { legalGuardianInstance: null, isAdding: true, displayContactFields: false, },
-         width: '80vw',
-      });
-
-      dialogRef.componentInstance.submitEvent.subscribe(
-         (result: LegalGuardian) => {
-            // Add the legal guardian
-            this._legalguardiansService.createLegalGuardian(result).subscribe(
-               res => {
-                   // Reload LegalGuardians
-                  this.loadLegalGuardians();
-
-                  this._snackBar.open(
-                     `${result.firstName} ${result.lastName} werd toegevoegd als voogd.`,
-                     'OK',
-                     { duration: 2000 }
-                  );
-               },
-               err => {
-                  this.handleApiError(err);
-               }
-            );
-         }
-      );
-   }
-
-   private loadLegalGuardians() {
-      const sortDirection = this.sort.direction;
-      const sortColumn = this.sort.active;
-      this.filter = this.filterInput.nativeElement.value;
-      this.dataSource.loadLegalGuardians(
-         sortDirection,
-         sortColumn,
-         this.pageIndex,
-         this.pageSize,
-         this.filter
-      );
    }
 
    ngAfterViewInit() {
@@ -163,6 +97,96 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
             this._loadingService.hide();
          }
       });
+   }
+
+   private loadLegalGuardians() {
+      const sortDirection = this.sort.direction;
+      const sortColumn = this.sort.active;
+      this.filter = this.filterInput.nativeElement.value;
+      this.dataSource.loadLegalGuardians(
+         sortDirection,
+         sortColumn,
+         this.pageIndex,
+         this.pageSize,
+         this.filter
+      );
+   }
+
+   addLegalGuardian(): void {
+      const dialogRef = this.dialog.open(LegalguardianDetailsComponent, {
+         data: { legalGuardianInstance: null, displayLinkedUserFields: false, },
+         width: '80vw',
+      });
+
+      dialogRef.componentInstance.submitEvent.subscribe(
+         (result: LegalGuardian) => {
+            // Add the legal guardian
+            this._legalguardiansService.createLegalGuardian(result).subscribe(
+               res => {
+                   // Reload LegalGuardians
+                  this.loadLegalGuardians();
+
+                  this._snackBar.open(
+                     `${result.firstName} ${result.lastName} werd toegevoegd als voogd.`,
+                     'OK',
+                     { duration: 2000 }
+                  );
+               },
+               err => {
+                  this.handleApiError(err);
+               }
+            );
+         }
+      );
+
+      dialogRef.componentInstance.deleteEvent.subscribe(
+         (result: LegalGuardian) => {
+            this._legalguardiansService.deleteLegalGuardian(result.id).subscribe(
+               res => {
+                  // Reload LegalGuardians
+                  this.loadLegalGuardians();
+                  this._snackBar.open(
+                     `${result.firstName} ${result.lastName} werd verwijderd.`,
+                     'OK',
+                     { duration: 2000 }
+                  );
+               },
+               err => {
+                  this.handleApiError(err);
+                  this.loadLegalGuardians();
+               }
+            );
+         }
+      );
+   }
+
+   selectRow(row: LegalGuardian): void {
+      //Dereference row to avoid updating row in overview when API might refuse the update
+      const deRefRow = { ...row };
+      const dialogRef = this.dialog.open(LegalguardianDetailsComponent, {
+         data: { legalGuardianInstance: deRefRow, displayLinkedUserFields: true, },
+         width: '80vw',
+      });
+
+      dialogRef.componentInstance.submitEvent.subscribe(
+         (result: LegalGuardian) => {
+            //Update the legal guardian
+            this._legalguardiansService.updateLegalGuardian(result).subscribe(
+               res => {
+                  // Reload LegalGuardians
+                  this.loadLegalGuardians();
+                  this._snackBar.open(
+                     `${result.firstName} ${result.lastName} werd aangepast.`,
+                     'OK',
+                     { duration: 2000 }
+                  );
+               },
+               err => {
+                  this.handleApiError(err);
+               }
+            );
+         }
+      );
    }
 
    handleApiError(err: any) {

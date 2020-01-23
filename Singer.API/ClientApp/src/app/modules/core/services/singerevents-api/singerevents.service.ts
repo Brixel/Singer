@@ -268,12 +268,13 @@ export class SingerEventsService extends GenericService<
          map(res =>
             res.map(y => {
                return <EventDescription>{
-                  ageGroups: y.ageGroups,
-                  description: y.description,
-                  endDateTime: new Date(y.endDateTime),
                   id: y.id,
-                  startDateTime: new Date(y.startDateTime),
                   title: y.title,
+                  description: y.description,
+                  ageGroups: y.ageGroups,
+                  cost: y.cost,
+                  endDateTime: new Date(y.endDateTime),
+                  startDateTime: new Date(y.startDateTime),
                };
             })
          )
