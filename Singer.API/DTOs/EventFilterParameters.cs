@@ -31,8 +31,8 @@ namespace Singer.DTOs
       [StringLength(maximumLength: ValidationValues.MaxEventTitleLength)]
       [Display(
          ResourceType = typeof(DisplayNames),
-         Name = nameof(DisplayNames.Title))]
-      public string Title { get; set; }
+         Name = nameof(DisplayNames.Text))]
+      public string Text { get; set; }
 
       [Display(
          ResourceType = typeof(DisplayNames),

@@ -3,6 +3,7 @@ import { EventSlotDTO } from '../models/eventslot.dto';
 import { CareUserDTO } from '../models/careuser.model';
 import { SingerEventLocationDTO } from './singer-event-location.dto';
 import { DaycareLocationDTO } from './daycarelocation.dto';
+import { IFilterBaseDTO } from './filterbase.dto';
 
 export interface CreateEventRegistrationDTO {
    eventId: string;
@@ -54,12 +55,12 @@ export interface EventDescriptionDTO {
    endDate: Date;
 }
 
-export class EventFilterParametersDTO {
+export interface EventFilterParametersDTO extends IFilterBaseDTO {
    startDate: Date;
    endDate: Date;
    locationId: string;
    allowedAgeGroups: AgeGroup[];
-   title: string;
+   text: string;
    maxCost: number;
 }
 

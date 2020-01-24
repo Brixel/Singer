@@ -1,3 +1,3 @@
 export class GenericFilterParameters {
-   name: string;
+   text: string;
 }

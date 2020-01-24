@@ -62,7 +62,7 @@ export class EventFilterComponent extends GenericFilter implements OnInit {
          endDate: this.formGroup.controls.endDateFieldControl.value,
          locationId: this.formGroup.controls.locationFieldControl.value,
          allowedAgeGroups: this.formGroup.controls.ageGroupsFieldControl.value,
-         name: this.formGroup.controls.nameFieldControl.value,
+         text: this.formGroup.controls.nameFieldControl.value,
          maxCost:
             this.formGroup.controls.costFieldControl.value == null
                ? null
