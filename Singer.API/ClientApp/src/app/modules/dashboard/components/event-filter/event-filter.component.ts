@@ -4,7 +4,7 @@ import { SingerEventLocation, EventFilterParameters } from 'src/app/modules/core
 import { GenericFilter } from 'src/app/modules/core/models/generics/generic-filter.model';
 import { GenericFilterParameters } from 'src/app/modules/core/models/generics/generic-filter-parameters.model';
 import { SingerEventLocationService } from 'src/app/modules/core/services/singerevents-api/singerevent-location.service';
-import { AgeGroup, CostFilterParameter } from 'src/app/modules/core/models/enum';
+import { AgeGroup } from 'src/app/modules/core/models/enum';
 
 @Component({
    selector: 'app-event-filter',
@@ -21,10 +21,6 @@ export class EventFilterComponent extends GenericFilter implements OnInit {
    availableLocations: SingerEventLocation[];
    // Available agegroups
    ageGroups = Object.keys(AgeGroup).filter(k => typeof AgeGroup[k as any] === 'number');
-   // Available cost filter parameters
-   costFilterParameters = Object.keys(CostFilterParameter).filter(
-      k => typeof CostFilterParameter[k as any] === 'number'
-   );
 
    // Form placeholders
    startDateFieldPlaceholder: string = 'Start Datum';
@@ -53,7 +49,6 @@ export class EventFilterComponent extends GenericFilter implements OnInit {
       this.formGroup.addControl('endDateFieldControl', new FormControl());
       this.formGroup.addControl('locationFieldControl', new FormControl());
       this.formGroup.addControl('ageGroupsFieldControl', new FormControl());
-      this.formGroup.addControl('costFieldControl', new FormControl());
    }
 
    loadFilterParameters(): void {
@@ -63,10 +58,6 @@ export class EventFilterComponent extends GenericFilter implements OnInit {
          locationId: this.formGroup.controls.locationFieldControl.value,
          allowedAgeGroups: this.formGroup.controls.ageGroupsFieldControl.value,
          text: this.formGroup.controls.nameFieldControl.value,
-         maxCost:
-            this.formGroup.controls.costFieldControl.value == null
-               ? null
-               : CostFilterParameter[this.formGroup.controls.costFieldControl.value as string],
       };
       this.filterParameters = filterParameters;
    }
@@ -79,9 +70,5 @@ export class EventFilterComponent extends GenericFilter implements OnInit {
 
    compareAgeGroups(ageGroupX: number, ageGroupY: string) {
       return AgeGroup[ageGroupX] === ageGroupY;
-   }
-
-   compareCostFilterParameters(costFilterParameterX: number, costFilterParameterY: string) {
-      return CostFilterParameter[costFilterParameterX] === costFilterParameterY;
    }
 }

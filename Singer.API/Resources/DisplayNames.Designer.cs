@@ -466,15 +466,6 @@ namespace Singer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Maximum prijs.
-        /// </summary>
-        public static string MaxCost {
-            get {
-                return ResourceManager.GetString("MaxCost", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Maximum aantal inschrijvingen.
         /// </summary>
         public static string MaxRegistrants {

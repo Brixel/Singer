@@ -61,7 +61,6 @@ export interface EventFilterParametersDTO extends IFilterBaseDTO {
    locationId: string;
    allowedAgeGroups: AgeGroup[];
    text: string;
-   maxCost: number;
 }
 
 export class EventRelevantCareUserDTO {

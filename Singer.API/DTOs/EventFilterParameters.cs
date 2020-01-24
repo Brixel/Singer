@@ -33,10 +33,5 @@ namespace Singer.DTOs
          ResourceType = typeof(DisplayNames),
          Name = nameof(DisplayNames.Text))]
       public string Text { get; set; }
-
-      [Display(
-         ResourceType = typeof(DisplayNames),
-         Name = nameof(DisplayNames.MaxCost))]
-      public int? MaxCost { get; set; }
    }
 }

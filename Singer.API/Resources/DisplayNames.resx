@@ -252,9 +252,6 @@
   <data name="LocationId" xml:space="preserve">
     <value>Id van de locatie</value>
   </data>
-  <data name="MaxCost" xml:space="preserve">
-    <value>Maximum prijs</value>
-  </data>
   <data name="MaxRegistrants" xml:space="preserve">
     <value>Maximum aantal inschrijvingen</value>
   </data>

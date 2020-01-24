@@ -9,7 +9,6 @@ import { DailybasisRegistrationsComponent } from './components/dailybasis-regist
 import { SingleRegistrationComponent } from './components/single-registration/single-registration.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SingereventCostPipe } from './Pipes/singerevent-cost.pipe';
-import { SingerEventCostFilterParametersPipe } from './Pipes/singerevent-cost-filterparameters.pipe';
 
 @NgModule({
    declarations: [
@@ -20,7 +19,6 @@ import { SingerEventCostFilterParametersPipe } from './Pipes/singerevent-cost-fi
       DailybasisRegistrationsComponent,
       SingleRegistrationComponent,
       SingereventCostPipe,
-      SingerEventCostFilterParametersPipe,
    ],
    imports: [CommonModule, MaterialModule, ReactiveFormsModule],
    exports: [
@@ -31,7 +29,6 @@ import { SingerEventCostFilterParametersPipe } from './Pipes/singerevent-cost-fi
       SingleRegistrationComponent,
       DailybasisRegistrationsComponent,
       SingereventCostPipe,
-      SingerEventCostFilterParametersPipe,
    ],
 })
 export class CoreModule {}

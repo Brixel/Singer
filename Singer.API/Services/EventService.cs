@@ -87,9 +87,7 @@ namespace Singer.Services
                eventFilterParametersDto.AllowedAgeGroups.Count == 0 ||
                eventFilterParametersDto.AllowedAgeGroups.Any(ageGroup => x.AllowedAgeGroups.HasFlag(ageGroup))) &&
                // check event title
-               (string.IsNullOrEmpty(eventFilterParametersDto.Text) || x.Title.ToLower().Contains(eventFilterParametersDto.Text.ToLower())) &&
-               // check allowed agegroups
-               (!eventFilterParametersDto.MaxCost.HasValue || x.Cost <= eventFilterParametersDto.MaxCost))
+               (string.IsNullOrEmpty(eventFilterParametersDto.Text) || x.Title.ToLower().Contains(eventFilterParametersDto.Text.ToLower())))
             .Select(x => new EventDescriptionDTO
             {
                Id = x.Id,

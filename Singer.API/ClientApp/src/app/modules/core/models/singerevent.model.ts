@@ -92,5 +92,4 @@ export class EventFilterParameters extends GenericFilterParameters {
    endDate: Date;
    locationId: string;
    allowedAgeGroups: AgeGroup[];
-   maxCost: number;
 }

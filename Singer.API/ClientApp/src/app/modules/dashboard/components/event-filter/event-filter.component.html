@@ -33,7 +33,7 @@
       </mat-form-field>
 
       <!-- AgeGroup Field -->
-      <mat-form-field class="medium--width">
+      <mat-form-field class="large--width">
          <mat-select [compareWith]="compareAgeGroups" formControlName="ageGroupsFieldControl"
             [placeholder]="ageGroupsFieldPlaceholder" multiple>
             <mat-option *ngFor="let ageGroup of ageGroups" [value]="ageGroup">
@@ -48,16 +48,6 @@
          <mat-error *ngIf="formGroup.controls.nameFieldControl.errors?.maxlength">
             Naam mag maximum {{ maxNameLength }} karakters bevatten.
          </mat-error>
-      </mat-form-field>
-
-      <!-- Price Field -->
-      <mat-form-field class="small--width">
-         <mat-select [compareWith]="compareCostFilterParameters" formControlName="costFieldControl"
-            [placeholder]="costFieldPlaceholder">
-            <mat-option *ngFor="let costFilterParameter of costFilterParameters" [value]="costFilterParameter">
-               {{ costFilterParameter | singerEventCostFilterParameterPipe }}
-            </mat-option>
-         </mat-select>
       </mat-form-field>
 
       <!-- Buttons -->

@@ -97,7 +97,6 @@ export class SingerEventsProxy {
          locationId: eventFilterData.locationId,
          allowedAgeGroups: eventFilterData.allowedAgeGroups,
          text: eventFilterData.text,
-         maxCost: eventFilterData.maxCost,
       };
       return this.apiService.post('api/event/search', filterParams).pipe(map(res => res));
    }
