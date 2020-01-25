@@ -1,6 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { AdminUser } from 'src/app/modules/core/models/adminuser.model';
-import { AgeGroup } from 'src/app/modules/core/models/enum';
 import {
    FormGroup,
    FormControl,
@@ -26,9 +25,6 @@ export class AdminDetailsComponent implements OnInit {
 
    // Current admin user instance
    adminUser: AdminUser;
-
-   // Available Agegroups
-   ageGroups = AgeGroup;
 
    // Form placeholders
    readonly firstNameFieldPlaceholder = 'Voornaam';
