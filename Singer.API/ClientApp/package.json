@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.1.0-issue-admin-component-refactor.1236",
+   "version": "0.1.0-issue-admin-component-refactor.1237",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",

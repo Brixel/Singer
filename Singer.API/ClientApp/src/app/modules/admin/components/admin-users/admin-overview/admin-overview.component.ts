@@ -16,22 +16,17 @@ import {
 } from 'src/app/modules/shared/components/delete-confirmation-dialog/delete-confirmation-dialog.component';
 
 @Component({
-   selector: 'app-admin-list',
-   templateUrl: './admin-list.component.html',
-   styleUrls: ['./admin-list.component.css'],
+   selector: 'app-admin-overview',
+   templateUrl: './admin-overview.component.html',
+   styleUrls: ['./admin-overview.component.css'],
 })
-export class AdminListComponent implements OnInit, AfterViewInit {
+export class AdminOverviewComponent implements OnInit, AfterViewInit {
    @ViewChild(MatPaginator) paginator: MatPaginator;
    @ViewChild(MatSort) sort: MatSort;
    @ViewChild('filterInput') filterInput: ElementRef;
 
-   pageSize = 15;
-   pageIndex = 0;
-
-   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-   displayedColumns = ['firstName', 'lastName', 'email', 'userName', 'actions'];
+   // Filter
    filter: string;
-   dataSource: AdminDatasource;
 
    readonly maxFilterLength = 2048;
 
@@ -39,6 +34,16 @@ export class AdminListComponent implements OnInit, AfterViewInit {
       // Form controls
       filterFieldControl: new FormControl(this.filter, [Validators.maxLength(this.maxFilterLength)]),
    });
+
+   // Datatable
+   dataSource: AdminDatasource;
+
+   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
+   displayedColumns = ['firstName', 'lastName', 'email', 'userName', 'actions'];
+
+   // Paginator
+   pageSize = 15;
+   pageIndex = 0;
 
    constructor(
       public dialog: MatDialog,
@@ -53,108 +58,6 @@ export class AdminListComponent implements OnInit, AfterViewInit {
       this.sort.active = 'lastName';
       this.sort.direction = 'asc';
       this.loadAdmins();
-   }
-
-   loadAdmins() {
-      const sortDirection = this.sort.direction;
-      const sortColumn = this.sort.active;
-      this.filter = this.filterInput.nativeElement.value;
-      this.dataSource.loadAdmins(sortDirection, sortColumn, this.pageIndex, this.pageSize, this.filter);
-   }
-
-   editAdmin(row: AdminUser): void {
-      const dialogRef = this.dialog.open(AdminDetailsComponent, {
-         data: row,
-      });
-
-      dialogRef.componentInstance.submitEvent.subscribe((result: AdminUser) => {
-         this.adminUserService.update(result).subscribe(
-            () => {
-               this._snackBar.open(`Gebruiker ${result.firstName} ${result.lastName} werd aangepast.`, 'OK', {
-                  duration: 2000,
-               });
-               this.loadAdmins();
-            },
-            err => {
-               this.handleApiError(err);
-            }
-         );
-      });
-   }
-   addAdmin() {
-      const dialogRef = this.dialog.open(AdminDetailsComponent);
-
-      dialogRef.componentInstance.submitEvent.subscribe((result: AdminUser) => {
-         this.adminUserService.create(result).subscribe(
-            () => {
-               this._snackBar.open(`Gebruiker ${result.firstName} ${result.lastName} werd toegevoegd.`, 'OK', {
-                  duration: 2000,
-               });
-               this.loadAdmins();
-            },
-            err => {
-               this.handleApiError(err);
-            }
-         );
-      });
-   }
-
-   handleApiError(err: any) {
-      if (typeof err === 'string') {
-         this._snackBar.open(`⚠ ${err}`, 'OK');
-      } else if (typeof err === 'object' && err !== null) {
-         let messages = [];
-         for (var k in err) {
-            messages.push(err[k]);
-         }
-         this._snackBar.open(`⚠ Er zijn fouten opgetreden bij het opslaan:\n${messages.join('\n')}`, 'OK', {
-            panelClass: 'multi-line-snackbar',
-         });
-      }
-   }
-
-   changePassword(row: AdminUser) {
-      const dialogRef = this.dialog.open(ConfirmComponent, {
-         data: <ConfirmRequest>{
-            confirmMessage: `Wilt u het wachtwoord van ${row.firstName} ${row.lastName} wijzigen?`,
-         },
-      });
-      dialogRef.afterClosed().subscribe((isConfirmed: boolean) => {
-         if (isConfirmed) {
-            this.authService.requestPasswordReset(row.userId);
-            this._snackBar.open(
-               `Nieuw wachtwoord voor gebruiker ${row.firstName} ${row.lastName} werd aangevraagd.`,
-               'OK',
-               {
-                  duration: 2000,
-               }
-            );
-         }
-      });
-   }
-
-   deleteUser(row: AdminUser) {
-      const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent, {
-         data: <ConfirmationData>{
-            name: `${row.firstName} ${row.lastName}`,
-            deleteButtonText: 'Beheerder verwijderen',
-         },
-      });
-      dialogRef.afterClosed().subscribe((isConfirmed: boolean) => {
-         if (isConfirmed) {
-            this.adminUserService.delete(row).subscribe(
-               () => {
-                  this._snackBar.open(`Beheerder ${row.firstName} ${row.lastName} werd verwijderd.`, 'OK', {
-                     duration: 2000,
-                  });
-                  this.loadAdmins();
-               },
-               err => {
-                  this.handleApiError(err);
-               }
-            );
-         }
-      });
    }
 
    ngAfterViewInit() {
@@ -185,5 +88,108 @@ export class AdminListComponent implements OnInit, AfterViewInit {
             this._loadingService.hide();
          }
       });
+   }
+
+   loadAdmins() {
+      const sortDirection = this.sort.direction;
+      const sortColumn = this.sort.active;
+      this.filter = this.filterInput.nativeElement.value;
+      this.dataSource.loadAdmins(sortDirection, sortColumn, this.pageIndex, this.pageSize, this.filter);
+   }
+
+   addAdmin() {
+      const dialogRef = this.dialog.open(AdminDetailsComponent);
+
+      dialogRef.componentInstance.submitEvent.subscribe((result: AdminUser) => {
+         this.adminUserService.create(result).subscribe(
+            () => {
+               this._snackBar.open(`Gebruiker ${result.firstName} ${result.lastName} werd toegevoegd.`, 'OK', {
+                  duration: 2000,
+               });
+               this.loadAdmins();
+            },
+            err => {
+               this.handleApiError(err);
+            }
+         );
+      });
+   }
+
+   editAdmin(row: AdminUser): void {
+      const dialogRef = this.dialog.open(AdminDetailsComponent, {
+         data: row,
+      });
+
+      dialogRef.componentInstance.submitEvent.subscribe((result: AdminUser) => {
+         this.adminUserService.update(result).subscribe(
+            () => {
+               this._snackBar.open(`Gebruiker ${result.firstName} ${result.lastName} werd aangepast.`, 'OK', {
+                  duration: 2000,
+               });
+               this.loadAdmins();
+            },
+            err => {
+               this.handleApiError(err);
+            }
+         );
+      });
+   }
+
+   deleteUser(row: AdminUser) {
+      const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent, {
+         data: <ConfirmationData>{
+            name: `${row.firstName} ${row.lastName}`,
+            deleteButtonText: 'Beheerder verwijderen',
+         },
+      });
+      dialogRef.afterClosed().subscribe((isConfirmed: boolean) => {
+         if (isConfirmed) {
+            this.adminUserService.delete(row).subscribe(
+               () => {
+                  this._snackBar.open(`Beheerder ${row.firstName} ${row.lastName} werd verwijderd.`, 'OK', {
+                     duration: 2000,
+                  });
+                  this.loadAdmins();
+               },
+               err => {
+                  this.handleApiError(err);
+               }
+            );
+         }
+      });
+   }
+
+   changePassword(row: AdminUser) {
+      const dialogRef = this.dialog.open(ConfirmComponent, {
+         data: <ConfirmRequest>{
+            confirmMessage: `Wilt u het wachtwoord van ${row.firstName} ${row.lastName} wijzigen?`,
+         },
+      });
+      dialogRef.afterClosed().subscribe((isConfirmed: boolean) => {
+         if (isConfirmed) {
+            this.authService.requestPasswordReset(row.userId);
+            this._snackBar.open(
+               `Nieuw wachtwoord voor gebruiker ${row.firstName} ${row.lastName} werd aangevraagd.`,
+               'OK',
+               {
+                  duration: 2000,
+               }
+            );
+         }
+      });
+   }
+
+   handleApiError(err: any) {
+      if (typeof err === 'string') {
+         this._snackBar.open(`⚠ ${err}`, 'OK');
+      } else if (typeof err === 'object' && err !== null) {
+         let messages = [];
+         for (var k in err) {
+            messages.push(err[k]);
+         }
+         this._snackBar.open(`⚠ Er zijn fouten opgetreden bij het opslaan:\n${messages.join('\n')}`, 'OK', {
+            panelClass: 'multi-line-snackbar',
+         });
+      }
    }
 }
