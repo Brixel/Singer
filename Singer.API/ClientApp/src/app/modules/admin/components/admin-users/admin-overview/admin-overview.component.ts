@@ -10,10 +10,6 @@ import { LoadingService } from 'src/app/modules/core/services/loading.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ConfirmComponent, ConfirmRequest } from 'src/app/modules/shared/components/confirm/confirm.component';
 import { AuthService } from 'src/app/modules/core/services/auth.service';
-import {
-   DeleteConfirmationDialogComponent,
-   ConfirmationData,
-} from 'src/app/modules/shared/components/delete-confirmation-dialog/delete-confirmation-dialog.component';
 
 @Component({
    selector: 'app-admin-overview',
