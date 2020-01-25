@@ -1,27 +1,30 @@
-/* Form layout */
-.form {
+.flex--column {
    display: flex;
    flex-direction: column;
    justify-content: flex-start;
    min-height: 17em;
 }
 
-/* Inline fields layout */
-.inline-fields {
+.flex--row {
    display: flex;
    flex-direction: row;
+   justify-content: flex-start;
+   align-items: center;
+}
+
+.flex--wrap {
    flex-wrap: wrap;
 }
 
-/* Form field spacing */
-.mat-form-field {
-   margin-right: 20px;
+.flex--spacer {
+   flex: 1 1 auto;
 }
 
-/* Button row layout */
-.button-row {
-   display: flex;
-   flex-direction: row;
-   justify-content: flex-end;
-   align-items: center;
+.mat-form-field {
+   margin-right: 1.5em;
+   max-width: 27em;
+}
+
+.margin--right {
+   margin-right: 1.5em;
 }

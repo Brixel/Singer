@@ -4,11 +4,11 @@
 <!-- Form Dialog Content -->
 <mat-dialog-content>
    <!-- Details Form -->
-   <form [formGroup]="formControlGroup" class="form">
+   <form [formGroup]="formControlGroup" class="flex--column">
       <!-- Personal Fields Title -->
       <h3>Persoonlijke gegevens</h3>
       <!-- Name Fields -->
-      <div class="inline-fields">
+      <div class="flex--row flex--wrap">
          <!-- Lastname Field -->
          <mat-form-field>
             <input matInput [placeholder]="lastNameFieldPlaceholder" formControlName="lastNameFieldControl" />
@@ -61,6 +61,13 @@
 
       <!-- Button Row -->
       <mat-dialog-actions class="button-row">
+         <!-- Delete Button -->
+         <app-delete-confirmation deleteButtonText="Beheerder Verwijderen" [name]="adminUser.firstName"
+            (delete)="emitDeleteEvent()" class="margin--right" *ngIf="!isAdding"></app-delete-confirmation>
+
+         <!-- Spacer -->
+         <span class="flex--spacer"></span>
+
          <!-- Close Button -->
          <button mat-raised-button (click)="closeForm()" title="Formulier sluiten" aria-label="Formulier sluiten"
             type="button">
@@ -68,13 +75,8 @@
          </button>
 
          <!-- Submit Button -->
-         <button
-            mat-raised-button
-            color="primary"
-            (click)="submitForm()"
-            title="Formulier sluiten"
-            aria-label="Formulier sluiten"
-         >
+         <button mat-raised-button color="primary" (click)="submitForm()" title="Formulier sluiten"
+            aria-label="Formulier sluiten">
             {{ isAdding ? 'Toevoegen' : 'Opslaan' }}
          </button>
       </mat-dialog-actions>

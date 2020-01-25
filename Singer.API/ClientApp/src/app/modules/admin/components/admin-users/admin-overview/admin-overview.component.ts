@@ -133,30 +133,26 @@ export class AdminOverviewComponent implements OnInit, AfterViewInit {
             }
          );
       });
-   }
 
-   deleteUser(row: AdminUser) {
-      const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent, {
-         data: <ConfirmationData>{
-            name: `${row.firstName} ${row.lastName}`,
-            deleteButtonText: 'Beheerder verwijderen',
-         },
-      });
-      dialogRef.afterClosed().subscribe((isConfirmed: boolean) => {
-         if (isConfirmed) {
-            this.adminUserService.delete(row).subscribe(
-               () => {
-                  this._snackBar.open(`Beheerder ${row.firstName} ${row.lastName} werd verwijderd.`, 'OK', {
-                     duration: 2000,
-                  });
+      dialogRef.componentInstance.deleteEvent.subscribe(
+         (result: AdminUser) => {
+            this.adminUserService.delete(result).subscribe(
+               res => {
+                  // Reload AdminUsers
                   this.loadAdmins();
+                  this._snackBar.open(
+                     `Beheerder ${result.firstName} ${result.lastName} werd verwijderd.`,
+                     'OK',
+                     { duration: 2000 }
+                  );
                },
                err => {
                   this.handleApiError(err);
+                  this.loadAdmins();
                }
             );
          }
-      });
+      );
    }
 
    changePassword(row: AdminUser) {

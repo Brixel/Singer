@@ -59,7 +59,7 @@ tr.selectable:active {
 
 .action-list {
    display: flex;
-   justify-content: center;
+   justify-content: flex-start;
    align-content: space-between;
 }
 

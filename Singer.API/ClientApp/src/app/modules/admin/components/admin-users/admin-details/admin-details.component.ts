@@ -16,6 +16,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 export class AdminDetailsComponent implements OnInit {
    // Submit event for when the user submits the form
    @Output() submitEvent: EventEmitter<AdminUser> = new EventEmitter();
+   @Output() deleteEvent: EventEmitter<AdminUser> = new EventEmitter();
 
    // Boolean to decide if we are adding a new user or editing an existing one
    isAdding: boolean;
@@ -116,6 +117,11 @@ export class AdminDetailsComponent implements OnInit {
 
       this.updateCurrentAdminUserInstance();
       this.submitEvent.emit(this.adminUser);
+      this.closeForm();
+   }
+
+   emitDeleteEvent() {
+      this.deleteEvent.emit(this.adminUser);
       this.closeForm();
    }
 
