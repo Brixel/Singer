@@ -1,74 +1,46 @@
 <!-- Form Dialog Title -->
-<h2 mat-dialog-title>Toevoegen/bewerken</h2>
+<h2 mat-dialog-title>Admin {{ isAdding ? 'toevoegen' : 'bewerken' }}</h2>
 
 <!-- Form Dialog Content -->
 <mat-dialog-content>
    <!-- Details Form -->
-   <form [formGroup]="formControlGroup" class="details-form-container">
+   <form [formGroup]="formControlGroup" class="form">
       <!-- Personal Fields Title -->
-      <h3 class="section-title">Persoonlijke gegevens</h3>
+      <h3>Persoonlijke gegevens</h3>
       <!-- Name Fields -->
-      <div class="name-fields">
+      <div class="inline-fields">
          <!-- Lastname Field -->
          <mat-form-field>
             <input matInput [placeholder]="lastNameFieldPlaceholder" formControlName="lastNameFieldControl" />
-            <mat-error *ngIf="formControlGroup.controls.lastNameFieldControl.invalid">
-               <div *ngIf="
-                     formControlGroup.controls.lastNameFieldControl.errors
-                        .required
-                  ">
-                  Achternaam is een verplicht veld.
-               </div>
-               <div *ngIf="
-                     formControlGroup.controls.lastNameFieldControl.errors
-                        .minlength
-                  ">
-                  Achternaam moet minstens {{ minNameLength }} karakters
-                  bevatten.
-               </div>
-               <div *ngIf="
-                     formControlGroup.controls.lastNameFieldControl.errors
-                        .maxlength
-                  ">
-                  Achternaam mag maximum {{ maxNameLength }} karakters bevatten.
-               </div>
-               <div *ngIf="
-                     formControlGroup.controls.lastNameFieldControl.errors
-                        .pattern
-                  ">
-                  Gebruik alleen normale karakters in je naam.
-               </div>
+            <mat-error *ngIf="formControlGroup.controls.lastNameFieldControl.errors?.required">
+               Achternaam is een verplicht veld.
+            </mat-error>
+            <mat-error *ngIf="formControlGroup.controls.lastNameFieldControl.errors?.minlength">
+               Achternaam moet minstens {{ minNameLength }} karakters
+               bevatten.
+            </mat-error>
+            <mat-error *ngIf="formControlGroup.controls.lastNameFieldControl.errors?.maxlength">
+               Achternaam mag maximum {{ maxNameLength }} karakters bevatten.
+            </mat-error>
+            <mat-error *ngIf="formControlGroup.controls.lastNameFieldControl.errors?.pattern">
+               Gebruik alleen normale karakters in je naam.
             </mat-error>
          </mat-form-field>
 
          <!-- FirstName Field -->
          <mat-form-field>
             <input matInput [placeholder]="firstNameFieldPlaceholder" formControlName="firstNameFieldControl" />
-            <mat-error *ngIf="formControlGroup.controls.firstNameFieldControl.invalid">
-               <div *ngIf="
-                     formControlGroup.controls.firstNameFieldControl.errors
-                        .required
-                  ">
-                  Voornaam is een verplicht veld.
-               </div>
-               <div *ngIf="
-                     formControlGroup.controls.firstNameFieldControl.errors
-                        .minlength
-                  ">
-                  Voornaam moet minstens {{ minNameLength }} karakters bevatten.
-               </div>
-               <div *ngIf="
-                     formControlGroup.controls.firstNameFieldControl.errors
-                        .maxlength
-                  ">
-                  Voornaam mag maximum {{ maxNameLength }} karakters bevatten.
-               </div>
-               <div *ngIf="
-                     formControlGroup.controls.firstNameFieldControl.errors
-                        .pattern
-                  ">
-                  Gebruik alleen normale karakters in je naam.
-               </div>
+            <mat-error *ngIf="formControlGroup.controls.firstNameFieldControl.errors?.required">
+               Voornaam is een verplicht veld.
+            </mat-error>
+            <mat-error *ngIf="formControlGroup.controls.firstNameFieldControl.errors?.minlength">
+               Voornaam moet minstens {{ minNameLength }} karakters bevatten.
+            </mat-error>
+            <mat-error *ngIf="formControlGroup.controls.firstNameFieldControl.errors?.maxlength">
+               Voornaam mag maximum {{ maxNameLength }} karakters bevatten.
+            </mat-error>
+            <mat-error *ngIf="formControlGroup.controls.firstNameFieldControl.errors?.pattern">
+               Gebruik alleen normale karakters in je naam.
             </mat-error>
          </mat-form-field>
       </div>
@@ -76,20 +48,14 @@
       <!-- Email Field -->
       <mat-form-field>
          <input matInput [placeholder]="emailFieldPlaceholder" formControlName="emailFieldControl" />
-         <mat-error *ngIf="formControlGroup.controls.emailFieldControl.invalid">
-            <div *ngIf="
-                  formControlGroup.controls.emailFieldControl.errors.required
-               ">
-               Email adres is een verplicht veld.
-            </div>
-            <div *ngIf="
-                  formControlGroup.controls.emailFieldControl.errors.maxLength
-               ">
-               Email adres mag maximum {{ maxEmailLength }} karakters bevatten.
-            </div>
-            <div *ngIf="formControlGroup.controls.emailFieldControl.errors.email">
-               Geen geldig mail adres.
-            </div>
+         <mat-error *ngIf="formControlGroup.controls.emailFieldControl.errors?.required">
+            Email adres is een verplicht veld.
+         </mat-error>
+         <mat-error *ngIf="formControlGroup.controls.emailFieldControl.errors?.maxLength">
+            Email adres mag maximum {{ maxEmailLength }} karakters bevatten.
+         </mat-error>
+         <mat-error *ngIf="formControlGroup.controls.emailFieldControl.errors?.email">
+            Geen geldig mail adres.
          </mat-error>
       </mat-form-field>
 
@@ -101,16 +67,15 @@
             Sluiten
          </button>
 
-         <!-- Add Button -->
-         <button mat-raised-button color="primary" (click)="submitForm()" title="Formulier sluiten"
-            aria-label="Formulier sluiten" *ngIf="isAdding">
-            Toevoegen
-         </button>
-
-         <!-- Save Button -->
-         <button mat-raised-button color="primary" (click)="submitForm()" title="Formulier sluiten"
-            aria-label="Formulier sluiten" *ngIf="!isAdding">
-            Opslaan
+         <!-- Submit Button -->
+         <button
+            mat-raised-button
+            color="primary"
+            (click)="submitForm()"
+            title="Formulier sluiten"
+            aria-label="Formulier sluiten"
+         >
+            {{ isAdding ? 'Toevoegen' : 'Opslaan' }}
          </button>
       </mat-dialog-actions>
    </form>
