@@ -8,6 +8,7 @@ import { ApiService } from '../core/services/api.service';
 import { SingerEventsService } from '../core/services/singerevents-api/singerevents.service';
 import { SingerEventsProxy } from '../core/services/singerevents-api/singerevents.proxy';
 import { CoreModule } from '../core/core.module';
+import { AboutComponent } from './components/about/about.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { EventTimelineComponent } from './components/event-timeline/event-timeline.component';
 import { ConfirmComponent } from './components/confirm/confirm.component';
@@ -20,6 +21,7 @@ import { ReactiveFormsModule } from '@angular/forms';
       EventRegistrationComponent,
       UserCardComponent,
       DetailedUserCardComponent,
+      AboutComponent,
       LoadingComponent,
       EventTimelineComponent,
       ConfirmComponent,
@@ -31,6 +33,7 @@ import { ReactiveFormsModule } from '@angular/forms';
       EventRegistrationComponent,
       UserCardComponent,
       DetailedUserCardComponent,
+      AboutComponent,
       LoadingComponent,
       EventTimelineComponent,
       ConfirmComponent,
