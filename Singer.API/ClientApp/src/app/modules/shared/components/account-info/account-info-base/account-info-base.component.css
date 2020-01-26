@@ -87,6 +87,7 @@ mat-icon {
 /*
    Styles
 */
+
 .active-page {
    color: var(--singer-theme-dark-primary-text);
 }
@@ -120,5 +121,4 @@ mat-icon {
       height: 1.5px;
       background-color: #707070;
    }
-
 }

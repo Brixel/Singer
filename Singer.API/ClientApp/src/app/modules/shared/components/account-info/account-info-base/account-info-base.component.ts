@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
    templateUrl: './account-info-base.component.html',
    styleUrls: ['./account-info-base.component.css'],
 })
-export class AccountInfoBaseComponent implements OnInit {
+export class AccountInfoBaseComponent {
 
    navbarLinks: NavbarLinks[] = [
       {
@@ -22,8 +22,6 @@ export class AccountInfoBaseComponent implements OnInit {
    ];
 
    constructor(public router: Router) {}
-
-   ngOnInit() {}
 
    navigate(url: string) :void {
       this.router.navigateByUrl(url);
