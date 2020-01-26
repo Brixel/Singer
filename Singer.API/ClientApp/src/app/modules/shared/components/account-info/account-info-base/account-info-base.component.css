@@ -4,7 +4,8 @@
 
 mat-card {
    margin: 1.5em auto;
-   max-width: 70vw;
+   min-width: 300px;
+   max-width: 1000px;
 }
 
 .main-grid {
@@ -12,7 +13,18 @@ mat-card {
    display: grid;
    grid-template:
       'navbar ngcontent' 100%
-      / 25% auto;
+      / 20em auto;
+}
+
+@media only screen and (max-width: 850px) {
+   .main-grid {
+      min-height: 500px;
+      display: grid;
+      grid-template:
+         'navbar' 13em
+         'ngcontent' auto
+         / auto;
+   }
 }
 
 .main-grid__navbar-grid {
@@ -20,7 +32,7 @@ mat-card {
    grid-area: navbar;
    display: grid;
    grid-template:
-      'header' 20%
+      'header' 7em
       'buttons' auto
       / auto;
 }
@@ -73,6 +85,17 @@ mat-icon {
 }
 
 /*
+   Styles
+*/
+.active-page {
+   color: var(--singer-theme-dark-primary-text);
+}
+
+.cursor--click {
+   cursor: pointer;
+}
+
+/*
    Border
 */
 
@@ -84,4 +107,18 @@ mat-icon {
    right: 0;
    width: 1.5px;
    background-color: #707070;
+}
+
+@media only screen and (max-width: 850px) {
+   .main-grid__navbar-grid ::after {
+      content: '';
+      position: absolute;
+      width: calc(100% + 32px);
+      top: unset;
+      left: -16px;
+      bottom: 0;
+      height: 1.5px;
+      background-color: #707070;
+   }
+
 }
