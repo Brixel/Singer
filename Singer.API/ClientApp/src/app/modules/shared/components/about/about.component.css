@@ -2,3 +2,7 @@ mat-card {
    margin: 1.5em auto;
    max-width: 80vw;
 }
+
+mat-list {
+   margin-left: -0.75em;
+}
