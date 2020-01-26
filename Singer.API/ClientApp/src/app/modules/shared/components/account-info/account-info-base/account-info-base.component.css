@@ -16,7 +16,7 @@ mat-card {
       / 20em auto;
 }
 
-@media only screen and (max-width: 850px) {
+@media only screen and (max-width: 750px) {
    .main-grid {
       min-height: 500px;
       display: grid;
@@ -109,7 +109,7 @@ mat-icon {
    background-color: #707070;
 }
 
-@media only screen and (max-width: 850px) {
+@media only screen and (max-width: 750px) {
    .main-grid__navbar-grid ::after {
       content: '';
       position: absolute;
