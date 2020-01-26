@@ -1,0 +1,87 @@
+/*
+   Layout
+*/
+
+mat-card {
+   margin: 1.5em auto;
+   max-width: 70vw;
+}
+
+.main-grid {
+   min-height: 500px;
+   display: grid;
+   grid-template:
+      'navbar ngcontent' 100%
+      / 25% auto;
+}
+
+.main-grid__navbar-grid {
+   position: relative;
+   grid-area: navbar;
+   display: grid;
+   grid-template:
+      'header' 20%
+      'buttons' auto
+      / auto;
+}
+
+.navbar-grid__header {
+   grid-area: header;
+}
+
+.navbar-grid__buttons {
+   grid-area: buttons;
+}
+
+.main-grid__content {
+   grid-area: ngcontent;
+}
+
+.flex--column {
+   display: flex;
+   flex-direction: column;
+   justify-content: flex-start;
+   align-items: flex-start;
+}
+
+.flex--row {
+   display: flex;
+   flex-direction: row;
+   justify-content: flex-start;
+   align-items: flex-start;
+}
+
+.align--center {
+   align-items: center;
+}
+
+.margin--top {
+   margin-top: 1em;
+}
+
+mat-icon {
+   padding-bottom: 0.75em;
+   margin-right: 0.3em;
+}
+
+/*
+   Font
+*/
+
+.secondary--text {
+   color: var(--singer-theme-dark-secondary-text);
+}
+
+/*
+   Border
+*/
+
+.main-grid__navbar-grid ::after {
+   content: '';
+   position: absolute;
+   height: calc(100% + 32px);
+   top: -16px;
+   right: 0;
+   width: 1.5px;
+   background-color: #707070;
+}

@@ -1,3 +1,21 @@
-<p>
-  account-info-base works!
-</p>
+<mat-card>
+   <div class="main-grid">
+      <div class="main-grid__navbar-grid">
+         <div class="navbar-grid__header flex--column">
+            <mat-card-title>Account</mat-card-title>
+            <p class="margin--top secondary--text">Hier kan u uw gegevens bekijken.</p>
+         </div>
+         <div class="navbar-grid__buttons flex--column">
+            <div class="flex--row align--center">
+               <mat-icon>assignment_ind</mat-icon>
+               <h3>Mijn persoonlijke gegevens</h3>
+            </div>
+            <div class="flex--row align--center">
+               <mat-icon>group</mat-icon>
+               <h3>Mijn zorggebruikers</h3>
+            </div>
+         </div>
+      </div>
+      <ng-content class="main-grid__content"></ng-content>
+   </div>
+</mat-card>

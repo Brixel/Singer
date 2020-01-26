@@ -42,6 +42,9 @@ import { AccountInfoCareusersListComponent } from './components/account-info/acc
       ConfirmComponent,
       DeleteConfirmationComponent,
       DeleteConfirmationDialogComponent,
+      AccountInfoBaseComponent,
+      AccountInfoPageComponent,
+      AccountInfoCareusersListComponent,
    ],
    entryComponents: [
       EventRegistrationComponent,
