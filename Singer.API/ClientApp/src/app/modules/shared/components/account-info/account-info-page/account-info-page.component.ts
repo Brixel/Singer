@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AccountInfoService } from 'src/app/modules/core/services/account-info/account-info.service';
 
 @Component({
   selector: 'app-account-info-page',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AccountInfoPageComponent implements OnInit {
 
-  constructor() { }
+   user: any;
+
+  constructor(private accountInfoService: AccountInfoService) { }
 
   ngOnInit() {
+     this.user = this.accountInfoService.getUserInfo();
   }
 
 }

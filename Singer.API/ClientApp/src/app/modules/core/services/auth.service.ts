@@ -16,6 +16,9 @@ export class AuthService {
    private isAdminSubject = new ReplaySubject<boolean>();
    isAdmin$ = this.isAdminSubject.asObservable();
 
+   private isLegalGuardianSubject = new ReplaySubject<boolean>();
+   isLegalGuardian$ = this.isLegalGuardianSubject.asObservable();
+
    private isAuthenticatedSubject = new ReplaySubject<boolean>();
    isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
@@ -96,6 +99,8 @@ export class AuthService {
       this.getUserInfo().subscribe(res => {
          const isAdmin = res.role === 'Administrator';
          this.isAdminSubject.next(isAdmin);
+         const isLegalGuardian = res.role === 'LegalGuardian';
+         this.isLegalGuardianSubject.next(isLegalGuardian);
          localStorage.setItem('user', JSON.stringify(res));
       });
    }
