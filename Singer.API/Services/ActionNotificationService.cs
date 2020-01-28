@@ -99,7 +99,7 @@ namespace Singer.Services
                emailTemplate += "</ul>";
             }
 
-            emailTemplate += "<br />Met vriendelijke groeten,<br /><br />Sint Gerardus"
+            emailTemplate += "<br />Met vriendelijke groeten,<br /><br />Sint Gerardus";
 
             await _emailService.Send("Inschrijvingen", emailTemplate,
                actionsForCareUser.LegalGuardians.Select(x => x.Email).ToList());
