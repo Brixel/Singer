@@ -30,7 +30,7 @@ export class PendingActionsComponent implements OnInit {
    }
 
    sendEmails(){
-      this.actionNotificationService.sendEmails();
+      this.actionNotificationService.sendEmails().subscribe((res) => console.log(res));
    }
 }
 

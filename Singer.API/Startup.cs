@@ -195,6 +195,8 @@ namespace Singer
                typeof(EmailService<AdminUserDTO>));
             services.AddScoped(typeof(IEmailService<UserDTO>),
                typeof(EmailService<UserDTO>));
+            services.AddScoped(typeof(IEmailService),
+               typeof(EmailService));
 
          }
          else
@@ -205,6 +207,8 @@ namespace Singer
                typeof(NoActualEmailService<AdminUserDTO>));
             services.AddScoped(typeof(IEmailService<UserDTO>),
                typeof(NoActualEmailService<UserDTO>));
+            services.AddScoped(typeof(IEmailService),
+               typeof(NoActualEmailService));
          }
          
          var instrumentationKey = Configuration.GetSection("ApplicationInsights").GetChildren().SingleOrDefault(x => x.Value == "InstrumentationKey")?.Value;

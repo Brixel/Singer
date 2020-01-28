@@ -24,6 +24,14 @@ namespace Singer.Services
          return Task.CompletedTask;
       }
    }
+
+   public class NoActualEmailService : IEmailService
+   {
+      public Task Send(string subject, string body, IReadOnlyList<string> recipients)
+      {
+         return Task.CompletedTask;
+      }
+   }
    public class EmailService<TUserDTO> : IEmailService<TUserDTO>
    where TUserDTO : IUserDTO
    {

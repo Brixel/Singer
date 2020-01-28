@@ -1,6 +1,7 @@
 import { GenericModel } from './generic-model';
 import { RegistrationStatus } from './enum';
 
+
 export class EventRegistrationLogCareUser extends GenericModel {
    id: string;
    careUser: string;
@@ -9,6 +10,8 @@ export class EventRegistrationLogCareUser extends GenericModel {
    registrationStateChanges: CareUserRegistrationStateChanged[] = [];
    registrationLocationChanges: CareUserRegistrationLocationChanged[] = [];
 }
+
+
 
 export class CareUserRegistrationStateChanged{
    eventRegistrationId: string;
@@ -24,4 +27,9 @@ export class CareUserRegistrationLocationChanged{
    eventSlotStartDateTime: Date;
    eventSlotEndDateTime: Date;
    newLocation: string;
+}
+
+export class LegalGuardian{
+   name: string;
+   email: string;
 }

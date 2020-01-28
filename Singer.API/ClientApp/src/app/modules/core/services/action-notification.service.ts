@@ -17,7 +17,7 @@ export class ActionNotificationsService {
 
    fetch() {
       return this.httpClient
-         .get<EventRegistrationLogCareUser[]>('api/actionnotification/pending')
+         .get<EventRegistrationLogCareUserDTO[]>('api/actionnotification/pending')
          .pipe(catchError(error => this.handleError(error)));
    }
 
@@ -26,11 +26,11 @@ export class ActionNotificationsService {
          .pipe(catchError(error => this.handleError(error)));
    }
 
-   toModel(dto: EventRegistrationLogCareUser): EventRegistrationLogCareUser {
+   toModel(dto: EventRegistrationLogCareUserDTO): EventRegistrationLogCareUser {
       return <EventRegistrationLogCareUser>{
          careUser: dto.careUser,
          id: dto.id,
-         legalGuardians: dto.legalGuardians,
+         legalGuardians: dto.legalGuardians.map(x => x.name),
          creationDateTimeUTC: dto.creationDateTimeUTC,
          registrationStateChanges: dto.registrationStateChanges.map(reg => <CareUserRegistrationStateChanged>{
             eventRegistrationId: reg.eventRegistrationId,

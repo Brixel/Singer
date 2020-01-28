@@ -21,8 +21,6 @@ import { ConfirmComponent } from '../shared/components/confirm/confirm.component
       AgegroupToColorPipePipe,
       DailybasisRegistrationsComponent,
       SingleRegistrationComponent,
-      DeleteConfirmationComponent,
-      ConfirmComponent,
       RegistrationStatusPipe,
       SingereventCostPipe,
    ],

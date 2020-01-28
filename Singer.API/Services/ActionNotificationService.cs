@@ -56,12 +56,16 @@ namespace Singer.Services
       {
          var logsAwaitingAction
             = await GetEventRegistrationLogsWaitingForAction(userId);
-         foreach (var actionsForCareUser in logsAwaitingAction)
+         // Only process actions having legal guardians
+         foreach (var actionsForCareUser in logsAwaitingAction
+            .Where(x => x.LegalGuardians.Any()))
          {
-            var careTakers = string.Join(", ", actionsForCareUser.LegalGuardians);
+            var careTakers = string.Join(", ",
+               actionsForCareUser.LegalGuardians
+                  .Select(lg => lg.Name));
             var emailTemplate = $"Beste {careTakers}<br />Er zijn wijzigingen in de inschrijvingen voor" +
                                 $" {actionsForCareUser.CareUser} geweest. Hieronder is een samenvatting:<br /><br />";
-            if (actionsForCareUser.RegistrationStateChanges.Any())
+            if (actionsForCareUser.RegistrationStateChanges.Any() && actionsForCareUser.LegalGuardians.Any())
             {
                emailTemplate += "Goedkeuringen en afkeuringen<br /><ul>";
 
@@ -74,10 +78,8 @@ namespace Singer.Services
                      RegistrationStatus.Rejected => "Afgekeurd",
                      _ => "Afwachting"
                   };
-                  emailTemplate += $"<li>{registration.EventTitle} " +
-                                   $"van {registration.EventSlotStartDateTime:dd-MM-yyyy HH:mm}" +
-                                   $"tot {registration.EventSlotEndDateTime:dd-MM-yyyy HH:mm}:" +
-                                   $"{statusString}</li>";
+                  emailTemplate += GetEmailTemplateForEventSlot(registration.EventTitle,
+                     registration.EventSlotStartDateTime, registration.EventSlotEndDateTime, statusString);
                }
 
                emailTemplate += "</ul>";
@@ -89,18 +91,29 @@ namespace Singer.Services
 
                foreach (var registration in actionsForCareUser.RegistrationLocationChanges)
                {
-                  emailTemplate += $"<li>{registration.EventTitle} " +
-                                   $"van {registration.EventSlotStartDateTime:dd-MM-yyyy HH:mm}" +
-                                   $"tot {registration.EventSlotEndDateTime:dd-MM-yyyy HH:mm}:" +
-                                   $"{registration.NewLocation}</li>";
+                  emailTemplate += GetEmailTemplateForEventSlot(registration.EventTitle,
+                     registration.EventSlotStartDateTime, registration.EventSlotEndDateTime,
+                     registration.NewLocation);
                }
 
                emailTemplate += "</ul>";
             }
 
+            emailTemplate += "<br />Met vriendelijke groeten,<br /><br />Sint Gerardus"
+
             await _emailService.Send("Inschrijvingen", emailTemplate,
                actionsForCareUser.LegalGuardians.Select(x => x.Email).ToList());
          }
+      }
+
+      private static string GetEmailTemplateForEventSlot(string eventTitle,
+         DateTime eventSlotStartDateTime,
+         DateTime eventSlotEndDateTime, string newValue)
+      {
+         return $"<li>{eventTitle} " +
+                $"van {eventSlotStartDateTime:dd-MM-yyyy HH:mm} " +
+                $"tot {eventSlotEndDateTime:dd-MM-yyyy HH:mm}: " +
+                $"{newValue}</li>";
       }
 
       public async Task<List<EventRegistrationLogCareUserDTO>> GetEventRegistrationLogsWaitingForAction(Guid? userId = null)
@@ -203,7 +216,7 @@ namespace Singer.Services
                               EventRegistrationId = eventRegistration.EventRegistration.EventRegistrationId,
                               EventTitle = eventRegistration.EventRegistration.EventTitle,
                               EventSlotStartDateTime = eventRegistration.EventRegistration.EventSlotStartDateTime,
-                              EventSlotEndDateTime = eventRegistration.EventRegistration.EventSlotStartDateTime,
+                              EventSlotEndDateTime = eventRegistration.EventRegistration.EventSlotEndDateTime,
                               NewStatus = eventRegistration.EventRegistration.NewStatus
                            }).ToList()
 
@@ -233,7 +246,7 @@ namespace Singer.Services
                            EventRegistrationId = eventRegistration.EventRegistration.EventRegistrationId,
                            EventTitle = eventRegistration.EventRegistration.EventTitle,
                            EventSlotStartDateTime = eventRegistration.EventRegistration.EventSlotStartDateTime,
-                           EventSlotEndDateTime = eventRegistration.EventRegistration.EventSlotStartDateTime,
+                           EventSlotEndDateTime = eventRegistration.EventRegistration.EventSlotEndDateTime,
                            NewLocation = eventRegistration.EventRegistration.NewLocation
                         }).ToList()
                   };
