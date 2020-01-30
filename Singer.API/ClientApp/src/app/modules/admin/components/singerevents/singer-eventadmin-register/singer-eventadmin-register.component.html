@@ -1,19 +1,18 @@
 <!-- Form Dialog Title -->
-<h2 mat-dialog-title>Zorggebruiker inschrijven voor {{event.title }}</h2>
+<h2 mat-dialog-title>Zorggebruiker inschrijven voor {{ event.title }}</h2>
 
 <!-- Form Dialog Content -->
 
 <mat-dialog-content>
-   <app-care-user-search
-      (userSelected)="userSelected($event)"
-   ></app-care-user-search>
+   <app-care-user-search (userSelected)="userSelected($event)"></app-care-user-search>
    <div *ngIf="userInfo$ | async as userInfo" class="user-info">
       <span>{{ userInfo.name }}</span>
       <span>{{
-         !canRegisterForEvent ? ' kan niet worden ingeschreven voor dit evenement' :
-            userInfo.isRegisteredForAllEventslots
-               ? ' is al ingeschreven voor dit evenement'
-               : ' is nog niet ingeschreven voor dit evenement'
+         !canRegisterForEvent
+            ? ' kan niet worden ingeschreven voor dit evenement'
+            : userInfo.isRegisteredForAllEventslots
+            ? ' is al ingeschreven voor dit evenement'
+            : ' is nog niet ingeschreven voor dit evenement'
       }}</span>
       <div *ngIf="!userInfo.isRegisteredForAllEventSlots && canRegisterForEvent">
          <app-single-registration

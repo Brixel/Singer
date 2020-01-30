@@ -112,14 +112,16 @@ namespace Singer.Controllers
       [HttpPost("{eventId}/registrations/{eventRegistrationId}/accept")]
       public async Task<ActionResult> AcceptRegistration(Guid eventId, Guid eventRegistrationId)
       {
-         var status = await _eventRegistrationService.AcceptRegistration(eventRegistrationId);
+         var userId = Guid.Parse(User.GetSubjectId());
+         var status = await _eventRegistrationService.AcceptRegistration(eventRegistrationId, userId);
          return Ok(status);
       }
 
       [HttpPost("{eventId}/registrations/{eventRegistrationId}/reject")]
       public async Task<ActionResult> RejectRegistration(Guid eventId, Guid eventRegistrationId)
       {
-         var status = await _eventRegistrationService.RejectRegistration(eventRegistrationId);
+         var userId = Guid.Parse(User.GetSubjectId());
+         var status = await _eventRegistrationService.RejectRegistration(eventRegistrationId, userId);
          return Ok(status);
       }
 
@@ -250,7 +252,9 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
       public async Task<ActionResult<DaycareLocationDTO>> Update(Guid eventId, Guid registrationId, [FromBody] Guid locationId)
       {
-         var result = await _eventRegistrationService.UpdateDaycareLocationForRegistration(registrationId, locationId);
+         var userId = Guid.Parse(User.GetSubjectId());
+         var result = await _eventRegistrationService.UpdateDaycareLocationForRegistration(
+            registrationId, locationId, userId);
          return Ok(result);
       }
 

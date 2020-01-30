@@ -130,25 +130,21 @@ export class AdminOverviewComponent implements OnInit, AfterViewInit {
          );
       });
 
-      dialogRef.componentInstance.deleteEvent.subscribe(
-         (result: AdminUser) => {
-            this.adminUserService.delete(result).subscribe(
-               res => {
-                  // Reload AdminUsers
-                  this.loadAdmins();
-                  this._snackBar.open(
-                     `Beheerder ${result.firstName} ${result.lastName} werd verwijderd.`,
-                     'OK',
-                     { duration: 2000 }
-                  );
-               },
-               err => {
-                  this.handleApiError(err);
-                  this.loadAdmins();
-               }
-            );
-         }
-      );
+      dialogRef.componentInstance.deleteEvent.subscribe((result: AdminUser) => {
+         this.adminUserService.delete(result).subscribe(
+            res => {
+               // Reload AdminUsers
+               this.loadAdmins();
+               this._snackBar.open(`Beheerder ${result.firstName} ${result.lastName} werd verwijderd.`, 'OK', {
+                  duration: 2000,
+               });
+            },
+            err => {
+               this.handleApiError(err);
+               this.loadAdmins();
+            }
+         );
+      });
    }
 
    changePassword(row: AdminUser) {

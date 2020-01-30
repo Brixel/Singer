@@ -1,8 +1,8 @@
 .button-row {
    display: flex;
    justify-content: flex-end;
- }
+}
 
- .button-row *:last-child {
+.button-row *:last-child {
    margin-right: 0px;
- }
+}

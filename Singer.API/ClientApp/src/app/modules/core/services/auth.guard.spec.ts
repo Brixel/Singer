@@ -6,13 +6,13 @@ import { MockHttpClient } from 'testing/mock-http-client.helper';
 import { AuthService } from './auth.service';
 
 describe('AuthGuard', () => {
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [AuthGuard, {provide: HttpClient, useValue: MockHttpClient}, AuthService]
-    });
-  });
+   beforeEach(() => {
+      TestBed.configureTestingModule({
+         providers: [AuthGuard, { provide: HttpClient, useValue: MockHttpClient }, AuthService],
+      });
+   });
 
-  it('should ...', inject([AuthGuard], (guard: AuthGuard) => {
-    expect(guard).toBeTruthy();
-  }));
+   it('should ...', inject([AuthGuard], (guard: AuthGuard) => {
+      expect(guard).toBeTruthy();
+   }));
 });

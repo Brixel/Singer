@@ -8,6 +8,7 @@ import { SingerEventOverviewComponent } from './components/singerevents/singerev
 import { AddFamilyWizardComponent } from './components/add-family-wizard/add-family-wizard.component';
 import { MainComponent } from 'src/app/main.component';
 import { PendingRegistrationsComponent } from './components/pending-registrations/pending-registrations.component';
+import { PendingActionsComponent } from './components/pending-actions/pending-actions.component';
 
 const routes: Routes = [
    {
@@ -38,6 +39,10 @@ const routes: Routes = [
          {
             path: 'te-verwerken-inschrijvingen',
             component: PendingRegistrationsComponent,
+         },
+         {
+            path: 'te-verwerken-emails',
+            component: PendingActionsComponent,
          },
       ],
    },

@@ -1,5 +1,5 @@
 <mat-card class="event-registration-card mat-elevation-z0">
-   <div *ngIf="(event$ | async) as event">
+   <div *ngIf="event$ | async as event">
       <mat-card-header>
          <div mat-card-avatar>
             <mat-icon aria-hidden="false" aria-label="Example home icon">
@@ -13,25 +13,19 @@
             {{ event.description }}
          </p>
          <div *ngIf="hasInappropriateCareUsers">
-            Volgende zorggebruikers behoren niet tot de gepaste leeftijdsgroep
-            voor dit evenement:
+            Volgende zorggebruikers behoren niet tot de gepaste leeftijdsgroep voor dit evenement:
             <ng-container *ngFor="let user of event.relevantCareUsers">
-               <h5 *ngIf="!user.appropriateAgeGroup">
-                  {{ user.firstName }} {{ user.lastName }}
-               </h5>
+               <h5 *ngIf="!user.appropriateAgeGroup">{{ user.firstName }} {{ user.lastName }}</h5>
             </ng-container>
          </div>
-         <div
-            class="mat-elevation-z4 timeslot-table"
-            [hidden]="!event.registrationOnDailyBasis"
-         >
-         <app-dailybasis-registrations
-            *ngIf="event.registrationOnDailyBasis"
-            [careUsers]="careUsers"
-            [eventSlots]="event.eventSlots"
-            [eventId]="event.id"
-         >
-         </app-dailybasis-registrations>
+         <div class="mat-elevation-z4 timeslot-table" [hidden]="!event.registrationOnDailyBasis">
+            <app-dailybasis-registrations
+               *ngIf="event.registrationOnDailyBasis"
+               [careUsers]="careUsers"
+               [eventSlots]="event.eventSlots"
+               [eventId]="event.id"
+            >
+            </app-dailybasis-registrations>
          </div>
          <div *ngIf="!event.registrationOnDailyBasis">
             <app-single-registration

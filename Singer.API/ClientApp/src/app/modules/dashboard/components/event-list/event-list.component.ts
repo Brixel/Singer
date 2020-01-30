@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-   EventDescription,
-   EventFilterParameters,
-} from 'src/app/modules/core/models/singerevent.model';
+import { EventDescription, EventFilterParameters } from 'src/app/modules/core/models/singerevent.model';
 import { SingerEventsService } from 'src/app/modules/core/services/singerevents-api/singerevents.service';
 import { LoadingService } from 'src/app/modules/core/services/loading.service';
 
@@ -43,7 +40,7 @@ export class EventListComponent implements OnInit {
    onFilterEvent(filterParameters: EventFilterParameters) {
       this._loadingService.show();
       this._eventService.getPublicEvents(filterParameters).subscribe(res => {
-         this.events = res.sort((a, b)=>{
+         this.events = res.sort((a, b) => {
             return a.startDateTime.getTime() - b.startDateTime.getTime();
          });
          this._loadingService.hide();

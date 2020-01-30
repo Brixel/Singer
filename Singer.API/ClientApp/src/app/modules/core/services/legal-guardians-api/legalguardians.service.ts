@@ -2,11 +2,7 @@ import { Injectable } from '@angular/core';
 import { LegalGuardianProxy } from '../../services/legal-guardians-api/legalguardians.proxy';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import {
-   UpdateLegalGuardianDTO,
-   CreateLegalGuardianDTO,
-   LegalGuardian,
-} from '../../models/legalguardian.model';
+import { UpdateLegalGuardianDTO, CreateLegalGuardianDTO, LegalGuardian } from '../../models/legalguardian.model';
 import { PaginationDTO } from '../../DTOs/pagination.dto';
 
 @Injectable({
@@ -23,13 +19,7 @@ export class LegalguardiansService {
       filter?: string
    ): Observable<PaginationDTO> {
       return this.legalguardianProxy
-         .getLegalGuardians(
-            sortDirection,
-            sortColumn,
-            pageIndex,
-            pageSize,
-            filter
-         )
+         .getLegalGuardians(sortDirection, sortColumn, pageIndex, pageSize, filter)
          .pipe(map(res => res));
    }
 
@@ -60,9 +50,7 @@ export class LegalguardiansService {
          city: createLegalGuardian.city,
          country: createLegalGuardian.country,
       };
-      return this.legalguardianProxy
-         .createLegalGuardian(createLegalGuardianDTO)
-         .pipe(map(res => res));
+      return this.legalguardianProxy.createLegalGuardian(createLegalGuardianDTO).pipe(map(res => res));
    }
 
    deleteLegalGuardian(id: string) {

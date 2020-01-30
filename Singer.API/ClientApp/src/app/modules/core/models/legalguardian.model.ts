@@ -1,9 +1,4 @@
-import {
-   CareUserDTO,
-   CareUser,
-   LinkedCareUserDTO,
-   LinkedCareUser,
-} from './careuser.model';
+import { CareUserDTO, CareUser, LinkedCareUserDTO, LinkedCareUser } from './careuser.model';
 
 export interface LegalGuardianDTO {
    id: string;

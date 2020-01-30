@@ -13,8 +13,6 @@ export function comparePassword(): ValidatorFn {
          verifyPassword.setErrors({ passwordsDontMatch: true });
       }
 
-      return verifyPassword.value !== password.value
-         ? { passwordsDontMatch: true }
-         : null;
+      return verifyPassword.value !== password.value ? { passwordsDontMatch: true } : null;
    };
 }
