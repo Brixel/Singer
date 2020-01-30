@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Singer.DTOs
 {
-   public class EventFilterParameters
+   public class EventFilterParametersDTO
    {
       [Display(
          ResourceType = typeof(DisplayNames),

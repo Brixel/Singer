@@ -66,7 +66,7 @@ namespace Singer.Services
          return filterExpression;
       }
 
-      public async Task<IReadOnlyList<EventDescriptionDTO>> GetPublicEventsAsync(EventFilterParameters eventFilterParametersDto)
+      public async Task<IReadOnlyList<EventDescriptionDTO>> GetPublicEventsAsync(EventFilterParametersDTO eventFilterParametersDtoDto)
       {
          return await Queryable
             .Where(x =>
@@ -75,19 +75,19 @@ namespace Singer.Services
                // Only events today or in the future
                x.EventSlots.OrderBy(y => y.StartDateTime).First().StartDateTime.Date >= DateTime.Now.Date &&
                // check start date
-               (!eventFilterParametersDto.StartDate.HasValue ||
-                  x.EventSlots.OrderBy(y => y.StartDateTime).First().StartDateTime.Date >= eventFilterParametersDto.StartDate.Value.Date) &&
+               (!eventFilterParametersDtoDto.StartDate.HasValue ||
+                  x.EventSlots.OrderBy(y => y.StartDateTime).First().StartDateTime.Date >= eventFilterParametersDtoDto.StartDate.Value.Date) &&
                // check end date
-               (!eventFilterParametersDto.EndDate.HasValue ||
-                  x.EventSlots.OrderBy(y => y.EndDateTime).First().EndDateTime.Date <= eventFilterParametersDto.EndDate.Value.Date) &&
+               (!eventFilterParametersDtoDto.EndDate.HasValue ||
+                  x.EventSlots.OrderBy(y => y.EndDateTime).First().EndDateTime.Date <= eventFilterParametersDtoDto.EndDate.Value.Date) &&
                // check location
-               (!eventFilterParametersDto.LocationId.HasValue || x.LocationId == eventFilterParametersDto.LocationId.Value) &&
+               (!eventFilterParametersDtoDto.LocationId.HasValue || x.LocationId == eventFilterParametersDtoDto.LocationId.Value) &&
                // check allowed agegroups
-               (eventFilterParametersDto.AllowedAgeGroups == null ||
-               eventFilterParametersDto.AllowedAgeGroups.Count == 0 ||
-               eventFilterParametersDto.AllowedAgeGroups.Any(ageGroup => x.AllowedAgeGroups.HasFlag(ageGroup))) &&
+               (eventFilterParametersDtoDto.AllowedAgeGroups == null ||
+               eventFilterParametersDtoDto.AllowedAgeGroups.Count == 0 ||
+               eventFilterParametersDtoDto.AllowedAgeGroups.Any(ageGroup => x.AllowedAgeGroups.HasFlag(ageGroup))) &&
                // check event title
-               (string.IsNullOrEmpty(eventFilterParametersDto.Text) || x.Title.ToLower().Contains(eventFilterParametersDto.Text.ToLower())))
+               (string.IsNullOrEmpty(eventFilterParametersDtoDto.Text) || x.Title.ToLower().Contains(eventFilterParametersDtoDto.Text.ToLower())))
             .Select(x => new EventDescriptionDTO
             {
                Id = x.Id,

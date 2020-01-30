@@ -7,6 +7,6 @@ namespace Singer.Services.Interfaces
 {
    public interface IEventService : IDatabaseService<Event, EventDTO, CreateEventDTO, UpdateEventDTO>
    {
-      Task<IReadOnlyList<EventDescriptionDTO>> GetPublicEventsAsync(EventFilterParameters eventFilterParameters);
+      Task<IReadOnlyList<EventDescriptionDTO>> GetPublicEventsAsync(EventFilterParametersDTO eventFilterParametersDto);
    }
 }
