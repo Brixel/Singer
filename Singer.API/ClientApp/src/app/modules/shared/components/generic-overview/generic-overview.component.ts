@@ -1,9 +1,4 @@
-import {
-   AfterViewInit,
-   ViewChild,
-   ElementRef,
-   ChangeDetectorRef,
-} from '@angular/core';
+import { AfterViewInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { MatPaginator, MatSort } from '@angular/material';
 import { merge, fromEvent } from 'rxjs';
 import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -27,11 +22,7 @@ export abstract class GenericOverviewComponent<
 
    displayedColumns = [];
 
-   constructor(
-      private cd: ChangeDetectorRef,
-      public dataSource: TDataSource,
-      private defaultSortColumn: string
-   ) {}
+   constructor(private cd: ChangeDetectorRef, public dataSource: TDataSource, private defaultSortColumn: string) {}
 
    ngOnInit() {
       this.displayedColumns.push('actions');
@@ -69,15 +60,7 @@ export abstract class GenericOverviewComponent<
    protected loadData() {
       const sortDirection = this.sort.direction;
       const sortColumn = this.sort.active;
-      this.filter = this.filterInput
-         ? this.filterInput.nativeElement.value
-         : '';
-      this.dataSource.load(
-         sortDirection,
-         sortColumn,
-         this.pageIndex,
-         this.pageSize,
-         this.filter
-      );
+      this.filter = this.filterInput ? this.filterInput.nativeElement.value : '';
+      this.dataSource.load(sortDirection, sortColumn, this.pageIndex, this.pageSize, this.filter);
    }
 }

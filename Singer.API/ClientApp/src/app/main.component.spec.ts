@@ -4,25 +4,23 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MainComponent } from './main.component';
 
 describe('MainComponent', () => {
-  let component: MainComponent;
-  let fixture: ComponentFixture<MainComponent>;
+   let component: MainComponent;
+   let fixture: ComponentFixture<MainComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ MainComponent ],
-      imports: [RouterTestingModule, HttpClientTestingModule]
+   beforeEach(async(() => {
+      TestBed.configureTestingModule({
+         declarations: [MainComponent],
+         imports: [RouterTestingModule, HttpClientTestingModule],
+      }).compileComponents();
+   }));
 
-   })
-    .compileComponents();
-  }));
+   beforeEach(() => {
+      fixture = TestBed.createComponent(MainComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+   });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(MainComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+   it('should create', () => {
+      expect(component).toBeTruthy();
+   });
 });

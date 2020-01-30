@@ -1,16 +1,5 @@
-import {
-   AfterViewInit,
-   Component,
-   ViewChild,
-   ElementRef,
-   OnInit,
-} from '@angular/core';
-import {
-   MatPaginator,
-   MatSort,
-   MatDialog,
-   MatSnackBar,
-} from '@angular/material';
+import { AfterViewInit, Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { MatPaginator, MatSort, MatDialog, MatSnackBar } from '@angular/material';
 import { LegalguardianOverviewDataSource } from './legalguardian-overview-datasource';
 import { LegalguardiansService } from 'src/app/modules/core/services/legal-guardians-api/legalguardians.service';
 import { LegalGuardian } from 'src/app/modules/core/models/legalguardian.model';
@@ -26,7 +15,6 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
    styleUrls: ['./legalguardian-overview.component.css'],
 })
 export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
-
    @ViewChild(MatPaginator) paginator: MatPaginator;
    @ViewChild(MatSort) sort: MatSort;
    @ViewChild('filterInput') filterInput: ElementRef;
@@ -38,9 +26,7 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
 
    formControlGroup: FormGroup = new FormGroup({
       // Form controls
-      filterFieldControl: new FormControl(this.filter, [
-         Validators.maxLength(this.maxFilterLength),
-      ]),
+      filterFieldControl: new FormControl(this.filter, [Validators.maxLength(this.maxFilterLength)]),
    });
 
    // Datatable
@@ -61,9 +47,7 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
    ) {}
 
    ngOnInit() {
-      this.dataSource = new LegalguardianOverviewDataSource(
-         this._legalguardiansService
-      );
+      this.dataSource = new LegalguardianOverviewDataSource(this._legalguardiansService);
       this.sort.active = 'firstName';
       this.sort.direction = 'asc';
       this.loadLegalGuardians();
@@ -103,90 +87,68 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
       const sortDirection = this.sort.direction;
       const sortColumn = this.sort.active;
       this.filter = this.filterInput.nativeElement.value;
-      this.dataSource.loadLegalGuardians(
-         sortDirection,
-         sortColumn,
-         this.pageIndex,
-         this.pageSize,
-         this.filter
-      );
+      this.dataSource.loadLegalGuardians(sortDirection, sortColumn, this.pageIndex, this.pageSize, this.filter);
    }
 
    addLegalGuardian(): void {
       const dialogRef = this.dialog.open(LegalguardianDetailsComponent, {
-         data: { legalGuardianInstance: null, displayLinkedUserFields: false, },
+         data: { legalGuardianInstance: null, displayLinkedUserFields: false },
          width: '80vw',
       });
 
-      dialogRef.componentInstance.submitEvent.subscribe(
-         (result: LegalGuardian) => {
-            // Add the legal guardian
-            this._legalguardiansService.createLegalGuardian(result).subscribe(
-               res => {
-                   // Reload LegalGuardians
-                  this.loadLegalGuardians();
+      dialogRef.componentInstance.submitEvent.subscribe((result: LegalGuardian) => {
+         // Add the legal guardian
+         this._legalguardiansService.createLegalGuardian(result).subscribe(
+            res => {
+               // Reload LegalGuardians
+               this.loadLegalGuardians();
 
-                  this._snackBar.open(
-                     `${result.firstName} ${result.lastName} werd toegevoegd als voogd.`,
-                     'OK',
-                     { duration: 2000 }
-                  );
-               },
-               err => {
-                  this.handleApiError(err);
-               }
-            );
-         }
-      );
+               this._snackBar.open(`${result.firstName} ${result.lastName} werd toegevoegd als voogd.`, 'OK', {
+                  duration: 2000,
+               });
+            },
+            err => {
+               this.handleApiError(err);
+            }
+         );
+      });
    }
 
    selectRow(row: LegalGuardian): void {
       //Dereference row to avoid updating row in overview when API might refuse the update
       const deRefRow = { ...row };
       const dialogRef = this.dialog.open(LegalguardianDetailsComponent, {
-         data: { legalGuardianInstance: deRefRow, displayLinkedUserFields: true, },
+         data: { legalGuardianInstance: deRefRow, displayLinkedUserFields: true },
          width: '80vw',
       });
 
-      dialogRef.componentInstance.submitEvent.subscribe(
-         (result: LegalGuardian) => {
-            //Update the legal guardian
-            this._legalguardiansService.updateLegalGuardian(result).subscribe(
-               res => {
-                  // Reload LegalGuardians
-                  this.loadLegalGuardians();
-                  this._snackBar.open(
-                     `${result.firstName} ${result.lastName} werd aangepast.`,
-                     'OK',
-                     { duration: 2000 }
-                  );
-               },
-               err => {
-                  this.handleApiError(err);
-               }
-            );
-         }
-      );
+      dialogRef.componentInstance.submitEvent.subscribe((result: LegalGuardian) => {
+         //Update the legal guardian
+         this._legalguardiansService.updateLegalGuardian(result).subscribe(
+            res => {
+               // Reload LegalGuardians
+               this.loadLegalGuardians();
+               this._snackBar.open(`${result.firstName} ${result.lastName} werd aangepast.`, 'OK', { duration: 2000 });
+            },
+            err => {
+               this.handleApiError(err);
+            }
+         );
+      });
 
-      dialogRef.componentInstance.deleteEvent.subscribe(
-         (result: LegalGuardian) => {
-            this._legalguardiansService.deleteLegalGuardian(result.id).subscribe(
-               res => {
-                  // Reload LegalGuardians
-                  this.loadLegalGuardians();
-                  this._snackBar.open(
-                     `${result.firstName} ${result.lastName} werd verwijderd.`,
-                     'OK',
-                     { duration: 2000 }
-                  );
-               },
-               err => {
-                  this.handleApiError(err);
-                  this.loadLegalGuardians();
-               }
-            );
-         }
-      );
+      dialogRef.componentInstance.deleteEvent.subscribe((result: LegalGuardian) => {
+         this._legalguardiansService.deleteLegalGuardian(result.id).subscribe(
+            res => {
+               // Reload LegalGuardians
+               this.loadLegalGuardians();
+               this._snackBar.open(`${result.firstName} ${result.lastName} werd verwijderd.`, 'OK', { duration: 2000 });
+            },
+            err => {
+               this.handleApiError(err);
+               this.loadLegalGuardians();
+            }
+         );
+      });
    }
 
    handleApiError(err: any) {
@@ -197,15 +159,9 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
          for (var k in err) {
             messages.push(err[k]);
          }
-         this._snackBar.open(
-            `⚠ Er zijn fouten opgetreden bij het opslagen:\n${messages.join(
-               '\n'
-            )}`,
-            'OK',
-            {
-               panelClass: 'multi-line-snackbar',
-            }
-         );
+         this._snackBar.open(`⚠ Er zijn fouten opgetreden bij het opslagen:\n${messages.join('\n')}`, 'OK', {
+            panelClass: 'multi-line-snackbar',
+         });
       }
    }
 }

@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.1.0-issue-AB-131.1252",
+   "version": "0.1.0-style-autoformat-clientapp.1298",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",

@@ -11,22 +11,12 @@ import { DaycareLocationDTO } from '../../core/DTOs/daycarelocation.dto';
 export class SingerAdminEventService {
    constructor(private singerAdminEventProxy: SingerAdminEventProxy) {}
 
-   acceptRegistration(
-      eventId: string,
-      eventRegistrationId: string
-   ): Observable<RegistrationStatus> {
-      return this.singerAdminEventProxy
-         .acceptRegistration(eventId, eventRegistrationId)
-         .pipe(map(res => res));
+   acceptRegistration(eventId: string, eventRegistrationId: string): Observable<RegistrationStatus> {
+      return this.singerAdminEventProxy.acceptRegistration(eventId, eventRegistrationId).pipe(map(res => res));
    }
 
-   rejectRegistration(
-      eventId: string,
-      eventRegistrationId: string
-   ): Observable<RegistrationStatus> {
-      return this.singerAdminEventProxy
-         .rejectRegistration(eventId, eventRegistrationId)
-         .pipe(map(res => res));
+   rejectRegistration(eventId: string, eventRegistrationId: string): Observable<RegistrationStatus> {
+      return this.singerAdminEventProxy.rejectRegistration(eventId, eventRegistrationId).pipe(map(res => res));
    }
 
    updateDaycareLocation(

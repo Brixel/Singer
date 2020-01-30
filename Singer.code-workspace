@@ -8,6 +8,8 @@
       "editor.tabSize": 3,
       "editor.insertSpaces": true,
       "editor.detectIndentation": false,
-      "workbench.colorCustomizations": {}
+      "workbench.colorCustomizations": {},
+      "editor.formatOnSave": true,
+      "editor.formatOnPaste": true
    }
 }

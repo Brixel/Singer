@@ -6,17 +6,16 @@ import { AuthGuard } from '../core/services/auth.guard';
 
 const routes: Routes = [
    {
-       path: '',
-       component: DashboardComponent
+      path: '',
+      component: DashboardComponent,
    },
    {
       path: '/about',
       component: AboutComponent,
-      canActivate: [AuthGuard]
-   }
+      canActivate: [AuthGuard],
+   },
 ];
 @NgModule({
-   imports: [RouterModule.forChild(routes)]
+   imports: [RouterModule.forChild(routes)],
 })
-
 export class DashboardRoutingModule {}

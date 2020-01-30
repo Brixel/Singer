@@ -16,8 +16,7 @@
                Achternaam is een verplicht veld.
             </mat-error>
             <mat-error *ngIf="formControlGroup.controls.lastNameFieldControl.errors?.minlength">
-               Achternaam moet minstens {{ minNameLength }} karakters
-               bevatten.
+               Achternaam moet minstens {{ minNameLength }} karakters bevatten.
             </mat-error>
             <mat-error *ngIf="formControlGroup.controls.lastNameFieldControl.errors?.maxlength">
                Achternaam mag maximum {{ maxNameLength }} karakters bevatten.
@@ -62,21 +61,36 @@
       <!-- Button Row -->
       <mat-dialog-actions class="button-row">
          <!-- Delete Button -->
-         <app-delete-confirmation deleteButtonText="Beheerder Verwijderen" [name]="adminUser.firstName"
-            (delete)="emitDeleteEvent()" class="margin--right" *ngIf="!isAdding"></app-delete-confirmation>
+         <app-delete-confirmation
+            deleteButtonText="Beheerder Verwijderen"
+            [name]="adminUser.firstName"
+            (delete)="emitDeleteEvent()"
+            class="margin--right"
+            *ngIf="!isAdding"
+         ></app-delete-confirmation>
 
          <!-- Spacer -->
          <span class="flex--spacer"></span>
 
          <!-- Close Button -->
-         <button mat-raised-button (click)="closeForm()" title="Formulier sluiten" aria-label="Formulier sluiten"
-            type="button">
+         <button
+            mat-raised-button
+            (click)="closeForm()"
+            title="Formulier sluiten"
+            aria-label="Formulier sluiten"
+            type="button"
+         >
             Sluiten
          </button>
 
          <!-- Submit Button -->
-         <button mat-raised-button color="primary" (click)="submitForm()" title="Formulier sluiten"
-            aria-label="Formulier sluiten">
+         <button
+            mat-raised-button
+            color="primary"
+            (click)="submitForm()"
+            title="Formulier sluiten"
+            aria-label="Formulier sluiten"
+         >
             {{ isAdding ? 'Toevoegen' : 'Opslaan' }}
          </button>
       </mat-dialog-actions>

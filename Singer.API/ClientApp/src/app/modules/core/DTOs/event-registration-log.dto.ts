@@ -9,24 +9,24 @@ export interface EventRegistrationLogCareUserDTO {
    registrationLocationChanges: CareUserRegistrationLocationChangedDTO[];
 }
 
-export interface EventRegistrationLogCareUserRegistrationDTO{
+export interface EventRegistrationLogCareUserRegistrationDTO {
    eventRegistrationId: string;
    eventTitle: string;
    eventSlotStartDateTime: Date;
    eventSlotEndDateTime: Date;
 }
-export interface LegalGuardianDTO{
+export interface LegalGuardianDTO {
    name: string;
    email: string;
 }
-export interface CareUserRegistrationStateChangedDTO{
+export interface CareUserRegistrationStateChangedDTO {
    eventRegistrationId: string;
    eventTitle: string;
    eventSlotStartDateTime: Date;
    eventSlotEndDateTime: Date;
    newStatus: RegistrationStatus;
 }
-export interface CareUserRegistrationLocationChangedDTO{
+export interface CareUserRegistrationLocationChangedDTO {
    eventRegistrationId: string;
    eventTitle: string;
    eventSlotStartDateTime: Date;

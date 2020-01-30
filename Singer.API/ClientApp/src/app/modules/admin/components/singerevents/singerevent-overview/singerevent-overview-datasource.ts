@@ -6,7 +6,6 @@ import { SingerEvent } from 'src/app/modules/core/models/singerevent.model';
 
 /** Data source for the EventsOverview view.*/
 export class SingerEventOverviewDataSource extends DataSource<SingerEvent> {
-
    private singerEventsSubject$ = new BehaviorSubject<SingerEvent[]>([]);
    private totalSizeSubject$ = new BehaviorSubject<number>(0);
    private queryCountSubject$ = new BehaviorSubject<number>(0);
@@ -29,17 +28,13 @@ export class SingerEventOverviewDataSource extends DataSource<SingerEvent> {
       filter?: string
    ) {
       this.loadingSubject$.next(true);
-      this.singerEventsService
-         .fetch(sortDirection, sortColumn, pageIndex, pageSize, filter)
-         .subscribe(res => {
-            let models = res.items.map(x =>
-               this.singerEventsService.toModel(x)
-            );
-            this.singerEventsSubject$.next(models);
-            this.totalSizeSubject$.next(res.totalSize);
-            this.queryCountSubject$.next(res.size);
-            this.loadingSubject$.next(false);
-         });
+      this.singerEventsService.fetch(sortDirection, sortColumn, pageIndex, pageSize, filter).subscribe(res => {
+         let models = res.items.map(x => this.singerEventsService.toModel(x));
+         this.singerEventsSubject$.next(models);
+         this.totalSizeSubject$.next(res.totalSize);
+         this.queryCountSubject$.next(res.size);
+         this.loadingSubject$.next(false);
+      });
    }
 
    connect(collectionViewer: CollectionViewer): Observable<SingerEvent[]> {

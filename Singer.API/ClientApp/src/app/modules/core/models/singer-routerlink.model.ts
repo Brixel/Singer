@@ -6,7 +6,7 @@ export interface SingerRouterLink {
 
 export enum singerRouterLinkRequirements {
    none = 'none',
-   isAuthenticated= 'isAuthenticated',
+   isAuthenticated = 'isAuthenticated',
    isAdmin = 'isAdmin',
    isNotAuthenticated = 'isNotAuthenticated',
 }

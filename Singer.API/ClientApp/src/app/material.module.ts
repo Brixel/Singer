@@ -91,7 +91,7 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
       MatSnackBarModule,
       MatProgressSpinnerModule,
       MatStepperModule,
-      MatExpansionModule
+      MatExpansionModule,
    ],
    providers: [{ provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }],
 })

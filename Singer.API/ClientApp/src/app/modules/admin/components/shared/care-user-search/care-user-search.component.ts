@@ -1,12 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import {
-   startWith,
-   debounceTime,
-   switchMap,
-   map,
-   catchError,
-} from 'rxjs/operators';
+import { startWith, debounceTime, switchMap, map, catchError } from 'rxjs/operators';
 import { of, Observable, Subject } from 'rxjs';
 import { CareUser, CareUserDTO } from 'src/app/modules/core/models/careuser.model';
 import { CareUserService } from 'src/app/modules/core/services/care-users-api/careusers.service';
@@ -41,9 +35,7 @@ export class CareUserSearchComponent implements OnInit {
    }
 
    careUserLookup(value: string): Observable<CareUserDTO[]> {
-      return this._careUserService
-         .fetchCareUsersData('asc', 'firstName', 0, 15, value)
-         .pipe(map(res => res.items));
+      return this._careUserService.fetchCareUsersData('asc', 'firstName', 0, 15, value).pipe(map(res => res.items));
    }
 
    selectCareUser(careUser: CareUserDTO, event: MatOptionSelectionChange) {
@@ -53,8 +45,6 @@ export class CareUserSearchComponent implements OnInit {
    }
 
    showUserNameFn(careUser?: CareUser): string | undefined {
-      return careUser
-         ? `${careUser.firstName} ${careUser.lastName}`
-         : undefined;
+      return careUser ? `${careUser.firstName} ${careUser.lastName}` : undefined;
    }
 }
