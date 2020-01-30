@@ -17,25 +17,20 @@
          </th>
          <td mat-cell *matCellDef="let row" class="user-column">
             <mat-icon
-               *ngIf="
-                  getSlotRegistrationStatus(row.registrations, user.careUserId) == 1"
+               *ngIf="getSlotRegistrationStatus(row.registrations, user.careUserId) == 1"
                class="registration-pending"
                matTooltip="Aanvraag tot inschrijving ontvangen, moet nog bevestigd worden door Sint-Gerardus"
             >
                access_time
             </mat-icon>
             <mat-icon
-               *ngIf="
-                  getSlotRegistrationStatus(row.registrations, user.careUserId) == 2
-               "
+               *ngIf="getSlotRegistrationStatus(row.registrations, user.careUserId) == 2"
                class="registration-accepted"
                matTooltip="Inschrijving vastgelegd en bevestigd door Sint-Gerardus"
                >check_circle_outline</mat-icon
             >
             <mat-icon
-               *ngIf="
-                  getSlotRegistrationStatus(row.registrations, user.careUserId) == 4
-               "
+               *ngIf="getSlotRegistrationStatus(row.registrations, user.careUserId) == 4"
                class="registration-rejected"
                matTooltip="Aanvraag tot inschrijving ontvangen, deze werd echter geweigerd door Sint-Gerardus"
                >error_outline</mat-icon
@@ -44,9 +39,7 @@
                mat-icon-button
                color="primary"
                (click)="registerCareUserOnEventSlot(row.id, user)"
-               *ngIf="
-                  getSlotRegistrationStatus(row.registrations, user.careUserId) == 0
-               "
+               *ngIf="getSlotRegistrationStatus(row.registrations, user.careUserId) == 0"
                matTooltip="Aanvraag tot inschrijving indienen"
             >
                <mat-icon>add_circle</mat-icon>

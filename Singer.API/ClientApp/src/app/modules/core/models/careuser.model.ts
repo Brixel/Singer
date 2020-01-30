@@ -1,8 +1,5 @@
 import { AgeGroup } from './enum';
-import {
-   LinkedLegalGuardianDTO,
-   LinkedLegalGuardian,
-} from './legalguardian.model';
+import { LinkedLegalGuardianDTO, LinkedLegalGuardian } from './legalguardian.model';
 import { SingerEventLocation } from './singerevent.model';
 
 export interface CareUserDTO {

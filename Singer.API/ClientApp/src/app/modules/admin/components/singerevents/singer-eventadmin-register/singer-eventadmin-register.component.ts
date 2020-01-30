@@ -1,10 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import {
-   SingerEvent,
-   EventSlotRegistrations,
-   UserInfo,
-} from 'src/app/modules/core/models/singerevent.model';
+import { SingerEvent, EventSlotRegistrations, UserInfo } from 'src/app/modules/core/models/singerevent.model';
 import { SingerEventsService } from 'src/app/modules/core/services/singerevents-api/singerevents.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import {
@@ -41,11 +37,9 @@ export class SingerEventAdminRegisterComponent implements OnInit {
    }
 
    ngOnInit() {
-      this.singerEventService
-         .getEventRegisterDetails(this.event.id)
-         .subscribe(res => {
-            this.eventSlots = res.eventSlots;
-         });
+      this.singerEventService.getEventRegisterDetails(this.event.id).subscribe(res => {
+         this.eventSlots = res.eventSlots;
+      });
    }
 
    close() {
@@ -53,33 +47,25 @@ export class SingerEventAdminRegisterComponent implements OnInit {
    }
 
    userSelected(careUser: CareUserDTO) {
-      this.singerEventService
-         .isUserRegisteredForEvent(this.event.id, careUser.id)
-         .subscribe(res => {
-            const userInfo = <UserInfo>{
-               careUserId: res.careUserId,
-               name: `${careUser.firstName} ${careUser.lastName}`,
-               isRegisteredForAllEventslots: res.isRegisteredForAllEventslots,
-               status: res.status,
-            };
-            this._userInfoSubject.next(userInfo);
-            this.canRegisterForEvent = this.canBeRegisteredForEvent(
-               this.event.allowedAgeGroups,
-               careUser.ageGroup
-            );
-            this.careUsers = [];
-            const registrant = <Registrant>{
-               careUserId: userInfo.careUserId,
-               name: userInfo.name,
-               registrationStatus: userInfo.status,
-            };
-            this.careUsers = [registrant];
-         });
+      this.singerEventService.isUserRegisteredForEvent(this.event.id, careUser.id).subscribe(res => {
+         const userInfo = <UserInfo>{
+            careUserId: res.careUserId,
+            name: `${careUser.firstName} ${careUser.lastName}`,
+            isRegisteredForAllEventslots: res.isRegisteredForAllEventslots,
+            status: res.status,
+         };
+         this._userInfoSubject.next(userInfo);
+         this.canRegisterForEvent = this.canBeRegisteredForEvent(this.event.allowedAgeGroups, careUser.ageGroup);
+         this.careUsers = [];
+         const registrant = <Registrant>{
+            careUserId: userInfo.careUserId,
+            name: userInfo.name,
+            registrationStatus: userInfo.status,
+         };
+         this.careUsers = [registrant];
+      });
    }
-   private canBeRegisteredForEvent(
-      allowedAgeGroups: AgeGroup[],
-      ageGroupOfUser: AgeGroup
-   ) {
+   private canBeRegisteredForEvent(allowedAgeGroups: AgeGroup[], ageGroupOfUser: AgeGroup) {
       return allowedAgeGroups.includes(ageGroupOfUser);
    }
 }

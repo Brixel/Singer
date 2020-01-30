@@ -11,20 +11,12 @@ import { CoreModule } from '../core/core.module';
 import { CareUserDetailsComponent } from './components/careusers/careuser-details/care-user-details.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { KeysPipe } from '../core/Pipes/keys.pipe';
-import {
-   MatTableModule,
-   MatPaginatorModule,
-   MatSortModule,
-   MAT_DATE_LOCALE,
-} from '@angular/material';
+import { MatTableModule, MatPaginatorModule, MatSortModule, MAT_DATE_LOCALE } from '@angular/material';
 import { LegalguardianOverviewComponent } from './components/legalguardians/legalguardian-overview/legalguardian-overview.component';
 import { LegalguardianDetailsComponent } from './components/legalguardians/legalguardian-details/legalguardian-details.component';
 import { LegalGuardianProxy } from '../core/services/legal-guardians-api/legalguardians.proxy';
 import { LegalguardiansService } from '../core/services/legal-guardians-api/legalguardians.service';
-import {
-   MatMomentDateModule,
-   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
-} from '@angular/material-moment-adapter';
+import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { SingerEventOverviewComponent } from './components/singerevents/singerevent-overview/singerevent-overview.component';
 import { SingerEventsProxy } from '../core/services/singerevents-api/singerevents.proxy';
 import { SingerEventsService } from '../core/services/singerevents-api/singerevents.service';

@@ -7,8 +7,8 @@ import { AuthService } from 'src/app/modules/core/services/auth.service';
    styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
-   isAuthenticated:boolean = false;
-   isAdmin:boolean = false;
+   isAuthenticated: boolean = false;
+   isAdmin: boolean = false;
 
    constructor(private authService: AuthService) {}
 

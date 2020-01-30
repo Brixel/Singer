@@ -6,15 +6,11 @@ import { AppInsightsService } from '@markpieszak/ng-application-insights';
    providedIn: 'root',
 })
 export class ApplicationInsightsService {
-   constructor(
-      private _configurationService: ConfigurationService,
-      private _appInsightsService: AppInsightsService
-   ) {}
+   constructor(private _configurationService: ConfigurationService, private _appInsightsService: AppInsightsService) {}
 
    init() {
       this._appInsightsService.config = {
-         instrumentationKey: this._configurationService.configuration
-            .applicationinsights_intrumentationkey,
+         instrumentationKey: this._configurationService.configuration.applicationinsights_intrumentationkey,
       };
       // then make sure to initialize and start-up app insights
       this._appInsightsService.init();

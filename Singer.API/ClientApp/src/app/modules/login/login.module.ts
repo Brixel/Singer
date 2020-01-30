@@ -14,13 +14,7 @@ const ROUTES: Routes = [
 
 @NgModule({
    declarations: [AuthComponent, ResetPasswordComponent],
-   imports: [
-      CommonModule,
-      RouterModule.forChild(ROUTES),
-      MaterialModule,
-      FormsModule,
-      ReactiveFormsModule,
-   ],
+   imports: [CommonModule, RouterModule.forChild(ROUTES), MaterialModule, FormsModule, ReactiveFormsModule],
    providers: [],
 })
 export class LoginModule {}

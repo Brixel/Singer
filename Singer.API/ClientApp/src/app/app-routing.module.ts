@@ -3,12 +3,10 @@ import { NgModule } from '@angular/core';
 import { MainComponent } from './main.component';
 
 const routes: Routes = [
-   { path: 'login',
-      loadChildren: './modules/login/login.module#LoginModule'
-   },
+   { path: 'login', loadChildren: './modules/login/login.module#LoginModule' },
    {
       path: 'auth',
-      loadChildren: './modules/login/login.module#LoginModule'
+      loadChildren: './modules/login/login.module#LoginModule',
    },
    {
       path: 'dashboard',

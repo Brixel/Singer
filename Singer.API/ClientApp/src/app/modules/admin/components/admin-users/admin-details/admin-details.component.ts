@@ -1,10 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { AdminUser } from 'src/app/modules/core/models/adminuser.model';
-import {
-   FormGroup,
-   FormControl,
-   Validators,
-} from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
@@ -81,28 +77,16 @@ export class AdminDetailsComponent implements OnInit {
    }
 
    private loadCurrentAdminUserInstanceValues() {
-      this.formControlGroup.controls['firstNameFieldControl'].setValue(
-         this.adminUser.firstName
-      );
-      this.formControlGroup.controls['lastNameFieldControl'].setValue(
-         this.adminUser.lastName
-      );
-      this.formControlGroup.controls['emailFieldControl'].setValue(
-         this.adminUser.email
-      );
+      this.formControlGroup.controls['firstNameFieldControl'].setValue(this.adminUser.firstName);
+      this.formControlGroup.controls['lastNameFieldControl'].setValue(this.adminUser.lastName);
+      this.formControlGroup.controls['emailFieldControl'].setValue(this.adminUser.email);
    }
 
    // Load form field values into current admin user instance
    private updateCurrentAdminUserInstance() {
-      this.adminUser.firstName = this.formControlGroup.get(
-         'firstNameFieldControl'
-      ).value;
-      this.adminUser.lastName = this.formControlGroup.get(
-         'lastNameFieldControl'
-      ).value;
-      this.adminUser.email = this.formControlGroup.get(
-         'emailFieldControl'
-      ).value;
+      this.adminUser.firstName = this.formControlGroup.get('firstNameFieldControl').value;
+      this.adminUser.lastName = this.formControlGroup.get('lastNameFieldControl').value;
+      this.adminUser.email = this.formControlGroup.get('emailFieldControl').value;
    }
 
    submitForm() {
