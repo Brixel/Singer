@@ -8,6 +8,7 @@ import { AgegroupToColorPipePipe } from './Pipes/agegroup-to-color-pipe.pipe';
 import { DailybasisRegistrationsComponent } from './components/dailybasis-registrations/dailybasis-registrations.component';
 import { SingleRegistrationComponent } from './components/single-registration/single-registration.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RegistrationStatusPipe } from './services/registration-status.pipe';
 import { SingereventCostPipe } from './Pipes/singerevent-cost.pipe';
 
 @NgModule({
@@ -18,10 +19,12 @@ import { SingereventCostPipe } from './Pipes/singerevent-cost.pipe';
       AgegroupToColorPipePipe,
       DailybasisRegistrationsComponent,
       SingleRegistrationComponent,
+      RegistrationStatusPipe,
       SingereventCostPipe,
    ],
    imports: [CommonModule, MaterialModule, ReactiveFormsModule],
    exports: [
+      RegistrationStatusPipe,
       AgegroupPipe,
       KeysPipe,
       AgegroupChipsComponent,

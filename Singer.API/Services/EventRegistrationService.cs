@@ -21,8 +21,12 @@ namespace Singer.Services
 {
    public class EventRegistrationService : IEventRegistrationService
    {
-      public EventRegistrationService(ApplicationDbContext context, IMapper mapper)
+      private readonly IActionNotificationService _actionNotificationService;
+
+      public EventRegistrationService(ApplicationDbContext context, IMapper mapper,
+         IActionNotificationService actionNotificationService)
       {
+         _actionNotificationService = actionNotificationService;
          Context = context;
          Mapper = mapper;
       }
@@ -327,27 +331,43 @@ namespace Singer.Services
          return registration;
       }
 
-      public async Task<RegistrationStatus> AcceptRegistration(Guid registrationId)
+      public async Task<RegistrationStatus> AcceptRegistration(Guid registrationId, Guid executedByUserId)
       {
          var registration = await Context.EventRegistrations.SingleAsync(x => x.Id == registrationId);
+         var originalStatus = registration.Status;
          registration.Status = RegistrationStatus.Accepted;
+
+         await _actionNotificationService.RegisterEventRegistrationStatusChange(
+            registrationId, executedByUserId, originalStatus, registration.Status);
+
          await Context.SaveChangesAsync();
          return registration.Status;
       }
 
-      public async Task<RegistrationStatus> RejectRegistration(Guid registrationId)
+      public async Task<RegistrationStatus> RejectRegistration(Guid registrationId, Guid executedByUserId)
       {
          var registration = await Context.EventRegistrations.SingleAsync(x => x.Id == registrationId);
+         var previousRegistrationStatus = registration.Status;
          registration.Status = RegistrationStatus.Rejected;
+
+         await _actionNotificationService.RegisterEventRegistrationStatusChange(registrationId,executedByUserId,
+            previousRegistrationStatus, registration.Status);
+
          await Context.SaveChangesAsync();
+
          return registration.Status;
       }
 
-      public async Task<DaycareLocationDTO> UpdateDaycareLocationForRegistration(Guid registrationId, Guid locationId)
+      public async Task<DaycareLocationDTO> UpdateDaycareLocationForRegistration(Guid registrationId,
+         Guid locationId, Guid executedByUserId)
       {
          var location = await Context.EventLocations.SingleAsync(x => x.Id == locationId);
          var registration = await Context.EventRegistrations.SingleAsync(x => x.Id == registrationId);
          registration.DaycareLocationId = locationId;
+
+         await _actionNotificationService.RegisterEventRegistrationLocationChange(registrationId, executedByUserId,
+            location.Id, locationId);
+
          await Context.SaveChangesAsync();
          return new DaycareLocationDTO()
          {

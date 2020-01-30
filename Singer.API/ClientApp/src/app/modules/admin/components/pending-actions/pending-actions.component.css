@@ -1,0 +1,14 @@
+.overview-list{
+   overflow: auto;
+   overflow-y: hidden;
+   margin: 10px 10px;;
+}
+.registration-rejected {
+   margin-left: 8px;;
+   color: red;
+}
+
+.registration-accepted {
+   margin-left: 8px;
+   color: green;
+}
