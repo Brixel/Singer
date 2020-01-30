@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Singer.Data;
 using Singer.Models;
@@ -10,9 +11,10 @@ using Singer.Models;
 namespace Singer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200116210421_AddsEventRegistrationLogging")]
+    partial class AddsEventRegistrationLogging
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -189,6 +191,31 @@ namespace Singer.Migrations
                     b.ToTable("EventLocations");
                 });
 
+            modelBuilder.Entity("Singer.Models.EventRegistration", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("CareUserId");
+
+                    b.Property<Guid?>("DaycareLocationId");
+
+                    b.Property<Guid>("EventSlotId");
+
+                    b.Property<int>("Status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DaycareLocationId");
+
+                    b.HasIndex("EventSlotId");
+
+                    b.HasIndex("CareUserId", "EventSlotId")
+                        .IsUnique();
+
+                    b.ToTable("EventRegistrations");
+                });
+
             modelBuilder.Entity("Singer.Models.EventRegistrationLog", b =>
                 {
                     b.Property<Guid>("Id")
@@ -231,38 +258,6 @@ namespace Singer.Migrations
                     b.HasIndex("EventId");
 
                     b.ToTable("EventSlots");
-                });
-
-            modelBuilder.Entity("Singer.Models.Registration", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid>("CareUserId");
-
-                    b.Property<Guid?>("DaycareLocationId");
-
-                    b.Property<DateTime>("EndDateTime");
-
-                    b.Property<int>("EventRegistrationType");
-
-                    b.Property<Guid?>("EventSlotId");
-
-                    b.Property<DateTime>("StartDateTime");
-
-                    b.Property<int>("Status");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DaycareLocationId");
-
-                    b.HasIndex("EventSlotId");
-
-                    b.HasIndex("CareUserId", "EventSlotId")
-                        .IsUnique()
-                        .HasFilter("[EventSlotId] IS NOT NULL");
-
-                    b.ToTable("EventRegistrations");
                 });
 
             modelBuilder.Entity("Singer.Models.Users.AdminUser", b =>
@@ -326,8 +321,6 @@ namespace Singer.Migrations
                     b.Property<string>("City");
 
                     b.Property<string>("Country");
-
-                    b.Property<bool>("IsArchived");
 
                     b.Property<string>("PostalCode");
 
@@ -470,28 +463,7 @@ namespace Singer.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Singer.Models.EventRegistrationLog", b =>
-                {
-                    b.HasOne("Singer.Models.Registration", "EventRegistration")
-                        .WithMany()
-                        .HasForeignKey("EventRegistrationId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Singer.Models.Users.User", "ExecutedByUser")
-                        .WithMany()
-                        .HasForeignKey("ExecutedByUserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Singer.Models.EventSlot", b =>
-                {
-                    b.HasOne("Singer.Models.Event", "Event")
-                        .WithMany("EventSlots")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("Singer.Models.Registration", b =>
+            modelBuilder.Entity("Singer.Models.EventRegistration", b =>
                 {
                     b.HasOne("Singer.Models.Users.CareUser", "CareUser")
                         .WithMany("EventRegistrations")
@@ -504,7 +476,29 @@ namespace Singer.Migrations
 
                     b.HasOne("Singer.Models.EventSlot", "EventSlot")
                         .WithMany("Registrations")
-                        .HasForeignKey("EventSlotId");
+                        .HasForeignKey("EventSlotId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Singer.Models.EventRegistrationLog", b =>
+                {
+                    b.HasOne("Singer.Models.EventRegistration", "EventRegistration")
+                        .WithMany()
+                        .HasForeignKey("EventRegistrationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Singer.Models.Users.User", "User")
+                        .WithMany()
+                        .HasForeignKey("ExecutedByUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Singer.Models.EventSlot", b =>
+                {
+                    b.HasOne("Singer.Models.Event", "Event")
+                        .WithMany("EventSlots")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Singer.Models.Users.AdminUser", b =>

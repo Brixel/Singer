@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Singer.DTOs.Users;
 
@@ -11,5 +12,10 @@ namespace Singer.Services.Interfaces
    {
       Task SendAccountDetailsAsync(TUserDTO user, string resetPasswordLink);
       Task SendPasswordResetLink(TUserDTO user, string resetPasswordLink);
+   }
+
+   public interface IEmailService
+   {
+      Task Send(string subject, string body, IReadOnlyList<string> recipients, IReadOnlyList<string> ccEmails);
    }
 }

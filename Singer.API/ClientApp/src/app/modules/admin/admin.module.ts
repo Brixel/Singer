@@ -42,6 +42,10 @@ import { AddFamilyWizardComponent } from './components/add-family-wizard/add-fam
 import { SingerEventRegistrationsComponent } from './components/singerevents/singer-event-registrations/singer-event-registrations.component';
 import { SingerEventAdminRegisterComponent } from './components/singerevents/singer-eventadmin-register/singer-eventadmin-register.component';
 import { PendingRegistrationsComponent } from './components/pending-registrations/pending-registrations.component';
+import { PendingActionsComponent } from './components/pending-actions/pending-actions.component';
+import { PendingRegistrationsService } from '../core/services/singerevents-api/pending-registrations-service';
+import { ActionNotificationsService } from '../core/services/action-notification.service';
+import { RegistrationStatusPipe } from '../core/services/registration-status.pipe';
 
 @NgModule({
    declarations: [
@@ -58,6 +62,7 @@ import { PendingRegistrationsComponent } from './components/pending-registration
       SingerEventAdminRegisterComponent,
       AddFamilyWizardComponent,
       PendingRegistrationsComponent,
+      PendingActionsComponent,
    ],
    imports: [
       CoreModule,
@@ -95,6 +100,7 @@ import { PendingRegistrationsComponent } from './components/pending-registration
       ApiService,
       AgegroupPipe,
       KeysPipe,
+      RegistrationStatusPipe,
       {
          provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS,
          useValue: {
