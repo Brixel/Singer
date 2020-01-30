@@ -235,7 +235,7 @@ namespace Singer.Migrations
                         .IsUnique()
                         .HasFilter("[EventSlotId] IS NOT NULL");
 
-                    b.ToTable("Registrations");
+                    b.ToTable("EventRegistrations");
                 });
 
             modelBuilder.Entity("Singer.Models.Users.AdminUser", b =>

@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.1.0-issue-daycare-support.1275",
+   "version": "0.1.0-issue-daycare-support.1276",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",
