@@ -61,11 +61,29 @@ namespace Singer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Geaccepteerd.
+        /// </summary>
+        public static string Accepted {
+            get {
+                return ResourceManager.GetString("Accepted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Adres.
         /// </summary>
         public static string Address {
             get {
                 return ResourceManager.GetString("Address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Volwassene.
+        /// </summary>
+        public static string Adult {
+            get {
+                return ResourceManager.GetString("Adult", resourceCulture);
             }
         }
         
@@ -147,6 +165,15 @@ namespace Singer.Resources {
         public static string CaseNumber {
             get {
                 return ResourceManager.GetString("CaseNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kind.
+        /// </summary>
+        public static string Child {
+            get {
+                return ResourceManager.GetString("Child", resourceCulture);
             }
         }
         
@@ -403,6 +430,15 @@ namespace Singer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Kleuter.
+        /// </summary>
+        public static string Kindergartener {
+            get {
+                return ResourceManager.GetString("Kindergartener", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Achternaam.
         /// </summary>
         public static string LastName {
@@ -529,6 +565,15 @@ namespace Singer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Te verwerken.
+        /// </summary>
+        public static string Pending {
+            get {
+                return ResourceManager.GetString("Pending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Postcode.
         /// </summary>
         public static string PostalCode {
@@ -552,6 +597,15 @@ namespace Singer.Resources {
         public static string RegistrationOnDailyBasis {
             get {
                 return ResourceManager.GetString("RegistrationOnDailyBasis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Afgekeurd.
+        /// </summary>
+        public static string Rejected {
+            get {
+                return ResourceManager.GetString("Rejected", resourceCulture);
             }
         }
         
@@ -637,6 +691,15 @@ namespace Singer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Peuter.
+        /// </summary>
+        public static string Toddler {
+            get {
+                return ResourceManager.GetString("Toddler", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Totaal aantal.
         /// </summary>
         public static string TotalSize {
@@ -669,6 +732,15 @@ namespace Singer.Resources {
         public static string WeekRepeatMoment {
             get {
                 return ResourceManager.GetString("WeekRepeatMoment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Jongere.
+        /// </summary>
+        public static string Youngster {
+            get {
+                return ResourceManager.GetString("Youngster", resourceCulture);
             }
         }
     }
