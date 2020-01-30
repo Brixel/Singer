@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.1.0-issue-admin-component-refactor.1241",
+   "version": "0.1.0-issue-daycare-support.1272",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",

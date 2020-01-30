@@ -85,6 +85,8 @@ namespace Singer.Services
             .Select(x => new
             {
                EventSlotId = x.Id,
+               StartDateTime = x.StartDateTime,
+               EndDateTime = x.EndDateTime,
                x.EventId
             })
             .ToList();
@@ -92,12 +94,12 @@ namespace Singer.Services
          var registrations = new List<EventRegistration>();
          foreach (var eventSlot in eventSlots)
          {
-            registrations.Add(new EventRegistration()
-            {
-               CareUserId = dto.CareUserId,
-               EventSlotId = eventSlot.EventSlotId,
-               Status = dto.Status.Value
-            });
+            var registration =
+               EventRegistration
+                  .Create(dto.CareUserId,
+                     eventSlot.EventSlotId, eventSlot.StartDateTime, eventSlot.EndDateTime,
+                     dto.Status.Value);
+            registrations.Add(registration);
          }
 
          DbSet.AddRange(registrations);
@@ -122,7 +124,8 @@ namespace Singer.Services
          if (itemsPerPage < 1)
             throw new BadInputException("Invalid pageSize provided", ErrorMessages.PageSizeLessThanOne);
 
-         var emptyEventSlots = await Context.EventSlots.Where(x => x.EventId == eventId)
+         var emptyEventSlots = await Context.EventSlots
+            .Where(x => x.EventId == eventId)
             .Select(x => new EventSlotRegistrationsDTO
             {
                Id = x.Id,
@@ -139,7 +142,10 @@ namespace Singer.Services
 
          var list = totalItemCount <= 0
             ? new List<EventSlotRegistrationsDTO>()
-            : await filteredItems.GroupBy(x => x.EventSlotId)
+            : await
+               filteredItems
+                  .Where(x => x.EventSlotId.HasValue)
+                  .GroupBy(x => x.EventSlotId.Value)
                .Select(x => new EventSlotRegistrationsDTO()
                {
                   Id = x.Key,
@@ -309,12 +315,8 @@ namespace Singer.Services
          if (slot == null)
             throw new NotFoundException("Event slot Id could not be found!", ErrorMessages.EventSlotNotFound);
 
-         DbSet.Add(new EventRegistration()
-         {
-            CareUserId = dto.CareUserId,
-            EventSlotId = dto.EventSlotId,
-            Status = dto.Status.Value
-         });
+         DbSet.Add(EventRegistration.Create(dto.CareUserId, slot.Id, slot.StartDateTime, slot.EndDateTime,
+            dto.Status.Value));
 
          await Context.SaveChangesAsync().ConfigureAwait(false);
 
