@@ -4,7 +4,7 @@ import { ActionNotificationsService } from 'src/app/modules/core/services/action
 import { EventRegistrationLogCareUserDTO } from 'src/app/modules/core/DTOs/event-registration-log.dto';
 import { BehaviorSubject } from 'rxjs';
 
-export class PendingActionsDataSource{
+export class PendingActionsDataSource {
    protected modelsSubject$ = new BehaviorSubject<EventRegistrationLogCareUser[]>([]);
    protected totalSizeSubject$ = new BehaviorSubject<number>(0);
    protected queryCountSubject$ = new BehaviorSubject<number>(0);
@@ -15,18 +15,16 @@ export class PendingActionsDataSource{
    public queryCount$ = this.queryCountSubject$.asObservable();
    public loading$ = this.loadingSubject$.asObservable();
 
-   constructor(private pendingActionsDataSource: ActionNotificationsService) {   }
+   constructor(private pendingActionsDataSource: ActionNotificationsService) {}
    load() {
       this.loadingSubject$.next(true);
-      this.pendingActionsDataSource
-         .fetch()
-         .subscribe(res => {
-            const models = res.map(x => this.pendingActionsDataSource.toModel(x));
-            console.log(models);
-            this.modelsSubject$.next(models);
-            this.totalSizeSubject$.next(res.length);
-            this.queryCountSubject$.next(res.length);
-            this.loadingSubject$.next(false);
-         });
+      this.pendingActionsDataSource.fetch().subscribe(res => {
+         const models = res.map(x => this.pendingActionsDataSource.toModel(x));
+         console.log(models);
+         this.modelsSubject$.next(models);
+         this.totalSizeSubject$.next(res.length);
+         this.queryCountSubject$.next(res.length);
+         this.loadingSubject$.next(false);
+      });
    }
 }

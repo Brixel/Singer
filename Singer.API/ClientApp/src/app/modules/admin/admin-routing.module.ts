@@ -42,8 +42,8 @@ const routes: Routes = [
          },
          {
             path: 'te-verwerken-emails',
-            component: PendingActionsComponent
-         }
+            component: PendingActionsComponent,
+         },
       ],
    },
 ];

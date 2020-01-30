@@ -39,9 +39,7 @@ export class AuthService {
          token,
          userId,
       };
-      return this.http
-         .put(`${this.baseUrl}api/user/password`, updatePasswordDTO)
-         .pipe(map(res => res));
+      return this.http.put(`${this.baseUrl}api/user/password`, updatePasswordDTO).pipe(map(res => res));
    }
 
    requestPasswordReset(userId: string) {
@@ -50,18 +48,12 @@ export class AuthService {
             'Content-Type': 'application/json',
          }),
       };
-      this.http
-         .post(
-            `${this.baseUrl}api/user/resetpassword`,
-            JSON.stringify(userId),
-            httpOptions
-         )
-         .subscribe(
-            () => {},
-            error => {
-               console.error(error);
-            }
-         );
+      this.http.post(`${this.baseUrl}api/user/resetpassword`, JSON.stringify(userId), httpOptions).subscribe(
+         () => {},
+         error => {
+            console.error(error);
+         }
+      );
    }
 
    authenticate(username: string, password: string): Observable<any> {
@@ -73,10 +65,7 @@ export class AuthService {
       body.set('password', password);
       body.set('grant_type', 'password');
       body.set('client_id', this.configurationService.configuration.client_id);
-      body.set(
-         'client_secret',
-         this.configurationService.configuration.client_secret
-      );
+      body.set('client_secret', this.configurationService.configuration.client_secret);
 
       return this.http
          .post<any>(this.tokenURL, body.toString(), {

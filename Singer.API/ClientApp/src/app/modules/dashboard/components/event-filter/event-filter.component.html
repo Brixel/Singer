@@ -1,26 +1,33 @@
 <div class="container">
    <form [formGroup]="formGroup" class="form">
-
       <p class="secondary--text">Zoeken op:</p>
 
       <!-- StartDate Field -->
       <mat-form-field class="medium--width">
-         <input matInput [min]="currentDate" [matDatepicker]="startDatePicker" [placeholder]="startDateFieldPlaceholder"
-            formControlName="startDateFieldControl" (click)="startDatePicker.open()" />
-         <mat-datepicker-toggle matSuffix [for]="startDatePicker">
-         </mat-datepicker-toggle>
-         <mat-datepicker #startDatePicker touchUi [startAt]="currentDate" disabled="false">
-         </mat-datepicker>
+         <input
+            matInput
+            [min]="currentDate"
+            [matDatepicker]="startDatePicker"
+            [placeholder]="startDateFieldPlaceholder"
+            formControlName="startDateFieldControl"
+            (click)="startDatePicker.open()"
+         />
+         <mat-datepicker-toggle matSuffix [for]="startDatePicker"> </mat-datepicker-toggle>
+         <mat-datepicker #startDatePicker touchUi [startAt]="currentDate" disabled="false"> </mat-datepicker>
       </mat-form-field>
 
       <!-- EndDate Field -->
       <mat-form-field class="medium--width">
-         <input matInput [min]="currentDate" [matDatepicker]="endDatePicker" [placeholder]="endDateFieldPlaceholder"
-            formControlName="endDateFieldControl" (click)="endDatePicker.open()" />
-         <mat-datepicker-toggle matSuffix [for]="endDatePicker">
-         </mat-datepicker-toggle>
-         <mat-datepicker #endDatePicker touchUi [startAt]="currentDate" disabled="false">
-         </mat-datepicker>
+         <input
+            matInput
+            [min]="currentDate"
+            [matDatepicker]="endDatePicker"
+            [placeholder]="endDateFieldPlaceholder"
+            formControlName="endDateFieldControl"
+            (click)="endDatePicker.open()"
+         />
+         <mat-datepicker-toggle matSuffix [for]="endDatePicker"> </mat-datepicker-toggle>
+         <mat-datepicker #endDatePicker touchUi [startAt]="currentDate" disabled="false"> </mat-datepicker>
       </mat-form-field>
 
       <!-- Location Field -->
@@ -34,8 +41,12 @@
 
       <!-- AgeGroup Field -->
       <mat-form-field class="large--width">
-         <mat-select [compareWith]="compareAgeGroups" formControlName="ageGroupsFieldControl"
-            [placeholder]="ageGroupsFieldPlaceholder" multiple>
+         <mat-select
+            [compareWith]="compareAgeGroups"
+            formControlName="ageGroupsFieldControl"
+            [placeholder]="ageGroupsFieldPlaceholder"
+            multiple
+         >
             <mat-option *ngFor="let ageGroup of ageGroups" [value]="ageGroup">
                {{ ageGroup | agegroupPipe }}
             </mat-option>

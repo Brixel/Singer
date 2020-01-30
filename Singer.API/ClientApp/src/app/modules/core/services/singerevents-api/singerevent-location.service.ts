@@ -3,10 +3,7 @@ import { Observable } from 'rxjs';
 import { SingerEventLocationProxy } from './singerevent-location.proxy';
 import { map } from 'rxjs/operators';
 import { PaginationDTO } from '../../DTOs/pagination.dto';
-import {
-   UpdateSingerEventLocationDTO,
-   CreateSingerEventLocationDTO,
-} from '../../DTOs/singer-event-location.dto';
+import { UpdateSingerEventLocationDTO, CreateSingerEventLocationDTO } from '../../DTOs/singer-event-location.dto';
 import { SingerEventLocation } from '../../models/singerevent.model';
 
 @Injectable({
@@ -23,13 +20,7 @@ export class SingerEventLocationService {
       filter?: string
    ): Observable<PaginationDTO> {
       return this.singerEventLocationProxy
-         .getSingerEventLocations(
-            sortDirection,
-            sortColumn,
-            pageIndex,
-            pageSize,
-            filter
-         )
+         .getSingerEventLocations(sortDirection, sortColumn, pageIndex, pageSize, filter)
          .pipe(map(res => res));
    }
 
@@ -42,10 +33,7 @@ export class SingerEventLocationService {
          country: updateSingerEventLocation.country,
       };
       return this.singerEventLocationProxy
-         .updateSingerEventLocation(
-            updateSingerEventLocation.id,
-            updateSingerEventLocationDTO
-         )
+         .updateSingerEventLocation(updateSingerEventLocation.id, updateSingerEventLocationDTO)
          .pipe(map(res => res));
    }
 
