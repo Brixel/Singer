@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.1.0-issue-AB-98-delete-admins.1232",
+   "version": "0.1.0-fix-eventslot-generation-test.1235",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",
