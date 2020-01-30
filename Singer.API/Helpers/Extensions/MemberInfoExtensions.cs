@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
@@ -15,5 +16,8 @@ namespace Singer.Helpers.Extensions
             ?.DisplayName
             ?? member.Name;
       }
+
+      public static bool HasAttribute<T>(this MemberInfo member) where T : Attribute
+         => member.GetCustomAttribute<T>() != null;
    }
 }

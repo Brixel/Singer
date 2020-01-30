@@ -125,15 +125,13 @@ namespace Singer.Services
       /// </returns>
       public virtual async Task<IReadOnlyList<TDTO>> GetAllAsync(bool showArchived = false)
       {
-         var queryable = !typeof(IArchivable).IsAssignableFrom(typeof(TDTO))
-            ? Queryable.ProjectTo<TDTO>(Mapper.ConfigurationProvider)
-            : showArchived
-            ? Queryable.ProjectTo<TDTO>(Mapper.ConfigurationProvider)
-            : Queryable
-               .Where(x => !((IArchivable)x).IsArchived)
-               .ProjectTo<TDTO>(Mapper.ConfigurationProvider);
+         var queryable = typeof(IArchivable).IsAssignableFrom(typeof(TEntity)) && !showArchived
+            ? Queryable.Where(x => !((IArchivable)x).IsArchived)
+            : Queryable;
 
-         var items = await queryable.ToListAsync();
+         var items = await queryable
+            .ProjectTo<TDTO>(Mapper.ConfigurationProvider)
+            .ToListAsync();
 
          // return all the items
          return new ReadOnlyCollection<TDTO>(items);
@@ -187,11 +185,9 @@ namespace Singer.Services
          int entitiesPerPage = 15,
          bool showArchived = false)
       {
-         var queryable = !typeof(IArchivable).IsAssignableFrom(typeof(TEntity))
-            ? Queryable
-            : showArchived
-            ? Queryable
-            : Queryable.Where(x => !((IArchivable)x).IsArchived);
+         var queryable = typeof(IArchivable).IsAssignableFrom(typeof(TEntity)) && !showArchived
+            ? Queryable.Where(x => !((IArchivable)x).IsArchived)
+            : Queryable;
 
          // return the paged results
          return await queryable
@@ -251,7 +247,7 @@ namespace Singer.Services
       ///     Archives the <see cref="TEntity"/> with the given id. If it is not an
       ///     <see cref="IArchivable"/>, an exception is thrown.
       /// </summary>
-      /// <param name="id">The id fo the <see cref="TEntity"/> to archive.</param>
+      /// <param name="id">The id of the <see cref="TEntity"/> to archive.</param>
       /// <returns></returns>
       /// <exception cref="NotFoundException">There is no element found with the id <paramref name="id"/>.</exception>
       /// <exception cref="InvalidOperationException">

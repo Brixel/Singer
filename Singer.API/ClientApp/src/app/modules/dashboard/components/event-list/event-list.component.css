@@ -3,14 +3,13 @@ mat-card {
    padding: 0px;
 }
 
-.grid-tile {
+.flex--column {
    display: flex;
    flex-direction: column;
-   justify-content: center;
 }
 
-.event-card {
-   min-width: 400px;
+.align--center {
+   justify-content: center;
 }
 
 .noEventsFoundText {

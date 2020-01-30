@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { SingerEvent, EventDescription } from '../../models/singerevent.model';
+import { SingerEvent, EventDescription, EventFilterParameters } from '../../models/singerevent.model';
 import { Observable } from 'rxjs';
 import { SingerEventsProxy } from './singerevents.proxy';
 import { map } from 'rxjs/operators';
 import { PaginationDTO } from '../../DTOs/pagination.dto';
 import { TimeUnit, RepeatType } from '../../models/enum';
-import { SearchEventData } from 'src/app/modules/dashboard/components/event-search/event-search.component';
 import {
    UpdateSingerEventDTO,
    CreateSingerEventDTO,
@@ -111,10 +110,7 @@ export class SingerEventsService extends GenericService<
       };
       return model;
    }
-   constructor(
-      protected httpClient: HttpClient,
-      private singerEventsProxy: SingerEventsProxy
-   ) {
+   constructor(protected httpClient: HttpClient, private singerEventsProxy: SingerEventsProxy) {
       super('api/event');
    }
 
@@ -126,13 +122,7 @@ export class SingerEventsService extends GenericService<
       filter?: string
    ): Observable<PaginationDTO<EventRegistrationDTO>> {
       return this.singerEventsProxy
-         .getSingerEvents(
-            sortDirection,
-            sortColumn,
-            pageIndex,
-            pageSize,
-            filter
-         )
+         .getSingerEvents(sortDirection, sortColumn, pageIndex, pageSize, filter)
          .pipe(map(res => res));
    }
 
@@ -152,8 +142,7 @@ export class SingerEventsService extends GenericService<
          startDateTime: updateSingerEvent.startDateTime,
          endDateTime: updateSingerEvent.endDateTime,
          hasDayCareBefore: updateSingerEvent.hasDayCareBefore,
-         dayCareBeforeStartDateTime:
-            updateSingerEvent.dayCareBeforeStartDateTime,
+         dayCareBeforeStartDateTime: updateSingerEvent.dayCareBeforeStartDateTime,
          hasDayCareAfter: updateSingerEvent.hasDayCareAfter,
          dayCareAfterEndDateTime: updateSingerEvent.dayCareAfterEndDateTime,
       };
@@ -180,8 +169,7 @@ export class SingerEventsService extends GenericService<
          startDateTime: createSingerEvent.startDateTime,
          endDateTime: endDateTime,
          hasDayCareBefore: createSingerEvent.hasDayCareBefore,
-         dayCareBeforeStartDateTime:
-            createSingerEvent.dayCareBeforeStartDateTime,
+         dayCareBeforeStartDateTime: createSingerEvent.dayCareBeforeStartDateTime,
          hasDayCareAfter: createSingerEvent.hasDayCareAfter,
          dayCareAfterEndDateTime: createSingerEvent.dayCareAfterEndDateTime,
          // TODO: These are default repeat settings to ensure events overlapping multiple days will be created with daily timeslots
@@ -192,9 +180,7 @@ export class SingerEventsService extends GenericService<
             stopRepeatDate: createSingerEvent.endDateTime,
          },
       };
-      return this.singerEventsProxy
-         .createSingerEvents(createSingerEventDTO)
-         .pipe(map(res => res));
+      return this.singerEventsProxy.createSingerEvents(createSingerEventDTO).pipe(map(res => res));
    }
 
    deleteSingerEvent(eventId: string) {
@@ -214,14 +200,7 @@ export class SingerEventsService extends GenericService<
       filter?: string
    ): Observable<EventSlotRegistrationDTO[]> {
       return this.singerEventsProxy
-         .getEventRegistrations(
-            eventId,
-            sortDirection,
-            sortColumn,
-            pageIndex,
-            pageSize,
-            filter
-         )
+         .getEventRegistrations(eventId, sortDirection, sortColumn, pageIndex, pageSize, filter)
          .pipe(map(res => res.items));
    }
 
@@ -230,64 +209,41 @@ export class SingerEventsService extends GenericService<
          careUserId: careUserId,
          eventId: eventId,
       };
-      return this.singerEventsProxy.registerCareUserOnEvent(
-         eventId,
-         eventRegDTO
-      );
+      return this.singerEventsProxy.registerCareUserOnEvent(eventId, eventRegDTO);
    }
 
-   registerCareUserOnEventSlot(
-      eventId: string,
-      eventSlotId: string,
-      careUserId: string
-   ) {
+   registerCareUserOnEventSlot(eventId: string, eventSlotId: string, careUserId: string) {
       const eventRegDTO = <CreateEventSlotRegistrationDTO>{
          careUserId: careUserId,
          eventSlotId: eventSlotId,
       };
-      return this.singerEventsProxy.registerCareUserOnEventSlot(
-         eventId,
-         eventSlotId,
-         eventRegDTO
-      );
+      return this.singerEventsProxy.registerCareUserOnEventSlot(eventId, eventSlotId, eventRegDTO);
    }
 
-   isUserRegisteredForEvent(
-      eventId: string,
-      careUserId: string
-   ): Observable<UserRegisteredDTO> {
-      return this.singerEventsProxy
-         .isUserRegisteredForEvent(eventId, careUserId)
-         .pipe(map(res => res));
+   isUserRegisteredForEvent(eventId: string, careUserId: string): Observable<UserRegisteredDTO> {
+      return this.singerEventsProxy.isUserRegisteredForEvent(eventId, careUserId).pipe(map(res => res));
    }
 
-   getPublicEvents(
-      searchEventData: SearchEventData
-   ): Observable<EventDescription[]> {
-      return this.singerEventsProxy.getPublicEvents(searchEventData).pipe(
+   getPublicEvents(eventFilterData: EventFilterParameters): Observable<EventDescription[]> {
+      return this.singerEventsProxy.getPublicEvents(eventFilterData).pipe(
          map(res =>
             res.map(y => {
                return <EventDescription>{
-                  ageGroups: y.ageGroups,
-                  description: y.description,
-                  endDateTime: new Date(y.endDateTime),
                   id: y.id,
-                  startDateTime: new Date(y.startDateTime),
                   title: y.title,
+                  description: y.description,
+                  ageGroups: y.ageGroups,
+                  cost: y.cost,
+                  endDateTime: new Date(y.endDateTime),
+                  startDateTime: new Date(y.startDateTime),
                };
             })
          )
       );
    }
 
-   downloadEventSlotRegistartionCsv(
-      eventId: string,
-      eventSlotId: string
-   ): Observable<Blob> {
-      return this.singerEventsProxy.downloadEventSlotRegistartionCsv(
-         eventId,
-         eventSlotId
-      );
+   downloadEventSlotRegistartionCsv(eventId: string, eventSlotId: string): Observable<Blob> {
+      return this.singerEventsProxy.downloadEventSlotRegistartionCsv(eventId, eventSlotId);
    }
 
    getSingleEvent(eventId: string): Observable<SingerEventDTO> {

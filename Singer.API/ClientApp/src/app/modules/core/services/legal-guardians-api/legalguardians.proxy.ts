@@ -50,4 +50,8 @@ export class LegalGuardianProxy {
          .post('api/legalguardianuser', createLegalGuardianDTO)
          .pipe(map(res => res));
    }
+
+   deleteLegalGuardian(id: string): Observable<any> {
+      return this.apiService.delete(`api/legalguardianuser/${id}`).pipe(map(res => res));
+   }
 }

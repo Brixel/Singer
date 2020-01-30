@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.1.0-issue-AB-33-participant-list-export.1131",
+   "version": "0.1.0-issue-AB-33-participant-list-export.1132",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",

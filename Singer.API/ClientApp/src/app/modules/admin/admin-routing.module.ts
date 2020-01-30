@@ -1,8 +1,8 @@
 import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { AuthGuard } from '../core/services/auth.guard';
-import { OverviewComponent } from './components/careusers/overview/overview.component';
-import { AdminListComponent } from './components/admin-users/admin-list/admin-list.component';
+import { CareUserOverviewComponent } from './components/careusers/careuser-overview/care-user-overview.component';
+import { AdminOverviewComponent } from './components/admin-users/admin-overview/admin-overview.component';
 import { LegalguardianOverviewComponent } from './components/legalguardians/legalguardian-overview/legalguardian-overview.component';
 import { SingerEventOverviewComponent } from './components/singerevents/singerevent-overview/singerevent-overview.component';
 import { AddFamilyWizardComponent } from './components/add-family-wizard/add-family-wizard.component';
@@ -17,11 +17,11 @@ const routes: Routes = [
       children: [
          {
             path: 'beheerders',
-            component: AdminListComponent,
+            component: AdminOverviewComponent,
          },
          {
             path: 'zorggebruikers',
-            component: OverviewComponent,
+            component: CareUserOverviewComponent,
          },
          {
             path: 'voogden',

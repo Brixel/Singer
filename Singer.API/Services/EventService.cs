@@ -66,26 +66,35 @@ namespace Singer.Services
          return filterExpression;
       }
 
-      public async Task<IReadOnlyList<EventDescriptionDTO>> GetPublicEventsAsync(SearchEventParamsDTO searchEventParamsDto)
+      public async Task<IReadOnlyList<EventDescriptionDTO>> GetPublicEventsAsync(EventFilterParametersDTO eventFilterParametersDtoDto)
       {
          return await Queryable
             .Where(x =>
                // not archived
                !x.IsArchived &&
-               // check location
-               (!searchEventParamsDto.LocationId.HasValue || x.LocationId == searchEventParamsDto.LocationId.Value) &&
+               // Only events today or in the future
+               x.EventSlots.OrderBy(y => y.StartDateTime).First().StartDateTime.Date >= DateTime.Now.Date &&
                // check start date
-               (!searchEventParamsDto.StartDate.HasValue ||
-                  x.EventSlots.OrderBy(y => y.StartDateTime).First().StartDateTime.Date == searchEventParamsDto.StartDate.Value.Date) &&
+               (!eventFilterParametersDtoDto.StartDate.HasValue ||
+                  x.EventSlots.OrderBy(y => y.StartDateTime).First().StartDateTime.Date >= eventFilterParametersDtoDto.StartDate.Value.Date) &&
                // check end date
-               (!searchEventParamsDto.EndDate.HasValue ||
-                  x.EventSlots.OrderBy(y => y.EndDateTime).First().EndDateTime.Date <= searchEventParamsDto.EndDate.Value.Date))
+               (!eventFilterParametersDtoDto.EndDate.HasValue ||
+                  x.EventSlots.OrderBy(y => y.EndDateTime).First().EndDateTime.Date <= eventFilterParametersDtoDto.EndDate.Value.Date) &&
+               // check location
+               (!eventFilterParametersDtoDto.LocationId.HasValue || x.LocationId == eventFilterParametersDtoDto.LocationId.Value) &&
+               // check allowed agegroups
+               (eventFilterParametersDtoDto.AllowedAgeGroups == null ||
+               eventFilterParametersDtoDto.AllowedAgeGroups.Count == 0 ||
+               eventFilterParametersDtoDto.AllowedAgeGroups.Any(ageGroup => x.AllowedAgeGroups.HasFlag(ageGroup))) &&
+               // check event title
+               (string.IsNullOrEmpty(eventFilterParametersDtoDto.Text) || x.Title.ToLower().Contains(eventFilterParametersDtoDto.Text.ToLower())))
             .Select(x => new EventDescriptionDTO
             {
                Id = x.Id,
-               AgeGroups = EventProfile.ToAgeGroupList(x.AllowedAgeGroups),
-               Description = x.Description,
                Title = x.Title,
+               Description = x.Description,
+               AgeGroups = EventProfile.ToAgeGroupList(x.AllowedAgeGroups),
+               Cost = x.Cost,
                StartDateTime = x.EventSlots.OrderBy(y => y.StartDateTime).First().StartDateTime,
                EndDateTime = x.EventSlots.OrderByDescending(y => y.EndDateTime).First().EndDateTime
             })
@@ -123,8 +132,9 @@ namespace Singer.Services
       private void ValidateInput(CreateEventDTO createEvent)
       {
          // Currently only validate this for event slot creation
-         if(createEvent.StartDateTime > createEvent.EndDateTime) {
-            throw new BadInputException("Start date cannot be after end date",ErrorMessages.BadInputError);
+         if (createEvent.StartDateTime > createEvent.EndDateTime)
+         {
+            throw new BadInputException("Start date cannot be after end date", ErrorMessages.BadInputError);
          }
 
          // Not required for event slot creation, yet it's a logical validation
@@ -134,7 +144,7 @@ namespace Singer.Services
          }
 
          // Not required for event slot creation, yet it's a logical validation
-         if(createEvent.StartRegistrationDateTime > createEvent.FinalCancellationDateTime)
+         if (createEvent.StartRegistrationDateTime > createEvent.FinalCancellationDateTime)
          {
             throw new BadInputException("Start of registration cannot be after cancellation date", ErrorMessages.BadInputError);
          }

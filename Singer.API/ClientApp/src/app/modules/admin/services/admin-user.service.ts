@@ -3,10 +3,11 @@ import { Observable } from 'rxjs';
 import { AdminUserProxy } from './adminuser.proxy';
 import { map } from 'rxjs/operators';
 import { PaginationDTO } from '../../core/DTOs/pagination.dto';
+import { AdminUser } from '../../core/models/adminuser.model';
 import {
-   AdminUser
-} from '../../core/models/adminuser.model';
-import { AdminUserDTO, CreateAdminUserDTO } from '../../core/DTOs/adminuser.dto';
+   AdminUserDTO,
+   CreateAdminUserDTO,
+} from '../../core/DTOs/adminuser.dto';
 
 @Injectable({
    providedIn: 'root',
@@ -46,5 +47,9 @@ export class AdminUserService {
       return this.adminUserProxy
          .createAdmin(createAdminUserDTO)
          .pipe(map(res => res));
+   }
+
+   delete(adminUser: AdminUser) {
+      return this.adminUserProxy.deleteAdmin(adminUser.id);
    }
 }

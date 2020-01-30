@@ -102,7 +102,6 @@ $sint-gerardus-theme: mat-light-theme(
    /*
       Primary Colors
    */
-
    --singer-theme-primary: #{mat-color($sint-gerardus-theme-primary)};
    --singer-theme-primary-lighter: #{mat-color(
          $sint-gerardus-theme-primary,
@@ -121,12 +120,11 @@ $sint-gerardus-theme: mat-light-theme(
    /*
       Text Colors
    */
-
-   --singer-theme-dark-primary-text: rgba(black, 0.87);
-   --singer-theme-dark-secondary-text: rgba(black, 0.54);
-   --singer-theme-dark-disabled-text: rgba(black, 0.38);
-   --singer-theme-dark-dividers: rgba(black, 0.12);
-   --singer-theme-dark-focused: rgba(black, 0.12);
+   --singer-theme-dark-primary-text: #212121; // Black 87%
+   --singer-theme-dark-secondary-text: #757575; // Black 54%
+   --singer-theme-dark-disabled-text: #9E9E9E; // Black 38%
+   --singer-theme-dark-dividers: #E0E0E0; // Black 12%
+   --singer-theme-dark-focused: #E0E0E0; // Black 12%
 
    --singer-theme-light-primary-text: white;
    --singer-theme-light-secondary-text: rgba(white, 0.7);
@@ -141,5 +139,28 @@ $sint-gerardus-theme: mat-light-theme(
    --singer-theme-accent-dark-pink: #ff43a1;
    --singer-theme-accent-dark-purple: #a143ff;
    --singer-theme-accent-dark-blue: #256bcf;
+   --singer-theme-accent-dark-yellow: #e3e40e;
 
+   --singer-theme-accent-light-green: #A4DDB5;
+   --singer-theme-accent-light-pink: #FFB5D9;
+   --singer-theme-accent-light-purple: #E1C4FF;
+   --singer-theme-accent-light-blue: #4585D9;
+   --singer-theme-accent-light-yellow: #F6F6A2;
+
+   /*
+      Timeline Colors
+   */
+   --singer-theme-timeline-dark-empty: #707070;
+   --singer-theme-timeline-light-empty: #828282;
+   --singer-theme-timeline-dark-filled: #2a73d4;
+   --singer-theme-timeline-light-filled: #4585D9;
+
+   /*
+     Agegroup Colors
+   */
+   --singer-theme-agegroup-toddler: #F4F489;
+   --singer-theme-agegroup-kindergartener: #FFA0D0;
+   --singer-theme-agegroup-child: #8BD4A1;
+   --singer-theme-agegroup-youngster: #94B8E9;
+   --singer-theme-agegroup-adult: #D0A0FF;
 }

@@ -57,6 +57,12 @@ namespace Singer.DTOs
       public IReadOnlyList<AgeGroup> AgeGroups { get; set; }
 
       [Required(
+        ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+        ErrorMessageResourceType = typeof(ErrorMessages))]
+      [Display(ResourceType = typeof(DisplayNames), Name = nameof(DisplayNames.Cost))]
+      public decimal Cost { get; set; }
+
+      [Required(
           ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
           ErrorMessageResourceType = typeof(ErrorMessages))]
       [Display(

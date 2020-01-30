@@ -1,25 +1,30 @@
-<mat-card class="card">
+<div class="card">
+   <mat-card>
 
-   <mat-card-title>{{ event.title }}</mat-card-title>
-
-   <mat-card-subtitle>
-      <div class="event-subtitle">
-         <app-agegroup-chips [agegroups]="event.ageGroups" class="agegroup-chips"></app-agegroup-chips>
-
-         <div class="date-indicator" [matTooltip]="getDurationMessage(event)">
-            <mat-icon>access_time</mat-icon>{{ event.startDateTime | date: 'dd-M-yyyy' }}
+      <div class="flex--row">
+         <mat-card-title>{{ event.title }}</mat-card-title>
+         <div class="flex--spacer"></div>
+         <div class="flex--column secondary--text small--font" [matTooltip]="getDurationMessage(event)">
+            <div class="flex--row align--center">
+               <mat-icon>calendar_today</mat-icon>{{ event.startDateTime | date: 'dd-M-yyyy' }}
+            </div>
+            <div class="flex--row align--center">
+               <mat-icon>access_time</mat-icon>{{ event.startDateTime | date: 'hh-mm' }}
+            </div>
          </div>
       </div>
-   </mat-card-subtitle>
 
-   <mat-card-content>
-      <p class="event-description">{{ event.description }}</p>
-   </mat-card-content>
+      <app-agegroup-chips [agegroups]="event.ageGroups" class="flex--row"></app-agegroup-chips>
 
-   <mat-card-actions>
-      <button mat-stroked-button color="primary" (click)="openEventRegistration(event)">
-         Meer informatie & Inschrijven
-      </button>
-   </mat-card-actions>
+      <p class="event-description secondary--text">{{ event.description }}</p>
 
-</mat-card>
+      <div class="flex--row align--center">
+         <p class="secondary--text">Prijs: {{ event.cost | singereventCost }}</p>
+         <div class="flex--spacer"></div>
+         <button mat-stroked-button color="primary" (click)="openEventRegistration(event)">
+            Meer informatie & Inschrijven
+         </button>
+      </div>
+
+   </mat-card>
+</div>
