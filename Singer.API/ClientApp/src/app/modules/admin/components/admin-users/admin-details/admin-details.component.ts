@@ -1,11 +1,9 @@
 import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { AdminUser } from 'src/app/modules/core/models/adminuser.model';
-import { AgeGroup } from 'src/app/modules/core/models/enum';
 import {
    FormGroup,
    FormControl,
    Validators,
-   AbstractControl,
 } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
@@ -15,7 +13,9 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
    styleUrls: ['./admin-details.component.css'],
 })
 export class AdminDetailsComponent implements OnInit {
+   // Submit event for when the user submits the form
    @Output() submitEvent: EventEmitter<AdminUser> = new EventEmitter();
+   @Output() deleteEvent: EventEmitter<AdminUser> = new EventEmitter();
 
    // Boolean to decide if we are adding a new user or editing an existing one
    isAdding: boolean;
@@ -23,38 +23,36 @@ export class AdminDetailsComponent implements OnInit {
    // Boolean to check if changes have been made when editing a user
    isChangesMade: boolean;
 
-   ageGroups = AgeGroup;
-
-   // Current care user instance
-   adminUser: AdminUser = <AdminUser>{};
-
-   //#region Binding properties for form:
+   // Current admin user instance
+   adminUser: AdminUser;
 
    // Form placeholders
    readonly firstNameFieldPlaceholder = 'Voornaam';
    readonly lastNameFieldPlaceholder = 'Familienaam';
    readonly emailFieldPlaceholder = 'Email';
+
    // Form validation values
    readonly maxNameLength = 100;
    readonly minNameLength = 2;
    readonly maxEmailLength = 255;
    readonly nameRegex = /^[\w'À-ÿ][\w' À-ÿ]*[\w'À-ÿ]+$/;
 
+   // Form control group
    formControlGroup: FormGroup = new FormGroup({
       // Form controls
-      firstNameFieldControl: new FormControl(this.adminUser.firstName, [
+      firstNameFieldControl: new FormControl([
          Validators.required,
          Validators.maxLength(this.maxNameLength),
          Validators.minLength(this.minNameLength),
          Validators.pattern(this.nameRegex),
       ]),
-      lastNameFieldControl: new FormControl(this.adminUser.lastName, [
+      lastNameFieldControl: new FormControl([
          Validators.required,
          Validators.maxLength(this.maxNameLength),
          Validators.minLength(this.minNameLength),
          Validators.pattern(this.nameRegex),
       ]),
-      emailFieldControl: new FormControl(this.adminUser.email, [
+      emailFieldControl: new FormControl([
          Validators.required,
          Validators.maxLength(this.maxEmailLength),
          Validators.email,
@@ -62,35 +60,40 @@ export class AdminDetailsComponent implements OnInit {
    });
 
    constructor(
+      // Dialogreference to close this dialog
       public dialogRef: MatDialogRef<AdminDetailsComponent>,
-      // Care user that we want to edit
+      // Admin user that we want to edit
       @Inject(MAT_DIALOG_DATA) public data: AdminUser
    ) {
+      this.adminUser = data;
       this.isAdding = data === null;
-      if (!this.isAdding) {
-         this.adminUser = data;
-      }
    }
 
    ngOnInit() {
-      if (!this.isAdding) {
-         this.formControlGroup.controls['firstNameFieldControl'].setValue(
-            this.adminUser.firstName
-         );
-         this.formControlGroup.controls['lastNameFieldControl'].setValue(
-            this.adminUser.lastName
-         );
-         this.formControlGroup.controls['emailFieldControl'].setValue(
-            this.adminUser.email
-         );
+      // If we are adding a new user then clear all fields
+      // If we are editing an existing user then fill in his data
+      if (this.isAdding) {
+         this.formControlGroup.reset();
+         this.adminUser = <AdminUser>{};
+      } else {
+         this.loadCurrentAdminUserInstanceValues();
       }
    }
 
-   submitForm() {
-      // Check if form is valid
-      if (this.formControlGroup.invalid) {
-         return;
-      }
+   private loadCurrentAdminUserInstanceValues() {
+      this.formControlGroup.controls['firstNameFieldControl'].setValue(
+         this.adminUser.firstName
+      );
+      this.formControlGroup.controls['lastNameFieldControl'].setValue(
+         this.adminUser.lastName
+      );
+      this.formControlGroup.controls['emailFieldControl'].setValue(
+         this.adminUser.email
+      );
+   }
+
+   // Load form field values into current admin user instance
+   private updateCurrentAdminUserInstance() {
       this.adminUser.firstName = this.formControlGroup.get(
          'firstNameFieldControl'
       ).value;
@@ -100,8 +103,21 @@ export class AdminDetailsComponent implements OnInit {
       this.adminUser.email = this.formControlGroup.get(
          'emailFieldControl'
       ).value;
-      // Check for changes and determine of an API call is necesarry
+   }
+
+   submitForm() {
+      // Check if form is valid
+      if (this.formControlGroup.invalid) {
+         return;
+      }
+
+      this.updateCurrentAdminUserInstance();
       this.submitEvent.emit(this.adminUser);
+      this.closeForm();
+   }
+
+   emitDeleteEvent() {
+      this.deleteEvent.emit(this.adminUser);
       this.closeForm();
    }
 

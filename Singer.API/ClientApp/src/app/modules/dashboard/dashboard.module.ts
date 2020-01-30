@@ -9,7 +9,7 @@ import { RouterModule } from '@angular/router';
 import { EventCardComponent } from './components/event-card/event-card.component';
 import { EventListComponent } from './components/event-list/event-list.component';
 import { CoreModule } from '../core/core.module';
-import { EventSearchComponent } from './components/event-search/event-search.component';
+import { EventFilterComponent } from './components/event-filter/event-filter.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ApiService } from '../core/services/api.service';
 import { SharedModule } from '../shared/shared.module';
@@ -22,7 +22,7 @@ import { AdminMenuComponent } from './components/admin-menu/admin-menu.component
       AboutComponent,
       EventListComponent,
       EventCardComponent,
-      EventSearchComponent,
+      EventFilterComponent,
       AdminMenuComponent,
    ],
    imports: [
