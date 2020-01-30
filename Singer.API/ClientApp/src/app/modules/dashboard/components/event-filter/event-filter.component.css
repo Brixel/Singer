@@ -1,0 +1,37 @@
+.form {
+   display: flex;
+   flex-direction: row;
+   justify-content: flex-start;
+   align-items: center;
+   flex-wrap: wrap;
+}
+
+.small--width {
+   width: 6em;
+}
+
+.medium--width {
+   width: 10em;
+}
+
+.large--width {
+   width: 14.75em;
+}
+
+p,
+mat-form-field,
+button {
+   margin: 0.2em 1em;
+}
+
+p {
+   margin-right: 0em;
+}
+
+mat-form-field {
+   margin-top: 0.2em;
+}
+
+.secondary--text {
+   color: var(--singer-theme-dark-secondary-text);
+}

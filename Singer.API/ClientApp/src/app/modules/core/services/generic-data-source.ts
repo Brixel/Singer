@@ -1,5 +1,5 @@
 import { DataSource } from '@angular/cdk/table';
-import { GenericModel } from '../models/generic-model';
+import { GenericModel } from '../models/generics/generic-model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CollectionViewer } from '@angular/cdk/collections';
 import { GenericService } from './generic-service';

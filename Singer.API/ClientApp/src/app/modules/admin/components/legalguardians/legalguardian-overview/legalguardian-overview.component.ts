@@ -138,26 +138,6 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
             );
          }
       );
-
-      dialogRef.componentInstance.deleteEvent.subscribe(
-         (result: LegalGuardian) => {
-            this._legalguardiansService.deleteLegalGuardian(result.id).subscribe(
-               res => {
-                  // Reload LegalGuardians
-                  this.loadLegalGuardians();
-                  this._snackBar.open(
-                     `${result.firstName} ${result.lastName} werd verwijderd.`,
-                     'OK',
-                     { duration: 2000 }
-                  );
-               },
-               err => {
-                  this.handleApiError(err);
-                  this.loadLegalGuardians();
-               }
-            );
-         }
-      );
    }
 
    selectRow(row: LegalGuardian): void {
@@ -183,6 +163,26 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
                },
                err => {
                   this.handleApiError(err);
+               }
+            );
+         }
+      );
+
+      dialogRef.componentInstance.deleteEvent.subscribe(
+         (result: LegalGuardian) => {
+            this._legalguardiansService.deleteLegalGuardian(result.id).subscribe(
+               res => {
+                  // Reload LegalGuardians
+                  this.loadLegalGuardians();
+                  this._snackBar.open(
+                     `${result.firstName} ${result.lastName} werd verwijderd.`,
+                     'OK',
+                     { duration: 2000 }
+                  );
+               },
+               err => {
+                  this.handleApiError(err);
+                  this.loadLegalGuardians();
                }
             );
          }
