@@ -43,7 +43,9 @@ export class EventListComponent implements OnInit {
    onFilterEvent(filterParameters: EventFilterParameters) {
       this._loadingService.show();
       this._eventService.getPublicEvents(filterParameters).subscribe(res => {
-         this.events = res;
+         this.events = res.sort((a, b)=>{
+            return a.startDateTime.getTime() - b.startDateTime.getTime();
+         });
          this._loadingService.hide();
       });
    }
