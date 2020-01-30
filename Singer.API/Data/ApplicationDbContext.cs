@@ -19,7 +19,7 @@ namespace Singer.Data
       public DbSet<EventLocation> EventLocations { get; set; }
       public DbSet<Event> Events { get; set; }
       public DbSet<EventSlot> EventSlots { get; set; }
-      public DbSet<Registration> EventRegistrations { get; set; }
+      public DbSet<Registration> Registrations { get; set; }
       public DbSet<AdminUser> AdminUsers { get; set; }
 
       public DbSet<EventRegistrationLog> EventRegistrationLogs { get; set; }
