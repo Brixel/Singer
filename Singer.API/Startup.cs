@@ -179,6 +179,7 @@ namespace Singer
          services.AddScoped<IEventService, EventService>();
          services.AddScoped<IEventRegistrationService, EventRegistrationService>()
             .AddScoped<IDateValidator, DateValidator>();
+         services.AddScoped<IActionNotificationService, ActionNotificationService>();
          services.Configure<PasswordOptions>(Configuration.GetSection("PasswordOptions"));
          services.AddScoped<IUserProfileService, UserProfileService>();
          services.Configure<ApplicationConfig>(Configuration.GetSection("Application"));
@@ -194,6 +195,8 @@ namespace Singer
                typeof(EmailService<AdminUserDTO>));
             services.AddScoped(typeof(IEmailService<UserDTO>),
                typeof(EmailService<UserDTO>));
+            services.AddScoped(typeof(IEmailService),
+               typeof(EmailService));
 
          }
          else
@@ -204,6 +207,8 @@ namespace Singer
                typeof(NoActualEmailService<AdminUserDTO>));
             services.AddScoped(typeof(IEmailService<UserDTO>),
                typeof(NoActualEmailService<UserDTO>));
+            services.AddScoped(typeof(IEmailService),
+               typeof(NoActualEmailService));
          }
          
          var instrumentationKey = Configuration.GetSection("ApplicationInsights").GetChildren().SingleOrDefault(x => x.Value == "InstrumentationKey")?.Value;

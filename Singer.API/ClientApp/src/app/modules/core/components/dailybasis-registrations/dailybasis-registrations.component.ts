@@ -1,16 +1,8 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import {
-   EventSlotRegistrations,
-   EventCareUserRegistration,
-} from '../../models/singerevent.model';
+import { EventSlotRegistrations, EventCareUserRegistration } from '../../models/singerevent.model';
 import { Registrant } from '../../models/registrant.model';
 import { SingerEventsService } from '../../services/singerevents-api/singerevents.service';
-import {
-   MatSnackBar,
-   MatTableDataSource,
-   MatPaginator,
-   MatSort,
-} from '@angular/material';
+import { MatSnackBar, MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { RegistrationStatus } from '../../models/enum';
 
 @Component({
@@ -50,19 +42,13 @@ export class DailybasisRegistrationsComponent implements OnInit {
    @ViewChild(MatPaginator) paginator: MatPaginator;
    @ViewChild(MatSort) sort: MatSort;
 
-   constructor(
-      private _eventService: SingerEventsService,
-      private _snackBar: MatSnackBar
-   ) {
+   constructor(private _eventService: SingerEventsService, private _snackBar: MatSnackBar) {
       this.eventSlotDataSource = new MatTableDataSource([]);
    }
 
    ngOnInit() {}
 
-   getSlotRegistrationStatus(
-      registrations: EventCareUserRegistration[],
-      careUserId: string
-   ): RegistrationStatus {
+   getSlotRegistrationStatus(registrations: EventCareUserRegistration[], careUserId: string): RegistrationStatus {
       const registration = registrations.find(x => x.careUserId === careUserId);
       if (registration === undefined) {
          return 0;
@@ -72,29 +58,19 @@ export class DailybasisRegistrationsComponent implements OnInit {
    }
 
    registerCareUserOnEventSlot(eventSlotId: string, careUser: Registrant) {
-      this._eventService
-         .registerCareUserOnEventSlot(
-            this.eventId,
-            eventSlotId,
-            careUser.careUserId
-         )
-         .subscribe(
-            res => {
-               this._snackBar.open(
-                  `${careUser.name} werd ingeschreven voor het evenement`,
-                  'OK',
-                  { duration: 2000 }
-               );
-               this.eventSlots
-                  .find(x => x.id === eventSlotId)
-                  .registrations.push(<EventCareUserRegistration>{
-                     careUserId: careUser.careUserId,
-                     status: res.status,
-                  });
-            },
-            err => {
-               this._snackBar.open(`⚠ ${err.message}`, 'OK');
-            }
-         );
+      this._eventService.registerCareUserOnEventSlot(this.eventId, eventSlotId, careUser.careUserId).subscribe(
+         res => {
+            this._snackBar.open(`${careUser.name} werd ingeschreven voor het evenement`, 'OK', { duration: 2000 });
+            this.eventSlots
+               .find(x => x.id === eventSlotId)
+               .registrations.push(<EventCareUserRegistration>{
+                  careUserId: careUser.careUserId,
+                  status: res.status,
+               });
+         },
+         err => {
+            this._snackBar.open(`⚠ ${err.message}`, 'OK');
+         }
+      );
    }
 }

@@ -23,7 +23,7 @@ namespace Tests.ModelTests
 
          slots.Count
             .Should()
-            .Be(15, "The event should repeat from the 1st until the 15th");
+            .Be(16, "The event should repeat from the 1st until the 16th");
 
          slots[0].StartDateTime.Should()
             .Be(start, "that is the start time");
@@ -48,7 +48,7 @@ namespace Tests.ModelTests
 
          slots.Count
             .Should()
-            .Be(15, "The event should repeat from the 31st until the 15th");
+            .Be(16, "The event should repeat from the 31st until the 15th");
 
          slots[0].StartDateTime.Should()
             .Be(start, "that is the start time");
@@ -73,7 +73,7 @@ namespace Tests.ModelTests
 
          slots.Count
             .Should()
-            .Be(15, "The event should repeat from the 31st until the 15th");
+            .Be(16, "The event should repeat from the 31st until the 15th");
 
          slots[0].StartDateTime.Should()
             .Be(start, "that is the start time");

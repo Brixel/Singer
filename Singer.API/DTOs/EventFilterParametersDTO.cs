@@ -1,10 +1,12 @@
+using Singer.Models;
 using Singer.Resources;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Singer.DTOs
 {
-   public class SearchEventParamsDTO
+   public class EventFilterParametersDTO
    {
       [Display(
          ResourceType = typeof(DisplayNames),
@@ -20,5 +22,16 @@ namespace Singer.DTOs
          ResourceType = typeof(DisplayNames),
          Name = nameof(DisplayNames.LocationId))]
       public Guid? LocationId { get; set; }
+
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.AllowedAgeGroups))]
+      public List<AgeGroup> AllowedAgeGroups { get; set; }
+
+      [StringLength(maximumLength: ValidationValues.MaxEventTitleLength)]
+      [Display(
+         ResourceType = typeof(DisplayNames),
+         Name = nameof(DisplayNames.Text))]
+      public string Text { get; set; }
    }
 }

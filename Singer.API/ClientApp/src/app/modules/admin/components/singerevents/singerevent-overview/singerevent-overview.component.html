@@ -1,12 +1,7 @@
 <!-- Mat Form Field Filter -->
 <form [formGroup]="formControlGroup">
    <mat-form-field>
-      <input
-         matInput
-         #filterInput
-         placeholder="Filter"
-         formControlName="filterFieldControl"
-      />
+      <input matInput #filterInput placeholder="Filter" formControlName="filterFieldControl" />
       <mat-error *ngIf="formControlGroup.controls.filterFieldControl.errors?.maxlength">
          Filter mag maximum {{ maxFilterLength }} karakters bevatten.
       </mat-error>
@@ -41,9 +36,7 @@
          </th>
          <td mat-cell *matCellDef="let row">
             <p>
-               <span *ngFor="let group of row.allowedAgeGroups">
-                  {{ group | agegroupPipe }} <br />
-               </span>
+               <span *ngFor="let group of row.allowedAgeGroups"> {{ group | agegroupPipe }} <br /> </span>
             </p>
          </td>
       </ng-container>
@@ -60,7 +53,7 @@
                maxRegistrantsExceeded: isMaxRegistrantsExceeded(row)
             }"
          >
-         {{ getRegistrantsNumberString(row) }}
+            {{ getRegistrantsNumberString(row) }}
          </td>
       </ng-container>
 
@@ -112,25 +105,13 @@
          <th mat-header-cell *matHeaderCellDef>Acties</th>
          <td mat-cell *matCellDef="let row">
             <div class="action-list">
-               <button
-                  mat-stroked-button
-                  matTooltip="Bewerk evenement"
-                  (click)="selectRow(row)"
-               >
+               <button mat-stroked-button matTooltip="Bewerk evenement" (click)="selectRow(row)">
                   <mat-icon>edit</mat-icon>
                </button>
-               <button
-                  mat-stroked-button
-                  matTooltip="Bekijk inschrijvingen"
-                  (click)="manageRegistrations(row)"
-               >
+               <button mat-stroked-button matTooltip="Bekijk inschrijvingen" (click)="manageRegistrations(row)">
                   <mat-icon>people</mat-icon>
                </button>
-               <button
-                  mat-stroked-button
-                  matTooltip="Inschrijven"
-                  (click)="addRegistration(row)"
-               >
+               <button mat-stroked-button matTooltip="Inschrijven" (click)="addRegistration(row)">
                   <mat-icon>person_add</mat-icon>
                </button>
             </div>

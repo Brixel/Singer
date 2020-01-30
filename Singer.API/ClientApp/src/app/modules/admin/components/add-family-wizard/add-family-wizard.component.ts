@@ -48,8 +48,7 @@ export class AddFamilyWizardComponent {
       },
       {
          stepLabel: 'Klaar',
-         topText:
-            'Gefeliciteerd u hebt succesvol nieuwe Voogden en Zorggebruikers toegevoegd.',
+         topText: 'Gefeliciteerd u hebt succesvol nieuwe Voogden en Zorggebruikers toegevoegd.',
          addButtonText: '',
          middleButtonText: 'Terug naar Dashboard',
          backArrow: false,
@@ -119,27 +118,23 @@ export class AddFamilyWizardComponent {
          width: '80vw',
       });
 
-      dialogRef.componentInstance.submitEvent.subscribe(
-         (result: LegalGuardian) => {
-            // Add the legal guardian
-            this.legalguardiansService.createLegalGuardian(result).subscribe(
-               res => {
-                  //Save result localy for linking users
-                  result.id = res.id;
-                  this.legalGuardians.push(result);
+      dialogRef.componentInstance.submitEvent.subscribe((result: LegalGuardian) => {
+         // Add the legal guardian
+         this.legalguardiansService.createLegalGuardian(result).subscribe(
+            res => {
+               //Save result localy for linking users
+               result.id = res.id;
+               this.legalGuardians.push(result);
 
-                  this.snackBar.open(
-                     `${result.firstName} ${result.lastName} werd toegevoegd als voogd.`,
-                     'OK',
-                     { duration: 2000 }
-                  );
-               },
-               err => {
-                  this.handleApiError(err);
-               }
-            );
-         }
-      );
+               this.snackBar.open(`${result.firstName} ${result.lastName} werd toegevoegd als voogd.`, 'OK', {
+                  duration: 2000,
+               });
+            },
+            err => {
+               this.handleApiError(err);
+            }
+         );
+      });
    }
 
    editLegalGuardian(legalGuardian: LegalGuardian): void {
@@ -153,29 +148,21 @@ export class AddFamilyWizardComponent {
          width: '80vw',
       });
 
-      dialogRef.componentInstance.submitEvent.subscribe(
-         (result: LegalGuardian) => {
-            //Update the legal guardian
-            this.legalguardiansService.updateLegalGuardian(result).subscribe(
-               res => {
-                  //Update the local instance
-                  let legalGuardianIndex = this.legalGuardians.findIndex(
-                     guardian => guardian.id == result.id
-                  );
-                  this.legalGuardians[legalGuardianIndex] = result;
+      dialogRef.componentInstance.submitEvent.subscribe((result: LegalGuardian) => {
+         //Update the legal guardian
+         this.legalguardiansService.updateLegalGuardian(result).subscribe(
+            res => {
+               //Update the local instance
+               let legalGuardianIndex = this.legalGuardians.findIndex(guardian => guardian.id == result.id);
+               this.legalGuardians[legalGuardianIndex] = result;
 
-                  this.snackBar.open(
-                     `${result.firstName} ${result.lastName} werd aangepast.`,
-                     'OK',
-                     { duration: 2000 }
-                  );
-               },
-               err => {
-                  this.handleApiError(err);
-               }
-            );
-         }
-      );
+               this.snackBar.open(`${result.firstName} ${result.lastName} werd aangepast.`, 'OK', { duration: 2000 });
+            },
+            err => {
+               this.handleApiError(err);
+            }
+         );
+      });
    }
 
    deleteLegalGuardian(legalGuardian: LegalGuardian): void {}
@@ -196,11 +183,9 @@ export class AddFamilyWizardComponent {
                result.id = res.id;
                this.careUsers.push(result);
 
-               this.snackBar.open(
-                  `Gebruiker ${result.firstName} ${result.lastName} werd toegevoegd.`,
-                  'OK',
-                  { duration: 2000 }
-               );
+               this.snackBar.open(`Gebruiker ${result.firstName} ${result.lastName} werd toegevoegd.`, 'OK', {
+                  duration: 2000,
+               });
             },
             err => {
                this.handleApiError(err);
@@ -225,16 +210,12 @@ export class AddFamilyWizardComponent {
          this.careUserService.updateUser(result).subscribe(
             res => {
                //Update the local instance
-               let careUserIndex = this.careUsers.findIndex(
-                  user => user.id == result.id
-               );
+               let careUserIndex = this.careUsers.findIndex(user => user.id == result.id);
                this.careUsers[careUserIndex] = result;
 
-               this.snackBar.open(
-                  `Gebruiker ${result.firstName} ${result.lastName} werd aangepast.`,
-                  'OK',
-                  { duration: 2000 }
-               );
+               this.snackBar.open(`Gebruiker ${result.firstName} ${result.lastName} werd aangepast.`, 'OK', {
+                  duration: 2000,
+               });
             },
             err => {
                this.handleApiError(err);
@@ -257,24 +238,18 @@ export class AddFamilyWizardComponent {
          legalGuardian.careUsersToAdd = careUsersToAdd;
 
          // Update the legal guardian
-         this.legalguardiansService
-            .updateLegalGuardian(legalGuardian)
-            .subscribe(
-               res => {},
-               err => {
-                  linkingSuccesfull = false;
-                  this.handleApiError(err);
-               }
-            );
+         this.legalguardiansService.updateLegalGuardian(legalGuardian).subscribe(
+            res => {},
+            err => {
+               linkingSuccesfull = false;
+               this.handleApiError(err);
+            }
+         );
       });
 
       // If linking proceeded without errors
       if (linkingSuccesfull && careUsersToAdd.length > 0) {
-         this.snackBar.open(
-            'De Voogden en Zorgebruikers werden succesvol gekoppeld.',
-            'OK',
-            { duration: 2000 }
-         );
+         this.snackBar.open('De Voogden en Zorgebruikers werden succesvol gekoppeld.', 'OK', { duration: 2000 });
       }
       return linkingSuccesfull;
    }
@@ -287,15 +262,9 @@ export class AddFamilyWizardComponent {
          for (var k in err) {
             messages.push(err[k]);
          }
-         this.snackBar.open(
-            `⚠ Er zijn fouten opgetreden bij het opslagen:\n${messages.join(
-               '\n'
-            )}`,
-            'OK',
-            {
-               panelClass: 'multi-line-snackbar',
-            }
-         );
+         this.snackBar.open(`⚠ Er zijn fouten opgetreden bij het opslagen:\n${messages.join('\n')}`, 'OK', {
+            panelClass: 'multi-line-snackbar',
+         });
       }
    }
 }

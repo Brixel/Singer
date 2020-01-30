@@ -14,33 +14,25 @@ export class SingleRegistrationComponent implements OnInit {
    @Input() eventId: string;
    @Input() eventSlots: EventSlotRegistrations[] = [];
    @Input() careUsers: Registrant[] = [];
-   constructor(
-      private _eventService: SingerEventsService,
-      private _snackBar: MatSnackBar
-   ) {}
+   constructor(private _eventService: SingerEventsService, private _snackBar: MatSnackBar) {}
 
    ngOnInit() {}
 
    getEventRegistrationStatus(careUserId: string): RegistrationStatus {
-      return this.careUsers.find(x => x.careUserId === careUserId)
-         .registrationStatus;
+      return this.careUsers.find(x => x.careUserId === careUserId).registrationStatus;
    }
 
    registerCareUserOnEvent(careUser: Registrant) {
-      this._eventService
-         .registerCareUserOnEvent(this.eventId, careUser.careUserId)
-         .subscribe(
-            res => {
-               this._snackBar.open(`${careUser.name} werd ingeschreven`, 'OK', {
-                  duration: 2000,
-               });
-               this.careUsers.find(
-                  x => x.careUserId === careUser.careUserId
-               ).registrationStatus = res[0].status;
-            },
-            err => {
-               this._snackBar.open(`⚠ ${err}`, 'OK');
-            }
-         );
+      this._eventService.registerCareUserOnEvent(this.eventId, careUser.careUserId).subscribe(
+         res => {
+            this._snackBar.open(`${careUser.name} werd ingeschreven`, 'OK', {
+               duration: 2000,
+            });
+            this.careUsers.find(x => x.careUserId === careUser.careUserId).registrationStatus = res[0].status;
+         },
+         err => {
+            this._snackBar.open(`⚠ ${err}`, 'OK');
+         }
+      );
    }
 }

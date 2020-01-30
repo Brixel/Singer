@@ -5,28 +5,23 @@ import { MatPaginatorModule, MatSortModule, MatTableModule } from '@angular/mate
 import { SingerEventOverviewComponent } from './singerevent-overview.component';
 
 describe('EventsOverviewComponent', () => {
-  let component: SingerEventOverviewComponent;
-  let fixture: ComponentFixture<SingerEventOverviewComponent>;
+   let component: SingerEventOverviewComponent;
+   let fixture: ComponentFixture<SingerEventOverviewComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ SingerEventOverviewComponent ],
-      imports: [
-        NoopAnimationsModule,
-        MatPaginatorModule,
-        MatSortModule,
-        MatTableModule,
-      ]
-    }).compileComponents();
-  }));
+   beforeEach(async(() => {
+      TestBed.configureTestingModule({
+         declarations: [SingerEventOverviewComponent],
+         imports: [NoopAnimationsModule, MatPaginatorModule, MatSortModule, MatTableModule],
+      }).compileComponents();
+   }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(SingerEventOverviewComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+   beforeEach(() => {
+      fixture = TestBed.createComponent(SingerEventOverviewComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+   });
 
-  it('should compile', () => {
-    expect(component).toBeTruthy();
-  });
+   it('should compile', () => {
+      expect(component).toBeTruthy();
+   });
 });
