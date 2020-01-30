@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.ResponseCaching.Internal;
 using Microsoft.EntityFrameworkCore;
 using Singer.Data;
 using Singer.DTOs;
@@ -58,18 +59,21 @@ namespace Singer.Services
             = await GetEventRegistrationLogsWaitingForAction(userId);
          // Only process actions having legal guardians
          foreach (var actionsForCareUser in logsAwaitingAction
-            .Where(x => x.LegalGuardians.Any()))
+            .Where(x => x.CareUserLogDTO.LegalGuardians.Any()))
          {
+            var registrationLogIds = actionsForCareUser.RegistrationLogIds;
+            var careUserDTO = actionsForCareUser.CareUserLogDTO;
             var careTakers = string.Join(", ",
-               actionsForCareUser.LegalGuardians
+               careUserDTO.LegalGuardians
                   .Select(lg => lg.Name));
+            var ccEmails = actionsForCareUser.ExecutedByEmails;
             var emailTemplate = $"Beste {careTakers}<br />Er zijn wijzigingen in de inschrijvingen voor" +
-                                $" {actionsForCareUser.CareUser} geweest. Hieronder is een samenvatting:<br /><br />";
-            if (actionsForCareUser.RegistrationStateChanges.Any() && actionsForCareUser.LegalGuardians.Any())
+                                $" {careUserDTO.CareUser} geweest. Hieronder is een samenvatting:<br /><br />";
+            if (careUserDTO.RegistrationStateChanges.Any() && careUserDTO.LegalGuardians.Any())
             {
                emailTemplate += "Goedkeuringen en afkeuringen<br /><ul>";
 
-               foreach (var registration in actionsForCareUser.RegistrationStateChanges)
+               foreach (var registration in careUserDTO.RegistrationStateChanges)
                {
                   var newStatus = registration.NewStatus;
                   var statusString = newStatus switch
@@ -85,11 +89,11 @@ namespace Singer.Services
                emailTemplate += "</ul>";
             }
 
-            if (actionsForCareUser.RegistrationLocationChanges.Any())
+            if (careUserDTO.RegistrationLocationChanges.Any())
             {
                emailTemplate += "Locatiewijzigingen<br /><ul>";
 
-               foreach (var registration in actionsForCareUser.RegistrationLocationChanges)
+               foreach (var registration in careUserDTO.RegistrationLocationChanges)
                {
                   emailTemplate += GetEmailTemplateForEventSlot(registration.EventTitle,
                      registration.EventSlotStartDateTime, registration.EventSlotEndDateTime,
@@ -102,8 +106,21 @@ namespace Singer.Services
             emailTemplate += "<br />Met vriendelijke groeten,<br /><br />Sint Gerardus";
 
             await _emailService.Send("Inschrijvingen", emailTemplate,
-               actionsForCareUser.LegalGuardians.Select(x => x.Email).ToList());
+               careUserDTO.LegalGuardians.Select(x => x.Email).ToList(),
+               ccEmails);
+            MarkActionNotificationsForThisCareUserAsSent(registrationLogIds);
          }
+      }
+
+      private void MarkActionNotificationsForThisCareUserAsSent(List<Guid> registrationLogIds)
+      {
+         var registrationLogsToBeProcessed = _context.EventRegistrationLogs
+            .Where(x => registrationLogIds.Contains(x.Id)).ToList();
+         foreach (var eventRegistrationLog in registrationLogsToBeProcessed)
+         {
+            eventRegistrationLog.EmailSent = true;
+         }
+
       }
 
       private static string GetEmailTemplateForEventSlot(string eventTitle,
@@ -116,7 +133,7 @@ namespace Singer.Services
                 $"{newValue}</li>";
       }
 
-      public async Task<List<EventRegistrationLogCareUserDTO>> GetEventRegistrationLogsWaitingForAction(Guid? userId = null)
+      public async Task<List<EventRegistrationLogWrapper>> GetEventRegistrationLogsWaitingForAction(Guid? userId = null)
       {
          var locations = _context.EventLocations
             .Select(x => new {x.Id, x.Name})
@@ -125,13 +142,23 @@ namespace Singer.Services
          Expression<Func<EventRegistrationLocationChange, bool>> locationChangeExpression;
          if (userId.HasValue)
          {
-            statusChangeExpression = x => !x.EmailSent && x.ExecutedByUserId == userId;
-            locationChangeExpression = x => !x.EmailSent && x.ExecutedByUserId == userId;
+            statusChangeExpression = x =>
+               !x.EmailSent &&
+               x.ExecutedByUserId == userId &&
+               x.EventRegistration.CareUser.LegalGuardianCareUsers.Any();
+            locationChangeExpression = x =>
+               !x.EmailSent &&
+               x.ExecutedByUserId == userId &&
+               x.EventRegistration.CareUser.LegalGuardianCareUsers.Any(); ;
          }
          else
          {
-            statusChangeExpression = x => !x.EmailSent;
-            locationChangeExpression = x => !x.EmailSent;
+            statusChangeExpression = x =>
+               !x.EmailSent &&
+               x.EventRegistration.CareUser.LegalGuardianCareUsers.Any();
+            locationChangeExpression = x =>
+               !x.EmailSent &&
+               x.EventRegistration.CareUser.LegalGuardianCareUsers.Any();
          }
          var registrationLocationChanges =
             await _context.EventRegistrationLogs
@@ -139,7 +166,8 @@ namespace Singer.Services
             .Where(locationChangeExpression)
             .Select(x => new
             {
-               Id = x.Id,
+               RegistrationLogId = x.Id,
+               ExecutedByEmail = x.ExecutedByUser.Email,
                EventRegistration = new
                {
                   x.EventRegistrationId,
@@ -165,11 +193,14 @@ namespace Singer.Services
             }).ToListAsync();
 
 
-         var registrationStatusChanges = await _context.EventRegistrationLogs
+         var registrationStatusChanges =
+            await _context.EventRegistrationLogs
             .OfType<EventRegistrationStatusChange>()
             .Where(statusChangeExpression)
             .Select(x => new
             {
+               RegistrationLogId = x.Id,
+               ExecutedByEmail = x.ExecutedByUser.Email,
                EventRegistration  = new
                {
                   x.EventRegistrationId,
@@ -204,9 +235,14 @@ namespace Singer.Services
                            Name = $"{lc.FirstName} {lc.LastName}",
                            Email = lc.Email
                         }).ToList();
-                     return new EventRegistrationLogCareUserDTO()
+                     var registrationLogIds =
+                        careUserId.Select(x => x.RegistrationLogId).ToList();
+                     var executedByEmail =
+                        careUserId.Select(c => c.ExecutedByEmail)
+                           .Distinct().ToList();
+                     var logDTO = new EventRegistrationLogCareUserDTO()
                      {
-                        Id = careUserId.Key,
+                        CareUserId = careUserId.Key,
                         CreationDateTimeUTC = careUserId.First().CreationDateTimeUTC,
                         CareUser = $"{careUser.FirstName} {careUser.LastName}",
                         LegalGuardians = legalGuardians,
@@ -221,6 +257,7 @@ namespace Singer.Services
                            }).ToList()
 
                      };
+                     return EventRegistrationLogWrapper.Create(careUserId.Key, registrationLogIds, logDTO, executedByEmail);
                   }).ToList();
 
          var eventRegistrationLocations =
@@ -234,9 +271,14 @@ namespace Singer.Services
                         Name = $"{lc.FirstName} {lc.LastName}",
                         Email = lc.Email
                      }).ToList();
-                  return new EventRegistrationLogCareUserDTO()
+                  var registrationLogIds =
+                     careUserId.Select(x => x.RegistrationLogId).ToList();
+                  var executedByEmail =
+                     careUserId.Select(c => c.ExecutedByEmail)
+                        .Distinct().ToList();
+                  var logDTO = new EventRegistrationLogCareUserDTO()
                   {
-                     Id = careUserId.Key,
+                     CareUserId = careUserId.Key,
                      CreationDateTimeUTC = careUserId.First().CreationDateTimeUTC,
                      CareUser = $"{careUser.FirstName} {careUser.LastName}",
                      LegalGuardians = legalGuardians,
@@ -250,22 +292,26 @@ namespace Singer.Services
                            NewLocation = eventRegistration.EventRegistration.NewLocation
                         }).ToList()
                   };
+                  return EventRegistrationLogWrapper.Create(careUserId.Key, registrationLogIds, logDTO, executedByEmail);
                }).ToList();
 
          foreach (var eventRegistrationLogCareUserDto in eventRegistrationLogs)
          {
             var careUserId = eventRegistrationLocations
-               .SingleOrDefault(x => x.Id == eventRegistrationLogCareUserDto.Id);
+               .SingleOrDefault(x =>
+                  x.CareUserId == eventRegistrationLogCareUserDto.CareUserId);
             if (careUserId != null)
             {
-               eventRegistrationLogCareUserDto.RegistrationLocationChanges = careUserId.RegistrationLocationChanges;
+               eventRegistrationLogCareUserDto.CareUserLogDTO.RegistrationLocationChanges = careUserId.CareUserLogDTO.RegistrationLocationChanges;
+               eventRegistrationLogCareUserDto.AddLogIds(eventRegistrationLogCareUserDto.RegistrationLogIds);
             }
          }
 
-         var processedCareUserIds = eventRegistrationLogs.Select(x => x.Id).ToList();
+         var processedCareUserIds =
+            eventRegistrationLogs.Select(x => x.CareUserId).ToList();
 
          var remainingCareUsers =
-            eventRegistrationLocations.Where(x => !processedCareUserIds.Contains(x.Id))
+            eventRegistrationLocations.Where(x => !processedCareUserIds.Contains(x.CareUserId))
                .ToList();
          eventRegistrationLogs.AddRange(remainingCareUsers);
          return eventRegistrationLogs;
@@ -290,6 +336,35 @@ namespace Singer.Services
 
             await _context.EventRegistrationLogs.AddAsync(eventRegistrationLog);
          }
+      }
+   }
+
+   public class EventRegistrationLogWrapper
+   {
+      private EventRegistrationLogWrapper(Guid careUserId, List<Guid> registrationLogIds,
+         EventRegistrationLogCareUserDTO careUserLogDto, List<string> executedByEmails)
+      {
+         CareUserId = careUserId;
+         RegistrationLogIds = registrationLogIds;
+         CareUserLogDTO = careUserLogDto;
+         ExecutedByEmails = executedByEmails;
+      }
+
+      public Guid CareUserId { get; }
+      public List<Guid> RegistrationLogIds { get; }
+
+      public List<string> ExecutedByEmails { get; }
+      public EventRegistrationLogCareUserDTO CareUserLogDTO { get; }
+
+      public static EventRegistrationLogWrapper Create(Guid careUserId, List<Guid> registrationLogIds,
+         EventRegistrationLogCareUserDTO careUserLogDTO, List<string> executedByEmail)
+      {
+         return new EventRegistrationLogWrapper(careUserId, registrationLogIds, careUserLogDTO, executedByEmail);
+      }
+
+      public void AddLogIds(IReadOnlyList<Guid> registrationLogIds)
+      {
+         RegistrationLogIds.AddRange(registrationLogIds);
       }
    }
 }

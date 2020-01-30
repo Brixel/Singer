@@ -1,14 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Singer.Models;
 
 namespace Singer.DTOs
 {
    public class EventRegistrationLogCareUserDTO
    {
-      public Guid Id { get; set; }
+      public Guid CareUserId { get; set; }
       public string CareUser { get; set; }
       public List<LegalGuardianDTO> LegalGuardians { get; set; }
       public DateTime CreationDateTimeUTC { get; set; }

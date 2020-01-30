@@ -16,9 +16,9 @@ namespace Singer.Models
       public bool EmailSent { get; set; }
       public DateTime CreationDateTimeUTC { get; set; }
 
-      [ForeignKey(nameof(User))]
+      [ForeignKey(nameof(ExecutedByUser))]
       public Guid ExecutedByUserId { get; set; }
-      public User User { get; set; }
+      public User ExecutedByUser { get; set; }
 
       public bool ActionTaken()
       {

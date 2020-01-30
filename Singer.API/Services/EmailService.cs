@@ -27,7 +27,7 @@ namespace Singer.Services
 
    public class NoActualEmailService : IEmailService
    {
-      public Task Send(string subject, string body, IReadOnlyList<string> recipients)
+      public Task Send(string subject, string body, IReadOnlyList<string> recipients, IReadOnlyList<string> ccEmails)
       {
          return Task.CompletedTask;
       }
@@ -97,8 +97,11 @@ namespace Singer.Services
          };
          _mailFrom = emailOptions.MailFrom;
       }
-      public async Task Send(string subject, string body, IReadOnlyList<string> recipients)
+      public async Task Send(string subject, string body, IReadOnlyList<string> recipients, IReadOnlyList<string> ccEmails)
       {
+         var distinctRecepients = recipients.Distinct().ToList();
+         var distintCC = ccEmails.Distinct().ToList();
+
          var msg = new MailMessage
          {
             From = new MailAddress(_mailFrom),
@@ -106,9 +109,14 @@ namespace Singer.Services
             Subject = subject,
             Body = body
          };
-         foreach (var recipient in recipients)
+         foreach (var recipient in distinctRecepients)
          {
             msg.To.Add(new MailAddress(recipient));
+         }
+
+         foreach (var ccEmail in distintCC)
+         {
+            msg.CC.Add(ccEmail);
          }
          await _smtp.SendMailAsync(msg);
       }

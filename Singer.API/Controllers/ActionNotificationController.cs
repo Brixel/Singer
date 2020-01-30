@@ -6,6 +6,7 @@ using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Singer.Data;
 using Singer.DTOs;
 using Singer.Models;
 using Singer.Services.Interfaces;
@@ -17,17 +18,21 @@ namespace Singer.Controllers
    [Authorize]
    public class ActionNotificationController : ControllerBase
    {
+      private readonly ApplicationDbContext _context;
       private readonly IActionNotificationService _actionNotificationService;
 
-      public ActionNotificationController(IActionNotificationService actionNotificationService)
+      public ActionNotificationController(ApplicationDbContext context, IActionNotificationService actionNotificationService)
       {
+         _context = context;
          _actionNotificationService = actionNotificationService;
       }
 
       [HttpGet("pending")]
-      public async Task<List<EventRegistrationLogCareUserDTO>> GetEventRegistrationLogsWaitingForAction()
+      public async Task<IReadOnlyList<EventRegistrationLogCareUserDTO>> GetEventRegistrationLogsWaitingForAction()
       {
-         return await _actionNotificationService.GetEventRegistrationLogsWaitingForAction();
+         var pendingRegistrations =
+            await _actionNotificationService.GetEventRegistrationLogsWaitingForAction();
+         return pendingRegistrations.Select(x => x.CareUserLogDTO).ToList();
       }
 
       [HttpPut("sendemail")]
@@ -36,6 +41,7 @@ namespace Singer.Controllers
          var subjectId = User.GetSubjectId();
          var userId = Guid.Parse(subjectId);
          await _actionNotificationService.SendEmails(userId);
+         await _context.SaveChangesAsync();
       }
    }
 }

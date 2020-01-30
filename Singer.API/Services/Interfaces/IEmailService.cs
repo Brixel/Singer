@@ -16,6 +16,6 @@ namespace Singer.Services.Interfaces
 
    public interface IEmailService
    {
-      Task Send(string subject, string body, IReadOnlyList<string> recipients);
+      Task Send(string subject, string body, IReadOnlyList<string> recipients, IReadOnlyList<string> ccEmails);
    }
 }
