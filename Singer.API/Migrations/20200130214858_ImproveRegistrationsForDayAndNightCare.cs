@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Singer.Migrations
@@ -83,6 +83,12 @@ namespace Singer.Migrations
                 nullable: false,
                 oldClrType: typeof(Guid),
                 oldNullable: true);
+
+            migrationBuilder.AddColumn<bool>(
+                name: "HasResources",
+                table: "CareUsers",
+                nullable: false,
+                defaultValue: false);
 
             migrationBuilder.CreateIndex(
                 name: "IX_EventRegistrations_CareUserId_EventSlotId",

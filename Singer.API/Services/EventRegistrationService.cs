@@ -30,14 +30,14 @@ namespace Singer.Services
       protected ApplicationDbContext Context { get; }
       protected IMapper Mapper { get; }
 
-      protected DbSet<EventRegistration> DbSet =>
+      protected DbSet<Registration> DbSet =>
          Context.EventRegistrations;
-      protected IQueryable<EventRegistration> Queryable => Context.EventRegistrations
+      protected IQueryable<Registration> Queryable => Context.EventRegistrations
          .Include(x => x.CareUser).ThenInclude(x => x.User)
          .Include(x => x.EventSlot).ThenInclude(x => x.Event)
          .AsQueryable();
 
-      public Expression<Func<EventRegistration, EventRegistrationDTO>> Projector => x => new EventRegistrationDTO
+      public Expression<Func<Registration, EventRegistrationDTO>> Projector => x => new EventRegistrationDTO
       {
          Id = x.Id,
          Status = x.Status,
@@ -66,7 +66,7 @@ namespace Singer.Services
          },
       };
 
-      protected static Expression<Func<EventRegistration, bool>> Filter(string filter)
+      protected static Expression<Func<Registration, bool>> Filter(string filter)
       {
          return o =>
             o.CareUser.User.FirstName.Contains(filter, StringComparison.InvariantCultureIgnoreCase) ||
@@ -91,11 +91,11 @@ namespace Singer.Services
             })
             .ToList();
 
-         var registrations = new List<EventRegistration>();
+         var registrations = new List<Registration>();
          foreach (var eventSlot in eventSlots)
          {
             var registration =
-               EventRegistration
+               Registration
                   .Create(dto.CareUserId,
                      eventSlot.EventSlotId, eventSlot.StartDateTime, eventSlot.EndDateTime,
                      dto.Status.Value);
@@ -315,7 +315,7 @@ namespace Singer.Services
          if (slot == null)
             throw new NotFoundException("Event slot Id could not be found!", ErrorMessages.EventSlotNotFound);
 
-         DbSet.Add(EventRegistration.Create(dto.CareUserId, slot.Id, slot.StartDateTime, slot.EndDateTime,
+         DbSet.Add(Registration.Create(dto.CareUserId, slot.Id, slot.StartDateTime, slot.EndDateTime,
             dto.Status.Value));
 
          await Context.SaveChangesAsync().ConfigureAwait(false);
@@ -363,9 +363,9 @@ namespace Singer.Services
          ListSortDirection sortDirection = ListSortDirection.Ascending,
          int pageSize = 15, int pageIndex = 0)
       {
-         Expression<Func<EventRegistration, bool>> filterExpression = f => f.Status == RegistrationStatus.Pending;
+         Expression<Func<Registration, bool>> filterExpression = f => f.Status == RegistrationStatus.Pending;
 
-         var registrations = await Queryable.ToPagedListAsync<EventRegistration, EventRegistrationDTO>(
+         var registrations = await Queryable.ToPagedListAsync<Registration, EventRegistrationDTO>(
             Mapper, filterExpression, orderer, sortDirection, pageIndex, pageSize
          );
 

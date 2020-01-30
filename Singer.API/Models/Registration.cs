@@ -5,7 +5,7 @@ using Singer.Models.Users;
 
 namespace Singer.Models
 {
-   public class EventRegistration : IIdentifiable
+   public class Registration : IIdentifiable
    {
       public Guid Id { get; set; }
       public RegistrationStatus Status { get; set; }
@@ -21,26 +21,26 @@ namespace Singer.Models
 
       public DateTime StartDateTime { get; set; }
       public DateTime EndDateTime { get; set; }
-      private EventRegistration()
+      private Registration()
       {
          // Default the registrations are set the pending
          Status = RegistrationStatus.Pending;
       }
 
-      public static EventRegistration Create(EventRegistrationTypes eventRegistrationTypes,
+      public static Registration Create(EventRegistrationTypes eventRegistrationTypes,
          DateTime startDateTime, DateTime endDateTime)
       {
-         return new EventRegistration(){
+         return new Registration(){
             EventRegistrationType = eventRegistrationTypes,
             StartDateTime = startDateTime,
             EndDateTime = endDateTime
          };
       }
 
-      public static EventRegistration Create(Guid careUserId, Guid eventSlotId,
+      public static Registration Create(Guid careUserId, Guid eventSlotId,
          DateTime startDateTime, DateTime endDateTime, RegistrationStatus status)
       {
-         var registration = new EventRegistration
+         var registration = new Registration
          {
             CareUserId = careUserId,
             EventSlotId = eventSlotId,

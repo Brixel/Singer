@@ -61,6 +61,8 @@
       <Compile Remove="Migrations\20191016203050_create-eventregistrations-and-eventslots.Designer.cs" />
       <Compile Remove="Migrations\20191128185717_DaycareLocationOnRegistration.cs" />
       <Compile Remove="Migrations\20191128185717_DaycareLocationOnRegistration.Designer.cs" />
+      <Compile Remove="Migrations\20200130203016_ImproveRegistrationsForDayAndNightCare.cs" />
+      <Compile Remove="Migrations\20200130203016_ImproveRegistrationsForDayAndNightCare.Designer.cs" />
       <Compile Remove="Models\PaginationModel.cs" />
    </ItemGroup>
 
