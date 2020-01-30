@@ -29,7 +29,7 @@ import { SingerEventOverviewComponent } from './components/singerevents/singerev
 import { SingerEventsProxy } from '../core/services/singerevents-api/singerevents.proxy';
 import { SingerEventsService } from '../core/services/singerevents-api/singerevents.service';
 import { SingerEventDetailsComponent } from './components/singerevents/singerevent-details/singerevent-details.component';
-import { AdminListComponent } from './components/admin-users/admin-list/admin-list.component';
+import { AdminOverviewComponent } from './components/admin-users/admin-overview/admin-overview.component';
 import { AdminDetailsComponent } from './components/admin-users/admin-details/admin-details.component';
 import { AdminUserProxy } from './services/adminuser.proxy';
 import { AdminUserService } from './services/admin-user.service';
@@ -51,7 +51,7 @@ import { PendingRegistrationsComponent } from './components/pending-registration
       LegalguardianDetailsComponent,
       SingerEventOverviewComponent,
       SingerEventDetailsComponent,
-      AdminListComponent,
+      AdminOverviewComponent,
       AdminDetailsComponent,
       SingerEventRegistrationsComponent,
       CareUserSearchComponent,
