@@ -1,16 +1,5 @@
-import {
-   AfterViewInit,
-   Component,
-   ViewChild,
-   OnInit,
-   ElementRef,
-} from '@angular/core';
-import {
-   MatPaginator,
-   MatSort,
-   MatDialog,
-   MatSnackBar,
-} from '@angular/material';
+import { AfterViewInit, Component, ViewChild, OnInit, ElementRef } from '@angular/core';
+import { MatPaginator, MatSort, MatDialog, MatSnackBar } from '@angular/material';
 import { CareUserOverviewDataSource } from './care-user-overview-datasource';
 import { merge, fromEvent } from 'rxjs';
 import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -26,7 +15,6 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
    styleUrls: ['./care-user-overview.component.css'],
 })
 export class CareUserOverviewComponent implements OnInit, AfterViewInit {
-
    @ViewChild(MatPaginator) paginator: MatPaginator;
    @ViewChild(MatSort) sort: MatSort;
    @ViewChild('filterInput') filterInput: ElementRef;
@@ -37,24 +25,14 @@ export class CareUserOverviewComponent implements OnInit, AfterViewInit {
    readonly maxFilterLength = 2048;
 
    formControlGroup: FormGroup = new FormGroup({
-      filterFieldControl: new FormControl(this.filter, [
-         Validators.maxLength(this.maxFilterLength),
-      ]),
+      filterFieldControl: new FormControl(this.filter, [Validators.maxLength(this.maxFilterLength)]),
    });
 
    // Datatable
    dataSource: CareUserOverviewDataSource;
 
    /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-   displayedColumns = [
-      'firstName',
-      'lastName',
-      'birthDay',
-      'caseNumber',
-      'ageGroup',
-      'isExtern',
-      'hasTrajectory',
-   ];
+   displayedColumns = ['firstName', 'lastName', 'birthDay', 'caseNumber', 'ageGroup', 'isExtern', 'hasTrajectory'];
 
    // Paginator
    pageSize = 15;
@@ -109,13 +87,7 @@ export class CareUserOverviewComponent implements OnInit, AfterViewInit {
       const sortDirection = this.sort.direction;
       const sortColumn = this.sort.active;
       this.filter = this.filterInput.nativeElement.value;
-      this.dataSource.loadCareUsers(
-         sortDirection,
-         sortColumn,
-         this.pageIndex,
-         this.pageSize,
-         this.filter
-      );
+      this.dataSource.loadCareUsers(sortDirection, sortColumn, this.pageIndex, this.pageSize, this.filter);
    }
 
    addCareUser(): void {
@@ -131,11 +103,9 @@ export class CareUserOverviewComponent implements OnInit, AfterViewInit {
          this._careUserService.createCareUser(result).subscribe(
             _ => {
                this.loadCareUsers();
-               this._snackBar.open(
-                  `Gebruiker ${result.firstName} ${result.lastName} werd toegevoegd.`,
-                  'OK',
-                  { duration: 2000 }
-               );
+               this._snackBar.open(`Gebruiker ${result.firstName} ${result.lastName} werd toegevoegd.`, 'OK', {
+                  duration: 2000,
+               });
             },
             err => {
                this.handleApiError(err);
@@ -161,11 +131,9 @@ export class CareUserOverviewComponent implements OnInit, AfterViewInit {
             () => {
                // Reload Careusers
                this.loadCareUsers();
-               this._snackBar.open(
-                  `Gebruiker ${result.firstName} ${result.lastName} werd aangepast.`,
-                  'OK',
-                  { duration: 2000 }
-               );
+               this._snackBar.open(`Gebruiker ${result.firstName} ${result.lastName} werd aangepast.`, 'OK', {
+                  duration: 2000,
+               });
             },
             err => {
                this.handleApiError(err);
@@ -182,15 +150,9 @@ export class CareUserOverviewComponent implements OnInit, AfterViewInit {
          for (var k in err) {
             messages.push(err[k]);
          }
-         this._snackBar.open(
-            `⚠ Er zijn fouten opgetreden bij het opslaan:\n${messages.join(
-               '\n'
-            )}`,
-            'OK',
-            {
-               panelClass: 'multi-line-snackbar',
-            }
-         );
+         this._snackBar.open(`⚠ Er zijn fouten opgetreden bij het opslaan:\n${messages.join('\n')}`, 'OK', {
+            panelClass: 'multi-line-snackbar',
+         });
       }
    }
 }

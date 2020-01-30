@@ -29,25 +29,16 @@ export class SingerEventLocationProxy {
          .set('pageIndex', pageIndex.toString())
          .set('pageSize', pageSize.toString())
          .set('filter', filter);
-      return this.apiService
-         .get('api/eventlocation', searchParams)
-         .pipe(map(res => res));
+      return this.apiService.get('api/eventlocation', searchParams).pipe(map(res => res));
    }
 
-   updateSingerEventLocation(
-      id: string,
-      updateSingerEventLocationDTO: UpdateSingerEventLocationDTO
-   ) {
-      return this.apiService
-         .put(`api/eventlocation/${id}`, updateSingerEventLocationDTO)
-         .pipe(map(res => res));
+   updateSingerEventLocation(id: string, updateSingerEventLocationDTO: UpdateSingerEventLocationDTO) {
+      return this.apiService.put(`api/eventlocation/${id}`, updateSingerEventLocationDTO).pipe(map(res => res));
    }
 
    createSingerEventLocation(
       createSingerEventLocationDTO: CreateSingerEventLocationDTO
    ): Observable<SingerEventLocationDTO> {
-      return this.apiService
-         .post('api/eventlocation', createSingerEventLocationDTO)
-         .pipe(map(res => res));
+      return this.apiService.post('api/eventlocation', createSingerEventLocationDTO).pipe(map(res => res));
    }
 }

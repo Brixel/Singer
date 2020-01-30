@@ -1,6 +1,5 @@
 import { DataSource } from '@angular/cdk/table';
 
-
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { AdminUserService } from './admin-user.service';
@@ -27,22 +26,14 @@ export class AdminDatasource extends DataSource<AdminUser> {
       super();
    }
 
-   loadAdmins(
-      sortDirection?: string,
-      sortColumn?: string,
-      pageIndex?: number,
-      pageSize?: number,
-      filter?: string
-   ) {
+   loadAdmins(sortDirection?: string, sortColumn?: string, pageIndex?: number, pageSize?: number, filter?: string) {
       this.loadingSubject$.next(true);
-      this.adminUserService
-         .get(sortDirection, sortColumn, pageIndex, pageSize, filter)
-         .subscribe(res => {
-            this.adminUsersSubject$.next(res.items as AdminUser[]);
-            this.totalSizeSubject$.next(res.totalSize);
-            this.queryCountSubject$.next(res.size);
-            this.loadingSubject$.next(false);
-         });
+      this.adminUserService.get(sortDirection, sortColumn, pageIndex, pageSize, filter).subscribe(res => {
+         this.adminUsersSubject$.next(res.items as AdminUser[]);
+         this.totalSizeSubject$.next(res.totalSize);
+         this.queryCountSubject$.next(res.size);
+         this.loadingSubject$.next(false);
+      });
    }
 
    connect(collectionViewer: CollectionViewer): Observable<AdminUser[]> {

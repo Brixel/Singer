@@ -8,12 +8,7 @@ import { EventSlot } from '../../models/eventslot';
 @Injectable({
    providedIn: 'root',
 })
-export class PendingRegistrationsService extends GenericService<
-   EventRegistration,
-   EventRegistrationDTO,
-   null,
-   null
-> {
+export class PendingRegistrationsService extends GenericService<EventRegistration, EventRegistrationDTO, null, null> {
    toModel(dto: EventRegistrationDTO): EventRegistration {
       return <EventRegistration>{
          careUser: dto.careUser,

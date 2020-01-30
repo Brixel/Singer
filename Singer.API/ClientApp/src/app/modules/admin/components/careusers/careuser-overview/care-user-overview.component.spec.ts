@@ -41,10 +41,16 @@ describe('OverviewComponent', () => {
             MatFormFieldModule,
             MatInputModule,
             MatCardModule,
-            MatProgressSpinnerModule
-
+            MatProgressSpinnerModule,
          ],
-         providers: [AgegroupPipe, { provide: ApiService, useValue: apiServiceMock }, {provide: HttpClient, useValue: MockHttpClient}, {provide: 'BASE_URL', useValue: 'http://'}, CareUserProxy, CareUserService]
+         providers: [
+            AgegroupPipe,
+            { provide: ApiService, useValue: apiServiceMock },
+            { provide: HttpClient, useValue: MockHttpClient },
+            { provide: 'BASE_URL', useValue: 'http://' },
+            CareUserProxy,
+            CareUserService,
+         ],
       }).compileComponents();
    }));
 

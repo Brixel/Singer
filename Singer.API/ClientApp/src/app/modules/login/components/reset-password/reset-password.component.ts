@@ -36,9 +36,7 @@ export class ResetPasswordComponent implements OnInit {
 
       this.formGroup.setValidators([comparePassword()]);
 
-      this._authService.passwordResetError$.subscribe(res =>
-         this.processError(res)
-      );
+      this._authService.passwordResetError$.subscribe(res => this.processError(res));
    }
 
    private processError(error: string) {
@@ -57,20 +55,16 @@ export class ResetPasswordComponent implements OnInit {
          return;
       }
       const password = this.formGroup.controls.passwordVerify.value;
-      this._authService
-         .updatePassword(this.userId, this.token, password)
-         .subscribe(
-            () => {
-               this._snackbar.open(
-                  'Wachtwoord is gewijzigd. U wordt nu naar de login pagina doorgestuurd.',
-                  'OK',
-                  { duration: 2000 }
-               );
-               this._router.navigateByUrl('login');
-            },
-            error => {
-               this.processError(error.error);
-            }
-         );
+      this._authService.updatePassword(this.userId, this.token, password).subscribe(
+         () => {
+            this._snackbar.open('Wachtwoord is gewijzigd. U wordt nu naar de login pagina doorgestuurd.', 'OK', {
+               duration: 2000,
+            });
+            this._router.navigateByUrl('login');
+         },
+         error => {
+            this.processError(error.error);
+         }
+      );
    }
 }

@@ -48,8 +48,13 @@
       <!-- AddButton column -->
       <ng-container matColumnDef="addButton">
          <td mat-footer-cell *matFooterCellDef>
-            <button mat-icon-button color="primary" (click)="addAdmin()" title="Beheerder toevoegen"
-               aria-label="Toevoegen knop">
+            <button
+               mat-icon-button
+               color="primary"
+               (click)="addAdmin()"
+               title="Beheerder toevoegen"
+               aria-label="Toevoegen knop"
+            >
                <mat-icon>person_add</mat-icon>
             </button>
             <!-- <label class="tableButton">Toevoegen</label> -->
@@ -60,8 +65,14 @@
       <ng-container matColumnDef="paginator">
          <td mat-footer-cell *matFooterCellDef colspan="20">
             <!-- Paginator -->
-            <mat-paginator #paginator [length]="dataSource?.totalSize$ | async" [pageIndex]="pageIndex"
-               [pageSize]="pageSize" [pageSizeOptions]="[1, 15, 25, 50, 100]" showFirstLastButtons>
+            <mat-paginator
+               #paginator
+               [length]="dataSource?.totalSize$ | async"
+               [pageIndex]="pageIndex"
+               [pageSize]="pageSize"
+               [pageSizeOptions]="[1, 15, 25, 50, 100]"
+               showFirstLastButtons
+            >
             </mat-paginator>
          </td>
       </ng-container>

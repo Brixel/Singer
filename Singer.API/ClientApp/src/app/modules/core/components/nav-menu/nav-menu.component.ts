@@ -1,9 +1,6 @@
 import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import {
-   SingerRouterLink,
-   singerRouterLinkRequirements,
-} from '../../models/singer-routerlink.model';
+import { SingerRouterLink, singerRouterLinkRequirements } from '../../models/singer-routerlink.model';
 import { Router } from '@angular/router';
 
 @Component({
@@ -25,49 +22,32 @@ export class NavMenuComponent implements OnInit {
       },
       {
          RouterLinkName: 'Voogden',
-         RouterLinkRequirements: [
-            singerRouterLinkRequirements.isAdmin,
-            singerRouterLinkRequirements.isAuthenticated,
-         ],
+         RouterLinkRequirements: [singerRouterLinkRequirements.isAdmin, singerRouterLinkRequirements.isAuthenticated],
          routerLink: '/admin/voogden',
       },
       {
          RouterLinkName: 'Zorg gebruikers',
-         RouterLinkRequirements: [
-            singerRouterLinkRequirements.isAdmin,
-            singerRouterLinkRequirements.isAuthenticated,
-         ],
+         RouterLinkRequirements: [singerRouterLinkRequirements.isAdmin, singerRouterLinkRequirements.isAuthenticated],
          routerLink: '/admin/zorggebruikers',
       },
       {
          RouterLinkName: 'Beheerders',
-         RouterLinkRequirements: [
-            singerRouterLinkRequirements.isAdmin,
-            singerRouterLinkRequirements.isAuthenticated,
-         ],
+         RouterLinkRequirements: [singerRouterLinkRequirements.isAdmin, singerRouterLinkRequirements.isAuthenticated],
          routerLink: '/admin/beheerders',
       },
       {
          RouterLinkName: 'Evenementen',
-         RouterLinkRequirements: [
-            singerRouterLinkRequirements.isAdmin,
-            singerRouterLinkRequirements.isAuthenticated,
-         ],
+         RouterLinkRequirements: [singerRouterLinkRequirements.isAdmin, singerRouterLinkRequirements.isAuthenticated],
          routerLink: '/admin/evenementen',
       },
       {
          RouterLinkName: 'Te verwerken e-mails',
-         RouterLinkRequirements: [
-            singerRouterLinkRequirements.isAdmin,
-            singerRouterLinkRequirements.isAuthenticated,
-         ],
+         RouterLinkRequirements: [singerRouterLinkRequirements.isAdmin, singerRouterLinkRequirements.isAuthenticated],
          routerLink: '/admin/te-verwerken-emails',
       },
       {
          RouterLinkName: 'Inloggen',
-         RouterLinkRequirements: [
-            singerRouterLinkRequirements.isNotAuthenticated,
-         ],
+         RouterLinkRequirements: [singerRouterLinkRequirements.isNotAuthenticated],
          routerLink: '/login',
       },
    ];
@@ -101,15 +81,11 @@ export class NavMenuComponent implements OnInit {
    private updateRequirements() {
       const routerLinkRequirements: { [name: string]: boolean } = {};
       this.routerLinks.forEach(routerLink => {
-         const routerLinkRequirement = this.routerLinkRequirements[
-            routerLink.RouterLinkName
-         ];
+         const routerLinkRequirement = this.routerLinkRequirements[routerLink.RouterLinkName];
          if (routerLinkRequirement === undefined) {
             routerLinkRequirements[routerLink.RouterLinkName] = false;
          }
-         const isValid = this.checkRequirements(
-            routerLink.RouterLinkRequirements
-         );
+         const isValid = this.checkRequirements(routerLink.RouterLinkRequirements);
          routerLinkRequirements[routerLink.RouterLinkName] = isValid;
       });
       this.routerLinkRequirements = routerLinkRequirements;
