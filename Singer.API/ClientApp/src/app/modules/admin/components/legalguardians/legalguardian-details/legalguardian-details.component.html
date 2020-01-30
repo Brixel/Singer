@@ -159,7 +159,7 @@
          <!-- Delete Button -->
          <app-delete-confirmation
             deleteButtonText="Voogd Verwijderen"
-            [name]="currentLegalGuardianInstance.firstName + ' ' + currentLegalGuardianInstance.lastName"
+            [name]="currentLegalGuardianInstance.firstName"
             (delete)="emitDeleteEvent()"
             *ngIf="!isAdding"
          >

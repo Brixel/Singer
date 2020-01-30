@@ -1,4 +1,4 @@
-import { GenericModel } from '../models/generic-model';
+import { GenericModel } from '../models/generics/generic-model';
 import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { Observable, Subject, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';

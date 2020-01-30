@@ -4,8 +4,8 @@
 </mat-form-field>
 
 <!-- Mat Table -->
-<div class="mat-elevation-z8 admin-table">
-   <table mat-table [dataSource]="dataSource" matSort aria-label="beheerders">
+<div class="mat-elevation-z8 overview-table">
+   <table mat-table [dataSource]="dataSource" matSort aria-label="Beheerders">
       <!-- FirstName Column -->
       <ng-container matColumnDef="firstName">
          <th mat-header-cell *matHeaderCellDef mat-sort-header>Voornaam</th>
@@ -41,46 +41,37 @@
                <button mat-stroked-button matTooltip="Wijzig wachtwoord" (click)="changePassword(row)">
                   <mat-icon>lock</mat-icon>
                </button>
-               <button mat-stroked-button matTooltip="Verwijder beheerder" (click)="deleteUser(row)">
-                  <mat-icon>delete</mat-icon>
-               </button>
             </div>
          </td>
       </ng-container>
+
       <!-- AddButton column -->
       <ng-container matColumnDef="addButton">
          <td mat-footer-cell *matFooterCellDef>
-            <button
-               mat-icon-button
-               color="primary"
-               (click)="addAdmin()"
-               title="Beheerder toevoegen"
-               aria-label="Toevoegen knop"
-            >
+            <button mat-icon-button color="primary" (click)="addAdmin()" title="Beheerder toevoegen"
+               aria-label="Toevoegen knop">
                <mat-icon>person_add</mat-icon>
             </button>
             <!-- <label class="tableButton">Toevoegen</label> -->
          </td>
       </ng-container>
+
       <!-- Paginator column -->
       <ng-container matColumnDef="paginator">
          <td mat-footer-cell *matFooterCellDef colspan="20">
             <!-- Paginator -->
-            <mat-paginator
-               #paginator
-               [length]="dataSource?.totalSize$ | async"
-               [pageIndex]="pageIndex"
-               [pageSize]="pageSize"
-               [pageSizeOptions]="[1, 15, 25, 50, 100]"
-               showFirstLastButtons
-            >
+            <mat-paginator #paginator [length]="dataSource?.totalSize$ | async" [pageIndex]="pageIndex"
+               [pageSize]="pageSize" [pageSizeOptions]="[1, 15, 25, 50, 100]" showFirstLastButtons>
             </mat-paginator>
          </td>
       </ng-container>
+
       <!-- Header Row -->
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
       <!-- Data Row -->
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
       <!-- Footer Row -->
       <tr mat-footer-row *matFooterRowDef="['addButton', 'paginator']"></tr>
    </table>

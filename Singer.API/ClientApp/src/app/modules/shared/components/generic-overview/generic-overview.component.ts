@@ -7,7 +7,7 @@ import {
 import { MatPaginator, MatSort } from '@angular/material';
 import { merge, fromEvent } from 'rxjs';
 import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { GenericModel } from 'src/app/modules/core/models/generic-model';
+import { GenericModel } from 'src/app/modules/core/models/generics/generic-model';
 import { DataSource } from '@angular/cdk/table';
 import { GenericDataSource } from 'src/app/modules/core/services/generic-data-source';
 export abstract class GenericOverviewComponent<

@@ -1,0 +1,61 @@
+<div class="container">
+   <form [formGroup]="formGroup" class="form">
+
+      <p class="secondary--text">Zoeken op:</p>
+
+      <!-- StartDate Field -->
+      <mat-form-field class="medium--width">
+         <input matInput [min]="currentDate" [matDatepicker]="startDatePicker" [placeholder]="startDateFieldPlaceholder"
+            formControlName="startDateFieldControl" (click)="startDatePicker.open()" />
+         <mat-datepicker-toggle matSuffix [for]="startDatePicker">
+         </mat-datepicker-toggle>
+         <mat-datepicker #startDatePicker touchUi [startAt]="currentDate" disabled="false">
+         </mat-datepicker>
+      </mat-form-field>
+
+      <!-- EndDate Field -->
+      <mat-form-field class="medium--width">
+         <input matInput [min]="currentDate" [matDatepicker]="endDatePicker" [placeholder]="endDateFieldPlaceholder"
+            formControlName="endDateFieldControl" (click)="endDatePicker.open()" />
+         <mat-datepicker-toggle matSuffix [for]="endDatePicker">
+         </mat-datepicker-toggle>
+         <mat-datepicker #endDatePicker touchUi [startAt]="currentDate" disabled="false">
+         </mat-datepicker>
+      </mat-form-field>
+
+      <!-- Location Field -->
+      <mat-form-field class="medium--width">
+         <mat-select formControlName="locationFieldControl" [placeholder]="locationFieldPlaceholder">
+            <mat-option *ngFor="let availableLocation of availableLocations" [value]="availableLocation.id">
+               {{ availableLocation.name }}
+            </mat-option>
+         </mat-select>
+      </mat-form-field>
+
+      <!-- AgeGroup Field -->
+      <mat-form-field class="large--width">
+         <mat-select [compareWith]="compareAgeGroups" formControlName="ageGroupsFieldControl"
+            [placeholder]="ageGroupsFieldPlaceholder" multiple>
+            <mat-option *ngFor="let ageGroup of ageGroups" [value]="ageGroup">
+               {{ ageGroup | agegroupPipe }}
+            </mat-option>
+         </mat-select>
+      </mat-form-field>
+
+      <!-- Name Field -->
+      <mat-form-field class="large--width">
+         <input matInput [placeholder]="nameFieldPlaceholder" formControlName="nameFieldControl" />
+         <mat-error *ngIf="formGroup.controls.nameFieldControl.errors?.maxlength">
+            Naam mag maximum {{ maxNameLength }} karakters bevatten.
+         </mat-error>
+      </mat-form-field>
+
+      <!-- Buttons -->
+      <button type="button" mat-stroked-button color="primary" (click)="emitFilterEvent()">
+         Zoek
+      </button>
+      <button type="button" mat-stroked-button (click)="resetFilter()">
+         Reset Filter
+      </button>
+   </form>
+</div>

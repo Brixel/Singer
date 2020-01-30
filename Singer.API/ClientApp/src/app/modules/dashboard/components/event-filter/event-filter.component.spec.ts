@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EventSearchComponent } from './event-search.component';
+import { EventFilterComponent } from './event-filter.component';
 
 describe('EventSearchComponent', () => {
-  let component: EventSearchComponent;
-  let fixture: ComponentFixture<EventSearchComponent>;
+  let component: EventFilterComponent;
+  let fixture: ComponentFixture<EventFilterComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EventSearchComponent ]
+      declarations: [ EventFilterComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EventSearchComponent);
+    fixture = TestBed.createComponent(EventFilterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
