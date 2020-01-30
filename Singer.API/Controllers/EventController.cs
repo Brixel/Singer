@@ -284,7 +284,7 @@ namespace Singer.Controllers
       #endregion delete
 
       [HttpPost("search")]
-      public async Task<IActionResult> GetPublicEvents([FromBody] SearchEventParamsDTO searchEventParams)
+      public async Task<IActionResult> GetPublicEvents([FromBody] EventFilterParametersDTO searchEventParams)
       {
          var model = ModelState;
          if (!model.IsValid)
