@@ -1,0 +1,94 @@
+/*
+   Layout
+*/
+.page__head {
+   margin-top: 4em;
+   margin-bottom: 2em;
+}
+
+.head__initials {
+   width: 1.7em;
+   height: 1.7em;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+}
+
+.page__data {
+   position: relative;
+}
+
+.data__personal,
+.data__administrative,
+.data__account {
+   position: relative;
+   width: 100%;
+}
+
+.header {
+   margin-top: 1.5em;
+}
+
+.label {
+   width: 6.3em;
+}
+
+.divider::after {
+   content: '';
+   position: absolute;
+   width: calc(100% + 32px);
+   left: -16px;
+   bottom: -8px;
+   height: 1.5px;
+   background-color: #c1c1c1;
+}
+
+.password-button {
+   margin-top: 1em;
+   margin-right: -16px;
+}
+
+.flex--column {
+   margin: 0 auto;
+   display: flex;
+   flex-direction: column;
+   justify-content: flex-start;
+   align-items: flex-start;
+}
+
+.flex--row {
+   display: flex;
+   flex-direction: row;
+   justify-content: flex-start;
+   align-items: flex-start;
+}
+
+.align--center {
+   align-items: center;
+}
+
+.justify--end {
+   justify-content: flex-end;
+}
+
+/*
+   Font
+*/
+.head__initials {
+   font-size: 4.5em;
+   color: white;
+}
+
+.header,
+.label {
+   color: var(--singer-theme-dark-secondary-text);
+}
+
+/*
+   styling
+*/
+.head__initials {
+   border-radius: 50%;
+   background: var(--singer-theme-primary);
+}

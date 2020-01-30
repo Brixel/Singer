@@ -4,9 +4,9 @@ import { AdminUserService } from 'src/app/modules/admin/services/admin-user.serv
 import { LegalguardiansService } from 'src/app/modules/core/services/legal-guardians-api/legalguardians.service';
 
 @Component({
-  selector: 'app-account-info-page',
-  templateUrl: './account-info-page.component.html',
-  styleUrls: ['./account-info-page.component.css']
+   selector: 'app-account-info-page',
+   templateUrl: './account-info-page.component.html',
+   styleUrls: ['./account-info-page.component.css'],
 })
 export class AccountInfoPageComponent {
    private userInfoURL = this.baseUrl + 'connect/userinfo';
@@ -17,7 +17,9 @@ export class AccountInfoPageComponent {
       @Inject('BASE_URL') private baseUrl: string,
       private adminService: AdminUserService,
       private legalGuardianService: LegalguardiansService
-   ) {}
+   ) {
+      this.getUserInfo();
+   }
 
    getUserInfo(): any {
       this.http.get(this.userInfoURL).subscribe(res => {
@@ -26,12 +28,11 @@ export class AccountInfoPageComponent {
             this.adminService.getAdmin(userId).subscribe(res => {
                this.user = res;
             });
-         } else if ((res as any).role === 'LegalGuardian') {
+         } else if ((res as any).role !== 'Administrator') {
             this.legalGuardianService.getLegalGuardian(userId).subscribe(res => {
                this.user = res;
             });
          }
       });
    }
-
 }
