@@ -91,7 +91,7 @@ namespace Singer.Services
 
             if (careUserDTO.RegistrationLocationChanges.Any())
             {
-               emailTemplate += "Locatiewijzigingen<br /><ul>";
+               emailTemplate += "Opvanglocatiewijzigingen<br /><ul>";
 
                foreach (var registration in careUserDTO.RegistrationLocationChanges)
                {
@@ -136,7 +136,7 @@ namespace Singer.Services
       public async Task<List<EventRegistrationLogWrapper>> GetEventRegistrationLogsWaitingForAction(Guid? userId = null)
       {
          var locations = _context.EventLocations
-            .Select(x => new {x.Id, x.Name})
+            .Select(x => new { x.Id, x.Name })
             .ToDictionary(x => x.Id, x => x.Name);
          Expression<Func<EventRegistrationStatusChange, bool>> statusChangeExpression;
          Expression<Func<EventRegistrationLocationChange, bool>> locationChangeExpression;
@@ -184,10 +184,10 @@ namespace Singer.Services
                },
                LegalGuardians = x.EventRegistration.CareUser
                   .LegalGuardianCareUsers.Select(lc => new
-               {
-                  lc.LegalGuardian.User.FirstName,
-                  lc.LegalGuardian.User.LastName,
-                  lc.LegalGuardian.User.Email
+                  {
+                     lc.LegalGuardian.User.FirstName,
+                     lc.LegalGuardian.User.LastName,
+                     lc.LegalGuardian.User.Email
                   }),
                CreationDateTimeUTC = x.CreationDateTimeUTC
             }).ToListAsync();
@@ -201,7 +201,7 @@ namespace Singer.Services
             {
                RegistrationLogId = x.Id,
                ExecutedByEmail = x.ExecutedByUser.Email,
-               EventRegistration  = new
+               EventRegistration = new
                {
                   x.EventRegistrationId,
                   EventTitle = x.EventRegistration.EventSlot.Event.Title,
@@ -231,7 +231,8 @@ namespace Singer.Services
                   {
                      var careUser = careUserId.First().CareUser;
                      var legalGuardians = careUserId.First().LegalGuardians
-                        .Select(lc => new EventRegistrationLogCareUserDTO.LegalGuardianDTO(){
+                        .Select(lc => new EventRegistrationLogCareUserDTO.LegalGuardianDTO()
+                        {
                            Name = $"{lc.FirstName} {lc.LastName}",
                            Email = lc.Email
                         }).ToList();
@@ -248,13 +249,13 @@ namespace Singer.Services
                         LegalGuardians = legalGuardians,
                         RegistrationStateChanges = careUserId.Select(eventRegistration => new
                            CareUserRegistrationStateChangedDTO()
-                           {
-                              EventRegistrationId = eventRegistration.EventRegistration.EventRegistrationId,
-                              EventTitle = eventRegistration.EventRegistration.EventTitle,
-                              EventSlotStartDateTime = eventRegistration.EventRegistration.EventSlotStartDateTime,
-                              EventSlotEndDateTime = eventRegistration.EventRegistration.EventSlotEndDateTime,
-                              NewStatus = eventRegistration.EventRegistration.NewStatus
-                           }).ToList()
+                        {
+                           EventRegistrationId = eventRegistration.EventRegistration.EventRegistrationId,
+                           EventTitle = eventRegistration.EventRegistration.EventTitle,
+                           EventSlotStartDateTime = eventRegistration.EventRegistration.EventSlotStartDateTime,
+                           EventSlotEndDateTime = eventRegistration.EventRegistration.EventSlotEndDateTime,
+                           NewStatus = eventRegistration.EventRegistration.NewStatus
+                        }).ToList()
 
                      };
                      return EventRegistrationLogWrapper.Create(careUserId.Key, registrationLogIds, logDTO, executedByEmail);
@@ -267,7 +268,8 @@ namespace Singer.Services
                {
                   var careUser = careUserId.First().CareUser;
                   var legalGuardians = careUserId.First().LegalGuardians
-                     .Select(lc => new EventRegistrationLogCareUserDTO.LegalGuardianDTO(){
+                     .Select(lc => new EventRegistrationLogCareUserDTO.LegalGuardianDTO()
+                     {
                         Name = $"{lc.FirstName} {lc.LastName}",
                         Email = lc.Email
                      }).ToList();
@@ -284,13 +286,13 @@ namespace Singer.Services
                      LegalGuardians = legalGuardians,
                      RegistrationLocationChanges = careUserId.Select(eventRegistration => new
                         CareUserRegistrationLocationChangedDTO()
-                        {
-                           EventRegistrationId = eventRegistration.EventRegistration.EventRegistrationId,
-                           EventTitle = eventRegistration.EventRegistration.EventTitle,
-                           EventSlotStartDateTime = eventRegistration.EventRegistration.EventSlotStartDateTime,
-                           EventSlotEndDateTime = eventRegistration.EventRegistration.EventSlotEndDateTime,
-                           NewLocation = eventRegistration.EventRegistration.NewLocation
-                        }).ToList()
+                     {
+                        EventRegistrationId = eventRegistration.EventRegistration.EventRegistrationId,
+                        EventTitle = eventRegistration.EventRegistration.EventTitle,
+                        EventSlotStartDateTime = eventRegistration.EventRegistration.EventSlotStartDateTime,
+                        EventSlotEndDateTime = eventRegistration.EventRegistration.EventSlotEndDateTime,
+                        NewLocation = eventRegistration.EventRegistration.NewLocation
+                     }).ToList()
                   };
                   return EventRegistrationLogWrapper.Create(careUserId.Key, registrationLogIds, logDTO, executedByEmail);
                }).ToList();

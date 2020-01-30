@@ -1,54 +1,54 @@
 <div [hidden]="(dataSource.totalSize$ | async) > 0">
    <mat-card class="no-results-card">
-      Er zijn geen te verwerken registraties op dit moment.
+      Er zijn geen te verwerken emails op dit moment.
    </mat-card>
 </div>
-<div
-   class="mat-elevation-z8 overview-list"
-   [hidden]="(dataSource.totalSize$ | async) === 0"
->
-<mat-card>
-   <mat-card-content>
-      Hieronder staan alle acties die op inschrijvingen zijn uitgevoerd.
-   </mat-card-content>
-   <mat-card-actions>
-      <button mat-raised-button color="primary" (click)="sendEmails()">
-         Verzend e-mails naar voogden</button>
-   </mat-card-actions>
-</mat-card>
-<mat-accordion>
-   <mat-expansion-panel *ngFor="let item of dataSource.models$ | async">
-     <mat-expansion-panel-header>
-       <mat-panel-title>
-         {{item.careUser}}
-       </mat-panel-title>
-       <mat-panel-description>
-         {{ item.legalGuardians.join(', ')}}
-       </mat-panel-description>
-     </mat-expansion-panel-header>
-     <mat-list dense *ngFor="let registration of item.registrationStateChanges">
-        <mat-list-item>Inschrijving voor {{ registration.eventTitle }}
-           van {{ registration.eventSlotStartDateTime | date: 'dd-MM-yyyy HH:mm'}}
-           tot {{ registration.eventSlotEndDateTime | date: 'dd-MM-yyyy HH:mm'}}
-           is gewijzigd naar {{ registration.newStatus | registrationStatusPipe }}
-           <mat-icon class="registration-accepted" *ngIf="registration.newStatus === RegistrationStatus.Accepted"
-                     >check_circle_outline</mat-icon
-                  >
-           <mat-icon class="registration-pending" *ngIf="registration.newStatus === RegistrationStatus.Pending">
-            access_time
-         </mat-icon>
-         <mat-icon class="registration-rejected" *ngIf="registration.newStatus === RegistrationStatus.Rejected"
-                     >error_outline</mat-icon
-                  >
-        </mat-list-item>
-     </mat-list>
-     <mat-list dense *ngFor="let registration of item.registrationLocationChanges">
-      <mat-list-item>Inschrijvingslocatie voor {{ registration.eventTitle }}
-         van {{ registration.eventSlotStartDateTime | date: 'dd-MM-yyyy HH:mm'}}
-         tot {{ registration.eventSlotEndDateTime | date: 'dd-MM-yyyy HH:mm'}}
-         is gewijzigd naar {{ registration.newLocation }}</mat-list-item>
-
-   </mat-list>
-   </mat-expansion-panel>
- </mat-accordion>
+<div class="mat-elevation-z8 overview-list" [hidden]="(dataSource.totalSize$ | async) === 0">
+   <mat-card>
+      <mat-card-content>
+         Hieronder staan alle acties die op inschrijvingen zijn uitgevoerd.
+      </mat-card-content>
+      <mat-card-actions>
+         <button mat-raised-button color="primary" (click)="sendEmails()">
+            Verzend e-mails naar voogden
+         </button>
+      </mat-card-actions>
+   </mat-card>
+   <mat-accordion>
+      <mat-expansion-panel *ngFor="let item of dataSource.models$ | async">
+         <mat-expansion-panel-header>
+            <mat-panel-title>
+               {{ item.careUser }}
+            </mat-panel-title>
+            <mat-panel-description>
+               {{ item.legalGuardians.join(', ') }}
+            </mat-panel-description>
+         </mat-expansion-panel-header>
+         <mat-list dense *ngFor="let registration of item.registrationStateChanges">
+            <mat-list-item
+               >Inschrijving voor {{ registration.eventTitle }} van
+               {{ registration.eventSlotStartDateTime | date: 'dd-MM-yyyy HH:mm' }} tot
+               {{ registration.eventSlotEndDateTime | date: 'dd-MM-yyyy HH:mm' }} is gewijzigd naar
+               {{ registration.newStatus | registrationStatusPipe }}
+               <mat-icon class="registration-accepted" *ngIf="registration.newStatus === RegistrationStatus.Accepted"
+                  >check_circle_outline</mat-icon
+               >
+               <mat-icon class="registration-pending" *ngIf="registration.newStatus === RegistrationStatus.Pending">
+                  access_time
+               </mat-icon>
+               <mat-icon class="registration-rejected" *ngIf="registration.newStatus === RegistrationStatus.Rejected"
+                  >error_outline</mat-icon
+               >
+            </mat-list-item>
+         </mat-list>
+         <mat-list dense *ngFor="let registration of item.registrationLocationChanges">
+            <mat-list-item
+               >Opvanglocatie voor {{ registration.eventTitle }} van
+               {{ registration.eventSlotStartDateTime | date: 'dd-MM-yyyy HH:mm' }} tot
+               {{ registration.eventSlotEndDateTime | date: 'dd-MM-yyyy HH:mm' }} is gewijzigd naar
+               {{ registration.newLocation }}</mat-list-item
+            >
+         </mat-list>
+      </mat-expansion-panel>
+   </mat-accordion>
 </div>

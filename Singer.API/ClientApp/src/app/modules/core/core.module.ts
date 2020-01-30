@@ -10,8 +10,6 @@ import { SingleRegistrationComponent } from './components/single-registration/si
 import { ReactiveFormsModule } from '@angular/forms';
 import { RegistrationStatusPipe } from './services/registration-status.pipe';
 import { SingereventCostPipe } from './Pipes/singerevent-cost.pipe';
-import { DeleteConfirmationComponent } from '../shared/components/delete-confirmation/delete-confirmation.component';
-import { ConfirmComponent } from '../shared/components/confirm/confirm.component';
 
 @NgModule({
    declarations: [

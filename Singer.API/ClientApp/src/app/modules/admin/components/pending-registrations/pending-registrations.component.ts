@@ -1,4 +1,4 @@
-import { Component, ViewChild, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { GenericOverviewComponent } from 'src/app/modules/shared/components/generic-overview/generic-overview.component';
 import { EventRegistrationDTO } from 'src/app/modules/core/DTOs/event-registration.dto';
@@ -35,32 +35,26 @@ export class PendingRegistrationsComponent extends GenericOverviewComponent<
    ) {
       const ds = new PendingRegistrationsDatasource(dataService);
       super(cd, ds, 'id');
-      this.displayedColumns.push(
-         'eventDescription.title',
-         'fromTo',
-         'careUser'
-      );
+      this.displayedColumns.push('eventDescription.title', 'fromTo', 'careUser');
       this.dialog = dialog;
       this._eventService = eventService;
    }
 
    manageRegistrations(row: EventRegistration) {
-      this._eventService
-         .getSingleEvent(row.eventDescription.id)
-         .subscribe(res => {
-            this.dialog
-               .open(SingerEventRegistrationsComponent, {
-                  data: <SingerEventRegistrationData>{
-                     event: this._eventService.toModel(res),
-                     defaultEventSlot: row.eventSlot,
-                  },
-                  width: '60vw',
-                  maxHeight: '70vh',
-               })
-               .afterClosed()
-               .subscribe(_ => {
-                  this.dataSource.load();
-               });
-         });
+      this._eventService.getSingleEvent(row.eventDescription.id).subscribe(res => {
+         this.dialog
+            .open(SingerEventRegistrationsComponent, {
+               data: <SingerEventRegistrationData>{
+                  event: this._eventService.toModel(res),
+                  defaultEventSlot: row.eventSlot,
+               },
+               width: '60vw',
+               maxHeight: '70vh',
+            })
+            .afterClosed()
+            .subscribe(_ => {
+               this.dataSource.load();
+            });
+      });
    }
 }
