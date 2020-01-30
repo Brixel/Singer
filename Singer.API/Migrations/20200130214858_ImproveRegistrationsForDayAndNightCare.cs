@@ -84,12 +84,6 @@ namespace Singer.Migrations
                 oldClrType: typeof(Guid),
                 oldNullable: true);
 
-            migrationBuilder.AddColumn<bool>(
-                name: "HasResources",
-                table: "CareUsers",
-                nullable: false,
-                defaultValue: false);
-
             migrationBuilder.CreateIndex(
                 name: "IX_EventRegistrations_CareUserId_EventSlotId",
                 table: "EventRegistrations",
