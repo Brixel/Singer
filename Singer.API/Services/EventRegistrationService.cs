@@ -31,8 +31,8 @@ namespace Singer.Services
       protected IMapper Mapper { get; }
 
       protected DbSet<Registration> DbSet =>
-         Context.EventRegistrations;
-      protected IQueryable<Registration> Queryable => Context.EventRegistrations
+         Context.Registrations;
+      protected IQueryable<Registration> Queryable => Context.Registrations
          .Include(x => x.CareUser).ThenInclude(x => x.User)
          .Include(x => x.EventSlot).ThenInclude(x => x.Event)
          .AsQueryable();
@@ -182,7 +182,7 @@ namespace Singer.Services
 
       public async Task<EventRegistrationDTO> GetOneBySlotAsync(Guid eventSlotId, Guid careUserId)
       {
-         var registration = await Context.EventRegistrations
+         var registration = await Context.Registrations
             .Where(x => x.EventSlotId == eventSlotId && x.CareUserId == careUserId)
             .Select(Projector)
             .FirstOrDefaultAsync()
@@ -230,7 +230,7 @@ namespace Singer.Services
 
       public async Task<EventRegistrationDTO> UpdateStatusAsync(Guid eventId, Guid registrationId, RegistrationStatus status)
       {
-         var registration = await Context.EventRegistrations
+         var registration = await Context.Registrations
             .Where(x => x.Id == registrationId && x.EventSlot.EventId == eventId)
             .FirstOrDefaultAsync()
             .ConfigureAwait(false);
@@ -249,7 +249,7 @@ namespace Singer.Services
 
       public async Task DeleteAsync(Guid eventId, Guid registrationId)
       {
-         var registration = await Context.EventRegistrations
+         var registration = await Context.Registrations
             .Where(x => x.Id == registrationId && x.EventSlot.EventId == eventId)
             .Select(Projector)
             .FirstOrDefaultAsync()
@@ -269,7 +269,7 @@ namespace Singer.Services
             .Where(x => x.EventId == eventId)
             .Select(eventSlot => eventSlot.Event.RegistrationOnDailyBasis).ToListAsync();
 
-         var registrations = await Context.EventRegistrations
+         var registrations = await Context.Registrations
             .Where(x =>
                x.CareUserId == careUserId &&
                x.EventSlot.EventId == eventId)
@@ -331,7 +331,7 @@ namespace Singer.Services
 
       public async Task<RegistrationStatus> AcceptRegistration(Guid registrationId)
       {
-         var registration = await Context.EventRegistrations.SingleAsync(x => x.Id == registrationId);
+         var registration = await Context.Registrations.SingleAsync(x => x.Id == registrationId);
          registration.Status = RegistrationStatus.Accepted;
          await Context.SaveChangesAsync();
          return registration.Status;
@@ -339,7 +339,7 @@ namespace Singer.Services
 
       public async Task<RegistrationStatus> RejectRegistration(Guid registrationId)
       {
-         var registration = await Context.EventRegistrations.SingleAsync(x => x.Id == registrationId);
+         var registration = await Context.Registrations.SingleAsync(x => x.Id == registrationId);
          registration.Status = RegistrationStatus.Rejected;
          await Context.SaveChangesAsync();
          return registration.Status;
@@ -348,7 +348,7 @@ namespace Singer.Services
       public async Task<DaycareLocationDTO> UpdateDaycareLocationForRegistration(Guid registrationId, Guid locationId)
       {
          var location = await Context.EventLocations.SingleAsync(x => x.Id == locationId);
-         var registration = await Context.EventRegistrations.SingleAsync(x => x.Id == registrationId);
+         var registration = await Context.Registrations.SingleAsync(x => x.Id == registrationId);
          registration.DaycareLocationId = locationId;
          await Context.SaveChangesAsync();
          return new DaycareLocationDTO()
