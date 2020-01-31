@@ -7,7 +7,6 @@ import { Router } from '@angular/router';
    styleUrls: ['./account-info-base.component.css'],
 })
 export class AccountInfoBaseComponent {
-
    navbarLinks: NavbarLinks[] = [
       {
          displayIcon: 'assignment_ind',
@@ -18,18 +17,18 @@ export class AccountInfoBaseComponent {
          displayIcon: 'group',
          displayName: 'Mijn zorggebruikers',
          url: '/dashboard/account/zorggebruikers',
-      }
+      },
    ];
 
    constructor(public router: Router) {}
 
-   navigate(url: string) :void {
+   navigate(url: string): void {
       this.router.navigateByUrl(url);
    }
 }
 
 interface NavbarLinks {
-   displayIcon: string,
-   displayName: string,
-   url: string,
+   displayIcon: string;
+   displayName: string;
+   url: string;
 }
