@@ -11,25 +11,17 @@ import { CoreModule } from '../core/core.module';
 import { CareUserDetailsComponent } from './components/careusers/careuser-details/care-user-details.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { KeysPipe } from '../core/Pipes/keys.pipe';
-import {
-   MatTableModule,
-   MatPaginatorModule,
-   MatSortModule,
-   MAT_DATE_LOCALE,
-} from '@angular/material';
+import { MatTableModule, MatPaginatorModule, MatSortModule, MAT_DATE_LOCALE } from '@angular/material';
 import { LegalguardianOverviewComponent } from './components/legalguardians/legalguardian-overview/legalguardian-overview.component';
 import { LegalguardianDetailsComponent } from './components/legalguardians/legalguardian-details/legalguardian-details.component';
 import { LegalGuardianProxy } from '../core/services/legal-guardians-api/legalguardians.proxy';
 import { LegalguardiansService } from '../core/services/legal-guardians-api/legalguardians.service';
-import {
-   MatMomentDateModule,
-   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
-} from '@angular/material-moment-adapter';
+import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { SingerEventOverviewComponent } from './components/singerevents/singerevent-overview/singerevent-overview.component';
 import { SingerEventsProxy } from '../core/services/singerevents-api/singerevents.proxy';
 import { SingerEventsService } from '../core/services/singerevents-api/singerevents.service';
 import { SingerEventDetailsComponent } from './components/singerevents/singerevent-details/singerevent-details.component';
-import { AdminListComponent } from './components/admin-users/admin-list/admin-list.component';
+import { AdminOverviewComponent } from './components/admin-users/admin-overview/admin-overview.component';
 import { AdminDetailsComponent } from './components/admin-users/admin-details/admin-details.component';
 import { AdminUserProxy } from './services/adminuser.proxy';
 import { AdminUserService } from './services/admin-user.service';
@@ -42,6 +34,10 @@ import { AddFamilyWizardComponent } from './components/add-family-wizard/add-fam
 import { SingerEventRegistrationsComponent } from './components/singerevents/singer-event-registrations/singer-event-registrations.component';
 import { SingerEventAdminRegisterComponent } from './components/singerevents/singer-eventadmin-register/singer-eventadmin-register.component';
 import { PendingRegistrationsComponent } from './components/pending-registrations/pending-registrations.component';
+import { PendingActionsComponent } from './components/pending-actions/pending-actions.component';
+import { PendingRegistrationsService } from '../core/services/singerevents-api/pending-registrations-service';
+import { ActionNotificationsService } from '../core/services/action-notification.service';
+import { RegistrationStatusPipe } from '../core/services/registration-status.pipe';
 
 @NgModule({
    declarations: [
@@ -51,13 +47,14 @@ import { PendingRegistrationsComponent } from './components/pending-registration
       LegalguardianDetailsComponent,
       SingerEventOverviewComponent,
       SingerEventDetailsComponent,
-      AdminListComponent,
+      AdminOverviewComponent,
       AdminDetailsComponent,
       SingerEventRegistrationsComponent,
       CareUserSearchComponent,
       SingerEventAdminRegisterComponent,
       AddFamilyWizardComponent,
       PendingRegistrationsComponent,
+      PendingActionsComponent,
    ],
    imports: [
       CoreModule,
@@ -95,6 +92,7 @@ import { PendingRegistrationsComponent } from './components/pending-registration
       ApiService,
       AgegroupPipe,
       KeysPipe,
+      RegistrationStatusPipe,
       {
          provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS,
          useValue: {

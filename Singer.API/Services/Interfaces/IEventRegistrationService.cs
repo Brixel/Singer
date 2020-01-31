@@ -33,9 +33,9 @@ namespace Singer.Services.Interfaces
       Task DeleteAsync(Guid eventId, Guid registrationId);
       Task<UserRegisteredDTO> GetUserRegistrationStatus(Guid eventId, Guid careUserId);
 
-      Task<RegistrationStatus> AcceptRegistration(Guid registrationId);
-      Task<RegistrationStatus> RejectRegistration(Guid registrationId);
-      Task<DaycareLocationDTO> UpdateDaycareLocationForRegistration(Guid registrationId, Guid locationId);
+      Task<RegistrationStatus> AcceptRegistration(Guid registrationId, Guid executedByUserId);
+      Task<RegistrationStatus> RejectRegistration(Guid registrationId, Guid executedByUserId);
+      Task<DaycareLocationDTO> UpdateDaycareLocationForRegistration(Guid registrationId, Guid locationId, Guid executedByUserId);
       Task<SearchResults<EventRegistrationDTO>> GetPendingRegistrations(Expression<Func<EventRegistrationDTO, object>> orderer = null, ListSortDirection sortDirection = ListSortDirection.Ascending, int pageSize = 15, int pageIndex = 0);
    }
 }

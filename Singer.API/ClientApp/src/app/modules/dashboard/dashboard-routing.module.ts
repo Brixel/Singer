@@ -8,27 +8,26 @@ import { AccountInfoCareusersListComponent } from '../shared/components/account-
 
 const routes: Routes = [
    {
-       path: '',
-       component: DashboardComponent
+      path: '',
+      component: DashboardComponent,
    },
    {
       path: '/about',
       component: AboutComponent,
-      canActivate: [AuthGuard]
+      canActivate: [AuthGuard],
    },
    {
       path: 'account/account-info',
       component: AccountInfoPageComponent,
-      canActivate: [AuthGuard]
+      canActivate: [AuthGuard],
    },
    {
       path: 'account/zorggebruikers',
       component: AccountInfoCareusersListComponent,
-      canActivate: [AuthGuard]
-   }
+      canActivate: [AuthGuard],
+   },
 ];
 @NgModule({
-   imports: [RouterModule.forChild(routes)]
+   imports: [RouterModule.forChild(routes)],
 })
-
 export class DashboardRoutingModule {}

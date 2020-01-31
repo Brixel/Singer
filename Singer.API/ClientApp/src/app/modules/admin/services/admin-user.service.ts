@@ -4,10 +4,7 @@ import { AdminUserProxy } from './adminuser.proxy';
 import { map } from 'rxjs/operators';
 import { PaginationDTO } from '../../core/DTOs/pagination.dto';
 import { AdminUser } from '../../core/models/adminuser.model';
-import {
-   AdminUserDTO,
-   CreateAdminUserDTO,
-} from '../../core/DTOs/adminuser.dto';
+import { AdminUserDTO, CreateAdminUserDTO } from '../../core/DTOs/adminuser.dto';
 
 @Injectable({
    providedIn: 'root',
@@ -21,9 +18,7 @@ export class AdminUserService {
       pageSize: number,
       filter: string
    ): Observable<PaginationDTO> {
-      return this.adminUserProxy
-         .get(sortDirection, sortColumn, pageIndex, pageSize, filter)
-         .pipe(map(res => res));
+      return this.adminUserProxy.get(sortDirection, sortColumn, pageIndex, pageSize, filter).pipe(map(res => res));
    }
 
    getAdmin(id: string) {
@@ -37,9 +32,7 @@ export class AdminUserService {
          email: updateAdmin.email,
          id: updateAdmin.id,
       };
-      return this.adminUserProxy
-         .updateAdmin(updateAdmin.id, updateAdminUserDTO)
-         .pipe(map(res => res));
+      return this.adminUserProxy.updateAdmin(updateAdmin.id, updateAdminUserDTO).pipe(map(res => res));
    }
 
    create(adminUser: AdminUser) {
@@ -48,9 +41,7 @@ export class AdminUserService {
          lastName: adminUser.lastName,
          email: adminUser.email,
       };
-      return this.adminUserProxy
-         .createAdmin(createAdminUserDTO)
-         .pipe(map(res => res));
+      return this.adminUserProxy.createAdmin(createAdminUserDTO).pipe(map(res => res));
    }
 
    delete(adminUser: AdminUser) {

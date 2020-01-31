@@ -10,7 +10,6 @@ import { CareUser } from 'src/app/modules/core/models/careuser.model';
  * (including sorting, pagination, and filtering).
  */
 export class CareUserOverviewDataSource extends DataSource<CareUser> {
-
    private careUsersSubject$ = new BehaviorSubject<CareUser[]>([]);
    private totalSizeSubject$ = new BehaviorSubject<number>(0);
    private queryCountSubject$ = new BehaviorSubject<number>(0);
@@ -25,19 +24,14 @@ export class CareUserOverviewDataSource extends DataSource<CareUser> {
       super();
    }
 
-   loadCareUsers(
-      sortDirection?: string,
-      sortColumn?: string,
-      pageIndex?: number,
-      pageSize?: number, filter?: string) {
-
+   loadCareUsers(sortDirection?: string, sortColumn?: string, pageIndex?: number, pageSize?: number, filter?: string) {
       this.loadingSubject$.next(true);
-         this.careUserService.fetchCareUsersData(sortDirection, sortColumn, pageIndex, pageSize, filter).subscribe((res) => {
-            this.careUsersSubject$.next(res.items as CareUser[]);
-            this.totalSizeSubject$.next(res.totalSize);
-            this.queryCountSubject$.next(res.size);
-            this.loadingSubject$.next(false);
-         });
+      this.careUserService.fetchCareUsersData(sortDirection, sortColumn, pageIndex, pageSize, filter).subscribe(res => {
+         this.careUsersSubject$.next(res.items as CareUser[]);
+         this.totalSizeSubject$.next(res.totalSize);
+         this.queryCountSubject$.next(res.size);
+         this.loadingSubject$.next(false);
+      });
    }
 
    connect(collectionViewer: CollectionViewer): Observable<CareUser[]> {

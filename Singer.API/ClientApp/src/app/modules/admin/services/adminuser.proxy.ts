@@ -4,10 +4,7 @@ import { Observable } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { PaginationDTO } from '../../core/DTOs/pagination.dto';
-import {
-   CreateAdminUserDTO,
-   AdminUserDTO,
-} from '../../core/DTOs/adminuser.dto';
+import { CreateAdminUserDTO, AdminUserDTO } from '../../core/DTOs/adminuser.dto';
 
 @Injectable({
    providedIn: 'root',
@@ -28,9 +25,7 @@ export class AdminUserProxy {
          .set('pageIndex', pageIndex.toString())
          .set('pageSize', pageSize.toString())
          .set('filter', filter);
-      return this.apiService
-         .get('api/admin', searchParams)
-         .pipe(map(res => res));
+      return this.apiService.get('api/admin', searchParams).pipe(map(res => res));
    }
 
    getAdmin(id: string): Observable<AdminUserDTO> {
@@ -38,9 +33,7 @@ export class AdminUserProxy {
    }
 
    updateAdmin(id: string, admin: AdminUserDTO) {
-      return this.apiService
-         .put(`api/admin/${id}`, admin)
-         .pipe(map(res => res));
+      return this.apiService.put(`api/admin/${id}`, admin).pipe(map(res => res));
    }
 
    createAdmin(admin: CreateAdminUserDTO) {
@@ -48,8 +41,6 @@ export class AdminUserProxy {
    }
 
    deleteAdmin(adminId: string) {
-      return this.apiService
-         .delete(`api/admin/${adminId}`)
-         .pipe(map(res => res));
+      return this.apiService.delete(`api/admin/${adminId}`).pipe(map(res => res));
    }
 }

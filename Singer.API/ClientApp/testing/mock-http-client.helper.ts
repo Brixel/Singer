@@ -1,5 +1,5 @@
 export class MockHttpClient {
-    get() {}
-    post() {}
-    delete() {}
+   get() {}
+   post() {}
+   delete() {}
 }
