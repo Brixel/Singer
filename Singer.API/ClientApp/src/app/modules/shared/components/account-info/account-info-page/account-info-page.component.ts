@@ -11,6 +11,7 @@ import { LegalguardiansService } from 'src/app/modules/core/services/legal-guard
 export class AccountInfoPageComponent {
    private userInfoURL = this.baseUrl + 'connect/userinfo';
    user: any;
+   isAdmin: boolean;
 
    constructor(
       private http: HttpClient,
@@ -25,6 +26,7 @@ export class AccountInfoPageComponent {
       this.http.get(this.userInfoURL).subscribe(res => {
          let userId = (res as any).sub;
          if ((res as any).role === 'Administrator') {
+            this.isAdmin = true;
             this.adminService.getAdmin(userId).subscribe(res => {
                this.user = res;
             });
