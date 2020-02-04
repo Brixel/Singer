@@ -218,14 +218,11 @@ namespace Singer.Services
                x.Status == RegistrationStatus.Accepted)
             .Select(x => new CsvRegistrationDTO
             {
-               CaseNumber = x.CareUser.CaseNumber,
                FirstName = x.CareUser.User.FirstName,
                LastName = x.CareUser.User.LastName,
                AgeGroup = x.CareUser.AgeGroup,
                DayCareAfterEndDateTime = x.EventSlot.Event.DayCareAfterEndDateTime,
                DayCareBeforeStartDateTime = x.EventSlot.Event.DayCareBeforeStartDateTime,
-               // TODO add legal guardian
-               // LegalGuardianName = "",
                Status = x.Status,
                IsExtern = x.CareUser.IsExtern,
             })

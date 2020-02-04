@@ -10,6 +10,7 @@ import { SingleRegistrationComponent } from './components/single-registration/si
 import { ReactiveFormsModule } from '@angular/forms';
 import { RegistrationStatusPipe } from './services/registration-status.pipe';
 import { SingereventCostPipe } from './Pipes/singerevent-cost.pipe';
+import { AboutComponent } from './components/about/about.component';
 
 @NgModule({
    declarations: [
@@ -21,6 +22,7 @@ import { SingereventCostPipe } from './Pipes/singerevent-cost.pipe';
       SingleRegistrationComponent,
       RegistrationStatusPipe,
       SingereventCostPipe,
+      AboutComponent,
    ],
    imports: [CommonModule, MaterialModule, ReactiveFormsModule],
    exports: [
@@ -32,6 +34,7 @@ import { SingereventCostPipe } from './Pipes/singerevent-cost.pipe';
       SingleRegistrationComponent,
       DailybasisRegistrationsComponent,
       SingereventCostPipe,
+      AboutComponent,
    ],
 })
 export class CoreModule {}
