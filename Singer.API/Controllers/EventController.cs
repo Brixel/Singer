@@ -27,6 +27,7 @@ namespace Singer.Controllers
 
       private readonly IEventRegistrationService _eventRegistrationService;
       private readonly IDateValidator _dateValidator;
+      private readonly IActionNotificationService _actionNotificationService;
       private readonly IEventService _eventService;
       private readonly ICareUserService _careUserService;
 
@@ -35,11 +36,12 @@ namespace Singer.Controllers
       #region CONSTRUCTOR
 
       public EventController(IEventService eventService, IEventRegistrationService eventRegistrationService,
-         ICareUserService careUserService, IDateValidator dateValidator)
+         ICareUserService careUserService, IDateValidator dateValidator, IActionNotificationService actionNotificationService)
          : base(eventService)
       {
          _eventRegistrationService = eventRegistrationService;
          _dateValidator = dateValidator;
+         _actionNotificationService = actionNotificationService;
          _eventService = eventService;
          _careUserService = careUserService;
       }
@@ -106,6 +108,16 @@ namespace Singer.Controllers
             throw new BadInputException("Care user already registered on this event slot.", ErrorMessages.UserAlreadyRegisteredOnEventSlot);
 
          var eventSlotRegistration = await _eventRegistrationService.CreateOneBySlotAsync(dto);
+
+         // Since admins automatically approve a registration, it's needed to register this.
+         if (User.IsInRole(Roles.ROLE_ADMINISTRATOR))
+         {
+            var executedByUserId = Guid.Parse(User.GetSubjectId());
+            await _actionNotificationService.RegisterEventRegistrationStatusChange(eventSlotRegistration.Id, executedByUserId,
+               RegistrationStatus.Pending, eventSlotRegistration.Status);
+         }
+
+
          return Created(nameof(Get), eventSlotRegistration);
       }
 
