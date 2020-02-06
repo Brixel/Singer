@@ -121,4 +121,9 @@ namespace Singer.DTOs
          Name = nameof(DisplayNames.Status))]
       public RegistrationStatus? Status { get; set; }
    }
+
+   public class RegistrationSearchDTO : SearchDTOBase
+   {
+
+   }
 }
