@@ -32,6 +32,6 @@ namespace Singer.Models.Users
       [PersonalData]
       public bool HasTrajectory { get; set; }
 
-      public List<EventRegistration> EventRegistrations { get; set; }
+      public List<Registration> EventRegistrations { get; set; }
    }
 }

@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.1.0-dev.1315",
+   "version": "0.1.0-auto-approve.1315",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",

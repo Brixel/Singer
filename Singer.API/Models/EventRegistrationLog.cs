@@ -11,7 +11,7 @@ namespace Singer.Models
 
       [ForeignKey(nameof(EventRegistration))]
       public Guid EventRegistrationId { get; set; }
-      public EventRegistration EventRegistration { get; set; }
+      public Registration EventRegistration { get; set; }
       public EventRegistrationChanges EventRegistrationChanges { get; set; }
       public bool EmailSent { get; set; }
       public DateTime CreationDateTimeUTC { get; set; }
