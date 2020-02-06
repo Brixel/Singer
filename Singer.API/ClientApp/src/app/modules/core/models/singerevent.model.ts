@@ -80,7 +80,7 @@ export class SingerEventLocation extends GenericModel {
    country: string;
 }
 
-export class EventRegistration extends GenericModel {
+export class Registration extends GenericModel {
    eventSlot: EventSlot;
    eventDescription: EventDescription;
    careUser: CareUser;

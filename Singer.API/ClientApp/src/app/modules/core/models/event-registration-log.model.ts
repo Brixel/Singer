@@ -1,7 +1,7 @@
 import { RegistrationStatus } from './enum';
 import { GenericModel } from './generics/generic-model';
 
-export class EventRegistrationLogCareUser extends GenericModel {
+export class RegistrationLogCareUser extends GenericModel {
    id: string;
    careUser: string;
    legalGuardians: string[];

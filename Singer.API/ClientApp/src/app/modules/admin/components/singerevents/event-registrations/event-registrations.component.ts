@@ -13,17 +13,17 @@ import { DaycareLocationDTO } from 'src/app/modules/core/DTOs/daycarelocation.dt
 import { isNullOrUndefined } from 'util';
 import { LoadingService } from 'src/app/modules/core/services/loading.service';
 
-export class SingerEventRegistrationData {
+export class SingerRegistrationData {
    event: SingerEvent;
    defaultEventSlot?: EventSlot;
 }
 
 @Component({
-   selector: 'app-singer-event-registrations',
-   templateUrl: './singer-event-registrations.component.html',
-   styleUrls: ['./singer-event-registrations.component.css'],
+   selector: 'app-singer-registrations',
+   templateUrl: './event-registrations.component.html',
+   styleUrls: ['./event-registrations.component.css'],
 })
-export class SingerEventRegistrationsComponent implements OnInit {
+export class SingerRegistrationsComponent implements OnInit {
    formGroup: FormGroup;
    event: SingerEvent;
    selectedEventSlot: EventSlot;
@@ -36,8 +36,8 @@ export class SingerEventRegistrationsComponent implements OnInit {
       private singerAdminEventService: SingerAdminEventService,
       private _singerEventLocationService: SingerEventLocationService,
       private _snackBar: MatSnackBar,
-      private dialogRef: MatDialogRef<SingerEventRegistrationsComponent>,
-      @Inject(MAT_DIALOG_DATA) data: SingerEventRegistrationData,
+      private dialogRef: MatDialogRef<SingerRegistrationsComponent>,
+      @Inject(MAT_DIALOG_DATA) data: SingerRegistrationData,
       private _loadingService: LoadingService
    ) {
       this.event = data.event;
@@ -48,25 +48,23 @@ export class SingerEventRegistrationsComponent implements OnInit {
 
    ngOnInit() {
       this._loadingService.show();
-      this.singerEventService
-         .getEventRegistrations(this.event.id, 'asc', 'startDateTime', 0, 1000, '')
-         .subscribe(res => {
-            this.event.eventSlots = res.map(
-               r => new EventSlot(r.id, r.startDateTime, r.endDateTime, r.registrations, r.registrations.length)
-            );
-            if (isNullOrUndefined(this.selectedEventSlot)) {
-               // Search for the next upcoming event
-               const currentDate = Date.now();
-               const nextEventSlots = this.event.eventSlots
-                  .filter(a => a.startDateTime.getTime() >= currentDate)
-                  .sort((a, b) => a.startDateTime.getTime() - b.startDateTime.getTime());
-               // If no upcoming event is found, take the first in the list
-               this.selectedEventSlot = nextEventSlots.length > 0 ? nextEventSlots[0] : this.event.eventSlots[0];
-            } else {
-               this.selectedEventSlot = this.event.eventSlots.find(x => x.id === this.selectedEventSlot.id);
-            }
-            this._loadingService.hide();
-         });
+      this.singerEventService.getRegistrations(this.event.id, 'asc', 'startDateTime', 0, 1000, '').subscribe(res => {
+         this.event.eventSlots = res.map(
+            r => new EventSlot(r.id, r.startDateTime, r.endDateTime, r.registrations, r.registrations.length)
+         );
+         if (isNullOrUndefined(this.selectedEventSlot)) {
+            // Search for the next upcoming event
+            const currentDate = Date.now();
+            const nextEventSlots = this.event.eventSlots
+               .filter(a => a.startDateTime.getTime() >= currentDate)
+               .sort((a, b) => a.startDateTime.getTime() - b.startDateTime.getTime());
+            // If no upcoming event is found, take the first in the list
+            this.selectedEventSlot = nextEventSlots.length > 0 ? nextEventSlots[0] : this.event.eventSlots[0];
+         } else {
+            this.selectedEventSlot = this.event.eventSlots.find(x => x.id === this.selectedEventSlot.id);
+         }
+         this._loadingService.hide();
+      });
 
       this._singerEventLocationService.fetchSingerEventLocationsData('asc', 'name', 0, 1000, '').subscribe(res => {
          this.availableLocations = res.items as SingerEventLocation[];

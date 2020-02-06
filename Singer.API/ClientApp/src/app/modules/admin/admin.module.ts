@@ -28,15 +28,13 @@ import { AdminUserService } from './services/admin-user.service';
 import { SingerEventLocationService } from '../core/services/singerevents-api/singerevent-location.service';
 import { SingerEventLocationProxy } from '../core/services/singerevents-api/singerevent-location.proxy';
 import { CareUserSearchComponent } from './components/shared/care-user-search/care-user-search.component';
-import { EventRegistrationComponent } from '../shared/components/event-registration/event-registration.component';
+import { RegistrationComponent } from '../shared/components/event-registration/event-registration.component';
 import { SharedModule } from '../shared/shared.module';
 import { AddFamilyWizardComponent } from './components/add-family-wizard/add-family-wizard.component';
-import { SingerEventRegistrationsComponent } from './components/singerevents/singer-event-registrations/singer-event-registrations.component';
+import { SingerRegistrationsComponent } from './components/singerevents/event-registrations/event-registrations.component';
 import { SingerEventAdminRegisterComponent } from './components/singerevents/singer-eventadmin-register/singer-eventadmin-register.component';
 import { PendingRegistrationsComponent } from './components/pending-registrations/pending-registrations.component';
 import { PendingActionsComponent } from './components/pending-actions/pending-actions.component';
-import { PendingRegistrationsService } from '../core/services/singerevents-api/pending-registrations-service';
-import { ActionNotificationsService } from '../core/services/action-notification.service';
 import { RegistrationStatusPipe } from '../core/services/registration-status.pipe';
 
 @NgModule({
@@ -49,7 +47,7 @@ import { RegistrationStatusPipe } from '../core/services/registration-status.pip
       SingerEventDetailsComponent,
       AdminOverviewComponent,
       AdminDetailsComponent,
-      SingerEventRegistrationsComponent,
+      SingerRegistrationsComponent,
       CareUserSearchComponent,
       SingerEventAdminRegisterComponent,
       AddFamilyWizardComponent,
@@ -73,8 +71,8 @@ import { RegistrationStatusPipe } from '../core/services/registration-status.pip
       CareUserDetailsComponent,
       LegalguardianDetailsComponent,
       SingerEventDetailsComponent,
-      SingerEventRegistrationsComponent,
-      EventRegistrationComponent,
+      SingerRegistrationsComponent,
+      RegistrationComponent,
       AdminDetailsComponent,
       SingerEventAdminRegisterComponent,
    ],
