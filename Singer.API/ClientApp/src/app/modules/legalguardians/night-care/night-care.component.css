@@ -1,0 +1,16 @@
+.navigation-buttons {
+   margin: 8px;
+   display: flex;
+   justify-content: space-evenly;
+   align-items: baseline;
+}
+.navigation-buttons button {
+   margin-right: 8px;
+}
+.navigation-buttons p {
+   margin-right: 8px;
+   font-size: 16px;
+}
+.calendar-view {
+   margin: 16px;
+}
