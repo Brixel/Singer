@@ -4,9 +4,9 @@ import { SingerEvent, EventSlotRegistrations, UserInfo } from 'src/app/modules/c
 import { SingerEventsService } from 'src/app/modules/core/services/singerevents-api/singerevents.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import {
-   SingerEventRegistrationsComponent,
-   SingerEventRegistrationData,
-} from '../singer-event-registrations/singer-event-registrations.component';
+   SingerRegistrationsComponent,
+   SingerRegistrationData,
+} from '../event-registrations/event-registrations.component';
 import { CareUserDTO } from 'src/app/modules/core/models/careuser.model';
 import { BehaviorSubject } from 'rxjs';
 import { Registrant } from 'src/app/modules/core/models/registrant.model';
@@ -29,8 +29,8 @@ export class SingerEventAdminRegisterComponent implements OnInit {
 
    constructor(
       private singerEventService: SingerEventsService,
-      private dialogRef: MatDialogRef<SingerEventRegistrationsComponent>,
-      @Inject(MAT_DIALOG_DATA) data: SingerEventRegistrationData
+      private dialogRef: MatDialogRef<SingerRegistrationsComponent>,
+      @Inject(MAT_DIALOG_DATA) data: SingerRegistrationData
    ) {
       this.event = data.event;
       this.formGroup = new FormGroup({});

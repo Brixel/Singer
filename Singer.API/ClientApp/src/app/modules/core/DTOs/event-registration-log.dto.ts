@@ -1,6 +1,6 @@
 import { RegistrationStatus } from '../models/enum';
 
-export interface EventRegistrationLogCareUserDTO {
+export interface RegistrationLogCareUserDTO {
    id: string;
    careUser: string;
    legalGuardians: LegalGuardianDTO[];
@@ -9,7 +9,7 @@ export interface EventRegistrationLogCareUserDTO {
    registrationLocationChanges: CareUserRegistrationLocationChangedDTO[];
 }
 
-export interface EventRegistrationLogCareUserRegistrationDTO {
+export interface RegistrationLogCareUserRegistrationDTO {
    eventRegistrationId: string;
    eventTitle: string;
    eventSlotStartDateTime: Date;

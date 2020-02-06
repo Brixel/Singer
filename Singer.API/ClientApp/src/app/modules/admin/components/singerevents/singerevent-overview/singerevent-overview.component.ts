@@ -12,9 +12,9 @@ import { SingerEvent, SingerEventLocation } from 'src/app/modules/core/models/si
 import { SingerEventLocationService } from 'src/app/modules/core/services/singerevents-api/singerevent-location.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
-   SingerEventRegistrationsComponent,
-   SingerEventRegistrationData,
-} from '../singer-event-registrations/singer-event-registrations.component';
+   SingerRegistrationsComponent,
+   SingerRegistrationData,
+} from '../event-registrations/event-registrations.component';
 import { SingerEventAdminRegisterComponent } from '../singer-eventadmin-register/singer-eventadmin-register.component';
 import { LoadingService } from 'src/app/modules/core/services/loading.service';
 
@@ -125,8 +125,8 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
    }
 
    manageRegistrations(row: SingerEvent) {
-      this.dialog.open(SingerEventRegistrationsComponent, {
-         data: <SingerEventRegistrationData>{
+      this.dialog.open(SingerRegistrationsComponent, {
+         data: <SingerRegistrationData>{
             event: row,
          },
          width: '60vw',
@@ -136,7 +136,7 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
 
    addRegistration(row: SingerEvent) {
       this.dialog.open(SingerEventAdminRegisterComponent, {
-         data: <SingerEventRegistrationData>{
+         data: <SingerRegistrationData>{
             event: row,
          },
          width: '50vw',

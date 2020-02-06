@@ -5,9 +5,9 @@ import { Observable } from 'rxjs';
 import { EventRegisterDetails, EventFilterParameters } from '../../models/singerevent.model';
 import { PaginationDTO } from '../../DTOs/pagination.dto';
 import {
-   EventRegistrationDTO,
+   RegistrationDTO,
    CreateEventSlotRegistrationDTO,
-   CreateEventRegistrationDTO,
+   CreateRegistrationDTO,
    UserRegisteredDTO,
    UpdateSingerEventDTO,
    CreateSingerEventDTO,
@@ -55,7 +55,7 @@ export class SingerEventsProxy {
       return this.apiService.get(`api/event/${eventId}/geteventregisterdetails`).pipe(map(res => res));
    }
 
-   registerCareUserOnEvent(eventId: string, dto: CreateEventRegistrationDTO): Observable<EventRegistrationDTO[]> {
+   registerCareUserOnEvent(eventId: string, dto: CreateRegistrationDTO): Observable<RegistrationDTO[]> {
       return this.apiService.post(`api/event/${eventId}/registrations`, dto).pipe(map(res => res));
    }
 
@@ -63,7 +63,7 @@ export class SingerEventsProxy {
       eventId: string,
       eventSlotId: string,
       dto: CreateEventSlotRegistrationDTO
-   ): Observable<EventRegistrationDTO> {
+   ): Observable<RegistrationDTO> {
       return this.apiService
          .post(`api/event/${eventId}/eventslot/${eventSlotId}/registrations`, dto)
          .pipe(map(res => res));
@@ -73,7 +73,7 @@ export class SingerEventsProxy {
       return this.apiService.get(`api/event/${eventId}/isuserregistered/${careUserId}`).pipe(map(res => res));
    }
 
-   getEventRegistrations(
+   getRegistrations(
       eventId: string,
       sortDirection?: string,
       sortColumn?: string,
