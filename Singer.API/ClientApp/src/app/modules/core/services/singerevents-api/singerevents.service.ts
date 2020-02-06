@@ -27,7 +27,8 @@ export class SingerEventsService extends GenericService<
    SingerEvent,
    SingerEventDTO,
    CreateSingerEventDTO,
-   UpdateSingerEventDTO
+   UpdateSingerEventDTO,
+   null
 > {
    toEditDTO(model: SingerEvent): UpdateSingerEventDTO {
       return <UpdateSingerEventDTO>{

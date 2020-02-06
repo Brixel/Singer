@@ -1,6 +1,7 @@
 import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { MainComponent } from './main.component';
+import { RegistrationOverviewComponent } from './modules/core/components/registration-overview/registration-overview.component';
 
 const routes: Routes = [
    { path: 'login', loadChildren: './modules/login/login.module#LoginModule' },
@@ -12,6 +13,10 @@ const routes: Routes = [
       path: 'dashboard',
       loadChildren: './modules/dashboard/dashboard.module#DashboardModule',
       component: MainComponent,
+   },
+   {
+      path: 'registratie-overzicht',
+      component: RegistrationOverviewComponent,
    },
    { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
 ];

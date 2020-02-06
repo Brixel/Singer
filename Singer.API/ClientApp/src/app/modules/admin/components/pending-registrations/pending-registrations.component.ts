@@ -10,6 +10,7 @@ import {
    SingerRegistrationData,
 } from '../singerevents/event-registrations/event-registrations.component';
 import { SingerEventsService } from 'src/app/modules/core/services/singerevents-api/singerevents.service';
+import { RegistrationSearchDTO } from 'src/app/modules/core/DTOs/registration.dto';
 
 @Component({
    selector: 'app-pending-registrations',
@@ -19,7 +20,11 @@ import { SingerEventsService } from 'src/app/modules/core/services/singerevents-
 export class PendingRegistrationsComponent extends GenericOverviewComponent<
    Registration,
    RegistrationDTO,
-   PendingRegistrationsDatasource
+   null,
+   null,
+   PendingRegistrationsService,
+   PendingRegistrationsDatasource,
+   RegistrationSearchDTO
 > {
    @ViewChild(MatPaginator) paginator: MatPaginator;
    @ViewChild(MatSort) sort: MatSort;
@@ -53,7 +58,7 @@ export class PendingRegistrationsComponent extends GenericOverviewComponent<
             })
             .afterClosed()
             .subscribe(_ => {
-               this.dataSource.load();
+               this.dataSource.load(this.searchDTO);
             });
       });
    }

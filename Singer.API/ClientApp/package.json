@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.1.0-issue-registration-support-frontend.1330",
+   "version": "0.1.0-issue-AB-147-registration-overview.1332",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",

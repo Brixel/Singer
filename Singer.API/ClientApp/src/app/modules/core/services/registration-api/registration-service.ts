@@ -4,11 +4,18 @@ import { RegistrationDTO } from '../../DTOs/event-registration.dto';
 import { GenericService } from '../generic-service';
 import { HttpClient } from '@angular/common/http';
 import { EventSlot } from '../../models/eventslot';
+import { RegistrationSearchDTO } from '../../DTOs/registration.dto';
 
 @Injectable({
    providedIn: 'root',
 })
-export class PendingRegistrationsService extends GenericService<Registration, RegistrationDTO, null, null, null> {
+export class RegistrationService extends GenericService<
+   Registration,
+   RegistrationDTO,
+   null,
+   null,
+   RegistrationSearchDTO
+> {
    toModel(dto: RegistrationDTO): Registration {
       return <Registration>{
          careUser: dto.careUser,
@@ -24,7 +31,7 @@ export class PendingRegistrationsService extends GenericService<Registration, Re
       };
    }
    constructor(protected httpClient: HttpClient) {
-      super('api/event/registrations/status/pending');
+      super('api/registration');
    }
 
    toEditDTO(model: Registration): null {

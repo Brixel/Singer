@@ -1,0 +1,59 @@
+<!-- Mat Form Field Filter -->
+<div class="mat-elevation-z8 overview-table">
+   <mat-form-field>
+      <input matInput #filterInput placeholder="Filter" />
+   </mat-form-field>
+   <mat-table [dataSource]="dataSource" matSort>
+      <!-- Id column -->
+      <ng-container matColumnDef="id">
+         <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
+         <mat-cell *matCellDef="let row">{{ row.id }}</mat-cell>
+      </ng-container>
+      <!-- Name column -->
+      <ng-container matColumnDef="firstName">
+         <mat-header-cell *matHeaderCellDef mat-sort-header>Voornaam</mat-header-cell>
+         <mat-cell *matCellDef="let row">{{ row.careUser.firstName }}</mat-cell>
+      </ng-container>
+      <!-- Name column -->
+      <ng-container matColumnDef="lastName">
+         <mat-header-cell *matHeaderCellDef mat-sort-header>Achternaam</mat-header-cell>
+         <mat-cell *matCellDef="let row">{{ row.careUser.lastName }}</mat-cell>
+      </ng-container>
+
+      <!-- Name column -->
+      <ng-container matColumnDef="date">
+         <mat-header-cell *matHeaderCellDef mat-sort-header>Datum</mat-header-cell>
+         <mat-cell *matCellDef="let row"></mat-cell>
+      </ng-container>
+      <!-- Action column -->
+      <ng-container matColumnDef="actions">
+         <mat-header-cell *matHeaderCellDef>Acties</mat-header-cell>
+         <mat-cell *matCellDef="let row">
+            <button mat-icon-button aria-label="Bewerken">
+               <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button aria-label="Verwijderen">
+               <mat-icon>delete</mat-icon>
+            </button>
+         </mat-cell>
+      </ng-container>
+      <!-- Paginator column -->
+      <ng-container matColumnDef="paginator">
+         <mat-footer-cell *matFooterCellDef colspan="20">
+            <!-- Paginator -->
+            <mat-paginator
+               #paginator
+               [length]="dataSource?.totalSize$ | async"
+               [pageIndex]="pageIndex"
+               [pageSize]="searchDTO.pageSize"
+               [pageSizeOptions]="[1, 15, 25, 50, 100]"
+               showFirstLastButtons
+            >
+            </mat-paginator>
+         </mat-footer-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      <mat-footer-row *matFooterRowDef="['paginator']"></mat-footer-row>
+   </mat-table>
+</div>

@@ -5,10 +5,16 @@ import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { GenericModel } from 'src/app/modules/core/models/generics/generic-model';
 import { DataSource } from '@angular/cdk/table';
 import { GenericDataSource } from 'src/app/modules/core/services/generic-data-source';
+import { GenericService } from 'src/app/modules/core/services/generic-service';
+import { SearchDTOBase } from 'src/app/modules/core/DTOs/base.dto';
 export abstract class GenericOverviewComponent<
    TModel extends GenericModel,
    TDTO,
-   TDataSource extends GenericDataSource<TModel, TDTO>
+   TUpdateDTO,
+   TCreateDTO,
+   TService extends GenericService<TModel, TDTO, TUpdateDTO, TCreateDTO, TSearchDTO>,
+   TDataSource extends GenericDataSource<TModel, TDTO, TUpdateDTO, TCreateDTO, TService, TSearchDTO>,
+   TSearchDTO extends SearchDTOBase
 > implements AfterViewInit {
    @ViewChild(MatPaginator)
    paginator: MatPaginator;
@@ -16,9 +22,7 @@ export abstract class GenericOverviewComponent<
    @ViewChild('filterInput')
    filterInput: ElementRef;
 
-   pageSize = 15;
-   pageIndex = 0;
-   filter: string;
+   searchDTO: TSearchDTO;
 
    displayedColumns = [];
 
@@ -50,8 +54,8 @@ export abstract class GenericOverviewComponent<
       merge(this.sort.sortChange, this.paginator.page)
          .pipe(
             tap(() => {
-               this.pageIndex = this.paginator.pageIndex;
-               this.pageSize = this.paginator.pageSize;
+               this.searchDTO.pageIndex = this.paginator.pageIndex;
+               this.searchDTO.pageSize = this.paginator.pageSize;
                this.loadData();
             })
          )
@@ -60,7 +64,7 @@ export abstract class GenericOverviewComponent<
    protected loadData() {
       const sortDirection = this.sort.direction;
       const sortColumn = this.sort.active;
-      this.filter = this.filterInput ? this.filterInput.nativeElement.value : '';
-      this.dataSource.load(sortDirection, sortColumn, this.pageIndex, this.pageSize, this.filter);
+      this.searchDTO.text = this.filterInput ? this.filterInput.nativeElement.value : '';
+      this.dataSource.load(this.searchDTO);
    }
 }
