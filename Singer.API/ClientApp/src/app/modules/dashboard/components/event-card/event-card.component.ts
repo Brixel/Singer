@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { EventDescription } from 'src/app/modules/core/models/singerevent.model';
 import { MatDialog } from '@angular/material';
-import { EventRegistrationComponent } from 'src/app/modules/shared/components/event-registration/event-registration.component';
+import { RegistrationComponent } from 'src/app/modules/shared/components/event-registration/event-registration.component';
 
 @Component({
    selector: 'app-event-card',
@@ -25,8 +25,8 @@ export class EventCardComponent {
       }
    }
 
-   openEventRegistration(event: EventDescription) {
-      this._dialog.open(EventRegistrationComponent, {
+   openRegistration(event: EventDescription) {
+      this._dialog.open(RegistrationComponent, {
          data: event.id,
          maxHeight: '100vh',
          width: '40vw',

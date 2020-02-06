@@ -10,10 +10,10 @@ import {
    CreateSingerEventDTO,
    EventRepeatSettingsDTO,
    EventSlotRegistrationDTO,
-   CreateEventRegistrationDTO,
+   CreateRegistrationDTO,
    CreateEventSlotRegistrationDTO,
    UserRegisteredDTO,
-   EventRegistrationDTO,
+   RegistrationDTO,
    SingerEventDTO,
 } from '../../DTOs/event-registration.dto';
 import { GenericService } from '../generic-service';
@@ -120,7 +120,7 @@ export class SingerEventsService extends GenericService<
       pageIndex?: number,
       pageSize?: number,
       filter?: string
-   ): Observable<PaginationDTO<EventRegistrationDTO>> {
+   ): Observable<PaginationDTO<RegistrationDTO>> {
       return this.singerEventsProxy
          .getSingerEvents(sortDirection, sortColumn, pageIndex, pageSize, filter)
          .pipe(map(res => res));
@@ -191,7 +191,7 @@ export class SingerEventsService extends GenericService<
       return this.singerEventsProxy.getEventRegisterDetails(eventId);
    }
 
-   getEventRegistrations(
+   getRegistrations(
       eventId: string,
       sortDirection?: string,
       sortColumn?: string,
@@ -200,12 +200,12 @@ export class SingerEventsService extends GenericService<
       filter?: string
    ): Observable<EventSlotRegistrationDTO[]> {
       return this.singerEventsProxy
-         .getEventRegistrations(eventId, sortDirection, sortColumn, pageIndex, pageSize, filter)
+         .getRegistrations(eventId, sortDirection, sortColumn, pageIndex, pageSize, filter)
          .pipe(map(res => res.items));
    }
 
    registerCareUserOnEvent(eventId: string, careUserId: string) {
-      const eventRegDTO = <CreateEventRegistrationDTO>{
+      const eventRegDTO = <CreateRegistrationDTO>{
          careUserId: careUserId,
          eventId: eventId,
       };

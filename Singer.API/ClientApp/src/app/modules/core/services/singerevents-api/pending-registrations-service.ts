@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { EventRegistration } from '../../models/singerevent.model';
-import { EventRegistrationDTO } from '../../DTOs/event-registration.dto';
+import { Registration } from '../../models/singerevent.model';
+import { RegistrationDTO } from '../../DTOs/event-registration.dto';
 import { GenericService } from '../generic-service';
 import { HttpClient } from '@angular/common/http';
 import { EventSlot } from '../../models/eventslot';
@@ -8,9 +8,9 @@ import { EventSlot } from '../../models/eventslot';
 @Injectable({
    providedIn: 'root',
 })
-export class PendingRegistrationsService extends GenericService<EventRegistration, EventRegistrationDTO, null, null> {
-   toModel(dto: EventRegistrationDTO): EventRegistration {
-      return <EventRegistration>{
+export class PendingRegistrationsService extends GenericService<Registration, RegistrationDTO, null, null> {
+   toModel(dto: RegistrationDTO): Registration {
+      return <Registration>{
          careUser: dto.careUser,
          eventDescription: dto.eventDescription,
          eventSlot: <EventSlot>{
@@ -27,10 +27,10 @@ export class PendingRegistrationsService extends GenericService<EventRegistratio
       super('api/event/registrations/status/pending');
    }
 
-   toEditDTO(model: EventRegistration): null {
+   toEditDTO(model: Registration): null {
       throw new Error('Method not implemented.');
    }
-   toCreateDTO(model: EventRegistration): null {
+   toCreateDTO(model: Registration): null {
       throw new Error('Method not implemented.');
    }
 }

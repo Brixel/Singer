@@ -1,9 +1,9 @@
 import {
-   EventRegistrationLogCareUser,
+   RegistrationLogCareUser,
    CareUserRegistrationStateChanged,
    CareUserRegistrationLocationChanged,
 } from '../models/event-registration-log.model';
-import { EventRegistrationLogCareUserDTO } from '../DTOs/event-registration-log.dto';
+import { RegistrationLogCareUserDTO } from '../DTOs/event-registration-log.dto';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError } from 'rxjs/operators';
@@ -18,7 +18,7 @@ export class ActionNotificationsService {
 
    fetch() {
       return this.httpClient
-         .get<EventRegistrationLogCareUserDTO[]>('api/actionnotification/pending')
+         .get<RegistrationLogCareUserDTO[]>('api/actionnotification/pending')
          .pipe(catchError(error => this.handleError(error)));
    }
 
@@ -28,8 +28,8 @@ export class ActionNotificationsService {
          .pipe(catchError(error => this.handleError(error)));
    }
 
-   toModel(dto: EventRegistrationLogCareUserDTO): EventRegistrationLogCareUser {
-      return <EventRegistrationLogCareUser>{
+   toModel(dto: RegistrationLogCareUserDTO): RegistrationLogCareUser {
+      return <RegistrationLogCareUser>{
          careUser: dto.careUser,
          id: dto.id,
          legalGuardians: dto.legalGuardians.map(x => x.name),

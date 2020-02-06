@@ -1,14 +1,14 @@
 import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { GenericOverviewComponent } from 'src/app/modules/shared/components/generic-overview/generic-overview.component';
-import { EventRegistrationDTO } from 'src/app/modules/core/DTOs/event-registration.dto';
+import { RegistrationDTO } from 'src/app/modules/core/DTOs/event-registration.dto';
 import { PendingRegistrationsDatasource } from './pending-registrations-datasource';
-import { EventRegistration } from 'src/app/modules/core/models/singerevent.model';
+import { Registration } from 'src/app/modules/core/models/singerevent.model';
 import { PendingRegistrationsService } from 'src/app/modules/core/services/singerevents-api/pending-registrations-service';
 import {
-   SingerEventRegistrationsComponent,
-   SingerEventRegistrationData,
-} from '../singerevents/singer-event-registrations/singer-event-registrations.component';
+   SingerRegistrationsComponent,
+   SingerRegistrationData,
+} from '../singerevents/event-registrations/event-registrations.component';
 import { SingerEventsService } from 'src/app/modules/core/services/singerevents-api/singerevents.service';
 
 @Component({
@@ -17,8 +17,8 @@ import { SingerEventsService } from 'src/app/modules/core/services/singerevents-
    styleUrls: ['./pending-registrations.component.css'],
 })
 export class PendingRegistrationsComponent extends GenericOverviewComponent<
-   EventRegistration,
-   EventRegistrationDTO,
+   Registration,
+   RegistrationDTO,
    PendingRegistrationsDatasource
 > {
    @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -40,11 +40,11 @@ export class PendingRegistrationsComponent extends GenericOverviewComponent<
       this._eventService = eventService;
    }
 
-   manageRegistrations(row: EventRegistration) {
+   manageRegistrations(row: Registration) {
       this._eventService.getSingleEvent(row.eventDescription.id).subscribe(res => {
          this.dialog
-            .open(SingerEventRegistrationsComponent, {
-               data: <SingerEventRegistrationData>{
+            .open(SingerRegistrationsComponent, {
+               data: <SingerRegistrationData>{
                   event: this._eventService.toModel(res),
                   defaultEventSlot: row.eventSlot,
                },

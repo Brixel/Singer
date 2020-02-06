@@ -1,11 +1,11 @@
 import { GenericDataSource } from 'src/app/modules/core/services/generic-data-source';
-import { EventRegistrationLogCareUser } from 'src/app/modules/core/models/event-registration-log.model';
+import { RegistrationLogCareUser } from 'src/app/modules/core/models/event-registration-log.model';
 import { ActionNotificationsService } from 'src/app/modules/core/services/action-notification.service';
-import { EventRegistrationLogCareUserDTO } from 'src/app/modules/core/DTOs/event-registration-log.dto';
+import { RegistrationLogCareUserDTO } from 'src/app/modules/core/DTOs/event-registration-log.dto';
 import { BehaviorSubject } from 'rxjs';
 
 export class PendingActionsDataSource {
-   protected modelsSubject$ = new BehaviorSubject<EventRegistrationLogCareUser[]>([]);
+   protected modelsSubject$ = new BehaviorSubject<RegistrationLogCareUser[]>([]);
    protected totalSizeSubject$ = new BehaviorSubject<number>(0);
    protected queryCountSubject$ = new BehaviorSubject<number>(0);
    protected loadingSubject$ = new BehaviorSubject<boolean>(false);
