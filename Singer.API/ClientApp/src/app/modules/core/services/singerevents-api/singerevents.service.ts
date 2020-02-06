@@ -10,15 +10,14 @@ import {
    CreateSingerEventDTO,
    EventRepeatSettingsDTO,
    EventSlotRegistrationDTO,
-   CreateRegistrationDTO,
    CreateEventSlotRegistrationDTO,
    UserRegisteredDTO,
-   RegistrationDTO,
    SingerEventDTO,
 } from '../../DTOs/event-registration.dto';
 import { GenericService } from '../generic-service';
 import { HttpClient } from '@angular/common/http';
 import { EventSlot } from '../../models/eventslot';
+import { RegistrationDTO, CreateRegistrationDTO } from '../../DTOs/registration.dto';
 
 @Injectable({
    providedIn: 'root',

@@ -9,7 +9,7 @@ namespace Singer.Models
    {
       public Guid Id { get; set; }
       public RegistrationStatus Status { get; set; }
-      public EventRegistrationTypes EventRegistrationType { get; set; }
+      public RegistrationTypes EventRegistrationType { get; set; }
       public Guid? EventSlotId { get; set; }
       public EventSlot EventSlot { get; set; }
       public Guid CareUserId { get; set; }
@@ -27,10 +27,11 @@ namespace Singer.Models
          Status = RegistrationStatus.Pending;
       }
 
-      public static Registration Create(EventRegistrationTypes eventRegistrationTypes,
+      public static Registration Create(RegistrationTypes eventRegistrationTypes,
          DateTime startDateTime, DateTime endDateTime)
       {
-         return new Registration(){
+         return new Registration()
+         {
             EventRegistrationType = eventRegistrationTypes,
             StartDateTime = startDateTime,
             EndDateTime = endDateTime
@@ -44,7 +45,7 @@ namespace Singer.Models
          {
             CareUserId = careUserId,
             EventSlotId = eventSlotId,
-            EventRegistrationType = EventRegistrationTypes.EventSlotDriven,
+            EventRegistrationType = RegistrationTypes.EventSlotDriven,
             StartDateTime = startDateTime,
             EndDateTime = endDateTime,
             Status = status
@@ -53,7 +54,7 @@ namespace Singer.Models
       }
    }
 
-   public enum EventRegistrationTypes
+   public enum RegistrationTypes
    {
       EventSlotDriven = 1,
       DayCare = 2,

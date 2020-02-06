@@ -1,9 +1,9 @@
 import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { GenericOverviewComponent } from 'src/app/modules/shared/components/generic-overview/generic-overview.component';
-import { RegistrationDTO } from 'src/app/modules/core/DTOs/event-registration.dto';
+import { RegistrationDTO } from 'src/app/modules/core/DTOs/registration.dto';
 import { PendingRegistrationsDatasource } from './pending-registrations-datasource';
-import { Registration } from 'src/app/modules/core/models/singerevent.model';
+import { Registration } from 'src/app/modules/core/models/registration.model';
 import { PendingRegistrationsService } from 'src/app/modules/core/services/singerevents-api/pending-registrations-service';
 import {
    SingerRegistrationsComponent,

@@ -17,6 +17,8 @@ namespace Singer.DTOs
          Name = nameof(DisplayNames.Id))]
       public Guid Id { get; set; }
 
+      public RegistrationTypes RegistrationType { get; set; }
+
       [Required(
          ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
          ErrorMessageResourceType = typeof(ErrorMessages))]
@@ -40,6 +42,11 @@ namespace Singer.DTOs
          ResourceType = typeof(DisplayNames),
          Name = nameof(DisplayNames.CareUser))]
       public CareUserDTO CareUser { get; set; }
+
+      public EventLocationDTO DaycareLocation { get; set; }
+
+      public DateTime StartDateTime { get; set; }
+      public DateTime EndDateTime { get; set; }
 
       [Required(
          ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),

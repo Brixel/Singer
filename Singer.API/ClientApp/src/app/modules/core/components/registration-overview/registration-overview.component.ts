@@ -1,8 +1,8 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { GenericOverviewComponent } from 'src/app/modules/shared/components/generic-overview/generic-overview.component';
 import { RegistrationsDatasource } from './registrations-datasource';
-import { Registration } from '../../models/singerevent.model';
-import { RegistrationDTO } from '../../DTOs/event-registration.dto';
+import { Registration } from '../../models/registration.model';
+import { RegistrationDTO } from '../../DTOs/registration.dto';
 import { RegistrationService } from '../../services/registration-api/registration-service';
 import { MatDialog } from '@angular/material';
 import { RegistrationSearchDTO } from '../../DTOs/registration.dto';
@@ -25,7 +25,7 @@ export class RegistrationOverviewComponent extends GenericOverviewComponent<
    constructor(dataService: RegistrationService, cd: ChangeDetectorRef) {
       const ds = new RegistrationsDatasource(dataService);
       super(cd, ds, 'id');
-      this.displayedColumns.push('id', 'firstName', 'lastName');
+      this.displayedColumns.push('id', 'date', 'type', 'firstName', 'lastName');
       this.searchDTO = <RegistrationSearchDTO>{
          pageIndex: 0,
          pageSize: 15,

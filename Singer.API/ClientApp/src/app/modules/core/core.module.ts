@@ -12,6 +12,7 @@ import { RegistrationStatusPipe } from './services/registration-status.pipe';
 import { SingereventCostPipe } from './Pipes/singerevent-cost.pipe';
 import { AboutComponent } from './components/about/about.component';
 import { RegistrationOverviewComponent } from './components/registration-overview/registration-overview.component';
+import { RegistrationTypePipe } from './pipes/registration-type.pipe';
 
 @NgModule({
    declarations: [
@@ -25,6 +26,7 @@ import { RegistrationOverviewComponent } from './components/registration-overvie
       SingereventCostPipe,
       AboutComponent,
       RegistrationOverviewComponent,
+      RegistrationTypePipe,
    ],
    imports: [CommonModule, MaterialModule, ReactiveFormsModule],
    exports: [
