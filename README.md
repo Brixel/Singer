@@ -11,16 +11,14 @@ Inschrijvingssysteem voor Sint Gerardus
 * Beheren van verschillende types gebruikers:
   * Administrators
   * Zorggebruikers
-  * Voogde
+  * Voogden
   
 ### Evenementenbeheer
 
 * Beheren van evenementen
-  * Zorggebruikers kunnen zich inschrijven voor evenementen
+  * Voogen/ouders van zorggebruikers kunnen hun kind inschrijven voor evenementen
   * Verschillende leeftijdsgroepen toekennen aan evenementen
   * Evenementen kunnen over één of meerdere dagen plaatsvinden
-
-
 
 ## Setup (English only)
 
@@ -28,10 +26,9 @@ Inschrijvingssysteem voor Sint Gerardus
 
 1. Architecture
 
-The application is written in C#, using .NET Core 2.2 and Angular 7. It's is generated using a template provided by Visual Studio 2017.
+The application is written in C#, using .NET Core 2.2 and Angular 8. It's is generated using a template provided by Visual Studio 2017.
 This template allows running the entire application (both the API and the webapp) in one executable.
 The data is stored in a SQL Server instance. Accessing the data is done via Entity Framework Core, using Automapper.
-
 
 2. Angular template in Visual Studio
 
@@ -63,15 +60,12 @@ app.UseSpa(spa =>
 
 The `spa.UseAngularCliServer` line triggers the `npm start` for the webapp and starts a browser opening the page.
 
-
-
 ## Get the application running locally
 
 1. Clone this repository
 2. Run `docker-compose up` in the root of the cloned folder
 2. Run the application by hitting F5 in Visual Studio
 3. Enjoy the magic 
-
 
 ## Docker
 
