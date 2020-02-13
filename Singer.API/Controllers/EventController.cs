@@ -67,7 +67,7 @@ namespace Singer.Controllers
       [HttpPost("{eventId}/registrations")]
       [ProducesResponseType(StatusCodes.Status201Created)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public async Task<ActionResult<List<EventRegistrationDTO>>> Create(Guid eventId, [FromBody]CreateEventRegistrationDTO dto)
+      public async Task<ActionResult<List<RegistrationDTO>>> Create(Guid eventId, [FromBody]CreateRegistrationDTO dto)
       {
          if (eventId != dto.EventId)
             throw new BadInputException("The event id in the url and the body do not match", ErrorMessages.EventIdMismatchUrlBody);
@@ -92,7 +92,7 @@ namespace Singer.Controllers
       [HttpPost("{eventId}/eventslot/{eventSlotId}/registrations")]
       [ProducesResponseType(StatusCodes.Status201Created)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public async Task<ActionResult<EventRegistrationDTO>> Create(Guid eventId, [FromBody]CreateEventSlotRegistrationDTO dto)
+      public async Task<ActionResult<RegistrationDTO>> Create(Guid eventId, [FromBody]CreateEventSlotRegistrationDTO dto)
       {
          if (!User.IsInRole(Roles.ROLE_ADMINISTRATOR))
          {
@@ -197,7 +197,7 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status200OK)]
       [ProducesResponseType(StatusCodes.Status404NotFound)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public async Task<ActionResult<EventRegistrationDTO>> GetOne(Guid eventId, Guid registrationId)
+      public async Task<ActionResult<RegistrationDTO>> GetOne(Guid eventId, Guid registrationId)
       {
          var registration = await _eventRegistrationService
             .GetOneAsync(eventId, registrationId)
@@ -245,7 +245,7 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status200OK)]
       [ProducesResponseType(StatusCodes.Status404NotFound)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public async Task<ActionResult<EventRegistrationDTO>> Update(Guid eventId, Guid registrationId, [FromBody]RegistrationStatus status)
+      public async Task<ActionResult<RegistrationDTO>> Update(Guid eventId, Guid registrationId, [FromBody]RegistrationStatus status)
       {
          var model = ModelState;
          if (!model.IsValid)
@@ -377,19 +377,19 @@ namespace Singer.Controllers
 
       [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
       [HttpGet("registrations/status/pending")]
-      public async Task<ActionResult<PaginationDTO<EventRegistrationDTO>>> GetPendingRegistrations(
+      public async Task<ActionResult<PaginationDTO<RegistrationDTO>>> GetPendingRegistrations(
          ListSortDirection sortDirection = ListSortDirection.Ascending,
          string sortColumn = "Id",
          int pageIndex = 0,
          int pageSize = 15)
       {
-         var orderByLambda = PropertyHelpers.GetPropertySelector<EventRegistrationDTO>(sortColumn);
+         var orderByLambda = PropertyHelpers.GetPropertySelector<RegistrationDTO>(sortColumn);
          var result = await _eventRegistrationService.GetPendingRegistrations(orderByLambda, sortDirection, pageSize, pageIndex);
          var requestPath = HttpContext.Request.Path;
          var nextPage = (pageIndex * pageSize) + result.Size >= result.TotalCount
             ? null
             : $"{requestPath}?PageIndex={pageIndex++}&Size={pageSize}";
-         var page = new PaginationDTO<EventRegistrationDTO>
+         var page = new PaginationDTO<RegistrationDTO>
          {
             Items = result.Items,
             Size = result.Items.Count,
