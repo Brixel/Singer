@@ -1,3 +1,4 @@
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,7 +59,7 @@ namespace Singer.Services
          if (careUser == null)
             throw new NotFoundException($"Tried to add user link for non existing CareUser with id {CareUserId}", ErrorMessages.CareUserDoesntExist);
 
-         List<LegalGuardianCareUser> NewCareUsers = new List<LegalGuardianCareUser>();
+         var newCareUsers = new List<LegalGuardianCareUser>();
          foreach (var u in NewLinkedUsers)
          {
             var legalGuardianUser = await Context.LegalGuardianUsers.FirstOrDefaultAsync(c => c.Id == u);
@@ -71,24 +72,24 @@ namespace Singer.Services
             if (linkedUserExists != null)
                throw new BadInputException($"Duplicate link was attempted to add: LGUserId: {u}, CareUserID: {CareUserId}", ErrorMessages.DuplicateCareUserLGUserLink);
 
-            NewCareUsers.Add(new LegalGuardianCareUser() { CareUserId = CareUserId, LegalGuardianId = u });
+            newCareUsers.Add(new LegalGuardianCareUser() { CareUserId = CareUserId, LegalGuardianId = u });
          }
 
-         careUser.LegalGuardianCareUsers = NewCareUsers;
+         careUser.LegalGuardianCareUsers = newCareUsers;
          await Context.SaveChangesAsync();
       }
 
-      public async Task RemoveLinkedUsers(Guid CareUserId, List<Guid> UsersToRemove)
+      public async Task RemoveLinkedUsers(Guid careUserId, List<Guid> usersToRemove)
       {
          // First check if LGUser exists
-         var careUser = await Context.CareUsers.FindAsync(CareUserId);
+         var careUser = await Context.CareUsers.FindAsync(careUserId);
          if (careUser == null)
-            throw new NotFoundException($"Tried to remove user link for non existing CareUser with id {CareUserId}", ErrorMessages.CareUserDoesntExist);
+            throw new NotFoundException($"Tried to remove user link for non existing CareUser with id {careUserId}", ErrorMessages.CareUserDoesntExist);
 
-         foreach (var u in UsersToRemove)
+         foreach (var u in usersToRemove)
          {
             var linkedUserExists = await Context.LegalGuardianCareUsers
-               .FirstOrDefaultAsync(x => x.LegalGuardianId == u && x.CareUserId == CareUserId);
+               .FirstOrDefaultAsync(x => x.LegalGuardianId == u && x.CareUserId == careUserId);
 
             if (linkedUserExists == null)
                throw new NotFoundException($"You tried to remove a care user from a CareUser which was not linked to begin with (LG ID: {u})", ErrorMessages.LinkCareUserLGUserDoesntExist);
@@ -99,7 +100,7 @@ namespace Singer.Services
          await Context.SaveChangesAsync();
       }
 
-      public async Task<List<EventRelevantCareUserDTO>> GetCareUsersForLegalGuardian(Guid baseUserId)
+      public async Task<List<EventRelevantCareUserDTO>> GetCareUsersForLegalGuardianAsync(Guid baseUserId)
       {
          var legalGuardianCareUsers = await Context.LegalGuardianCareUsers
             .Include(x => x.CareUser)
@@ -109,6 +110,23 @@ namespace Singer.Services
 
          var careUsers = legalGuardianCareUsers.Select(x => x.CareUser).ToList();
          return ProjectToRelevantCareUsers(careUsers);
+      }
+
+      public async Task<List<RelatedCareUserDTO>> GetRelatedCareUserAsync(Guid userId, string searchValue)
+      {
+         return await Context.LegalGuardianCareUsers
+            .Where(x =>
+               x.LegalGuardian.UserId == userId &&
+               (x.CareUser.User.FirstName.Contains(searchValue) ||
+                x.CareUser.User.LastName.Contains(searchValue)))
+            .Select(x => new RelatedCareUserDTO
+            {
+               Id = x.CareUserId,
+               UserId = x.CareUser.UserId,
+               FirstName = x.CareUser.User.FirstName,
+               LastName = x.CareUser.User.LastName,
+               AgeGroup = x.CareUser.AgeGroup
+            }).ToListAsync();
       }
 
 

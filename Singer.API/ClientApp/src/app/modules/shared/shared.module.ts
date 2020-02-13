@@ -14,6 +14,7 @@ import { ConfirmComponent } from './components/confirm/confirm.component';
 import { DeleteConfirmationComponent } from './components/delete-confirmation/delete-confirmation.component';
 import { DeleteConfirmationDialogComponent } from './components/delete-confirmation-dialog/delete-confirmation-dialog.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CareUserSearchComponent } from './components/care-user-search/care-user-search.component';
 
 @NgModule({
    declarations: [
@@ -25,6 +26,7 @@ import { ReactiveFormsModule } from '@angular/forms';
       ConfirmComponent,
       DeleteConfirmationComponent,
       DeleteConfirmationDialogComponent,
+      CareUserSearchComponent,
    ],
    imports: [CommonModule, MaterialModule, CoreModule, ReactiveFormsModule],
    exports: [
@@ -36,6 +38,7 @@ import { ReactiveFormsModule } from '@angular/forms';
       ConfirmComponent,
       DeleteConfirmationComponent,
       DeleteConfirmationDialogComponent,
+      CareUserSearchComponent,
    ],
    entryComponents: [
       RegistrationComponent,

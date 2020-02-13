@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NightCareComponent } from './night-care.component';
+import { RegisterCareWizardComponent } from './register-care-wizard.component';
 
-describe('NightCareComponent', () => {
-  let component: NightCareComponent;
-  let fixture: ComponentFixture<NightCareComponent>;
+describe('RegisterCareWizardComponent', () => {
+  let component: RegisterCareWizardComponent;
+  let fixture: ComponentFixture<RegisterCareWizardComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NightCareComponent ]
+      declarations: [ RegisterCareWizardComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NightCareComponent);
+    fixture = TestBed.createComponent(RegisterCareWizardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

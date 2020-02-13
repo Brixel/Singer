@@ -1,8 +1,10 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Singer.Configuration;
 using Singer.DTOs.Users;
 using Singer.Helpers.Exceptions;
 using Singer.Models.Users;
@@ -26,6 +28,7 @@ namespace Singer.Controllers
       [HttpPost]
       [ProducesResponseType(StatusCodes.Status201Created)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+      [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
       public override async Task<IActionResult> Create([FromBody]CreateCareUserDTO dto)
       {
          if (dto is null)
@@ -39,6 +42,7 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status200OK)]
       [ProducesResponseType(StatusCodes.Status404NotFound)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+      [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
       public override async Task<IActionResult> Update(Guid id, [FromBody]UpdateCareUserDTO dto)
       {
          if (dto is null)
@@ -56,6 +60,16 @@ namespace Singer.Controllers
 
          var result = await DatabaseService.UpdateAsync(id, dto);
          return Ok(result);
+      }
+
+      [HttpGet("self")]
+      public async Task<IActionResult> GetOwnCareUsers([FromQuery] string searchValue)
+      {
+         var userId = Guid.Parse(User.GetSubjectId());
+
+         var relatedCareUsers = await _careUserService.GetRelatedCareUserAsync(userId, searchValue);
+         return Ok(relatedCareUsers);
+
       }
    }
 }

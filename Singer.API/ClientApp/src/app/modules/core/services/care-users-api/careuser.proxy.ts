@@ -3,8 +3,9 @@ import { Inject, Injectable } from '@angular/core';
 import { ApiService } from '../api.service';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { UpdateCareUserDTO, CreateCareUserDTO, CareUserDTO } from '../../models/careuser.model';
+import { UpdateCareUserDTO, CreateCareUserDTO, CareUserDTO, RelatedCareUserDTO } from '../../models/careuser.model';
 import { PaginationDTO } from '../../DTOs/pagination.dto';
+import { EventRelevantCareUserDTO } from '../../DTOs/event-registration.dto';
 
 @Injectable({
    providedIn: 'root',
@@ -34,5 +35,9 @@ export class CareUserProxy {
 
    createCareuser(createCareUserDTO: CreateCareUserDTO): Observable<CareUserDTO> {
       return this.apiService.post('api/careuser', createCareUserDTO).pipe(map(res => res));
+   }
+
+   getOwnCareUsers(value: string): Observable<RelatedCareUserDTO[]> {
+      return this.apiService.get(`api/careuser/self?search=${value}`).pipe(map(res => res));
    }
 }

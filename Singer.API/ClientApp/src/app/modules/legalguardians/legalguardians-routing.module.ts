@@ -1,12 +1,12 @@
 import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { AuthGuard } from '../core/services/auth.guard';
-import { NightCareComponent } from './night-care/night-care.component';
+import { RegisterCareWizardComponent } from './shared/register-care-wizard/register-care-wizard.component';
 
 const routes: Routes = [
    {
       path: '',
-      component: NightCareComponent,
+      component: RegisterCareWizardComponent,
    },
 ];
 @NgModule({
