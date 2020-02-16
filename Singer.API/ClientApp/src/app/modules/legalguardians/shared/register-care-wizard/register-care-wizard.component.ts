@@ -1,12 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AddRegisterCareWizardStep } from './add-register-care-wizard-step';
-import { CareUserService } from 'src/app/modules/core/services/care-users-api/careusers.service';
-import { CareUser, RelatedCareUserDTO } from 'src/app/modules/core/models/careuser.model';
 import {
    SearchCareUserDialogComponent,
    RelatedCareUser,
 } from '../search-care-user-dialog/search-care-user-dialog.component';
 import { MatDialog, MatSnackBar, MatStepper, MatButtonToggleGroup } from '@angular/material';
+import { OwlDateTimeInlineComponent } from 'ng-pick-datetime';
 
 @Component({
    selector: 'app-register-care-wizard',
@@ -62,12 +61,20 @@ export class RegisterCareWizardComponent implements OnInit {
 
    @ViewChild('stepper') stepper: MatStepper;
    @ViewChild('dayCareTyype') dayCareType: MatButtonToggleGroup;
-
-   currentWizardStep: AddRegisterCareWizardStep;
-
+   @ViewChild('datetimepicker') datetimepicker: OwlDateTimeInlineComponent<Date>;
    careUsers: RelatedCareUser[] = [];
 
-   constructor(public dialog: MatDialog, private snackBar: MatSnackBar) {}
+   selectedMoments: Date[] = [];
+   minDate = new Date();
+
+   dateFilter = (date: Date): boolean => {
+      const day = date.getDay();
+
+      // Prevent Saturday and Sunday from being selected.
+      return day !== 0 && day !== 6;
+   };
+
+   constructor(public dialog: MatDialog) {}
 
    ngOnInit() {}
 
@@ -91,5 +98,18 @@ export class RegisterCareWizardComponent implements OnInit {
 
    onRemoveCareUser(relatedUser: RelatedCareUser) {
       this.careUsers = this.careUsers.filter(x => x !== relatedUser);
+   }
+
+   moveStepperForward() {
+      if (this.stepper.selectedIndex === 3) {
+         console.log(this.datetimepicker.values);
+         const selectedDateTimeValues = this.datetimepicker.selecteds;
+         if (selectedDateTimeValues.length !== 2) {
+            return;
+         } else {
+            this.selectedMoments = selectedDateTimeValues;
+         }
+      }
+      this.stepper.next();
    }
 }

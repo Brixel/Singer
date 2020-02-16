@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_LOCALE, OwlDateTimeIntl } from 'ng-pick-datetime';
 import { CommonModule } from '@angular/common';
 import { LegalguardiansRoutingModule } from './legalguardians-routing.module';
 import { MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material';
@@ -8,14 +9,25 @@ import { MaterialModule } from 'src/app/material.module';
 import { RegisterCareWizardComponent } from './shared/register-care-wizard/register-care-wizard.component';
 import { SearchCareUserDialogComponent } from './shared/search-care-user-dialog/search-care-user-dialog.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { DutchOwlDateTimeIntl } from './dutchowldatetime';
 
 @NgModule({
    declarations: [RegisterCareWizardComponent, SearchCareUserDialogComponent],
-   imports: [CommonModule, SharedModule, MaterialModule, LegalguardiansRoutingModule, ReactiveFormsModule],
+   imports: [
+      CommonModule,
+      SharedModule,
+      MaterialModule,
+      LegalguardiansRoutingModule,
+      ReactiveFormsModule,
+      OwlDateTimeModule,
+      OwlNativeDateTimeModule,
+   ],
    entryComponents: [SearchCareUserDialogComponent],
    providers: [
       { provide: MAT_DATE_LOCALE, useValue: 'nl-BE' },
       { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+      { provide: OWL_DATE_TIME_LOCALE, useValue: 'nl-BE' },
+      { provide: OwlDateTimeIntl, useClass: DutchOwlDateTimeIntl },
    ],
 })
 export class LegalguardiansModule {}

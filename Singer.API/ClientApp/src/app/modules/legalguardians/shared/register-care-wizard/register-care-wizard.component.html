@@ -4,7 +4,7 @@
    </mat-card-header>
    <mat-card-content class="card-content">
       <!-- Mat-Stepper -->
-      <mat-horizontal-stepper linear #stepper>
+      <mat-horizontal-stepper #stepper>
          <!-- Mat-Step -->
          <ng-container *ngFor="let wizardStep of wizardSteps; index as i">
             <mat-step>
@@ -23,20 +23,23 @@
                         />
                      </div>
                   </ng-container>
-
-                  <ng-container *ngIf="i === wizardSteps.length - 1">
-                     <div class="body__img-container">
-                        <img
-                           src="../../../../../assets/svg/FamilyWizardFinishLogo.svg"
-                           alt="Achtergrond Afbeelding"
-                           title="Achtergrond Afbeelding"
-                           class="img-container__img"
-                        />
+                  <ng-container *ngIf="i === 4">
+                     <div class="summary">
+                        <h2>Samenvatting</h2>
+                        <div>
+                           <h3>Zorggebruikers</h3>
+                           <ul>
+                              <li *ngFor="let careUser of careUsers">
+                                 {{ careUser.firstName }}
+                              </li>
+                           </ul>
+                        </div>
+                        Van {{ selectedMoments[0] }} tot {{ selectedMoments[1] }}
                      </div>
                   </ng-container>
 
                   <!-- Mat-Step Top Text-->
-                  <div class="body__top-text">
+                  <div class="body__top-text" *ngIf="i !== 3">
                      <p>{{ wizardStep.topText }}</p>
                   </div>
 
@@ -88,7 +91,14 @@
                         </div>
                      </ng-container>
                      <ng-container *ngIf="i === 3">
-                        <form [formGroup]="dateForm"></form>
+                        <owl-date-time-inline
+                           #datetimepicker
+                           selectMode="range"
+                           pickerMode="dialog"
+                           firstDayOfWeek="1"
+                           [min]="minDate"
+                           [owlDateTimeFilter]="dateFilter"
+                        ></owl-date-time-inline>
                      </ng-container>
                   </div>
 
