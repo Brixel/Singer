@@ -44,7 +44,7 @@ export class SearchCareUserDialogComponent implements OnInit {
    }
    careUserLookup(value: string): Observable<RelatedCareUser[]> {
       return this._careUserService
-         .getOwnCareUsers()
+         .getOwnCareUsers(value)
          .pipe(map(res => res.map(careUser => new RelatedCareUser(careUser))));
    }
    close() {

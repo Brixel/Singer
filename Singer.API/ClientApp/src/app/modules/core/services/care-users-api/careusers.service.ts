@@ -51,7 +51,7 @@ export class CareUserService {
       return this.careuserProxy.createCareuser(createCareUserDTO).pipe(map(res => res));
    }
 
-   getOwnCareUsers(): Observable<RelatedCareUserDTO[]> {
-      return this.careuserProxy.getOwnCareUsers().pipe(map(res => res));
+   getOwnCareUsers(value: string): Observable<RelatedCareUserDTO[]> {
+      return this.careuserProxy.getOwnCareUsers(value).pipe(map(res => res));
    }
 }
