@@ -50,10 +50,10 @@
                         <div class="divider__line"></div>
                      </div>
                      <ng-container *ngIf="i === 1">
-                        <mat-button-toggle-group #dayCareType>
-                           <mat-button-toggle value="nightCare"> Nachtopvang</mat-button-toggle>
+                        <mat-button-toggle-group [value]="dayCareType" (change)="onChangeCareType($event)">
+                           <mat-button-toggle [value]="DayCareTypes.NightCare"> Nachtopvang</mat-button-toggle>
 
-                           <mat-button-toggle value="dayCare"> Dagopvang</mat-button-toggle>
+                           <mat-button-toggle [value]="DayCareTypes.DayCare"> Dagopvang</mat-button-toggle>
                         </mat-button-toggle-group>
                      </ng-container>
 

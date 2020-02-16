@@ -4,7 +4,7 @@ import {
    SearchCareUserDialogComponent,
    RelatedCareUser,
 } from '../search-care-user-dialog/search-care-user-dialog.component';
-import { MatDialog, MatSnackBar, MatStepper, MatButtonToggleGroup } from '@angular/material';
+import { MatDialog, MatSnackBar, MatStepper, MatButtonToggleGroup, MatButtonToggleChange } from '@angular/material';
 import { OwlDateTimeInlineComponent } from 'ng-pick-datetime';
 
 @Component({
@@ -30,7 +30,7 @@ export class RegisterCareWizardComponent implements OnInit {
          addButtonText: '',
          middleButtonText: 'Selecteer zorggebruikers',
          backArrow: true,
-         forwardArrow: true,
+         forwardArrow: false,
       },
       {
          stepLabel: 'Zorggebruikers toevoegen',
@@ -38,20 +38,20 @@ export class RegisterCareWizardComponent implements OnInit {
          addButtonText: 'Zorggebruiker toevoegen',
          middleButtonText: 'Datum selecteren',
          backArrow: true,
-         forwardArrow: true,
+         forwardArrow: false,
       },
       {
          stepLabel: 'Opvang aanvragen',
          topText: 'Selecteer de opvangdatum',
          addButtonText: 'Opvangdatum selecteren',
-         middleButtonText: 'Voltooien',
+         middleButtonText: 'Samenvatting',
          backArrow: true,
-         forwardArrow: true,
+         forwardArrow: false,
       },
 
       {
          stepLabel: 'Klaar',
-         topText: 'Gefeliciteerd u hebt succesvol nieuwe Voogden en Zorggebruikers toegevoegd.',
+         topText: 'Aanvraag klaar om in te dienen',
          addButtonText: '',
          middleButtonText: 'Terug naar Dashboard',
          backArrow: false,
@@ -60,8 +60,11 @@ export class RegisterCareWizardComponent implements OnInit {
    ];
 
    @ViewChild('stepper') stepper: MatStepper;
-   @ViewChild('dayCareTyype') dayCareType: MatButtonToggleGroup;
    @ViewChild('datetimepicker') datetimepicker: OwlDateTimeInlineComponent<Date>;
+
+   dayCareType: DayCareTypes;
+   DayCareTypes = DayCareTypes;
+
    careUsers: RelatedCareUser[] = [];
 
    selectedMoments: Date[] = [];
@@ -73,8 +76,9 @@ export class RegisterCareWizardComponent implements OnInit {
       // Prevent Saturday and Sunday from being selected.
       return day !== 0 && day !== 6;
    };
+   selectedCareType: any;
 
-   constructor(public dialog: MatDialog) {}
+   constructor(public dialog: MatDialog, private _snackBar: MatSnackBar) {}
 
    ngOnInit() {}
 
@@ -100,16 +104,62 @@ export class RegisterCareWizardComponent implements OnInit {
       this.careUsers = this.careUsers.filter(x => x !== relatedUser);
    }
 
-   moveStepperForward() {
-      if (this.stepper.selectedIndex === 3) {
-         console.log(this.datetimepicker.values);
-         const selectedDateTimeValues = this.datetimepicker.selecteds;
-         if (selectedDateTimeValues.length !== 2) {
-            return;
-         } else {
-            this.selectedMoments = selectedDateTimeValues;
-         }
+   handleMiddleButtonClick(selectedIndex: number) {
+      if (selectedIndex === 0) {
+         this.stepper.next();
       }
+      if (selectedIndex === 1) {
+         this.validateCareType();
+      }
+
+      if (selectedIndex === 2) {
+         this.validateCareUsers();
+      }
+      if (selectedIndex === 3) {
+         this.validateDates();
+      }
+   }
+   validateCareType() {
+      console.log(this.dayCareType);
+      if (this.dayCareType !== undefined) {
+         this.selectedCareType = this.dayCareType;
+
+         this.stepper.next();
+      } else {
+         this._snackBar.open('Selecteer een opvang type', 'OK');
+         return;
+      }
+   }
+   validateCareUsers() {
+      console.log(this.careUsers);
+      if (this.careUsers.length === 0) {
+         this._snackBar.open('Selecteer minstens één zorggebruiker om verder te gaan', 'OK');
+         return;
+      }
+
       this.stepper.next();
    }
+   validateDates() {
+      const selectedDateTimeValues = this.datetimepicker.selecteds;
+      if (selectedDateTimeValues.length !== 2) {
+         return;
+      } else {
+         this.selectedMoments = selectedDateTimeValues;
+
+         this.stepper.next();
+      }
+   }
+
+   moveStepperForward() {
+      this.stepper.next();
+   }
+
+   onChangeCareType($event: MatButtonToggleChange) {
+      this.dayCareType = <DayCareTypes>$event.value;
+   }
+}
+
+export enum DayCareTypes {
+   NightCare = 1,
+   DayCare = 2,
 }
