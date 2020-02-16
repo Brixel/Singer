@@ -142,12 +142,16 @@ export class RegisterCareWizardComponent implements OnInit {
    validateDates() {
       const selectedDateTimeValues = this.datetimepicker.selecteds;
       if (selectedDateTimeValues.length !== 2) {
+         this._snackBar.open('Selecteer een begin en eind datum om verder te gaan', 'OK');
          return;
       } else {
          this.selectedMoments = selectedDateTimeValues;
 
          this.stepper.next();
       }
+   }
+   moveStepperBackward() {
+      this.stepper.previous();
    }
 
    moveStepperForward() {
