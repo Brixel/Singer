@@ -46,9 +46,16 @@
                      <div *ngIf="i > 0 && i < wizardSteps.length - 1" class="step-content__divider">
                         <div class="divider__line"></div>
                      </div>
+                     <ng-container *ngIf="i === 1">
+                        <mat-button-toggle-group #dayCareType>
+                           <mat-button-toggle value="nightCare"> Nachtopvang</mat-button-toggle>
+
+                           <mat-button-toggle value="dayCare"> Dagopvang</mat-button-toggle>
+                        </mat-button-toggle-group>
+                     </ng-container>
 
                      <!-- CareUser UserCards -->
-                     <div *ngIf="i > 0 && i < wizardSteps.length - 1" class="step-content__careuser-user-cards">
+                     <div *ngIf="i === 2" class="step-content__careuser-user-cards">
                         <div class="careuser-user-cards__label">
                            Zorggebruikers:
                         </div>
@@ -64,7 +71,7 @@
                      </div>
 
                      <!-- Add User Button -->
-                     <ng-container *ngIf="wizardStep.addButtonText != ''">
+                     <ng-container *ngIf="i === 2 && wizardStep.addButtonText != ''">
                         <div
                            class="body__button-add"
                            (click)="handleAddButtonClick()"
@@ -79,6 +86,9 @@
 
                            <span class="body__button-add__text">{{ wizardStep.addButtonText }}</span>
                         </div>
+                     </ng-container>
+                     <ng-container *ngIf="i === 3">
+                        <form [formGroup]="dateForm"></form>
                      </ng-container>
                   </div>
 

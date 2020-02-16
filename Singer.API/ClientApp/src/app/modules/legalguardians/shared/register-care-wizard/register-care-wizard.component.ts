@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AddRegisterCareWizardStep } from './add-register-care-wizard-step';
 import { CareUserService } from 'src/app/modules/core/services/care-users-api/careusers.service';
 import { CareUser, RelatedCareUserDTO } from 'src/app/modules/core/models/careuser.model';
@@ -6,7 +6,7 @@ import {
    SearchCareUserDialogComponent,
    RelatedCareUser,
 } from '../search-care-user-dialog/search-care-user-dialog.component';
-import { MatDialog, MatSnackBar } from '@angular/material';
+import { MatDialog, MatSnackBar, MatStepper, MatButtonToggleGroup } from '@angular/material';
 
 @Component({
    selector: 'app-register-care-wizard',
@@ -22,6 +22,15 @@ export class RegisterCareWizardComponent implements OnInit {
          addButtonText: '',
          middleButtonText: 'Laten we beginnen',
          backArrow: false,
+         forwardArrow: true,
+      },
+
+      {
+         stepLabel: 'Type opvang',
+         topText: 'Maak uw keuze voor het type opvang',
+         addButtonText: '',
+         middleButtonText: 'Selecteer zorggebruikers',
+         backArrow: true,
          forwardArrow: true,
       },
       {
@@ -50,6 +59,9 @@ export class RegisterCareWizardComponent implements OnInit {
          forwardArrow: false,
       },
    ];
+
+   @ViewChild('stepper') stepper: MatStepper;
+   @ViewChild('dayCareTyype') dayCareType: MatButtonToggleGroup;
 
    currentWizardStep: AddRegisterCareWizardStep;
 
