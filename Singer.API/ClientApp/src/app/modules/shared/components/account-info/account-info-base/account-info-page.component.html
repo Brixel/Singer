@@ -2,12 +2,16 @@
    <div class="main-grid">
       <div class="main-grid__navbar-grid">
          <div class="navbar-grid__header flex--column">
-            <mat-card-title>Account</mat-card-title>
+            <mat-card-title>Mijn profiel</mat-card-title>
             <p class="margin--top secondary--text">Hier kan u uw gegevens bekijken.</p>
          </div>
          <div class="navbar-grid__buttons flex--column">
-            <div *ngFor="let navbarLink of navbarLinks" class="flex--row align--center cursor--click secondary--text"
-               (click)="navigate(navbarLink.url)" [class.active-page]="navbarLink.url === router.url">
+            <div
+               *ngFor="let navbarLink of navbarLinks"
+               class="flex--row align--center cursor--click secondary--text"
+               (click)="navigate(navbarLink.url)"
+               [class.active-page]="navbarLink.url === router.url"
+            >
                <mat-icon>{{ navbarLink.displayIcon }}</mat-icon>
                <h3>{{ navbarLink.displayName }}</h3>
             </div>

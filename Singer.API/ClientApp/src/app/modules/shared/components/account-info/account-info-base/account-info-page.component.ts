@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-   selector: 'app-account-info-base',
-   templateUrl: './account-info-base.component.html',
-   styleUrls: ['./account-info-base.component.css'],
+   selector: 'app-account-info-page',
+   templateUrl: './account-info-page.component.html',
+   styleUrls: ['./account-info-page.component.css'],
 })
-export class AccountInfoBaseComponent {
+export class AccountInfoPageComponent {
    navbarLinks: NavbarLinks[] = [
       {
          displayIcon: 'assignment_ind',

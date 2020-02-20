@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { AboutComponent } from '../core/components/about/about.component';
 import { AuthGuard } from '../core/services/auth.guard';
-import { AccountInfoPageComponent } from '../shared/components/account-info/account-info-page/account-info-page.component';
 import { AccountInfoCareusersListComponent } from '../shared/components/account-info/account-info-careusers-list/account-info-careusers-list.component';
+import { AccountInfoPageComponent } from '../shared/components/account-info/account-info-base/account-info-page.component';
 
 const routes: Routes = [
    {

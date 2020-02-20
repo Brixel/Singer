@@ -14,9 +14,9 @@ import { ConfirmComponent } from './components/confirm/confirm.component';
 import { DeleteConfirmationComponent } from './components/delete-confirmation/delete-confirmation.component';
 import { DeleteConfirmationDialogComponent } from './components/delete-confirmation-dialog/delete-confirmation-dialog.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { AccountInfoBaseComponent } from './components/account-info/account-info-base/account-info-base.component';
-import { AccountInfoPageComponent } from './components/account-info/account-info-page/account-info-page.component';
 import { AccountInfoCareusersListComponent } from './components/account-info/account-info-careusers-list/account-info-careusers-list.component';
+import { AccountInfoSummaryComponent } from './components/account-info/account-info-summary/account-info-summary.component';
+import { AccountInfoPageComponent } from './components/account-info/account-info-base/account-info-page.component';
 
 @NgModule({
    declarations: [
@@ -28,7 +28,7 @@ import { AccountInfoCareusersListComponent } from './components/account-info/acc
       ConfirmComponent,
       DeleteConfirmationComponent,
       DeleteConfirmationDialogComponent,
-      AccountInfoBaseComponent,
+      AccountInfoSummaryComponent,
       AccountInfoPageComponent,
       AccountInfoCareusersListComponent,
    ],
@@ -42,7 +42,7 @@ import { AccountInfoCareusersListComponent } from './components/account-info/acc
       ConfirmComponent,
       DeleteConfirmationComponent,
       DeleteConfirmationDialogComponent,
-      AccountInfoBaseComponent,
+      AccountInfoSummaryComponent,
       AccountInfoPageComponent,
       AccountInfoCareusersListComponent,
    ],

@@ -1,7 +1,4 @@
-import { Component, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { AdminUserService } from 'src/app/modules/admin/services/admin-user.service';
-import { LegalguardiansService } from 'src/app/modules/core/services/legal-guardians-api/legalguardians.service';
+import { Component } from '@angular/core';
 import { UserInfoService } from 'src/app/modules/core/services/user-info/user-info.service';
 import { UserDescriptionDTO } from 'src/app/modules/core/models/userdescription.model';
 import { ConfirmComponent, ConfirmRequest } from '../../confirm/confirm.component';
@@ -9,11 +6,11 @@ import { MatDialog, MatSnackBar } from '@angular/material';
 import { AuthService } from 'src/app/modules/core/services/auth.service';
 
 @Component({
-   selector: 'app-account-info-page',
-   templateUrl: './account-info-page.component.html',
-   styleUrls: ['./account-info-page.component.css'],
+   selector: 'app-account-info-summary',
+   templateUrl: './account-info-summary.component.html',
+   styleUrls: ['./account-info-summary.component.css'],
 })
-export class AccountInfoPageComponent {
+export class AccountInfoSummaryComponent {
    user: UserDescriptionDTO;
    isAdmin: boolean;
 
