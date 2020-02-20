@@ -1,6 +1,7 @@
 import { AgeGroup } from './enum';
 
 export interface UserDescriptionDTO {
+   id: string;
    email: string;
    firstName: string;
    lastName: string;

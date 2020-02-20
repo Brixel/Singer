@@ -109,3 +109,7 @@
 .divider::after {
    background-color: #c1c1c1;
 }
+.note {
+   font-style: italic;
+   font-size: 11px;
+}

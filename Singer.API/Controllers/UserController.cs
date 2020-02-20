@@ -86,7 +86,7 @@ namespace Singer.Controllers
             throw new UserNotFoundException($"No user found for id: {userId}");
          }
 
-         return new UserDescriptionDTO() { Email = user.Email, FirstName = user.FirstName, LastName = user.LastName };
+         return new UserDescriptionDTO() { Id = user.Id, Email = user.Email, FirstName = user.FirstName, LastName = user.LastName };
       }
    }
 
@@ -100,6 +100,7 @@ namespace Singer.Controllers
 
    public class UserDescriptionDTO
    {
+      public Guid Id { get; set; }
       public string Email { get; set; }
       public string FirstName { get; set; }
       public string LastName { get; set; }

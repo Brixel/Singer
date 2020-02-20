@@ -38,6 +38,7 @@
                <p class="label">Land:</p>
                <p>{{ user?.country }}</p>
             </div>
+            <p class="note">Voor het wijzigen van uw gegevens, neem contact op met Sint Gerardus</p>
             <div class="divider"></div>
          </div>
 
@@ -52,7 +53,7 @@
                <p>*****</p>
             </div>
             <div class="button flex--row justify--end">
-               <button type="button" mat-stroked-button routerLink="/dashboard/account/account-info">
+               <button type="button" mat-stroked-button (click)="changePassword()">
                   Wachtwoord resetten
                </button>
             </div>
