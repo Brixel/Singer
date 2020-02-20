@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Singer.Data;
 using Singer.DTOs;
+using Singer.Helpers.Extensions;
 using Singer.Models;
 using Singer.Services.Interfaces;
 
@@ -38,8 +39,7 @@ namespace Singer.Controllers
       [HttpPut("sendemail")]
       public async Task SendEmail()
       {
-         var subjectId = User.GetSubjectId();
-         var userId = Guid.Parse(subjectId);
+         var userId = User.GetUserId();
          await _actionNotificationService.SendEmails(userId);
          await _context.SaveChangesAsync();
       }

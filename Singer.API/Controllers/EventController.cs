@@ -17,6 +17,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Singer.Helpers.Extensions;
 
 namespace Singer.Controllers
 {
@@ -112,7 +113,7 @@ namespace Singer.Controllers
       [HttpPost("{eventId}/registrations/{eventRegistrationId}/accept")]
       public async Task<ActionResult> AcceptRegistration(Guid eventId, Guid eventRegistrationId)
       {
-         var userId = Guid.Parse(User.GetSubjectId());
+         var userId = User.GetUserId();
          var status = await _eventRegistrationService.AcceptRegistration(eventRegistrationId, userId);
          return Ok(status);
       }
@@ -120,7 +121,7 @@ namespace Singer.Controllers
       [HttpPost("{eventId}/registrations/{eventRegistrationId}/reject")]
       public async Task<ActionResult> RejectRegistration(Guid eventId, Guid eventRegistrationId)
       {
-         var userId = Guid.Parse(User.GetSubjectId());
+         var userId = User.GetUserId();
          var status = await _eventRegistrationService.RejectRegistration(eventRegistrationId, userId);
          return Ok(status);
       }
@@ -252,7 +253,7 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
       public async Task<ActionResult<DaycareLocationDTO>> Update(Guid eventId, Guid registrationId, [FromBody] Guid locationId)
       {
-         var userId = Guid.Parse(User.GetSubjectId());
+         var userId = User.GetUserId();
          var result = await _eventRegistrationService.UpdateDaycareLocationForRegistration(
             registrationId, locationId, userId);
          return Ok(result);
@@ -326,7 +327,7 @@ namespace Singer.Controllers
          List<EventRelevantCareUserDTO> careUsers;
          if (!User.IsInRole(Roles.ROLE_ADMINISTRATOR))
          {
-            var legalGuardianUserId = Guid.Parse(User.GetSubjectId());
+            var legalGuardianUserId = User.GetUserId();
             // TODO Validate if the user is a legalguardian
             careUsers = await _careUserService.GetCareUsersForLegalGuardian(legalGuardianUserId);
 
