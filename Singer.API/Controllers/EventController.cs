@@ -88,6 +88,7 @@ namespace Singer.Controllers
          return Created(nameof(Get), eventRegistration);
       }
 
+
       [HttpPost("{eventId}/eventslot/{eventSlotId}/registrations")]
       [ProducesResponseType(StatusCodes.Status201Created)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]

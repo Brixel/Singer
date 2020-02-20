@@ -62,8 +62,8 @@ export class RegisterCareWizardComponent implements OnInit {
    @ViewChild('stepper') stepper: MatStepper;
    @ViewChild('datetimepicker') datetimepicker: OwlDateTimeInlineComponent<Date>;
 
-   dayCareType: DayCareTypes;
-   DayCareTypes = DayCareTypes;
+   dayCareType: EventRegistrationTypes;
+   DayCareTypes = EventRegistrationTypes;
 
    careUsers: RelatedCareUser[] = [];
 
@@ -159,11 +159,12 @@ export class RegisterCareWizardComponent implements OnInit {
    }
 
    onChangeCareType($event: MatButtonToggleChange) {
-      this.dayCareType = <DayCareTypes>$event.value;
+      this.dayCareType = <EventRegistrationTypes>$event.value;
    }
 }
 
-export enum DayCareTypes {
-   NightCare = 1,
-   DayCare = 2,
+export enum EventRegistrationTypes {
+   // EventSlotDriven = 1, // Not in use, since only possible via other services
+   NightCare = 2,
+   DayCare = 3,
 }

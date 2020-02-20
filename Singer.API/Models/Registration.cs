@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using Singer.Helpers;
 using Singer.Models.Users;
@@ -28,9 +28,12 @@ namespace Singer.Models
       }
 
       public static Registration Create(EventRegistrationTypes eventRegistrationTypes,
+         Guid careUserId, 
          DateTime startDateTime, DateTime endDateTime)
       {
-         return new Registration(){
+         return new Registration()
+         {
+            CareUserId = careUserId,
             EventRegistrationType = eventRegistrationTypes,
             StartDateTime = startDateTime,
             EndDateTime = endDateTime

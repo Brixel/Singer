@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -79,6 +79,18 @@ namespace Singer.Services
             o.EventSlot.Event.Title.Contains(filter, StringComparison.InvariantCultureIgnoreCase);
       }
 
+      public async Task<Guid> Create(EventRegistrationTypes eventRegistrationTypes,
+         IReadOnlyList<Guid> careUserIds,
+         DateTime startDateTime, DateTime endDateTime)
+      {
+         var registrations = new List<Registration>();
+         foreach (var careUserId in careUserIds)
+         {
+            registrations.Add(Registration.Create(eventRegistrationTypes, careUserId, startDateTime, endDateTime));
+         }
+         await Context.AddRangeAsync(registrations);
+      }
+      
       public async Task<IReadOnlyList<EventRegistrationDTO>> CreateAsync(CreateEventRegistrationDTO dto)
       {
          if (dto == null)
