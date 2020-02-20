@@ -20,7 +20,7 @@
             <div class="divider"></div>
          </div>
 
-         <div *ngIf="!isAdmin" class="data__block">
+         <div *ngIf="!user?.isAdmin" class="data__block">
             <h3 class="header">Administratieve gegevens:</h3>
             <div class="flex--row align--center">
                <p class="label">Adress:</p>
@@ -53,7 +53,7 @@
             </div>
             <div class="button flex--row justify--end">
                <button type="button" mat-stroked-button routerLink="/dashboard/account/account-info">
-                  Wachtwoord Resetten
+                  Wachtwoord resetten
                </button>
             </div>
          </div>

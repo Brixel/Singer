@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Singer.Configuration;
 using Singer.Data;
@@ -42,6 +42,7 @@ namespace Singer.Controllers
          await _userProfileService.RequestPasswordReset(userId);
       }
 
+      [Authorize]
       [HttpGet("me")]
       public async Task<UserDescriptionDTO> GetUserInfo()
       {
@@ -53,12 +54,25 @@ namespace Singer.Controllers
 
          if (!userDescription.IsAdmin) // Means is a legal guardian, since care users cannot login
          {
+            var legalGuardian =
+               _context.LegalGuardianUsers.SingleOrDefault(x => x.UserId == userId);
+            if (legalGuardian == null)
+            {
+               throw new UserNotFoundException($"No legalguardian found for userId {userId}");
+            }
             var relatedCareUsers =
                await _careUserService.GetCareUsersForLegalGuardian(userId);
             userDescription.CareUsers = relatedCareUsers.Select(x => new RelatedCareUserDTO()
             {
-               FirstName = x.FirstName, LastName = x.LastName, AgeGroup = x.AgeGroup
+               FirstName = x.FirstName,
+               LastName = x.LastName,
+               AgeGroup = x.AgeGroup,
+               BirthDay = x.BirthDay
             }).ToList().AsReadOnly();
+            userDescription.Address = legalGuardian.Address;
+            userDescription.City = legalGuardian.City;
+            userDescription.Country = legalGuardian.Country;
+            userDescription.PostalCode = legalGuardian.PostalCode;
          }
 
          return userDescription;
@@ -81,6 +95,7 @@ namespace Singer.Controllers
       public string FirstName { get; set; }
       public string LastName { get; set; }
       public AgeGroup AgeGroup { get; set; }
+      public DateTime BirthDay { get; set; }
    }
 
    public class UserDescriptionDTO
@@ -89,6 +104,10 @@ namespace Singer.Controllers
       public string FirstName { get; set; }
       public string LastName { get; set; }
       public bool IsAdmin { get; set; }
+      public string Address { get; set; }
+      public string City { get; set; }
+      public string Country { get; set; }
+      public string PostalCode { get; set; }
 
       public UserDescriptionDTO()
       {

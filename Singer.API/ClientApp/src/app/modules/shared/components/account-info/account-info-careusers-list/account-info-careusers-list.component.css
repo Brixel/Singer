@@ -1,0 +1,13 @@
+mat-card {
+   margin: 8px;
+   padding: 0px;
+}
+
+.flex--column {
+   display: flex;
+   flex-direction: column;
+}
+
+.align--center {
+   justify-content: center;
+}

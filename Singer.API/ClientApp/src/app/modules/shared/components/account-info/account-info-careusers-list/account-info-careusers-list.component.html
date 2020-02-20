@@ -1,3 +1,9 @@
 <app-account-info-base>
-   <p>account-info-careusers-list works!</p>
+   <div class="flex--column align--center">
+      <mat-grid-list [cols]="columns" rowHeight="400px" gutterSize="20px" (window:resize)="onResize($event)">
+         <mat-grid-tile *ngFor="let careUser of careUsers; index as i">
+            <app-detailed-user-card [user]="careUser" [colorOption]="i"></app-detailed-user-card>
+         </mat-grid-tile>
+      </mat-grid-list>
+   </div>
 </app-account-info-base>
