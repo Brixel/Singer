@@ -79,7 +79,7 @@ namespace Singer.Services
             o.EventSlot.Event.Title.Contains(filter, StringComparison.InvariantCultureIgnoreCase);
       }
 
-      public async Task<Guid> Create(EventRegistrationTypes eventRegistrationTypes,
+      public async Task<IReadOnlyList<Guid>> Create(EventRegistrationTypes eventRegistrationTypes,
          IReadOnlyList<Guid> careUserIds,
          DateTime startDateTime, DateTime endDateTime)
       {
@@ -89,6 +89,7 @@ namespace Singer.Services
             registrations.Add(Registration.Create(eventRegistrationTypes, careUserId, startDateTime, endDateTime));
          }
          await Context.AddRangeAsync(registrations);
+         return registrations.Select(x => x.Id).ToList().AsReadOnly();
       }
       
       public async Task<IReadOnlyList<EventRegistrationDTO>> CreateAsync(CreateEventRegistrationDTO dto)
