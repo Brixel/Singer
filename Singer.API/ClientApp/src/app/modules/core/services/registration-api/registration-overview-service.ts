@@ -1,37 +1,31 @@
 import { Injectable } from '@angular/core';
-import { Registration } from '../../models/registration.model';
-import { RegistrationDTO } from '../../DTOs/registration.dto';
+import { Registration, RegistrationOverview } from '../../models/registration.model';
+import { RegistrationOverviewDTO } from '../../DTOs/registration.dto';
 import { GenericService } from '../generic-service';
 import { HttpClient } from '@angular/common/http';
-import { EventSlot } from '../../models/eventslot';
 import { RegistrationSearchDTO } from '../../DTOs/registration.dto';
 
 @Injectable({
    providedIn: 'root',
 })
-export class RegistrationService extends GenericService<
-   Registration,
-   RegistrationDTO,
+export class RegistrationOverviewService extends GenericService<
+   RegistrationOverview,
+   RegistrationOverviewDTO,
    null,
    null,
    RegistrationSearchDTO
 > {
-   toModel(dto: RegistrationDTO): Registration {
-      return <Registration>{
-         careUser: dto.careUser,
-         eventDescription: dto.eventDescription,
-         eventSlot: <EventSlot>{
-            id: dto.eventSlot.id,
-            endDateTime: dto.eventSlot.endDateTime,
-            startDateTime: dto.eventSlot.startDateTime,
-            currentRegistrants: dto.eventSlot.currentRegistrants,
-         },
+   toModel(dto: RegistrationOverviewDTO): RegistrationOverview {
+      return <RegistrationOverview>{
          id: dto.id,
-         status: dto.status,
+         registrationStatus: dto.registrationStatus,
          daycareLocation: dto.daycareLocation,
          endDateTime: dto.endDateTime,
          registrationType: dto.registrationType,
          startDateTime: dto.startDateTime,
+         careUserFirstName: dto.careUserFirstName,
+         careUserLastName: dto.careUserLastName,
+         eventTitle: dto.eventTitle,
       };
    }
    constructor(protected httpClient: HttpClient) {

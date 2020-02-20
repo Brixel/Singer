@@ -31,7 +31,6 @@ export class PendingRegistrationsComponent extends GenericOverviewComponent<
    public dialog: MatDialog;
    private _eventService: SingerEventsService;
 
-   myOnInit() {}
    constructor(
       dataService: PendingRegistrationsService,
       cd: ChangeDetectorRef,

@@ -1,46 +1,80 @@
 <!-- Mat Form Field Filter -->
 <div class="mat-elevation-z8 overview-table">
-   <mat-form-field>
-      <input matInput #filterInput placeholder="Filter" />
-   </mat-form-field>
+   <div class="overviewTableHeader">
+      <mat-form-field>
+         <input matInput #filterInput placeholder="Filter" />
+      </mat-form-field>
+      <mat-form-field>
+         <input
+            matInput
+            #searchDateFrom
+            [matDatepicker]="dateFrom"
+            placeholder="Datum vanaf"
+            (dateChange)="loadData()"
+         />
+         <mat-datepicker-toggle matSuffix [for]="dateFrom"> </mat-datepicker-toggle>
+         <mat-datepicker #dateFrom></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field>
+         <input matInput #searchDateTo [matDatepicker]="dateTo" placeholder="Datum tot" (dateChange)="loadData()" />
+         <mat-datepicker-toggle matSuffix [for]="dateTo"> </mat-datepicker-toggle>
+         <mat-datepicker #dateTo></mat-datepicker>
+      </mat-form-field>
+   </div>
    <mat-table [dataSource]="dataSource" matSort>
       <!-- Id column -->
-      <ng-container matColumnDef="id">
-         <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
-         <mat-cell *matCellDef="let row">{{ row.id }}</mat-cell>
+      <ng-container matColumnDef="eventTitle">
+         <mat-header-cell *matHeaderCellDef mat-sort-header>Titel</mat-header-cell>
+         <mat-cell *matCellDef="let row">{{ row.eventTitle }}</mat-cell>
       </ng-container>
       <!-- Name column -->
-      <ng-container matColumnDef="firstName">
+      <ng-container matColumnDef="careUserFirstName">
          <mat-header-cell *matHeaderCellDef mat-sort-header>Voornaam</mat-header-cell>
-         <mat-cell *matCellDef="let row">{{ row.careUser.firstName }}</mat-cell>
+         <mat-cell *matCellDef="let row">{{ row.careUserFirstName }}</mat-cell>
       </ng-container>
       <!-- Name column -->
-      <ng-container matColumnDef="lastName">
+      <ng-container matColumnDef="careUserLastName">
          <mat-header-cell *matHeaderCellDef mat-sort-header>Achternaam</mat-header-cell>
-         <mat-cell *matCellDef="let row">{{ row.careUser.lastName }}</mat-cell>
+         <mat-cell *matCellDef="let row">{{ row.careUserLastName }}</mat-cell>
       </ng-container>
 
       <!-- Date column -->
-      <ng-container matColumnDef="date">
+      <ng-container matColumnDef="startDateTime">
          <mat-header-cell *matHeaderCellDef mat-sort-header>Datum</mat-header-cell>
          <mat-cell *matCellDef="let row">Van {{ row.startDateTime | date }} tot {{ row.endDateTime | date }}</mat-cell>
       </ng-container>
 
       <!-- Type column -->
-      <ng-container matColumnDef="type">
+      <ng-container matColumnDef="registrationType">
          <mat-header-cell *matHeaderCellDef mat-sort-header>Type registratie</mat-header-cell>
          <mat-cell *matCellDef="let row">{{ row.registrationType | registrationType }}</mat-cell>
       </ng-container>
-      <!-- Action column -->
-      <ng-container matColumnDef="actions">
-         <mat-header-cell *matHeaderCellDef>Acties</mat-header-cell>
+
+      <!-- status column -->
+      <ng-container matColumnDef="registrationStatus">
+         <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
          <mat-cell *matCellDef="let row">
-            <button mat-icon-button aria-label="Bewerken">
-               <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-icon-button aria-label="Verwijderen">
-               <mat-icon>delete</mat-icon>
-            </button>
+            <mat-icon
+               class="registration-accepted"
+               *ngIf="row.registrationStatus === RegistrationStatus.Accepted"
+               matTooltip="Registratie goedgekeurd"
+            >
+               check_circle_outline
+            </mat-icon>
+            <mat-icon
+               class="registration-pending"
+               *ngIf="row.registrationStatus === RegistrationStatus.Pending"
+               matTooltip="Registratie wacht op goedkeuring"
+            >
+               access_time
+            </mat-icon>
+            <mat-icon
+               class="registration-rejected"
+               *ngIf="row.registrationStatus === RegistrationStatus.Rejected"
+               matTooltip="Registratie afgekeurd"
+            >
+               error_outline
+            </mat-icon>
          </mat-cell>
       </ng-container>
       <!-- Paginator column -->

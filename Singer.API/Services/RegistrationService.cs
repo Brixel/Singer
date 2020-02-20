@@ -36,12 +36,12 @@ namespace Singer.Services
          return filterExpression;
       }
 
-      public async Task<SearchResults<RegistrationDTO>> AdvancedSearch(RegistrationSearchDTO dto)
+      public async Task<SearchResults<RegistrationOverviewDTO>> AdvancedSearch(RegistrationSearchDTO dto)
       {
          var sortColumn = string.IsNullOrEmpty(dto.SortColumn) ? "Id" : dto.SortColumn;
-         var orderByLambda = PropertyHelpers.GetPropertySelector<RegistrationDTO>(sortColumn);
+         var orderByLambda = PropertyHelpers.GetPropertySelector<RegistrationOverviewDTO>(sortColumn);
          return await Queryable
-         .ToPagedListAsync<Registration, RegistrationDTO>(
+         .ToPagedListAsync<Registration, RegistrationOverviewDTO>(
             Mapper,
             filterExpression: Filter(dto),
             orderByLambda: orderByLambda,

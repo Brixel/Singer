@@ -3,10 +3,10 @@ import { MatPaginator, MatSort } from '@angular/material';
 import { merge, fromEvent } from 'rxjs';
 import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { GenericModel } from 'src/app/modules/core/models/generics/generic-model';
-import { DataSource } from '@angular/cdk/table';
 import { GenericDataSource } from 'src/app/modules/core/services/generic-data-source';
 import { GenericService } from 'src/app/modules/core/services/generic-service';
 import { SearchDTOBase } from 'src/app/modules/core/DTOs/base.dto';
+import { SortDirection } from 'src/app/modules/core/enums/sort-direction';
 export abstract class GenericOverviewComponent<
    TModel extends GenericModel,
    TDTO,
@@ -26,17 +26,27 @@ export abstract class GenericOverviewComponent<
 
    displayedColumns = [];
 
-   constructor(private cd: ChangeDetectorRef, public dataSource: TDataSource, private defaultSortColumn: string) {}
+   constructor(
+      private _cd: ChangeDetectorRef,
+      public dataSource: TDataSource,
+      private _defaultSortColumn: string,
+      private _sortDirection = SortDirection.Ascending
+   ) {}
 
    ngOnInit() {
       this.displayedColumns.push('actions');
-      this.myOnInit();
    }
-   abstract myOnInit();
    ngAfterViewInit(): void {
-      this.sort.active = this.defaultSortColumn;
-      this.sort.direction = 'asc';
-      this.cd.detectChanges();
+      this.sort.sort({
+         disableClear: false,
+         start: this._sortDirection == SortDirection.Ascending ? 'asc' : 'desc',
+         id: this._defaultSortColumn,
+      });
+
+      //WORKAROUND: https://github.com/angular/components/issues/15715
+      const sortHeader = this.sort.sortables.get(this._defaultSortColumn);
+      sortHeader['_setAnimationTransitionState']({ toState: 'active' });
+      this._cd.detectChanges();
       this.loadData();
       if (this.filterInput) {
          fromEvent(this.filterInput.nativeElement, 'keyup')
@@ -56,14 +66,15 @@ export abstract class GenericOverviewComponent<
             tap(() => {
                this.searchDTO.pageIndex = this.paginator.pageIndex;
                this.searchDTO.pageSize = this.paginator.pageSize;
+               this.searchDTO.sortColumn = this.sort.active;
+               this.searchDTO.sortDirection =
+                  this.sort.direction === 'asc' ? SortDirection.Ascending : SortDirection.Descending;
                this.loadData();
             })
          )
          .subscribe();
    }
    protected loadData() {
-      const sortDirection = this.sort.direction;
-      const sortColumn = this.sort.active;
       this.searchDTO.text = this.filterInput ? this.filterInput.nativeElement.value : '';
       this.dataSource.load(this.searchDTO);
    }

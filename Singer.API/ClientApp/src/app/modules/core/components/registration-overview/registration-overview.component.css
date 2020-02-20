@@ -1,0 +1,27 @@
+.registration-rejected {
+   margin-left: 8px;
+   color: red;
+}
+
+.registration-accepted {
+   margin-left: 8px;
+   color: green;
+}
+.overviewTableHeader {
+   display: flex;
+}
+.overviewTableHeader *:not(mat-icon) {
+   margin-right: 1em;
+}
+.overviewTableHeader button {
+   margin: 1em;
+}
+
+.mat-form-field {
+   font-size: 14px;
+   width: 100%;
+}
+
+.greenSheet {
+   color: green;
+}

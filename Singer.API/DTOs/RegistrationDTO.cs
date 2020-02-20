@@ -7,6 +7,18 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Singer.DTOs
 {
+   public class RegistrationOverviewDTO : IIdentifiable
+   {
+      public Guid Id { get; set; }
+      public string EventTitle { get; set; }
+      public DateTime StartDateTime { get; set; }
+      public DateTime EndDateTime { get; set; }
+      public RegistrationTypes RegistrationType { get; set; }
+      public string CareUserFirstName { get; set; }
+      public string CareUserLastName { get; set; }
+      public RegistrationStatus RegistrationStatus { get; set; }
+      public DaycareLocationDTO DaycareLocation { get; set; }
+   }
    public class RegistrationDTO : IIdentifiable
    {
       [Required(

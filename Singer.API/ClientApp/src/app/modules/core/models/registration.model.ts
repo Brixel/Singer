@@ -16,3 +16,5 @@ export class Registration extends GenericModel {
    startDateTime: Date;
    endDateTime: Date;
 }
+
+export class RegistrationOverview extends GenericModel {}

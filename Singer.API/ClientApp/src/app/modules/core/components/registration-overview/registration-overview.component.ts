@@ -1,12 +1,13 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { GenericOverviewComponent } from 'src/app/modules/shared/components/generic-overview/generic-overview.component';
-import { RegistrationsDatasource } from './registrations-datasource';
-import { Registration } from '../../models/registration.model';
-import { RegistrationDTO } from '../../DTOs/registration.dto';
-import { RegistrationService } from '../../services/registration-api/registration-service';
-import { MatDialog } from '@angular/material';
+import { RegistrationOverviewDatasource } from './registration-overview-datasource';
+import { RegistrationOverview } from '../../models/registration.model';
+import { RegistrationOverviewDTO } from '../../DTOs/registration.dto';
+import { RegistrationOverviewService } from '../../services/registration-api/registration-overview-service';
 import { RegistrationSearchDTO } from '../../DTOs/registration.dto';
 import { SortDirection } from '../../enums/sort-direction';
+import { RegistrationStatus } from '../../models/enum';
+import * as moment from 'moment';
 
 @Component({
    selector: 'app-registration-overview',
@@ -14,29 +15,40 @@ import { SortDirection } from '../../enums/sort-direction';
    styleUrls: ['./registration-overview.component.css'],
 })
 export class RegistrationOverviewComponent extends GenericOverviewComponent<
-   Registration,
-   RegistrationDTO,
+   RegistrationOverview,
+   RegistrationOverviewDTO,
    null,
    null,
-   RegistrationService,
-   RegistrationsDatasource,
+   RegistrationOverviewService,
+   RegistrationOverviewDatasource,
    RegistrationSearchDTO
 > {
-   constructor(dataService: RegistrationService, cd: ChangeDetectorRef) {
-      const ds = new RegistrationsDatasource(dataService);
-      super(cd, ds, 'id');
-      this.displayedColumns.push('id', 'date', 'type', 'firstName', 'lastName');
+   RegistrationStatus: any;
+   @ViewChild('searchDateFrom') searchDateFrom: {
+      nativeElement: { value: moment.MomentInput };
+   };
+   @ViewChild('searchDateTo') searchDateTo: {
+      nativeElement: { value: moment.MomentInput };
+   };
+   constructor(dataService: RegistrationOverviewService, cd: ChangeDetectorRef) {
+      const ds = new RegistrationOverviewDatasource(dataService);
+      super(cd, ds, 'startDateTime', SortDirection.Descending);
+      this.displayedColumns.push(
+         'eventTitle',
+         'startDateTime',
+         'registrationType',
+         'careUserFirstName',
+         'careUserLastName',
+         'registrationStatus'
+      );
       this.searchDTO = <RegistrationSearchDTO>{
          pageIndex: 0,
          pageSize: 15,
-         sortColumn: 'id',
-         sortDirection: SortDirection.Ascending,
+         sortColumn: 'startDateTime',
+         sortDirection: SortDirection.Descending,
          text: '',
       };
-   }
-
-   myOnInit() {
-      throw new Error('Method not implemented.');
+      this.RegistrationStatus = RegistrationStatus;
    }
 
    ngOnInit() {}

@@ -4,13 +4,16 @@ using Singer.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Singer.Controllers
 {
-   public class RegistrationController : DataControllerBase<Registration, RegistrationDTO, CreateRegistrationDTO, UpdateRegistrationDTO>
+   [Route("api/[controller]")]
+   [Authorize]
+   public class RegistrationController : Controller
    {
       private IRegistrationService _registrationService;
-      public RegistrationController(IRegistrationService registrationService) : base(registrationService)
+      public RegistrationController(IRegistrationService registrationService)
       {
          _registrationService = registrationService;
       }
@@ -26,7 +29,7 @@ namespace Singer.Controllers
             ? null
             : $"{requestPath}?PageIndex={searchDTO.PageIndex++}&Size={searchDTO.PageSize}";
 
-         var page = new PaginationDTO<RegistrationDTO>
+         var page = new PaginationDTO<RegistrationOverviewDTO>
          {
             Items = result.Items,
             Size = result.Items.Count,
