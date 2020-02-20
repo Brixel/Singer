@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EventRegistrationComponent } from './components/event-registration/event-registration.component';
+import { RegistrationComponent } from './components/event-registration/event-registration.component';
 import { UserCardComponent } from './components/user-card/user-card.component';
 import { DetailedUserCardComponent } from './components/detailed-user-card/detailed-user-card.component';
 import { MaterialModule } from 'src/app/material.module';
@@ -20,7 +20,7 @@ import { AccountInfoPageComponent } from './components/account-info/account-info
 
 @NgModule({
    declarations: [
-      EventRegistrationComponent,
+      RegistrationComponent,
       UserCardComponent,
       DetailedUserCardComponent,
       LoadingComponent,
@@ -34,7 +34,7 @@ import { AccountInfoPageComponent } from './components/account-info/account-info
    ],
    imports: [CommonModule, MaterialModule, CoreModule, ReactiveFormsModule],
    exports: [
-      EventRegistrationComponent,
+      RegistrationComponent,
       UserCardComponent,
       DetailedUserCardComponent,
       LoadingComponent,
@@ -47,7 +47,7 @@ import { AccountInfoPageComponent } from './components/account-info/account-info
       AccountInfoCareusersListComponent,
    ],
    entryComponents: [
-      EventRegistrationComponent,
+      RegistrationComponent,
       LoadingComponent,
       ConfirmComponent,
       DeleteConfirmationComponent,

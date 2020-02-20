@@ -19,7 +19,7 @@ namespace Singer.Data
       public DbSet<EventLocation> EventLocations { get; set; }
       public DbSet<Event> Events { get; set; }
       public DbSet<EventSlot> EventSlots { get; set; }
-      public DbSet<EventRegistration> EventRegistrations { get; set; }
+      public DbSet<Registration> Registrations { get; set; }
       public DbSet<AdminUser> AdminUsers { get; set; }
 
       public DbSet<EventRegistrationLog> EventRegistrationLogs { get; set; }
@@ -43,11 +43,11 @@ namespace Singer.Data
             .WithOne(x => x.Event)
             .OnDelete(DeleteBehavior.Restrict);
 
-         builder.Entity<EventRegistration>()
+         builder.Entity<Registration>()
             .HasOne(x => x.EventSlot)
             .WithMany(x => x.Registrations);
 
-         builder.Entity<EventRegistration>()
+         builder.Entity<Registration>()
             .HasIndex(x => new { x.CareUserId, x.EventSlotId }).IsUnique();
 
          builder.Entity<CareUser>()

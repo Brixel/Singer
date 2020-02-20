@@ -10,7 +10,7 @@ import { Registrant } from 'src/app/modules/core/models/registrant.model';
    templateUrl: './event-registration.component.html',
    styleUrls: ['./event-registration.component.css'],
 })
-export class EventRegistrationComponent implements OnInit {
+export class RegistrationComponent implements OnInit {
    private _event$ = new BehaviorSubject<EventRegisterDetails>(null);
    public event$ = this._event$.asObservable();
    public hasInappropriateCareUsers = false;
@@ -20,7 +20,7 @@ export class EventRegistrationComponent implements OnInit {
    careUsers: Registrant[] = [];
 
    constructor(
-      public dialogRef: MatDialogRef<EventRegistrationComponent>,
+      public dialogRef: MatDialogRef<RegistrationComponent>,
       @Inject(MAT_DIALOG_DATA) private _eventId: string,
       private _eventService: SingerEventsService,
       private _snackBar: MatSnackBar

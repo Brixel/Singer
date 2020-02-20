@@ -5,7 +5,7 @@ import { SingerEventLocationDTO } from './singer-event-location.dto';
 import { DaycareLocationDTO } from './daycarelocation.dto';
 import { IFilterBaseDTO } from './filterbase.dto';
 
-export interface CreateEventRegistrationDTO {
+export interface CreateRegistrationDTO {
    eventId: string;
    careUserId: string;
    status?: RegistrationStatus;
@@ -39,7 +39,7 @@ export interface EventCareUserRegistrationDTO {
    lastName: string;
    daycareLocation: DaycareLocationDTO;
 }
-export interface EventRegistrationDTO {
+export interface RegistrationDTO {
    id: string;
    eventSlot: EventSlotDTO;
    eventDescription: EventDescriptionDTO;

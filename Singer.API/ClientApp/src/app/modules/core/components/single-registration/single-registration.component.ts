@@ -18,7 +18,7 @@ export class SingleRegistrationComponent implements OnInit {
 
    ngOnInit() {}
 
-   getEventRegistrationStatus(careUserId: string): RegistrationStatus {
+   getRegistrationStatus(careUserId: string): RegistrationStatus {
       return this.careUsers.find(x => x.careUserId === careUserId).registrationStatus;
    }
 

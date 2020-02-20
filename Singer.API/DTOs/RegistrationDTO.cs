@@ -1,4 +1,5 @@
 using Singer.DTOs.Users;
+using Singer.Helpers;
 using Singer.Models;
 using Singer.Resources;
 using System;
@@ -6,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Singer.DTOs
 {
-   public class EventRegistrationDTO
+   public class RegistrationDTO : IIdentifiable
    {
       [Required(
          ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
@@ -49,7 +50,7 @@ namespace Singer.DTOs
       public RegistrationStatus Status { get; set; }
    }
 
-   public class CreateEventRegistrationDTO
+   public class CreateRegistrationDTO
    {
       [Required(
          ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
@@ -97,7 +98,7 @@ namespace Singer.DTOs
       public RegistrationStatus? Status { get; set; }
    }
 
-   public class UpdateEventRegistrationDTO
+   public class UpdateRegistrationDTO
    {
       [Required(
          ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),

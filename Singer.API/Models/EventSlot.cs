@@ -15,7 +15,7 @@ namespace Singer.Models
       public DateTime StartDateTime { get; set; }
       public DateTime EndDateTime { get; set; }
 
-      public IList<EventRegistration> Registrations { get; set; }
+      public IList<Registration> Registrations { get; set; }
 
       public static IEnumerable<EventSlot> GenerateEventSlotsUntilIncluding(DateTime start, DateTime end, DateTime until, TimeUnit interval)
       {
