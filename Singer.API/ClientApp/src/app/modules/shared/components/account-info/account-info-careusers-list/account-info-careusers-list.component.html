@@ -1,4 +1,4 @@
-<app-account-info-base>
+<app-account-info-page>
    <div class="flex--column align--center">
       <mat-grid-list [cols]="columns" rowHeight="400px" gutterSize="20px" (window:resize)="onResize($event)">
          <mat-grid-tile *ngFor="let careUser of careUsers; index as i">
@@ -6,4 +6,4 @@
          </mat-grid-tile>
       </mat-grid-list>
    </div>
-</app-account-info-base>
+</app-account-info-page>
