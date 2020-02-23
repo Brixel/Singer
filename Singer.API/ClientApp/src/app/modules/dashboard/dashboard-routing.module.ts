@@ -3,6 +3,9 @@ import { NgModule } from '@angular/core';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { AboutComponent } from '../core/components/about/about.component';
 import { AuthGuard } from '../core/services/auth.guard';
+import { AccountInfoCareusersListComponent } from '../shared/components/account-info/account-info-careusers-list/account-info-careusers-list.component';
+import { AccountInfoPageComponent } from '../shared/components/account-info/account-info-base/account-info-page.component';
+import { AccountInfoSummaryComponent } from '../shared/components/account-info/account-info-summary/account-info-summary.component';
 
 const routes: Routes = [
    {
@@ -12,6 +15,16 @@ const routes: Routes = [
    {
       path: 'about',
       component: AboutComponent,
+      canActivate: [AuthGuard],
+   },
+   {
+      path: 'account/account-info',
+      component: AccountInfoSummaryComponent,
+      canActivate: [AuthGuard],
+   },
+   {
+      path: 'account/zorggebruikers',
+      component: AccountInfoCareusersListComponent,
       canActivate: [AuthGuard],
    },
 ];

@@ -23,6 +23,10 @@ export class LegalguardiansService {
          .pipe(map(res => res));
    }
 
+   getLegalGuardian(id: string) {
+      return this.legalguardianProxy.getLegalGuardian(id);
+   }
+
    updateLegalGuardian(updateLegalGuardian: LegalGuardian) {
       const updateLegalGuardianDTO = <UpdateLegalGuardianDTO>{
          firstName: updateLegalGuardian.firstName,

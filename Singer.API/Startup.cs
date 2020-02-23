@@ -207,7 +207,6 @@ namespace Singer
             services.AddScoped(typeof(IEmailService),
                typeof(NoActualEmailService));
          }
-
          var instrumentationKey = Configuration.GetSection("ApplicationInsights").GetChildren().SingleOrDefault(x => x.Value == "InstrumentationKey")?.Value;
          services.AddApplicationInsightsTelemetry(instrumentationKey);
       }
@@ -291,6 +290,7 @@ namespace Singer
 
             Seed.SeedRoles(serviceScope, applicationDbContext);
             Seed.SeedUsers(serviceScope, applicationDbContext, initialAdminPassword);
+            Seed.CheckRoles(serviceScope, applicationDbContext).Wait();
             Seed.CreateAPIAndClient(configrationDbContext);
             Seed.SeedIdentityResources(configrationDbContext);
             Seed.SeedEventLocations(applicationDbContext);

@@ -2,6 +2,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Singer.Configuration;
 using Singer.Data;
 using Singer.Data.Models.Configuration;
 using Singer.DTOs.Users;
@@ -13,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Singer.Services
@@ -92,6 +94,16 @@ namespace Singer.Services
          }
 
          await Context.SaveChangesAsync();
+      }
+
+      public override async Task<LegalGuardianUserDTO> CreateAsync(
+         CreateLegalGuardianUserDTO dto)
+      {
+         var result = await base.CreateAsync(dto);
+         var createdUser = await UserManager.FindByEmailAsync(result.Email);
+         await UserManager.AddToRoleAsync(createdUser, Roles.ROLE_LEGALGUARDIANUSER);
+         await UserManager.AddClaimAsync(createdUser, new Claim(ClaimTypes.Role, Roles.ROLE_LEGALGUARDIANUSER));
+         return result;
       }
    }
 }

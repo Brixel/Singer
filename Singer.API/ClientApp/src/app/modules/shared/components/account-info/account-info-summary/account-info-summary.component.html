@@ -1,0 +1,63 @@
+<app-account-info-page>
+   <div *ngIf="user != null" class="flex--column align--center">
+      <div class="head">
+         <div class="head__initials">
+            {{ user?.firstName.toUpperCase().charAt(0) + user?.lastName.toUpperCase().charAt(0) }}
+         </div>
+      </div>
+
+      <div class="data">
+         <div class="data__block">
+            <h3 class="header">Persoonlijke gegevens:</h3>
+            <div class="flex--row align--center">
+               <p class="label">Voornaam:</p>
+               <p>{{ user?.firstName }}</p>
+            </div>
+            <div class="flex--row align--center">
+               <p class="label">Achternaam:</p>
+               <p>{{ user?.lastName }}</p>
+            </div>
+            <div class="divider"></div>
+         </div>
+
+         <div *ngIf="!user?.isAdmin" class="data__block">
+            <h3 class="header">Administratieve gegevens:</h3>
+            <div class="flex--row align--center">
+               <p class="label">Adress:</p>
+               <p>{{ user?.address }}</p>
+            </div>
+            <div class="flex--row align--center">
+               <p class="label">Gemeente:</p>
+               <p>{{ user?.city }}</p>
+            </div>
+            <div class="flex--row align--center">
+               <p class="label">Postcode:</p>
+               <p>{{ user?.postalCode }}</p>
+            </div>
+            <div class="flex--row align--center">
+               <p class="label">Land:</p>
+               <p>{{ user?.country }}</p>
+            </div>
+            <p class="note">Voor het wijzigen van uw gegevens, neem contact op met Sint Gerardus</p>
+            <div class="divider"></div>
+         </div>
+
+         <div class="data__block">
+            <h3 class="header">Account gegevens:</h3>
+            <div class="flex--row align--center">
+               <p class="label">E-mail:</p>
+               <p>{{ user?.email }}</p>
+            </div>
+            <div class="flex--row align--center">
+               <p class="label">Wachtwoord:</p>
+               <p>*****</p>
+            </div>
+            <div class="button flex--row justify--end">
+               <button type="button" mat-stroked-button (click)="changePassword()">
+                  Wachtwoord wijzigen
+               </button>
+            </div>
+         </div>
+      </div>
+   </div>
+</app-account-info-page>

@@ -15,6 +15,8 @@ using ApiResource = IdentityServer4.EntityFramework.Entities.ApiResource;
 using IdentityResource = IdentityServer4.EntityFramework.Entities.IdentityResource;
 using Singer.Identity;
 using Singer.Models;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Singer.Configuration
 {
@@ -127,8 +129,24 @@ namespace Singer.Configuration
                applicationDbContext.CareUsers.Add(careuser);
             }
          }
+      }
 
-         //applicationDbContext.SaveChanges();
+      public static async Task CheckRoles(IServiceScope serviceScope, ApplicationDbContext applicationDbContext)
+      {
+         var userMgr = serviceScope.ServiceProvider.GetRequiredService<UserManager<User>>();
+         var roleMgr = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
+         foreach (var lgUser in applicationDbContext.LegalGuardianUsers.Include(x => x.User))
+         {
+            var hasRole = await userMgr.IsInRoleAsync(lgUser.User, Roles.ROLE_LEGALGUARDIANUSER);
+            if (!hasRole)
+            {
+               var roleTask = userMgr.AddToRoleAsync(lgUser.User, Roles.ROLE_LEGALGUARDIANUSER).Result;
+               if (!roleTask.Succeeded)
+               {
+                  throw new Exception(roleTask.Errors.First().Description);
+               }
+            }
+         }
       }
 
       public static void SeedRoles(IServiceScope serviceScope, ApplicationDbContext applicationDbContext)
