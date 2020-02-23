@@ -45,13 +45,13 @@
             </div>
          </div>
 
-         <div class="buttons">
-            <div *ngIf="edit.observers.length > 0" class="buttons__edit">
+         <div class="buttons" *ngIf="edit.observers.length > 0">
+            <div class="buttons__edit">
                <button mat-mini-fab color="primary" (click)="editUser()" aria-label="Edit User">
                   <mat-icon>edit</mat-icon>
                </button>
             </div>
-            <div *ngIf="delete.observers.length > 0" class="buttons__delete">
+            <div class="buttons__delete">
                <button mat-mini-fab color="warn" (click)="deleteUser()" aria-label="Remove User">
                   <mat-icon>delete</mat-icon>
                </button>
