@@ -1,4 +1,4 @@
-import { RegistrationStatusPipe } from './registration-status.pipe';
+import { RegistrationStatusPipe } from '../Pipes/registration-status.pipe';
 
 describe('RegistrationStatusPipe', () => {
    it('create an instance', () => {

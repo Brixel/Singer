@@ -8,7 +8,7 @@ import { AgegroupToColorPipePipe } from './Pipes/agegroup-to-color-pipe.pipe';
 import { DailybasisRegistrationsComponent } from './components/dailybasis-registrations/dailybasis-registrations.component';
 import { SingleRegistrationComponent } from './components/single-registration/single-registration.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RegistrationStatusPipe } from './services/registration-status.pipe';
+import { RegistrationStatusPipe } from './Pipes/registration-status.pipe';
 import { SingereventCostPipe } from './Pipes/singerevent-cost.pipe';
 import { AboutComponent } from './components/about/about.component';
 import { RegistrationOverviewComponent } from './components/registration-overview/registration-overview.component';

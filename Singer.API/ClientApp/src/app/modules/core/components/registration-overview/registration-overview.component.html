@@ -20,6 +20,20 @@
          <mat-datepicker-toggle matSuffix [for]="dateTo"> </mat-datepicker-toggle>
          <mat-datepicker #dateTo></mat-datepicker>
       </mat-form-field>
+      <mat-form-field>
+         <mat-select mat-input placeholder="Type Registratie" #searchType (selectionChange)="loadData()" multiple>
+            <mat-option *ngFor="let type of registrationTypes | keys" [value]="type.key">
+               {{ type.key | registrationType }}
+            </mat-option>
+         </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+         <mat-select mat-input placeholder="Status" #searchStatus (selectionChange)="loadData()" multiple>
+            <mat-option *ngFor="let type of registrationStatus | keys" [value]="type.key">
+               {{ type.key | registrationStatus }}
+            </mat-option>
+         </mat-select>
+      </mat-form-field>
    </div>
    <mat-table [dataSource]="dataSource" matSort>
       <!-- Id column -->

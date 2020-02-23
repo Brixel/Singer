@@ -35,7 +35,6 @@ import { SingerRegistrationsComponent } from './components/singerevents/event-re
 import { SingerEventAdminRegisterComponent } from './components/singerevents/singer-eventadmin-register/singer-eventadmin-register.component';
 import { PendingRegistrationsComponent } from './components/pending-registrations/pending-registrations.component';
 import { PendingActionsComponent } from './components/pending-actions/pending-actions.component';
-import { RegistrationStatusPipe } from '../core/services/registration-status.pipe';
 
 @NgModule({
    declarations: [
@@ -90,7 +89,6 @@ import { RegistrationStatusPipe } from '../core/services/registration-status.pip
       ApiService,
       AgegroupPipe,
       KeysPipe,
-      RegistrationStatusPipe,
       {
          provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS,
          useValue: {

@@ -35,4 +35,10 @@ export interface CreateRegistrationDTO {
    status?: RegistrationStatus;
 }
 
-export interface RegistrationSearchDTO extends SearchDTOBase {}
+export interface RegistrationSearchDTO extends SearchDTOBase {
+   careUserIds?: string[];
+   registrationType?: RegistrationType;
+   registrationStatus?: RegistrationStatus;
+   dateFrom?: Date;
+   dateTo?: Date;
+}

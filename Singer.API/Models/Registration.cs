@@ -58,6 +58,6 @@ namespace Singer.Models
    {
       EventSlotDriven = 1,
       DayCare = 2,
-      NightCare = 3
+      NightCare = 4
    }
 }

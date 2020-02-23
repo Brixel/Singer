@@ -61,6 +61,36 @@ namespace Singer.Services
                v.CareUser.User.LastName.Contains(dto.Text, StringComparison.OrdinalIgnoreCase);
          }
 
+         if (dto.CareUserIds != null && dto.CareUserIds.Count > 0)
+         {
+            var prefix = filterExpression.Compile();
+            filterExpression = v => prefix(v) && dto.CareUserIds.Contains(v.CareUser.UserId);
+         }
+
+         if (dto.RegistrationStatus != null)
+         {
+            var prefix = filterExpression.Compile();
+            filterExpression = v => prefix(v) && dto.RegistrationStatus.GetValueOrDefault().HasFlag(v.Status);
+         }
+
+         if (dto.RegistrationType != null)
+         {
+            var prefix = filterExpression.Compile();
+            filterExpression = v => prefix(v) && dto.RegistrationType.GetValueOrDefault().HasFlag(v.EventRegistrationType);
+         }
+
+         if (dto.DateFrom != null)
+         {
+            var prefix = filterExpression.Compile();
+            filterExpression = v => prefix(v) && v.StartDateTime >= dto.DateFrom;
+         }
+
+         if (dto.DateTo != null)
+         {
+            var prefix = filterExpression.Compile();
+            filterExpression = v => prefix(v) && v.StartDateTime <= dto.DateTo;
+         }
+
          return filterExpression;
       }
    }

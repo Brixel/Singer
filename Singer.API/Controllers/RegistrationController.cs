@@ -1,10 +1,13 @@
-using Singer.Models;
 using Singer.DTOs;
 using Singer.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using System;
+using Singer.Configuration;
+using IdentityServer4.Extensions;
+using System.Linq;
 
 namespace Singer.Controllers
 {
@@ -13,9 +16,11 @@ namespace Singer.Controllers
    public class RegistrationController : Controller
    {
       private IRegistrationService _registrationService;
-      public RegistrationController(IRegistrationService registrationService)
+      private ICareUserService _careUserService;
+      public RegistrationController(IRegistrationService registrationService, ICareUserService careUserService)
       {
          _registrationService = registrationService;
+         _careUserService = careUserService;
       }
 
       [HttpPost("search")]
@@ -23,6 +28,17 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
       public async Task<IActionResult> Search([FromBody] RegistrationSearchDTO searchDTO)
       {
+         var model = ModelState;
+         if (!model.IsValid)
+            return BadRequest(model);
+
+         if (!User.IsInRole(Roles.ROLE_ADMINISTRATOR))
+         {
+            var careUserDTOs = await this._careUserService.GetCareUsersForLegalGuardian(Guid.Parse(User.GetSubjectId()));
+            if (careUserDTOs.Count == 0)
+               return NotFound(model);
+            searchDTO.CareUserIds = careUserDTOs.Select(x => x.Id).ToList();
+         }
          var result = await _registrationService.AdvancedSearch(searchDTO);
          var requestPath = HttpContext.Request.Path;
          var nextPage = (searchDTO.PageIndex * searchDTO.PageSize) + result.Size >= result.TotalCount

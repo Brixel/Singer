@@ -3,6 +3,7 @@ using Singer.Helpers;
 using Singer.Models;
 using Singer.Resources;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Singer.DTOs
@@ -143,6 +144,10 @@ namespace Singer.DTOs
 
    public class RegistrationSearchDTO : SearchDTOBase
    {
-
+      public List<Guid> CareUserIds { get; set; }
+      public RegistrationTypes? RegistrationType { get; set; }
+      public RegistrationStatus? RegistrationStatus { get; set; }
+      public DateTime? DateFrom { get; set; }
+      public DateTime? DateTo { get; set; }
    }
 }
