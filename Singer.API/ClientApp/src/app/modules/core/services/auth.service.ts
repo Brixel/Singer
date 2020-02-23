@@ -86,7 +86,6 @@ export class AuthService {
          const isAdmin = res.role === 'Administrator';
          this.isAdmin$.next(isAdmin);
          const isLegalGuardian = res.role === 'LegalGuardian';
-         console.log(res);
          this.isLegalGuardian$.next(isLegalGuardian);
          localStorage.setItem('user', JSON.stringify(res));
       });
