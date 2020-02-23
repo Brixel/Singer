@@ -1,5 +1,8 @@
 <app-account-info-page>
    <div class="flex--column align--center">
+      <div *ngIf="careUsers.length == 0" class="careUsers__none">
+         Er zijn geen zorggebruikers verbonden aan uw account. Neem contact op met Sint Gerardus.
+      </div>
       <mat-grid-list [cols]="columns" rowHeight="400px" gutterSize="20px" (window:resize)="onResize($event)">
          <mat-grid-tile *ngFor="let careUser of careUsers; index as i">
             <app-detailed-user-card [user]="careUser" [colorOption]="i"></app-detailed-user-card>

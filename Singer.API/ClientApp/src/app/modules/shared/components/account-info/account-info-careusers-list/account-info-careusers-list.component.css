@@ -11,3 +11,7 @@ mat-card {
 .align--center {
    justify-content: center;
 }
+
+.careUsers__none {
+   margin-left: 20px;
+}
