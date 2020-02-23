@@ -34,9 +34,13 @@ export class AccountInfoSummaryComponent {
       dialogRef.afterClosed().subscribe((isConfirmed: boolean) => {
          if (isConfirmed) {
             this.authService.requestPasswordReset(this.user.id);
-            this._snackBar.open(`Er is een e-mail naar ${this.user.email} verstuurd.`, 'OK', {
-               duration: 2000,
-            });
+            this._snackBar.open(
+               `Er is een e-mail naar ${this.user.email} verstuurd met verdere instructies om uw wachtwoord kunt wijzigen.`,
+               'OK',
+               {
+                  duration: 10000,
+               }
+            );
          }
       });
    }
