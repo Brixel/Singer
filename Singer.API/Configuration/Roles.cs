@@ -5,8 +5,8 @@ namespace Singer.Configuration
    public static class Roles
    {
       public const string ROLE_ADMINISTRATOR = "Administrator";
-      private const string ROLE_SOCIALSERVICES = "SocialServices";
-      private const string ROLE_CARETAKER = "Caretaker";
+      public const string ROLE_SOCIALSERVICES = "SocialServices";
+      public const string ROLE_LEGALGUARDIANUSER = "LegalGuardian";
       public const string ROLE_CAREUSER = "CareUser";
 
       public static List<string> _careUsers = new List<string>() { "user1", "user2", "user3" };
@@ -15,7 +15,7 @@ namespace Singer.Configuration
       {
          ROLE_ADMINISTRATOR,
          ROLE_SOCIALSERVICES,
-         ROLE_CARETAKER,
+         ROLE_LEGALGUARDIANUSER,
          ROLE_CAREUSER
       };
    }
