@@ -39,7 +39,7 @@ export class PendingRegistrationsComponent extends GenericOverviewComponent<
    ) {
       const ds = new PendingRegistrationsDatasource(dataService);
       super(cd, ds, 'id');
-      this.displayedColumns.push('eventDescription.title', 'fromTo', 'careUser');
+      this.displayedColumns.push('eventDescription.title', 'fromTo', 'careUser', 'actions');
       this.dialog = dialog;
       this._eventService = eventService;
    }

@@ -19,6 +19,7 @@ export class DailybasisRegistrationsComponent implements OnInit {
       this.eventSlotDataSource.paginator = this.paginator;
       this.eventSlotDataSource.sort = this.sort;
    }
+   RegistrationStatus = RegistrationStatus;
 
    get eventSlots() {
       return this._eventSlots;

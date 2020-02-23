@@ -32,10 +32,6 @@ export abstract class GenericOverviewComponent<
       private _defaultSortColumn: string,
       private _sortDirection = SortDirection.Ascending
    ) {}
-
-   ngOnInit() {
-      this.displayedColumns.push('actions');
-   }
    ngAfterViewInit(): void {
       this.sort.sort({
          disableClear: false,
@@ -43,9 +39,11 @@ export abstract class GenericOverviewComponent<
          id: this._defaultSortColumn,
       });
 
-      //WORKAROUND: https://github.com/angular/components/issues/15715
-      const sortHeader = this.sort.sortables.get(this._defaultSortColumn);
-      sortHeader['_setAnimationTransitionState']({ toState: 'active' });
+      if (this.sort.sortables.size > 0) {
+         //WORKAROUND: https://github.com/angular/components/issues/15715
+         const sortHeader = this.sort.sortables.get(this._defaultSortColumn);
+         sortHeader['_setAnimationTransitionState']({ toState: 'active' });
+      }
       this._cd.detectChanges();
       this.loadData();
       if (this.filterInput) {
@@ -75,7 +73,8 @@ export abstract class GenericOverviewComponent<
          .subscribe();
    }
    protected loadData() {
-      this.searchDTO.text = this.filterInput ? this.filterInput.nativeElement.value : '';
+      if (this.searchDTO !== undefined)
+         this.searchDTO.text = this.filterInput ? this.filterInput.nativeElement.value : '';
       this.dataSource.load(this.searchDTO);
    }
 }

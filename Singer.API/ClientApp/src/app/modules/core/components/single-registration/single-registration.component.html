@@ -4,20 +4,20 @@
          <div class="name-column">{{ user.name }}</div>
          <div>
             <mat-icon
-               *ngIf="getRegistrationStatus(user.careUserId) == 1"
+               *ngIf="getRegistrationStatus(user.careUserId) === RegistrationStatus.Pending"
                class="registration-pending"
                matTooltip="Aanvraag tot inschrijving ontvangen, moet nog bevestigd worden door Sint-Gerardus"
             >
                access_time
             </mat-icon>
             <mat-icon
-               *ngIf="getRegistrationStatus(user.careUserId) == 2"
+               *ngIf="getRegistrationStatus(user.careUserId) === RegistrationStatus.Accepted"
                class="registration-accepted"
                matTooltip="Inschrijving vastgelegd en bevestigd door Sint-Gerardus"
                >check_circle_outline</mat-icon
             >
             <mat-icon
-               *ngIf="getRegistrationStatus(user.careUserId) == 4"
+               *ngIf="getRegistrationStatus(user.careUserId) === RegistrationStatus.Rejected"
                class="registration-rejected"
                matTooltip="Aanvraag tot inschrijving ontvangen, deze werd echter geweigerd door Sint-Gerardus"
                >error_outline</mat-icon
@@ -26,7 +26,7 @@
                mat-icon-button
                color="primary"
                (click)="registerCareUserOnEvent(user)"
-               *ngIf="getRegistrationStatus(user.careUserId) == 0"
+               *ngIf="getRegistrationStatus(user.careUserId) === 0"
                matTooltip="Aanvraag tot inschrijving indienen"
             >
                <mat-icon>add_circle</mat-icon>

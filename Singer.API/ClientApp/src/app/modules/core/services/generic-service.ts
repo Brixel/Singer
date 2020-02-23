@@ -60,7 +60,7 @@ export abstract class GenericService<
          .pipe(catchError(error => this.handleError(error)));
    }
 
-   protected handleError(error: HttpErrorResponse) {
+   handleError(error: HttpErrorResponse) {
       this.error$.next(error);
       return throwError(error.error);
    }

@@ -336,19 +336,17 @@ namespace Singer.Controllers
             StartDate = singerEvent.StartDateTime,
             Title = singerEvent.Title
          };
-         List<EventRelevantCareUserDTO> careUsers;
-         if (!User.IsInRole(Roles.ROLE_ADMINISTRATOR))
+         List<EventRelevantCareUserDTO> careUsers = new List<EventRelevantCareUserDTO>();
+         if (User.IsInRole(Roles.ROLE_LEGALGUARDIANUSER))
          {
             var legalGuardianUserId = User.GetUserId();
-            // TODO Validate if the user is a legalguardian
             careUsers = await _careUserService.GetCareUsersForLegalGuardian(legalGuardianUserId);
-
             foreach (var user in careUsers)
             {
                user.AppropriateAgeGroup = singerEvent.AllowedAgeGroups.Contains(user.AgeGroup);
             }
          }
-         else
+         else if (User.IsInRole(Roles.ROLE_ADMINISTRATOR))
          {
             careUsers = await _careUserService.GetCareUsersInAgeGroups(singerEvent.AllowedAgeGroups);
          }
