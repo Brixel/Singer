@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Singer.Models;
 
 namespace Singer.DTOs
@@ -10,5 +10,6 @@ namespace Singer.DTOs
       public string LastName { get; set; }
       public AgeGroup AgeGroup { get; set; }
       public bool AppropriateAgeGroup { get; set; }
+      public DateTime BirthDay { get; set; }
    }
 }

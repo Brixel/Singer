@@ -1,5 +1,5 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { ApiService } from '../api.service';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -26,6 +26,10 @@ export class LegalGuardianProxy {
          .set('pageSize', pageSize.toString())
          .set('filter', filter);
       return this.apiService.get('api/legalguardianuser', searchParams).pipe(map(res => res));
+   }
+
+   getLegalGuardian(id: string): Observable<LegalGuardianDTO> {
+      return this.apiService.get(`api/legalguardianuser/${id}`).pipe(map(res => res));
    }
 
    updateLegalGuardian(id: string, updateLegalGuardianDTO: UpdateLegalGuardianDTO) {

@@ -1,0 +1,24 @@
+<mat-card>
+   <div class="main-grid">
+      <div class="main-grid__navbar-grid">
+         <div class="navbar-grid__header flex--column">
+            <mat-card-title>Profiel</mat-card-title>
+            <p class="margin--top secondary--text">Hier kan u uw gegevens bekijken.</p>
+         </div>
+         <div class="navbar-grid__buttons flex--column">
+            <ng-container *ngFor="let navbarLink of navbarLinks">
+               <div
+                  *ngIf="navbarLink.shouldShow | async"
+                  class="flex--row align--center cursor--click secondary--text"
+                  (click)="navigate(navbarLink.url)"
+                  [class.active-page]="navbarLink.url === router.url"
+               >
+                  <mat-icon>{{ navbarLink.displayIcon }}</mat-icon>
+                  <h3>{{ navbarLink.displayName }}</h3>
+               </div>
+            </ng-container>
+         </div>
+      </div>
+      <ng-content class="main-grid__content"></ng-content>
+   </div>
+</mat-card>

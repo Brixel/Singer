@@ -21,7 +21,6 @@ export class DeleteConfirmationDialogComponent implements OnInit {
    ngOnInit() {}
 
    confirm() {
-      console.log('returning true');
       this.dialogRef.close(true);
    }
 }

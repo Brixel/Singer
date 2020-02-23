@@ -21,6 +21,10 @@ export class AdminUserService {
       return this.adminUserProxy.get(sortDirection, sortColumn, pageIndex, pageSize, filter).pipe(map(res => res));
    }
 
+   getAdmin(id: string) {
+      return this.adminUserProxy.getAdmin(id);
+   }
+
    update(updateAdmin: AdminUser) {
       const updateAdminUserDTO = <AdminUserDTO>{
          firstName: updateAdmin.firstName,
