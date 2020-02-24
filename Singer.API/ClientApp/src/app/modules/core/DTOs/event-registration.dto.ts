@@ -51,6 +51,7 @@ export interface EventFilterParametersDTO extends IFilterBaseDTO {
 
 export class EventRelevantCareUserDTO {
    id: string;
+   userId: string;
    firstName: string;
    lastName: string;
    ageGroup: AgeGroup;

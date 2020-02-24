@@ -37,7 +37,7 @@ namespace Singer.Controllers
             var careUserDTOs = await this._careUserService.GetCareUsersForLegalGuardian(Guid.Parse(User.GetSubjectId()));
             if (careUserDTOs.Count == 0)
                return NotFound(model);
-            searchDTO.CareUserIds = careUserDTOs.Select(x => x.Id).ToList();
+            searchDTO.CareUserIds = careUserDTOs.Select(x => x.UserId).ToList();
          }
          var result = await _registrationService.AdvancedSearch(searchDTO);
          var requestPath = HttpContext.Request.Path;

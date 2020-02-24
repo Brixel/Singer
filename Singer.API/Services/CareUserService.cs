@@ -129,6 +129,7 @@ namespace Singer.Services
          return careUsers.Select(careUser => new EventRelevantCareUserDTO()
          {
             Id = careUser.Id,
+            UserId = careUser.UserId,
             FirstName = careUser.User.FirstName,
             LastName = careUser.User.LastName,
             AgeGroup = careUser.AgeGroup,
