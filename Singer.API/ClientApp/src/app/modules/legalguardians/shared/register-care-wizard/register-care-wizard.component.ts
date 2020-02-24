@@ -7,6 +7,7 @@ import {
 import { MatDialog, MatSnackBar, MatStepper, MatButtonToggleChange } from '@angular/material';
 import { OwlDateTimeInlineComponent } from 'ng-pick-datetime';
 import { Router } from '@angular/router';
+import { CareRegistrationService } from '../../services/care-registration.service';
 
 @Component({
    selector: 'app-register-care-wizard',
@@ -83,9 +84,14 @@ export class RegisterCareWizardComponent {
       // Prevent Saturday and Sunday from being selected.
       return day !== 0 && day !== 6;
    };
-   selectedCareType: any;
+   selectedCareType: EventRegistrationTypes;
 
-   constructor(public dialog: MatDialog, private _snackBar: MatSnackBar, private router: Router) {}
+   constructor(
+      private careRegistrationService: CareRegistrationService,
+      public dialog: MatDialog,
+      private _snackBar: MatSnackBar,
+      private router: Router
+   ) {}
 
    moveStepperBackward() {
       this.stepper.previous();
@@ -123,6 +129,7 @@ export class RegisterCareWizardComponent {
 
    onChangeCareType($event: MatButtonToggleChange) {
       this.dayCareType = <EventRegistrationTypes>$event.value;
+      console.log($event.value);
    }
 
    addCareUser(): void {
@@ -176,11 +183,20 @@ export class RegisterCareWizardComponent {
       }
    }
 
-   registerCare() {}
+   registerCare() {
+      const careUserIds = this.careUsers.map(cu => cu.id);
+      this.careRegistrationService
+         .createCareRegistration(this.selectedCareType, this.selectedMoments, careUserIds)
+         .subscribe(res => {
+            this.stepper.next();
+            this._snackBar.open('Aanvraag ingediend', 'OK', { duration: 2000 });
+         });
+   }
 }
 
 export enum EventRegistrationTypes {
    // EventSlotDriven = 1, // Not in use, since only possible via other services
-   NightCare = 2,
-   DayCare = 3,
+
+   DayCare = 2,
+   NightCare = 3,
 }

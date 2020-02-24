@@ -20,6 +20,7 @@ namespace Singer.Controllers
          _eventRegistrationService = eventRegistrationService;
       }
 
+      [HttpPost]
       public async Task<ActionResult<CareRegistrationResultDTO>> Create(
          [FromBody] CreateCareRegistrationDTO createCareRegistration)
       {
@@ -28,7 +29,7 @@ namespace Singer.Controllers
             createCareRegistration.EndDateTime);
          return new CareRegistrationResultDTO()
          {
-            CreatedRegistrionIds = result
+            CreatedRegistrationIds = result
          };
       }
    }
@@ -43,6 +44,6 @@ namespace Singer.Controllers
 
    public class CareRegistrationResultDTO
    {
-      public IReadOnlyList<Guid> CreatedRegistrionIds { get; set; }
+      public IReadOnlyList<Guid> CreatedRegistrationIds { get; set; }
    }
 }

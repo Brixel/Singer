@@ -10,6 +10,9 @@ import { RegisterCareWizardComponent } from './shared/register-care-wizard/regis
 import { SearchCareUserDialogComponent } from './shared/search-care-user-dialog/search-care-user-dialog.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DutchOwlDateTimeIntl } from './dutchowldatetime';
+import { CareRegistrationService } from './services/care-registration.service';
+import { CareRegistrationProxy } from './services/care-registration.proxy';
+import { ApiService } from '../core/services/api.service';
 
 @NgModule({
    declarations: [RegisterCareWizardComponent, SearchCareUserDialogComponent],
@@ -24,6 +27,9 @@ import { DutchOwlDateTimeIntl } from './dutchowldatetime';
    ],
    entryComponents: [SearchCareUserDialogComponent],
    providers: [
+      ApiService,
+      CareRegistrationService,
+      CareRegistrationProxy,
       { provide: MAT_DATE_LOCALE, useValue: 'nl-BE' },
       { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
       { provide: OWL_DATE_TIME_LOCALE, useValue: 'nl-BE' },
