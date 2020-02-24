@@ -1,15 +1,17 @@
 import { Component, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { GenericOverviewComponent } from 'src/app/modules/shared/components/generic-overview/generic-overview.component';
 import { RegistrationOverviewDatasource } from './registration-overview-datasource';
-import { RegistrationOverview } from '../../models/registration.model';
-import { RegistrationOverviewDTO } from '../../DTOs/registration.dto';
-import { RegistrationOverviewService } from '../../services/registration-api/registration-overview-service';
-import { RegistrationSearchDTO } from '../../DTOs/registration.dto';
-import { SortDirection } from '../../enums/sort-direction';
-import { RegistrationStatus } from '../../models/enum';
+import { RegistrationOverview } from '../../../core/models/registration.model';
+import { RegistrationOverviewDTO } from '../../../core/DTOs/registration.dto';
+import { RegistrationOverviewService } from '../../../core/services/registration-api/registration-overview-service';
+import { RegistrationSearchDTO } from '../../../core/DTOs/registration.dto';
+import { SortDirection } from '../../../core/enums/sort-direction';
+import { RegistrationStatus } from '../../../core/models/enum';
 import * as moment from 'moment';
-import { RegistrationType } from '../../enums/registration-type';
+import { RegistrationType } from '../../../core/enums/registration-type';
 import { MatSelect } from '@angular/material';
+import { AuthService } from '../../../core/services/auth.service';
+import { CareUser } from 'src/app/modules/core/models/careuser.model';
 
 @Component({
    selector: 'app-registration-overview',
@@ -36,7 +38,9 @@ export class RegistrationOverviewComponent extends GenericOverviewComponent<
    @ViewChild('searchStatus') searchStatus: MatSelect;
    registrationTypes: any;
    registrationStatus: any;
-   constructor(dataService: RegistrationOverviewService, cd: ChangeDetectorRef) {
+   authService: AuthService;
+
+   constructor(dataService: RegistrationOverviewService, cd: ChangeDetectorRef, authService: AuthService) {
       const ds = new RegistrationOverviewDatasource(dataService);
       super(cd, ds, 'startDateTime', SortDirection.Descending);
       this.displayedColumns.push(
@@ -58,6 +62,7 @@ export class RegistrationOverviewComponent extends GenericOverviewComponent<
       this.RegistrationStatus = RegistrationStatus;
       this.registrationTypes = RegistrationType;
       this.registrationStatus = RegistrationStatus;
+      this.authService = authService;
    }
 
    loadData() {
@@ -82,5 +87,8 @@ export class RegistrationOverviewComponent extends GenericOverviewComponent<
       super.loadData();
    }
 
-   ngOnInit() {}
+   onCareUserFilterChange(careUsers: CareUser[]) {
+      this.searchDTO.careUserIds = careUsers.map(x => x.userId);
+      this.loadData();
+   }
 }

@@ -11,7 +11,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RegistrationStatusPipe } from './Pipes/registration-status.pipe';
 import { SingereventCostPipe } from './Pipes/singerevent-cost.pipe';
 import { AboutComponent } from './components/about/about.component';
-import { RegistrationOverviewComponent } from './components/registration-overview/registration-overview.component';
 import { RegistrationTypePipe } from './pipes/registration-type.pipe';
 
 @NgModule({
@@ -25,7 +24,6 @@ import { RegistrationTypePipe } from './pipes/registration-type.pipe';
       RegistrationStatusPipe,
       SingereventCostPipe,
       AboutComponent,
-      RegistrationOverviewComponent,
       RegistrationTypePipe,
    ],
    imports: [CommonModule, MaterialModule, ReactiveFormsModule],
@@ -39,6 +37,7 @@ import { RegistrationTypePipe } from './pipes/registration-type.pipe';
       DailybasisRegistrationsComponent,
       SingereventCostPipe,
       AboutComponent,
+      RegistrationTypePipe,
    ],
 })
 export class CoreModule {}

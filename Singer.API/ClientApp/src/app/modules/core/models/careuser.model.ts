@@ -4,6 +4,7 @@ import { SingerEventLocation } from './singerevent.model';
 
 export interface CareUserDTO {
    id: string;
+   userId: string;
    firstName: string;
    lastName: string;
    email: string;
@@ -65,6 +66,7 @@ export interface CreateCareUserDTO {
 
 export class CareUser {
    id: string;
+   userId: string;
    firstName: string;
    lastName: string;
    email: string;

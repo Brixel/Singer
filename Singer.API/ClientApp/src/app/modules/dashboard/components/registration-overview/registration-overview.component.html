@@ -34,6 +34,11 @@
             </mat-option>
          </mat-select>
       </mat-form-field>
+      <ng-container *ngIf="authService.isAdmin$ | async">
+         <app-care-user-multi-autocomplete
+            (onChange)="onCareUserFilterChange($event)"
+         ></app-care-user-multi-autocomplete>
+      </ng-container>
    </div>
    <mat-table [dataSource]="dataSource" matSort>
       <!-- Id column -->

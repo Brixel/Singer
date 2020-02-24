@@ -17,6 +17,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AccountInfoCareusersListComponent } from './components/account-info/account-info-careusers-list/account-info-careusers-list.component';
 import { AccountInfoSummaryComponent } from './components/account-info/account-info-summary/account-info-summary.component';
 import { AccountInfoPageComponent } from './components/account-info/account-info-base/account-info-page.component';
+import { CareUserMultiAutocompleteComponent } from './components/care-user-multi-autocomplete/care-user-multi-autocomplete.component';
 
 @NgModule({
    declarations: [
@@ -31,6 +32,7 @@ import { AccountInfoPageComponent } from './components/account-info/account-info
       AccountInfoSummaryComponent,
       AccountInfoPageComponent,
       AccountInfoCareusersListComponent,
+      CareUserMultiAutocompleteComponent,
    ],
    imports: [CommonModule, MaterialModule, CoreModule, ReactiveFormsModule],
    exports: [
@@ -45,6 +47,7 @@ import { AccountInfoPageComponent } from './components/account-info/account-info
       AccountInfoSummaryComponent,
       AccountInfoPageComponent,
       AccountInfoCareusersListComponent,
+      CareUserMultiAutocompleteComponent,
    ],
    entryComponents: [
       RegistrationComponent,
@@ -52,6 +55,7 @@ import { AccountInfoPageComponent } from './components/account-info/account-info
       ConfirmComponent,
       DeleteConfirmationComponent,
       DeleteConfirmationDialogComponent,
+      CareUserMultiAutocompleteComponent,
    ],
    providers: [ApiService, SingerEventsService, SingerEventsProxy],
 })
