@@ -129,7 +129,6 @@ export class RegisterCareWizardComponent {
 
    onChangeCareType($event: MatButtonToggleChange) {
       this.dayCareType = <EventRegistrationTypes>$event.value;
-      console.log($event.value);
    }
 
    addCareUser(): void {
@@ -151,7 +150,6 @@ export class RegisterCareWizardComponent {
    }
 
    validateCareType() {
-      console.log(this.dayCareType);
       if (this.dayCareType !== undefined) {
          this.selectedCareType = this.dayCareType;
          this.stepper.next();
@@ -162,7 +160,6 @@ export class RegisterCareWizardComponent {
    }
 
    validateCareUsers() {
-      console.log(this.careUsers);
       if (this.careUsers.length === 0) {
          this._snackBar.open('Selecteer minstens één zorggebruiker om verder te gaan', 'OK');
          return;
@@ -177,6 +174,19 @@ export class RegisterCareWizardComponent {
          this._snackBar.open('Selecteer een begin en eind datum om verder te gaan', 'OK');
          return;
       } else {
+         if (this.selectedCareType === EventRegistrationTypes.DayCare) {
+            const orderedDates = selectedDateTimeValues.sort((a, b) => a.getTime() - b.getTime());
+            const firstDate = orderedDates[0];
+            const lastDate = orderedDates[orderedDates.length - 1];
+            if (firstDate.getHours() < 8) {
+               this._snackBar.open('Dagopvang is alleen mogelijk tussen 8:00 en 18:00');
+               return;
+            }
+            if (lastDate.getHours() > 18) {
+               this._snackBar.open('Dagopvang is alleen mogelijk tussen 8:00 en 18:00');
+               return;
+            }
+         }
          this.selectedMoments = selectedDateTimeValues;
 
          this.stepper.next();

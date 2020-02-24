@@ -20,7 +20,6 @@ export class PendingActionsDataSource {
       this.loadingSubject$.next(true);
       this.pendingActionsDataSource.fetch().subscribe(res => {
          const models = res.map(x => this.pendingActionsDataSource.toModel(x));
-         console.log(models);
          this.modelsSubject$.next(models);
          this.totalSizeSubject$.next(res.length);
          this.queryCountSubject$.next(res.length);
