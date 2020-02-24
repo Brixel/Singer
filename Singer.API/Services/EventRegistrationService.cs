@@ -89,16 +89,24 @@ namespace Singer.Services
             var duration = endDateTime - startDateTime;
 
             var initialDateBegin = startDateTime;
-            var initialDateEnd = startDateTime.SetTime(endDateTime);
-            for (var i = 0; i < duration.Days; i++)
+            var initialDateEnd = initialDateBegin.SetTime(endDateTime);
+            if(eventRegistrationTypes == EventRegistrationTypes.DayCare)
             {
-               if (initialDateBegin.DayOfWeek != DayOfWeek.Saturday && initialDateBegin.DayOfWeek != DayOfWeek.Sunday)
+               for (var i = 0; i < duration.Days; i++)
                {
-                  registrations.Add(Registration.Create(eventRegistrationTypes, careUserId, initialDateBegin, initialDateEnd));
+                  if (initialDateBegin.DayOfWeek != DayOfWeek.Saturday && initialDateBegin.DayOfWeek != DayOfWeek.Sunday)
+                  {
+                     registrations.Add(Registration.Create(eventRegistrationTypes, careUserId, initialDateBegin, initialDateEnd));
+                  }
+                  initialDateBegin = initialDateBegin.AddDays(1);
+                  initialDateEnd = initialDateEnd.AddDays(1);
                }
-               initialDateBegin = initialDateBegin.AddDays(1);
-               initialDateEnd = initialDateEnd.AddDays(1);
             }
+            else
+            {
+               registrations.Add(Registration.Create(eventRegistrationTypes, careUserId, initialDateBegin, endDateTime));
+            }
+            
          }
          await Context.AddRangeAsync(registrations);
          await Context.SaveChangesAsync();
