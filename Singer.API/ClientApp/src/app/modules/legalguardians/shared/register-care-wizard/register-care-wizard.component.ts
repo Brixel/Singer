@@ -4,7 +4,7 @@ import {
    SearchCareUserDialogComponent,
    RelatedCareUser,
 } from '../search-care-user-dialog/search-care-user-dialog.component';
-import { MatDialog, MatSnackBar, MatStepper, MatButtonToggleGroup, MatButtonToggleChange } from '@angular/material';
+import { MatDialog, MatSnackBar, MatStepper, MatButtonToggleChange } from '@angular/material';
 import { OwlDateTimeInlineComponent } from 'ng-pick-datetime';
 
 @Component({
@@ -16,19 +16,18 @@ export class RegisterCareWizardComponent implements OnInit {
    wizardSteps: AddRegisterCareWizardStep[] = [
       {
          stepLabel: 'Start',
-         topText:
-            'Welkom bij de Familie toevoegen wizard, hier kan je gemakkelijk niewe voogden en zorggebruikers gelijktijdig inschrijven.',
+         topText: 'Welkom bij de Registratie wizard, hier kan je gemakkelijk zorggebruikers inschrijven voor opvang.',
          addButtonText: '',
          middleButtonText: 'Laten we beginnen',
          backArrow: false,
-         forwardArrow: true,
+         forwardArrow: false,
       },
 
       {
          stepLabel: 'Type opvang',
          topText: 'Maak uw keuze voor het type opvang',
          addButtonText: '',
-         middleButtonText: 'Selecteer zorggebruikers',
+         middleButtonText: '',
          backArrow: true,
          forwardArrow: false,
       },
@@ -36,9 +35,9 @@ export class RegisterCareWizardComponent implements OnInit {
          stepLabel: 'Zorggebruikers toevoegen',
          topText: 'Voeg hier uw zorggebruikers toe.',
          addButtonText: 'Zorggebruiker toevoegen',
-         middleButtonText: 'Datum selecteren',
+         middleButtonText: '',
          backArrow: true,
-         forwardArrow: false,
+         forwardArrow: true,
       },
       {
          stepLabel: 'Opvang aanvragen',
@@ -48,7 +47,6 @@ export class RegisterCareWizardComponent implements OnInit {
          backArrow: true,
          forwardArrow: false,
       },
-
       {
          stepLabel: 'Klaar',
          topText: 'Aanvraag klaar om in te dienen',
@@ -84,6 +82,10 @@ export class RegisterCareWizardComponent implements OnInit {
 
    handleAddButtonClick() {
       this.addCareUser();
+   }
+
+   onChangeCareType($event: MatButtonToggleChange) {
+      this.dayCareType = <EventRegistrationTypes>$event.value;
    }
 
    addCareUser(): void {
@@ -156,10 +158,6 @@ export class RegisterCareWizardComponent implements OnInit {
 
    moveStepperForward() {
       this.stepper.next();
-   }
-
-   onChangeCareType($event: MatButtonToggleChange) {
-      this.dayCareType = <EventRegistrationTypes>$event.value;
    }
 }
 

@@ -1,15 +1,13 @@
-import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
-import { CareUserDTO, RelatedCareUserDTO } from 'src/app/modules/core/models/careuser.model';
-import { SingerEventsService } from 'src/app/modules/core/services/singerevents-api/singerevents.service';
+import { Component, OnInit, Inject } from '@angular/core';
+import { RelatedCareUserDTO } from 'src/app/modules/core/models/careuser.model';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import {
    SingerRegistrationsComponent,
    SingerRegistrationData,
 } from 'src/app/modules/admin/components/singerevents/event-registrations/event-registrations.component';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { startWith, debounceTime, switchMap, map } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
-import { EventRelevantCareUserDTO } from 'src/app/modules/core/DTOs/event-registration.dto';
 import { CareUserService } from 'src/app/modules/core/services/care-users-api/careusers.service';
 import { AgeGroup } from 'src/app/modules/core/models/enum';
 
