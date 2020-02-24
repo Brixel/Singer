@@ -31,8 +31,8 @@
 
                      <!-- Care Selection -->
                      <ng-container *ngIf="i === 1">
-                        <mat-button-toggle-group [value]="dayCareType" (enter)="moveStepperForward()"
-                           (click)="moveStepperForward()" (change)="onChangeCareType($event)">
+                        <mat-button-toggle-group [value]="dayCareType" (enter)="moveStepperForward(i)"
+                           (click)="moveStepperForward(i)" (change)="onChangeCareType($event)">
                            <mat-button-toggle [value]="DayCareTypes.NightCare">Nachtopvang</mat-button-toggle>
 
                            <mat-button-toggle [value]="DayCareTypes.DayCare">Dagopvang</mat-button-toggle>
@@ -83,7 +83,8 @@
                                  </li>
                               </ul>
                            </div>
-                           Van {{ selectedMoments[0] }} tot {{ selectedMoments[1] }}
+                           Van {{ selectedMoments[0] | date: 'dd-MM-yyyy H:mm' }} tot
+                           {{ selectedMoments[1]| date: 'dd-MM-yyyy H:mm' }}
                         </div>
                      </ng-container>
                   </div>
@@ -96,13 +97,13 @@
                   </div>
 
                   <div *ngIf="wizardStep.middleButtonText != ''" class="body__button-middle">
-                     <button mat-raised-button (click)="handleMiddleButtonClick(i)" color="primary">
+                     <button mat-raised-button (click)="moveStepperForward(i)" color="primary">
                         {{ wizardStep.middleButtonText }}
                      </button>
                   </div>
 
                   <div *ngIf="wizardStep.forwardArrow" class="body__button-forward">
-                     <button mat-icon-button (click)="moveStepperForward()">
+                     <button mat-icon-button (click)="moveStepperForward(i)">
                         <mat-icon>arrow_forward</mat-icon>
                      </button>
                   </div>
