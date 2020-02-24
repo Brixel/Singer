@@ -89,6 +89,7 @@ namespace Singer.Services
             registrations.Add(Registration.Create(eventRegistrationTypes, careUserId, startDateTime, endDateTime));
          }
          await Context.AddRangeAsync(registrations);
+         await Context.SaveChangesAsync();
          return registrations.Select(x => x.Id).ToList().AsReadOnly();
       }
       

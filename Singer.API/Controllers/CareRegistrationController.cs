@@ -25,8 +25,8 @@ namespace Singer.Controllers
          [FromBody] CreateCareRegistrationDTO createCareRegistration)
       {
          var result = await _eventRegistrationService.Create(createCareRegistration.EventRegistrationType
-            , createCareRegistration.CareUserIds, createCareRegistration.StartDateTime,
-            createCareRegistration.EndDateTime);
+            , createCareRegistration.CareUserIds, createCareRegistration.StartDateTime.LocalDateTime,
+            createCareRegistration.EndDateTime.LocalDateTime);
          return new CareRegistrationResultDTO()
          {
             CreatedRegistrationIds = result
@@ -37,8 +37,8 @@ namespace Singer.Controllers
    public class CreateCareRegistrationDTO
    {
       public IReadOnlyList<Guid> CareUserIds { get; set; }
-      public DateTime StartDateTime { get; set; }
-      public DateTime EndDateTime { get; set; }
+      public DateTimeOffset StartDateTime { get; set; }
+      public DateTimeOffset EndDateTime { get; set; }
       public EventRegistrationTypes EventRegistrationType { get; set; }
    }
 
