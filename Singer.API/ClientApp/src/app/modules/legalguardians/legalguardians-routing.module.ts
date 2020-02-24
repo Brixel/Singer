@@ -5,7 +5,7 @@ import { RegisterCareWizardComponent } from './shared/register-care-wizard/regis
 
 const routes: Routes = [
    {
-      path: '',
+      path: 'opvang',
       component: RegisterCareWizardComponent,
       canActivate: [AuthGuard],
    },
