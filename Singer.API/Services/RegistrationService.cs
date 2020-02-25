@@ -57,8 +57,10 @@ namespace Singer.Services
          {
             var prefix = filterExpression.Compile();
             filterExpression = v => prefix(v) &&
-               v.CareUser.User.FirstName.Contains(dto.Text, StringComparison.OrdinalIgnoreCase) ||
-               v.CareUser.User.LastName.Contains(dto.Text, StringComparison.OrdinalIgnoreCase);
+               (!string.IsNullOrEmpty(v.CareUser.User.FirstName) &&
+               v.CareUser.User.FirstName.Contains(dto.Text, StringComparison.OrdinalIgnoreCase)) ||
+               (!string.IsNullOrEmpty(v.CareUser.User.LastName) &&
+               v.CareUser.User.LastName.Contains(dto.Text, StringComparison.OrdinalIgnoreCase));
          }
 
          if (dto.CareUserIds != null && dto.CareUserIds.Count > 0)
@@ -82,7 +84,7 @@ namespace Singer.Services
          if (dto.DateFrom != null)
          {
             var prefix = filterExpression.Compile();
-            filterExpression = v => prefix(v) && v.StartDateTime >= dto.DateFrom;
+            filterExpression = v => prefix(v) && v.StartDateTime != null && v.StartDateTime >= dto.DateFrom;
          }
 
          if (dto.DateTo != null)
