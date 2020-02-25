@@ -8,8 +8,8 @@ namespace Singer.Profiles
    {
       public EventRegistrationProfile()
       {
-         CreateMap<CreateEventRegistrationDTO, Registration>();
-         CreateMap<Registration, EventRegistrationDTO>()
+         CreateMap<CreateRegistrationDTO, Registration>();
+         CreateMap<Registration, RegistrationDTO>()
             .ForMember(x => x.EventDescription, opts => opts.MapFrom(x => x.EventSlot.Event));
       }
    }

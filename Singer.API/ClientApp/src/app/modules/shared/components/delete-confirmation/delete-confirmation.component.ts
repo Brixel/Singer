@@ -56,7 +56,6 @@ export class DeleteConfirmationComponent {
 
    isConfirmFieldMatching(): boolean {
       const confirmFieldString: string = this.confirmFieldControl.value;
-      console.log(`'${confirmFieldString.toLocaleLowerCase()}' should match '${this.name.toLocaleLowerCase()}'`);
       return this.name.toLowerCase() === confirmFieldString.toLowerCase();
    }
 
@@ -67,7 +66,6 @@ export class DeleteConfirmationComponent {
       }
 
       if (!this.isConfirmFieldMatching()) {
-         console.log('not match');
          this.deleteConfirmationOK = false;
          this.confirmFieldControl.setErrors({ invalid: true });
          return;

@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.1.0-issue-AB-131-calendar-nightcare.1351",
+   "version": "0.1.0-issue-AB-131-calendar-nightcare.1352",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",

@@ -4,7 +4,6 @@ using System.Reflection;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 using AutoMapper;
-using IdentityModel;
 using IdentityServer4.AccessTokenValidation;
 using IdentityServer4.EntityFramework.DbContexts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -13,7 +12,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,7 +26,6 @@ using Singer.Services.Interfaces;
 using NSwag.Generation.Processors.Security;
 using NSwag;
 using System.Net;
-using Namotion.Reflection;
 using Singer.Controllers;
 using Singer.DTOs.Users;
 
@@ -197,7 +194,6 @@ namespace Singer
                typeof(EmailService<UserDTO>));
             services.AddScoped(typeof(IEmailService),
                typeof(EmailService));
-
          }
          else
          {
@@ -210,7 +206,6 @@ namespace Singer
             services.AddScoped(typeof(IEmailService),
                typeof(NoActualEmailService));
          }
-         
          var instrumentationKey = Configuration.GetSection("ApplicationInsights").GetChildren().SingleOrDefault(x => x.Value == "InstrumentationKey")?.Value;
          services.AddApplicationInsightsTelemetry(instrumentationKey);
       }
@@ -294,6 +289,7 @@ namespace Singer
 
             Seed.SeedRoles(serviceScope, applicationDbContext);
             Seed.SeedUsers(serviceScope, applicationDbContext, initialAdminPassword);
+            Seed.CheckRoles(serviceScope, applicationDbContext).Wait();
             Seed.CreateAPIAndClient(configrationDbContext);
             Seed.SeedIdentityResources(configrationDbContext);
             Seed.SeedEventLocations(applicationDbContext);

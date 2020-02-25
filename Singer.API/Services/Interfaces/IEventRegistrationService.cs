@@ -19,16 +19,16 @@ namespace Singer.Services.Interfaces
          int pageIndex = 0,
          int itemsPerPage = 15);
 
-      Task<List<EventRegistrationDTO>> GetAllSlotsForEventAsync(Guid eventId);
+      Task<List<RegistrationDTO>> GetAllSlotsForEventAsync(Guid eventId);
 
-      Task<EventRegistrationDTO> GetOneBySlotAsync(Guid eventSlotId, Guid careUserId);
-      Task<EventRegistrationDTO> GetOneAsync(Guid eventId, Guid registrationId);
+      Task<RegistrationDTO> GetOneBySlotAsync(Guid eventSlotId, Guid careUserId);
+      Task<RegistrationDTO> GetOneAsync(Guid eventId, Guid registrationId);
       Task<List<CsvRegistrationDTO>> GetParticipantsForSlotAsync(Guid eventId, Guid eventSlotId);
 
-      Task<IReadOnlyList<EventRegistrationDTO>> CreateAsync(CreateEventRegistrationDTO dto);
-      Task<EventRegistrationDTO> CreateOneBySlotAsync(CreateEventSlotRegistrationDTO dto);
+      Task<IReadOnlyList<RegistrationDTO>> CreateAsync(CreateRegistrationDTO dto);
+      Task<RegistrationDTO> CreateOneBySlotAsync(CreateEventSlotRegistrationDTO dto);
 
-      Task<EventRegistrationDTO> UpdateStatusAsync(Guid eventId, Guid registrationId, RegistrationStatus status);
+      Task<RegistrationDTO> UpdateStatusAsync(Guid eventId, Guid registrationId, RegistrationStatus status);
 
       Task DeleteAsync(Guid eventId, Guid registrationId);
       Task<UserRegisteredDTO> GetUserRegistrationStatus(Guid eventId, Guid careUserId);
@@ -36,7 +36,7 @@ namespace Singer.Services.Interfaces
       Task<RegistrationStatus> AcceptRegistration(Guid registrationId, Guid executedByUserId);
       Task<RegistrationStatus> RejectRegistration(Guid registrationId, Guid executedByUserId);
       Task<DaycareLocationDTO> UpdateDaycareLocationForRegistration(Guid registrationId, Guid locationId, Guid executedByUserId);
-      Task<SearchResults<EventRegistrationDTO>> GetPendingRegistrations(Expression<Func<EventRegistrationDTO, object>> orderer = null, ListSortDirection sortDirection = ListSortDirection.Ascending, int pageSize = 15, int pageIndex = 0);
+      Task<SearchResults<RegistrationDTO>> GetPendingRegistrations(Expression<Func<EventRegistrationDTO, object>> orderer = null, ListSortDirection sortDirection = ListSortDirection.Ascending, int pageSize = 15, int pageIndex = 0);
 
       Task<IReadOnlyList<Guid>> Create(EventRegistrationTypes eventRegistrationTypes,
          IReadOnlyList<Guid> careUserIds,

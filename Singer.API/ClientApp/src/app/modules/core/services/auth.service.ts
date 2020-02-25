@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { Observable, ReplaySubject, Subject } from 'rxjs';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UpdatePasswordDTO } from '../DTOs/updatepassword.dto';
 import { ConfigurationService } from './clientconfiguration.service';
@@ -13,11 +13,11 @@ export class AuthService {
    private tokenURL = this.baseUrl + 'connect/token';
    private userInfoURL = this.baseUrl + 'connect/userinfo';
 
-   private isAdminSubject = new ReplaySubject<boolean>();
-   isAdmin$ = this.isAdminSubject.asObservable();
+   public isAdmin$ = new BehaviorSubject<boolean>(false);
 
-   private isAuthenticatedSubject = new ReplaySubject<boolean>();
-   isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
+   public isLegalGuardian$ = new BehaviorSubject<boolean>(false);
+
+   public isAuthenticated$ = new BehaviorSubject<boolean>(false);
 
    private passwordResetErrorSubject = new Subject<string>();
    passwordResetError$ = this.passwordResetErrorSubject.asObservable();
@@ -84,7 +84,9 @@ export class AuthService {
    private getUser() {
       this.getUserInfo().subscribe(res => {
          const isAdmin = res.role === 'Administrator';
-         this.isAdminSubject.next(isAdmin);
+         this.isAdmin$.next(isAdmin);
+         const isLegalGuardian = res.role === 'LegalGuardian';
+         this.isLegalGuardian$.next(isLegalGuardian);
          localStorage.setItem('user', JSON.stringify(res));
       });
    }
@@ -98,7 +100,7 @@ export class AuthService {
    isAuthenticated(): boolean {
       const token = localStorage.getItem('token');
       const isAuthenticated = !this.jwtHelper.isTokenExpired(token);
-      this.isAuthenticatedSubject.next(isAuthenticated);
+      this.isAuthenticated$.next(isAuthenticated);
       return isAuthenticated;
    }
 
@@ -110,6 +112,7 @@ export class AuthService {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       this.isAuthenticated();
-      this.isAdminSubject.next(false);
+      this.isAdmin$.next(false);
+      this.isLegalGuardian$.next(false);
    }
 }

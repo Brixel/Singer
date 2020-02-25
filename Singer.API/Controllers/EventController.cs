@@ -17,6 +17,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Singer.Helpers.Extensions;
 
 namespace Singer.Controllers
 {
@@ -27,6 +28,7 @@ namespace Singer.Controllers
 
       private readonly IEventRegistrationService _eventRegistrationService;
       private readonly IDateValidator _dateValidator;
+      private readonly IActionNotificationService _actionNotificationService;
       private readonly IEventService _eventService;
       private readonly ICareUserService _careUserService;
 
@@ -35,11 +37,12 @@ namespace Singer.Controllers
       #region CONSTRUCTOR
 
       public EventController(IEventService eventService, IEventRegistrationService eventRegistrationService,
-         ICareUserService careUserService, IDateValidator dateValidator)
+         ICareUserService careUserService, IDateValidator dateValidator, IActionNotificationService actionNotificationService)
          : base(eventService)
       {
          _eventRegistrationService = eventRegistrationService;
          _dateValidator = dateValidator;
+         _actionNotificationService = actionNotificationService;
          _eventService = eventService;
          _careUserService = careUserService;
       }
@@ -66,7 +69,7 @@ namespace Singer.Controllers
       [HttpPost("{eventId}/registrations")]
       [ProducesResponseType(StatusCodes.Status201Created)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public async Task<ActionResult<List<EventRegistrationDTO>>> Create(Guid eventId, [FromBody]CreateEventRegistrationDTO dto)
+      public async Task<ActionResult<List<RegistrationDTO>>> Create(Guid eventId, [FromBody]CreateRegistrationDTO dto)
       {
          if (eventId != dto.EventId)
             throw new BadInputException("The event id in the url and the body do not match", ErrorMessages.EventIdMismatchUrlBody);
@@ -92,7 +95,7 @@ namespace Singer.Controllers
       [HttpPost("{eventId}/eventslot/{eventSlotId}/registrations")]
       [ProducesResponseType(StatusCodes.Status201Created)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public async Task<ActionResult<EventRegistrationDTO>> Create(Guid eventId, [FromBody]CreateEventSlotRegistrationDTO dto)
+      public async Task<ActionResult<RegistrationDTO>> Create(Guid eventId, [FromBody]CreateEventSlotRegistrationDTO dto)
       {
          if (!User.IsInRole(Roles.ROLE_ADMINISTRATOR))
          {
@@ -108,6 +111,16 @@ namespace Singer.Controllers
             throw new BadInputException("Care user already registered on this event slot.", ErrorMessages.UserAlreadyRegisteredOnEventSlot);
 
          var eventSlotRegistration = await _eventRegistrationService.CreateOneBySlotAsync(dto);
+
+         // Since admins automatically approve a registration, it's needed to register this.
+         if (User.IsInRole(Roles.ROLE_ADMINISTRATOR))
+         {
+            var executedByUserId = Guid.Parse(User.GetSubjectId());
+            await _actionNotificationService.RegisterEventRegistrationStatusChange(eventSlotRegistration.Id, executedByUserId,
+               RegistrationStatus.Pending, eventSlotRegistration.Status);
+         }
+
+
          return Created(nameof(Get), eventSlotRegistration);
       }
 
@@ -115,7 +128,7 @@ namespace Singer.Controllers
       [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
       public async Task<ActionResult> AcceptRegistration(Guid eventId, Guid eventRegistrationId)
       {
-         var userId = Guid.Parse(User.GetSubjectId());
+         var userId = User.GetUserId();
          var status = await _eventRegistrationService.AcceptRegistration(eventRegistrationId, userId);
          return Ok(status);
       }
@@ -124,7 +137,7 @@ namespace Singer.Controllers
       [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
       public async Task<ActionResult> RejectRegistration(Guid eventId, Guid eventRegistrationId)
       {
-         var userId = Guid.Parse(User.GetSubjectId());
+         var userId = User.GetUserId();
          var status = await _eventRegistrationService.RejectRegistration(eventRegistrationId, userId);
          return Ok(status);
       }
@@ -190,7 +203,7 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status200OK)]
       [ProducesResponseType(StatusCodes.Status404NotFound)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public async Task<ActionResult<EventRegistrationDTO>> GetOne(Guid eventId, Guid registrationId)
+      public async Task<ActionResult<RegistrationDTO>> GetOne(Guid eventId, Guid registrationId)
       {
          var registration = await _eventRegistrationService
             .GetOneAsync(eventId, registrationId)
@@ -241,7 +254,7 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status404NotFound)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
       [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
-      public async Task<ActionResult<EventRegistrationDTO>> Update(Guid eventId, Guid registrationId, [FromBody]RegistrationStatus status)
+      public async Task<ActionResult<RegistrationDTO>> Update(Guid eventId, Guid registrationId, [FromBody]RegistrationStatus status)
       {
          var model = ModelState;
          if (!model.IsValid)
@@ -261,7 +274,7 @@ namespace Singer.Controllers
       [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
       public async Task<ActionResult<DaycareLocationDTO>> Update(Guid eventId, Guid registrationId, [FromBody] Guid locationId)
       {
-         var userId = Guid.Parse(User.GetSubjectId());
+         var userId = User.GetUserId();
          var result = await _eventRegistrationService.UpdateDaycareLocationForRegistration(
             registrationId, locationId, userId);
          return Ok(result);
@@ -337,7 +350,7 @@ namespace Singer.Controllers
          List<EventRelevantCareUserDTO> careUsers;
          if (!User.IsInRole(Roles.ROLE_ADMINISTRATOR))
          {
-            var legalGuardianUserId = Guid.Parse(User.GetSubjectId());
+            var legalGuardianUserId = User.GetUserId();
             // TODO Validate if the user is a legalguardian
             careUsers = await _careUserService.GetCareUsersForLegalGuardianAsync(legalGuardianUserId);
 
@@ -376,19 +389,19 @@ namespace Singer.Controllers
 
       [HttpGet("registrations/status/pending")]
       [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
-      public async Task<ActionResult<PaginationDTO<EventRegistrationDTO>>> GetPendingRegistrations(
+      public async Task<ActionResult<PaginationDTO<RegistrationDTO>>> GetPendingRegistrations(
          ListSortDirection sortDirection = ListSortDirection.Ascending,
          string sortColumn = "Id",
          int pageIndex = 0,
          int pageSize = 15)
       {
-         var orderByLambda = PropertyHelpers.GetPropertySelector<EventRegistrationDTO>(sortColumn);
+         var orderByLambda = PropertyHelpers.GetPropertySelector<RegistrationDTO>(sortColumn);
          var result = await _eventRegistrationService.GetPendingRegistrations(orderByLambda, sortDirection, pageSize, pageIndex);
          var requestPath = HttpContext.Request.Path;
          var nextPage = (pageIndex * pageSize) + result.Size >= result.TotalCount
             ? null
             : $"{requestPath}?PageIndex={pageIndex++}&Size={pageSize}";
-         var page = new PaginationDTO<EventRegistrationDTO>
+         var page = new PaginationDTO<RegistrationDTO>
          {
             Items = result.Items,
             Size = result.Items.Count,

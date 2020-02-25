@@ -1,4 +1,4 @@
-﻿
+using System;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -150,7 +150,8 @@ namespace Singer.Services
             FirstName = careUser.User.FirstName,
             LastName = careUser.User.LastName,
             AgeGroup = careUser.AgeGroup,
-            AppropriateAgeGroup = isAppropriateAgeGroup
+            AppropriateAgeGroup = isAppropriateAgeGroup,
+            BirthDay = careUser.BirthDay
          }).ToList();
       }
    }

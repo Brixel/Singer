@@ -27,6 +27,11 @@ export class AdminUserProxy {
          .set('filter', filter);
       return this.apiService.get('api/admin', searchParams).pipe(map(res => res));
    }
+
+   getAdmin(id: string): Observable<AdminUserDTO> {
+      return this.apiService.get(`api/admin/${id}`).pipe(map(res => res));
+   }
+
    updateAdmin(id: string, admin: AdminUserDTO) {
       return this.apiService.put(`api/admin/${id}`, admin).pipe(map(res => res));
    }
