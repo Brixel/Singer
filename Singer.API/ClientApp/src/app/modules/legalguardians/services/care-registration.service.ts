@@ -1,10 +1,10 @@
-import { EventRegistrationTypes } from '../shared/register-care-wizard/register-care-wizard.component';
+import { EventRegistrationTypes } from '../components/register-care-wizard/register-care-wizard.component';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Injector, Inject, Injectable } from '@angular/core';
 import { CareRegistrationProxy } from './care-registration.proxy';
-import { CreateCareRegistrationDTO } from './createCareRegistration.dto';
-import { CareRegistrationResultDTO } from './careRegistrationResult.dto';
+import { CareRegistrationResultDTO } from '../../core/DTOs/care-registration-result.dto';
+import { CreateCareRegistrationDTO } from '../../core/DTOs/create-care-registration.dto';
 
 @Injectable()
 export class CareRegistrationService {
