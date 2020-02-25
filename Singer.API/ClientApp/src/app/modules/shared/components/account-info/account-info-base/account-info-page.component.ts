@@ -24,6 +24,12 @@ export class AccountInfoPageComponent {
          url: '/dashboard/account/zorggebruikers',
          shouldShow: this._authService.isLegalGuardian$,
       },
+      {
+         displayIcon: 'calendar_today',
+         displayName: 'Registratieoverzicht',
+         url: '/dashboard/registratie-overzicht',
+         shouldShow: this._authService.isLegalGuardian$,
+      },
    ];
 
    constructor(public router: Router, private _authService: AuthService) {}
