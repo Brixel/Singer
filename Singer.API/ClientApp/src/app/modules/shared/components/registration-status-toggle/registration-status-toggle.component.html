@@ -1,0 +1,17 @@
+<mat-button-toggle-group class="status-icon" [value]="registrationStatus" (change)="changeStatus($event)">
+   <mat-button-toggle [value]="RegistrationStatus.Accepted" matTooltip="Inschrijving goedkeuren">
+      <mat-icon class="registration-accepted">check_circle_outline</mat-icon>
+   </mat-button-toggle>
+   <mat-button-toggle
+      [disabled]="'true'"
+      [value]="RegistrationStatus.Pending"
+      matTooltip="Nog te verwerken aanvraag tot inschrijving"
+   >
+      <mat-icon class="registration-pending">
+         access_time
+      </mat-icon>
+   </mat-button-toggle>
+   <mat-button-toggle [value]="RegistrationStatus.Rejected" matTooltip="Inschrijving niet goedkeuren">
+      <mat-icon class="registration-rejected">error_outline</mat-icon>
+   </mat-button-toggle>
+</mat-button-toggle-group>

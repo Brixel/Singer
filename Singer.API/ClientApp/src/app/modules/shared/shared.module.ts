@@ -18,6 +18,7 @@ import { AccountInfoCareusersListComponent } from './components/account-info/acc
 import { AccountInfoSummaryComponent } from './components/account-info/account-info-summary/account-info-summary.component';
 import { AccountInfoPageComponent } from './components/account-info/account-info-base/account-info-page.component';
 import { CareUserMultiAutocompleteComponent } from './components/care-user-multi-autocomplete/care-user-multi-autocomplete.component';
+import { RegistrationStatusToggleComponent } from './components/registration-status-toggle/registration-status-toggle.component';
 
 @NgModule({
    declarations: [
@@ -33,6 +34,7 @@ import { CareUserMultiAutocompleteComponent } from './components/care-user-multi
       AccountInfoPageComponent,
       AccountInfoCareusersListComponent,
       CareUserMultiAutocompleteComponent,
+      RegistrationStatusToggleComponent,
    ],
    imports: [CommonModule, MaterialModule, CoreModule, ReactiveFormsModule],
    exports: [
@@ -48,6 +50,7 @@ import { CareUserMultiAutocompleteComponent } from './components/care-user-multi
       AccountInfoPageComponent,
       AccountInfoCareusersListComponent,
       CareUserMultiAutocompleteComponent,
+      RegistrationStatusToggleComponent,
    ],
    entryComponents: [
       RegistrationComponent,
@@ -56,6 +59,7 @@ import { CareUserMultiAutocompleteComponent } from './components/care-user-multi
       DeleteConfirmationComponent,
       DeleteConfirmationDialogComponent,
       CareUserMultiAutocompleteComponent,
+      RegistrationStatusToggleComponent,
    ],
    providers: [ApiService, SingerEventsService, SingerEventsProxy],
 })
