@@ -122,7 +122,7 @@ namespace Singer.Services
          }
       }
 
-      public async Task<IReadOnlyList<RegistrationDTO>> CreateAsync(CreateEventRegistrationDTO dto)
+      public async Task<IReadOnlyList<RegistrationDTO>> CreateAsync(CreateRegistrationDTO dto)
       {
          if (dto == null)
             throw new BadInputException("Input to create registration cannot be null", ErrorMessages.NoDataPassed);

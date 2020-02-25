@@ -63,7 +63,7 @@ namespace Singer.Controllers
                throw new UserNotFoundException($"No legalguardian found for userId {userId}");
             }
             var relatedCareUsers =
-               await _careUserService.GetCareUsersForLegalGuardian(userId);
+               await _careUserService.GetCareUsersForLegalGuardianAsync(userId);
             userDescription.CareUsers = relatedCareUsers.Select(x => new RelatedCareUserDTO()
             {
                FirstName = x.FirstName,
