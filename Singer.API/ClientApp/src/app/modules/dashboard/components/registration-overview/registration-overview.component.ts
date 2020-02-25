@@ -12,6 +12,7 @@ import { RegistrationType } from '../../../core/enums/registration-type';
 import { MatSelect } from '@angular/material';
 import { AuthService } from '../../../core/services/auth.service';
 import { CareUser } from 'src/app/modules/core/models/careuser.model';
+import { LoadingService } from 'src/app/modules/core/services/loading.service';
 
 @Component({
    selector: 'app-registration-overview',
@@ -39,8 +40,14 @@ export class RegistrationOverviewComponent extends GenericOverviewComponent<
    registrationTypes: any;
    registrationStatus: any;
    authService: AuthService;
+   private _loadingService: LoadingService;
 
-   constructor(dataService: RegistrationOverviewService, cd: ChangeDetectorRef, authService: AuthService) {
+   constructor(
+      dataService: RegistrationOverviewService,
+      cd: ChangeDetectorRef,
+      authService: AuthService,
+      loadingService: LoadingService
+   ) {
       const ds = new RegistrationOverviewDatasource(dataService);
       super(cd, ds, 'startDateTime', SortDirection.Descending);
       this.displayedColumns.push(
@@ -63,6 +70,14 @@ export class RegistrationOverviewComponent extends GenericOverviewComponent<
       this.registrationTypes = RegistrationType;
       this.registrationStatus = RegistrationStatus;
       this.authService = authService;
+      this._loadingService = loadingService;
+   }
+
+   ngOnInit() {
+      this.dataSource.loadingSubject$.subscribe(val => {
+         if (val) this._loadingService.show();
+         if (!val) this._loadingService.hide();
+      });
    }
 
    loadData() {

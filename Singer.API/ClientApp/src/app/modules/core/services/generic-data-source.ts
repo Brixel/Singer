@@ -16,7 +16,7 @@ export abstract class GenericDataSource<
    protected modelsSubject$ = new BehaviorSubject<TModel[]>([]);
    protected totalSizeSubject$ = new BehaviorSubject<number>(0);
    protected queryCountSubject$ = new BehaviorSubject<number>(0);
-   protected loadingSubject$ = new BehaviorSubject<boolean>(false);
+   public loadingSubject$ = new BehaviorSubject<boolean>(false);
 
    public models$ = this.modelsSubject$.asObservable();
    public totalSize$ = this.totalSizeSubject$.asObservable();
