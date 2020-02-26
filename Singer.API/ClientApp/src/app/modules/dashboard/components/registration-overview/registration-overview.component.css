@@ -24,3 +24,9 @@
 .greenSheet {
    color: green;
 }
+
+.mat-column-paginator {
+   display: flex;
+   flex-direction: row;
+   justify-content: flex-end;
+}
