@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Singer.Models;
+using Singer.DTOs;
 using Singer.Services.Interfaces;
 
 namespace Singer.Controllers
@@ -32,18 +29,5 @@ namespace Singer.Controllers
             CreatedRegistrationIds = result
          };
       }
-   }
-
-   public class CreateCareRegistrationDTO
-   {
-      public IReadOnlyList<Guid> CareUserIds { get; set; }
-      public DateTimeOffset StartDateTime { get; set; }
-      public DateTimeOffset EndDateTime { get; set; }
-      public EventRegistrationTypes EventRegistrationType { get; set; }
-   }
-
-   public class CareRegistrationResultDTO
-   {
-      public IReadOnlyList<Guid> CreatedRegistrationIds { get; set; }
    }
 }
