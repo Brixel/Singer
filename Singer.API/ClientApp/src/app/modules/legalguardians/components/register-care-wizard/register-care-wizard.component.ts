@@ -170,7 +170,11 @@ export class RegisterCareWizardComponent {
 
    validateDates() {
       const selectedDateTimeValues = this.datetimepicker.selecteds;
-      if (selectedDateTimeValues.length !== 2) {
+      if (
+         selectedDateTimeValues.length !== 2 ||
+         selectedDateTimeValues[0] === null ||
+         selectedDateTimeValues[1] === null
+      ) {
          this._snackBar.open('Selecteer een begin en eind datum om verder te gaan', 'OK');
          return;
       } else {
@@ -179,11 +183,11 @@ export class RegisterCareWizardComponent {
             const firstDate = orderedDates[0];
             const lastDate = orderedDates[orderedDates.length - 1];
             if (firstDate.getHours() < 8) {
-               this._snackBar.open('Dagopvang is alleen mogelijk tussen 8:00 en 18:00');
+               this._snackBar.open('Dagopvang is alleen mogelijk tussen 8:00 en 18:00', 'OK');
                return;
             }
-            if (lastDate.getHours() > 18) {
-               this._snackBar.open('Dagopvang is alleen mogelijk tussen 8:00 en 18:00');
+            if (lastDate.getHours() > 18 || (lastDate.getHours() === 18 && lastDate.getMinutes() !== 0)) {
+               this._snackBar.open('Dagopvang is alleen mogelijk tussen 8:00 en 18:00', 'OK');
                return;
             }
          }
