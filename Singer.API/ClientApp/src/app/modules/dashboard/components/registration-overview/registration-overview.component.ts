@@ -79,9 +79,15 @@ export class RegistrationOverviewComponent extends GenericOverviewComponent<
    }
 
    ngOnInit() {
-      this.dataSource.loadingSubject$.subscribe(val => {
+      this.dataSource.loading$.subscribe(val => {
          if (val) this._loadingService.show();
          if (!val) this._loadingService.hide();
+      });
+      this.dataSource.error$.subscribe(err => {
+         this._loadingService.hide();
+         if (err !== null && err !== undefined) {
+            this._snackBar.open(`⚠ Er heeft zich een fout voorgedaan: ${err}`, 'OK');
+         }
       });
    }
 

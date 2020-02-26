@@ -1,5 +1,5 @@
-import { Pipe, PipeTransform } from '@angular/core';
 import { RegistrationType } from '../enums/registration-type';
+import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
    name: 'registrationType',

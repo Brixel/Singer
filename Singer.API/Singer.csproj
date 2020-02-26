@@ -33,6 +33,7 @@
       <PackageReference Include="IdentityServer4.AspNetIdentity" Version="2.4.0" />
       <PackageReference Include="IdentityServer4.EntityFramework" Version="2.4.0" />
       <PackageReference Include="IdentityServer4" Version="2.4.0" />
+      <PackageReference Include="LinqKit" Version="1.1.17" />
       <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.8.1" />
       <PackageReference Include="Microsoft.AspNetCore.App" />
       <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.2.0" />
