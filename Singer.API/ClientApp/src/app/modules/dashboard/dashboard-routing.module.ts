@@ -30,6 +30,7 @@ const routes: Routes = [
    {
       path: 'registratie-overzicht',
       component: RegistrationOverviewComponent,
+      canActivate: [AuthGuard],
    },
 ];
 @NgModule({
