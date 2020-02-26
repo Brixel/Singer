@@ -10,7 +10,7 @@ namespace Singer.DTOs
       public IReadOnlyList<Guid> CareUserIds { get; set; }
       public DateTimeOffset StartDateTime { get; set; }
       public DateTimeOffset EndDateTime { get; set; }
-      public EventRegistrationTypes EventRegistrationType { get; set; }
+      public RegistrationTypes EventRegistrationType { get; set; }
    }
 
    public class CareRegistrationResultDTO

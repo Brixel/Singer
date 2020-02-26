@@ -27,13 +27,14 @@ namespace Singer.Models
          Status = RegistrationStatus.Pending;
       }
 
-      public static Registration Create(RegistrationTypes eventRegistrationTypes,
+      public static Registration Create(RegistrationTypes registrationType,
+         Guid careUserId,
          DateTime startDateTime, DateTime endDateTime)
       {
          return new Registration()
          {
             CareUserId = careUserId,
-            EventRegistrationType = eventRegistrationTypes,
+            EventRegistrationType = registrationType,
             StartDateTime = startDateTime,
             EndDateTime = endDateTime
          };

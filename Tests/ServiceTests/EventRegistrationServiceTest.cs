@@ -36,11 +36,11 @@ namespace Tests.ServiceTests
 
          var sut = new EventRegistrationService(TestDataContext, It.IsAny<IMapper>(),
             It.IsAny<IActionNotificationService>());
-         var startDate = new DateTime(2020,2,10, 8, 0, 0);
-         var endDate = new DateTime(2020,2,10, 17, 0, 0);
+         var startDate = new DateTime(2020, 2, 10, 8, 0, 0);
+         var endDate = new DateTime(2020, 2, 10, 17, 0, 0);
 
          var registrationIds =
-            await sut.Create(Singer.Models.EventRegistrationTypes.DayCare, new List<Guid> {_careUser.Id}, startDate, endDate);
+            await sut.Create(Singer.Models.RegistrationTypes.DayCare, new List<Guid> { _careUser.Id }, startDate, endDate);
          registrationIds.Count.Should().Be(1);
       }
 
@@ -56,7 +56,7 @@ namespace Tests.ServiceTests
          var endDate = new DateTime(2020, 2, 17, 17, 0, 0); // Monday
 
          var registrationIds =
-            await sut.Create(Singer.Models.EventRegistrationTypes.DayCare, new List<Guid> { _careUser.Id }, startDate, endDate);
+            await sut.Create(Singer.Models.RegistrationTypes.DayCare, new List<Guid> { _careUser.Id }, startDate, endDate);
          registrationIds.Count.Should().Be(2);
 
          var registrations = TestDataContext.Registrations

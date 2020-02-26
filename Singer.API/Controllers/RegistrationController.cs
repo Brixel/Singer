@@ -35,7 +35,7 @@ namespace Singer.Controllers
 
          if (!User.IsInRole(Roles.ROLE_ADMINISTRATOR))
          {
-            var careUserDTOs = await this._careUserService.GetCareUsersForLegalGuardian(Guid.Parse(User.GetSubjectId()));
+            var careUserDTOs = await this._careUserService.GetCareUsersForLegalGuardianAsync(Guid.Parse(User.GetSubjectId()));
             if (careUserDTOs.Count == 0)
                return NotFound(model);
             searchDTO.CareUserIds = careUserDTOs.Select(x => x.UserId).ToList();
