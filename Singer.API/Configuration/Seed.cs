@@ -1,4 +1,4 @@
-using IdentityModel;
+﻿using IdentityModel;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Entities;
 using IdentityServer4.EntityFramework.Mappers;
@@ -17,6 +17,7 @@ using Singer.Identity;
 using Singer.Models;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Client = IdentityServer4.EntityFramework.Entities.Client;
 
 namespace Singer.Configuration
 {
@@ -261,7 +262,13 @@ namespace Singer.Configuration
             singerApiClient = Config.GetClient().ToEntity();
             configrationDbContext.Clients.Add(singerApiClient);
          }
+
+         UpdateAccessTokenLifeTime(singerApiClient);
       }
+
+      private static void UpdateAccessTokenLifeTime(Client singerApiClient) =>
+         singerApiClient.AccessTokenLifetime = 3600 * 24;
+
       public static void SeedEventLocations(ApplicationDbContext applicationDbContext)
       {
          if (applicationDbContext.EventLocations.Count() == 0)

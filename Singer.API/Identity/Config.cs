@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using IdentityModel;
 using IdentityServer4.Models;
 
@@ -22,7 +22,7 @@ namespace Singer.Identity
             RedirectUris = {"https://localhost:5001/index.html"},
             PostLogoutRedirectUris = {"https://localhost:5001/index.html"},
             AllowedCorsOrigins = {"https://localhost:5001"},
-
+            AccessTokenLifetime = 3600 * 24,
             AllowedScopes =
             {
                "apiRead",

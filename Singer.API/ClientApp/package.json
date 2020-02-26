@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.1.0-issue-AB-131-calendar-nightcare.1397",
+   "version": "0.1.0-issue-set-access-token-lifetime-24h.1399",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",
