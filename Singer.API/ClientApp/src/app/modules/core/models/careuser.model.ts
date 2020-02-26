@@ -91,3 +91,11 @@ export class LinkedCareUser {
    isExtern: boolean;
    hasTrajectory: boolean;
 }
+
+export interface RelatedCareUserDTO {
+   id: string;
+   userId: string;
+   firstName: string;
+   lastName: string;
+   ageGroup: AgeGroup;
+}

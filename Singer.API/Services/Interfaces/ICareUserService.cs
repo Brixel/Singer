@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Singer.DTOs;
@@ -33,7 +33,9 @@ namespace Singer.Services.Interfaces
       /// A List of Guids, one for each LegalGuardianUser which should be removed fromthe CareUser
       /// </param>
       Task RemoveLinkedUsers(Guid CareUserId, List<Guid> UsersToRemove);
-      Task<List<EventRelevantCareUserDTO>> GetCareUsersForLegalGuardian(Guid legalGuardianUserId);
+      Task<List<EventRelevantCareUserDTO>> GetCareUsersForLegalGuardianAsync(Guid legalGuardianUserId);
       Task<List<EventRelevantCareUserDTO>> GetCareUsersInAgeGroups(List<AgeGroup> singerEventAllowedAgeGroups);
+
+      Task<List<RelatedCareUserDTO>> GetRelatedCareUserAsync(Guid userId, string searchValue);
    }
 }

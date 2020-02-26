@@ -14,6 +14,7 @@ import { ConfirmComponent } from './components/confirm/confirm.component';
 import { DeleteConfirmationComponent } from './components/delete-confirmation/delete-confirmation.component';
 import { DeleteConfirmationDialogComponent } from './components/delete-confirmation-dialog/delete-confirmation-dialog.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CareUserSearchComponent } from './components/care-user-search/care-user-search.component';
 import { AccountInfoCareusersListComponent } from './components/account-info/account-info-careusers-list/account-info-careusers-list.component';
 import { AccountInfoSummaryComponent } from './components/account-info/account-info-summary/account-info-summary.component';
 import { AccountInfoPageComponent } from './components/account-info/account-info-base/account-info-page.component';
@@ -28,6 +29,7 @@ import { AccountInfoPageComponent } from './components/account-info/account-info
       ConfirmComponent,
       DeleteConfirmationComponent,
       DeleteConfirmationDialogComponent,
+      CareUserSearchComponent,
       AccountInfoSummaryComponent,
       AccountInfoPageComponent,
       AccountInfoCareusersListComponent,
@@ -42,6 +44,7 @@ import { AccountInfoPageComponent } from './components/account-info/account-info
       ConfirmComponent,
       DeleteConfirmationComponent,
       DeleteConfirmationDialogComponent,
+      CareUserSearchComponent,
       AccountInfoSummaryComponent,
       AccountInfoPageComponent,
       AccountInfoCareusersListComponent,

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using System.Threading.Tasks;
+using IdentityServer4.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -61,7 +63,7 @@ namespace Singer.Controllers
                throw new UserNotFoundException($"No legalguardian found for userId {userId}");
             }
             var relatedCareUsers =
-               await _careUserService.GetCareUsersForLegalGuardian(userId);
+               await _careUserService.GetCareUsersForLegalGuardianAsync(userId);
             userDescription.CareUsers = relatedCareUsers.Select(x => new RelatedCareUserDTO()
             {
                FirstName = x.FirstName,

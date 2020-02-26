@@ -1,0 +1,33 @@
+<h2 mat-dialog-title>Zorggebruiker zoeken</h2>
+
+<!-- Form Dialog Content -->
+
+<mat-dialog-content>
+   <div>
+      <mat-form-field>
+         <input
+            type="search"
+            matInput
+            aria-label="Zorggebruikers"
+            placeholder="Zoek zorggebruiker"
+            [matAutocomplete]="careUsersAutoComplete"
+            [formControl]="control"
+         />
+         <mat-autocomplete #careUsersAutoComplete="matAutocomplete" [displayWith]="showUserNameFn">
+            <mat-option
+               *ngFor="let careUser of careUsersAutoComplete$ | async"
+               [value]="careUser"
+               (onSelectionChange)="onUserSelect(careUser, $event)"
+            >
+               {{ careUser.firstName }} {{ careUser.lastName }}
+            </mat-option>
+         </mat-autocomplete>
+      </mat-form-field>
+   </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+   <button mat-stroked-button color="primary" (click)="close()">
+      Sluit
+   </button>
+</mat-dialog-actions>

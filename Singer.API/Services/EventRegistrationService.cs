@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -77,6 +77,49 @@ namespace Singer.Services
             o.CareUser.User.LastName.Contains(filter, StringComparison.InvariantCultureIgnoreCase) ||
             o.EventSlot.Event.Location.Name.Contains(filter, StringComparison.InvariantCultureIgnoreCase) ||
             o.EventSlot.Event.Title.Contains(filter, StringComparison.InvariantCultureIgnoreCase);
+      }
+
+      public async Task<IReadOnlyList<Guid>> Create(EventRegistrationTypes eventRegistrationTypes,
+         IReadOnlyList<Guid> careUserIds,
+         DateTime startDateTime, DateTime endDateTime)
+      {
+         var registrations = new List<Registration>();
+         foreach (var careUserId in careUserIds)
+         {
+            var duration = endDateTime - startDateTime;
+
+            var initialDateBegin = startDateTime;
+            var initialDateEnd = initialDateBegin.SetTime(endDateTime);
+            if(eventRegistrationTypes == EventRegistrationTypes.DayCare)
+            {
+               GenerateCareRegistrations(eventRegistrationTypes, duration, initialDateBegin, registrations, careUserId, initialDateEnd);
+            }
+            else
+            {
+               registrations.Add(Registration.Create(eventRegistrationTypes, careUserId,
+                  initialDateBegin, endDateTime));
+            }
+            
+         }
+         await Context.AddRangeAsync(registrations);
+         await Context.SaveChangesAsync();
+         return registrations.Select(x => x.Id).ToList().AsReadOnly();
+      }
+
+      private static void GenerateCareRegistrations(EventRegistrationTypes eventRegistrationTypes, TimeSpan duration,
+         DateTime initialDateBegin, List<Registration> registrations, Guid careUserId, DateTime initialDateEnd)
+      {
+         var durationDays = duration.Days + 1;
+         for (var i = 0; i < durationDays; i++)
+         {
+            if (initialDateBegin.DayOfWeek != DayOfWeek.Saturday && initialDateBegin.DayOfWeek != DayOfWeek.Sunday)
+            {
+               registrations.Add(Registration.Create(eventRegistrationTypes, careUserId, initialDateBegin, initialDateEnd));
+            }
+
+            initialDateBegin = initialDateBegin.AddDays(1);
+            initialDateEnd = initialDateEnd.AddDays(1);
+         }
       }
 
       public async Task<IReadOnlyList<RegistrationDTO>> CreateAsync(CreateRegistrationDTO dto)

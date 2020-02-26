@@ -1,0 +1,141 @@
+<mat-card class="card">
+   <mat-card-header>
+      <mat-card-title>Opvang aanvragen</mat-card-title>
+   </mat-card-header>
+   <mat-card-content class="card-content">
+      <!-- Mat-Stepper -->
+      <mat-horizontal-stepper linear #stepper>
+         <!-- Mat-Step -->
+         <ng-container *ngFor="let wizardStep of wizardSteps; index as i">
+            <mat-step>
+               <ng-template matStepLabel>{{ wizardStep.stepLabel }}</ng-template>
+
+               <!-- Mat-Step Body-->
+               <div class="mat-step__body">
+                  <!-- Background Images -->
+                  <ng-container *ngIf="i === 0">
+                     <div class="body__img-container">
+                        <img
+                           src="../../../../../assets/svg/FamilyWizardStartLogo.svg"
+                           alt="Achtergrond Afbeelding"
+                           title="Achtergrond Afbeelding"
+                           class="img-container__img"
+                        />
+                     </div>
+                  </ng-container>
+
+                  <!-- Mat-Step Top Text-->
+                  <div class="body__top-text" *ngIf="i !== 3">
+                     <p>{{ wizardStep.topText }}</p>
+                  </div>
+
+                  <!-- Mat-Step Content-->
+                  <div
+                     *ngIf="i > 0 && i < wizardSteps.length - 1"
+                     class="body__step-content"
+                     [class.justify--start]="i === 2"
+                  >
+                     <!-- Care Selection -->
+                     <ng-container *ngIf="i === 1">
+                        <mat-button-toggle-group
+                           [value]="dayCareType"
+                           (enter)="moveStepperForward(i)"
+                           (click)="moveStepperForward(i)"
+                           (change)="onChangeCareType($event)"
+                        >
+                           <mat-button-toggle [value]="DayCareTypes.NightCare">Nachtopvang</mat-button-toggle>
+
+                           <mat-button-toggle [value]="DayCareTypes.DayCare">Dagopvang</mat-button-toggle>
+                        </mat-button-toggle-group>
+                     </ng-container>
+
+                     <!-- CareUser UserCards -->
+                     <div *ngIf="i === 2" class="step-content__careuser-user-cards">
+                        <div class="careuser-user-cards__label">
+                           Zorggebruikers:
+                        </div>
+
+                        <ng-container *ngFor="let careUser of careUsers; index as k">
+                           <app-detailed-user-card
+                              [user]="careUser"
+                              [colorOption]="k"
+                              (delete)="onRemoveCareUser(careUser)"
+                           >
+                           </app-detailed-user-card>
+                        </ng-container>
+                     </div>
+
+                     <!-- Add User Button -->
+                     <ng-container *ngIf="i === 2 && wizardStep.addButtonText != ''">
+                        <div
+                           class="body__button-add"
+                           (click)="handleAddButtonClick()"
+                           (keydown.enter)="handleAddButtonClick()"
+                           tabindex="0"
+                        >
+                           <img
+                              src="../../../../../assets/svg/MaterialIcons/add_box-24px.svg"
+                              alt="Toevoegen knop icoon"
+                              class="body__button-add__img"
+                           />
+
+                           <span class="body__button-add__text">{{ wizardStep.addButtonText }}</span>
+                        </div>
+                     </ng-container>
+
+                     <!-- Select Care -->
+                     <ng-container *ngIf="i === 3">
+                        <div class="large--height">
+                           <owl-date-time-inline
+                              #datetimepicker
+                              selectMode="range"
+                              pickerMode="dialog"
+                              firstDayOfWeek="1"
+                              [min]="minDate"
+                              [owlDateTimeFilter]="dateFilter"
+                           >
+                           </owl-date-time-inline>
+                        </div>
+                     </ng-container>
+
+                     <ng-container *ngIf="i === 4">
+                        <div>
+                           <h2>Samenvatting</h2>
+                           <div>
+                              <h3>Zorggebruikers</h3>
+                              <ul>
+                                 <li *ngFor="let careUser of careUsers">
+                                    {{ careUser.firstName }}
+                                 </li>
+                              </ul>
+                           </div>
+                           Van {{ selectedMoments[0] | date: 'dd-MM-yyyy H:mm' }} tot
+                           {{ selectedMoments[1] | date: 'dd-MM-yyyy H:mm' }}
+                        </div>
+                     </ng-container>
+                  </div>
+
+                  <!-- Mat-Step Navigation Buttons-->
+                  <div *ngIf="wizardStep.backArrow" class="body__button-back">
+                     <button mat-icon-button (click)="moveStepperBackward()">
+                        <mat-icon>arrow_back</mat-icon>
+                     </button>
+                  </div>
+
+                  <div *ngIf="wizardStep.middleButtonText != ''" class="body__button-middle">
+                     <button mat-raised-button (click)="moveStepperForward(i)" color="primary">
+                        {{ wizardStep.middleButtonText }}
+                     </button>
+                  </div>
+
+                  <div *ngIf="wizardStep.forwardArrow" class="body__button-forward">
+                     <button mat-icon-button (click)="moveStepperForward(i)">
+                        <mat-icon>arrow_forward</mat-icon>
+                     </button>
+                  </div>
+               </div>
+            </mat-step>
+         </ng-container>
+      </mat-horizontal-stepper>
+   </mat-card-content>
+</mat-card>
