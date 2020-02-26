@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AgegroupPipe } from './pipes2/agegroup.pipe';
-import { KeysPipe } from './pipes2/keys.pipe';
+import { AgegroupPipe } from './pipes/agegroup.pipe';
+import { KeysPipe } from './pipes/keys.pipe';
 import { AgegroupChipsComponent } from './components/agegroup-chips/agegroup-chips.component';
 import { MaterialModule } from 'src/app/material.module';
-import { AgegroupToColorPipePipe } from './pipes2/agegroup-to-color-pipe.pipe';
+import { AgegroupToColorPipePipe } from './pipes/agegroup-to-color-pipe.pipe';
 import { DailybasisRegistrationsComponent } from './components/dailybasis-registrations/dailybasis-registrations.component';
 import { SingleRegistrationComponent } from './components/single-registration/single-registration.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RegistrationStatusPipe } from './pipes2/registration-status.pipe';
-import { SingereventCostPipe } from './pipes2/singerevent-cost.pipe';
+import { RegistrationStatusPipe } from './pipes/registration-status.pipe';
+import { SingereventCostPipe } from './pipes/singerevent-cost.pipe';
 import { AboutComponent } from './components/about/about.component';
-import { RegistrationTypePipe } from './pipes2/registration-type.pipe';
+import { RegistrationTypePipe } from './pipes/registration-type.pipe';
 
 @NgModule({
    declarations: [

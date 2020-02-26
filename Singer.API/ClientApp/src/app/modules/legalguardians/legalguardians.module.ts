@@ -13,7 +13,7 @@ import { DutchOwlDateTimeIntl } from './dutchowldatetime';
 import { CareRegistrationService } from './services/care-registration.service';
 import { CareRegistrationProxy } from './services/care-registration.proxy';
 import { ApiService } from '../core/services/api.service';
-import { RegistrationTypePipe } from '../core/pipes2/registration-type.pipe';
+import { RegistrationTypePipe } from '../core/pipes/registration-type.pipe';
 
 @NgModule({
    declarations: [RegisterCareWizardComponent, SearchCareUserDialogComponent],

@@ -11,7 +11,7 @@ import {
 } from '@angular/material';
 
 import { CareUserOverviewComponent } from './care-user-overview.component';
-import { AgegroupPipe } from 'src/app/modules/core/pipes2/agegroup.pipe';
+import { AgegroupPipe } from 'src/app/modules/core/pipes/agegroup.pipe';
 import { CoreModule } from 'src/app/modules/core/core.module';
 import { CommonModule } from '@angular/common';
 import { CareUserProxy } from 'src/app/modules/core/services/care-users-api/careuser.proxy';
