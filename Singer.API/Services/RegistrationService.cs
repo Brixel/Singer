@@ -16,8 +16,10 @@ namespace Singer.Services
    public class RegistrationService : DatabaseService<Registration, RegistrationDTO, CreateRegistrationDTO, UpdateRegistrationDTO>
    , IRegistrationService
    {
-      public RegistrationService(ApplicationDbContext context, IMapper mapper) : base(context, mapper)
+      private readonly IActionNotificationService _actionNotificationService;
+      public RegistrationService(ApplicationDbContext context, IMapper mapper, IActionNotificationService actionNotificationService) : base(context, mapper)
       {
+         _actionNotificationService = actionNotificationService;
       }
 
       protected override DbSet<Registration> DbSet => Context.Registrations;
@@ -94,6 +96,34 @@ namespace Singer.Services
          }
 
          return filterExpression;
+      }
+
+
+      public async Task<RegistrationStatus> AcceptRegistration(Guid registrationId, Guid executedByUserId)
+      {
+         var registration = await Context.Registrations.SingleAsync(x => x.Id == registrationId);
+         var originalStatus = registration.Status;
+         registration.Status = RegistrationStatus.Accepted;
+
+         await _actionNotificationService.RegisterEventRegistrationStatusChange(
+            registrationId, executedByUserId, originalStatus, registration.Status);
+
+         await Context.SaveChangesAsync();
+         return registration.Status;
+      }
+
+      public async Task<RegistrationStatus> RejectRegistration(Guid registrationId, Guid executedByUserId)
+      {
+         var registration = await Context.Registrations.SingleAsync(x => x.Id == registrationId);
+         var previousRegistrationStatus = registration.Status;
+         registration.Status = RegistrationStatus.Rejected;
+
+         await _actionNotificationService.RegisterEventRegistrationStatusChange(registrationId, executedByUserId,
+            previousRegistrationStatus, registration.Status);
+
+         await Context.SaveChangesAsync();
+
+         return registration.Status;
       }
    }
 }

@@ -1,7 +1,7 @@
 import { RegistrationOverview } from 'src/app/modules/core/models/registration.model';
 import { GenericDataSource } from 'src/app/modules/core/services/generic-data-source';
 import { RegistrationOverviewDTO } from 'src/app/modules/core/DTOs/registration.dto';
-import { RegistrationOverviewService } from '../../../core/services/registration-api/registration-overview-service';
+import { RegistrationService } from '../../../core/services/registration-api/registration-service';
 import { RegistrationSearchDTO } from '../../../core/DTOs/registration.dto';
 
 export class RegistrationOverviewDatasource extends GenericDataSource<
@@ -9,10 +9,10 @@ export class RegistrationOverviewDatasource extends GenericDataSource<
    RegistrationOverviewDTO,
    null,
    null,
-   RegistrationOverviewService,
+   RegistrationService,
    RegistrationSearchDTO
 > {
-   constructor(registrationsService: RegistrationOverviewService) {
+   constructor(registrationsService: RegistrationService) {
       super(registrationsService);
    }
 }

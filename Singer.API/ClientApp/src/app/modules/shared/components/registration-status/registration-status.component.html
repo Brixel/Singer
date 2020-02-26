@@ -1,0 +1,21 @@
+<mat-icon
+   class="registration-accepted"
+   *ngIf="registrationStatus === RegistrationStatus.Accepted"
+   matTooltip="Registratie goedgekeurd"
+>
+   check_circle_outline
+</mat-icon>
+<mat-icon
+   class="registration-pending"
+   *ngIf="registrationStatus === RegistrationStatus.Pending"
+   matTooltip="Registratie wacht op goedkeuring"
+>
+   access_time
+</mat-icon>
+<mat-icon
+   class="registration-rejected"
+   *ngIf="registrationStatus === RegistrationStatus.Rejected"
+   matTooltip="Registratie afgekeurd"
+>
+   error_outline
+</mat-icon>

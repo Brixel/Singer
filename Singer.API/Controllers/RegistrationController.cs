@@ -8,6 +8,7 @@ using System;
 using Singer.Configuration;
 using IdentityServer4.Extensions;
 using System.Linq;
+using Singer.Helpers.Extensions;
 
 namespace Singer.Controllers
 {
@@ -59,6 +60,24 @@ namespace Singer.Controllers
          };
 
          return Ok(page);
+      }
+
+      [HttpPut("{registrationId}/accept")]
+      [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
+      public async Task<ActionResult> AcceptRegistration(Guid registrationId)
+      {
+         var userId = User.GetUserId();
+         var status = await _registrationService.AcceptRegistration(registrationId, userId);
+         return Ok(status);
+      }
+
+      [HttpPut("{registrationId}/reject")]
+      [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
+      public async Task<ActionResult> RejectRegistration(Guid registrationId)
+      {
+         var userId = User.GetUserId();
+         var status = await _registrationService.RejectRegistration(registrationId, userId);
+         return Ok(status);
       }
    }
 }

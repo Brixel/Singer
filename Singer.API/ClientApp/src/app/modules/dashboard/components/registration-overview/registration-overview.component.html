@@ -73,27 +73,16 @@
       <ng-container matColumnDef="registrationStatus">
          <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
          <mat-cell *matCellDef="let row">
-            <mat-icon
-               class="registration-accepted"
-               *ngIf="row.registrationStatus === RegistrationStatus.Accepted"
-               matTooltip="Registratie goedgekeurd"
+            <app-registration-status
+               [status]="row.registrationStatus"
+               *ngIf="!authService.isAdmin$ | async"
+            ></app-registration-status>
+            <app-registration-status-toggle
+               *ngIf="authService.isAdmin$ | async"
+               [status]="row.registrationStatus"
+               (onStatusChange)="changeRegistration($event, row)"
             >
-               check_circle_outline
-            </mat-icon>
-            <mat-icon
-               class="registration-pending"
-               *ngIf="row.registrationStatus === RegistrationStatus.Pending"
-               matTooltip="Registratie wacht op goedkeuring"
-            >
-               access_time
-            </mat-icon>
-            <mat-icon
-               class="registration-rejected"
-               *ngIf="row.registrationStatus === RegistrationStatus.Rejected"
-               matTooltip="Registratie afgekeurd"
-            >
-               error_outline
-            </mat-icon>
+            </app-registration-status-toggle>
          </mat-cell>
       </ng-container>
       <!-- Paginator column -->

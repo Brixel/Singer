@@ -1,17 +1,3 @@
-.registration-pending {
-   margin-left: 8px;
-   color: gray;
-}
-
-.registration-rejected {
-   margin-left: 8px;
-   color: red;
-}
-
-.registration-accepted {
-   margin-left: 8px;
-   color: green;
-}
 .overviewTableHeader {
    display: flex;
 }

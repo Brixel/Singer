@@ -7,20 +7,14 @@ import { MatButtonToggleChange } from '@angular/material';
    templateUrl: './registration-status-toggle.component.html',
    styleUrls: ['./registration-status-toggle.component.css'],
 })
-export class RegistrationStatusToggleComponent implements AfterViewInit {
+export class RegistrationStatusToggleComponent {
    @Input('status') registrationStatus: RegistrationStatus;
    @Output() onStatusChange: EventEmitter<RegistrationStatus> = new EventEmitter();
    RegistrationStatus = RegistrationStatus;
    constructor() {}
    changeStatus(event: MatButtonToggleChange) {
-      console.log(event);
       const registrationStatus = <RegistrationStatus>event.value;
       this.registrationStatus = registrationStatus;
-      console.log(`emitting: ${registrationStatus}`);
       this.onStatusChange.emit(registrationStatus);
-   }
-   ngOnInit() {}
-   ngAfterViewInit(): void {
-      console.log(this.registrationStatus);
    }
 }

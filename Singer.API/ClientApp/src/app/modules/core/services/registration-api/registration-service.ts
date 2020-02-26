@@ -8,7 +8,7 @@ import { RegistrationSearchDTO } from '../../DTOs/registration.dto';
 @Injectable({
    providedIn: 'root',
 })
-export class RegistrationOverviewService extends GenericService<
+export class RegistrationService extends GenericService<
    RegistrationOverview,
    RegistrationOverviewDTO,
    null,
@@ -32,10 +32,18 @@ export class RegistrationOverviewService extends GenericService<
       super('api/registration');
    }
 
-   toEditDTO(model: Registration): null {
+   toEditDTO(model: RegistrationOverview): null {
       throw new Error('Method not implemented.');
    }
-   toCreateDTO(model: Registration): null {
+   toCreateDTO(model: RegistrationOverview): null {
       throw new Error('Method not implemented.');
+   }
+
+   acceptRegistration(registrationId: string) {
+      return this.httpClient.put(`${this.endpoint}/${registrationId}/accept`, '');
+   }
+
+   rejectRegistration(registrationId: string) {
+      return this.httpClient.put(`${this.endpoint}/${registrationId}/reject`, '');
    }
 }

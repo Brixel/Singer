@@ -17,4 +17,14 @@ export class Registration extends GenericModel {
    endDateTime: Date;
 }
 
-export class RegistrationOverview extends GenericModel {}
+export class RegistrationOverview extends GenericModel {
+   id: string;
+   eventTitle: string;
+   startDateTime: Date;
+   endDateTime: Date;
+   registrationType: RegistrationType;
+   careUserFirstName: string;
+   careUserLastName: string;
+   registrationStatus: RegistrationStatus;
+   daycareLocation: DaycareLocation;
+}
