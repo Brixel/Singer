@@ -1,8 +1,9 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
+using LinqKit;
 using Microsoft.EntityFrameworkCore;
 using Singer.Data;
 using Singer.DTOs;
@@ -54,48 +55,39 @@ namespace Singer.Services
 
       public Expression<Func<Registration, bool>> Filter(RegistrationSearchDTO dto)
       {
-         Expression<Func<Registration, bool>> filterExpression = v => true;
+         var filterPredicate = PredicateBuilder.New<Registration>(true);
+
          if (!string.IsNullOrWhiteSpace(dto.Text))
          {
-            var prefix = filterExpression.Compile();
-            filterExpression = v => prefix(v) &&
-               (!string.IsNullOrEmpty(v.CareUser.User.FirstName) &&
-               v.CareUser.User.FirstName.Contains(dto.Text, StringComparison.OrdinalIgnoreCase)) ||
-               (!string.IsNullOrEmpty(v.CareUser.User.LastName) &&
-               v.CareUser.User.LastName.Contains(dto.Text, StringComparison.OrdinalIgnoreCase));
+            filterPredicate.And(RegistrationFilter.FilterByText(dto.Text));
          }
 
          if (dto.CareUserIds != null && dto.CareUserIds.Count > 0)
          {
-            var prefix = filterExpression.Compile();
-            filterExpression = v => prefix(v) && dto.CareUserIds.Contains(v.CareUser.UserId);
+            filterPredicate.And(RegistrationFilter.FilterByUserIds(dto.CareUserIds));
          }
 
-         if (dto.RegistrationStatus != null)
+         if (dto.RegistrationStatus.HasValue)
          {
-            var prefix = filterExpression.Compile();
-            filterExpression = v => prefix(v) && dto.RegistrationStatus.GetValueOrDefault().HasFlag(v.Status);
+            filterPredicate.And(RegistrationFilter.FilterByRegistrationStatus(dto.RegistrationStatus.Value));
          }
 
-         if (dto.RegistrationType != null)
+         if (dto.RegistrationType.HasValue)
          {
-            var prefix = filterExpression.Compile();
-            filterExpression = v => prefix(v) && dto.RegistrationType.GetValueOrDefault().HasFlag(v.EventRegistrationType);
+            filterPredicate.And(RegistrationFilter.FilterByRegistrationType(dto.RegistrationType.Value));
          }
 
-         if (dto.DateFrom != null)
+         if (dto.DateFrom.HasValue)
          {
-            var prefix = filterExpression.Compile();
-            filterExpression = v => prefix(v) && v.StartDateTime != null && v.StartDateTime >= dto.DateFrom;
+            filterPredicate.And(RegistrationFilter.FilterByFromDate(dto.DateFrom.Value));
          }
 
-         if (dto.DateTo != null)
+         if (dto.DateTo.HasValue)
          {
-            var prefix = filterExpression.Compile();
-            filterExpression = v => prefix(v) && v.StartDateTime <= dto.DateTo;
+            filterPredicate.And(RegistrationFilter.FilterByToDate(dto.DateTo.Value));
          }
 
-         return filterExpression;
+         return filterPredicate;
       }
 
 
