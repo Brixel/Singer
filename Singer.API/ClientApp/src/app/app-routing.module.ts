@@ -13,6 +13,11 @@ const routes: Routes = [
       loadChildren: './modules/dashboard/dashboard.module#DashboardModule',
       component: MainComponent,
    },
+   {
+      path: 'voogden',
+      loadChildren: './modules/legalguardians/legalguardians.module#LegalguardiansModule',
+      component: MainComponent,
+   },
    { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
 ];
 

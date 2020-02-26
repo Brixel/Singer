@@ -55,6 +55,11 @@ export class NavMenuComponent implements OnInit {
          RouterLinkRequirements: [singerRouterLinkRequirements.isNotAuthenticated],
          routerLink: '/login',
       },
+      {
+         RouterLinkName: 'Opvang',
+         RouterLinkRequirements: [singerRouterLinkRequirements.isAuthenticated],
+         routerLink: '/voogden/opvang',
+      },
    ];
 
    isAuthenticated: boolean;

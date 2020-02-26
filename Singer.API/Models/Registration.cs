@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using Singer.Helpers;
 using Singer.Models.Users;
@@ -32,6 +32,7 @@ namespace Singer.Models
       {
          return new Registration()
          {
+            CareUserId = careUserId,
             EventRegistrationType = eventRegistrationTypes,
             StartDateTime = startDateTime,
             EndDateTime = endDateTime

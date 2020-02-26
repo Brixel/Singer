@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +12,7 @@ namespace Tests.TestData
       public ApplicationDbContext TestDataContext;
 
       [SetUp]
-      public void Setup()
+      public virtual void Setup()
       {
          var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase(Guid.NewGuid().ToString())

@@ -1,4 +1,4 @@
-using CsvHelper;
+﻿using CsvHelper;
 using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -56,6 +56,7 @@ namespace Singer.Controllers
       [HttpPost]
       [ProducesResponseType(StatusCodes.Status201Created)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+      [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
       public override async Task<IActionResult> Create([FromBody]CreateEventDTO dto)
       {
          if (dto is null)
@@ -90,6 +91,7 @@ namespace Singer.Controllers
          return Created(nameof(Get), eventRegistration);
       }
 
+
       [HttpPost("{eventId}/eventslot/{eventSlotId}/registrations")]
       [ProducesResponseType(StatusCodes.Status201Created)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -123,6 +125,7 @@ namespace Singer.Controllers
       }
 
       [HttpPost("{eventId}/registrations/{eventRegistrationId}/accept")]
+      [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
       public async Task<ActionResult> AcceptRegistration(Guid eventId, Guid eventRegistrationId)
       {
          var userId = User.GetUserId();
@@ -131,6 +134,7 @@ namespace Singer.Controllers
       }
 
       [HttpPost("{eventId}/registrations/{eventRegistrationId}/reject")]
+      [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
       public async Task<ActionResult> RejectRegistration(Guid eventId, Guid eventRegistrationId)
       {
          var userId = User.GetUserId();
@@ -146,6 +150,7 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status200OK)]
       [ProducesResponseType(StatusCodes.Status404NotFound)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+      [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
       public async Task<ActionResult<PaginationDTO<EventSlotRegistrationsDTO>>> Get(
          Guid eventId,
          string filter,
@@ -208,6 +213,7 @@ namespace Singer.Controllers
       }
 
       [HttpGet("{eventId}/registrations/{eventSlotId}/deelnemerslijst.csv")]
+      [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
       public async Task<ActionResult> GetRegistrationsAsCsv(Guid eventId, Guid eventSlotId)
       {
          var list = await _eventRegistrationService.GetParticipantsForSlotAsync(eventId, eventSlotId);
@@ -233,6 +239,7 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status200OK)]
       [ProducesResponseType(StatusCodes.Status404NotFound)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+      [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
       public override async Task<IActionResult> Update(Guid id, [FromBody]UpdateEventDTO dto)
       {
          if (dto is null)
@@ -246,6 +253,7 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status200OK)]
       [ProducesResponseType(StatusCodes.Status404NotFound)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+      [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
       public async Task<ActionResult<RegistrationDTO>> Update(Guid eventId, Guid registrationId, [FromBody]RegistrationStatus status)
       {
          var model = ModelState;
@@ -263,6 +271,7 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status200OK)]
       [ProducesResponseType(StatusCodes.Status404NotFound)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+      [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
       public async Task<ActionResult<DaycareLocationDTO>> Update(Guid eventId, Guid registrationId, [FromBody] Guid locationId)
       {
          var userId = User.GetUserId();
@@ -279,6 +288,7 @@ namespace Singer.Controllers
       [HttpDelete("{id}")]
       [ProducesResponseType(StatusCodes.Status204NoContent)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+      [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
       public override async Task<IActionResult> Delete(Guid id)
       {
          await DatabaseService.ArchiveAsync(id);
@@ -289,6 +299,7 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status204NoContent)]
       [ProducesResponseType(StatusCodes.Status404NotFound)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+      [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
       public async Task<ActionResult> Delete(Guid eventId, Guid registrationId)
       {
          await _eventRegistrationService
@@ -340,7 +351,8 @@ namespace Singer.Controllers
          if (User.IsInRole(Roles.ROLE_LEGALGUARDIANUSER))
          {
             var legalGuardianUserId = User.GetUserId();
-            careUsers = await _careUserService.GetCareUsersForLegalGuardian(legalGuardianUserId);
+            careUsers = await _careUserService.GetCareUsersForLegalGuardianAsync(legalGuardianUserId);
+
             foreach (var user in careUsers)
             {
                user.AppropriateAgeGroup = singerEvent.AllowedAgeGroups.Contains(user.AgeGroup);
@@ -374,8 +386,8 @@ namespace Singer.Controllers
          return Ok(details);
       }
 
-      [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
       [HttpGet("registrations/status/pending")]
+      [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
       public async Task<ActionResult<PaginationDTO<RegistrationDTO>>> GetPendingRegistrations(
          ListSortDirection sortDirection = ListSortDirection.Ascending,
          string sortColumn = "Id",

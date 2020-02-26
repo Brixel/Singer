@@ -27,7 +27,6 @@ import { AdminUserProxy } from './services/adminuser.proxy';
 import { AdminUserService } from './services/admin-user.service';
 import { SingerEventLocationService } from '../core/services/singerevents-api/singerevent-location.service';
 import { SingerEventLocationProxy } from '../core/services/singerevents-api/singerevent-location.proxy';
-import { CareUserSearchComponent } from './components/shared/care-user-search/care-user-search.component';
 import { RegistrationComponent } from '../shared/components/event-registration/event-registration.component';
 import { SharedModule } from '../shared/shared.module';
 import { AddFamilyWizardComponent } from './components/add-family-wizard/add-family-wizard.component';
@@ -47,7 +46,6 @@ import { PendingActionsComponent } from './components/pending-actions/pending-ac
       AdminOverviewComponent,
       AdminDetailsComponent,
       SingerRegistrationsComponent,
-      CareUserSearchComponent,
       SingerEventAdminRegisterComponent,
       AddFamilyWizardComponent,
       PendingRegistrationsComponent,
