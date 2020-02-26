@@ -14,8 +14,8 @@ namespace Singer.Models.Users
       [ForeignKey(nameof(User))]
       public Guid UserId { get; set; }
 
-      public User User { get; set; }
-      public List<LegalGuardianCareUser> LegalGuardianCareUsers { get; set; }
+      public virtual User User { get; set; }
+      public virtual List<LegalGuardianCareUser> LegalGuardianCareUsers { get; set; }
 
       [PersonalData]
       public DateTime BirthDay { get; set; }
@@ -32,6 +32,6 @@ namespace Singer.Models.Users
       [PersonalData]
       public bool HasTrajectory { get; set; }
 
-      public List<Registration> EventRegistrations { get; set; }
+      public virtual List<Registration> EventRegistrations { get; set; }
    }
 }

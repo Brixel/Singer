@@ -11,17 +11,17 @@ namespace Singer.Models
       public RegistrationStatus Status { get; set; }
       public RegistrationTypes EventRegistrationType { get; set; }
       public Guid? EventSlotId { get; set; }
-      public EventSlot EventSlot { get; set; }
+      public virtual EventSlot EventSlot { get; set; }
       public Guid CareUserId { get; set; }
-      public CareUser CareUser { get; set; }
+      public virtual CareUser CareUser { get; set; }
 
       [ForeignKey(nameof(DaycareLocation))]
       public Guid? DaycareLocationId { get; set; }
-      public EventLocation DaycareLocation { get; set; }
+      public virtual EventLocation DaycareLocation { get; set; }
 
       public DateTime StartDateTime { get; set; }
       public DateTime EndDateTime { get; set; }
-      private Registration()
+      public Registration()
       {
          // Default the registrations are set the pending
          Status = RegistrationStatus.Pending;
@@ -53,6 +53,24 @@ namespace Singer.Models
             Status = status
          };
          return registration;
+      }
+
+      public string RegistrationTitle
+      {
+         get
+         {
+            switch (this.EventRegistrationType)
+            {
+               case RegistrationTypes.EventSlotDriven:
+                  return this.EventSlot.Event.Title;
+               case RegistrationTypes.DayCare:
+                  return "Dagopvang";
+               case RegistrationTypes.NightCare:
+                  return "Nachtopvang";
+               default:
+                  return "";
+            }
+         }
       }
    }
 

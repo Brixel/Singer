@@ -57,7 +57,7 @@ namespace Singer
 
          var passwordOptions = Configuration.GetSection("PasswordOptions").Get<PasswordOptions>();
          services
-            .AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString,
+            .AddDbContext<ApplicationDbContext>(options => options.UseLazyLoadingProxies().UseSqlServer(connectionString,
                opt => opt.EnableRetryOnFailure()))
             .AddIdentity<User, IdentityRole<Guid>>(opts => { opts.Password = passwordOptions; })
             .AddEntityFrameworkStores<ApplicationDbContext>()

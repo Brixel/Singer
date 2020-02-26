@@ -160,8 +160,7 @@ namespace Singer.Services
                !x.EmailSent &&
                x.EventRegistration.CareUser.LegalGuardianCareUsers.Any();
          }
-         var registrationLocationChanges =
-            await _context.EventRegistrationLogs
+         var registrationLocationChanges = await _context.EventRegistrationLogs
             .OfType<EventRegistrationLocationChange>()
             .Where(locationChangeExpression)
             .Select(x => new
@@ -171,9 +170,12 @@ namespace Singer.Services
                EventRegistration = new
                {
                   x.EventRegistrationId,
-                  EventTitle = x.EventRegistration.EventSlot.Event.Title,
-                  EventSlotStartDateTime = x.EventRegistration.EventSlot.StartDateTime,
-                  EventSlotEndDateTime = x.EventRegistration.EventSlot.EndDateTime,
+                  //TODO: It would be so much nicer not to have to the conditional below 😥
+                  EventTitle = x.EventRegistration.EventRegistrationType == RegistrationTypes.EventSlotDriven
+                     ? x.EventRegistration.EventSlot.Event.Title
+                     : x.EventRegistration.RegistrationTitle,
+                  EventSlotStartDateTime = x.EventRegistration.StartDateTime,
+                  EventSlotEndDateTime = x.EventRegistration.EndDateTime,
                   NewLocation = locations[x.NewLocationId]
                },
                CareUser = new
@@ -193,8 +195,7 @@ namespace Singer.Services
             }).ToListAsync();
 
 
-         var registrationStatusChanges =
-            await _context.EventRegistrationLogs
+         var registrationStatusChanges = await _context.EventRegistrationLogs
             .OfType<EventRegistrationStatusChange>()
             .Where(statusChangeExpression)
             .Select(x => new
@@ -204,9 +205,12 @@ namespace Singer.Services
                EventRegistration = new
                {
                   x.EventRegistrationId,
-                  EventTitle = x.EventRegistration.EventSlot.Event.Title,
-                  EventSlotStartDateTime = x.EventRegistration.EventSlot.StartDateTime,
-                  EventSlotEndDateTime = x.EventRegistration.EventSlot.EndDateTime,
+                  //TODO: It would be so much nicer not to have to the conditional below 😥
+                  EventTitle = x.EventRegistration.EventRegistrationType == RegistrationTypes.EventSlotDriven
+                     ? x.EventRegistration.EventSlot.Event.Title
+                     : x.EventRegistration.RegistrationTitle,
+                  EventSlotStartDateTime = x.EventRegistration.StartDateTime,
+                  EventSlotEndDateTime = x.EventRegistration.EndDateTime,
                   NewStatus = x.NewStatus
                },
                CareUser = new
