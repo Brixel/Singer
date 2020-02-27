@@ -8,6 +8,8 @@ import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 import { LegalguardianDetailsComponent } from '../legalguardian-details/legalguardian-details.component';
 import { LoadingService } from 'src/app/modules/core/services/loading.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { ConfirmComponent, ConfirmRequest } from 'src/app/modules/shared/components/confirm/confirm.component';
+import { AuthService } from 'src/app/modules/core/services/auth.service';
 
 @Component({
    selector: 'app-legalguardian-overview',
@@ -33,7 +35,7 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
    dataSource: LegalguardianOverviewDataSource;
 
    /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-   displayedColumns = ['firstName', 'lastName', 'email', 'address'];
+   displayedColumns = ['firstName', 'lastName', 'email', 'address', 'actions'];
 
    // Paginator
    pageSize = 15;
@@ -43,7 +45,8 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
       public dialog: MatDialog,
       private _legalguardiansService: LegalguardiansService,
       private _snackBar: MatSnackBar,
-      private _loadingService: LoadingService
+      private _loadingService: LoadingService,
+      private authService: AuthService
    ) {}
 
    ngOnInit() {
@@ -163,5 +166,26 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
             panelClass: 'multi-line-snackbar',
          });
       }
+   }
+
+   changePassword($event: MouseEvent, row: LegalGuardian) {
+      $event.stopPropagation();
+      const dialogRef = this.dialog.open(ConfirmComponent, {
+         data: <ConfirmRequest>{
+            confirmMessage: `Wilt u het wachtwoord van ${row.firstName} ${row.lastName} wijzigen?`,
+         },
+      });
+      dialogRef.afterClosed().subscribe((isConfirmed: boolean) => {
+         if (isConfirmed) {
+            this.authService.requestPasswordReset(row.userId);
+            this._snackBar.open(
+               `Nieuw wachtwoord voor gebruiker ${row.firstName} ${row.lastName} werd aangevraagd.`,
+               'OK',
+               {
+                  duration: 2000,
+               }
+            );
+         }
+      });
    }
 }

@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using AutoMapper;
 using Singer.DTOs;
 using Singer.DTOs.Users;
@@ -29,6 +29,9 @@ namespace Singer.Profiles
             .ForMember(m => m.User, o => o.MapFrom(src => src));
 
          //LegalGuardianUsers
+         CreateMap<LegalGuardianUser, LegalGuardianUserDTO>()
+            .ForMember(m => m.UserId, opt => opt.MapFrom(src => src.UserId));
+
          CreateMap<CreateLegalGuardianUserDTO, LegalGuardianUser>()
             .ForMember(m => m.User, o => o.MapFrom(src => src));
 

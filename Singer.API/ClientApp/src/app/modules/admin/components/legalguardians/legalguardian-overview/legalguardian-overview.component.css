@@ -55,6 +55,12 @@ tr.selectable:active {
    color: var(--singer-theme-primary);
 }
 
+.action-list {
+   display: flex;
+   justify-content: flex-start;
+   align-content: space-between;
+}
+
 .spacer {
    flex: 1 1 auto;
 }
