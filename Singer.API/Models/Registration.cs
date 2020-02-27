@@ -9,32 +9,32 @@ namespace Singer.Models
    {
       public Guid Id { get; set; }
       public RegistrationStatus Status { get; set; }
-      public EventRegistrationTypes EventRegistrationType { get; set; }
+      public RegistrationTypes EventRegistrationType { get; set; }
       public Guid? EventSlotId { get; set; }
-      public EventSlot EventSlot { get; set; }
+      public virtual EventSlot EventSlot { get; set; }
       public Guid CareUserId { get; set; }
-      public CareUser CareUser { get; set; }
+      public virtual CareUser CareUser { get; set; }
 
       [ForeignKey(nameof(DaycareLocation))]
       public Guid? DaycareLocationId { get; set; }
-      public EventLocation DaycareLocation { get; set; }
+      public virtual EventLocation DaycareLocation { get; set; }
 
       public DateTime StartDateTime { get; set; }
       public DateTime EndDateTime { get; set; }
-      private Registration()
+      public Registration()
       {
          // Default the registrations are set the pending
          Status = RegistrationStatus.Pending;
       }
 
-      public static Registration Create(EventRegistrationTypes eventRegistrationTypes,
-         Guid careUserId, 
+      public static Registration Create(RegistrationTypes registrationType,
+         Guid careUserId,
          DateTime startDateTime, DateTime endDateTime)
       {
          return new Registration()
          {
             CareUserId = careUserId,
-            EventRegistrationType = eventRegistrationTypes,
+            EventRegistrationType = registrationType,
             StartDateTime = startDateTime,
             EndDateTime = endDateTime
          };
@@ -47,19 +47,37 @@ namespace Singer.Models
          {
             CareUserId = careUserId,
             EventSlotId = eventSlotId,
-            EventRegistrationType = EventRegistrationTypes.EventSlotDriven,
+            EventRegistrationType = RegistrationTypes.EventSlotDriven,
             StartDateTime = startDateTime,
             EndDateTime = endDateTime,
             Status = status
          };
          return registration;
       }
+
+      public string RegistrationTitle
+      {
+         get
+         {
+            switch (this.EventRegistrationType)
+            {
+               case RegistrationTypes.EventSlotDriven:
+                  return this.EventSlot.Event.Title;
+               case RegistrationTypes.DayCare:
+                  return "Dagopvang";
+               case RegistrationTypes.NightCare:
+                  return "Nachtopvang";
+               default:
+                  return "";
+            }
+         }
+      }
    }
 
-   public enum EventRegistrationTypes
+   public enum RegistrationTypes
    {
       EventSlotDriven = 1,
       DayCare = 2,
-      NightCare = 3
+      NightCare = 4
    }
 }

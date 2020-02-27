@@ -89,8 +89,7 @@ export class SingerRegistrationsComponent implements OnInit {
          );
    }
 
-   changeRegistration(event: MatButtonToggleChange, registrationId: string) {
-      const registrationStatus = <RegistrationStatus>event.value;
+   changeRegistration(registrationStatus: RegistrationStatus, registrationId: string) {
       switch (registrationStatus) {
          case RegistrationStatus.Accepted:
             this.singerAdminEventService

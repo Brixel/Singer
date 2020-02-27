@@ -59,6 +59,7 @@ namespace Singer.DTOs.Users
          ResourceType = typeof(DisplayNames),
          Name = nameof(DisplayNames.LegalGuardianUsers))]
       public List<LinkedLegalGuardianDTO> LegalGuardianUsers { get; set; }
+      public Guid UserId { get; set; }
    }
 
    public class CreateCareUserDTO : CreateUserDTO

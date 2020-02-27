@@ -11,11 +11,11 @@ namespace Singer.Models
    {
       public Guid Id { get; set; }
       public Guid EventId { get; set; }
-      public Event Event { get; set; }
+      public virtual Event Event { get; set; }
       public DateTime StartDateTime { get; set; }
       public DateTime EndDateTime { get; set; }
 
-      public IList<Registration> Registrations { get; set; }
+      public virtual IList<Registration> Registrations { get; set; }
 
       public static IEnumerable<EventSlot> GenerateEventSlotsUntilIncluding(DateTime start, DateTime end, DateTime until, TimeUnit interval)
       {

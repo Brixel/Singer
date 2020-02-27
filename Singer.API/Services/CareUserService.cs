@@ -1,5 +1,4 @@
 using System;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -147,6 +146,7 @@ namespace Singer.Services
          return careUsers.Select(careUser => new EventRelevantCareUserDTO()
          {
             Id = careUser.Id,
+            UserId = careUser.UserId,
             FirstName = careUser.User.FirstName,
             LastName = careUser.User.LastName,
             AgeGroup = careUser.AgeGroup,

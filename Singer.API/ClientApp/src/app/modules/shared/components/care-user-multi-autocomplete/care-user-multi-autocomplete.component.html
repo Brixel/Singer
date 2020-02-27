@@ -1,0 +1,21 @@
+<mat-form-field>
+   <mat-chip-list #careUserChipList>
+      <mat-chip *ngFor="let user of selectedCareUsers" (removed)="removeCareUser(user)">
+         {{ user.firstName }} {{ user.lastName }}
+         <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+      <input
+         placeholder="Zorggebruiker(s)"
+         #careUserInput
+         [formControl]="careUserCtrl"
+         [matAutocomplete]="searchCareUser"
+         [matChipInputFor]="careUserChipList"
+         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+      />
+   </mat-chip-list>
+   <mat-autocomplete #searchCareUser="matAutocomplete" (optionSelected)="careUserSelected($event)">
+      <mat-option *ngFor="let careUser of careUsersAutoComplete$ | async" [value]="careUser">
+         {{ careUser.firstName }} {{ careUser.lastName }}
+      </mat-option>
+   </mat-autocomplete>
+</mat-form-field>

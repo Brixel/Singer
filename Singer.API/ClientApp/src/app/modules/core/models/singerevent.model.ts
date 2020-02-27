@@ -80,13 +80,6 @@ export class SingerEventLocation extends GenericModel {
    country: string;
 }
 
-export class Registration extends GenericModel {
-   eventSlot: EventSlot;
-   eventDescription: EventDescription;
-   careUser: CareUser;
-   status: RegistrationStatus;
-}
-
 export class EventFilterParameters extends GenericFilterParameters {
    startDate: Date;
    endDate: Date;

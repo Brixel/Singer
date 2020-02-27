@@ -1,5 +1,5 @@
-import { Pipe, PipeTransform } from '@angular/core';
 import { AgeGroup } from '../models/enum';
+import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
    name: 'agegroupToColorPipe',

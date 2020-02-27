@@ -13,6 +13,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ApiService } from '../core/services/api.service';
 import { SharedModule } from '../shared/shared.module';
 import { AdminMenuComponent } from './components/admin-menu/admin-menu.component';
+import { RegistrationOverviewComponent } from './components/registration-overview/registration-overview.component';
 
 @NgModule({
    declarations: [
@@ -22,6 +23,7 @@ import { AdminMenuComponent } from './components/admin-menu/admin-menu.component
       EventCardComponent,
       EventFilterComponent,
       AdminMenuComponent,
+      RegistrationOverviewComponent,
    ],
    imports: [
       CoreModule,

@@ -29,7 +29,7 @@
                >Inschrijving voor {{ registration.eventTitle }} van
                {{ registration.eventSlotStartDateTime | date: 'dd-MM-yyyy HH:mm' }} tot
                {{ registration.eventSlotEndDateTime | date: 'dd-MM-yyyy HH:mm' }} is gewijzigd naar
-               {{ registration.newStatus | registrationStatusPipe }}
+               {{ registration.newStatus | registrationStatus }}
                <mat-icon class="registration-accepted" *ngIf="registration.newStatus === RegistrationStatus.Accepted"
                   >check_circle_outline</mat-icon
                >

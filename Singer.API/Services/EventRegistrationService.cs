@@ -79,7 +79,7 @@ namespace Singer.Services
             o.EventSlot.Event.Title.Contains(filter, StringComparison.InvariantCultureIgnoreCase);
       }
 
-      public async Task<IReadOnlyList<Guid>> Create(EventRegistrationTypes eventRegistrationTypes,
+      public async Task<IReadOnlyList<Guid>> Create(RegistrationTypes registrationType,
          IReadOnlyList<Guid> careUserIds,
          DateTime startDateTime, DateTime endDateTime)
       {
@@ -90,23 +90,23 @@ namespace Singer.Services
 
             var initialDateBegin = startDateTime;
             var initialDateEnd = initialDateBegin.SetTime(endDateTime);
-            if(eventRegistrationTypes == EventRegistrationTypes.DayCare)
+            if (registrationType == RegistrationTypes.DayCare)
             {
-               GenerateCareRegistrations(eventRegistrationTypes, duration, initialDateBegin, registrations, careUserId, initialDateEnd);
+               GenerateCareRegistrations(registrationType, duration, initialDateBegin, registrations, careUserId, initialDateEnd);
             }
             else
             {
-               registrations.Add(Registration.Create(eventRegistrationTypes, careUserId,
+               registrations.Add(Registration.Create(registrationType, careUserId,
                   initialDateBegin, endDateTime));
             }
-            
+
          }
          await Context.AddRangeAsync(registrations);
          await Context.SaveChangesAsync();
          return registrations.Select(x => x.Id).ToList().AsReadOnly();
       }
 
-      private static void GenerateCareRegistrations(EventRegistrationTypes eventRegistrationTypes, TimeSpan duration,
+      private static void GenerateCareRegistrations(RegistrationTypes registrationType, TimeSpan duration,
          DateTime initialDateBegin, List<Registration> registrations, Guid careUserId, DateTime initialDateEnd)
       {
          var durationDays = duration.Days + 1;
@@ -114,7 +114,7 @@ namespace Singer.Services
          {
             if (initialDateBegin.DayOfWeek != DayOfWeek.Saturday && initialDateBegin.DayOfWeek != DayOfWeek.Sunday)
             {
-               registrations.Add(Registration.Create(eventRegistrationTypes, careUserId, initialDateBegin, initialDateEnd));
+               registrations.Add(Registration.Create(registrationType, careUserId, initialDateBegin, initialDateEnd));
             }
 
             initialDateBegin = initialDateBegin.AddDays(1);
