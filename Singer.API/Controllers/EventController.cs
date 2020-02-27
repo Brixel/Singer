@@ -347,7 +347,7 @@ namespace Singer.Controllers
             StartDate = singerEvent.StartDateTime,
             Title = singerEvent.Title
          };
-         List<EventRelevantCareUserDTO> careUsers = new List<EventRelevantCareUserDTO>();
+         var careUsers = new List<EventRelevantCareUserDTO>();
          if (User.IsInRole(Roles.ROLE_LEGALGUARDIANUSER))
          {
             var legalGuardianUserId = User.GetUserId();

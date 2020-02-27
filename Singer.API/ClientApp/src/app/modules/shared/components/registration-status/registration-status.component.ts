@@ -6,10 +6,8 @@ import { RegistrationStatus } from 'src/app/modules/core/models/enum';
    templateUrl: './registration-status.component.html',
    styleUrls: ['./registration-status.component.css'],
 })
-export class RegistrationStatusComponent implements OnInit {
+export class RegistrationStatusComponent {
    @Input('status') registrationStatus: RegistrationStatus;
    RegistrationStatus = RegistrationStatus;
    constructor() {}
-
-   ngOnInit() {}
 }

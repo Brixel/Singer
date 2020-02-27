@@ -118,8 +118,8 @@ export class RegistrationOverviewComponent extends GenericOverviewComponent<
       this.loadData();
    }
 
+   //TODO: This function should be generalized with the one from Singer.API\ClientApp\src\app\modules\admin\components\singerevents\event-registrations\event-registrations.component.ts
    changeRegistration(registrationStatus: RegistrationStatus, registration: RegistrationOverview) {
-      console.log(registration);
       switch (registrationStatus) {
          case RegistrationStatus.Accepted:
             this._registrationService.acceptRegistration(registration.id).subscribe(() =>
