@@ -39,28 +39,13 @@
                      }}</mat-option>
                   </mat-select>
                </mat-form-field>
-               <mat-button-toggle-group
-                  class="status-icon"
-                  [value]="registrant.registrationStatus"
-                  (change)="changeRegistration($event, registrant.registrationId)"
+               <app-registration-status-toggle
+                  [status]="registrant.registrationStatus"
+                  (onStatusChange)="changeRegistration($event, registrant.registrationId)"
                >
-                  <mat-button-toggle [value]="registrationStatus.Accepted" matTooltip="Inschrijving goedkeuren"
-                     ><mat-icon class="registration-accepted">check_circle_outline</mat-icon></mat-button-toggle
-                  >
-                  <mat-button-toggle
-                     [disabled]="'true'"
-                     [value]="registrationStatus.Pending"
-                     matTooltip="Nog te verwerken aanvraag tot inschrijving"
-                     ><mat-icon class="registration-pending">
-                        access_time
-                     </mat-icon></mat-button-toggle
-                  >
-                  <mat-button-toggle [value]="registrationStatus.Rejected" matTooltip="Inschrijving niet goedkeuren"
-                     ><mat-icon class="registration-rejected">error_outline</mat-icon></mat-button-toggle
-                  >
-               </mat-button-toggle-group>
-            </div></mat-list-item
-         >
+               </app-registration-status-toggle>
+            </div>
+         </mat-list-item>
       </mat-list>
    </div>
    <div *ngIf="!event.eventSlots">

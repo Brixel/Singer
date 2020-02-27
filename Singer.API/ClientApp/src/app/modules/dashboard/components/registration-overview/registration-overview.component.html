@@ -1,0 +1,91 @@
+<!-- Mat Form Field Filter -->
+<div class="mat-elevation-z8 overview-table">
+   <div class="overviewTableHeader">
+      <mat-form-field>
+         <input matInput #filterInput placeholder="Filter" />
+      </mat-form-field>
+      <mat-form-field>
+         <input matInput #searchDateFrom [matDatepicker]="dateFrom" placeholder="Datum vanaf"
+            (dateChange)="loadData()" />
+         <mat-datepicker-toggle matSuffix [for]="dateFrom"></mat-datepicker-toggle>
+         <mat-datepicker #dateFrom></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field>
+         <input matInput #searchDateTo [matDatepicker]="dateTo" placeholder="Datum tot" (dateChange)="loadData()" />
+         <mat-datepicker-toggle matSuffix [for]="dateTo"></mat-datepicker-toggle>
+         <mat-datepicker #dateTo></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field>
+         <mat-select mat-input placeholder="Type Registratie" #searchType (selectionChange)="loadData()" multiple>
+            <mat-option *ngFor="let type of registrationTypes | keys" [value]="type.key">
+               {{ type.key | registrationType }}
+            </mat-option>
+         </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+         <mat-select mat-input placeholder="Status" #searchStatus (selectionChange)="loadData()" multiple>
+            <mat-option *ngFor="let type of registrationStatus | keys" [value]="type.key">
+               {{ type.key | registrationStatus }}
+            </mat-option>
+         </mat-select>
+      </mat-form-field>
+   </div>
+   <div *ngIf="authService.isAdmin$ | async" class="careuser-filter">
+      <app-care-user-multi-autocomplete (onChange)="onCareUserFilterChange($event)">
+      </app-care-user-multi-autocomplete>
+   </div>
+
+   <mat-table [dataSource]="dataSource" matSort>
+      <!-- Id column -->
+      <ng-container matColumnDef="eventTitle">
+         <mat-header-cell *matHeaderCellDef mat-sort-header>Titel</mat-header-cell>
+         <mat-cell *matCellDef="let row">{{ row.eventTitle }}</mat-cell>
+      </ng-container>
+      <!-- Name column -->
+      <ng-container matColumnDef="careUserFirstName">
+         <mat-header-cell *matHeaderCellDef mat-sort-header>Voornaam</mat-header-cell>
+         <mat-cell *matCellDef="let row">{{ row.careUserFirstName }}</mat-cell>
+      </ng-container>
+      <!-- Name column -->
+      <ng-container matColumnDef="careUserLastName">
+         <mat-header-cell *matHeaderCellDef mat-sort-header>Achternaam</mat-header-cell>
+         <mat-cell *matCellDef="let row">{{ row.careUserLastName }}</mat-cell>
+      </ng-container>
+
+      <!-- Date column -->
+      <ng-container matColumnDef="startDateTime">
+         <mat-header-cell *matHeaderCellDef mat-sort-header>Datum</mat-header-cell>
+         <mat-cell *matCellDef="let row">Van {{ row.startDateTime | date }} tot {{ row.endDateTime | date }}</mat-cell>
+      </ng-container>
+
+      <!-- Type column -->
+      <ng-container matColumnDef="registrationType">
+         <mat-header-cell *matHeaderCellDef mat-sort-header>Type registratie</mat-header-cell>
+         <mat-cell *matCellDef="let row">{{ row.registrationType | registrationType }}</mat-cell>
+      </ng-container>
+
+      <!-- status column -->
+      <ng-container matColumnDef="registrationStatus">
+         <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+         <mat-cell *matCellDef="let row">
+            <app-registration-status [status]="row.registrationStatus" *ngIf="!authService.isAdmin$ | async">
+            </app-registration-status>
+            <app-registration-status-toggle *ngIf="authService.isAdmin$ | async" [status]="row.registrationStatus"
+               (onStatusChange)="changeRegistration($event, row)">
+            </app-registration-status-toggle>
+         </mat-cell>
+      </ng-container>
+      <!-- Paginator column -->
+      <ng-container matColumnDef="paginator">
+         <mat-footer-cell *matFooterCellDef colspan="20">
+            <!-- Paginator -->
+            <mat-paginator #paginator [length]="dataSource?.totalSize$ | async" [pageIndex]="pageIndex"
+               [pageSize]="searchDTO.pageSize" [pageSizeOptions]="[1, 15, 25, 50, 100]" showFirstLastButtons>
+            </mat-paginator>
+         </mat-footer-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      <mat-footer-row *matFooterRowDef="['paginator']"></mat-footer-row>
+   </mat-table>
+</div>

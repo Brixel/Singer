@@ -18,6 +18,9 @@ import { CareUserSearchComponent } from './components/care-user-search/care-user
 import { AccountInfoCareusersListComponent } from './components/account-info/account-info-careusers-list/account-info-careusers-list.component';
 import { AccountInfoSummaryComponent } from './components/account-info/account-info-summary/account-info-summary.component';
 import { AccountInfoPageComponent } from './components/account-info/account-info-base/account-info-page.component';
+import { CareUserMultiAutocompleteComponent } from './components/care-user-multi-autocomplete/care-user-multi-autocomplete.component';
+import { RegistrationStatusToggleComponent } from './components/registration-status-toggle/registration-status-toggle.component';
+import { RegistrationStatusComponent } from './components/registration-status/registration-status.component';
 
 @NgModule({
    declarations: [
@@ -33,6 +36,9 @@ import { AccountInfoPageComponent } from './components/account-info/account-info
       AccountInfoSummaryComponent,
       AccountInfoPageComponent,
       AccountInfoCareusersListComponent,
+      CareUserMultiAutocompleteComponent,
+      RegistrationStatusToggleComponent,
+      RegistrationStatusComponent,
    ],
    imports: [CommonModule, MaterialModule, CoreModule, ReactiveFormsModule],
    exports: [
@@ -48,6 +54,9 @@ import { AccountInfoPageComponent } from './components/account-info/account-info
       AccountInfoSummaryComponent,
       AccountInfoPageComponent,
       AccountInfoCareusersListComponent,
+      CareUserMultiAutocompleteComponent,
+      RegistrationStatusToggleComponent,
+      RegistrationStatusComponent,
    ],
    entryComponents: [
       RegistrationComponent,
@@ -55,6 +64,9 @@ import { AccountInfoPageComponent } from './components/account-info/account-info
       ConfirmComponent,
       DeleteConfirmationComponent,
       DeleteConfirmationDialogComponent,
+      CareUserMultiAutocompleteComponent,
+      RegistrationStatusToggleComponent,
+      RegistrationStatusComponent,
    ],
    providers: [ApiService, SingerEventsService, SingerEventsProxy],
 })

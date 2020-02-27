@@ -38,7 +38,7 @@ namespace Singer.Services.Interfaces
       Task<DaycareLocationDTO> UpdateDaycareLocationForRegistration(Guid registrationId, Guid locationId, Guid executedByUserId);
       Task<SearchResults<RegistrationDTO>> GetPendingRegistrations(Expression<Func<RegistrationDTO, object>> orderer = null, ListSortDirection sortDirection = ListSortDirection.Ascending, int pageSize = 15, int pageIndex = 0);
 
-      Task<IReadOnlyList<Guid>> Create(EventRegistrationTypes eventRegistrationTypes,
+      Task<IReadOnlyList<Guid>> Create(RegistrationTypes eventRegistrationTypes,
          IReadOnlyList<Guid> careUserIds,
          DateTime startDateTime, DateTime endDateTime);
    }

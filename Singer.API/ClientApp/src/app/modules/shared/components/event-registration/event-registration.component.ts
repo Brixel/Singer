@@ -11,8 +11,7 @@ import { Registrant } from 'src/app/modules/core/models/registrant.model';
    styleUrls: ['./event-registration.component.css'],
 })
 export class RegistrationComponent implements OnInit {
-   private _event$ = new BehaviorSubject<EventRegisterDetails>(null);
-   public event$ = this._event$.asObservable();
+   public event$ = new BehaviorSubject<EventRegisterDetails>(new EventRegisterDetails());
    public hasInappropriateCareUsers = false;
 
    @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -29,7 +28,7 @@ export class RegistrationComponent implements OnInit {
    ngOnInit() {
       this._eventService.getEventRegisterDetails(this._eventId).subscribe(
          res => {
-            this._event$.next(res);
+            this.event$.next(res);
             this.hasInappropriateCareUsers = this.setInappropriateCareUsers(res);
             const registrants = [];
             res.relevantCareUsers

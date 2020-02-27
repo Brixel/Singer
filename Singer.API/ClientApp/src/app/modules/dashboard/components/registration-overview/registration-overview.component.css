@@ -1,0 +1,32 @@
+.overviewTableHeader {
+   display: flex;
+   flex-direction: row;
+   padding-top: 0.2em;
+   margin: 0 0.5em;
+   margin-bottom: -0.2em;
+}
+
+.overviewTableHeader button {
+   margin: 1em;
+}
+
+.careuser-filter {
+   margin: 0 0.5em;
+   margin-top: -0.4em;
+}
+
+.mat-form-field {
+   font-size: 14px;
+   width: 100%;
+   margin: 0 0.3em;
+}
+
+.greenSheet {
+   color: green;
+}
+
+.mat-column-paginator {
+   display: flex;
+   flex-direction: row;
+   justify-content: flex-end;
+}

@@ -6,11 +6,11 @@ import { MaterialModule } from '../../material.module';
 import { CareUserProxy } from '../core/services/care-users-api/careuser.proxy';
 import { CareUserService } from '../core/services/care-users-api/careusers.service';
 import { ApiService } from '../core/services/api.service';
-import { AgegroupPipe } from '../core/Pipes/agegroup.pipe';
+import { AgegroupPipe } from '../core/pipes/agegroup.pipe';
 import { CoreModule } from '../core/core.module';
 import { CareUserDetailsComponent } from './components/careusers/careuser-details/care-user-details.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { KeysPipe } from '../core/Pipes/keys.pipe';
+import { KeysPipe } from '../core/pipes/keys.pipe';
 import { MatTableModule, MatPaginatorModule, MatSortModule, MAT_DATE_LOCALE } from '@angular/material';
 import { LegalguardianOverviewComponent } from './components/legalguardians/legalguardian-overview/legalguardian-overview.component';
 import { LegalguardianDetailsComponent } from './components/legalguardians/legalguardian-details/legalguardian-details.component';
@@ -34,7 +34,6 @@ import { SingerRegistrationsComponent } from './components/singerevents/event-re
 import { SingerEventAdminRegisterComponent } from './components/singerevents/singer-eventadmin-register/singer-eventadmin-register.component';
 import { PendingRegistrationsComponent } from './components/pending-registrations/pending-registrations.component';
 import { PendingActionsComponent } from './components/pending-actions/pending-actions.component';
-import { RegistrationStatusPipe } from '../core/services/registration-status.pipe';
 
 @NgModule({
    declarations: [
@@ -88,7 +87,6 @@ import { RegistrationStatusPipe } from '../core/services/registration-status.pip
       ApiService,
       AgegroupPipe,
       KeysPipe,
-      RegistrationStatusPipe,
       {
          provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS,
          useValue: {

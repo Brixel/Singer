@@ -14,12 +14,14 @@ export class SingleRegistrationComponent implements OnInit {
    @Input() eventId: string;
    @Input() eventSlots: EventSlotRegistrations[] = [];
    @Input() careUsers: Registrant[] = [];
+   RegistrationStatus = RegistrationStatus;
    constructor(private _eventService: SingerEventsService, private _snackBar: MatSnackBar) {}
 
    ngOnInit() {}
 
    getRegistrationStatus(careUserId: string): RegistrationStatus {
-      return this.careUsers.find(x => x.careUserId === careUserId).registrationStatus;
+      let eventSlot = this.eventSlots[0].registrations.find(x => x.careUserId === careUserId);
+      return eventSlot === undefined ? 0 : eventSlot.status;
    }
 
    registerCareUserOnEvent(careUser: Registrant) {

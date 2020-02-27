@@ -5,9 +5,7 @@ import { Observable } from 'rxjs';
 import { EventRegisterDetails, EventFilterParameters } from '../../models/singerevent.model';
 import { PaginationDTO } from '../../DTOs/pagination.dto';
 import {
-   RegistrationDTO,
    CreateEventSlotRegistrationDTO,
-   CreateRegistrationDTO,
    UserRegisteredDTO,
    UpdateSingerEventDTO,
    CreateSingerEventDTO,
@@ -16,6 +14,7 @@ import {
    EventFilterParametersDTO,
 } from '../../DTOs/event-registration.dto';
 import { Injectable } from '@angular/core';
+import { CreateRegistrationDTO, RegistrationDTO } from '../../DTOs/registration.dto';
 
 @Injectable({
    providedIn: 'root',
