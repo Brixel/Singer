@@ -1,4 +1,4 @@
-using CsvHelper;
+﻿using CsvHelper;
 using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -17,6 +17,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Singer.Helpers.Extensions;
 
 namespace Singer.Controllers
 {
@@ -55,6 +56,7 @@ namespace Singer.Controllers
       [HttpPost]
       [ProducesResponseType(StatusCodes.Status201Created)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+      [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
       public override async Task<IActionResult> Create([FromBody]CreateEventDTO dto)
       {
          if (dto is null)
@@ -67,7 +69,7 @@ namespace Singer.Controllers
       [HttpPost("{eventId}/registrations")]
       [ProducesResponseType(StatusCodes.Status201Created)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public async Task<ActionResult<List<EventRegistrationDTO>>> Create(Guid eventId, [FromBody]CreateEventRegistrationDTO dto)
+      public async Task<ActionResult<List<RegistrationDTO>>> Create(Guid eventId, [FromBody]CreateRegistrationDTO dto)
       {
          if (eventId != dto.EventId)
             throw new BadInputException("The event id in the url and the body do not match", ErrorMessages.EventIdMismatchUrlBody);
@@ -89,10 +91,11 @@ namespace Singer.Controllers
          return Created(nameof(Get), eventRegistration);
       }
 
+
       [HttpPost("{eventId}/eventslot/{eventSlotId}/registrations")]
       [ProducesResponseType(StatusCodes.Status201Created)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public async Task<ActionResult<EventRegistrationDTO>> Create(Guid eventId, [FromBody]CreateEventSlotRegistrationDTO dto)
+      public async Task<ActionResult<RegistrationDTO>> Create(Guid eventId, [FromBody]CreateEventSlotRegistrationDTO dto)
       {
          if (!User.IsInRole(Roles.ROLE_ADMINISTRATOR))
          {
@@ -122,17 +125,19 @@ namespace Singer.Controllers
       }
 
       [HttpPost("{eventId}/registrations/{eventRegistrationId}/accept")]
+      [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
       public async Task<ActionResult> AcceptRegistration(Guid eventId, Guid eventRegistrationId)
       {
-         var userId = Guid.Parse(User.GetSubjectId());
+         var userId = User.GetUserId();
          var status = await _eventRegistrationService.AcceptRegistration(eventRegistrationId, userId);
          return Ok(status);
       }
 
       [HttpPost("{eventId}/registrations/{eventRegistrationId}/reject")]
+      [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
       public async Task<ActionResult> RejectRegistration(Guid eventId, Guid eventRegistrationId)
       {
-         var userId = Guid.Parse(User.GetSubjectId());
+         var userId = User.GetUserId();
          var status = await _eventRegistrationService.RejectRegistration(eventRegistrationId, userId);
          return Ok(status);
       }
@@ -145,6 +150,7 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status200OK)]
       [ProducesResponseType(StatusCodes.Status404NotFound)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+      [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
       public async Task<ActionResult<PaginationDTO<EventSlotRegistrationsDTO>>> Get(
          Guid eventId,
          string filter,
@@ -197,7 +203,7 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status200OK)]
       [ProducesResponseType(StatusCodes.Status404NotFound)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public async Task<ActionResult<EventRegistrationDTO>> GetOne(Guid eventId, Guid registrationId)
+      public async Task<ActionResult<RegistrationDTO>> GetOne(Guid eventId, Guid registrationId)
       {
          var registration = await _eventRegistrationService
             .GetOneAsync(eventId, registrationId)
@@ -207,6 +213,7 @@ namespace Singer.Controllers
       }
 
       [HttpGet("{eventId}/registrations/{eventSlotId}/deelnemerslijst.csv")]
+      [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
       public async Task<ActionResult> GetRegistrationsAsCsv(Guid eventId, Guid eventSlotId)
       {
          var list = await _eventRegistrationService.GetParticipantsForSlotAsync(eventId, eventSlotId);
@@ -232,6 +239,7 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status200OK)]
       [ProducesResponseType(StatusCodes.Status404NotFound)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+      [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
       public override async Task<IActionResult> Update(Guid id, [FromBody]UpdateEventDTO dto)
       {
          if (dto is null)
@@ -245,7 +253,8 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status200OK)]
       [ProducesResponseType(StatusCodes.Status404NotFound)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public async Task<ActionResult<EventRegistrationDTO>> Update(Guid eventId, Guid registrationId, [FromBody]RegistrationStatus status)
+      [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
+      public async Task<ActionResult<RegistrationDTO>> Update(Guid eventId, Guid registrationId, [FromBody]RegistrationStatus status)
       {
          var model = ModelState;
          if (!model.IsValid)
@@ -262,9 +271,10 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status200OK)]
       [ProducesResponseType(StatusCodes.Status404NotFound)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+      [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
       public async Task<ActionResult<DaycareLocationDTO>> Update(Guid eventId, Guid registrationId, [FromBody] Guid locationId)
       {
-         var userId = Guid.Parse(User.GetSubjectId());
+         var userId = User.GetUserId();
          var result = await _eventRegistrationService.UpdateDaycareLocationForRegistration(
             registrationId, locationId, userId);
          return Ok(result);
@@ -278,6 +288,7 @@ namespace Singer.Controllers
       [HttpDelete("{id}")]
       [ProducesResponseType(StatusCodes.Status204NoContent)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+      [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
       public override async Task<IActionResult> Delete(Guid id)
       {
          await DatabaseService.ArchiveAsync(id);
@@ -288,6 +299,7 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status204NoContent)]
       [ProducesResponseType(StatusCodes.Status404NotFound)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+      [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
       public async Task<ActionResult> Delete(Guid eventId, Guid registrationId)
       {
          await _eventRegistrationService
@@ -335,19 +347,18 @@ namespace Singer.Controllers
             StartDate = singerEvent.StartDateTime,
             Title = singerEvent.Title
          };
-         List<EventRelevantCareUserDTO> careUsers;
-         if (!User.IsInRole(Roles.ROLE_ADMINISTRATOR))
+         var careUsers = new List<EventRelevantCareUserDTO>();
+         if (User.IsInRole(Roles.ROLE_LEGALGUARDIANUSER))
          {
-            var legalGuardianUserId = Guid.Parse(User.GetSubjectId());
-            // TODO Validate if the user is a legalguardian
-            careUsers = await _careUserService.GetCareUsersForLegalGuardian(legalGuardianUserId);
+            var legalGuardianUserId = User.GetUserId();
+            careUsers = await _careUserService.GetCareUsersForLegalGuardianAsync(legalGuardianUserId);
 
             foreach (var user in careUsers)
             {
                user.AppropriateAgeGroup = singerEvent.AllowedAgeGroups.Contains(user.AgeGroup);
             }
          }
-         else
+         else if (User.IsInRole(Roles.ROLE_ADMINISTRATOR))
          {
             careUsers = await _careUserService.GetCareUsersInAgeGroups(singerEvent.AllowedAgeGroups);
          }
@@ -375,21 +386,21 @@ namespace Singer.Controllers
          return Ok(details);
       }
 
-      [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
       [HttpGet("registrations/status/pending")]
-      public async Task<ActionResult<PaginationDTO<EventRegistrationDTO>>> GetPendingRegistrations(
+      [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
+      public async Task<ActionResult<PaginationDTO<RegistrationDTO>>> GetPendingRegistrations(
          ListSortDirection sortDirection = ListSortDirection.Ascending,
          string sortColumn = "Id",
          int pageIndex = 0,
          int pageSize = 15)
       {
-         var orderByLambda = PropertyHelpers.GetPropertySelector<EventRegistrationDTO>(sortColumn);
+         var orderByLambda = PropertyHelpers.GetPropertySelector<RegistrationDTO>(sortColumn);
          var result = await _eventRegistrationService.GetPendingRegistrations(orderByLambda, sortDirection, pageSize, pageIndex);
          var requestPath = HttpContext.Request.Path;
          var nextPage = (pageIndex * pageSize) + result.Size >= result.TotalCount
             ? null
             : $"{requestPath}?PageIndex={pageIndex++}&Size={pageSize}";
-         var page = new PaginationDTO<EventRegistrationDTO>
+         var page = new PaginationDTO<RegistrationDTO>
          {
             Items = result.Items,
             Size = result.Items.Count,

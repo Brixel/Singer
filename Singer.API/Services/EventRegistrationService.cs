@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -41,7 +41,7 @@ namespace Singer.Services
          .Include(x => x.EventSlot).ThenInclude(x => x.Event)
          .AsQueryable();
 
-      public Expression<Func<Registration, EventRegistrationDTO>> Projector => x => new EventRegistrationDTO
+      public Expression<Func<Registration, RegistrationDTO>> Projector => x => new RegistrationDTO
       {
          Id = x.Id,
          Status = x.Status,
@@ -79,7 +79,50 @@ namespace Singer.Services
             o.EventSlot.Event.Title.Contains(filter, StringComparison.InvariantCultureIgnoreCase);
       }
 
-      public async Task<IReadOnlyList<EventRegistrationDTO>> CreateAsync(CreateEventRegistrationDTO dto)
+      public async Task<IReadOnlyList<Guid>> Create(RegistrationTypes registrationType,
+         IReadOnlyList<Guid> careUserIds,
+         DateTime startDateTime, DateTime endDateTime)
+      {
+         var registrations = new List<Registration>();
+         foreach (var careUserId in careUserIds)
+         {
+            var duration = endDateTime - startDateTime;
+
+            var initialDateBegin = startDateTime;
+            var initialDateEnd = initialDateBegin.SetTime(endDateTime);
+            if (registrationType == RegistrationTypes.DayCare)
+            {
+               GenerateCareRegistrations(registrationType, duration, initialDateBegin, registrations, careUserId, initialDateEnd);
+            }
+            else
+            {
+               registrations.Add(Registration.Create(registrationType, careUserId,
+                  initialDateBegin, endDateTime));
+            }
+
+         }
+         await Context.AddRangeAsync(registrations);
+         await Context.SaveChangesAsync();
+         return registrations.Select(x => x.Id).ToList().AsReadOnly();
+      }
+
+      private static void GenerateCareRegistrations(RegistrationTypes registrationType, TimeSpan duration,
+         DateTime initialDateBegin, List<Registration> registrations, Guid careUserId, DateTime initialDateEnd)
+      {
+         var durationDays = duration.Days + 1;
+         for (var i = 0; i < durationDays; i++)
+         {
+            if (initialDateBegin.DayOfWeek != DayOfWeek.Saturday && initialDateBegin.DayOfWeek != DayOfWeek.Sunday)
+            {
+               registrations.Add(Registration.Create(registrationType, careUserId, initialDateBegin, initialDateEnd));
+            }
+
+            initialDateBegin = initialDateBegin.AddDays(1);
+            initialDateEnd = initialDateEnd.AddDays(1);
+         }
+      }
+
+      public async Task<IReadOnlyList<RegistrationDTO>> CreateAsync(CreateRegistrationDTO dto)
       {
          if (dto == null)
             throw new BadInputException("Input to create registration cannot be null", ErrorMessages.NoDataPassed);
@@ -184,7 +227,7 @@ namespace Singer.Services
          return new SearchResults<EventSlotRegistrationsDTO>(allEventSlots, totalItemCount, pageIndex);
       }
 
-      public async Task<EventRegistrationDTO> GetOneBySlotAsync(Guid eventSlotId, Guid careUserId)
+      public async Task<RegistrationDTO> GetOneBySlotAsync(Guid eventSlotId, Guid careUserId)
       {
          var registration = await Context.Registrations
             .Where(x => x.EventSlotId == eventSlotId && x.CareUserId == careUserId)
@@ -195,7 +238,7 @@ namespace Singer.Services
          return registration;
       }
 
-      public async Task<EventRegistrationDTO> GetOneAsync(Guid eventId, Guid registrationId)
+      public async Task<RegistrationDTO> GetOneAsync(Guid eventId, Guid registrationId)
       {
          var registration = await Queryable
             .Where(x => x.Id == registrationId && x.EventSlot.EventId == eventId)
@@ -229,7 +272,7 @@ namespace Singer.Services
             .ToListAsync();
       }
 
-      public async Task<EventRegistrationDTO> UpdateStatusAsync(Guid eventId, Guid registrationId, RegistrationStatus status)
+      public async Task<RegistrationDTO> UpdateStatusAsync(Guid eventId, Guid registrationId, RegistrationStatus status)
       {
          var registration = await Context.Registrations
             .Where(x => x.Id == registrationId && x.EventSlot.EventId == eventId)
@@ -299,7 +342,7 @@ namespace Singer.Services
 
       }
 
-      public Task<List<EventRegistrationDTO>> GetAllSlotsForEventAsync(Guid eventId)
+      public Task<List<RegistrationDTO>> GetAllSlotsForEventAsync(Guid eventId)
       {
          return Queryable
             .Where(x => x.EventSlot.EventId == eventId)
@@ -307,7 +350,7 @@ namespace Singer.Services
             .ToListAsync();
       }
 
-      public async Task<EventRegistrationDTO> CreateOneBySlotAsync(CreateEventSlotRegistrationDTO dto)
+      public async Task<RegistrationDTO> CreateOneBySlotAsync(CreateEventSlotRegistrationDTO dto)
       {
          if (dto == null)
             throw new BadInputException("Input to create registration cannot be null", ErrorMessages.NoDataPassed);
@@ -349,7 +392,7 @@ namespace Singer.Services
          var previousRegistrationStatus = registration.Status;
          registration.Status = RegistrationStatus.Rejected;
 
-         await _actionNotificationService.RegisterEventRegistrationStatusChange(registrationId,executedByUserId,
+         await _actionNotificationService.RegisterEventRegistrationStatusChange(registrationId, executedByUserId,
             previousRegistrationStatus, registration.Status);
 
          await Context.SaveChangesAsync();
@@ -375,14 +418,14 @@ namespace Singer.Services
          };
       }
 
-      public async Task<SearchResults<EventRegistrationDTO>> GetPendingRegistrations(
-         Expression<Func<EventRegistrationDTO, object>> orderer = null,
+      public async Task<SearchResults<RegistrationDTO>> GetPendingRegistrations(
+         Expression<Func<RegistrationDTO, object>> orderer = null,
          ListSortDirection sortDirection = ListSortDirection.Ascending,
          int pageSize = 15, int pageIndex = 0)
       {
          Expression<Func<Registration, bool>> filterExpression = f => f.Status == RegistrationStatus.Pending;
 
-         var registrations = await Queryable.ToPagedListAsync<Registration, EventRegistrationDTO>(
+         var registrations = await Queryable.ToPagedListAsync<Registration, RegistrationDTO>(
             Mapper, filterExpression, orderer, sortDirection, pageIndex, pageSize
          );
 

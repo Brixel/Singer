@@ -3,8 +3,15 @@ import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http'
 import { Observable, Subject, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { PaginationDTO } from '../DTOs/pagination.dto';
+import { SearchDTOBase } from '../DTOs/base.dto';
 
-export abstract class GenericService<TModel extends GenericModel, TDTO, TCreateDTO, TUpdateDTO> {
+export abstract class GenericService<
+   TModel extends GenericModel,
+   TDTO,
+   TCreateDTO,
+   TUpdateDTO,
+   TSearchDTO extends SearchDTOBase
+> {
    error$ = new Subject<HttpErrorResponse>();
    protected abstract httpClient: HttpClient;
    constructor(protected endpoint: string) {}
@@ -47,7 +54,13 @@ export abstract class GenericService<TModel extends GenericModel, TDTO, TCreateD
       return this.httpClient.post<TDTO>(this.endpoint, dto).pipe(catchError(error => this.handleError(error)));
    }
 
-   protected handleError(error: HttpErrorResponse) {
+   advancedSearch(searchDTO: TSearchDTO): Observable<PaginationDTO<TDTO>> {
+      return this.httpClient
+         .post<PaginationDTO<TDTO>>(`${this.endpoint}/search`, searchDTO)
+         .pipe(catchError(error => this.handleError(error)));
+   }
+
+   handleError(error: HttpErrorResponse) {
       this.error$.next(error);
       return throwError(error.error);
    }

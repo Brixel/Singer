@@ -1,15 +1,8 @@
 import { RegistrationStatus, AgeGroup, TimeUnit, WeekDay, MonthRepeatMoment, RepeatType } from '../models/enum';
 import { EventSlotDTO } from '../models/eventslot.dto';
-import { CareUserDTO } from '../models/careuser.model';
 import { SingerEventLocationDTO } from './singer-event-location.dto';
 import { DaycareLocationDTO } from './daycarelocation.dto';
 import { IFilterBaseDTO } from './filterbase.dto';
-
-export interface CreateRegistrationDTO {
-   eventId: string;
-   careUserId: string;
-   status?: RegistrationStatus;
-}
 
 export interface CreateEventSlotRegistrationDTO {
    eventSlotId: string;
@@ -39,13 +32,6 @@ export interface EventCareUserRegistrationDTO {
    lastName: string;
    daycareLocation: DaycareLocationDTO;
 }
-export interface RegistrationDTO {
-   id: string;
-   eventSlot: EventSlotDTO;
-   eventDescription: EventDescriptionDTO;
-   careUser: CareUserDTO;
-   status: RegistrationStatus;
-}
 export interface EventDescriptionDTO {
    title: string;
    description: string;
@@ -65,6 +51,7 @@ export interface EventFilterParametersDTO extends IFilterBaseDTO {
 
 export class EventRelevantCareUserDTO {
    id: string;
+   userId: string;
    firstName: string;
    lastName: string;
    ageGroup: AgeGroup;

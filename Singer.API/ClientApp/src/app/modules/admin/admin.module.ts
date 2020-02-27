@@ -6,11 +6,11 @@ import { MaterialModule } from '../../material.module';
 import { CareUserProxy } from '../core/services/care-users-api/careuser.proxy';
 import { CareUserService } from '../core/services/care-users-api/careusers.service';
 import { ApiService } from '../core/services/api.service';
-import { AgegroupPipe } from '../core/Pipes/agegroup.pipe';
+import { AgegroupPipe } from '../core/pipes/agegroup.pipe';
 import { CoreModule } from '../core/core.module';
 import { CareUserDetailsComponent } from './components/careusers/careuser-details/care-user-details.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { KeysPipe } from '../core/Pipes/keys.pipe';
+import { KeysPipe } from '../core/pipes/keys.pipe';
 import { MatTableModule, MatPaginatorModule, MatSortModule, MAT_DATE_LOCALE } from '@angular/material';
 import { LegalguardianOverviewComponent } from './components/legalguardians/legalguardian-overview/legalguardian-overview.component';
 import { LegalguardianDetailsComponent } from './components/legalguardians/legalguardian-details/legalguardian-details.component';
@@ -27,7 +27,6 @@ import { AdminUserProxy } from './services/adminuser.proxy';
 import { AdminUserService } from './services/admin-user.service';
 import { SingerEventLocationService } from '../core/services/singerevents-api/singerevent-location.service';
 import { SingerEventLocationProxy } from '../core/services/singerevents-api/singerevent-location.proxy';
-import { CareUserSearchComponent } from './components/shared/care-user-search/care-user-search.component';
 import { RegistrationComponent } from '../shared/components/event-registration/event-registration.component';
 import { SharedModule } from '../shared/shared.module';
 import { AddFamilyWizardComponent } from './components/add-family-wizard/add-family-wizard.component';
@@ -35,7 +34,6 @@ import { SingerRegistrationsComponent } from './components/singerevents/event-re
 import { SingerEventAdminRegisterComponent } from './components/singerevents/singer-eventadmin-register/singer-eventadmin-register.component';
 import { PendingRegistrationsComponent } from './components/pending-registrations/pending-registrations.component';
 import { PendingActionsComponent } from './components/pending-actions/pending-actions.component';
-import { RegistrationStatusPipe } from '../core/services/registration-status.pipe';
 
 @NgModule({
    declarations: [
@@ -48,7 +46,6 @@ import { RegistrationStatusPipe } from '../core/services/registration-status.pip
       AdminOverviewComponent,
       AdminDetailsComponent,
       SingerRegistrationsComponent,
-      CareUserSearchComponent,
       SingerEventAdminRegisterComponent,
       AddFamilyWizardComponent,
       PendingRegistrationsComponent,
@@ -90,7 +87,6 @@ import { RegistrationStatusPipe } from '../core/services/registration-status.pip
       ApiService,
       AgegroupPipe,
       KeysPipe,
-      RegistrationStatusPipe,
       {
          provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS,
          useValue: {

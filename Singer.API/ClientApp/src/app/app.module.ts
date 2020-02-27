@@ -20,6 +20,7 @@ import { ConfigurationService } from './modules/core/services/clientconfiguratio
 import { ApplicationInsightsService } from './modules/core/services/applicationinsights.service';
 import { registerLocaleData } from '@angular/common';
 import localeBe from '@angular/common/locales/be';
+import { CalendarModule } from 'angular-calendar';
 
 // Import locale settings for Belgium
 registerLocaleData(localeBe);
