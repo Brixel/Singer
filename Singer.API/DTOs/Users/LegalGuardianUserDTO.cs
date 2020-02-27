@@ -1,4 +1,4 @@
-using Singer.Resources;
+﻿using Singer.Resources;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -53,6 +53,7 @@ namespace Singer.DTOs.Users
          ResourceType = typeof(DisplayNames),
          Name = nameof(DisplayNames.Country))]
       public string Country { get; set; }
+      public Guid UserId { get; set; }
    }
 
    public class CreateLegalGuardianUserDTO : CreateUserDTO

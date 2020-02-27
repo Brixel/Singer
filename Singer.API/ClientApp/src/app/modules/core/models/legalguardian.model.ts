@@ -46,6 +46,7 @@ export interface CreateLegalGuardianDTO {
 
 export class LegalGuardian {
    id: string;
+   userId: string;
    firstName: string;
    lastName: string;
    email: string;
