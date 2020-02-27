@@ -21,7 +21,7 @@ namespace Singer.Models
 
       public DateTime StartDateTime { get; set; }
       public DateTime EndDateTime { get; set; }
-      private Registration()
+      public Registration()
       {
          // Default the registrations are set the pending
          Status = RegistrationStatus.Pending;
