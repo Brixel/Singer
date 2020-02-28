@@ -5,8 +5,13 @@
          <input matInput #filterInput placeholder="Filter" />
       </mat-form-field>
       <mat-form-field>
-         <input matInput #searchDateFrom [matDatepicker]="dateFrom" placeholder="Datum vanaf"
-            (dateChange)="loadData()" />
+         <input
+            matInput
+            #searchDateFrom
+            [matDatepicker]="dateFrom"
+            placeholder="Datum vanaf"
+            (dateChange)="loadData()"
+         />
          <mat-datepicker-toggle matSuffix [for]="dateFrom"></mat-datepicker-toggle>
          <mat-datepicker #dateFrom></mat-datepicker>
       </mat-form-field>
@@ -31,8 +36,7 @@
       </mat-form-field>
    </div>
    <div *ngIf="authService.isAdmin$ | async" class="careuser-filter">
-      <app-care-user-multi-autocomplete (onChange)="onCareUserFilterChange($event)">
-      </app-care-user-multi-autocomplete>
+      <app-care-user-multi-autocomplete (onChange)="onCareUserFilterChange($event)"></app-care-user-multi-autocomplete>
    </div>
 
    <mat-table [dataSource]="dataSource" matSort>
@@ -68,10 +72,13 @@
       <ng-container matColumnDef="registrationStatus">
          <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
          <mat-cell *matCellDef="let row">
-            <app-registration-status [status]="row.registrationStatus" *ngIf="!authService.isAdmin$ | async">
+            <app-registration-status [status]="row.registrationStatus" *ngIf="!(authService.isAdmin$ | async)">
             </app-registration-status>
-            <app-registration-status-toggle *ngIf="authService.isAdmin$ | async" [status]="row.registrationStatus"
-               (onStatusChange)="changeRegistration($event, row)">
+            <app-registration-status-toggle
+               *ngIf="authService.isAdmin$ | async"
+               [status]="row.registrationStatus"
+               (onStatusChange)="changeRegistration($event, row)"
+            >
             </app-registration-status-toggle>
          </mat-cell>
       </ng-container>
@@ -79,8 +86,14 @@
       <ng-container matColumnDef="paginator">
          <mat-footer-cell *matFooterCellDef colspan="20">
             <!-- Paginator -->
-            <mat-paginator #paginator [length]="dataSource?.totalSize$ | async" [pageIndex]="pageIndex"
-               [pageSize]="searchDTO.pageSize" [pageSizeOptions]="[1, 15, 25, 50, 100]" showFirstLastButtons>
+            <mat-paginator
+               #paginator
+               [length]="dataSource?.totalSize$ | async"
+               [pageIndex]="pageIndex"
+               [pageSize]="searchDTO.pageSize"
+               [pageSizeOptions]="[1, 15, 25, 50, 100]"
+               showFirstLastButtons
+            >
             </mat-paginator>
          </mat-footer-cell>
       </ng-container>
