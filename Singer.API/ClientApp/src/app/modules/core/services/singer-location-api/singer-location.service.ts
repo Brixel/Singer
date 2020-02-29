@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { SingerEventLocationProxy } from './singerevent-location.proxy';
 import { map } from 'rxjs/operators';
 import { PaginationDTO } from '../../DTOs/pagination.dto';
 import { UpdateSingerEventLocationDTO, CreateSingerEventLocationDTO } from '../../DTOs/singer-event-location.dto';
-import { SingerEventLocation } from '../../models/singerevent.model';
+import { SingerLocation } from '../../models/singer-location.model';
+import { SingerLocationProxy } from './singer-location.proxy';
 
 @Injectable({
    providedIn: 'root',
 })
-export class SingerEventLocationService {
-   constructor(private singerEventLocationProxy: SingerEventLocationProxy) {}
+export class SingerLocationService {
+   constructor(private singerEventLocationProxy: SingerLocationProxy) {}
 
    fetchSingerEventLocationsData(
       sortDirection?: string,
@@ -24,7 +24,7 @@ export class SingerEventLocationService {
          .pipe(map(res => res));
    }
 
-   updateSingerEventLocation(updateSingerEventLocation: SingerEventLocation) {
+   updateSingerEventLocation(updateSingerEventLocation: SingerLocation) {
       const updateSingerEventLocationDTO = <UpdateSingerEventLocationDTO>{
          name: updateSingerEventLocation.name,
          address: updateSingerEventLocation.address,
@@ -37,7 +37,7 @@ export class SingerEventLocationService {
          .pipe(map(res => res));
    }
 
-   createSingerEventLocation(createSingerEventLocation: SingerEventLocation) {
+   createSingerEventLocation(createSingerEventLocation: SingerLocation) {
       const createSingerEventLocationDTO = <CreateSingerEventLocationDTO>{
          name: createSingerEventLocation.name,
          address: createSingerEventLocation.address,

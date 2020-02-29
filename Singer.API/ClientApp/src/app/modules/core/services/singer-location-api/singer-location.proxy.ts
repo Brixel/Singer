@@ -13,7 +13,7 @@ import {
 @Injectable({
    providedIn: 'root',
 })
-export class SingerEventLocationProxy {
+export class SingerLocationProxy {
    constructor(private apiService: ApiService) {}
 
    getSingerEventLocations(

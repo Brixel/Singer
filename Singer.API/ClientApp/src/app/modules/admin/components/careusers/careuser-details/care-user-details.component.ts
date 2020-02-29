@@ -7,9 +7,9 @@ import { startWith, debounceTime, switchMap, catchError, map } from 'rxjs/operat
 import { of, Observable, BehaviorSubject } from 'rxjs';
 import { LegalGuardian } from 'src/app/modules/core/models/legalguardian.model';
 import { LegalguardiansService } from 'src/app/modules/core/services/legal-guardians-api/legalguardians.service';
-import { SingerEventLocationService } from 'src/app/modules/core/services/singerevents-api/singerevent-location.service';
+import { SingerLocationService } from 'src/app/modules/core/services/singer-location-api/singer-location.service';
 import { dateNotAfter, dateNotBefore } from 'src/app/modules/core/utils/custom-date-validators';
-import { SingerEventLocation } from 'src/app/modules/core/models/singerevent.model';
+import { SingerLocation } from 'src/app/modules/core/models/singer-location.model';
 
 // Data we pass along with the creation of the Mat-Dialog box
 export interface CareUserDetailsFormData {
@@ -37,7 +37,7 @@ export class CareUserDetailsComponent implements OnInit {
    ageGroups = AgeGroup;
 
    // Available DayCare Locations
-   private availableLocationsSubject = new BehaviorSubject<SingerEventLocation[]>([]);
+   private availableLocationsSubject = new BehaviorSubject<SingerLocation[]>([]);
    availableLocations$ = this.availableLocationsSubject.asObservable();
 
    // For holding result from Legalguardian lookup change events
@@ -96,7 +96,7 @@ export class CareUserDetailsComponent implements OnInit {
       // Care user that we want to edit
       @Inject(MAT_DIALOG_DATA) public data: CareUserDetailsFormData,
       private _legalGuardianUserService: LegalguardiansService,
-      private _singerEventLocationService: SingerEventLocationService
+      private _singerEventLocationService: SingerLocationService
    ) {
       this.currentCareUserInstance = data.careUserInstance;
       this.isAdding = data.careUserInstance === null;

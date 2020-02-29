@@ -1,6 +1,6 @@
 import { AgeGroup } from './enum';
 import { LinkedLegalGuardianDTO, LinkedLegalGuardian } from './legalguardian.model';
-import { SingerEventLocation } from './singerevent.model';
+import { SingerLocation } from './singer-location.model';
 
 export interface CareUserDTO {
    id: string;
@@ -14,8 +14,8 @@ export interface CareUserDTO {
    ageGroup: AgeGroup;
    isExtern: boolean;
    hasTrajectory: boolean;
-   normalDaycareLocation: SingerEventLocation;
-   vacationDaycareLocation: SingerEventLocation;
+   normalDaycareLocation: SingerLocation;
+   vacationDaycareLocation: SingerLocation;
    legalGuardianUsers: LinkedLegalGuardianDTO[];
 }
 
@@ -30,8 +30,8 @@ export interface LinkedCareUserDTO {
    ageGroup: AgeGroup;
    isExtern: boolean;
    hasTrajectory: boolean;
-   normalDaycareLocation: SingerEventLocation;
-   vacationDaycareLocation: SingerEventLocation;
+   normalDaycareLocation: SingerLocation;
+   vacationDaycareLocation: SingerLocation;
 }
 
 export interface UpdateCareUserDTO {

@@ -1,6 +1,6 @@
 import * as FileSaver from 'file-saver';
 import { Component, OnInit, Inject } from '@angular/core';
-import { SingerEvent, SingerEventLocation } from 'src/app/modules/core/models/singerevent.model';
+import { SingerEvent } from 'src/app/modules/core/models/singerevent.model';
 import { FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatButtonToggleChange, MatSnackBar, MatSelectChange } from '@angular/material';
 import { SingerEventsService } from 'src/app/modules/core/services/singerevents-api/singerevents.service';
@@ -8,10 +8,11 @@ import { EventSlot } from 'src/app/modules/core/models/eventslot';
 import { RegistrationStatus } from 'src/app/modules/core/models/enum';
 
 import { SingerAdminEventService } from '../../../services/singer-admin-event.service';
-import { SingerEventLocationService } from 'src/app/modules/core/services/singerevents-api/singerevent-location.service';
+import { SingerLocationService } from 'src/app/modules/core/services/singer-location-api/singer-location.service';
 import { DaycareLocationDTO } from 'src/app/modules/core/DTOs/daycarelocation.dto';
 import { isNullOrUndefined } from 'util';
 import { LoadingService } from 'src/app/modules/core/services/loading.service';
+import { SingerLocation } from 'src/app/modules/core/models/singer-location.model';
 
 export class SingerRegistrationData {
    event: SingerEvent;
@@ -28,13 +29,13 @@ export class SingerRegistrationsComponent implements OnInit {
    event: SingerEvent;
    selectedEventSlot: EventSlot;
    registrationStatus = RegistrationStatus;
-   availableLocations: SingerEventLocation[];
+   availableLocations: SingerLocation[];
    hasDaycare: boolean;
 
    constructor(
       private singerEventService: SingerEventsService,
       private singerAdminEventService: SingerAdminEventService,
-      private _singerEventLocationService: SingerEventLocationService,
+      private _singerEventLocationService: SingerLocationService,
       private _snackBar: MatSnackBar,
       private dialogRef: MatDialogRef<SingerRegistrationsComponent>,
       @Inject(MAT_DIALOG_DATA) data: SingerRegistrationData,
@@ -67,11 +68,11 @@ export class SingerRegistrationsComponent implements OnInit {
       });
 
       this._singerEventLocationService.fetchSingerEventLocationsData('asc', 'name', 0, 1000, '').subscribe(res => {
-         this.availableLocations = res.items as SingerEventLocation[];
+         this.availableLocations = res.items as SingerLocation[];
       });
    }
 
-   compareLocations(locationX: SingerEventLocation, locationY: DaycareLocationDTO) {
+   compareLocations(locationX: SingerLocation, locationY: DaycareLocationDTO) {
       if (!locationY) {
          return false;
       }
@@ -79,7 +80,7 @@ export class SingerRegistrationsComponent implements OnInit {
    }
 
    changeLocation(event: MatSelectChange, registrationId: string) {
-      const daycareLocation = <SingerEventLocation>event.value;
+      const daycareLocation = <SingerLocation>event.value;
       this.singerAdminEventService
          .updateDaycareLocation(this.event.id, registrationId, daycareLocation.id)
          .subscribe(res =>

@@ -8,8 +8,8 @@ import {
    SingerEventDetailsFormData,
 } from '../singerevent-details/singerevent-details.component';
 import { SingerEventsService } from 'src/app/modules/core/services/singerevents-api/singerevents.service';
-import { SingerEvent, SingerEventLocation } from 'src/app/modules/core/models/singerevent.model';
-import { SingerEventLocationService } from 'src/app/modules/core/services/singerevents-api/singerevent-location.service';
+import { SingerEvent } from 'src/app/modules/core/models/singerevent.model';
+import { SingerLocationService } from 'src/app/modules/core/services/singer-location-api/singer-location.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
    SingerRegistrationsComponent,
@@ -17,6 +17,7 @@ import {
 } from '../event-registrations/event-registrations.component';
 import { SingerEventAdminRegisterComponent } from '../singer-eventadmin-register/singer-eventadmin-register.component';
 import { LoadingService } from 'src/app/modules/core/services/loading.service';
+import { SingerLocation } from 'src/app/modules/core/models/singer-location.model';
 
 @Component({
    selector: 'app-singerevent-overview',
@@ -55,7 +56,7 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
       'actions',
    ];
 
-   availableLocations: SingerEventLocation[];
+   availableLocations: SingerLocation[];
 
    // Paginator
    pageSize = 15;
@@ -64,7 +65,7 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
    constructor(
       public dialog: MatDialog,
       private _singerEventsService: SingerEventsService,
-      private _singerEventLocationService: SingerEventLocationService,
+      private _singerEventLocationService: SingerLocationService,
       private _snackBar: MatSnackBar,
       private _loadingService: LoadingService
    ) {}
@@ -72,7 +73,7 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
    ngOnInit() {
       this.dataSource = new SingerEventOverviewDataSource(this._singerEventsService);
       this._singerEventLocationService.fetchSingerEventLocationsData('asc', 'name', 0, 1000, '').subscribe(res => {
-         this.availableLocations = res.items as SingerEventLocation[];
+         this.availableLocations = res.items as SingerLocation[];
       });
       this.sort.active = 'title';
       this.sort.direction = 'asc';
