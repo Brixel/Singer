@@ -124,10 +124,10 @@ export class SingerRegistrationsComponent implements OnInit {
    }
 
    export() {
-      this.singerEventService.downloadEventSlotRegistartionCsv(this.event.id, this.selectedEventSlot.id).subscribe(
+      this.singerEventService.downloadEventSlotRegistartionXlsx(this.event.id, this.selectedEventSlot.id).subscribe(
          response => {
             let blob: any = new Blob([response], {
-               type: 'text/plain; charset=utf-8',
+               type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
             });
 
             let eventDate =
@@ -137,7 +137,7 @@ export class SingerRegistrationsComponent implements OnInit {
                `${this.selectedEventSlot.startDateTime.getHours()}u` +
                `${this.selectedEventSlot.startDateTime.getMinutes()}`;
 
-            FileSaver.saveAs(blob, `${this.event.title} - ${eventDate} - deelnemers.csv`);
+            FileSaver.saveAs(blob, `${this.event.title} - ${eventDate} - deelnemers.xlsx`);
          },
          error => this.handleDownloadError(error),
          () => console.info('File downloaded successfully')

@@ -104,6 +104,10 @@ export class SingerEventsProxy {
       return this.apiService.downloadFile(`api/Event/${eventId}/registrations/${eventSlotId}/deelnemerslijst.csv`);
    }
 
+   downloadEventSlotRegistartionXlsx(eventId: string, eventSlotId: string): Observable<Blob> {
+      return this.apiService.downloadFile(`api/Event/${eventId}/registrations/${eventSlotId}/deelnemerslijst.xlsx`);
+   }
+
    getSingleEvent(eventId: string): Observable<SingerEventDTO> {
       return this.apiService.get<SingerEventDTO>(`api/event/${eventId}`);
    }

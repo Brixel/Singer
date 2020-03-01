@@ -246,6 +246,10 @@ export class SingerEventsService extends GenericService<
       return this.singerEventsProxy.downloadEventSlotRegistartionCsv(eventId, eventSlotId);
    }
 
+   downloadEventSlotRegistartionXlsx(eventId: string, eventSlotId: string): Observable<Blob> {
+      return this.singerEventsProxy.downloadEventSlotRegistartionXlsx(eventId, eventSlotId);
+   }
+
    getSingleEvent(eventId: string): Observable<SingerEventDTO> {
       return this.singerEventsProxy.getSingleEvent(eventId);
    }

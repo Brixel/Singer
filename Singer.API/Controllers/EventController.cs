@@ -18,6 +18,8 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Singer.Helpers.Extensions;
+using OfficeOpenXml;
+
 
 namespace Singer.Controllers
 {
@@ -31,6 +33,7 @@ namespace Singer.Controllers
       private readonly IActionNotificationService _actionNotificationService;
       private readonly IEventService _eventService;
       private readonly ICareUserService _careUserService;
+      private const string XlsxContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
       #endregion FIELDS
 
@@ -225,6 +228,18 @@ namespace Singer.Controllers
          csv.WriteRecords(list);
 
          return Ok(writer.ToString());
+      }
+
+      [HttpGet("{eventId}/registrations/{eventSlotId}/deelnemerslijst.xlsx")]
+      [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
+      public async Task<ActionResult> GetRegistrationsAsXlsx(Guid eventId, Guid eventSlotId)
+      {
+         var list = await _eventRegistrationService.GetParticipantsForSlotAsync(eventId, eventSlotId);
+         var p = new ExcelPackage();
+         var s = p.Workbook.Worksheets.Add("Deelnemers");
+         s.Cells[1, 1].LoadFromCollection(list);
+
+         return File(p.GetAsByteArray(), XlsxContentType, "deelnemerslijst.xlsx");
       }
 
       #endregion get
