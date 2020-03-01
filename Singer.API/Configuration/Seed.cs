@@ -120,7 +120,6 @@ namespace Singer.Configuration
                {
                   User = user,
                   AgeGroup = AgeGroup.Child,
-                  CaseNumber = new Random().Next(1000, 5000).ToString(),
                   BirthDay = DateTime.UtcNow.AddYears(new Random().Next(-14, -5)),
                   HasTrajectory = false,
                   IsExtern = false,

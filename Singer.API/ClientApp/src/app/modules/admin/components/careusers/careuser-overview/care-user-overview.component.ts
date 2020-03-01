@@ -32,7 +32,7 @@ export class CareUserOverviewComponent implements OnInit, AfterViewInit {
    dataSource: CareUserOverviewDataSource;
 
    /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-   displayedColumns = ['firstName', 'lastName', 'birthDay', 'caseNumber', 'ageGroup', 'isExtern', 'hasTrajectory'];
+   displayedColumns = ['firstName', 'lastName', 'birthDay', 'ageGroup', 'isExtern', 'hasTrajectory'];
 
    // Paginator
    pageSize = 15;

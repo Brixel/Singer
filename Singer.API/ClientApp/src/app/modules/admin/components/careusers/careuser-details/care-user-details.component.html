@@ -99,20 +99,6 @@
          Administratieve gegevens
       </h3>
       <div class="inline-fields">
-         <!-- CaseNumber Field -->
-         <mat-form-field>
-            <input
-               matInput
-               type="text"
-               [placeholder]="caseNumberFieldPlaceholder"
-               formControlName="caseNumberFieldControl"
-            />
-            <mat-error *ngIf="formControlGroup.controls.caseNumberFieldControl.errors?.required">
-               {{ caseNumberFieldPlaceholder }}
-               is een verplicht veld.
-            </mat-error>
-         </mat-form-field>
-
          <!-- AgeGroup Field -->
          <mat-form-field>
             <mat-select mat-input [placeholder]="ageGroupFieldPlaceholder" formControlName="ageGroupFieldControl">
