@@ -44,8 +44,7 @@ namespace Singer.Services
          Expression<Func<CareUser, bool>> filterExpression =
             f =>
                f.User.FirstName.Contains(filter) ||
-               f.User.LastName.Contains(filter) ||
-               f.CaseNumber.Contains(filter);
+               f.User.LastName.Contains(filter);
 
          return filterExpression;
       }
