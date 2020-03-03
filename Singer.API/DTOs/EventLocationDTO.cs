@@ -220,4 +220,9 @@ namespace Singer.DTOs
           Name = nameof(DisplayNames.Country))]
       public string Country { get; set; }
    }
+
+   public class SingerLocationSearchDTO : SearchDTOBase
+   {
+
+   }
 }

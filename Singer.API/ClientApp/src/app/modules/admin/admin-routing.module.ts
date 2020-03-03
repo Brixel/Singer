@@ -9,6 +9,7 @@ import { AddFamilyWizardComponent } from './components/add-family-wizard/add-fam
 import { MainComponent } from 'src/app/main.component';
 import { PendingRegistrationsComponent } from './components/pending-registrations/pending-registrations.component';
 import { PendingActionsComponent } from './components/pending-actions/pending-actions.component';
+import { LocationOverviewComponent } from './components/location-overview/location-overview.component';
 
 const routes: Routes = [
    {
@@ -43,6 +44,10 @@ const routes: Routes = [
          {
             path: 'te-verwerken-emails',
             component: PendingActionsComponent,
+         },
+         {
+            path: 'locatie-beheer',
+            component: LocationOverviewComponent,
          },
       ],
    },

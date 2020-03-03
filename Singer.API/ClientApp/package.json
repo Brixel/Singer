@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.1.0-feat-AB-149-singer-location-ui.1450",
+   "version": "0.1.0-feat-AB-149-singer-location-ui.1451",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",

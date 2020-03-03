@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Registration, RegistrationOverview } from '../../models/registration.model';
+import { RegistrationOverview } from '../../models/registration.model';
 import { RegistrationOverviewDTO } from '../../DTOs/registration.dto';
 import { GenericService } from '../generic-service';
 import { HttpClient } from '@angular/common/http';

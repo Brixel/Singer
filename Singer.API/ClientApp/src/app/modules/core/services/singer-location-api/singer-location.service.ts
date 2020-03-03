@@ -2,15 +2,59 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { PaginationDTO } from '../../DTOs/pagination.dto';
-import { UpdateSingerLocationDTO, CreateSingerLocationDTO } from '../../DTOs/singer-event-location.dto';
+import {
+   UpdateSingerLocationDTO,
+   CreateSingerLocationDTO,
+   SingerLocationDTO,
+   SingerLocationSearchDTO,
+} from '../../DTOs/singer-event-location.dto';
 import { SingerLocation } from '../../models/singer-location.model';
 import { SingerLocationProxy } from './singer-location.proxy';
+import { GenericService } from '../generic-service';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
    providedIn: 'root',
 })
-export class SingerLocationService {
-   constructor(private singerEventLocationProxy: SingerLocationProxy) {}
+export class SingerLocationService extends GenericService<
+   SingerLocation,
+   SingerLocationDTO,
+   CreateSingerLocationDTO,
+   UpdateSingerLocationDTO,
+   SingerLocationSearchDTO
+> {
+   constructor(private singerEventLocationProxy: SingerLocationProxy, protected httpClient: HttpClient) {
+      super('api/singerlocation');
+   }
+
+   toEditDTO(model: SingerLocation): UpdateSingerLocationDTO {
+      return <UpdateSingerLocationDTO>{
+         address: model.address,
+         city: model.city,
+         country: model.country,
+         name: model.name,
+         postalCode: model.postalCode,
+      };
+   }
+   toCreateDTO(model: SingerLocation): CreateSingerLocationDTO {
+      return <CreateSingerLocationDTO>{
+         address: model.address,
+         city: model.city,
+         country: model.country,
+         name: model.name,
+         postalCode: model.postalCode,
+      };
+   }
+   toModel(dto: SingerLocationDTO): SingerLocation {
+      return <SingerLocation>{
+         address: dto.address,
+         city: dto.city,
+         country: dto.country,
+         id: dto.id,
+         name: dto.name,
+         postalCode: dto.postalCode,
+      };
+   }
 
    fetchSingerEventLocationsData(
       sortDirection?: string,

@@ -1,3 +1,5 @@
+import { SearchDTOBase } from './base.dto';
+
 export interface SingerLocationDTO {
    id: string;
    name: string;
@@ -22,3 +24,5 @@ export interface UpdateSingerLocationDTO {
    city: string;
    country: string;
 }
+
+export interface SingerLocationSearchDTO extends SearchDTOBase {}
