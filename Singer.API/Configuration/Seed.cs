@@ -26,14 +26,14 @@ namespace Singer.Configuration
 
       private static List<EventLocation> _eventLocations = new List<EventLocation>() {
          new EventLocation{
-            Name="Brixel",
-            Address= "Spalbeekstraat",
-            City="Spalbeek",
+            Name="Hasselt",
+            Address= "Ekkelgaarden 20",
+            City="Hasselt",
             Country="Belgie",
-            PostalCode="3510"
+            PostalCode="3500"
          },
          new EventLocation{
-            Name="Sint-Gerardus",
+            Name="Diepenbeek",
             Address= "Sint-Gerardusdreef 1",
             City="Diepenbeek",
             Country="Belgie",
