@@ -50,7 +50,7 @@ namespace Singer.DTOs
       [Display(
          ResourceType = typeof(DisplayNames),
          Name = nameof(DisplayNames.Location))]
-      public EventLocationDTO Location { get; set; }
+      public SingerLocationDTO Location { get; set; }
 
       [Required(
          ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
@@ -64,7 +64,7 @@ namespace Singer.DTOs
          ResourceType = typeof(DisplayNames),
          Name = nameof(DisplayNames.MaxRegistrants))]
       public int MaxRegistrants { get; set; }
-      
+
       [Required(
          ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
          ErrorMessageResourceType = typeof(ErrorMessages))]

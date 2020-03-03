@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Singer.DTOs
 {
-   public class EventLocationDTO : IIdentifiable
+   public class SingerLocationDTO : IIdentifiable
    {
       [Required(
          ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
@@ -77,7 +77,7 @@ namespace Singer.DTOs
       public string Country { get; set; }
    }
 
-   public class CreateEventLocationDTO
+   public class CreateSingerLocationDTO
    {
       [Required(
          ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
@@ -149,7 +149,7 @@ namespace Singer.DTOs
       public string Country { get; set; }
    }
 
-   public class UpdateEventLocationDTO
+   public class UpdateSingerLocationDTO
    {
       [Required(
          ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),

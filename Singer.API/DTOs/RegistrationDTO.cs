@@ -56,7 +56,7 @@ namespace Singer.DTOs
          Name = nameof(DisplayNames.CareUser))]
       public CareUserDTO CareUser { get; set; }
 
-      public EventLocationDTO DaycareLocation { get; set; }
+      public SingerLocationDTO DaycareLocation { get; set; }
 
       public DateTime StartDateTime { get; set; }
       public DateTime EndDateTime { get; set; }

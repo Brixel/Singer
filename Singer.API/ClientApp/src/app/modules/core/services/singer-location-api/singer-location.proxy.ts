@@ -5,9 +5,9 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { PaginationDTO } from '../../DTOs/pagination.dto';
 import {
-   UpdateSingerEventLocationDTO,
-   CreateSingerEventLocationDTO,
-   SingerEventLocationDTO,
+   UpdateSingerLocationDTO,
+   CreateSingerLocationDTO,
+   SingerLocationDTO,
 } from '../../DTOs/singer-event-location.dto';
 
 @Injectable({
@@ -32,13 +32,11 @@ export class SingerLocationProxy {
       return this.apiService.get('api/eventlocation', searchParams).pipe(map(res => res));
    }
 
-   updateSingerEventLocation(id: string, updateSingerEventLocationDTO: UpdateSingerEventLocationDTO) {
+   updateSingerEventLocation(id: string, updateSingerEventLocationDTO: UpdateSingerLocationDTO) {
       return this.apiService.put(`api/eventlocation/${id}`, updateSingerEventLocationDTO).pipe(map(res => res));
    }
 
-   createSingerEventLocation(
-      createSingerEventLocationDTO: CreateSingerEventLocationDTO
-   ): Observable<SingerEventLocationDTO> {
+   createSingerEventLocation(createSingerEventLocationDTO: CreateSingerLocationDTO): Observable<SingerLocationDTO> {
       return this.apiService.post('api/eventlocation', createSingerEventLocationDTO).pipe(map(res => res));
    }
 }

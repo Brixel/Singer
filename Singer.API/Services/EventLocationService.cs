@@ -10,24 +10,24 @@ using Singer.Services.Interfaces;
 
 namespace Singer.Services
 {
-   public class EventLocationService : DatabaseService<EventLocation, EventLocationDTO, CreateEventLocationDTO, UpdateEventLocationDTO>,
+   public class EventLocationService : DatabaseService<SingerLocation, SingerLocationDTO, CreateSingerLocationDTO, UpdateSingerLocationDTO>,
       IEventLocationService
    {
       public EventLocationService(ApplicationDbContext context, IMapper mapper) : base(context, mapper)
       {
       }
 
-      protected override DbSet<EventLocation> DbSet => Context.EventLocations;
+      protected override DbSet<SingerLocation> DbSet => Context.SingerLocations;
 
-      protected override IQueryable<EventLocation> Queryable => Context.EventLocations;
+      protected override IQueryable<SingerLocation> Queryable => Context.SingerLocations;
 
-      protected override Expression<Func<EventLocation, bool>> Filter(string filter)
+      protected override Expression<Func<SingerLocation, bool>> Filter(string filter)
       {
          if (string.IsNullOrWhiteSpace(filter))
          {
             return o => true;
          }
-         Expression<Func<EventLocation, bool>> filterExpression =
+         Expression<Func<SingerLocation, bool>> filterExpression =
             f =>
                f.Address.Contains(filter) ||
                f.City.Contains(filter) ||

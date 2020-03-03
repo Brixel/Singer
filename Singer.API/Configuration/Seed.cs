@@ -24,15 +24,15 @@ namespace Singer.Configuration
    public static class Seed
    {
 
-      private static List<EventLocation> _eventLocations = new List<EventLocation>() {
-         new EventLocation{
+      private static List<SingerLocation> _eventLocations = new List<SingerLocation>() {
+         new SingerLocation{
             Name="Brixel",
             Address= "Spalbeekstraat",
             City="Spalbeek",
             Country="Belgie",
             PostalCode="3510"
          },
-         new EventLocation{
+         new SingerLocation{
             Name="Sint-Gerardus",
             Address= "Sint-Gerardusdreef 1",
             City="Diepenbeek",
@@ -271,7 +271,7 @@ namespace Singer.Configuration
 
       public static void SeedEventLocations(ApplicationDbContext applicationDbContext)
       {
-         if (applicationDbContext.EventLocations.Count() == 0)
+         if (applicationDbContext.SingerLocations.Count() == 0)
          {
             foreach (var loc in _eventLocations)
             {

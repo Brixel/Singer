@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { PaginationDTO } from '../../DTOs/pagination.dto';
-import { UpdateSingerEventLocationDTO, CreateSingerEventLocationDTO } from '../../DTOs/singer-event-location.dto';
+import { UpdateSingerLocationDTO, CreateSingerLocationDTO } from '../../DTOs/singer-event-location.dto';
 import { SingerLocation } from '../../models/singer-location.model';
 import { SingerLocationProxy } from './singer-location.proxy';
 
@@ -25,7 +25,7 @@ export class SingerLocationService {
    }
 
    updateSingerEventLocation(updateSingerEventLocation: SingerLocation) {
-      const updateSingerEventLocationDTO = <UpdateSingerEventLocationDTO>{
+      const updateSingerEventLocationDTO = <UpdateSingerLocationDTO>{
          name: updateSingerEventLocation.name,
          address: updateSingerEventLocation.address,
          postalCode: updateSingerEventLocation.postalCode,
@@ -38,7 +38,7 @@ export class SingerLocationService {
    }
 
    createSingerEventLocation(createSingerEventLocation: SingerLocation) {
-      const createSingerEventLocationDTO = <CreateSingerEventLocationDTO>{
+      const createSingerEventLocationDTO = <CreateSingerLocationDTO>{
          name: createSingerEventLocation.name,
          address: createSingerEventLocation.address,
          postalCode: createSingerEventLocation.postalCode,

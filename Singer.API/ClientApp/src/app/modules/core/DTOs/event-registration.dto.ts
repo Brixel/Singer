@@ -1,6 +1,6 @@
 import { RegistrationStatus, AgeGroup, TimeUnit, WeekDay, MonthRepeatMoment, RepeatType } from '../models/enum';
 import { EventSlotDTO } from '../models/eventslot.dto';
-import { SingerEventLocationDTO } from './singer-event-location.dto';
+import { SingerLocationDTO } from './singer-event-location.dto';
 import { DaycareLocationDTO } from './daycarelocation.dto';
 import { IFilterBaseDTO } from './filterbase.dto';
 
@@ -82,7 +82,7 @@ export interface SingerEventDTO {
    title: string;
    description: string;
    allowedAgeGroups: AgeGroup[];
-   location: SingerEventLocationDTO;
+   location: SingerLocationDTO;
    maxRegistrants: number;
    currentRegistrants: number;
    cost: number;
