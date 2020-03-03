@@ -21,9 +21,6 @@ namespace Singer.Models.Users
       public DateTime BirthDay { get; set; }
 
       [PersonalData]
-      public string CaseNumber { get; set; }
-
-      [PersonalData]
       public AgeGroup AgeGroup { get; set; }
 
       [PersonalData]
