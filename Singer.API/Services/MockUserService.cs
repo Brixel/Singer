@@ -29,7 +29,6 @@ namespace Singer.Services
    //                LastName = "Vermeulen"
    //             },
    //             BirthDay = DateTime.Parse("06/07/2008", CultureInfo.InvariantCulture),
-   //             CaseNumber = "0123456789",
    //             AgeGroup = Models.AgeGroup.Child,
    //             IsExtern = false,
    //             HasTrajectory = true,
@@ -45,7 +44,6 @@ namespace Singer.Services
 
    //             },
    //             BirthDay = DateTime.Parse("08/07/2006", CultureInfo.InvariantCulture),
-   //             CaseNumber = "9876543210",
    //             AgeGroup = Models.AgeGroup.Child,
    //             IsExtern = true,
    //             HasTrajectory = true,
@@ -62,7 +60,6 @@ namespace Singer.Services
    //             }
    // ,
    //             BirthDay = DateTime.Parse("06/08/2010", CultureInfo.InvariantCulture),
-   //             CaseNumber = "091837465",
    //             AgeGroup = Models.AgeGroup.Youngster,
    //             IsExtern = false,
    //             HasTrajectory = true,
@@ -134,7 +131,6 @@ namespace Singer.Services
    //             HasVacationDayCare = x.HasVacationDayCare,
    //             BirthDay = x.BirthDay,
    //             HasNormalDayCare = x.HasNormalDayCare,
-   //             CaseNumber = x.CaseNumber,
    //             IsExtern = x.IsExtern,
    //             Email = x.User.Email
 
@@ -167,7 +163,6 @@ namespace Singer.Services
    //          userToUpdate.User.FirstName = user.FirstName;
    //          userToUpdate.User.LastName = user.LastName;
    //          userToUpdate.BirthDay = user.BirthDay;
-   //          userToUpdate.CaseNumber = user.CaseNumber;
    //          userToUpdate.HasNormalDayCare = user.HasNormalDayCare;
    //          userToUpdate.HasTrajectory = user.HasTrajectory;
    //          userToUpdate.HasVacationDayCare = user.HasVacationDayCare;
@@ -181,7 +176,6 @@ namespace Singer.Services
    //             FirstName = user.FirstName,
    //             LastName = user.LastName,
    //             BirthDay = user.BirthDay,
-   //             CaseNumber = user.CaseNumber,
    //             HasNormalDayCare = user.HasNormalDayCare,
    //             HasTrajectory = user.HasTrajectory,
    //             HasVacationDayCare = user.HasVacationDayCare,

@@ -21,14 +21,6 @@ namespace Singer.DTOs.Users
          ErrorMessageResourceType = typeof(ErrorMessages))]
       [Display(
          ResourceType = typeof(DisplayNames),
-         Name = nameof(DisplayNames.CaseNumber))]
-      public string CaseNumber { get; set; }
-
-      [Required(
-         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
-         ErrorMessageResourceType = typeof(ErrorMessages))]
-      [Display(
-         ResourceType = typeof(DisplayNames),
          Name = nameof(DisplayNames.AgeGroup))]
       public AgeGroup AgeGroup { get; set; }
 

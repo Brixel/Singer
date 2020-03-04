@@ -10,6 +10,7 @@ import { startWith, debounceTime, switchMap, map } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
 import { CareUserService } from 'src/app/modules/core/services/care-users-api/careusers.service';
 import { AgeGroup } from 'src/app/modules/core/models/enum';
+import { AuthService } from 'src/app/modules/core/services/auth.service';
 
 @Component({
    selector: 'app-search-care-user-dialog',
@@ -23,7 +24,8 @@ export class SearchCareUserDialogComponent implements OnInit {
    constructor(
       private _careUserService: CareUserService,
       private dialogRef: MatDialogRef<SingerRegistrationsComponent>,
-      @Inject(MAT_DIALOG_DATA) data: SingerRegistrationData
+      @Inject(MAT_DIALOG_DATA) data: SingerRegistrationData,
+      private _authService: AuthService
    ) {}
 
    ngOnInit() {
@@ -41,9 +43,15 @@ export class SearchCareUserDialogComponent implements OnInit {
       );
    }
    careUserLookup(value: string): Observable<RelatedCareUser[]> {
-      return this._careUserService
-         .getOwnCareUsers(value)
-         .pipe(map(res => res.map(careUser => new RelatedCareUser(careUser))));
+      if (this._authService.isAdmin$.value) {
+         return this._careUserService
+            .fetchCareUsersData('asc', 'id', 0, 15, value)
+            .pipe(map(res => res.items.map(careUser => new RelatedCareUser(careUser))));
+      } else {
+         return this._careUserService
+            .getOwnCareUsers(value)
+            .pipe(map(res => res.map(careUser => new RelatedCareUser(careUser))));
+      }
    }
    close() {
       this.dialogRef.close();

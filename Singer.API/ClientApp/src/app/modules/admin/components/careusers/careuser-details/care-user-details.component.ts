@@ -50,7 +50,6 @@ export class CareUserDetailsComponent implements OnInit {
    readonly firstNameFieldPlaceholder = 'Voornaam';
    readonly lastNameFieldPlaceholder = 'Familienaam';
    readonly birthdayFieldPlaceholder = 'Geboortedatum';
-   readonly caseNumberFieldPlaceholder = 'Dossiernr';
    readonly ageGroupFieldPlaceholder = 'Leeftijdsgroep';
    readonly isExternFieldPlaceholder = 'Klas of extern';
    readonly hasTrajectoryFieldPlaceholder = 'Trajectfunctie';
@@ -83,7 +82,6 @@ export class CareUserDetailsComponent implements OnInit {
          dateNotBefore(this.minBirthday),
          dateNotAfter(this.maxBirthday),
       ]),
-      caseNumberFieldControl: new FormControl('', [Validators.required]),
       ageGroupFieldControl: new FormControl('', [Validators.required]),
       isExternFieldControl: new FormControl('', [Validators.required]),
       hasTrajectoryFieldControl: new FormControl('', [Validators.required]),
@@ -149,7 +147,6 @@ export class CareUserDetailsComponent implements OnInit {
       this.formControlGroup.controls.firstNameFieldControl.reset(this.currentCareUserInstance.firstName);
       this.formControlGroup.controls.lastNameFieldControl.reset(this.currentCareUserInstance.lastName);
       this.formControlGroup.controls.birthdayFieldControl.reset(this.currentCareUserInstance.birthDay);
-      this.formControlGroup.controls.caseNumberFieldControl.reset(this.currentCareUserInstance.caseNumber);
       this.formControlGroup.controls.ageGroupFieldControl.setValue(this.currentCareUserInstance.ageGroup);
       this.formControlGroup.controls.isExternFieldControl.reset(
          this.currentCareUserInstance.isExtern ? 'true' : 'false'
@@ -233,7 +230,6 @@ export class CareUserDetailsComponent implements OnInit {
       this.currentCareUserInstance.firstName = this.formControlGroup.controls.firstNameFieldControl.value;
       this.currentCareUserInstance.lastName = this.formControlGroup.controls.lastNameFieldControl.value;
       this.currentCareUserInstance.birthDay = this.formControlGroup.controls.birthdayFieldControl.value;
-      this.currentCareUserInstance.caseNumber = this.formControlGroup.controls.caseNumberFieldControl.value;
       this.currentCareUserInstance.ageGroup = this.formControlGroup.controls.ageGroupFieldControl.value;
       this.currentCareUserInstance.isExtern =
          this.formControlGroup.controls.isExternFieldControl.value === 'true' ? true : false;

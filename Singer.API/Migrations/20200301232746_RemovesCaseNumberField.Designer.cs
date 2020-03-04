@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Singer.Data;
 using Singer.Models;
@@ -10,9 +11,10 @@ using Singer.Models;
 namespace Singer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200301232746_RemovesCaseNumberField")]
+    partial class RemovesCaseNumberField
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -169,6 +171,26 @@ namespace Singer.Migrations
                     b.ToTable("Events");
                 });
 
+            modelBuilder.Entity("Singer.Models.EventLocation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Address");
+
+                    b.Property<string>("City");
+
+                    b.Property<string>("Country");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("PostalCode");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EventLocations");
+                });
+
             modelBuilder.Entity("Singer.Models.EventRegistrationLog", b =>
                 {
                     b.Property<Guid>("Id")
@@ -243,26 +265,6 @@ namespace Singer.Migrations
                         .HasFilter("[EventSlotId] IS NOT NULL");
 
                     b.ToTable("Registrations");
-                });
-
-            modelBuilder.Entity("Singer.Models.SingerLocation", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Address");
-
-                    b.Property<string>("City");
-
-                    b.Property<string>("Country");
-
-                    b.Property<string>("Name");
-
-                    b.Property<string>("PostalCode");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SingerLocations");
                 });
 
             modelBuilder.Entity("Singer.Models.Users.AdminUser", b =>
@@ -462,7 +464,7 @@ namespace Singer.Migrations
 
             modelBuilder.Entity("Singer.Models.Event", b =>
                 {
-                    b.HasOne("Singer.Models.SingerLocation", "Location")
+                    b.HasOne("Singer.Models.EventLocation", "Location")
                         .WithMany()
                         .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -496,7 +498,7 @@ namespace Singer.Migrations
                         .HasForeignKey("CareUserId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("Singer.Models.SingerLocation", "DaycareLocation")
+                    b.HasOne("Singer.Models.EventLocation", "DaycareLocation")
                         .WithMany()
                         .HasForeignKey("DaycareLocationId");
 

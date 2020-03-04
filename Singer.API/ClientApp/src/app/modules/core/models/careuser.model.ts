@@ -10,7 +10,6 @@ export interface CareUserDTO {
    email: string;
    userName: string;
    birthDay: Date;
-   caseNumber: string;
    ageGroup: AgeGroup;
    isExtern: boolean;
    hasTrajectory: boolean;
@@ -26,7 +25,6 @@ export interface LinkedCareUserDTO {
    email: string;
    userName: string;
    birthday: Date;
-   caseNumber: string;
    ageGroup: AgeGroup;
    isExtern: boolean;
    hasTrajectory: boolean;
@@ -40,7 +38,6 @@ export interface UpdateCareUserDTO {
    email: string;
    userName: string;
    birthday: Date;
-   caseNumber: string;
    ageGroup: AgeGroup;
    isExtern: boolean;
    hasTrajectory: boolean;
@@ -56,7 +53,6 @@ export interface CreateCareUserDTO {
    email: string;
    userName: string;
    birthday: Date;
-   caseNumber: string;
    ageGroup: AgeGroup;
    isExtern: boolean;
    hasTrajectory: boolean;
@@ -72,7 +68,6 @@ export class CareUser {
    email: string;
    userName: string;
    birthDay: Date;
-   caseNumber: string;
    ageGroup: AgeGroup;
    isExtern: boolean;
    hasTrajectory: boolean;
@@ -88,7 +83,6 @@ export class LinkedCareUser {
    email: string;
    userName: string;
    birthDay: Date;
-   caseNumber: string;
    ageGroup: AgeGroup;
    isExtern: boolean;
    hasTrajectory: boolean;

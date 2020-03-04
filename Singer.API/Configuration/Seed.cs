@@ -26,14 +26,14 @@ namespace Singer.Configuration
 
       private static List<SingerLocation> _eventLocations = new List<SingerLocation>() {
          new SingerLocation{
-            Name="Brixel",
-            Address= "Spalbeekstraat",
-            City="Spalbeek",
+            Name="Hasselt",
+            Address= "Ekkelgaarden 20",
+            City="Hasselt",
             Country="Belgie",
-            PostalCode="3510"
+            PostalCode="3500"
          },
          new SingerLocation{
-            Name="Sint-Gerardus",
+            Name="Diepenbeek",
             Address= "Sint-Gerardusdreef 1",
             City="Diepenbeek",
             Country="Belgie",
@@ -120,7 +120,6 @@ namespace Singer.Configuration
                {
                   User = user,
                   AgeGroup = AgeGroup.Child,
-                  CaseNumber = new Random().Next(1000, 5000).ToString(),
                   BirthDay = DateTime.UtcNow.AddYears(new Random().Next(-14, -5)),
                   HasTrajectory = false,
                   IsExtern = false,
