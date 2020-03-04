@@ -1,0 +1,22 @@
+div mat-form-field:not(:last-child) {
+   margin-right: 20px;
+}
+div mat-form-field:only-child {
+   width: 100%;
+}
+mat-dialog-content {
+   width: 100%;
+}
+
+.inline-fields {
+   display: flex;
+   flex-direction: row;
+   flex-wrap: wrap;
+}
+
+.button-row {
+   display: flex;
+   flex-direction: row;
+   justify-content: flex-end;
+   align-items: center;
+}

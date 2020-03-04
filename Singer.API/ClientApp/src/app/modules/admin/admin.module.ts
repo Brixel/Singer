@@ -76,6 +76,7 @@ import { SingerLocationProxy } from '../core/services/singer-location-api/singer
       RegistrationComponent,
       AdminDetailsComponent,
       SingerEventAdminRegisterComponent,
+      LocationDetailsComponent,
    ],
    providers: [
       CareUserProxy,

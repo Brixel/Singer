@@ -82,14 +82,6 @@ namespace Singer.DTOs
       [Required(
          ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
          ErrorMessageResourceType = typeof(ErrorMessages))]
-      [Display(
-         ResourceType = typeof(DisplayNames),
-         Name = nameof(DisplayNames.Id))]
-      public Guid Id { get; set; }
-
-      [Required(
-         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
-         ErrorMessageResourceType = typeof(ErrorMessages))]
       [StringLength(
          maximumLength: ValidationValues.MaxNameLength,
          MinimumLength = ValidationValues.MinNameLength,
@@ -151,14 +143,6 @@ namespace Singer.DTOs
 
    public class UpdateSingerLocationDTO
    {
-      [Required(
-         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
-         ErrorMessageResourceType = typeof(ErrorMessages))]
-      [Display(
-         ResourceType = typeof(DisplayNames),
-         Name = nameof(DisplayNames.Id))]
-      public Guid Id { get; set; }
-
       [Required(
          ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
          ErrorMessageResourceType = typeof(ErrorMessages))]

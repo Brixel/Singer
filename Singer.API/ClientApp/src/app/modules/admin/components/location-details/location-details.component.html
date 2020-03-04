@@ -1,3 +1,59 @@
-<p>
-  location-details works!
-</p>
+<h2 mat-dialog-title>{{ isAdding ? 'Toevoegen' : 'Bewerken' }} locatie</h2>
+<form [formGroup]="formControlGroup" class="details-form-container">
+   <mat-dialog-content>
+      <h3 class="section-title">Locatienaam</h3>
+      <div class="location-fields">
+         <mat-form-field>
+            <input matInput type="text" [placeholder]="getPlaceholder('name')" formControlName="nameFieldControl" />
+         </mat-form-field>
+      </div>
+      <h3 class="section-title">Adresgegevens</h3>
+      <div class="address-fields">
+         <div>
+            <mat-form-field>
+               <input
+                  matInput
+                  type="text"
+                  [placeholder]="getPlaceholder('address')"
+                  formControlName="addressFieldControl"
+               />
+            </mat-form-field>
+            <mat-form-field>
+               <input matInput type="text" [placeholder]="getPlaceholder('city')" formControlName="cityFieldControl" />
+            </mat-form-field>
+            <mat-form-field>
+               <input
+                  matInput
+                  type="text"
+                  [placeholder]="getPlaceholder('postalCode')"
+                  formControlName="postalCodeFieldControl"
+               />
+            </mat-form-field>
+            <mat-form-field>
+               <input
+                  matInput
+                  type="text"
+                  [placeholder]="getPlaceholder('country')"
+                  formControlName="countryFieldControl"
+               />
+            </mat-form-field>
+         </div>
+      </div>
+   </mat-dialog-content>
+   <mat-dialog-actions class="button-row">
+      <div>
+         <button mat-raised-button (click)="closeForm()" title="Sluiten" aria-label="Sluiten" type="button">
+            Sluiten
+         </button>
+         <button
+            mat-raised-button
+            color="primary"
+            (click)="submitForm()"
+            title="getSaveLabel()"
+            aria-label="getSaveLabel()"
+         >
+            {{ getSaveLabel() }}
+         </button>
+      </div>
+   </mat-dialog-actions>
+</form>
