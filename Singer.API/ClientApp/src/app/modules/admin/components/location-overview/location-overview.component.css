@@ -21,3 +21,56 @@
    flex-direction: row;
    justify-content: flex-end;
 }
+
+.action-list {
+   display: flex;
+   justify-content: center;
+   align-content: space-between;
+}
+.action-list button {
+   margin: 0px 8px;
+}
+
+.mat-column-addButton {
+   border: 0;
+}
+
+.overview-table {
+   overflow: auto;
+   overflow-y: hidden;
+   margin: 10px auto;
+   max-width: 1134px;
+}
+
+table {
+   width: 100%;
+}
+
+.mat-header-row {
+   background-color: var(--singer-theme-primary);
+   min-height: 41px;
+}
+
+.mat-header-cell {
+   font-size: 0.9em;
+   color: var(--singer-theme-light-primary-text);
+}
+
+/* Sorting arrow */
+::ng-deep .mat-sort-header-arrow {
+   color: var(--singer-theme-light-primary-text);
+}
+
+/* Column */
+.mat-column-name,
+.mat-column-location,
+.mat-column-location,
+.mat-column-ageGroups,
+.mat-column-size,
+.mat-column-price,
+.mat-column-startDateTime,
+.mat-column-endDateTime,
+.mat-column-hasDayCareBefore,
+.mat-column-hasDayCareAfter {
+   padding: 10px;
+}

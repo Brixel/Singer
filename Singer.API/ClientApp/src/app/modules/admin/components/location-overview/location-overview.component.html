@@ -29,14 +29,33 @@
       <ng-container matColumnDef="actions">
          <mat-header-cell *matHeaderCellDef>Acties</mat-header-cell>
          <mat-cell *matCellDef="let row">
-            <button mat-icon-button aria-label="Bewerken" matTooltip="Bewerken" (click)="edit(row)">
-               <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-icon-button aria-label="Verwijderen" matTooltip="Verwijderen" (click)="delete(row)">
-               <mat-icon>delete</mat-icon>
-            </button>
+            <div class="action-list">
+               <button mat-stroked-button matTooltip="Bewerken" (click)="edit(row)">
+                  <mat-icon>edit</mat-icon>
+               </button>
+               <button mat-stroked-button matTooltip="Verwijderen" (click)="delete(row)">
+                  <mat-icon>delete</mat-icon>
+               </button>
+            </div>
          </mat-cell>
       </ng-container>
+
+      <!-- AddButton column -->
+      <ng-container matColumnDef="addButton">
+         <td mat-footer-cell *matFooterCellDef>
+            <button
+               mat-icon-button
+               color="primary"
+               (click)="add()"
+               title="Locatie toevoegen"
+               aria-label="Locatie toevoegen"
+               matTooltip="Locatie toevoegen"
+            >
+               <mat-icon>add_box</mat-icon>
+            </button>
+         </td>
+      </ng-container>
+
       <!-- Paginator column -->
       <ng-container matColumnDef="paginator">
          <mat-footer-cell *matFooterCellDef colspan="20">
@@ -54,6 +73,6 @@
       </ng-container>
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-      <mat-footer-row *matFooterRowDef="['paginator']"></mat-footer-row>
+      <mat-footer-row *matFooterRowDef="['addButton', 'paginator']"></mat-footer-row>
    </mat-table>
 </div>
