@@ -268,7 +268,7 @@ namespace Singer.Configuration
       private static void UpdateAccessTokenLifeTime(Client singerApiClient) =>
          singerApiClient.AccessTokenLifetime = 3600 * 24;
 
-      public static void SeedEventLocations(ApplicationDbContext applicationDbContext)
+      public static void SeedSingerLocations(ApplicationDbContext applicationDbContext)
       {
          if (applicationDbContext.SingerLocations.Count() == 0)
          {

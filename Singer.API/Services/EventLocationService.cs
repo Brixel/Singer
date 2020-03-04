@@ -14,10 +14,10 @@ using Singer.Services.Interfaces;
 
 namespace Singer.Services
 {
-   public class EventLocationService : DatabaseService<SingerLocation, SingerLocationDTO, CreateSingerLocationDTO, UpdateSingerLocationDTO>,
-      IEventLocationService
+   public class SingerLocationService : DatabaseService<SingerLocation, SingerLocationDTO, CreateSingerLocationDTO, UpdateSingerLocationDTO>,
+      ISingerLocationService
    {
-      public EventLocationService(ApplicationDbContext context, IMapper mapper) : base(context, mapper)
+      public SingerLocationService(ApplicationDbContext context, IMapper mapper) : base(context, mapper)
       {
       }
 

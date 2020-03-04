@@ -35,7 +35,7 @@ export class SingerRegistrationsComponent implements OnInit {
    constructor(
       private singerEventService: SingerEventsService,
       private singerAdminEventService: SingerAdminEventService,
-      private _singerEventLocationService: SingerLocationService,
+      private _singerLocationService: SingerLocationService,
       private _snackBar: MatSnackBar,
       private dialogRef: MatDialogRef<SingerRegistrationsComponent>,
       @Inject(MAT_DIALOG_DATA) data: SingerRegistrationData,
@@ -67,7 +67,7 @@ export class SingerRegistrationsComponent implements OnInit {
          this._loadingService.hide();
       });
 
-      this._singerEventLocationService.fetchSingerEventLocationsData('asc', 'name', 0, 1000, '').subscribe(res => {
+      this._singerLocationService.fetchSingerLocationsData('asc', 'name', 0, 1000, '').subscribe(res => {
          this.availableLocations = res.items as SingerLocation[];
       });
    }

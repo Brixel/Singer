@@ -21,7 +21,6 @@ export class SingleRegistrationComponent implements OnInit {
 
    getRegistrationStatus(careUserId: string): RegistrationStatus {
       let eventSlot = this.eventSlots[0].registrations.find(x => x.careUserId === careUserId);
-      //console.log(eventSlot);
       return eventSlot === undefined ? 0 : eventSlot.status;
    }
 

@@ -36,7 +36,7 @@ export class EventFilterComponent extends GenericFilter implements OnInit {
 
       this.filterParameters = new EventFilterParameters();
 
-      this.eventLocationService.fetchSingerEventLocationsData('asc', 'name', 0, 1000, '').subscribe(res => {
+      this.eventLocationService.fetchSingerLocationsData('asc', 'name', 0, 1000, '').subscribe(res => {
          this.availableLocations = res.items as SingerLocation[];
       });
    }

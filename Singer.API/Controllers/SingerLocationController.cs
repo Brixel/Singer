@@ -12,8 +12,8 @@ namespace Singer.Controllers
    [Authorize]
    public class SingerLocationController : DataControllerBase<SingerLocation, SingerLocationDTO, CreateSingerLocationDTO, UpdateSingerLocationDTO>
    {
-      private IEventLocationService _singerLocationService;
-      public SingerLocationController(IEventLocationService eventLocationService) : base(eventLocationService)
+      private ISingerLocationService _singerLocationService;
+      public SingerLocationController(ISingerLocationService eventLocationService) : base(eventLocationService)
       {
          _singerLocationService = eventLocationService;
       }

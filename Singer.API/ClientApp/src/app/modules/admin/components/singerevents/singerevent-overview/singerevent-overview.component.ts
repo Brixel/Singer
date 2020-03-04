@@ -65,14 +65,14 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
    constructor(
       public dialog: MatDialog,
       private _singerEventsService: SingerEventsService,
-      private _singerEventLocationService: SingerLocationService,
+      private _singerLocationService: SingerLocationService,
       private _snackBar: MatSnackBar,
       private _loadingService: LoadingService
    ) {}
 
    ngOnInit() {
       this.dataSource = new SingerEventOverviewDataSource(this._singerEventsService);
-      this._singerEventLocationService.fetchSingerEventLocationsData('asc', 'name', 0, 1000, '').subscribe(res => {
+      this._singerLocationService.fetchSingerLocationsData('asc', 'name', 0, 1000, '').subscribe(res => {
          this.availableLocations = res.items as SingerLocation[];
       });
       this.sort.active = 'title';

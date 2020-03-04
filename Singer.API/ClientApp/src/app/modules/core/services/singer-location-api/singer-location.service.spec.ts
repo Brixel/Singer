@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { SingerLocationService } from './singer-location.service';
 
-describe('SingerEventLocationService', () => {
+describe('SingerLocationService', () => {
    beforeEach(() => TestBed.configureTestingModule({}));
 
    it('should be created', () => {

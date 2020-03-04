@@ -23,7 +23,7 @@ export class SingerLocationService extends GenericService<
    UpdateSingerLocationDTO,
    SingerLocationSearchDTO
 > {
-   constructor(private singerEventLocationProxy: SingerLocationProxy, protected httpClient: HttpClient) {
+   constructor(private singerLocationProxy: SingerLocationProxy, protected httpClient: HttpClient) {
       super('api/singerlocation');
    }
 
@@ -56,41 +56,39 @@ export class SingerLocationService extends GenericService<
       };
    }
 
-   fetchSingerEventLocationsData(
+   fetchSingerLocationsData(
       sortDirection?: string,
       sortColumn?: string,
       pageIndex?: number,
       pageSize?: number,
       filter?: string
    ): Observable<PaginationDTO> {
-      return this.singerEventLocationProxy
-         .getSingerEventLocations(sortDirection, sortColumn, pageIndex, pageSize, filter)
+      return this.singerLocationProxy
+         .getSingerLocations(sortDirection, sortColumn, pageIndex, pageSize, filter)
          .pipe(map(res => res));
    }
 
-   updateSingerEventLocation(updateSingerEventLocation: SingerLocation) {
-      const updateSingerEventLocationDTO = <UpdateSingerLocationDTO>{
-         name: updateSingerEventLocation.name,
-         address: updateSingerEventLocation.address,
-         postalCode: updateSingerEventLocation.postalCode,
-         city: updateSingerEventLocation.city,
-         country: updateSingerEventLocation.country,
+   updateSingerLocation(updateSingerLocation: SingerLocation) {
+      const updateSingerLocationDTO = <UpdateSingerLocationDTO>{
+         name: updateSingerLocation.name,
+         address: updateSingerLocation.address,
+         postalCode: updateSingerLocation.postalCode,
+         city: updateSingerLocation.city,
+         country: updateSingerLocation.country,
       };
-      return this.singerEventLocationProxy
-         .updateSingerEventLocation(updateSingerEventLocation.id, updateSingerEventLocationDTO)
+      return this.singerLocationProxy
+         .updateSingerLocation(updateSingerLocation.id, updateSingerLocationDTO)
          .pipe(map(res => res));
    }
 
-   createSingerEventLocation(createSingerEventLocation: SingerLocation) {
-      const createSingerEventLocationDTO = <CreateSingerLocationDTO>{
-         name: createSingerEventLocation.name,
-         address: createSingerEventLocation.address,
-         postalCode: createSingerEventLocation.postalCode,
-         city: createSingerEventLocation.city,
-         country: createSingerEventLocation.country,
+   createSingerLocation(createSingerLocation: SingerLocation) {
+      const createSingerLocationDTO = <CreateSingerLocationDTO>{
+         name: createSingerLocation.name,
+         address: createSingerLocation.address,
+         postalCode: createSingerLocation.postalCode,
+         city: createSingerLocation.city,
+         country: createSingerLocation.country,
       };
-      return this.singerEventLocationProxy
-         .createSingerEventLocation(createSingerEventLocationDTO)
-         .pipe(map(res => res));
+      return this.singerLocationProxy.createSingerLocation(createSingerLocationDTO).pipe(map(res => res));
    }
 }

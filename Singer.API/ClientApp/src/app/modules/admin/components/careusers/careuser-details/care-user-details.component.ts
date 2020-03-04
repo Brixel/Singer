@@ -94,7 +94,7 @@ export class CareUserDetailsComponent implements OnInit {
       // Care user that we want to edit
       @Inject(MAT_DIALOG_DATA) public data: CareUserDetailsFormData,
       private _legalGuardianUserService: LegalguardiansService,
-      private _singerEventLocationService: SingerLocationService
+      private _singerLocationService: SingerLocationService
    ) {
       this.currentCareUserInstance = data.careUserInstance;
       this.isAdding = data.careUserInstance === null;
@@ -106,8 +106,8 @@ export class CareUserDetailsComponent implements OnInit {
       this._loadInstance();
 
       // Load dayCare locations
-      this._singerEventLocationService
-         .fetchSingerEventLocationsData('asc', 'name', 0, 1000, '')
+      this._singerLocationService
+         .fetchSingerLocationsData('asc', 'name', 0, 1000, '')
          .subscribe(res => this.availableLocationsSubject.next(res.items));
 
       // Subscribe to Legalguardian lookup events

@@ -16,7 +16,7 @@ import {
 export class SingerLocationProxy {
    constructor(private apiService: ApiService) {}
 
-   getSingerEventLocations(
+   getSingerLocations(
       sortDirection?: string,
       sortColumn?: string,
       pageIndex?: number,
@@ -32,11 +32,11 @@ export class SingerLocationProxy {
       return this.apiService.get('api/eventlocation', searchParams).pipe(map(res => res));
    }
 
-   updateSingerEventLocation(id: string, updateSingerEventLocationDTO: UpdateSingerLocationDTO) {
-      return this.apiService.put(`api/eventlocation/${id}`, updateSingerEventLocationDTO).pipe(map(res => res));
+   updateSingerLocation(id: string, updateSingerLocationDTO: UpdateSingerLocationDTO) {
+      return this.apiService.put(`api/eventlocation/${id}`, updateSingerLocationDTO).pipe(map(res => res));
    }
 
-   createSingerEventLocation(createSingerEventLocationDTO: CreateSingerLocationDTO): Observable<SingerLocationDTO> {
-      return this.apiService.post('api/eventlocation', createSingerEventLocationDTO).pipe(map(res => res));
+   createSingerLocation(createSingerLocationDTO: CreateSingerLocationDTO): Observable<SingerLocationDTO> {
+      return this.apiService.post('api/eventlocation', createSingerLocationDTO).pipe(map(res => res));
    }
 }
