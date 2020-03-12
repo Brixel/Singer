@@ -24,7 +24,7 @@ export class SingerLocationService extends GenericService<
    SingerLocationSearchDTO
 > {
    constructor(private singerLocationProxy: SingerLocationProxy, protected httpClient: HttpClient) {
-      super('api/singerlocation');
+      super('api/location');
    }
 
    toEditDTO(model: SingerLocation): UpdateSingerLocationDTO {

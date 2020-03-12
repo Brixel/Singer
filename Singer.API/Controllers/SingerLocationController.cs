@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Singer.Controllers
 {
-   [Route("api/[controller]")]
+   [Route("api/location")]
    [Authorize]
    public class SingerLocationController : DataControllerBase<SingerLocation, SingerLocationDTO, CreateSingerLocationDTO, UpdateSingerLocationDTO>
    {

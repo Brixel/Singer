@@ -29,14 +29,14 @@ export class SingerLocationProxy {
          .set('pageIndex', pageIndex.toString())
          .set('pageSize', pageSize.toString())
          .set('filter', filter);
-      return this.apiService.get('api/eventlocation', searchParams).pipe(map(res => res));
+      return this.apiService.get('api/location', searchParams).pipe(map(res => res));
    }
 
    updateSingerLocation(id: string, updateSingerLocationDTO: UpdateSingerLocationDTO) {
-      return this.apiService.put(`api/eventlocation/${id}`, updateSingerLocationDTO).pipe(map(res => res));
+      return this.apiService.put(`api/location/${id}`, updateSingerLocationDTO).pipe(map(res => res));
    }
 
    createSingerLocation(createSingerLocationDTO: CreateSingerLocationDTO): Observable<SingerLocationDTO> {
-      return this.apiService.post('api/eventlocation', createSingerLocationDTO).pipe(map(res => res));
+      return this.apiService.post('api/location', createSingerLocationDTO).pipe(map(res => res));
    }
 }
