@@ -6,10 +6,6 @@
    margin-bottom: -0.2em;
 }
 
-.overviewTableHeader button {
-   margin: 1em;
-}
-
 .mat-form-field {
    font-size: 14px;
    width: 100%;
@@ -40,6 +36,7 @@
    overflow-y: hidden;
    margin: 10px auto;
    max-width: 1134px;
+   background-color: white;
 }
 
 table {
