@@ -46,7 +46,7 @@ const routes: Routes = [
             component: PendingActionsComponent,
          },
          {
-            path: 'locatie-beheer',
+            path: 'locaties',
             component: LocationOverviewComponent,
          },
       ],
