@@ -23,11 +23,11 @@ using Singer.Services;
 using Singer.Services.Utils;
 using Singer.Models.Users;
 using Singer.Services.Interfaces;
-using NSwag.Generation.Processors.Security;
-using NSwag;
 using System.Net;
 using Singer.Controllers;
 using Singer.DTOs.Users;
+using NSwag.Generation.Processors.Security;
+using NSwag;
 
 namespace Singer
 {

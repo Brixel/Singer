@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.1.0-dev.1449",
+   "version": "0.1.0-chore-update-dotnet-31.1457",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",
