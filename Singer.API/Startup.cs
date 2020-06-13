@@ -28,6 +28,7 @@ using Singer.Controllers;
 using Singer.DTOs.Users;
 using NSwag.Generation.Processors.Security;
 using NSwag;
+using Microsoft.Extensions.Hosting;
 
 namespace Singer
 {
@@ -107,7 +108,7 @@ namespace Singer
 
          var authority = applicationConfig.Authority;
 
-         services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+         services.AddControllersWithViews();
          services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
             .AddIdentityServerAuthentication(options =>
             {
@@ -218,7 +219,7 @@ namespace Singer
       }
 
       // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-      public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+      public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
       {
          MigrateContexts(app);
 
@@ -252,11 +253,13 @@ namespace Singer
          app.UseOpenApi();
          app.UseSwaggerUi3();
 
-         app.UseMvc(routes =>
+         app.UseRouting();
+         app.UseAuthorization();
+         app.UseEndpoints(endpoints =>
          {
-            routes.MapRoute(
-                   name: "default",
-                   template: "{controller}/{action=GetAboutVersion}/{id?}");
+            endpoints.MapControllerRoute(
+               name: "default",
+               pattern: "{controller}/{action=Index}/{id?}");
          });
 
          app.UseSpa(spa =>

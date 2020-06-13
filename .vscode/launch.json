@@ -22,9 +22,9 @@
          "name": ".NET Core Launch (web)",
          "type": "coreclr",
          "request": "launch",
-         "preLaunchTask": "build",
+         "preLaunchTask": "prepdevenv",
          // If you have changed target frameworks, make sure to update the program path.
-         "program": "${workspaceFolder}/Singer.API/bin/Debug/netcoreapp2.2/Singer.dll",
+         "program": "${workspaceFolder}/Singer.API/bin/Debug/netcoreapp3.1/Singer.dll",
          "args": [],
          "cwd": "${workspaceFolder}/Singer.API",
          "stopAtEntry": false,
@@ -37,12 +37,6 @@
          "sourceFileMap": {
             "/Views": "${workspaceFolder}/Views"
          }
-      },
-      {
-         "name": ".NET Core Attach",
-         "type": "coreclr",
-         "request": "attach",
-         "processId": "${command:pickProcess}"
       }
    ]
 }
