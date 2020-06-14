@@ -55,9 +55,9 @@
          <!-- AllowedAgeGroups Field -->
          <mat-form-field>
             <mat-label>Leeftijdsgroepen</mat-label>
-            <mat-select [compareWith]="compareAgeGroups" formControlName="allowedAgeGroupsFieldControl" multiple>
-               <mat-option *ngFor="let ageGroup of ageGroups" [value]="ageGroup">
-                  {{ ageGroup | agegroupPipe }}
+            <mat-select formControlName="allowedAgeGroupsFieldControl" multiple>
+               <mat-option *ngFor="let ageGroup of ageGroups | keys" [value]="ageGroup.key">
+                  {{ ageGroup.value | agegroupPipe }}
                </mat-option>
             </mat-select>
             <mat-error *ngIf="formControlGroup.controls.allowedAgeGroupsFieldControl.errors?.required">
