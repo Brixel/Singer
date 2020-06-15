@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -331,7 +331,9 @@ namespace Singer.Services
 
          var lastLogForRegistration = _context.EventRegistrationLogs
             .OfType<EventRegistrationStatusChange>()
-            .LastOrDefault(x => x.EventRegistrationId == eventRegistrationLog.EventRegistrationId);
+            .Where(x => x.EventRegistrationId == eventRegistrationLog.EventRegistrationId)
+            .OrderByDescending(x => x.CreationDateTimeUTC)
+            .FirstOrDefault();
 
          if (lastLogForRegistration != null &&
              lastLogForRegistration.PreviousStatus == newRegistrationStatus)
