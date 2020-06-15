@@ -25,8 +25,7 @@ import { AdminOverviewComponent } from './components/admin-users/admin-overview/
 import { AdminDetailsComponent } from './components/admin-users/admin-details/admin-details.component';
 import { AdminUserProxy } from './services/adminuser.proxy';
 import { AdminUserService } from './services/admin-user.service';
-import { SingerEventLocationService } from '../core/services/singerevents-api/singerevent-location.service';
-import { SingerEventLocationProxy } from '../core/services/singerevents-api/singerevent-location.proxy';
+import { SingerLocationService } from '../core/services/singer-location-api/singer-location.service';
 import { RegistrationComponent } from '../shared/components/event-registration/event-registration.component';
 import { SharedModule } from '../shared/shared.module';
 import { AddFamilyWizardComponent } from './components/add-family-wizard/add-family-wizard.component';
@@ -34,6 +33,9 @@ import { SingerRegistrationsComponent } from './components/singerevents/event-re
 import { SingerEventAdminRegisterComponent } from './components/singerevents/singer-eventadmin-register/singer-eventadmin-register.component';
 import { PendingRegistrationsComponent } from './components/pending-registrations/pending-registrations.component';
 import { PendingActionsComponent } from './components/pending-actions/pending-actions.component';
+import { LocationOverviewComponent } from './components/location-overview/location-overview.component';
+import { LocationDetailsComponent } from './components/location-details/location-details.component';
+import { SingerLocationProxy } from '../core/services/singer-location-api/singer-location.proxy';
 
 @NgModule({
    declarations: [
@@ -50,6 +52,8 @@ import { PendingActionsComponent } from './components/pending-actions/pending-ac
       AddFamilyWizardComponent,
       PendingRegistrationsComponent,
       PendingActionsComponent,
+      LocationOverviewComponent,
+      LocationDetailsComponent,
    ],
    imports: [
       CoreModule,
@@ -72,18 +76,19 @@ import { PendingActionsComponent } from './components/pending-actions/pending-ac
       RegistrationComponent,
       AdminDetailsComponent,
       SingerEventAdminRegisterComponent,
+      LocationDetailsComponent,
    ],
    providers: [
       CareUserProxy,
       LegalGuardianProxy,
       SingerEventsProxy,
-      SingerEventLocationProxy,
+      SingerLocationProxy,
       CareUserService,
       AdminUserProxy,
       AdminUserService,
       LegalguardiansService,
       SingerEventsService,
-      SingerEventLocationService,
+      SingerLocationService,
       ApiService,
       AgegroupPipe,
       KeysPipe,

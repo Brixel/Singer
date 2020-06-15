@@ -24,15 +24,15 @@ namespace Singer.Configuration
    public static class Seed
    {
 
-      private static List<EventLocation> _eventLocations = new List<EventLocation>() {
-         new EventLocation{
+      private static List<SingerLocation> _eventLocations = new List<SingerLocation>() {
+         new SingerLocation{
             Name="Hasselt",
             Address= "Ekkelgaarden 20",
             City="Hasselt",
             Country="Belgie",
             PostalCode="3500"
          },
-         new EventLocation{
+         new SingerLocation{
             Name="Diepenbeek",
             Address= "Sint-Gerardusdreef 1",
             City="Diepenbeek",
@@ -268,9 +268,9 @@ namespace Singer.Configuration
       private static void UpdateAccessTokenLifeTime(Client singerApiClient) =>
          singerApiClient.AccessTokenLifetime = 3600 * 24;
 
-      public static void SeedEventLocations(ApplicationDbContext applicationDbContext)
+      public static void SeedSingerLocations(ApplicationDbContext applicationDbContext)
       {
-         if (applicationDbContext.EventLocations.Count() == 0)
+         if (applicationDbContext.SingerLocations.Count() == 0)
          {
             foreach (var loc in _eventLocations)
             {

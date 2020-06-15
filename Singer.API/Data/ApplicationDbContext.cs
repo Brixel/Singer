@@ -16,7 +16,7 @@ namespace Singer.Data
       public DbSet<CareUser> CareUsers { get; set; }
       public DbSet<LegalGuardianUser> LegalGuardianUsers { get; set; }
       public DbSet<LegalGuardianCareUser> LegalGuardianCareUsers { get; set; }
-      public DbSet<EventLocation> EventLocations { get; set; }
+      public DbSet<SingerLocation> SingerLocations { get; set; }
       public DbSet<Event> Events { get; set; }
       public DbSet<EventSlot> EventSlots { get; set; }
       public DbSet<Registration> Registrations { get; set; }

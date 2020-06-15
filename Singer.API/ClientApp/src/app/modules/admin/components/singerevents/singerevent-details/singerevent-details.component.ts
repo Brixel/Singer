@@ -1,17 +1,18 @@
 import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { FormControl, Validators, FormGroup, FormArray } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { SingerEvent, SingerEventLocation } from 'src/app/modules/core/models/singerevent.model';
+import { SingerEvent } from 'src/app/modules/core/models/singerevent.model';
 import { AgeGroup } from 'src/app/modules/core/models/enum';
 import * as moment from 'moment';
 import { isNullOrUndefined } from 'util';
 import { dateNotBefore } from 'src/app/modules/core/utils/custom-date-validators';
 import { NgxMaterialTimepickerTheme } from 'ngx-material-timepicker';
+import { SingerLocation } from 'src/app/modules/core/models/singer-location.model';
 
 // Data we pass along with the creation of the Mat-Dialog box
 export interface SingerEventDetailsFormData {
    singerEventInstance: SingerEvent;
-   availableLocations: SingerEventLocation[];
+   availableLocations: SingerLocation[];
 }
 
 @Component({
@@ -32,9 +33,9 @@ export class SingerEventDetailsComponent implements OnInit {
    // Current singer event instance
    currentSingerEventInstance: SingerEvent;
 
-   selectedLocation: SingerEventLocation;
+   selectedLocation: SingerLocation;
 
-   availableLocations: SingerEventLocation[];
+   availableLocations: SingerLocation[];
 
    allowedAgeGroupsFormControlArray: FormArray = new FormArray([new FormControl('', [Validators.required])]);
 
@@ -252,7 +253,7 @@ export class SingerEventDetailsComponent implements OnInit {
       );
    }
 
-   compareLocations(locationX: SingerEventLocation, locationY: SingerEventLocation) {
+   compareLocations(locationX: SingerLocation, locationY: SingerLocation) {
       return locationX.id === locationY.id;
    }
 

@@ -12,9 +12,9 @@ namespace Singer.Profiles
    {
       public EventProfile()
       {
-         CreateMap<EventLocation, EventLocationDTO>();
-         CreateMap<CreateEventLocationDTO, EventLocation>();
-         CreateMap<UpdateEventLocationDTO, EventLocation>();
+         CreateMap<SingerLocation, SingerLocationDTO>();
+         CreateMap<CreateSingerLocationDTO, SingerLocation>();
+         CreateMap<UpdateSingerLocationDTO, SingerLocation>();
 
          CreateMap<EventSlot, EventSlotDTO>()
             .ForMember(x => x.CurrentRegistrants, opt => opt.MapFrom(src =>

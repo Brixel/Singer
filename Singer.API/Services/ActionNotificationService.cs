@@ -136,7 +136,7 @@ namespace Singer.Services
 
       public async Task<List<EventRegistrationLogWrapper>> GetEventRegistrationLogsWaitingForAction(Guid? userId = null)
       {
-         var locations = _context.EventLocations
+         var locations = _context.SingerLocations
             .Select(x => new { x.Id, x.Name })
             .ToDictionary(x => x.Id, x => x.Name);
          Expression<Func<EventRegistrationStatusChange, bool>> statusChangeExpression;

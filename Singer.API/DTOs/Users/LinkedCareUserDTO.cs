@@ -37,12 +37,12 @@ namespace Singer.DTOs.Users
       [Display(
          ResourceType = typeof(DisplayNames),
          Name = nameof(DisplayNames.NormalDaycareLocation))]
-      public EventLocation NormalDaycareLocation { get; set; }
+      public SingerLocation NormalDaycareLocation { get; set; }
 
       [Display(
          ResourceType = typeof(DisplayNames),
          Name = nameof(DisplayNames.VacationDaycareLocation))]
-      public EventLocation VacationDaycareLocation { get; set; }
+      public SingerLocation VacationDaycareLocation { get; set; }
 
    }
 }
