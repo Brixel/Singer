@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
@@ -13,6 +13,7 @@ namespace Singer.Profiles
       public EventProfile()
       {
          CreateMap<SingerLocation, SingerLocationDTO>();
+         CreateMap<SingerLocation, DaycareLocationDTO>();
          CreateMap<CreateSingerLocationDTO, SingerLocation>();
          CreateMap<UpdateSingerLocationDTO, SingerLocation>();
 

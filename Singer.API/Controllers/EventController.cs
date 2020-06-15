@@ -57,10 +57,10 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status201Created)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
       [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
-      public override async Task<IActionResult> Create([FromBody]CreateEventDTO dto)
+      public override async Task<IActionResult> Create([FromBody] CreateEventDTO dto)
       {
-         if (dto is null)
-            throw new BadInputException("DTO is null", ErrorMessages.NoDataPassed);
+         if (!ModelState.IsValid)
+            return BadRequest(ModelState);
          _dateValidator.Validate(dto);
 
          return await base.Create(dto);
@@ -69,7 +69,7 @@ namespace Singer.Controllers
       [HttpPost("{eventId}/registrations")]
       [ProducesResponseType(StatusCodes.Status201Created)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public async Task<ActionResult<List<RegistrationDTO>>> Create(Guid eventId, [FromBody]CreateRegistrationDTO dto)
+      public async Task<ActionResult<List<RegistrationDTO>>> Create(Guid eventId, [FromBody] CreateRegistrationDTO dto)
       {
          if (eventId != dto.EventId)
             throw new BadInputException("The event id in the url and the body do not match", ErrorMessages.EventIdMismatchUrlBody);
@@ -80,7 +80,6 @@ namespace Singer.Controllers
 
          if (!User.IsInRole(Roles.ROLE_ADMINISTRATOR))
          {
-            //throw new BadInputException("As a non-admin user, you are not allowed to pass a status for the registration!");
             dto.Status = RegistrationStatus.Pending;
          }
          else
@@ -95,11 +94,10 @@ namespace Singer.Controllers
       [HttpPost("{eventId}/eventslot/{eventSlotId}/registrations")]
       [ProducesResponseType(StatusCodes.Status201Created)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-      public async Task<ActionResult<RegistrationDTO>> Create(Guid eventId, [FromBody]CreateEventSlotRegistrationDTO dto)
+      public async Task<ActionResult<RegistrationDTO>> Create(Guid eventId, [FromBody] CreateEventSlotRegistrationDTO dto)
       {
          if (!User.IsInRole(Roles.ROLE_ADMINISTRATOR))
          {
-            //throw new BadInputException("As a non-admin user, you are not allowed to pass a status for the registration!");
             dto.Status = RegistrationStatus.Pending;
          }
          else
@@ -240,10 +238,10 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status404NotFound)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
       [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
-      public override async Task<IActionResult> Update(Guid id, [FromBody]UpdateEventDTO dto)
+      public override async Task<IActionResult> Update(Guid id, [FromBody] UpdateEventDTO dto)
       {
-         if (dto is null)
-            throw new BadInputException("DTO is null", "Er is geen data meegegeven.");
+         if (!ModelState.IsValid)
+            return BadRequest(ModelState);
          _dateValidator.Validate(dto);
 
          return await base.Update(id, dto);
@@ -254,7 +252,7 @@ namespace Singer.Controllers
       [ProducesResponseType(StatusCodes.Status404NotFound)]
       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
       [Authorize(Roles = Roles.ROLE_ADMINISTRATOR)]
-      public async Task<ActionResult<RegistrationDTO>> Update(Guid eventId, Guid registrationId, [FromBody]RegistrationStatus status)
+      public async Task<ActionResult<RegistrationDTO>> Update(Guid eventId, Guid registrationId, [FromBody] RegistrationStatus status)
       {
          var model = ModelState;
          if (!model.IsValid)

@@ -19,12 +19,25 @@
          "label": "watch",
          "command": "dotnet",
          "type": "process",
-         "args": [
-            "watch",
-            "run",
-            "${workspaceFolder}/Singer.API/Singer.csproj"
-         ],
+         "args": ["watch", "run", "${workspaceFolder}/Singer.API/Singer.csproj"],
          "problemMatcher": "$tsc"
+      },
+      {
+         "label": "docker-compose-dev",
+         "type": "shell",
+         "command": ["docker-compose -f docker-compose.yml up -d"],
+         "presentation": {
+            "echo": true,
+            "reveal": "silent",
+            "focus": false,
+            "panel": "shared",
+            "showReuseMessage": true,
+            "clear": true
+         }
+      },
+      {
+         "label": "prepdevenv",
+         "dependsOn": ["build", "docker-compose-dev"]
       }
    ]
 }

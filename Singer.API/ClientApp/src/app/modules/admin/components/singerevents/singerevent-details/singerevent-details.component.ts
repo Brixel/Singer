@@ -28,7 +28,7 @@ export class SingerEventDetailsComponent implements OnInit {
    isAdding: boolean;
 
    // Available agegroups
-   ageGroups = Object.keys(AgeGroup).filter(k => typeof AgeGroup[k as any] === 'number');
+   ageGroups = AgeGroup;
 
    // Current singer event instance
    currentSingerEventInstance: SingerEvent;
@@ -150,7 +150,7 @@ export class SingerEventDetailsComponent implements OnInit {
       this._loadInstance();
 
       // Subscribe to value changes for startRegistrationDateField
-      this.formControlGroup.controls.startRegistrationDateFieldControl.valueChanges.subscribe(res => {
+      this.formControlGroup.controls.startRegistrationDateFieldControl.valueChanges.subscribe((res) => {
          const minDate = res;
          const endRegistrationControl = this.formControlGroup.controls.endRegistrationDateFieldControl;
          endRegistrationControl.setValidators([Validators.required, dateNotBefore(minDate)]);
@@ -162,7 +162,7 @@ export class SingerEventDetailsComponent implements OnInit {
       });
 
       // Subscribe to value changes for startDateField
-      this.formControlGroup.controls.startDateFieldControl.valueChanges.subscribe(res => {
+      this.formControlGroup.controls.startDateFieldControl.valueChanges.subscribe((res) => {
          const minDate = res;
          const endDateFieldControl = this.formControlGroup.controls.endDateFieldControl;
          endDateFieldControl.setValidators([Validators.required, dateNotBefore(minDate)]);
@@ -211,7 +211,7 @@ export class SingerEventDetailsComponent implements OnInit {
    private loadCurrentSingerEventInstanceValues() {
       this.formControlGroup.controls.titleFieldControl.reset(this.currentSingerEventInstance.title);
       this.formControlGroup.controls.descriptionFieldControl.reset(this.currentSingerEventInstance.description);
-      this.selectedLocation = this.availableLocations.find(x => x.id === this.currentSingerEventInstance.location.id);
+      this.selectedLocation = this.availableLocations.find((x) => x.id === this.currentSingerEventInstance.location.id);
       this.formControlGroup.controls.locationFieldControl.setValue(this.selectedLocation);
       this.selectedAgeGroups = this.currentSingerEventInstance.allowedAgeGroups;
       this.formControlGroup.controls.allowedAgeGroupsFieldControl.setValue(this.selectedAgeGroups);
@@ -234,43 +234,27 @@ export class SingerEventDetailsComponent implements OnInit {
       this.formControlGroup.controls.startDateFieldControl.reset(this.currentSingerEventInstance.startDateTime);
       this.formControlGroup.controls.endDateFieldControl.reset(this.currentSingerEventInstance.endDateTime);
       this.formControlGroup.controls.dailyStartTimeFieldControl.reset(
-         moment
-            .utc(this.currentSingerEventInstance.startDateTime)
-            .local()
-            .format('HH:mm')
+         moment.utc(this.currentSingerEventInstance.startDateTime).local().format('HH:mm')
       );
       this.formControlGroup.controls.dailyEndTimeFieldControl.reset(
-         moment
-            .utc(this.currentSingerEventInstance.endDateTime)
-            .local()
-            .format('HH:mm')
+         moment.utc(this.currentSingerEventInstance.endDateTime).local().format('HH:mm')
       );
       this.formControlGroup.controls.hasDayCareBeforeFieldControl.reset(
          this.currentSingerEventInstance.hasDayCareBefore ? 'true' : 'false'
       );
       this.formControlGroup.controls.dayCareBeforeStartTimeFieldControl.reset(
-         moment
-            .utc(this.currentSingerEventInstance.dayCareBeforeStartDateTime)
-            .local()
-            .format('HH:mm')
+         moment.utc(this.currentSingerEventInstance.dayCareBeforeStartDateTime).local().format('HH:mm')
       );
       this.formControlGroup.controls.hasDayCareAfterFieldControl.reset(
          this.currentSingerEventInstance.hasDayCareAfter ? 'true' : 'false'
       );
       this.formControlGroup.controls.dayCareAfterEndTimeFieldControl.reset(
-         moment
-            .utc(this.currentSingerEventInstance.dayCareAfterEndDateTime)
-            .local()
-            .format('HH:mm')
+         moment.utc(this.currentSingerEventInstance.dayCareAfterEndDateTime).local().format('HH:mm')
       );
    }
 
    compareLocations(locationX: SingerLocation, locationY: SingerLocation) {
       return locationX.id === locationY.id;
-   }
-
-   compareAgeGroups(ageGroupX: number, ageGroupY: string) {
-      return AgeGroup[ageGroupX] === ageGroupY;
    }
 
    // Load form field values into current singer event instance

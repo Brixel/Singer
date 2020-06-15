@@ -4,8 +4,7 @@
 
    // List of extensions which should be recommended for users of this workspace.
    "recommendations": [
-      "EditorConfig.EditorConfig",
-      "ms-vscode.csharp",
+      "ms-dotnettools.csharp",
       "esbenp.prettier-vscode",
       "KnisterPeter.vscode-commitizen",
       "msjsdiag.debugger-for-chrome"
