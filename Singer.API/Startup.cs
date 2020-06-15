@@ -171,7 +171,7 @@ namespace Singer
          services.AddAutoMapper(typeof(Startup));
          services.AddScoped<ICareUserService, CareUserService>();
          services.AddScoped<ILegalGuardianUserService, LegalGuardianUserService>();
-         services.AddScoped<IEventLocationService, EventLocationService>();
+         services.AddScoped<ISingerLocationService, SingerLocationService>();
          services.AddScoped<IAdminUserService, AdminUserService>();
          services.AddScoped<IEventService, EventService>();
          services.AddScoped<IEventRegistrationService, EventRegistrationService>()
@@ -293,7 +293,7 @@ namespace Singer
             Seed.CheckRoles(serviceScope, applicationDbContext).Wait();
             Seed.CreateAPIAndClient(configrationDbContext);
             Seed.SeedIdentityResources(configrationDbContext);
-            Seed.SeedEventLocations(applicationDbContext);
+            Seed.SeedSingerLocations(applicationDbContext);
             configrationDbContext.SaveChanges();
             applicationDbContext.SaveChanges();
          }

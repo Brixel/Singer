@@ -51,6 +51,11 @@ export class NavMenuComponent implements OnInit {
          routerLink: '/dashboard/registratie-overzicht',
       },
       {
+         RouterLinkName: 'Locaties',
+         RouterLinkRequirements: [singerRouterLinkRequirements.isAuthenticated, singerRouterLinkRequirements.isAdmin],
+         routerLink: '/admin/locaties',
+      },
+      {
          RouterLinkName: 'Inloggen',
          RouterLinkRequirements: [singerRouterLinkRequirements.isNotAuthenticated],
          routerLink: '/login',

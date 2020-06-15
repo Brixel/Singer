@@ -1,10 +1,11 @@
 import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { SingerEventLocation, EventFilterParameters } from 'src/app/modules/core/models/singerevent.model';
+import { EventFilterParameters } from 'src/app/modules/core/models/singerevent.model';
 import { GenericFilter } from 'src/app/modules/core/models/generics/generic-filter.model';
 import { GenericFilterParameters } from 'src/app/modules/core/models/generics/generic-filter-parameters.model';
-import { SingerEventLocationService } from 'src/app/modules/core/services/singerevents-api/singerevent-location.service';
+import { SingerLocationService } from 'src/app/modules/core/services/singer-location-api/singer-location.service';
 import { AgeGroup } from 'src/app/modules/core/models/enum';
+import { SingerLocation } from 'src/app/modules/core/models/singer-location.model';
 
 @Component({
    selector: 'app-event-filter',
@@ -18,7 +19,7 @@ export class EventFilterComponent extends GenericFilter implements OnInit {
    }
 
    currentDate = new Date();
-   availableLocations: SingerEventLocation[];
+   availableLocations: SingerLocation[];
    // Available agegroups
    ageGroups = Object.keys(AgeGroup).filter(k => typeof AgeGroup[k as any] === 'number');
 
@@ -30,13 +31,13 @@ export class EventFilterComponent extends GenericFilter implements OnInit {
    nameFieldPlaceholder: string = 'Naam';
    costFieldPlaceholder: string = 'Prijs';
 
-   constructor(private eventLocationService: SingerEventLocationService) {
+   constructor(private eventLocationService: SingerLocationService) {
       super();
 
       this.filterParameters = new EventFilterParameters();
 
-      this.eventLocationService.fetchSingerEventLocationsData('asc', 'name', 0, 1000, '').subscribe(res => {
-         this.availableLocations = res.items as SingerEventLocation[];
+      this.eventLocationService.fetchSingerLocationsData('asc', 'name', 0, 1000, '').subscribe(res => {
+         this.availableLocations = res.items as SingerLocation[];
       });
    }
 

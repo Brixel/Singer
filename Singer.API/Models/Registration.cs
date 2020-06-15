@@ -17,7 +17,7 @@ namespace Singer.Models
 
       [ForeignKey(nameof(DaycareLocation))]
       public Guid? DaycareLocationId { get; set; }
-      public virtual EventLocation DaycareLocation { get; set; }
+      public virtual SingerLocation DaycareLocation { get; set; }
 
       public DateTime StartDateTime { get; set; }
       public DateTime EndDateTime { get; set; }

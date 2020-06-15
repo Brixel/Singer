@@ -17,7 +17,7 @@ namespace Singer.Models
       public AgeGroup AllowedAgeGroups { get; set; }
       [ForeignKey(nameof(Location))]
       public Guid LocationId { get; set; }
-      public virtual EventLocation Location { get; set; }
+      public virtual SingerLocation Location { get; set; }
       public int MaxRegistrants { get; set; }
       public decimal Cost { get; set; }
       public DateTime StartRegistrationDateTime { get; set; }

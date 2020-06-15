@@ -3,7 +3,7 @@ using Singer.Helpers;
 
 namespace Singer.Models
 {
-   public class EventLocation : IIdentifiable
+   public class SingerLocation : IIdentifiable
    {
       public Guid Id { get; set; }
       public string Name { get; set; }

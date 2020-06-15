@@ -403,7 +403,7 @@ namespace Singer.Services
       public async Task<DaycareLocationDTO> UpdateDaycareLocationForRegistration(Guid registrationId,
          Guid locationId, Guid executedByUserId)
       {
-         var location = await Context.EventLocations.SingleAsync(x => x.Id == locationId);
+         var location = await Context.SingerLocations.SingleAsync(x => x.Id == locationId);
          var registration = await Context.Registrations.SingleAsync(x => x.Id == registrationId);
          registration.DaycareLocationId = locationId;
 

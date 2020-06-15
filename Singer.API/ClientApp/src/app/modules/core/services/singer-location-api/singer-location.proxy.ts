@@ -5,18 +5,18 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { PaginationDTO } from '../../DTOs/pagination.dto';
 import {
-   UpdateSingerEventLocationDTO,
-   CreateSingerEventLocationDTO,
-   SingerEventLocationDTO,
+   UpdateSingerLocationDTO,
+   CreateSingerLocationDTO,
+   SingerLocationDTO,
 } from '../../DTOs/singer-event-location.dto';
 
 @Injectable({
    providedIn: 'root',
 })
-export class SingerEventLocationProxy {
+export class SingerLocationProxy {
    constructor(private apiService: ApiService) {}
 
-   getSingerEventLocations(
+   getSingerLocations(
       sortDirection?: string,
       sortColumn?: string,
       pageIndex?: number,
@@ -29,16 +29,14 @@ export class SingerEventLocationProxy {
          .set('pageIndex', pageIndex.toString())
          .set('pageSize', pageSize.toString())
          .set('filter', filter);
-      return this.apiService.get('api/eventlocation', searchParams).pipe(map(res => res));
+      return this.apiService.get('api/location', searchParams).pipe(map(res => res));
    }
 
-   updateSingerEventLocation(id: string, updateSingerEventLocationDTO: UpdateSingerEventLocationDTO) {
-      return this.apiService.put(`api/eventlocation/${id}`, updateSingerEventLocationDTO).pipe(map(res => res));
+   updateSingerLocation(id: string, updateSingerLocationDTO: UpdateSingerLocationDTO) {
+      return this.apiService.put(`api/location/${id}`, updateSingerLocationDTO).pipe(map(res => res));
    }
 
-   createSingerEventLocation(
-      createSingerEventLocationDTO: CreateSingerEventLocationDTO
-   ): Observable<SingerEventLocationDTO> {
-      return this.apiService.post('api/eventlocation', createSingerEventLocationDTO).pipe(map(res => res));
+   createSingerLocation(createSingerLocationDTO: CreateSingerLocationDTO): Observable<SingerLocationDTO> {
+      return this.apiService.post('api/location', createSingerLocationDTO).pipe(map(res => res));
    }
 }
