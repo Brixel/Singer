@@ -27,7 +27,7 @@
     "@angular/platform-browser-dynamic": "11.0.9",
     "@angular/platform-server": "11.0.9",
     "@angular/router": "11.0.9",
-    "@auth0/angular-jwt": "^2.1.2",
+    "@auth0/angular-jwt": "^5.0.2",
     "@markpieszak/ng-application-insights": "^8.0.1",
     "angular-application-insights-v2": "0.0.2",
     "angular-calendar": "^0.28.2",
