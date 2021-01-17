@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { EventDescription } from 'src/app/modules/core/models/singerevent.model';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { RegistrationComponent } from 'src/app/modules/shared/components/event-registration/event-registration.component';
 
 @Component({

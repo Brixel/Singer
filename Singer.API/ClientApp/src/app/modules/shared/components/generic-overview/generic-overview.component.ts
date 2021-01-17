@@ -1,5 +1,6 @@
 import { AfterViewInit, ViewChild, ElementRef, ChangeDetectorRef, Directive } from '@angular/core';
-import { MatPaginator, MatSort } from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { merge, fromEvent } from 'rxjs';
 import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { GenericModel } from 'src/app/modules/core/models/generics/generic-model';

@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { CareUserService } from 'src/app/modules/core/services/care-users-api/careusers.service';
 import { startWith, debounceTime, switchMap, map } from 'rxjs/operators';
-import { MatAutocompleteSelectedEvent } from '@angular/material';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
 @Component({

@@ -10,7 +10,8 @@ import {
 import { SingerLocationService } from 'src/app/modules/core/services/singer-location-api/singer-location.service';
 import { SingerLocationDataSource } from './registration-overview-datasource';
 import { LoadingService } from 'src/app/modules/core/services/loading.service';
-import { MatSnackBar, MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { SortDirection } from 'src/app/modules/core/enums/sort-direction';
 import { LocationDetailsComponent } from '../location-details/location-details.component';
 import { ConfirmComponent, ConfirmRequest } from 'src/app/modules/shared/components/confirm/confirm.component';

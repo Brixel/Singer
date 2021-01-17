@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_LOCALE, OwlDateTimeIntl } from 'ng-pick-datetime';
 import { CommonModule } from '@angular/common';
 import { LegalguardiansRoutingModule } from './legalguardians-routing.module';
-import { MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material';
+import { MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
 import { MY_FORMATS } from 'src/app/app.module';
 import { SharedModule } from '../shared/shared.module';
 import { MaterialModule } from 'src/app/material.module';

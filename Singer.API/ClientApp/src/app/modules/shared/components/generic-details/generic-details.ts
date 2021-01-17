@@ -1,7 +1,7 @@
 import { Output, ChangeDetectorRef, AfterViewInit, Directive } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material/dialog';
 import { GenericModel } from 'src/app/modules/core/models/generics/generic-model';
 import { FormElement } from '../../interfaces/form-element';
 

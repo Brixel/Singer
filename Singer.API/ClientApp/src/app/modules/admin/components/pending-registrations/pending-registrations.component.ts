@@ -1,5 +1,7 @@
 import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { MatPaginator, MatSort, MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { GenericOverviewComponent } from 'src/app/modules/shared/components/generic-overview/generic-overview.component';
 import { RegistrationDTO } from 'src/app/modules/core/DTOs/registration.dto';
 import { PendingRegistrationsDatasource } from './pending-registrations-datasource';

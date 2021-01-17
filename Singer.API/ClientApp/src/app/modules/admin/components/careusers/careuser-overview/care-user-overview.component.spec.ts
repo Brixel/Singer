@@ -1,14 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import {
-   MatPaginatorModule,
-   MatSortModule,
-   MatTableModule,
-   MatFormFieldModule,
-   MatInputModule,
-   MatCardModule,
-   MatProgressSpinnerModule,
-} from '@angular/material';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
 
 import { CareUserOverviewComponent } from './care-user-overview.component';
 import { AgegroupPipe } from 'src/app/modules/core/pipes/agegroup.pipe';

@@ -4,7 +4,10 @@ import {
    SearchCareUserDialogComponent,
    RelatedCareUser,
 } from '../search-care-user-dialog/search-care-user-dialog.component';
-import { MatDialog, MatSnackBar, MatStepper, MatButtonToggleChange } from '@angular/material';
+import { MatButtonToggleChange } from '@angular/material/button-toggle';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatStepper } from '@angular/material/stepper';
 import { OwlDateTimeInlineComponent } from 'ng-pick-datetime';
 import { Router } from '@angular/router';
 import { CareRegistrationService } from '../../services/care-registration.service';

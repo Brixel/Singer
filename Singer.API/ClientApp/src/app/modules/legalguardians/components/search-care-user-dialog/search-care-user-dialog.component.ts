@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { RelatedCareUserDTO } from 'src/app/modules/core/models/careuser.model';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
    SingerRegistrationsComponent,
    SingerRegistrationData,

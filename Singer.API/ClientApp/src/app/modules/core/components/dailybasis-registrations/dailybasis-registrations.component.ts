@@ -2,7 +2,10 @@ import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { EventSlotRegistrations, EventCareUserRegistration } from '../../models/singerevent.model';
 import { Registrant } from '../../models/registrant.model';
 import { SingerEventsService } from '../../services/singerevents-api/singerevents.service';
-import { MatSnackBar, MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { RegistrationStatus } from '../../models/enum';
 
 @Component({
