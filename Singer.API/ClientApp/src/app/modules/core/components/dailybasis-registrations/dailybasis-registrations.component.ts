@@ -40,8 +40,8 @@ export class DailybasisRegistrationsComponent implements OnInit {
    public eventSlotDataSource = new MatTableDataSource([]);
    public columnsToDisplay: string[] = ['eventSlot'];
 
-   @ViewChild(MatPaginator) paginator: MatPaginator;
-   @ViewChild(MatSort) sort: MatSort;
+   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
    constructor(private _eventService: SingerEventsService, private _snackBar: MatSnackBar) {
       this.eventSlotDataSource = new MatTableDataSource([]);

@@ -16,10 +16,10 @@ export abstract class GenericOverviewComponent<
    TDataSource extends GenericDataSource<TModel, TDTO, TUpdateDTO, TCreateDTO, TService, TSearchDTO>,
    TSearchDTO extends SearchDTOBase
 > implements AfterViewInit {
-   @ViewChild(MatPaginator)
+   @ViewChild(MatPaginator, { static: false })
    paginator: MatPaginator;
-   @ViewChild(MatSort) sort: MatSort;
-   @ViewChild('filterInput')
+   @ViewChild(MatSort, { static: true }) sort: MatSort;
+   @ViewChild('filterInput', /* TODO: add static flag */ {})
    filterInput: ElementRef;
 
    searchDTO: TSearchDTO;

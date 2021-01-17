@@ -67,8 +67,8 @@ export class RegisterCareWizardComponent {
       },
    ];
 
-   @ViewChild('stepper') stepper: MatStepper;
-   @ViewChild('datetimepicker') datetimepicker: OwlDateTimeInlineComponent<Date>;
+   @ViewChild('stepper', { static: true }) stepper: MatStepper;
+   @ViewChild('datetimepicker', { static: false }) datetimepicker: OwlDateTimeInlineComponent<Date>;
 
    dayCareType: EventRegistrationTypes;
    DayCareTypes = EventRegistrationTypes;

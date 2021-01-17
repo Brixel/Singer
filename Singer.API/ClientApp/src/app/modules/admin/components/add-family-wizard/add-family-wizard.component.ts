@@ -15,7 +15,7 @@ import { LegalguardiansService } from 'src/app/modules/core/services/legal-guard
    styleUrls: ['./add-family-wizard.component.css'],
 })
 export class AddFamilyWizardComponent {
-   @ViewChild('stepper') matStepper: MatStepper;
+   @ViewChild('stepper', { static: true }) matStepper: MatStepper;
 
    wizardSteps: AddFamilyWizardStep[] = [
       {

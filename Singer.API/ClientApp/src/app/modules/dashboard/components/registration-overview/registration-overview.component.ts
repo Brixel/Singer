@@ -29,14 +29,14 @@ export class RegistrationOverviewComponent extends GenericOverviewComponent<
    RegistrationSearchDTO
 > {
    RegistrationStatus: any;
-   @ViewChild('searchDateFrom') searchDateFrom: {
+   @ViewChild('searchDateFrom', { static: true }) searchDateFrom: {
       nativeElement: { value: moment.MomentInput };
    };
-   @ViewChild('searchDateTo') searchDateTo: {
+   @ViewChild('searchDateTo', { static: true }) searchDateTo: {
       nativeElement: { value: moment.MomentInput };
    };
-   @ViewChild('searchType') searchType: MatSelect;
-   @ViewChild('searchStatus') searchStatus: MatSelect;
+   @ViewChild('searchType', { static: true }) searchType: MatSelect;
+   @ViewChild('searchStatus', { static: true }) searchStatus: MatSelect;
    registrationTypes: any;
    registrationStatus: any;
    authService: AuthService;

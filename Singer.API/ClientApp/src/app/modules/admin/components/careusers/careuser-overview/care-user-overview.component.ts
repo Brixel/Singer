@@ -15,9 +15,9 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
    styleUrls: ['./care-user-overview.component.css'],
 })
 export class CareUserOverviewComponent implements OnInit, AfterViewInit {
-   @ViewChild(MatPaginator) paginator: MatPaginator;
-   @ViewChild(MatSort) sort: MatSort;
-   @ViewChild('filterInput') filterInput: ElementRef;
+   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+   @ViewChild(MatSort, { static: true }) sort: MatSort;
+   @ViewChild('filterInput', { static: true }) filterInput: ElementRef;
 
    // Filter
    filter: string;

@@ -26,8 +26,8 @@ export class PendingRegistrationsComponent extends GenericOverviewComponent<
    PendingRegistrationsDatasource,
    RegistrationSearchDTO
 > {
-   @ViewChild(MatPaginator) paginator: MatPaginator;
-   @ViewChild(MatSort) sort: MatSort;
+   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+   @ViewChild(MatSort, { static: true }) sort: MatSort;
    public dialog: MatDialog;
    private _eventService: SingerEventsService;
 

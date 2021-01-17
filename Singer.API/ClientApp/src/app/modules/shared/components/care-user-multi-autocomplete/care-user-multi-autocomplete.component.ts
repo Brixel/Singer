@@ -18,7 +18,7 @@ export class CareUserMultiAutocompleteComponent implements OnInit {
    careUserCtrl: FormControl;
    separatorKeysCodes: number[] = [ENTER, COMMA];
    @Output() onChange: EventEmitter<CareUser[]> = new EventEmitter();
-   @ViewChild('careUserInput') careUserInput: ElementRef<HTMLInputElement>;
+   @ViewChild('careUserInput', { static: true }) careUserInput: ElementRef<HTMLInputElement>;
 
    constructor(private careUserService: CareUserService) {
       this.selectedCareUsers = [];

@@ -14,8 +14,8 @@ export class RegistrationComponent implements OnInit {
    public event$ = new BehaviorSubject<EventRegisterDetails>(new EventRegisterDetails());
    public hasInappropriateCareUsers = false;
 
-   @ViewChild(MatPaginator) paginator: MatPaginator;
-   @ViewChild(MatSort) sort: MatSort;
+   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+   @ViewChild(MatSort, { static: false }) sort: MatSort;
    careUsers: Registrant[] = [];
 
    constructor(

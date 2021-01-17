@@ -17,9 +17,9 @@ import { AuthService } from 'src/app/modules/core/services/auth.service';
    styleUrls: ['./legalguardian-overview.component.css'],
 })
 export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
-   @ViewChild(MatPaginator) paginator: MatPaginator;
-   @ViewChild(MatSort) sort: MatSort;
-   @ViewChild('filterInput') filterInput: ElementRef;
+   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+   @ViewChild(MatSort, { static: true }) sort: MatSort;
+   @ViewChild('filterInput', { static: true }) filterInput: ElementRef;
 
    // Filter
    filter: string;
