@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_LOCALE, OwlDateTimeIntl } from 'ng-pick-datetime';
 import { CommonModule } from '@angular/common';
 import { LegalguardiansRoutingModule } from './legalguardians-routing.module';
 import { MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
@@ -14,6 +13,7 @@ import { CareRegistrationService } from './services/care-registration.service';
 import { CareRegistrationProxy } from './services/care-registration.proxy';
 import { ApiService } from '../core/services/api.service';
 import { RegistrationTypePipe } from '../core/pipes/registration-type.pipe';
+import { OwlDateTimeIntl, OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_LOCALE } from '@danielmoncada/angular-datetime-picker';
 
 @NgModule({
    declarations: [RegisterCareWizardComponent, SearchCareUserDialogComponent],

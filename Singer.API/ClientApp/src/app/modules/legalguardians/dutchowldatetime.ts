@@ -1,5 +1,5 @@
-import { OwlDateTimeIntl } from 'ng-pick-datetime';
 import { Injectable } from "@angular/core";
+import { OwlDateTimeIntl } from "@danielmoncada/angular-datetime-picker";
 
 // here is the default text string
 @Injectable()

@@ -8,9 +8,9 @@ import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatStepper } from '@angular/material/stepper';
-import { OwlDateTimeInlineComponent } from 'ng-pick-datetime';
 import { Router } from '@angular/router';
 import { CareRegistrationService } from '../../services/care-registration.service';
+import { OwlDateTimeInlineComponent } from '@danielmoncada/angular-datetime-picker';
 
 @Component({
    selector: 'app-register-care-wizard',
