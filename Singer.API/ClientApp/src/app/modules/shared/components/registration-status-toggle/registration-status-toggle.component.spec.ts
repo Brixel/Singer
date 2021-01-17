@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { RegistrationStatusToggleComponent } from './registration-status-toggle.component';
 
@@ -6,7 +6,7 @@ describe('RegistrationStatusToggleComponent', () => {
   let component: RegistrationStatusToggleComponent;
   let fixture: ComponentFixture<RegistrationStatusToggleComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ RegistrationStatusToggleComponent ]
     })

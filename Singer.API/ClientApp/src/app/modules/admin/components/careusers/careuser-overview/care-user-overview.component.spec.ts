@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -24,7 +24,7 @@ describe('OverviewComponent', () => {
    let component: CareUserOverviewComponent;
    let fixture: ComponentFixture<CareUserOverviewComponent>;
    let careUserService: CareUserService;
-   beforeEach(async(() => {
+   beforeEach(waitForAsync(() => {
       TestBed.configureTestingModule({
          declarations: [CareUserOverviewComponent],
          imports: [

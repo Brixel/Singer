@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { CareUserMultiAutocompleteComponent } from './care-user-multi-autocomplete.component';
 
@@ -6,7 +6,7 @@ describe('CareUserMultiAutocompleteComponent', () => {
   let component: CareUserMultiAutocompleteComponent;
   let fixture: ComponentFixture<CareUserMultiAutocompleteComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ CareUserMultiAutocompleteComponent ]
     })

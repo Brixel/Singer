@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { EventFilterComponent } from './event-filter.component';
 
@@ -6,7 +6,7 @@ describe('EventSearchComponent', () => {
    let component: EventFilterComponent;
    let fixture: ComponentFixture<EventFilterComponent>;
 
-   beforeEach(async(() => {
+   beforeEach(waitForAsync(() => {
       TestBed.configureTestingModule({
          declarations: [EventFilterComponent],
       }).compileComponents();
