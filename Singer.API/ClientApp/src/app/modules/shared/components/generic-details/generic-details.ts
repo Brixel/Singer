@@ -1,4 +1,4 @@
-import { Output, ChangeDetectorRef, AfterViewInit } from '@angular/core';
+import { Output, ChangeDetectorRef, AfterViewInit, Directive } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
@@ -11,6 +11,7 @@ export interface GenericDetailsFormData<TModel extends GenericModel> {
    showFormButtons: boolean;
 }
 
+@Directive()
 export abstract class GenericDetails<TModel extends GenericModel> implements AfterViewInit {
    @Output() submitEvent: EventEmitter<TModel> = new EventEmitter();
 

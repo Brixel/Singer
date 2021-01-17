@@ -25,7 +25,7 @@ import { SingerLocation } from 'src/app/modules/core/models/singer-location.mode
    styleUrls: ['./singerevent-overview.component.css'],
 })
 export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
-   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+   @ViewChild(MatPaginator) paginator: MatPaginator;
    @ViewChild(MatSort, { static: true }) sort: MatSort;
    @ViewChild('filterInput', { static: true }) filterInput: ElementRef;
 

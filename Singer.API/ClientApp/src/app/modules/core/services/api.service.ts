@@ -1,9 +1,10 @@
 import { HttpClient, HttpParams, HttpHeaders, HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Inject } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Observable, Subject, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ResponseContentType } from '@angular/http';
 
+@Injectable()
 export class ApiService {
    error$ = new Subject<HttpErrorResponse>();
    constructor(private httpClient: HttpClient, @Inject('BASE_URL') private baseUrl: string) {}
