@@ -30,7 +30,7 @@
     "@angular/router": "11.0.9",
     "@auth0/angular-jwt": "^2.1.2",
     "@markpieszak/ng-application-insights": "^8.0.1",
-    "@nguniversal/module-map-ngfactory-loader": "6.0.0",
+    "@nguniversal/module-map-ngfactory-loader": "8.2.6",
     "angular-application-insights-v2": "0.0.2",
     "angular-calendar": "^0.28.2",
     "aspnet-prerendering": "^3.0.1",
