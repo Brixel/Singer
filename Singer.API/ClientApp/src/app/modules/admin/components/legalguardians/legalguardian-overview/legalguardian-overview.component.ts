@@ -25,7 +25,7 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
    @ViewChild('filterInput', { static: true }) filterInput: ElementRef;
 
    // Filter
-   filter: string;
+   filter: string = '';
 
    readonly maxFilterLength = 2048;
 
