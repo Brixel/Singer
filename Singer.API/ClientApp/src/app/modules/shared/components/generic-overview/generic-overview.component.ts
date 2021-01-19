@@ -21,7 +21,7 @@ export abstract class GenericOverviewComponent<
    @ViewChild(MatPaginator)
    paginator: MatPaginator;
    @ViewChild(MatSort, { static: true }) sort: MatSort;
-   @ViewChild('filterInput', /* TODO: add static flag */ {})
+   @ViewChild('filterInput', { static: true })
    filterInput: ElementRef;
 
    searchDTO: TSearchDTO;
