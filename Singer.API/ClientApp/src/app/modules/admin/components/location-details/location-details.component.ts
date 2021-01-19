@@ -4,7 +4,7 @@ import {
    GenericDetailsFormData,
 } from 'src/app/modules/shared/components/generic-details/generic-details';
 import { SingerLocation } from 'src/app/modules/core/models/singer-location.model';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Validators } from '@angular/forms';
 import { FormElement } from 'src/app/modules/shared/interfaces/form-element';
 

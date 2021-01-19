@@ -1,5 +1,8 @@
 import { AfterViewInit, Component, ViewChild, OnInit, ElementRef } from '@angular/core';
-import { MatPaginator, MatSort, MatDialog, MatSnackBar } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSort } from '@angular/material/sort';
 import { SingerEventOverviewDataSource } from './singerevent-overview-datasource';
 import { merge, fromEvent } from 'rxjs';
 import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -26,11 +29,11 @@ import { SingerLocation } from 'src/app/modules/core/models/singer-location.mode
 })
 export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
    @ViewChild(MatPaginator) paginator: MatPaginator;
-   @ViewChild(MatSort) sort: MatSort;
-   @ViewChild('filterInput') filterInput: ElementRef;
+   @ViewChild(MatSort, { static: true }) sort: MatSort;
+   @ViewChild('filterInput', { static: true }) filterInput: ElementRef;
 
    // Filter
-   filter: string;
+   filter: string = '';
 
    readonly maxFilterLength = 2048;
 

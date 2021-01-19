@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { PendingActionsDataSource } from './pending-actions-datasource';
 import { ActionNotificationsService } from 'src/app/modules/core/services/action-notification.service';
 import { RegistrationStatus } from 'src/app/modules/core/models/enum';

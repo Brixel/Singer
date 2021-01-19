@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { RegistrationStatus } from 'src/app/modules/core/models/enum';
-import { MatButtonToggleChange } from '@angular/material';
+import { MatButtonToggleChange } from '@angular/material/button-toggle';
 
 @Component({
    selector: 'app-registration-status-toggle',

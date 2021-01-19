@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { SingerEventAdminRegisterComponent } from './singer-eventadmin-register.component';
 
@@ -6,7 +6,7 @@ describe('SingerEventadminRegisterComponent', () => {
    let component: SingerEventAdminRegisterComponent;
    let fixture: ComponentFixture<SingerEventAdminRegisterComponent>;
 
-   beforeEach(async(() => {
+   beforeEach(waitForAsync(() => {
       TestBed.configureTestingModule({
          declarations: [SingerEventAdminRegisterComponent],
       }).compileComponents();

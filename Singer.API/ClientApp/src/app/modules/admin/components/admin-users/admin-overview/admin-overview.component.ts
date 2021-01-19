@@ -1,5 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { MatPaginator, MatSort, MatDialog, MatSnackBar } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSort } from '@angular/material/sort';
 import { AdminDatasource } from '../../../services/admin.datasource';
 import { AdminUserService } from '../../../services/admin-user.service';
 import { fromEvent, merge } from 'rxjs';
@@ -18,11 +21,11 @@ import { AuthService } from 'src/app/modules/core/services/auth.service';
 })
 export class AdminOverviewComponent implements OnInit, AfterViewInit {
    @ViewChild(MatPaginator) paginator: MatPaginator;
-   @ViewChild(MatSort) sort: MatSort;
-   @ViewChild('filterInput') filterInput: ElementRef;
+   @ViewChild(MatSort, { static: true }) sort: MatSort;
+   @ViewChild('filterInput', { static: true }) filterInput: ElementRef;
 
    // Filter
-   filter: string;
+   filter: string = '';
 
    readonly maxFilterLength = 2048;
 

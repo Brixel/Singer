@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { CareUserService } from 'src/app/modules/core/services/care-users-api/careusers.service';
 import { startWith, debounceTime, switchMap, map } from 'rxjs/operators';
-import { MatAutocompleteSelectedEvent } from '@angular/material';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
 @Component({
@@ -18,7 +18,7 @@ export class CareUserMultiAutocompleteComponent implements OnInit {
    careUserCtrl: FormControl;
    separatorKeysCodes: number[] = [ENTER, COMMA];
    @Output() onChange: EventEmitter<CareUser[]> = new EventEmitter();
-   @ViewChild('careUserInput') careUserInput: ElementRef<HTMLInputElement>;
+   @ViewChild('careUserInput', { static: true }) careUserInput: ElementRef<HTMLInputElement>;
 
    constructor(private careUserService: CareUserService) {
       this.selectedCareUsers = [];

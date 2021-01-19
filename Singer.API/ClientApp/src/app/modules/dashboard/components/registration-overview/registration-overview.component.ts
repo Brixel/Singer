@@ -9,7 +9,8 @@ import { SortDirection } from '../../../core/enums/sort-direction';
 import { RegistrationStatus } from '../../../core/models/enum';
 import * as moment from 'moment';
 import { RegistrationType } from '../../../core/enums/registration-type';
-import { MatSelect, MatSnackBar } from '@angular/material';
+import { MatSelect } from '@angular/material/select';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../../../core/services/auth.service';
 import { CareUser } from 'src/app/modules/core/models/careuser.model';
 import { LoadingService } from 'src/app/modules/core/services/loading.service';
@@ -29,14 +30,14 @@ export class RegistrationOverviewComponent extends GenericOverviewComponent<
    RegistrationSearchDTO
 > {
    RegistrationStatus: any;
-   @ViewChild('searchDateFrom') searchDateFrom: {
+   @ViewChild('searchDateFrom', { static: true }) searchDateFrom: {
       nativeElement: { value: moment.MomentInput };
    };
-   @ViewChild('searchDateTo') searchDateTo: {
+   @ViewChild('searchDateTo', { static: true }) searchDateTo: {
       nativeElement: { value: moment.MomentInput };
    };
-   @ViewChild('searchType') searchType: MatSelect;
-   @ViewChild('searchStatus') searchStatus: MatSelect;
+   @ViewChild('searchType', { static: true }) searchType: MatSelect;
+   @ViewChild('searchStatus', { static: true }) searchStatus: MatSelect;
    registrationTypes: any;
    registrationStatus: any;
    authService: AuthService;

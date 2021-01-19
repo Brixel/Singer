@@ -4,10 +4,13 @@ import {
    SearchCareUserDialogComponent,
    RelatedCareUser,
 } from '../search-care-user-dialog/search-care-user-dialog.component';
-import { MatDialog, MatSnackBar, MatStepper, MatButtonToggleChange } from '@angular/material';
-import { OwlDateTimeInlineComponent } from 'ng-pick-datetime';
+import { MatButtonToggleChange } from '@angular/material/button-toggle';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatStepper } from '@angular/material/stepper';
 import { Router } from '@angular/router';
 import { CareRegistrationService } from '../../services/care-registration.service';
+import { OwlDateTimeInlineComponent } from '@danielmoncada/angular-datetime-picker';
 
 @Component({
    selector: 'app-register-care-wizard',
@@ -67,7 +70,7 @@ export class RegisterCareWizardComponent {
       },
    ];
 
-   @ViewChild('stepper') stepper: MatStepper;
+   @ViewChild('stepper', { static: true }) stepper: MatStepper;
    @ViewChild('datetimepicker') datetimepicker: OwlDateTimeInlineComponent<Date>;
 
    dayCareType: EventRegistrationTypes;

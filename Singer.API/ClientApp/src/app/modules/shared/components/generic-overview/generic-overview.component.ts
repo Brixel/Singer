@@ -1,5 +1,6 @@
-import { AfterViewInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
-import { MatPaginator, MatSort } from '@angular/material';
+import { AfterViewInit, ViewChild, ElementRef, ChangeDetectorRef, Directive } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { merge, fromEvent } from 'rxjs';
 import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { GenericModel } from 'src/app/modules/core/models/generics/generic-model';
@@ -7,6 +8,7 @@ import { GenericDataSource } from 'src/app/modules/core/services/generic-data-so
 import { GenericService } from 'src/app/modules/core/services/generic-service';
 import { SearchDTOBase } from 'src/app/modules/core/DTOs/base.dto';
 import { SortDirection } from 'src/app/modules/core/enums/sort-direction';
+@Directive()
 export abstract class GenericOverviewComponent<
    TModel extends GenericModel,
    TDTO,
@@ -18,8 +20,8 @@ export abstract class GenericOverviewComponent<
 > implements AfterViewInit {
    @ViewChild(MatPaginator)
    paginator: MatPaginator;
-   @ViewChild(MatSort) sort: MatSort;
-   @ViewChild('filterInput')
+   @ViewChild(MatSort, { static: true }) sort: MatSort;
+   @ViewChild('filterInput', { static: true })
    filterInput: ElementRef;
 
    searchDTO: TSearchDTO;

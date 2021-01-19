@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { EventSlotRegistrations, EventCareUserRegistration } from '../../models/singerevent.model';
 import { Registrant } from '../../models/registrant.model';
 import { SingerEventsService } from '../../services/singerevents-api/singerevents.service';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { RegistrationStatus } from '../../models/enum';
 
 @Component({

@@ -4,7 +4,7 @@ import { startWith, debounceTime, switchMap, map, catchError } from 'rxjs/operat
 import { of, Observable, Subject } from 'rxjs';
 import { CareUser, CareUserDTO } from 'src/app/modules/core/models/careuser.model';
 import { CareUserService } from 'src/app/modules/core/services/care-users-api/careusers.service';
-import { MatOptionSelectionChange } from '@angular/material';
+import { MatOptionSelectionChange } from '@angular/material/core';
 
 @Component({
    selector: 'app-care-user-search',

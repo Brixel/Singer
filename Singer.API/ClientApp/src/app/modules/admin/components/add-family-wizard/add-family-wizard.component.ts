@@ -2,7 +2,9 @@ import { Component, ViewChild } from '@angular/core';
 import { AddFamilyWizardStep } from 'src/app/modules/core/models/add-family-wizard-step';
 import { LegalGuardian } from 'src/app/modules/core/models/legalguardian.model';
 import { CareUser } from 'src/app/modules/core/models/careuser.model';
-import { MatSnackBar, MatDialog, MatStepper } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatStepper } from '@angular/material/stepper';
 import { LegalguardianDetailsComponent } from '../legalguardians/legalguardian-details/legalguardian-details.component';
 import { CareUserDetailsComponent } from '../careusers/careuser-details/care-user-details.component';
 import { Router } from '@angular/router';
@@ -15,7 +17,7 @@ import { LegalguardiansService } from 'src/app/modules/core/services/legal-guard
    styleUrls: ['./add-family-wizard.component.css'],
 })
 export class AddFamilyWizardComponent {
-   @ViewChild('stepper') matStepper: MatStepper;
+   @ViewChild('stepper', { static: true }) matStepper: MatStepper;
 
    wizardSteps: AddFamilyWizardStep[] = [
       {

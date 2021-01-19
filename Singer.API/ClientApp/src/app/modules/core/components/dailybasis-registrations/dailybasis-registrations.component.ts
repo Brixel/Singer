@@ -2,7 +2,10 @@ import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { EventSlotRegistrations, EventCareUserRegistration } from '../../models/singerevent.model';
 import { Registrant } from '../../models/registrant.model';
 import { SingerEventsService } from '../../services/singerevents-api/singerevents.service';
-import { MatSnackBar, MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { RegistrationStatus } from '../../models/enum';
 
 @Component({
@@ -40,8 +43,8 @@ export class DailybasisRegistrationsComponent implements OnInit {
    public eventSlotDataSource = new MatTableDataSource([]);
    public columnsToDisplay: string[] = ['eventSlot'];
 
-   @ViewChild(MatPaginator) paginator: MatPaginator;
-   @ViewChild(MatSort) sort: MatSort;
+   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
    constructor(private _eventService: SingerEventsService, private _snackBar: MatSnackBar) {
       this.eventSlotDataSource = new MatTableDataSource([]);

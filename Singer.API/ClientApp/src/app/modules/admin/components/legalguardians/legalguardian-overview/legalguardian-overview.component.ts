@@ -1,5 +1,8 @@
 import { AfterViewInit, Component, ViewChild, ElementRef, OnInit } from '@angular/core';
-import { MatPaginator, MatSort, MatDialog, MatSnackBar } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSort } from '@angular/material/sort';
 import { LegalguardianOverviewDataSource } from './legalguardian-overview-datasource';
 import { LegalguardiansService } from 'src/app/modules/core/services/legal-guardians-api/legalguardians.service';
 import { LegalGuardian } from 'src/app/modules/core/models/legalguardian.model';
@@ -18,11 +21,11 @@ import { AuthService } from 'src/app/modules/core/services/auth.service';
 })
 export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
    @ViewChild(MatPaginator) paginator: MatPaginator;
-   @ViewChild(MatSort) sort: MatSort;
-   @ViewChild('filterInput') filterInput: ElementRef;
+   @ViewChild(MatSort, { static: true }) sort: MatSort;
+   @ViewChild('filterInput', { static: true }) filterInput: ElementRef;
 
    // Filter
-   filter: string;
+   filter: string = '';
 
    readonly maxFilterLength = 2048;
 

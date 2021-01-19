@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { UserInfoService } from 'src/app/modules/core/services/user-info/user-info.service';
 import { UserDescriptionDTO } from 'src/app/modules/core/models/userdescription.model';
 import { ConfirmComponent, ConfirmRequest } from '../../confirm/confirm.component';
-import { MatDialog, MatSnackBar } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/modules/core/services/auth.service';
 
 @Component({
