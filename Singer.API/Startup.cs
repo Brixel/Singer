@@ -179,11 +179,11 @@ namespace Singer
          services.Configure<ApplicationConfig>(Configuration.GetSection("Application"));
          services.AddScoped<IRegistrationService, RegistrationService>();
 
-         var configurationSection = Configuration.GetSection("EmailOptions");
-         var hasValidEmailOptions = configurationSection.GetChildren().All(x => !string.IsNullOrWhiteSpace(x.Value));
-         if (hasValidEmailOptions)
+         var emailOptions = new EmailOptions();
+         Configuration.Bind(EmailOptions.SECTION_NAME, emailOptions);
+         services.Configure<EmailOptions>(Configuration.GetSection(EmailOptions.SECTION_NAME));
+         if (emailOptions.IsValid)
          {
-            services.Configure<EmailOptions>(configurationSection);
             services.AddScoped(typeof(IEmailService<LegalGuardianUserDTO>),
                typeof(EmailService<LegalGuardianUserDTO>));
             services.AddScoped(typeof(IEmailService<AdminUserDTO>),
