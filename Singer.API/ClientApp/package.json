@@ -1,6 +1,6 @@
 {
   "name": "Singer",
-  "version": "0.1.0-issue-ab-153-timezone.1504",
+  "version": "0.1.0-issue-ab-153-timezone.1507",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -57,7 +57,7 @@
     "karma-coverage-istanbul-reporter": "~1.4.2",
     "karma-jasmine": "~1.1.1",
     "karma-jasmine-html-reporter": "^0.2.2",
-    "standard-version": "^8.0.1",
+    "standard-version": "^9.1.1",
     "typescript": "~4.0.5"
   },
   "optionalDependencies": {
