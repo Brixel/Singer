@@ -1,6 +1,6 @@
 {
   "name": "Singer",
-  "version": "0.1.0-dev-environment-improvements.1506",
+  "version": "0.1.0-change-price-indication.1507",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

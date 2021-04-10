@@ -160,7 +160,7 @@
       <value>Gemeente/Stad</value>
    </data>
    <data name="Cost" xml:space="preserve">
-      <value>Prijs</value>
+      <value>Extra kost</value>
    </data>
    <data name="Country" xml:space="preserve">
       <value>Land</value>

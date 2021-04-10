@@ -21,7 +21,7 @@ export class EventFilterComponent extends GenericFilter implements OnInit {
    currentDate = new Date();
    availableLocations: SingerLocation[];
    // Available agegroups
-   ageGroups = Object.keys(AgeGroup).filter(k => typeof AgeGroup[k as any] === 'number');
+   ageGroups = Object.keys(AgeGroup).filter((k) => typeof AgeGroup[k as any] === 'number');
 
    // Form placeholders
    startDateFieldPlaceholder: string = 'Start Datum';
@@ -29,14 +29,14 @@ export class EventFilterComponent extends GenericFilter implements OnInit {
    locationFieldPlaceholder: string = 'Locatie';
    ageGroupsFieldPlaceholder: string = 'Leeftijdsgroep';
    nameFieldPlaceholder: string = 'Naam';
-   costFieldPlaceholder: string = 'Prijs';
+   costFieldPlaceholder: string = 'Extra kost';
 
    constructor(private eventLocationService: SingerLocationService) {
       super();
 
       this.filterParameters = new EventFilterParameters();
 
-      this.eventLocationService.fetchSingerLocationsData('asc', 'name', 0, 1000, '').subscribe(res => {
+      this.eventLocationService.fetchSingerLocationsData('asc', 'name', 0, 1000, '').subscribe((res) => {
          this.availableLocations = res.items as SingerLocation[];
       });
    }
