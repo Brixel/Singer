@@ -60,7 +60,7 @@ export class SingerEventDetailsComponent implements OnInit {
    readonly locationFieldPlaceholder = 'Locatie evenement';
    readonly allowedAgeGroupsFieldPlaceholder = 'Leeftijdsgroepen';
    readonly maxRegistrantsFieldPlaceholder = 'Aantal toegelaten personen';
-   readonly costFieldPlaceholder = 'Prijs (0 is gratis)';
+   readonly costFieldPlaceholder = 'Extra kost (0 is gratis)';
    readonly startRegistrationDateFieldPlaceholder = 'Startdatum registratie';
    readonly endRegistrationDateFieldPlaceholder = 'Einddatum registratie';
    readonly finalCancellationDateFieldPlaceholder = 'Uiterste annulatiedatum';

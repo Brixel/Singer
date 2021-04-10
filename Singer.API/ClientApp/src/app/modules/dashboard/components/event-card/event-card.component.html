@@ -18,7 +18,7 @@
       <p class="event-description secondary--text">{{ event.description }}</p>
 
       <div class="flex--row align--center">
-         <p class="secondary--text">Prijs: {{ event.cost | singereventCost }}</p>
+         <p class="secondary--text">Extra kost: {{ event.cost | singereventCost }}</p>
          <div class="flex--spacer"></div>
          <button mat-stroked-button color="primary" (click)="openRegistration(event)">
             Meer informatie & Inschrijven
