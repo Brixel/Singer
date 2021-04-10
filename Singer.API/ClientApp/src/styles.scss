@@ -2,7 +2,6 @@
 
 /* Import calendar styling */
 @import '../node_modules/angular-calendar/css/angular-calendar.css';
-@import "~@danielmoncada/angular-datetime-picker/assets/style/picker.min.css";
 @import 'sint-gerardus-theme.scss';
 
 body {
@@ -11,4 +10,14 @@ body {
 
 .multi-line-snackbar {
    white-space: pre-wrap;
+}
+
+
+// time picker overlay issues
+.timepicker-backdrop-overlay{
+   z-index: 1000 !important;
+}
+
+.timepicker-overlay{
+   z-index: 1000 !important;
 }
