@@ -12,6 +12,8 @@ import { RegistrationStatusPipe } from './pipes/registration-status.pipe';
 import { SingereventCostPipe } from './pipes/singerevent-cost.pipe';
 import { AboutComponent } from './components/about/about.component';
 import { RegistrationTypePipe } from './pipes/registration-type.pipe';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 @NgModule({
    declarations: [
@@ -39,5 +41,13 @@ import { RegistrationTypePipe } from './pipes/registration-type.pipe';
       AboutComponent,
       RegistrationTypePipe,
    ],
+   providers:[,
+      {
+         provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+         useValue: {
+            useUtc: true,
+         },
+      },
+      { provide: MAT_DATE_LOCALE, useValue: 'nl-BE' },]
 })
 export class CoreModule {}
