@@ -79,13 +79,13 @@
          <mat-form-field>
             <input matInput [placeholder]="costFieldPlaceholder" formControlName="costFieldControl" type="number" />
             <mat-error *ngIf="formControlGroup.controls.costFieldControl.errors?.required">
-               Prijs is een verplicht veld.
+               Extra kost is een verplicht veld.
             </mat-error>
             <mat-error *ngIf="formControlGroup.controls.costFieldControl.errors?.min">
-               Prijs mag niet negatief zijn.
+               Extra kost mag niet negatief zijn.
             </mat-error>
             <mat-error *ngIf="formControlGroup.controls.costFieldControl.errors?.max">
-               Prijs mag maximum {{ maxCost }} zijn.
+               Extra kost mag maximum {{ maxCost }} zijn.
             </mat-error>
          </mat-form-field>
       </div>

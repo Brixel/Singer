@@ -123,9 +123,6 @@
    <data name="Accepted" xml:space="preserve">
       <value>Geaccepteerd</value>
    </data>
-   <data name="Address" xml:space="preserve">
-      <value>Adres</value>
-   </data>
    <data name="Adult" xml:space="preserve">
       <value>Volwassene</value>
    </data>
@@ -163,7 +160,7 @@
       <value>Gemeente/Stad</value>
    </data>
    <data name="Cost" xml:space="preserve">
-      <value>Prijs</value>
+      <value>Extra kost</value>
    </data>
    <data name="Country" xml:space="preserve">
       <value>Land</value>

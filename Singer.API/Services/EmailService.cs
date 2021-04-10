@@ -4,9 +4,12 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
+
 using Microsoft.Extensions.Options;
+
 using Singer.Data.Models.Configuration;
 using Singer.DTOs.Users;
+using Singer.Helpers.Extensions;
 using Singer.Services.Interfaces;
 
 namespace Singer.Services
@@ -40,17 +43,20 @@ namespace Singer.Services
 
       public EmailService(IOptions<EmailOptions> options = null)
       {
-         if(options == null)
+         if (options == null || !options.Value.IsValid)
          {
             throw new ArgumentNullException(nameof(options));
          }
          var emailOptions = options.Value;
          _smtp = new SmtpClient
          {
-            Credentials = new NetworkCredential(emailOptions.SmtpUsername, emailOptions.SmtpPassword),
             Host = emailOptions.SmtpHost,
             Port = emailOptions.SmtpPort
          };
+         if (emailOptions.SmtpUsername.HasData() && emailOptions.SmtpPassword.HasData())
+         {
+            _smtp.Credentials = new NetworkCredential(emailOptions.SmtpUsername, emailOptions.SmtpPassword);
+         }
          _mailFrom = emailOptions.MailFrom;
       }
       public async Task SendAccountDetailsAsync(TUserDTO user, string resetPasswordLink)

@@ -31,9 +31,7 @@
 
       <!-- AgeGroups Column -->
       <ng-container matColumnDef="ageGroups">
-         <th mat-header-cell *matHeaderCellDef>
-            Leeftijds Groepen
-         </th>
+         <th mat-header-cell *matHeaderCellDef>Leeftijds Groepen</th>
          <td mat-cell *matCellDef="let row">
             <p>
                <span *ngFor="let group of row.allowedAgeGroups"> {{ group | agegroupPipe }} <br /> </span>
@@ -43,9 +41,7 @@
 
       <!-- maxRegistrants Column -->
       <ng-container matColumnDef="maxRegistrants">
-         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            Inschrijvingen
-         </th>
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>Inschrijvingen</th>
          <td
             mat-cell
             *matCellDef="let row"
@@ -59,9 +55,7 @@
 
       <!-- cost Column -->
       <ng-container matColumnDef="cost">
-         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            Prijs
-         </th>
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>Extra kost</th>
          <td mat-cell *matCellDef="let row">
             {{ row.cost | currency: 'EUR' }}
          </td>
@@ -77,9 +71,7 @@
 
       <!-- EndDate Column -->
       <ng-container matColumnDef="endDateTime">
-         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            Eind Datum
-         </th>
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>Eind Datum</th>
          <td mat-cell *matCellDef="let row">
             {{ row.endDateTime | date: 'dd-MM-yyyy' }}
          </td>
