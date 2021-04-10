@@ -12,6 +12,7 @@ import { RegistrationStatusPipe } from './pipes/registration-status.pipe';
 import { SingereventCostPipe } from './pipes/singerevent-cost.pipe';
 import { AboutComponent } from './components/about/about.component';
 import { RegistrationTypePipe } from './pipes/registration-type.pipe';
+import { TitlePipe } from './pipes/title.pipe';
 
 @NgModule({
    declarations: [
@@ -25,6 +26,7 @@ import { RegistrationTypePipe } from './pipes/registration-type.pipe';
       SingereventCostPipe,
       AboutComponent,
       RegistrationTypePipe,
+      TitlePipe,
    ],
    imports: [CommonModule, MaterialModule, ReactiveFormsModule],
    exports: [
@@ -38,6 +40,8 @@ import { RegistrationTypePipe } from './pipes/registration-type.pipe';
       SingereventCostPipe,
       AboutComponent,
       RegistrationTypePipe,
+      TitlePipe
    ],
+   providers: [RegistrationTypePipe]
 })
-export class CoreModule {}
+export class CoreModule { }
