@@ -213,7 +213,7 @@ namespace Singer.Resources
       }
 
       /// <summary>
-      ///   Looks up a localized string similar to Prijs.
+      ///   Looks up a localized string similar to Extra kost.
       /// </summary>
       public static string Cost
       {
