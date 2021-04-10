@@ -234,22 +234,22 @@ export class SingerEventDetailsComponent implements OnInit {
       this.formControlGroup.controls.startDateFieldControl.reset(this.currentSingerEventInstance.startDateTime);
       this.formControlGroup.controls.endDateFieldControl.reset(this.currentSingerEventInstance.endDateTime);
       this.formControlGroup.controls.dailyStartTimeFieldControl.reset(
-         moment.utc(this.currentSingerEventInstance.startDateTime).local().format('HH:mm')
+         moment.utc(this.currentSingerEventInstance.startDateTime).format('HH:mm')
       );
       this.formControlGroup.controls.dailyEndTimeFieldControl.reset(
-         moment.utc(this.currentSingerEventInstance.endDateTime).local().format('HH:mm')
+         moment.utc(this.currentSingerEventInstance.endDateTime).format('HH:mm')
       );
       this.formControlGroup.controls.hasDayCareBeforeFieldControl.reset(
          this.currentSingerEventInstance.hasDayCareBefore ? 'true' : 'false'
       );
       this.formControlGroup.controls.dayCareBeforeStartTimeFieldControl.reset(
-         moment.utc(this.currentSingerEventInstance.dayCareBeforeStartDateTime).local().format('HH:mm')
+         moment.utc(this.currentSingerEventInstance.dayCareBeforeStartDateTime).format('HH:mm')
       );
       this.formControlGroup.controls.hasDayCareAfterFieldControl.reset(
          this.currentSingerEventInstance.hasDayCareAfter ? 'true' : 'false'
       );
       this.formControlGroup.controls.dayCareAfterEndTimeFieldControl.reset(
-         moment.utc(this.currentSingerEventInstance.dayCareAfterEndDateTime).local().format('HH:mm')
+         moment.utc(this.currentSingerEventInstance.dayCareAfterEndDateTime).format('HH:mm')
       );
    }
 

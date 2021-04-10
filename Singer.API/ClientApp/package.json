@@ -1,6 +1,6 @@
 {
   "name": "Singer",
-  "version": "0.1.0-issue-fix-node-sass.1501",
+  "version": "0.1.0-issue-ab-153-timezone.1503",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
