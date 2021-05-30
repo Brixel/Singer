@@ -171,60 +171,40 @@ namespace Singer.Services
          if (itemsPerPage < 1)
             throw new BadInputException("Invalid pageSize provided", ErrorMessages.PageSizeLessThanOne);
 
-         var emptyEventSlots = await Context.EventSlots
+         orderer ??= x => x.Id;
+
+         var eventSlotsWithRegistrations = await Context.EventSlots
             .Where(x => x.EventId == eventId)
             .Select(x => new EventSlotRegistrationsDTO
             {
                Id = x.Id,
                StartDateTime = x.StartDateTime,
-               EndDateTime = x.EndDateTime
-            }).ToListAsync();
-         var eventSlotDictionary = emptyEventSlots.ToDictionary(x => x.Id);
-
-         var filteredItems = Queryable
-            .Where(x => x.EventSlot.EventId == eventId);
-         var totalItemCount = await filteredItems
-            .CountAsync()
-            .ConfigureAwait(false);
-
-         var list = totalItemCount <= 0
-            ? new List<EventSlotRegistrationsDTO>()
-            : await
-               filteredItems
-                  .Where(x => x.EventSlotId.HasValue)
-                  .GroupBy(x => x.EventSlotId.Value)
-               .Select(x => new EventSlotRegistrationsDTO()
+               EndDateTime = x.EndDateTime,
+               Registrations = x.Registrations.Select(reg => new EventCareUserRegistrationDTO()
                {
-                  Id = x.Key,
-                  StartDateTime = eventSlotDictionary[x.Key].StartDateTime,
-                  EndDateTime = eventSlotDictionary[x.Key].EndDateTime,
-                  Registrations = x.Select(reg => new EventCareUserRegistrationDTO()
-                  {
-                     RegistrationId = reg.Id,
-                     CareUserId = reg.CareUserId,
-                     FirstName = reg.CareUser.User.FirstName,
-                     LastName = reg.CareUser.User.LastName,
-                     Status = reg.Status,
-                     DaycareLocation = reg.DaycareLocationId != null ? new DaycareLocationDTO()
+                  RegistrationId = reg.Id,
+                  CareUserId = reg.CareUserId,
+                  FirstName = reg.CareUser.User.FirstName,
+                  LastName = reg.CareUser.User.LastName,
+                  Status = reg.Status,
+                  DaycareLocation = reg.DaycareLocationId != null
+                     ? new DaycareLocationDTO()
                      {
                         Id = reg.DaycareLocationId.Value,
                         Name = reg.DaycareLocation.Name
-                     } : null
-                  }).ToList()
-               })
-               .OrderBy(orderer, sortDirection)
-               .TakePage(pageIndex, itemsPerPage)
-               .ToListAsync()
-               .ConfigureAwait(false);
+                     }
+                     : null
+               }).ToList()
+            })
+            .OrderBy(orderer, sortDirection)
+            .TakePage(pageIndex, itemsPerPage)
+            .ToListAsync();
 
-         var allEventSlots = new List<EventSlotRegistrationsDTO>();
-         foreach (var emptyEventSlot in emptyEventSlots)
-         {
-            var eventSlot = list.SingleOrDefault(x => x.Id == emptyEventSlot.Id);
-            allEventSlots.Add(eventSlot ?? emptyEventSlot);
-         }
+         var totalItemCount = await Queryable
+            .CountAsync(x => x.EventSlot.EventId == eventId);
 
-         return new SearchResults<EventSlotRegistrationsDTO>(allEventSlots, totalItemCount, pageIndex);
+
+         return new SearchResults<EventSlotRegistrationsDTO>(eventSlotsWithRegistrations, totalItemCount, pageIndex);
       }
 
       public async Task<RegistrationDTO> GetOneBySlotAsync(Guid eventSlotId, Guid careUserId)

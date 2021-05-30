@@ -12,6 +12,7 @@ import { RegistrationStatusPipe } from './pipes/registration-status.pipe';
 import { SingereventCostPipe } from './pipes/singerevent-cost.pipe';
 import { AboutComponent } from './components/about/about.component';
 import { RegistrationTypePipe } from './pipes/registration-type.pipe';
+import { TitlePipe } from './pipes/title.pipe';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 
@@ -27,6 +28,7 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
       SingereventCostPipe,
       AboutComponent,
       RegistrationTypePipe,
+      TitlePipe,
    ],
    imports: [CommonModule, MaterialModule, ReactiveFormsModule],
    exports: [
@@ -40,8 +42,11 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
       SingereventCostPipe,
       AboutComponent,
       RegistrationTypePipe,
+      TitlePipe
    ],
-   providers:[,
+
+   providers: [
+      RegistrationTypePipe,
       {
          provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS,
          useValue: {
@@ -50,4 +55,4 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
       },
       { provide: MAT_DATE_LOCALE, useValue: 'nl-BE' },]
 })
-export class CoreModule {}
+export class CoreModule { }

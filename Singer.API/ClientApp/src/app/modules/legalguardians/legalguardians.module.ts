@@ -12,7 +12,6 @@ import { DutchOwlDateTimeIntl } from './dutchowldatetime';
 import { CareRegistrationService } from './services/care-registration.service';
 import { CareRegistrationProxy } from './services/care-registration.proxy';
 import { ApiService } from '../core/services/api.service';
-import { RegistrationTypePipe } from '../core/pipes/registration-type.pipe';
 import { OwlDateTimeIntl, OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_LOCALE } from '@danielmoncada/angular-datetime-picker';
 
 @NgModule({
@@ -37,4 +36,4 @@ import { OwlDateTimeIntl, OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_T
       { provide: OwlDateTimeIntl, useClass: DutchOwlDateTimeIntl },
    ],
 })
-export class LegalguardiansModule {}
+export class LegalguardiansModule { }

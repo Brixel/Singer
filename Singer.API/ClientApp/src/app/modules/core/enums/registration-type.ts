@@ -1,5 +1,5 @@
 export enum RegistrationType {
    EventSlotDriven = 1,
    DayCare = 2,
-   NightCare = 4,
+   NightCare = 3,
 }

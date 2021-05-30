@@ -94,7 +94,7 @@ export class RegisterCareWizardComponent {
       public dialog: MatDialog,
       private _snackBar: MatSnackBar,
       private router: Router
-   ) {}
+   ) { }
 
    moveStepperBackward() {
       this.stepper.previous();
