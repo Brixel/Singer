@@ -35,7 +35,7 @@
     "aspnet-prerendering": "^3.0.1",
     "date-fns": "^2.9.0",
     "file-saver": "^2.0.2",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "ngx-material-timepicker": "^5.5.3",
     "rxjs": "^6.5.4",
     "sass": "^1.32.4",
