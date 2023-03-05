@@ -18,6 +18,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Singer.Helpers.Extensions;
+using System.Globalization;
 
 namespace Singer.Controllers
 {
@@ -217,9 +218,9 @@ namespace Singer.Controllers
          var list = await _eventRegistrationService.GetParticipantsForSlotAsync(eventId, eventSlotId);
 
          using var writer = new StringWriter();
-         using var csv = new CsvWriter(writer);
+         using var csv = new CsvWriter(writer,CultureInfo.InvariantCulture);
 
-         csv.Configuration.RegisterClassMap<CsvRegistrationDTO.Mapper>();
+         csv.Context.RegisterClassMap<CsvRegistrationDTO.Mapper>();
          csv.WriteRecords(list);
 
          return Ok(writer.ToString());
