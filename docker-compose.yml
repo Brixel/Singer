@@ -1,7 +1,7 @@
 version: '3'
 services:
    db:
-      image: 'mcr.microsoft.com/mssql/server'
+      image: 'mcr.microsoft.com/mssql/server:2019-latest'
       environment:
          SA_PASSWORD: 'singer-2019-password' # This is just for dev-purposes, so it doesn't matter if it is in config
          ACCEPT_EULA: 'Y'
