@@ -12,7 +12,6 @@ import { RegistrationStatus } from 'src/app/modules/core/models/enum';
 import { SingerAdminEventService } from '../../../services/singer-admin-event.service';
 import { SingerLocationService } from 'src/app/modules/core/services/singer-location-api/singer-location.service';
 import { DaycareLocationDTO } from 'src/app/modules/core/DTOs/daycarelocation.dto';
-import { isNullOrUndefined } from 'util';
 import { LoadingService } from 'src/app/modules/core/services/loading.service';
 import { SingerLocation } from 'src/app/modules/core/models/singer-location.model';
 
@@ -51,25 +50,25 @@ export class SingerRegistrationsComponent implements OnInit {
 
    ngOnInit() {
       this._loadingService.show();
-      this.singerEventService.getRegistrations(this.event.id, 'asc', 'startDateTime', 0, 1000, '').subscribe(res => {
+      this.singerEventService.getRegistrations(this.event.id, 'asc', 'startDateTime', 0, 1000, '').subscribe((res) => {
          this.event.eventSlots = res.map(
-            r => new EventSlot(r.id, r.startDateTime, r.endDateTime, r.registrations, r.registrations.length)
+            (r) => new EventSlot(r.id, r.startDateTime, r.endDateTime, r.registrations, r.registrations.length)
          );
-         if (isNullOrUndefined(this.selectedEventSlot)) {
+         if (!this.selectedEventSlot) {
             // Search for the next upcoming event
             const currentDate = Date.now();
             const nextEventSlots = this.event.eventSlots
-               .filter(a => a.startDateTime.getTime() >= currentDate)
+               .filter((a) => a.startDateTime.getTime() >= currentDate)
                .sort((a, b) => a.startDateTime.getTime() - b.startDateTime.getTime());
             // If no upcoming event is found, take the first in the list
             this.selectedEventSlot = nextEventSlots.length > 0 ? nextEventSlots[0] : this.event.eventSlots[0];
          } else {
-            this.selectedEventSlot = this.event.eventSlots.find(x => x.id === this.selectedEventSlot.id);
+            this.selectedEventSlot = this.event.eventSlots.find((x) => x.id === this.selectedEventSlot.id);
          }
          this._loadingService.hide();
       });
 
-      this._singerLocationService.fetchSingerLocationsData('asc', 'name', 0, 1000, '').subscribe(res => {
+      this._singerLocationService.fetchSingerLocationsData('asc', 'name', 0, 1000, '').subscribe((res) => {
          this.availableLocations = res.items as SingerLocation[];
       });
    }
@@ -85,7 +84,7 @@ export class SingerRegistrationsComponent implements OnInit {
       const daycareLocation = <SingerLocation>event.value;
       this.singerAdminEventService
          .updateDaycareLocation(this.event.id, registrationId, daycareLocation.id)
-         .subscribe(res =>
+         .subscribe((res) =>
             this._snackBar.open(`Opvanglocatie naar ${res.name} gewijzigd`, 'OK', {
                duration: 2000,
             })
@@ -97,12 +96,12 @@ export class SingerRegistrationsComponent implements OnInit {
          case RegistrationStatus.Accepted:
             this.singerAdminEventService
                .acceptRegistration(this.event.id, registrationId)
-               .subscribe(res => this.processRegistration(res, registrationId));
+               .subscribe((res) => this.processRegistration(res, registrationId));
             break;
          case RegistrationStatus.Rejected:
             this.singerAdminEventService
                .rejectRegistration(this.event.id, registrationId)
-               .subscribe(res => this.processRegistration(res, registrationId));
+               .subscribe((res) => this.processRegistration(res, registrationId));
             break;
          default:
          case RegistrationStatus.Pending:
@@ -114,7 +113,7 @@ export class SingerRegistrationsComponent implements OnInit {
    }
 
    processRegistration(value: RegistrationStatus, registrationId: string) {
-      const registrant = this.selectedEventSlot.registrants.find(x => x.registrationId === registrationId);
+      const registrant = this.selectedEventSlot.registrants.find((x) => x.registrationId === registrationId);
       registrant.registrationStatus = value;
       const statusValue = value === RegistrationStatus.Accepted ? 'goedgekeurd' : 'niet goedgekeurd';
       this._snackBar.open(`${registrant.name} is ${statusValue} voor it evenement`, 'OK', {
@@ -128,7 +127,7 @@ export class SingerRegistrationsComponent implements OnInit {
 
    export() {
       this.singerEventService.downloadEventSlotRegistartionCsv(this.event.id, this.selectedEventSlot.id).subscribe(
-         response => {
+         (response) => {
             let blob: any = new Blob([response], {
                type: 'text/plain; charset=utf-8',
             });
@@ -142,7 +141,7 @@ export class SingerRegistrationsComponent implements OnInit {
 
             FileSaver.saveAs(blob, `${this.event.title} - ${eventDate} - deelnemers.csv`);
          },
-         error => this.handleDownloadError(error),
+         (error) => this.handleDownloadError(error),
          () => console.info('File downloaded successfully')
       );
    }

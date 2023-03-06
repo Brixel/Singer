@@ -4,7 +4,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SingerEvent } from 'src/app/modules/core/models/singerevent.model';
 import { AgeGroup } from 'src/app/modules/core/models/enum';
 import * as moment from 'moment';
-import { isNullOrUndefined } from 'util';
 import { dateNotBefore } from 'src/app/modules/core/utils/custom-date-validators';
 import { NgxMaterialTimepickerTheme } from 'ngx-material-timepicker';
 import { SingerLocation } from 'src/app/modules/core/models/singer-location.model';
@@ -262,13 +261,17 @@ export class SingerEventDetailsComponent implements OnInit {
       this.currentSingerEventInstance.title = this.formControlGroup.controls.titleFieldControl.value;
       this.currentSingerEventInstance.description = this.formControlGroup.controls.descriptionFieldControl.value;
       this.currentSingerEventInstance.location = this.formControlGroup.controls.locationFieldControl.value;
-      this.currentSingerEventInstance.allowedAgeGroups = this.formControlGroup.controls.allowedAgeGroupsFieldControl.value;
+      this.currentSingerEventInstance.allowedAgeGroups =
+         this.formControlGroup.controls.allowedAgeGroupsFieldControl.value;
       this.currentSingerEventInstance.maxRegistrants = this.formControlGroup.controls.maxRegistrantsFieldControl.value;
       this.currentSingerEventInstance.cost = this.formControlGroup.controls.costFieldControl.value;
 
-      this.currentSingerEventInstance.startRegistrationDateTime = this.formControlGroup.controls.startRegistrationDateFieldControl.value;
-      this.currentSingerEventInstance.endRegistrationDateTime = this.formControlGroup.controls.endRegistrationDateFieldControl.value;
-      this.currentSingerEventInstance.finalCancellationDateTime = this.formControlGroup.controls.finalCancellationDateFieldControl.value;
+      this.currentSingerEventInstance.startRegistrationDateTime =
+         this.formControlGroup.controls.startRegistrationDateFieldControl.value;
+      this.currentSingerEventInstance.endRegistrationDateTime =
+         this.formControlGroup.controls.endRegistrationDateFieldControl.value;
+      this.currentSingerEventInstance.finalCancellationDateTime =
+         this.formControlGroup.controls.finalCancellationDateFieldControl.value;
       this.currentSingerEventInstance.registrationOnDailyBasis =
          this.formControlGroup.controls.registrationOnDailyBasisFieldControl.value === 'true' ? true : false;
       this.currentSingerEventInstance.startDateTime = this._handleDateTimeFields(
@@ -294,7 +297,7 @@ export class SingerEventDetailsComponent implements OnInit {
    }
 
    private _handleDateTimeFields(dateField: Date, timeField: string): Date {
-      if (isNullOrUndefined(dateField) || isNullOrUndefined(timeField)) {
+      if (!dateField || !timeField) {
          return new Date();
       }
       const timePieces = timeField.split(':');
