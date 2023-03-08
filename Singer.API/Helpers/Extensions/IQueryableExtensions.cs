@@ -95,7 +95,7 @@ namespace Singer.Helpers.Extensions
          return new SearchResults<TProjection>(items, totalItemsCount, pageIndex);
       }
 
-      public static async Task<SearchResults<TProjection>> ToPagedListAsync<TEntity, TProjection>(
+      public static Task<SearchResults<TProjection>> ToPagedListAsync<TEntity, TProjection>(
          this IQueryable<TEntity> queryable,
          IMapper mapper,
          Expression<Func<TEntity, bool>> filterExpression,
@@ -122,7 +122,7 @@ namespace Singer.Helpers.Extensions
                //.ConfigureAwait(false);
 
          var result = new SearchResults<TProjection>(items, totalItemsCount, pageIndex);
-         return result;
+         return Task.FromResult(result);
       }
 
       public static IOrderedQueryable<T> OrderBy<T>(this IQueryable<T> query, Expression<Func<T, object>> orderByLambda, ListSortDirection sortDirection)
