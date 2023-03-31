@@ -4,11 +4,11 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-using IdentityModel;
+using Duende.IdentityServer.EntityFramework.DbContexts;
+using Duende.IdentityServer.EntityFramework.Entities;
+using Duende.IdentityServer.EntityFramework.Mappers;
 
-using IdentityServer4.EntityFramework.DbContexts;
-using IdentityServer4.EntityFramework.Entities;
-using IdentityServer4.EntityFramework.Mappers;
+using IdentityModel;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -174,13 +174,13 @@ public static class Seed
 
     public static void SeedIdentityResources(ConfigurationDbContext configrationDbContext)
     {
-        var identityResources = new List<IdentityServer4.EntityFramework.Entities.IdentityResource>
+        var identityResources = new List<IdentityResource>
      {
-        new IdentityServer4.Models.IdentityResources.OpenId().ToEntity(),
-        new IdentityServer4.Models.IdentityResources.Email().ToEntity(),
-        new IdentityServer4.Models.IdentityResources.Profile().ToEntity(),
-        new IdentityServer4.Models.IdentityResources.Phone().ToEntity(),
-        new IdentityServer4.Models.IdentityResources.Address().ToEntity(),
+        new Duende.IdentityServer.Models.IdentityResources.OpenId().ToEntity(),
+        new Duende.IdentityServer.Models.IdentityResources.Email().ToEntity(),
+        new Duende.IdentityServer.Models.IdentityResources.Profile().ToEntity(),
+        new Duende.IdentityServer.Models.IdentityResources.Phone().ToEntity(),
+        new Duende.IdentityServer.Models.IdentityResources.Address().ToEntity(),
         new IdentityResource{
            Name = "Role",
            UserClaims = new List<IdentityResourceClaim>()

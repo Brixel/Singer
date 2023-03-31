@@ -5,8 +5,7 @@ using System.Reflection;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 
-using IdentityServer4.AccessTokenValidation;
-using IdentityServer4.EntityFramework.DbContexts;
+using Duende.IdentityServer.EntityFramework.DbContexts;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -66,23 +65,7 @@ namespace Singer
                .AddEntityFrameworkStores<ApplicationDbContext>()
                .AddDefaultTokenProviders();
 
-            var applicationConfig = Configuration.GetSection("Application").Get<ApplicationConfig>();
-            var certFileName = applicationConfig.CertFileName;
-            var certThumbprint = applicationConfig.CertThumbprint;
-            var certPassword = applicationConfig.CertPass;
-
-            var cert = !string.IsNullOrEmpty(certThumbprint)
-                ? CertificateService.LoadCert(certThumbprint)
-                : CertificateService.LoadCert(certFileName, certPassword);
-
-            if (cert == null)
-            {
-                throw new Exception("Not able to load certificate");
-            }
-
             services.AddIdentityServer()
-
-               .AddSigningCredential(cert)
                .AddAspNetIdentity<User>()
                .AddConfigurationStore(options =>
                {
@@ -100,18 +83,17 @@ namespace Singer
                    // this enables automatic token cleanup. this is optional.
                    options.EnableTokenCleanup = true;
                });
-            //.AddResourceOwnerValidator<ResourceOwnerPasswordValidator<User>>();
+
+            var applicationConfig = Configuration.GetSection("Application").Get<ApplicationConfig>();
 
             services.AddControllersWithViews();
-            services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
-               .AddIdentityServerAuthentication(options =>
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+               .AddJwtBearer(options =>
                {
                    // The API resource scope issued in authorization server
-                   options.ApiName = "singer.api";
+                   options.TokenValidationParameters.ValidAudience = "singer.api";
                    // URL of my authorization server
                    options.Authority = applicationConfig.Authority;
-                   options.RoleClaimType = ClaimTypes.Role;
-                   options.LegacyAudienceValidation = true; // TODO: Why do we need this?
                });
 
             // Making JWT authentication scheme the default

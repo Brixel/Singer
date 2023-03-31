@@ -1,6 +1,8 @@
 using System;
 using System.IO;
-using IdentityServer4.Models;
+
+using Duende.IdentityServer.Models;
+
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Singer.Migrations
@@ -34,7 +36,7 @@ namespace Singer.Migrations
             var sql = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, @"Migrations\Sql\CleanAdmin.sql"));
             migrationBuilder.Sql(sql);
 
-      }
+        }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
