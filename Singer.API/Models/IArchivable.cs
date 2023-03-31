@@ -1,7 +1,6 @@
-namespace Singer.Models
+namespace Singer.Models;
+
+public interface IArchivable
 {
-   public interface IArchivable
-   {
-      bool IsArchived { get; set; }
-   }
+    bool IsArchived { get; set; }
 }

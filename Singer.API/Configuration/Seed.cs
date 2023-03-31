@@ -94,7 +94,7 @@ public static class Seed
 
         }
 
-        foreach (var careUser in Roles._careUsers)
+        foreach (var careUser in Roles.CareUsers)
         {
             var user = userMgr.FindByNameAsync(careUser).Result;
             if (user == null)

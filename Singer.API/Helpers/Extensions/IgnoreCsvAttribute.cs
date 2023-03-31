@@ -1,6 +1,5 @@
-﻿namespace Singer.Helpers.Extensions
+﻿namespace Singer.Helpers.Extensions;
+
+internal class IgnoreCsvAttribute
 {
-   internal class IgnoreCsvAttribute
-   {
-   }
 }

@@ -1,18 +1,17 @@
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Singer.Migrations
+namespace Singer.Migrations;
+
+public partial class RemoveFaultyAPIResources : Migration
 {
-    public partial class RemoveFaultyAPIResources : Migration
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
-           migrationBuilder.Sql("DELETE FROM ApiScopes");
-           migrationBuilder.Sql("DELETE FROM ApiResources");
-        }
+        migrationBuilder.Sql("DELETE FROM ApiScopes");
+        migrationBuilder.Sql("DELETE FROM ApiResources");
+    }
 
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
 
-        }
     }
 }

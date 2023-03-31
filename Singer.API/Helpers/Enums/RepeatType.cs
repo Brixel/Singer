@@ -1,8 +1,7 @@
-namespace Singer.Helpers.Enums
+namespace Singer.Helpers.Enums;
+
+public enum RepeatType
 {
-   public enum RepeatType
-   {
-      OnDate = 0,
-      AfterXTimes = 1,
-   }
+    OnDate = 0,
+    AfterXTimes = 1,
 }

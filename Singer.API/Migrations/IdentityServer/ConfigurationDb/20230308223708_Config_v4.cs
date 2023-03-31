@@ -1,17 +1,18 @@
 ﻿using System;
+
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Singer.Migrations.IdentityServer.ConfigurationDb
+namespace Singer.Migrations.IdentityServer.ConfigurationDb;
+
+/// <inheritdoc />
+public partial class Config_v4 : Migration
 {
     /// <inheritdoc />
-    public partial class Config_v4 : Migration
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        /// <inheritdoc />
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.Sql(@"
+        migrationBuilder.Sql(@"
                 --Add New Tables
 
                 -- Add ApiResourceScopes
@@ -312,12 +313,11 @@ namespace Singer.Migrations.IdentityServer.ConfigurationDb
                 DROP TABLE IdentityClaims
                 DROP TABLE IdentityProperties
                 GO");
-        }
+    }
 
-        /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            throw new NotImplementedException();
-        }
+    /// <inheritdoc />
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
+        throw new NotImplementedException();
     }
 }

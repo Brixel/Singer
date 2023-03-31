@@ -1,9 +1,8 @@
-namespace Singer.DTOs.Csv
+namespace Singer.DTOs.Csv;
+
+public class CsvCareUserLegalGuardianDTO
 {
-   public class CsvCareUserLegalGuardianDTO
-   {
-      public string FirstName { get; set; }
-      public string LastName { get; set; }
-      public string Email { get; set; }
-   }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string Email { get; set; }
 }
