@@ -41,11 +41,11 @@ public static class Seed
      }
   };
 
-    public static void SeedUsers(IServiceScope serviceScope, ApplicationDbContext applicationDbContext, string initialAdminPassword)
+    public static async Task SeedUsersAsync(IServiceScope serviceScope, ApplicationDbContext applicationDbContext, string initialAdminPassword)
     {
         var userMgr = serviceScope.ServiceProvider.GetRequiredService<UserManager<User>>();
         var roleMgr = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
-        var admin = userMgr.FindByNameAsync("admin").Result;
+        var admin = await userMgr.FindByNameAsync("admin");
         var adminUsersInDatabase = applicationDbContext.AdminUsers.Any();
         if (!adminUsersInDatabase)
         {
@@ -55,7 +55,7 @@ public static class Seed
                 {
                     UserName = "admin"
                 };
-                var result = userMgr.CreateAsync(admin, initialAdminPassword).Result;
+                var result = await userMgr.CreateAsync(admin, initialAdminPassword);
                 if (!result.Succeeded)
                 {
                     throw new Exception(result.Errors.First().Description);
@@ -76,19 +76,18 @@ public static class Seed
             applicationDbContext.AdminUsers.Add(adminUser);
 
             Console.WriteLine("admin created");
-            var _ = userMgr.AddToRoleAsync(admin, Roles.ROLE_ADMINISTRATOR).Result;
-            _ = userMgr.AddClaimAsync(admin, new Claim(ClaimTypes.Role, Roles.ROLE_ADMINISTRATOR)).Result;
-
+            await userMgr.AddToRoleAsync(admin, Roles.ROLE_ADMINISTRATOR);
+            await userMgr.AddClaimAsync(admin, new Claim(ClaimTypes.Role, Roles.ROLE_ADMINISTRATOR));
         }
         else
         {
             Console.WriteLine("admin already exists");
             if (admin != null)
             {
-                var hasRole = userMgr.IsInRoleAsync(admin, Roles.ROLE_ADMINISTRATOR).Result;
+                var hasRole = await userMgr.IsInRoleAsync(admin, Roles.ROLE_ADMINISTRATOR);
                 if (!hasRole)
                 {
-                    var _ = userMgr.AddToRoleAsync(admin, Roles.ROLE_ADMINISTRATOR).Result;
+                    await userMgr.AddToRoleAsync(admin, Roles.ROLE_ADMINISTRATOR);
                 }
             }
 
@@ -96,7 +95,7 @@ public static class Seed
 
         foreach (var careUser in Roles.CareUsers)
         {
-            var user = userMgr.FindByNameAsync(careUser).Result;
+            var user = await userMgr.FindByNameAsync(careUser);
             if (user == null)
             {
                 user = new User()
@@ -105,13 +104,13 @@ public static class Seed
                     LastName = careUser
                 };
 
-                var __ = userMgr.CreateAsync(user).Result;
-                if (!__.Succeeded)
+                var createUserTask = await userMgr.CreateAsync(user);
+                if (!createUserTask.Succeeded)
                 {
-                    throw new Exception(__.Errors.First().Description);
+                    throw new Exception(createUserTask.Errors.First().Description);
 
                 }
-                var roleTask = userMgr.AddToRoleAsync(user, Roles.ROLE_CAREUSER).Result;
+                var roleTask = await userMgr.AddToRoleAsync(user, Roles.ROLE_CAREUSER);
                 if (!roleTask.Succeeded)
                 {
                     throw new Exception(roleTask.Errors.First().Description);
@@ -131,7 +130,7 @@ public static class Seed
         }
     }
 
-    public static async Task CheckRoles(IServiceScope serviceScope, ApplicationDbContext applicationDbContext)
+    public static async Task CheckRolesAsync(IServiceScope serviceScope, ApplicationDbContext applicationDbContext)
     {
         var userMgr = serviceScope.ServiceProvider.GetRequiredService<UserManager<User>>();
         var roleMgr = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
@@ -140,7 +139,7 @@ public static class Seed
             var hasRole = await userMgr.IsInRoleAsync(lgUser.User, Roles.ROLE_LEGALGUARDIANUSER);
             if (!hasRole)
             {
-                var roleTask = userMgr.AddToRoleAsync(lgUser.User, Roles.ROLE_LEGALGUARDIANUSER).Result;
+                var roleTask = await userMgr.AddToRoleAsync(lgUser.User, Roles.ROLE_LEGALGUARDIANUSER);
                 if (!roleTask.Succeeded)
                 {
                     throw new Exception(roleTask.Errors.First().Description);
@@ -149,17 +148,17 @@ public static class Seed
         }
     }
 
-    public static void SeedRoles(IServiceScope serviceScope)
+    public static async Task SeedRolesAsync(IServiceScope serviceScope)
     {
         foreach (var role in Roles.ROLES)
         {
 
             var roleMgr = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
-            var roleExists = roleMgr.RoleExistsAsync(role).Result;
+            var roleExists = await roleMgr.RoleExistsAsync(role);
             if (!roleExists)
             {
-                var _ = roleMgr.CreateAsync(new IdentityRole<Guid>(role)).Result;
-                if (_.Succeeded)
+                var createRoleTask = await roleMgr.CreateAsync(new IdentityRole<Guid>(role));
+                if (createRoleTask.Succeeded)
                 {
                     Console.WriteLine($"Added role {role}");
 

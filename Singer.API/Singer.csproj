@@ -31,8 +31,7 @@
          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
          <PrivateAssets>all</PrivateAssets>
       </PackageReference>
-      <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection"
-         Version="12.0.0" />
+      <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
       <PackageReference Include="LinqKit" Version="1.2.3" />
       <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
       <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.15" />
@@ -47,6 +46,7 @@
       <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.3" />
       <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.12" />
       <PackageReference Include="nswag.aspnetcore" Version="13.18.2" />
+      <PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
    </ItemGroup>
 
    <ItemGroup>
@@ -64,11 +64,9 @@
       <Compile Remove="Migrations\20190921190104_AddsEventRegistrationsAndEventSlots.cs" />
       <Compile Remove="Migrations\20190921190104_AddsEventRegistrationsAndEventSlots.Designer.cs" />
       <Compile Remove="Migrations\20191016202947_create-eventregistrations-and-eventslots.cs" />
-      <Compile
-         Remove="Migrations\20191016202947_create-eventregistrations-and-eventslots.Designer.cs" />
+      <Compile Remove="Migrations\20191016202947_create-eventregistrations-and-eventslots.Designer.cs" />
       <Compile Remove="Migrations\20191016203050_create-eventregistrations-and-eventslots.cs" />
-      <Compile
-         Remove="Migrations\20191016203050_create-eventregistrations-and-eventslots.Designer.cs" />
+      <Compile Remove="Migrations\20191016203050_create-eventregistrations-and-eventslots.Designer.cs" />
       <Compile Remove="Migrations\20191128185717_DaycareLocationOnRegistration.cs" />
       <Compile Remove="Migrations\20191128185717_DaycareLocationOnRegistration.Designer.cs" />
       <Compile Remove="Migrations\20200130203016_ImproveRegistrationsForDayAndNightCare.cs" />
@@ -120,38 +118,31 @@
       <WCFMetadata Include="Connected Services" />
    </ItemGroup>
 
-   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build"
-      Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
+   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
       <!-- Ensure Node.js is installed -->
       <Exec Command="node --version" ContinueOnError="true">
          <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
       </Exec>
-      <Error Condition="'$(ErrorCode)' != '0'"
-         Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
-      <Message Importance="high"
-         Text="Restoring dependencies using 'npm'. This may take several minutes..." />
+      <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
+      <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
       <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
    </Target>
 
    <Target Name="UpdatePackageJson" AfterTargets="GetVersion">
-      <Exec WorkingDirectory="$(SpaRoot)"
-         Command="npm version $(GitVersion_FullSemVer) --allow-same-version" />
+      <Exec WorkingDirectory="$(SpaRoot)" Command="npm version $(GitVersion_FullSemVer) --allow-same-version" />
    </Target>
 
    <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
       <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
       <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
       <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod" />
-      <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:ssr -- --prod"
-         Condition=" '$(BuildServerSideRenderer)' == 'true' " />
+      <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:ssr -- --prod" Condition=" '$(BuildServerSideRenderer)' == 'true' " />
 
       <!-- Include the newly-built files in the publish output -->
       <ItemGroup>
          <DistFiles Include="$(SpaRoot)dist\**; $(SpaRoot)dist-server\**" />
-         <DistFiles Include="$(SpaRoot)node_modules\**"
-            Condition="'$(BuildServerSideRenderer)' == 'true'" />
-         <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')"
-            Exclude="@(ResolvedFileToPublish)">
+         <DistFiles Include="$(SpaRoot)node_modules\**" Condition="'$(BuildServerSideRenderer)' == 'true'" />
+         <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
             <RelativePath>%(DistFiles.Identity)</RelativePath>
             <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
          </ResolvedFileToPublish>
