@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { AdminUser } from 'src/app/modules/core/models/adminuser.model';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
@@ -34,21 +34,21 @@ export class AdminDetailsComponent implements OnInit {
    readonly nameRegex = /^[\w'À-ÿ][\w' À-ÿ]*[\w'À-ÿ]+$/;
 
    // Form control group
-   formControlGroup: FormGroup = new FormGroup({
+   formControlGroup: UntypedFormGroup = new UntypedFormGroup({
       // Form controls
-      firstNameFieldControl: new FormControl([
+      firstNameFieldControl: new UntypedFormControl([
          Validators.required,
          Validators.maxLength(this.maxNameLength),
          Validators.minLength(this.minNameLength),
          Validators.pattern(this.nameRegex),
       ]),
-      lastNameFieldControl: new FormControl([
+      lastNameFieldControl: new UntypedFormControl([
          Validators.required,
          Validators.maxLength(this.maxNameLength),
          Validators.minLength(this.minNameLength),
          Validators.pattern(this.nameRegex),
       ]),
-      emailFieldControl: new FormControl([
+      emailFieldControl: new UntypedFormControl([
          Validators.required,
          Validators.maxLength(this.maxEmailLength),
          Validators.email,

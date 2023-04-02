@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, Inject } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, Validators } from '@angular/forms';
 
 @Component({
    selector: 'app-delete-confirmation',
@@ -18,7 +18,7 @@ export class DeleteConfirmationComponent {
    readonly maxNameLength = 100;
    readonly minNameLength = 2;
 
-   confirmFieldControl: FormControl = new FormControl('', [
+   confirmFieldControl: UntypedFormControl = new UntypedFormControl('', [
       Validators.minLength(this.minNameLength),
       Validators.maxLength(this.maxNameLength),
    ]);
@@ -29,7 +29,7 @@ export class DeleteConfirmationComponent {
 
    makeConfirmFieldRequired() {
       // Make confirmTitleFieldControl required
-      this.confirmFieldControl = new FormControl('', [
+      this.confirmFieldControl = new UntypedFormControl('', [
          Validators.required,
          Validators.minLength(this.minNameLength),
          Validators.maxLength(this.maxNameLength),
@@ -38,7 +38,7 @@ export class DeleteConfirmationComponent {
 
    makeConfirmFieldNotRequired() {
       // Make confirmTitleFieldControl not required
-      this.confirmFieldControl = new FormControl('', [
+      this.confirmFieldControl = new UntypedFormControl('', [
          Validators.minLength(this.minNameLength),
          Validators.maxLength(this.maxNameLength),
       ]);

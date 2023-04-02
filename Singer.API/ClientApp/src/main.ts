@@ -7,7 +7,6 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
-import { registerLocaleData } from '@angular/common';
 
 export function getBaseUrl() {
    return document.getElementsByTagName('base')[0].href;
@@ -21,7 +20,4 @@ if (environment.production) {
 
 platformBrowserDynamic(providers)
    .bootstrapModule(AppModule)
-   .catch(err => console.error(err));
-
-const localeNlBE: any = require('@angular/common/locales/nl-BE.js');
-registerLocaleData(localeNlBE.default);
+   .catch((err) => console.error(err));

@@ -15,25 +15,24 @@ import { ApiService } from '../core/services/api.service';
 import { OwlDateTimeIntl, OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_LOCALE } from '@danielmoncada/angular-datetime-picker';
 
 @NgModule({
-   declarations: [RegisterCareWizardComponent, SearchCareUserDialogComponent],
-   imports: [
-      CommonModule,
-      SharedModule,
-      MaterialModule,
-      LegalguardiansRoutingModule,
-      ReactiveFormsModule,
-      OwlDateTimeModule,
-      OwlNativeDateTimeModule,
-   ],
-   entryComponents: [SearchCareUserDialogComponent],
-   providers: [
-      ApiService,
-      CareRegistrationService,
-      CareRegistrationProxy,
-      { provide: MAT_DATE_LOCALE, useValue: 'nl-BE' },
-      { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
-      { provide: OWL_DATE_TIME_LOCALE, useValue: 'nl-BE' },
-      { provide: OwlDateTimeIntl, useClass: DutchOwlDateTimeIntl },
-   ],
+    declarations: [RegisterCareWizardComponent, SearchCareUserDialogComponent],
+    imports: [
+        CommonModule,
+        SharedModule,
+        MaterialModule,
+        LegalguardiansRoutingModule,
+        ReactiveFormsModule,
+        OwlDateTimeModule,
+        OwlNativeDateTimeModule,
+    ],
+    providers: [
+        ApiService,
+        CareRegistrationService,
+        CareRegistrationProxy,
+        { provide: MAT_DATE_LOCALE, useValue: 'nl-BE' },
+        { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+        { provide: OWL_DATE_TIME_LOCALE, useValue: 'nl-BE' },
+        { provide: OwlDateTimeIntl, useClass: DutchOwlDateTimeIntl },
+    ]
 })
 export class LegalguardiansModule { }

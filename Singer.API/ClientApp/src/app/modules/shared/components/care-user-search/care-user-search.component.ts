@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, UntypedFormControl } from '@angular/forms';
 import { startWith, debounceTime, switchMap, map, catchError } from 'rxjs/operators';
 import { of, Observable, Subject } from 'rxjs';
 import { CareUser, CareUserDTO } from 'src/app/modules/core/models/careuser.model';
@@ -14,13 +14,13 @@ import { MatOptionSelectionChange } from '@angular/material/core';
 export class CareUserSearchComponent implements OnInit {
    @Output() userSelected = new EventEmitter<CareUserDTO>();
 
-   control: FormControl;
+   control: UntypedFormControl;
    careUsersAutoComplete$: Observable<CareUserDTO[]>;
 
    constructor(private _careUserService: CareUserService) {}
 
    ngOnInit() {
-      this.control = new FormControl('');
+      this.control = new UntypedFormControl('');
       this.careUsersAutoComplete$ = this.control.valueChanges.pipe(
          startWith(''),
          debounceTime(300),

@@ -1,10 +1,9 @@
 import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
-import { FormControl, Validators, FormGroup, FormArray } from '@angular/forms';
+import { UntypedFormControl, Validators, UntypedFormGroup, UntypedFormArray } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SingerEvent } from 'src/app/modules/core/models/singerevent.model';
 import { AgeGroup } from 'src/app/modules/core/models/enum';
 import * as moment from 'moment';
-import { isNullOrUndefined } from 'util';
 import { dateNotBefore } from 'src/app/modules/core/utils/custom-date-validators';
 import { NgxMaterialTimepickerTheme } from 'ngx-material-timepicker';
 import { SingerLocation } from 'src/app/modules/core/models/singer-location.model';
@@ -37,7 +36,9 @@ export class SingerEventDetailsComponent implements OnInit {
 
    availableLocations: SingerLocation[];
 
-   allowedAgeGroupsFormControlArray: FormArray = new FormArray([new FormControl('', [Validators.required])]);
+   allowedAgeGroupsFormControlArray: UntypedFormArray = new UntypedFormArray([
+      new UntypedFormControl('', [Validators.required]),
+   ]);
 
    selectedAgeGroups: AgeGroup[];
 
@@ -87,38 +88,38 @@ export class SingerEventDetailsComponent implements OnInit {
    readonly minCost = 0;
 
    // Form control group
-   formControlGroup: FormGroup = new FormGroup({
+   formControlGroup: UntypedFormGroup = new UntypedFormGroup({
       // Form controls
-      titleFieldControl: new FormControl('', [
+      titleFieldControl: new UntypedFormControl('', [
          Validators.required,
          Validators.minLength(this.minTitleLength),
          Validators.maxLength(this.maxTitleLength),
       ]),
-      descriptionFieldControl: new FormControl('', [Validators.maxLength(this.maxDescriptionLength)]),
-      locationFieldControl: new FormControl('', [Validators.required]),
-      allowedAgeGroupsFieldControl: new FormControl('', [Validators.required]),
-      maxRegistrantsFieldControl: new FormControl('', [
+      descriptionFieldControl: new UntypedFormControl('', [Validators.maxLength(this.maxDescriptionLength)]),
+      locationFieldControl: new UntypedFormControl('', [Validators.required]),
+      allowedAgeGroupsFieldControl: new UntypedFormControl('', [Validators.required]),
+      maxRegistrantsFieldControl: new UntypedFormControl('', [
          Validators.required,
          Validators.max(this.maxMaxRegistrants),
          Validators.min(this.minMaxRegistrants),
       ]),
-      costFieldControl: new FormControl('', [
+      costFieldControl: new UntypedFormControl('', [
          Validators.required,
          Validators.min(this.minCost),
          Validators.max(this.maxCost),
       ]),
-      startRegistrationDateFieldControl: new FormControl(new Date(), [Validators.required]),
-      endRegistrationDateFieldControl: new FormControl(new Date(), [Validators.required]),
-      finalCancellationDateFieldControl: new FormControl(new Date(), [Validators.required]),
-      registrationOnDailyBasisFieldControl: new FormControl('', [Validators.required]),
-      startDateFieldControl: new FormControl(new Date(), [Validators.required]),
-      endDateFieldControl: new FormControl(new Date(), [Validators.required]),
-      dailyStartTimeFieldControl: new FormControl('00:00', [Validators.required]),
-      dailyEndTimeFieldControl: new FormControl('00:00', [Validators.required]),
-      hasDayCareBeforeFieldControl: new FormControl('', [Validators.required]),
-      dayCareBeforeStartTimeFieldControl: new FormControl('00:00'),
-      hasDayCareAfterFieldControl: new FormControl('', [Validators.required]),
-      dayCareAfterEndTimeFieldControl: new FormControl('00:00'),
+      startRegistrationDateFieldControl: new UntypedFormControl(new Date(), [Validators.required]),
+      endRegistrationDateFieldControl: new UntypedFormControl(new Date(), [Validators.required]),
+      finalCancellationDateFieldControl: new UntypedFormControl(new Date(), [Validators.required]),
+      registrationOnDailyBasisFieldControl: new UntypedFormControl('', [Validators.required]),
+      startDateFieldControl: new UntypedFormControl(new Date(), [Validators.required]),
+      endDateFieldControl: new UntypedFormControl(new Date(), [Validators.required]),
+      dailyStartTimeFieldControl: new UntypedFormControl('00:00', [Validators.required]),
+      dailyEndTimeFieldControl: new UntypedFormControl('00:00', [Validators.required]),
+      hasDayCareBeforeFieldControl: new UntypedFormControl('', [Validators.required]),
+      dayCareBeforeStartTimeFieldControl: new UntypedFormControl('00:00'),
+      hasDayCareAfterFieldControl: new UntypedFormControl('', [Validators.required]),
+      dayCareAfterEndTimeFieldControl: new UntypedFormControl('00:00'),
    });
 
    careBeforeRequired() {
@@ -132,7 +133,7 @@ export class SingerEventDetailsComponent implements OnInit {
    }
 
    addFormControlToAllowedAgeGroupsFormControlArray() {
-      this.allowedAgeGroupsFormControlArray.push(new FormControl('', [Validators.required]));
+      this.allowedAgeGroupsFormControlArray.push(new UntypedFormControl('', [Validators.required]));
    }
 
    constructor(
@@ -262,13 +263,17 @@ export class SingerEventDetailsComponent implements OnInit {
       this.currentSingerEventInstance.title = this.formControlGroup.controls.titleFieldControl.value;
       this.currentSingerEventInstance.description = this.formControlGroup.controls.descriptionFieldControl.value;
       this.currentSingerEventInstance.location = this.formControlGroup.controls.locationFieldControl.value;
-      this.currentSingerEventInstance.allowedAgeGroups = this.formControlGroup.controls.allowedAgeGroupsFieldControl.value;
+      this.currentSingerEventInstance.allowedAgeGroups =
+         this.formControlGroup.controls.allowedAgeGroupsFieldControl.value;
       this.currentSingerEventInstance.maxRegistrants = this.formControlGroup.controls.maxRegistrantsFieldControl.value;
       this.currentSingerEventInstance.cost = this.formControlGroup.controls.costFieldControl.value;
 
-      this.currentSingerEventInstance.startRegistrationDateTime = this.formControlGroup.controls.startRegistrationDateFieldControl.value;
-      this.currentSingerEventInstance.endRegistrationDateTime = this.formControlGroup.controls.endRegistrationDateFieldControl.value;
-      this.currentSingerEventInstance.finalCancellationDateTime = this.formControlGroup.controls.finalCancellationDateFieldControl.value;
+      this.currentSingerEventInstance.startRegistrationDateTime =
+         this.formControlGroup.controls.startRegistrationDateFieldControl.value;
+      this.currentSingerEventInstance.endRegistrationDateTime =
+         this.formControlGroup.controls.endRegistrationDateFieldControl.value;
+      this.currentSingerEventInstance.finalCancellationDateTime =
+         this.formControlGroup.controls.finalCancellationDateFieldControl.value;
       this.currentSingerEventInstance.registrationOnDailyBasis =
          this.formControlGroup.controls.registrationOnDailyBasisFieldControl.value === 'true' ? true : false;
       this.currentSingerEventInstance.startDateTime = this._handleDateTimeFields(
@@ -294,7 +299,7 @@ export class SingerEventDetailsComponent implements OnInit {
    }
 
    private _handleDateTimeFields(dateField: Date, timeField: string): Date {
-      if (isNullOrUndefined(dateField) || isNullOrUndefined(timeField)) {
+      if (dateField === undefined || dateField === null || timeField === undefined || timeField === null) {
          return new Date();
       }
       const timePieces = timeField.split(':');

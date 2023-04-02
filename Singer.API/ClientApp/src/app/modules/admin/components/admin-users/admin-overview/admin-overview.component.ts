@@ -10,7 +10,7 @@ import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 import { AdminUser } from 'src/app/modules/core/models/adminuser.model';
 import { AdminDetailsComponent } from '../admin-details/admin-details.component';
 import { LoadingService } from 'src/app/modules/core/services/loading.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { ConfirmComponent, ConfirmRequest } from 'src/app/modules/shared/components/confirm/confirm.component';
 import { AuthService } from 'src/app/modules/core/services/auth.service';
 
@@ -29,9 +29,9 @@ export class AdminOverviewComponent implements OnInit, AfterViewInit {
 
    readonly maxFilterLength = 2048;
 
-   formControlGroup: FormGroup = new FormGroup({
+   formControlGroup: UntypedFormGroup = new UntypedFormGroup({
       // Form controls
-      filterFieldControl: new FormControl(this.filter, [Validators.maxLength(this.maxFilterLength)]),
+      filterFieldControl: new UntypedFormControl(this.filter, [Validators.maxLength(this.maxFilterLength)]),
    });
 
    // Datatable

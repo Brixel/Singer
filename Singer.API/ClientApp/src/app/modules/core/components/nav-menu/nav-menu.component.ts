@@ -74,11 +74,11 @@ export class NavMenuComponent implements OnInit {
    constructor(private authService: AuthService, public router: Router) {}
 
    ngOnInit() {
-      this.authService.isAdmin$.subscribe(res => {
+      this.authService.isAdmin$.subscribe((res) => {
          this.isAdmin = res;
          this.updateRequirements();
       });
-      this.authService.isAuthenticated$.subscribe(res => {
+      this.authService.isAuthenticated$.subscribe((res) => {
          this.isAuthenticated = res;
          this.updateRequirements();
       });
@@ -95,7 +95,7 @@ export class NavMenuComponent implements OnInit {
 
    private updateRequirements() {
       const routerLinkRequirements: { [name: string]: boolean } = {};
-      this.routerLinks.forEach(routerLink => {
+      this.routerLinks.forEach((routerLink) => {
          const routerLinkRequirement = this.routerLinkRequirements[routerLink.RouterLinkName];
          if (routerLinkRequirement === undefined) {
             routerLinkRequirements[routerLink.RouterLinkName] = false;
@@ -112,7 +112,7 @@ export class NavMenuComponent implements OnInit {
       let result = true;
 
       // Loop through the requirements
-      requirements.forEach(requirement => {
+      requirements.forEach((requirement) => {
          // If a requirement is not met: result = false
          if (!this.checkRequirement(requirement)) {
             result = false;
@@ -137,5 +137,6 @@ export class NavMenuComponent implements OnInit {
       if (requirement === singerRouterLinkRequirements.isNotAuthenticated) {
          return !this.isAuthenticated;
       }
+      return false;
    }
 }

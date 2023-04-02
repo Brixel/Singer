@@ -13,7 +13,7 @@ import {
 import { SingerEventsService } from 'src/app/modules/core/services/singerevents-api/singerevents.service';
 import { SingerEvent } from 'src/app/modules/core/models/singerevent.model';
 import { SingerLocationService } from 'src/app/modules/core/services/singer-location-api/singer-location.service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import {
    SingerRegistrationsComponent,
    SingerRegistrationData,
@@ -37,9 +37,9 @@ export class SingerEventOverviewComponent implements OnInit, AfterViewInit {
 
    readonly maxFilterLength = 2048;
 
-   formControlGroup: FormGroup = new FormGroup({
+   formControlGroup: UntypedFormGroup = new UntypedFormGroup({
       // Form controls
-      filterFieldControl: new FormControl(this.filter, [Validators.maxLength(this.maxFilterLength)]),
+      filterFieldControl: new UntypedFormControl(this.filter, [Validators.maxLength(this.maxFilterLength)]),
    });
 
    // Datatable
