@@ -1,11 +1,10 @@
 using System;
 using System.ComponentModel;
 
-namespace Singer.Helpers
+namespace Singer.Helpers;
+
+public interface IIdentifiable
 {
-   public interface IIdentifiable
-   {
-      [DisplayName("Id")]
-      Guid Id { get; set; }
-   }
+    [DisplayName("Id")]
+    Guid Id { get; set; }
 }

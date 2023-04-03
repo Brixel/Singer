@@ -1,0 +1,53 @@
+name: Publish
+on:
+  push:
+    branches: [develop]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: singer
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0.10.2
+        with:
+          versionSpec: "5.x"
+      - name: Determine Version
+        id: gitversion
+        uses: gittools/actions/gitversion/execute@v0.10.2
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.REGISTRY }}/brixel/singer
+          tags: type=semver,pattern={{version}},value=${{ steps.gitversion.outputs.semVer }}
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 6.x
+      - name: Publish
+        run: dotnet publish .\Singer.API\ --os linux --arch x64 -c Release /p:ContainerImageName=${{ env.IMAGE_NAME }} /p:ContainerImageTag=${{ steps.gitversion.outputs.semVer }}
+      - name: Tag built container with Github Container Registry url
+        uses: actions-hub/docker/cli@master
+        with:
+          args: tag ${{ env.IMAGE_NAME }}:${{ steps.gitversion.outputs.semVer }} ${{ env.REGISTRY }}/${{ env.GITHUB_REPOSITORY_OWNER }}/:${{ steps.gitversion.outputs.semVer }}
+      - name: Push built container to Github Container Registry
+        uses: actions-hub/docker/cli@master
+        with:
+          args: push ${{ env.REGISTRY }}/${{ env.GITHUB_REPOSITORY_OWNER }}/:${{ steps.gitversion.outputs.semVer }}

@@ -1,11 +1,10 @@
 using System;
 using System.Threading.Tasks;
 
-namespace Singer.Services.Interfaces
+namespace Singer.Services.Interfaces;
+
+public interface IUserProfileService
 {
-   public interface IUserProfileService
-   {
-      Task UpdatePassword(Guid userId, string rawToken, string password);
-      Task RequestPasswordReset(string userId);
-   }
+    Task UpdatePassword(Guid userId, string rawToken, string password);
+    Task RequestPasswordReset(string userId);
 }

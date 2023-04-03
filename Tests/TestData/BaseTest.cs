@@ -1,34 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+
 using Microsoft.EntityFrameworkCore;
+
 using NUnit.Framework;
+
 using Singer.Data;
 
-namespace Tests.TestData
+namespace Tests.TestData;
+
+public abstract class BaseTest
 {
-   public abstract class BaseTest
-   {
-      public ApplicationDbContext TestDataContext;
+    public ApplicationDbContext TestDataContext;
 
-      [SetUp]
-      public virtual void Setup()
-      {
-         var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(Guid.NewGuid().ToString())
-            .Options;
+    [SetUp]
+    public virtual void Setup()
+    {
+        var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+           .UseInMemoryDatabase(Guid.NewGuid().ToString())
+           .Options;
 
-         TestDataContext = new ApplicationDbContext(options);
-      }
+        TestDataContext = new ApplicationDbContext(options);
+    }
 
 
 
-      [TearDown]
-      public virtual void TearDown()
-      {
-         TestDataContext.Dispose();
-      }
-   }
-
-
+    [TearDown]
+    public virtual void TearDown()
+    {
+        TestDataContext.Dispose();
+    }
 }

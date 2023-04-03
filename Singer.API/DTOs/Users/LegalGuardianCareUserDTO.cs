@@ -1,25 +1,25 @@
-using Singer.Resources;
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Singer.DTOs.Users
-{
-   public class LegalGuardianCareUserDTO
-   {
-      [Required(
-         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
-         ErrorMessageResourceType = typeof(ErrorMessages))]
-      [Display(
-         ResourceType = typeof(DisplayNames),
-         Name = nameof(DisplayNames.LegalGuardianId))]
-      public Guid LegalGuardianId { get; set; }
+using Singer.Resources;
 
-      [Required(
-         ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
-         ErrorMessageResourceType = typeof(ErrorMessages))]
-      [Display(
-         ResourceType = typeof(DisplayNames),
-         Name = nameof(DisplayNames.CareUserId))]
-      public Guid CareUserId { get; set; }
-   }
+namespace Singer.DTOs.Users;
+
+public class LegalGuardianCareUserDTO
+{
+    [Required(
+       ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+       ErrorMessageResourceType = typeof(ErrorMessages))]
+    [Display(
+       ResourceType = typeof(DisplayNames),
+       Name = nameof(DisplayNames.LegalGuardianId))]
+    public Guid LegalGuardianId { get; set; }
+
+    [Required(
+       ErrorMessageResourceName = nameof(ErrorMessages.FieldIsRequired),
+       ErrorMessageResourceType = typeof(ErrorMessages))]
+    [Display(
+       ResourceType = typeof(DisplayNames),
+       Name = nameof(DisplayNames.CareUserId))]
+    public Guid CareUserId { get; set; }
 }

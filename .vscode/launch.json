@@ -6,7 +6,10 @@
    "compounds": [
       {
          "name": ".Net+Browser",
-         "configurations": [".NET Core Launch (web)", "Launch Chrome"]
+         "configurations": [
+            ".NET Core Launch (web)",
+            "Launch Chrome"
+         ]
       }
    ],
    "configurations": [
@@ -24,7 +27,7 @@
          "request": "launch",
          "preLaunchTask": "prepdevenv",
          // If you have changed target frameworks, make sure to update the program path.
-         "program": "${workspaceFolder}/Singer.API/bin/Debug/netcoreapp3.1/Singer.dll",
+         "program": "${workspaceFolder}/Singer.API/bin/Debug/net6.0/Singer.dll",
          "args": [],
          "cwd": "${workspaceFolder}/Singer.API",
          "stopAtEntry": false,
@@ -36,7 +39,10 @@
          },
          "sourceFileMap": {
             "/Views": "${workspaceFolder}/Views"
-         }
+         },
+         "logging": {
+            "moduleLoad": false
+         },
       }
    ]
 }
