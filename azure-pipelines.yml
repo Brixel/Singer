@@ -10,7 +10,9 @@ variables:
    buildConfiguration: 'Release'
    TF_BUILD: 1
 
-steps:
+jobs:
+- job: "NETBuild"
+  steps:
    - task: DotNetCoreCLI@2
      displayName: 'Populate gitversion variables'
      inputs:
