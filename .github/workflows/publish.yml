@@ -50,4 +50,4 @@ jobs:
       - name: Push built container to Github Container Registry
         uses: actions-hub/docker/cli@master
         with:
-          args: push ${{ env.REGISTRY }}/${{ evarsnv.GITHUB_REPOSITORY_OWNER }}/${{ env.IMAGE_NAME }}:${{ steps.gitversion.outputs.semVer }}
+          args: push ${{ env.REGISTRY }}/${{ vars.GITHUB_REPOSITORY_OWNER }}/${{ env.IMAGE_NAME }}:${{ steps.gitversion.outputs.semVer }}
