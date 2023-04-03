@@ -46,8 +46,8 @@ jobs:
       - name: Tag built container with Github Container Registry url
         uses: actions-hub/docker/cli@master
         with:
-          args: tag ${{ env.IMAGE_NAME }}:${{ steps.gitversion.outputs.semVer }} ${{ env.REGISTRY }}/${{ env.GITHUB_REPOSITORY_OWNER }}/:${{ steps.gitversion.outputs.semVer }}
+          args: tag ${{ env.IMAGE_NAME }}:${{ steps.gitversion.outputs.semVer }} ${{ env.REGISTRY }}/${{ vars.GITHUB_REPOSITORY_OWNER }}/${{ env.IMAGE_NAME }}:${{ steps.gitversion.outputs.semVer }}
       - name: Push built container to Github Container Registry
         uses: actions-hub/docker/cli@master
         with:
-          args: push ${{ env.REGISTRY }}/${{ env.GITHUB_REPOSITORY_OWNER }}/:${{ steps.gitversion.outputs.semVer }}
+          args: push ${{ env.REGISTRY }}/${{ vars.GITHUB_REPOSITORY_OWNER }}/${{ env.IMAGE_NAME }}:${{ steps.gitversion.outputs.semVer }}
