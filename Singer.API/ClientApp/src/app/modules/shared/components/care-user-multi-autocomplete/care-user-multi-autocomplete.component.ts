@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { CareUser, CareUserDTO } from 'src/app/modules/core/models/careuser.model';
 import { Observable, of } from 'rxjs';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { CareUserService } from 'src/app/modules/core/services/care-users-api/careusers.service';
 import { startWith, debounceTime, switchMap, map } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -15,7 +15,7 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 export class CareUserMultiAutocompleteComponent implements OnInit {
    selectedCareUsers: CareUser[];
    careUsersAutoComplete$: Observable<CareUserDTO[]>;
-   careUserCtrl: FormControl;
+   careUserCtrl: UntypedFormControl;
    separatorKeysCodes: number[] = [ENTER, COMMA];
    @Output() onChange: EventEmitter<CareUser[]> = new EventEmitter();
    @ViewChild('careUserInput', { static: true }) careUserInput: ElementRef<HTMLInputElement>;
@@ -25,7 +25,7 @@ export class CareUserMultiAutocompleteComponent implements OnInit {
    }
 
    ngOnInit() {
-      this.careUserCtrl = new FormControl('');
+      this.careUserCtrl = new UntypedFormControl('');
       this.careUsersAutoComplete$ = this.careUserCtrl.valueChanges.pipe(
          startWith(''),
          debounceTime(300),

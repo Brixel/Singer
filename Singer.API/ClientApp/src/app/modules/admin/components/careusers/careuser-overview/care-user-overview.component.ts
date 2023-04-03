@@ -10,7 +10,7 @@ import { CareUserDetailsComponent } from '../careuser-details/care-user-details.
 import { CareUserService } from 'src/app/modules/core/services/care-users-api/careusers.service';
 import { CareUser } from 'src/app/modules/core/models/careuser.model';
 import { LoadingService } from 'src/app/modules/core/services/loading.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 
 @Component({
    selector: 'app-care-user-overview',
@@ -27,8 +27,8 @@ export class CareUserOverviewComponent implements OnInit, AfterViewInit {
 
    readonly maxFilterLength = 2048;
 
-   formControlGroup: FormGroup = new FormGroup({
-      filterFieldControl: new FormControl(this.filter, [Validators.maxLength(this.maxFilterLength)]),
+   formControlGroup: UntypedFormGroup = new UntypedFormGroup({
+      filterFieldControl: new UntypedFormControl(this.filter, [Validators.maxLength(this.maxFilterLength)]),
    });
 
    // Datatable

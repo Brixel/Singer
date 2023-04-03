@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/modules/core/services/auth.service';
@@ -11,7 +11,7 @@ import { comparePassword } from 'src/app/modules/core/utils/user-profile.validat
    styleUrls: ['./reset-password.component.css'],
 })
 export class ResetPasswordComponent implements OnInit {
-   formGroup: FormGroup;
+   formGroup: UntypedFormGroup;
    userId: string;
    token: string;
    errorMessage: string;
@@ -29,9 +29,9 @@ export class ResetPasswordComponent implements OnInit {
          this.token = res['token'];
       });
 
-      this.formGroup = new FormGroup({
-         password: new FormControl('', Validators.required),
-         passwordVerify: new FormControl('', Validators.required),
+      this.formGroup = new UntypedFormGroup({
+         password: new UntypedFormControl('', Validators.required),
+         passwordVerify: new UntypedFormControl('', Validators.required),
       });
 
       this.formGroup.setValidators([comparePassword()]);

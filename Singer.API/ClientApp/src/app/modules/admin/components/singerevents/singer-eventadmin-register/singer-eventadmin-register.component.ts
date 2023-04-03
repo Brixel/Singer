@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { SingerEvent, EventSlotRegistrations, UserInfo } from 'src/app/modules/core/models/singerevent.model';
 import { SingerEventsService } from 'src/app/modules/core/services/singerevents-api/singerevents.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -18,7 +18,7 @@ import { AgeGroup } from 'src/app/modules/core/models/enum';
    styleUrls: ['./singer-eventadmin-register.component.css'],
 })
 export class SingerEventAdminRegisterComponent implements OnInit {
-   formGroup: FormGroup;
+   formGroup: UntypedFormGroup;
    event: SingerEvent;
    careUsers: Registrant[] = [];
 
@@ -33,7 +33,7 @@ export class SingerEventAdminRegisterComponent implements OnInit {
       @Inject(MAT_DIALOG_DATA) data: SingerRegistrationData
    ) {
       this.event = data.event;
-      this.formGroup = new FormGroup({});
+      this.formGroup = new UntypedFormGroup({});
    }
 
    ngOnInit() {

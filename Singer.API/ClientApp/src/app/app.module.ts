@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { ApplicationInsightsModule, AppInsightsService } from '@markpieszak/ng-application-insights';
+// import { ApplicationInsightsModule, AppInsightsService } from '@markpieszak/ng-application-insights';
 import { AppComponent } from './app.component';
 import { MaterialModule } from './material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -53,9 +53,9 @@ export const MY_FORMATS = {
             tokenGetter: tokenGetter,
          },
       }),
-      ApplicationInsightsModule.forRoot({
-         instrumentationKeySetLater: true,
-      }),
+      // ApplicationInsightsModule.forRoot({
+      //    instrumentationKeySetLater: true,
+      // }),
    ],
    providers: [
       JwtHelperService,
@@ -75,7 +75,7 @@ export const MY_FORMATS = {
       { provide: MAT_DATE_LOCALE, useValue: 'nl-BE' },
       { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
       { provide: DateAdapter, useClass: MomentDateAdapter },
-      AppInsightsService,
+      // AppInsightsService,
    ],
    bootstrap: [AppComponent],
 })

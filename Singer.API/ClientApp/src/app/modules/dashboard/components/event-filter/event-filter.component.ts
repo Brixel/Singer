@@ -1,5 +1,5 @@
 import { Component, Output, EventEmitter, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { EventFilterParameters } from 'src/app/modules/core/models/singerevent.model';
 import { GenericFilter } from 'src/app/modules/core/models/generics/generic-filter.model';
 import { GenericFilterParameters } from 'src/app/modules/core/models/generics/generic-filter-parameters.model';
@@ -46,10 +46,10 @@ export class EventFilterComponent extends GenericFilter implements OnInit {
    }
 
    initializeFilterForm(): void {
-      this.formGroup.addControl('startDateFieldControl', new FormControl());
-      this.formGroup.addControl('endDateFieldControl', new FormControl());
-      this.formGroup.addControl('locationFieldControl', new FormControl());
-      this.formGroup.addControl('ageGroupsFieldControl', new FormControl());
+      this.formGroup.addControl('startDateFieldControl', new UntypedFormControl());
+      this.formGroup.addControl('endDateFieldControl', new UntypedFormControl());
+      this.formGroup.addControl('locationFieldControl', new UntypedFormControl());
+      this.formGroup.addControl('ageGroupsFieldControl', new UntypedFormControl());
    }
 
    loadFilterParameters(): void {

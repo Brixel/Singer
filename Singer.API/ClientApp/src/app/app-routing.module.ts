@@ -3,19 +3,19 @@ import { NgModule } from '@angular/core';
 import { MainComponent } from './main.component';
 
 const routes: Routes = [
-   { path: 'login', loadChildren: './modules/login/login.module#LoginModule' },
+   { path: 'login', loadChildren: () => import('./modules/login/login.module').then(m => m.LoginModule) },
    {
       path: 'auth',
-      loadChildren: './modules/login/login.module#LoginModule',
+      loadChildren: () => import('./modules/login/login.module').then(m => m.LoginModule),
    },
    {
       path: 'dashboard',
-      loadChildren: './modules/dashboard/dashboard.module#DashboardModule',
+      loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule),
       component: MainComponent,
    },
    {
       path: 'voogden',
-      loadChildren: './modules/legalguardians/legalguardians.module#LegalguardiansModule',
+      loadChildren: () => import('./modules/legalguardians/legalguardians.module').then(m => m.LegalguardiansModule),
       component: MainComponent,
    },
    { path: '', redirectTo: '/dashboard', pathMatch: 'full' },

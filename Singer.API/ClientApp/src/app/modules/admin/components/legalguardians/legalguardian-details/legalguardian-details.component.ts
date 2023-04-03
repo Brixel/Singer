@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { LegalGuardian } from 'src/app/modules/core/models/legalguardian.model';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CareUserService } from 'src/app/modules/core/services/care-users-api/careusers.service';
 import { CareUser } from 'src/app/modules/core/models/careuser.model';
@@ -57,33 +57,33 @@ export class LegalguardianDetailsComponent implements OnInit {
    readonly nameRegex = /^[\w'À-ÿ][\w' À-ÿ]*[\w'À-ÿ]+$/;
 
    // Form control group
-   formControlGroup: FormGroup = new FormGroup({
+   formControlGroup: UntypedFormGroup = new UntypedFormGroup({
       // Form controls
-      firstNameFieldControl: new FormControl('', [
+      firstNameFieldControl: new UntypedFormControl('', [
          Validators.required,
          Validators.minLength(this.minNameLength),
          Validators.maxLength(this.maxNameLength),
          Validators.pattern(this.nameRegex),
       ]),
-      lastNameFieldControl: new FormControl('', [
+      lastNameFieldControl: new UntypedFormControl('', [
          Validators.required,
          Validators.minLength(this.minNameLength),
          Validators.maxLength(this.maxNameLength),
          Validators.pattern(this.nameRegex),
       ]),
-      addressFieldControl: new FormControl('', [Validators.required, Validators.maxLength(this.maxAddressLength)]),
-      postalCodeFieldControl: new FormControl('', [
+      addressFieldControl: new UntypedFormControl('', [Validators.required, Validators.maxLength(this.maxAddressLength)]),
+      postalCodeFieldControl: new UntypedFormControl('', [
          Validators.required,
          Validators.maxLength(this.maxPostalCodeLength),
       ]),
-      cityFieldControl: new FormControl('', [Validators.required, Validators.maxLength(this.maxCityLength)]),
-      countryFieldControl: new FormControl('', [Validators.required, Validators.maxLength(this.maxCountryLength)]),
-      emailFieldControl: new FormControl('', [
+      cityFieldControl: new UntypedFormControl('', [Validators.required, Validators.maxLength(this.maxCityLength)]),
+      countryFieldControl: new UntypedFormControl('', [Validators.required, Validators.maxLength(this.maxCountryLength)]),
+      emailFieldControl: new UntypedFormControl('', [
          Validators.required,
          Validators.maxLength(this.maxEmailLength),
          Validators.email,
       ]),
-      careUsersSearchFieldcontrol: new FormControl(),
+      careUsersSearchFieldcontrol: new UntypedFormControl(),
    });
 
    constructor(

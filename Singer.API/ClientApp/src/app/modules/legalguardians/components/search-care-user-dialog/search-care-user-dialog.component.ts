@@ -5,7 +5,7 @@ import {
    SingerRegistrationsComponent,
    SingerRegistrationData,
 } from 'src/app/modules/admin/components/singerevents/event-registrations/event-registrations.component';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { startWith, debounceTime, switchMap, map } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
 import { CareUserService } from 'src/app/modules/core/services/care-users-api/careusers.service';
@@ -18,7 +18,7 @@ import { AuthService } from 'src/app/modules/core/services/auth.service';
    styleUrls: ['./search-care-user-dialog.component.css'],
 })
 export class SearchCareUserDialogComponent implements OnInit {
-   control: FormControl;
+   control: UntypedFormControl;
    careUsersAutoComplete$: Observable<RelatedCareUser[]>;
 
    constructor(
@@ -29,7 +29,7 @@ export class SearchCareUserDialogComponent implements OnInit {
    ) {}
 
    ngOnInit() {
-      this.control = new FormControl('');
+      this.control = new UntypedFormControl('');
       this.careUsersAutoComplete$ = this.control.valueChanges.pipe(
          startWith(''),
          debounceTime(300),

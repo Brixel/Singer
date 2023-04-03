@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
-import { FormControl, Validators, FormGroup } from '@angular/forms';
+import { UntypedFormControl, Validators, UntypedFormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CareUser } from 'src/app/modules/core/models/careuser.model';
 import { AgeGroup } from 'src/app/modules/core/models/enum';
@@ -63,29 +63,29 @@ export class CareUserDetailsComponent implements OnInit {
    readonly nameRegex = /^[\w'À-ÿ][\w' À-ÿ]*[\w'À-ÿ]+$/;
 
    // Form control group
-   formControlGroup: FormGroup = new FormGroup({
+   formControlGroup: UntypedFormGroup = new UntypedFormGroup({
       // Form controls
-      firstNameFieldControl: new FormControl('', [
+      firstNameFieldControl: new UntypedFormControl('', [
          Validators.required,
          Validators.maxLength(this.maxNameLength),
          Validators.minLength(this.minNameLength),
          Validators.pattern(this.nameRegex),
       ]),
-      lastNameFieldControl: new FormControl('', [
+      lastNameFieldControl: new UntypedFormControl('', [
          Validators.required,
          Validators.maxLength(this.maxNameLength),
          Validators.minLength(this.minNameLength),
          Validators.pattern(this.nameRegex),
       ]),
-      birthdayFieldControl: new FormControl(null, [
+      birthdayFieldControl: new UntypedFormControl(null, [
          Validators.required,
          dateNotBefore(this.minBirthday),
          dateNotAfter(this.maxBirthday),
       ]),
-      ageGroupFieldControl: new FormControl('', [Validators.required]),
-      isExternFieldControl: new FormControl('', [Validators.required]),
-      hasTrajectoryFieldControl: new FormControl('', [Validators.required]),
-      legalGuardianUsersSearchFieldcontrol: new FormControl(),
+      ageGroupFieldControl: new UntypedFormControl('', [Validators.required]),
+      isExternFieldControl: new UntypedFormControl('', [Validators.required]),
+      hasTrajectoryFieldControl: new UntypedFormControl('', [Validators.required]),
+      legalGuardianUsersSearchFieldcontrol: new UntypedFormControl(),
    });
 
    constructor(

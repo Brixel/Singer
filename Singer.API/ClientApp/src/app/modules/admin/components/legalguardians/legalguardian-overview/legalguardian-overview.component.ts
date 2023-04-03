@@ -10,7 +10,7 @@ import { fromEvent, merge } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 import { LegalguardianDetailsComponent } from '../legalguardian-details/legalguardian-details.component';
 import { LoadingService } from 'src/app/modules/core/services/loading.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { ConfirmComponent, ConfirmRequest } from 'src/app/modules/shared/components/confirm/confirm.component';
 import { AuthService } from 'src/app/modules/core/services/auth.service';
 
@@ -29,9 +29,9 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
 
    readonly maxFilterLength = 2048;
 
-   formControlGroup: FormGroup = new FormGroup({
+   formControlGroup: UntypedFormGroup = new UntypedFormGroup({
       // Form controls
-      filterFieldControl: new FormControl(this.filter, [Validators.maxLength(this.maxFilterLength)]),
+      filterFieldControl: new UntypedFormControl(this.filter, [Validators.maxLength(this.maxFilterLength)]),
    });
 
    // Datatable

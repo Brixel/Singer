@@ -1,6 +1,6 @@
 import { Output, ChangeDetectorRef, AfterViewInit, Directive } from '@angular/core';
 import { EventEmitter } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { GenericModel } from 'src/app/modules/core/models/generics/generic-model';
 import { FormElement } from '../../interfaces/form-element';
@@ -20,7 +20,7 @@ export abstract class GenericDetails<TModel extends GenericModel> implements Aft
    currentInstance: TModel;
    formFields: FormElement[] = [];
 
-   public formControlGroup: FormGroup;
+   public formControlGroup: UntypedFormGroup;
 
    constructor(
       public dialogRef: MatDialogRef<GenericDetails<TModel>>,
@@ -37,9 +37,9 @@ export abstract class GenericDetails<TModel extends GenericModel> implements Aft
       }
       let formControls = {};
       this.formFields.forEach(f => {
-         formControls[`${f.name}FieldControl`] = new FormControl('', f.validators);
+         formControls[`${f.name}FieldControl`] = new UntypedFormControl('', f.validators);
       });
-      this.formControlGroup = new FormGroup(formControls);
+      this.formControlGroup = new UntypedFormGroup(formControls);
       if (this.isAdding) {
          this.resetFormControls();
          this.createEmptyInstance();

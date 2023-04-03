@@ -1,7 +1,8 @@
+@use '@angular/material' as mat;
 @import '../node_modules/@angular/material/theming';
 
 /* Include the common styles for Angular Material.*/
-@include mat-core();
+@include mat.core();
 
 /* Define Singer theme color pallets */
 /* Generated from: http://mcg.mbitson.com/#!?singer=%2a73d4 and http://mcg.mbitson.com/#!?singer=%e9ea14 */
@@ -72,14 +73,14 @@ $singer-accent: (
 );
 
 /* Define the palettes of the theme using the Material Design palettes defined above*/
-$sint-gerardus-theme-primary: mat-palette($singer-primary, 500);
-$sint-gerardus-theme-accent: mat-palette($singer-accent, 500);
+$sint-gerardus-theme-primary: mat.define-palette($singer-primary, 500);
+$sint-gerardus-theme-accent: mat.define-palette($singer-accent, 500);
 
 /* The warn palette is optional (defaults to red).*/
-$sint-gerardus-theme-warn: mat-palette($mat-red);
+$sint-gerardus-theme-warn: mat.define-palette(mat.$red-palette);
 
 /* Create the theme object (a Sass map containing all of the palettes).*/
-$sint-gerardus-theme: mat-light-theme(
+$sint-gerardus-theme: mat.define-light-theme(
    $sint-gerardus-theme-primary,
    $sint-gerardus-theme-accent,
    $sint-gerardus-theme-warn
@@ -88,7 +89,7 @@ $sint-gerardus-theme: mat-light-theme(
 /* Include theme styles for core and each component used in our app.
    Alternatively, you can import and @include the theme mixins for each component
    that you are using.*/
-@include angular-material-theme($sint-gerardus-theme);
+@include mat.all-component-themes($sint-gerardus-theme);
 
 /*
    Define global CSS variables.
@@ -101,17 +102,17 @@ $sint-gerardus-theme: mat-light-theme(
    /*
       Primary Colors
    */
-   --singer-theme-primary: #{mat-color($sint-gerardus-theme-primary)};
-   --singer-theme-primary-lighter: #{mat-color($sint-gerardus-theme-primary, 100)};
-   --singer-theme-primary-darker: #{mat-color($sint-gerardus-theme-primary, 700)};
+   --singer-theme-primary: #{mat.get-color-from-palette($sint-gerardus-theme-primary)};
+   --singer-theme-primary-lighter: #{mat.get-color-from-palette($sint-gerardus-theme-primary, 100)};
+   --singer-theme-primary-darker: #{mat.get-color-from-palette($sint-gerardus-theme-primary, 700)};
 
-   --singer-theme-accent: #{mat-color($sint-gerardus-theme-accent)};
-   --singer-theme-accent-lighter: #{mat-color($sint-gerardus-theme-accent, 200)};
-   --singer-theme-accent-darker: #{mat-color($sint-gerardus-theme-accent, 900)};
+   --singer-theme-accent: #{mat.get-color-from-palette($sint-gerardus-theme-accent)};
+   --singer-theme-accent-lighter: #{mat.get-color-from-palette($sint-gerardus-theme-accent, 200)};
+   --singer-theme-accent-darker: #{mat.get-color-from-palette($sint-gerardus-theme-accent, 900)};
 
-   --singer-theme-warn: #{mat-color($sint-gerardus-theme-warn)};
-   --singer-theme-warn-lighter: #{mat-color($sint-gerardus-theme-warn, 200)};
-   --singer-theme-warn-darker: #{mat-color($sint-gerardus-theme-warn, 700)};
+   --singer-theme-warn: #{mat.get-color-from-palette($sint-gerardus-theme-warn)};
+   --singer-theme-warn-lighter: #{mat.get-color-from-palette($sint-gerardus-theme-warn, 200)};
+   --singer-theme-warn-darker: #{mat.get-color-from-palette($sint-gerardus-theme-warn, 700)};
 
    /*
       Text Colors

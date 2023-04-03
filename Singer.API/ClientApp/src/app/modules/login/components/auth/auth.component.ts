@@ -1,4 +1,4 @@
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { OnInit, Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/modules/core/services/auth.service';
@@ -10,7 +10,7 @@ import { LoadingService } from 'src/app/modules/core/services/loading.service';
    styleUrls: ['./auth.component.css'],
 })
 export class AuthComponent implements OnInit {
-   form: FormGroup;
+   form: UntypedFormGroup;
    private returnUrl: string;
    constructor(
       private _authService: AuthService,
@@ -24,9 +24,9 @@ export class AuthComponent implements OnInit {
          this.returnUrl = params['returnUrl'];
       });
 
-      this.form = new FormGroup({
-         username: new FormControl(null),
-         password: new FormControl(null),
+      this.form = new UntypedFormGroup({
+         username: new UntypedFormControl(null),
+         password: new UntypedFormControl(null),
       });
    }
 

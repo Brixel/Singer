@@ -1,6 +1,6 @@
 import { GenericFilterParameters } from './generic-filter-parameters.model';
 import { EventEmitter } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 
 export abstract class GenericFilter {
    filterParameters: GenericFilterParameters;
@@ -9,8 +9,8 @@ export abstract class GenericFilter {
    // Form validation values
    readonly maxNameLength = 100;
 
-   formGroup: FormGroup = new FormGroup({
-      nameFieldControl: new FormControl(null, [Validators.maxLength(this.maxNameLength)]),
+   formGroup: UntypedFormGroup = new UntypedFormGroup({
+      nameFieldControl: new UntypedFormControl(null, [Validators.maxLength(this.maxNameLength)]),
    });
 
    constructor() {
