@@ -42,7 +42,7 @@ jobs:
         with:
           dotnet-version: 6.x
       - name: Publish
-        run: dotnet publish .\Singer.API\ --os linux --arch x64 -c Release /p:ContainerImageName=${{ env.IMAGE_NAME }} /p:ContainerImageTag=${{ steps.gitversion.outputs.semVer }}
+        run: dotnet publish ./Singer.API/ --os linux --arch x64 -c Release /p:ContainerImageName=${{ env.IMAGE_NAME }} /p:ContainerImageTag=${{ steps.gitversion.outputs.semVer }}
       - name: Tag built container with Github Container Registry url
         uses: actions-hub/docker/cli@master
         with:
