@@ -5,7 +5,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: singer
+  IMAGE_NAME: brixel/singer
 
 jobs:
   publish:
@@ -42,12 +42,8 @@ jobs:
         with:
           dotnet-version: 6.x
       - name: Publish
-        run: dotnet publish ./Singer.API/ --os linux --arch x64 -c Release /p:ContainerRegistry=${{ env.REGISTRY }} /p:ContainerImageName=${{ github.repository_owner }}/${{ env.IMAGE_NAME }} /p:ContainerImageTag=${{ steps.gitversion.outputs.semVer }}
-      # - name: Tag built container with Github Container Registry url
-      #   uses: actions-hub/docker/cli@master
-      #   with:
-      #     args: tag ${{ env.IMAGE_NAME }}:${{ steps.gitversion.outputs.semVer }} ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ steps.gitversion.outputs.semVer }}
+        run: dotnet publish ./Singer.API/ --os linux --arch x64 -c Release /p:ContainerRegistry=${{ env.REGISTRY }} /p:ContainerImageName=${{ env.IMAGE_NAME }} /p:ContainerImageTag=${{ steps.gitversion.outputs.semVer }}
       - name: Push built container to Github Container Registry
         uses: actions-hub/docker/cli@master
         with:
-          args: push ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ steps.gitversion.outputs.semVer }}
+          args: push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.gitversion.outputs.semVer }}
