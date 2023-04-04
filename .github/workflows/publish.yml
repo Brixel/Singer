@@ -35,7 +35,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/brixel/singer
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: type=semver,pattern={{version}},value=${{ steps.gitversion.outputs.semVer }}
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
@@ -43,11 +43,11 @@ jobs:
           dotnet-version: 6.x
       - name: Publish
         run: dotnet publish ./Singer.API/ --os linux --arch x64 -c Release /p:ContainerImageName=${{ env.IMAGE_NAME }} /p:ContainerImageTag=${{ steps.gitversion.outputs.semVer }}
-      - name: Tag built container with Github Container Registry url
-        uses: actions-hub/docker/cli@master
+      - name: Build and push Docker image
+        id: build-and-push
+        uses: docker/build-push-action@v4
         with:
-          args: tag ${{ env.IMAGE_NAME }}:${{ steps.gitversion.outputs.semVer }} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.gitversion.outputs.semVer }}
-      - name: Push built container to Github Container Registry
-        uses: actions-hub/docker/cli@master
-        with:
-          args: push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.gitversion.outputs.semVer }}
+          context: .
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+      
