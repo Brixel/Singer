@@ -1,7 +1,7 @@
 name: Publish
 on:
   push:
-    branches: [develop,main,master]
+    branches: [develop,main,master,fix-ci-tag]
 
 env:
   REGISTRY: ghcr.io
@@ -48,10 +48,10 @@ jobs:
           dotnet-version: 6.x
 
       - name: Publish
-        run: dotnet publish ./Singer.API/ --os linux --arch x64 -c Release /p:ContainerImageName=${{ env.IMAGE_NAME }} /p:ContainerImageTag=${{ steps.gitversion.outputs.semVer }}
+        run: dotnet publish ./Singer.API/ --os linux --arch x64 -c Release /p:ContainerRegistryName=${{ env.REGISTRY }} /p:ContainerImageName=${{ env.IMAGE_NAME }} /p:ContainerImageTag=${{ steps.gitversion.outputs.semVer }}
 
-      - name: Tag built container with Github Container Registry url
-        run: docker tag ${{ env.IMAGE_NAME }}:${{ steps.gitversion.outputs.semVer }} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.gitversion.outputs.semVer }}
+      # - name: Tag built container with Github Container Registry url
+      #   run: docker tag ${{ env.IMAGE_NAME }}:${{ steps.gitversion.outputs.semVer }} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.gitversion.outputs.semVer }}
           
-      - name: Push built container to Github Container Registry
-        run: docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.gitversion.outputs.semVer }}
+      # - name: Push built container to Github Container Registry
+      #   run: docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.gitversion.outputs.semVer }}
