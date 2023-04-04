@@ -1,7 +1,7 @@
 name: Publish
 on:
   push:
-    branches: [develop,fix-ci-tag]
+    branches: [develop,main,master]
 
 env:
   REGISTRY: ghcr.io
