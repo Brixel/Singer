@@ -20,7 +20,7 @@ jobs:
           fetch-depth: 0
 
       - name: Login to github registry
-      - uses: azure/docker-login@v1
+        uses: azure/docker-login@v1
         with:
           login-server: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
