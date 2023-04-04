@@ -18,11 +18,11 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Log in to container registry
-        uses: azure/docker-login@v1
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
         with:
-          login-server: ghcr.io
-          username: baronfel
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Install GitVersion
         uses: gittools/actions/gitversion/setup@v0.10.2
@@ -42,4 +42,12 @@ jobs:
         with:
           dotnet-version: 6.x
       - name: Publish
-        run: dotnet publish ./Singer.API/ --os linux --arch x64 -c Release /p:ContainerRegistry=${{ env.REGISTRY }} /p:ContainerImageName=${{ env.IMAGE_NAME }} /p:ContainerImageTag=${{ steps.gitversion.outputs.semVer }}
+        run: dotnet publish ./Singer.API/ --os linux --arch x64 -c Release /p:ContainerImageName=${{ env.IMAGE_NAME }} /p:ContainerImageTag=${{ steps.gitversion.outputs.semVer }}
+      - name: Tag built container with Github Container Registry url
+        uses: actions-hub/docker/cli@master
+        with:
+          args: tag ${{ env.IMAGE_NAME }}:${{ steps.gitversion.outputs.semVer }} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.gitversion.outputs.semVer }}
+      - name: Push built container to Github Container Registry
+        uses: actions-hub/docker/cli@master
+        with:
+          args: push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.gitversion.outputs.semVer }}
