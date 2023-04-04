@@ -28,6 +28,8 @@ jobs:
         uses: gittools/actions/gitversion/setup@v0.10.2
         with:
           versionSpec: "5.x"
+      - name: Setup Docker buildx
+        uses: docker/setup-buildx-action@v2.5.0
       - name: Determine Version
         id: gitversion
         uses: gittools/actions/gitversion/execute@v0.10.2
@@ -48,6 +50,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          tags: ${{ steps.meta.outputs.tags }}
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.IMAGE_NAME }}:${{ steps.gitversion.outputs.semVer }}
           labels: ${{ steps.meta.outputs.labels }}
       
