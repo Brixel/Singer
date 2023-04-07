@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.1.0-dev.1576",
+   "version": "0.1.0-fix-datetime-picker.1577",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",
