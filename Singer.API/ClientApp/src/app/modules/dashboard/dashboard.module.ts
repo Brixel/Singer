@@ -14,6 +14,10 @@ import { ApiService } from '../core/services/api.service';
 import { SharedModule } from '../shared/shared.module';
 import { AdminMenuComponent } from './components/admin-menu/admin-menu.component';
 import { RegistrationOverviewComponent } from './components/registration-overview/registration-overview.component';
+import { DutchOwlDateTimeIntl } from '../legalguardians/dutchowldatetime';
+import { MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
+import { OWL_DATE_TIME_LOCALE, OwlDateTimeIntl } from '@danielmoncada/angular-datetime-picker';
+import { MY_FORMATS } from 'src/app/app.module';
 
 @NgModule({
    declarations: [

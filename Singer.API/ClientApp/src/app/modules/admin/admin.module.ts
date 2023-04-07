@@ -11,7 +11,7 @@ import { CoreModule } from '../core/core.module';
 import { CareUserDetailsComponent } from './components/careusers/careuser-details/care-user-details.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { KeysPipe } from '../core/pipes/keys.pipe';
-import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
@@ -39,59 +39,55 @@ import { PendingActionsComponent } from './components/pending-actions/pending-ac
 import { LocationOverviewComponent } from './components/location-overview/location-overview.component';
 import { LocationDetailsComponent } from './components/location-details/location-details.component';
 import { SingerLocationProxy } from '../core/services/singer-location-api/singer-location.proxy';
+import { OWL_DATE_TIME_LOCALE, OwlDateTimeIntl } from '@danielmoncada/angular-datetime-picker';
+import { MY_FORMATS } from 'src/app/app.module';
+import { DutchOwlDateTimeIntl } from '../legalguardians/dutchowldatetime';
 
 @NgModule({
-    declarations: [
-        CareUserOverviewComponent,
-        CareUserDetailsComponent,
-        LegalguardianOverviewComponent,
-        LegalguardianDetailsComponent,
-        SingerEventOverviewComponent,
-        SingerEventDetailsComponent,
-        AdminOverviewComponent,
-        AdminDetailsComponent,
-        SingerRegistrationsComponent,
-        SingerEventAdminRegisterComponent,
-        AddFamilyWizardComponent,
-        PendingRegistrationsComponent,
-        PendingActionsComponent,
-        LocationOverviewComponent,
-        LocationDetailsComponent,
-    ],
-    imports: [
-        CoreModule,
-        CommonModule,
-        SharedModule,
-        AdminRoutingModule,
-        MaterialModule,
-        ReactiveFormsModule,
-        FormsModule,
-        MatMomentDateModule,
-        MatTableModule,
-        MatPaginatorModule,
-        MatSortModule,
-    ],
-    providers: [
-        CareUserProxy,
-        LegalGuardianProxy,
-        SingerEventsProxy,
-        SingerLocationProxy,
-        CareUserService,
-        AdminUserProxy,
-        AdminUserService,
-        LegalguardiansService,
-        SingerEventsService,
-        SingerLocationService,
-        ApiService,
-        AgegroupPipe,
-        KeysPipe,
-        {
-            provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS,
-            useValue: {
-                useUtc: true,
-            },
-        },
-        { provide: MAT_DATE_LOCALE, useValue: 'nl-BE' },
-    ]
+   declarations: [
+      CareUserOverviewComponent,
+      CareUserDetailsComponent,
+      LegalguardianOverviewComponent,
+      LegalguardianDetailsComponent,
+      SingerEventOverviewComponent,
+      SingerEventDetailsComponent,
+      AdminOverviewComponent,
+      AdminDetailsComponent,
+      SingerRegistrationsComponent,
+      SingerEventAdminRegisterComponent,
+      AddFamilyWizardComponent,
+      PendingRegistrationsComponent,
+      PendingActionsComponent,
+      LocationOverviewComponent,
+      LocationDetailsComponent,
+   ],
+   imports: [
+      CoreModule,
+      CommonModule,
+      SharedModule,
+      AdminRoutingModule,
+      MaterialModule,
+      ReactiveFormsModule,
+      FormsModule,
+      MatMomentDateModule,
+      MatTableModule,
+      MatPaginatorModule,
+      MatSortModule,
+   ],
+   providers: [
+      CareUserProxy,
+      LegalGuardianProxy,
+      SingerEventsProxy,
+      SingerLocationProxy,
+      CareUserService,
+      AdminUserProxy,
+      AdminUserService,
+      LegalguardiansService,
+      SingerEventsService,
+      SingerLocationService,
+      ApiService,
+      AgegroupPipe,
+      KeysPipe,
+   ],
 })
 export class AdminModule {}

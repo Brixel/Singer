@@ -13,14 +13,14 @@ import { AuthService } from './modules/core/services/auth.service';
 import { AuthGuard } from './modules/core/services/auth.guard';
 import { AuthInterceptor } from './modules/core/services/auth-interceptor';
 import { NavMenuComponent } from './modules/core/components/nav-menu/nav-menu.component';
-import { NativeDateModule, MAT_DATE_LOCALE, DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
+import { NativeDateModule, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
 import { AdminModule } from './modules/admin/admin.module';
-import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { ConfigurationService } from './modules/core/services/clientconfiguration.service';
 import { ApplicationInsightsService } from './modules/core/services/applicationinsights.service';
 import { registerLocaleData } from '@angular/common';
 import localeBe from '@angular/common/locales/be';
-import { CalendarModule } from 'angular-calendar';
+import { OWL_DATE_TIME_LOCALE, OwlDateTimeIntl } from '@danielmoncada/angular-datetime-picker';
+import { DutchOwlDateTimeIntl } from './modules/legalguardians/dutchowldatetime';
 
 // Import locale settings for Belgium
 registerLocaleData(localeBe);
@@ -74,7 +74,8 @@ export const MY_FORMATS = {
       BrowserAnimationsModule,
       { provide: MAT_DATE_LOCALE, useValue: 'nl-BE' },
       { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
-      { provide: DateAdapter, useClass: MomentDateAdapter },
+      { provide: OWL_DATE_TIME_LOCALE, useValue: 'nl-BE' },
+      { provide: OwlDateTimeIntl, useClass: DutchOwlDateTimeIntl },
       // AppInsightsService,
    ],
    bootstrap: [AppComponent],

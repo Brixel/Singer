@@ -14,7 +14,10 @@ import { AboutComponent } from './components/about/about.component';
 import { RegistrationTypePipe } from './pipes/registration-type.pipe';
 import { TitlePipe } from './pipes/title.pipe';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
-import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { OWL_DATE_TIME_LOCALE, OwlDateTimeIntl } from '@danielmoncada/angular-datetime-picker';
+import { MY_FORMATS } from 'src/app/app.module';
+import { DutchOwlDateTimeIntl } from '../legalguardians/dutchowldatetime';
 
 @NgModule({
    declarations: [
@@ -42,17 +45,9 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
       SingereventCostPipe,
       AboutComponent,
       RegistrationTypePipe,
-      TitlePipe
+      TitlePipe,
    ],
 
-   providers: [
-      RegistrationTypePipe,
-      {
-         provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS,
-         useValue: {
-            useUtc: true,
-         },
-      },
-      { provide: MAT_DATE_LOCALE, useValue: 'nl-BE' },]
+   providers: [RegistrationTypePipe],
 })
-export class CoreModule { }
+export class CoreModule {}

@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.1.0-PullRequest0237.1582",
+   "version": "0.1.0-issue-fix-date-time.1583",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",
