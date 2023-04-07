@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.1.0-net-6-upgrade.1547",
+   "version": "0.1.0-dev.1576",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",
@@ -56,10 +56,10 @@
       "karma-coverage-istanbul-reporter": "~1.4.2",
       "karma-jasmine": "~1.1.1",
       "karma-jasmine-html-reporter": "^0.2.2",
-      "standard-version": "^8.0.1",
-      "typescript": "~4.6.4",
       "protractor": "~7.0.0",
+      "standard-version": "^8.0.1",
       "ts-node": "~8.3.0",
-      "tslint": "~6.1.0"
+      "tslint": "~6.1.0",
+      "typescript": "~4.6.4"
    }
 }
