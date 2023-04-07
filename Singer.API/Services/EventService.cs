@@ -48,7 +48,10 @@ public class EventService
             throw new BadInputException($"No event found with id {id}", ErrorMessages.NotFoundError);
         }
         // add slots for all the days in the event
-        UpdateEventSlots(singerEvent, newValue);
+        var updatedEventSlots = UpdateEventSlots(newValue);
+        Context.RemoveRange(singerEvent.EventSlots);
+        singerEvent.EventSlots = updatedEventSlots.ToList();
+        Context.Update(singerEvent);
         await Context.SaveChangesAsync();
 
         var returnEntity = await GetOneAsync(singerEvent.Id).ConfigureAwait(false);
@@ -57,19 +60,17 @@ public class EventService
         return returnEntity;
     }
 
-    private void UpdateEventSlots(Event singerEvent, UpdateEventDTO newValue)
+    private IEnumerable<EventSlot> UpdateEventSlots(UpdateEventDTO newValue)
     {
         // Updating event slots doesn't take repeatsettings into account, so only "GenerateEventSlotsUntilIncluding" is used
         // This is the only supported implementation in the frontend right now, so it's not really an issues
-        var numberOfEventSlots =
+        var eventSlots =
             EventSlot.GenerateEventSlotsUntilIncluding(
                 newValue.StartDateTime, 
                 newValue.EndDateTime, 
                 newValue.EndDateTime,  // Hardcoded values since the other values aren't used in the frontend either
                 TimeUnit.Day);  // Hardcoded values since the other values aren't used in the frontend either
-        singerEvent.EventSlots.Clear();
-        
-        singerEvent.EventSlots = numberOfEventSlots.ToList();
+        return eventSlots;
     }
 
     public override async Task<EventDTO> CreateAsync(CreateEventDTO dto)

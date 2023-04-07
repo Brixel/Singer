@@ -44,7 +44,7 @@ public class EventSlotTests
     public void GenerateEventSlotsUntilFromMidnightToMidnight()
     {
         var start = DateTime.Parse("2018-12-31T00:00:00+00:00");
-        var end = DateTime.Parse("2019-01-01T00:00:00+00:00");
+        var end = DateTime.Parse("2019-01-15T00:00:00+00:00");
         var until = DateTime.Parse("2019-01-15");
         var slots = EventSlot.GenerateEventSlotsUntilIncluding(start, end, until, TimeUnit.Day).ToList();
 
