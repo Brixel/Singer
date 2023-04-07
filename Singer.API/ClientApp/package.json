@@ -9,7 +9,6 @@
       "test": "ng test --code-coverage --source-map=false",
       "lint": "ng lint",
       "e2e": "ng e2e",
-      "release": "standard-version",
       "postinstall": "ngcc"
    },
    "private": true,
@@ -29,9 +28,7 @@
       "@angular/router": "14.3.0",
       "@auth0/angular-jwt": "^5.0.2",
       "@danielmoncada/angular-datetime-picker": "^14.2.0",
-      "angular-application-insights-v2": "0.0.2",
       "angular-calendar": "^0.28.2",
-      "aspnet-prerendering": "^3.0.1",
       "date-fns": "^2.9.0",
       "file-saver": "^2.0.2",
       "moment": "^2.29.4",
@@ -48,7 +45,6 @@
       "@types/jasmine": "^2.8.16",
       "@types/jasminewd2": "^2.0.8",
       "@types/node": "^8.10.59",
-      "codelyzer": "~6.0.1",
       "jasmine-core": "~2.99.1",
       "jasmine-spec-reporter": "~4.2.1",
       "karma": "^6.4.1",
@@ -56,10 +52,9 @@
       "karma-coverage-istanbul-reporter": "~1.4.2",
       "karma-jasmine": "~1.1.1",
       "karma-jasmine-html-reporter": "^0.2.2",
+      "typescript": "~4.6.4",
       "protractor": "~7.0.0",
-      "standard-version": "^8.0.1",
       "ts-node": "~8.3.0",
       "tslint": "~6.1.0",
-      "typescript": "~4.6.4"
    }
 }
