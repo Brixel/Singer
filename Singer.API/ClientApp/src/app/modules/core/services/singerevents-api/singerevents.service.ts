@@ -18,6 +18,7 @@ import { GenericService } from '../generic-service';
 import { HttpClient } from '@angular/common/http';
 import { EventSlot } from '../../models/eventslot';
 import { RegistrationDTO, CreateRegistrationDTO } from '../../DTOs/registration.dto';
+import * as moment from 'moment';
 
 @Injectable({
    providedIn: 'root',
@@ -42,8 +43,8 @@ export class SingerEventsService extends GenericService<
          endRegistrationDateTime: model.endRegistrationDateTime,
          finalCancellationDateTime: model.finalCancellationDateTime,
          registrationOnDailyBasis: model.registrationOnDailyBasis,
-         startDateTime: model.startDateTime,
-         endDateTime: model.endDateTime,
+         startDateTime: moment(model.startDateTime).format(),
+         endDateTime: moment(model.endDateTime).format(),
          hasDayCareBefore: model.hasDayCareBefore,
          dayCareBeforeStartDateTime: model.dayCareBeforeStartDateTime,
          hasDayCareAfter: model.hasDayCareAfter,
@@ -65,8 +66,8 @@ export class SingerEventsService extends GenericService<
          endRegistrationDateTime: model.endRegistrationDateTime,
          finalCancellationDateTime: model.finalCancellationDateTime,
          registrationOnDailyBasis: model.registrationOnDailyBasis,
-         startDateTime: model.startDateTime,
-         endDateTime: endDateTime,
+         startDateTime: moment(model.startDateTime).format(),
+         endDateTime: moment(endDateTime).format(),
          hasDayCareBefore: model.hasDayCareBefore,
          dayCareBeforeStartDateTime: model.dayCareBeforeStartDateTime,
          hasDayCareAfter: model.hasDayCareAfter,
@@ -89,7 +90,7 @@ export class SingerEventsService extends GenericService<
          description: dto.description,
          endDateTime: dto.endDateTime,
          endRegistrationDateTime: dto.endRegistrationDateTime,
-         eventSlots: dto.eventSlots.map(x => {
+         eventSlots: dto.eventSlots.map((x) => {
             return <EventSlot>{
                currentRegistrants: x.currentRegistrants,
                endDateTime: x.endDateTime,
@@ -123,7 +124,7 @@ export class SingerEventsService extends GenericService<
    ): Observable<PaginationDTO<RegistrationDTO>> {
       return this.singerEventsProxy
          .getSingerEvents(sortDirection, sortColumn, pageIndex, pageSize, filter)
-         .pipe(map(res => res));
+         .pipe(map((res) => res));
    }
 
    updateSingerEvent(updateSingerEvent: SingerEvent) {
@@ -139,16 +140,17 @@ export class SingerEventsService extends GenericService<
          endRegistrationDateTime: updateSingerEvent.endRegistrationDateTime,
          finalCancellationDateTime: updateSingerEvent.finalCancellationDateTime,
          registrationOnDailyBasis: updateSingerEvent.registrationOnDailyBasis,
-         startDateTime: updateSingerEvent.startDateTime,
-         endDateTime: updateSingerEvent.endDateTime,
+         startDateTime: moment(updateSingerEvent.startDateTime).format(),
+         endDateTime: moment(updateSingerEvent.endDateTime).format(),
          hasDayCareBefore: updateSingerEvent.hasDayCareBefore,
          dayCareBeforeStartDateTime: updateSingerEvent.dayCareBeforeStartDateTime,
          hasDayCareAfter: updateSingerEvent.hasDayCareAfter,
          dayCareAfterEndDateTime: updateSingerEvent.dayCareAfterEndDateTime,
       };
+      console.log(updateSingerEventDTO);
       return this.singerEventsProxy
          .updateSingerEvents(updateSingerEventDTO.id, updateSingerEventDTO)
-         .pipe(map(res => res));
+         .pipe(map((res) => res));
    }
 
    createSingerEvent(createSingerEvent: SingerEvent) {
@@ -166,8 +168,8 @@ export class SingerEventsService extends GenericService<
          endRegistrationDateTime: createSingerEvent.endRegistrationDateTime,
          finalCancellationDateTime: createSingerEvent.finalCancellationDateTime,
          registrationOnDailyBasis: createSingerEvent.registrationOnDailyBasis,
-         startDateTime: createSingerEvent.startDateTime,
-         endDateTime: endDateTime,
+         startDateTime: moment(createSingerEvent.startDateTime).format(),
+         endDateTime: moment(endDateTime).format(),
          hasDayCareBefore: createSingerEvent.hasDayCareBefore,
          dayCareBeforeStartDateTime: createSingerEvent.dayCareBeforeStartDateTime,
          hasDayCareAfter: createSingerEvent.hasDayCareAfter,
@@ -180,11 +182,11 @@ export class SingerEventsService extends GenericService<
             stopRepeatDate: createSingerEvent.endDateTime,
          },
       };
-      return this.singerEventsProxy.createSingerEvents(createSingerEventDTO).pipe(map(res => res));
+      return this.singerEventsProxy.createSingerEvents(createSingerEventDTO).pipe(map((res) => res));
    }
 
    deleteSingerEvent(eventId: string) {
-      return this.singerEventsProxy.deleteSingerEvent(eventId).pipe(map(res => res));
+      return this.singerEventsProxy.deleteSingerEvent(eventId).pipe(map((res) => res));
    }
 
    getEventRegisterDetails(eventId: string) {
@@ -201,7 +203,7 @@ export class SingerEventsService extends GenericService<
    ): Observable<EventSlotRegistrationDTO[]> {
       return this.singerEventsProxy
          .getRegistrations(eventId, sortDirection, sortColumn, pageIndex, pageSize, filter)
-         .pipe(map(res => res.items));
+         .pipe(map((res) => res.items));
    }
 
    registerCareUserOnEvent(eventId: string, careUserId: string) {
@@ -221,13 +223,13 @@ export class SingerEventsService extends GenericService<
    }
 
    isUserRegisteredForEvent(eventId: string, careUserId: string): Observable<UserRegisteredDTO> {
-      return this.singerEventsProxy.isUserRegisteredForEvent(eventId, careUserId).pipe(map(res => res));
+      return this.singerEventsProxy.isUserRegisteredForEvent(eventId, careUserId).pipe(map((res) => res));
    }
 
    getPublicEvents(eventFilterData: EventFilterParameters): Observable<EventDescription[]> {
       return this.singerEventsProxy.getPublicEvents(eventFilterData).pipe(
-         map(res =>
-            res.map(y => {
+         map((res) =>
+            res.map((y) => {
                return <EventDescription>{
                   id: y.id,
                   title: y.title,

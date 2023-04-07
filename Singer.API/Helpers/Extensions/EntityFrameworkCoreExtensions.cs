@@ -25,7 +25,7 @@ public static class EntityFrameworkCoreExtensions
         }
 
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseLazyLoadingProxies().UseSqlServer(connectionString, opt => opt.EnableRetryOnFailure()));
+            options.UseSqlServer(connectionString, opt => opt.EnableRetryOnFailure()));
 
         return builder;
     }

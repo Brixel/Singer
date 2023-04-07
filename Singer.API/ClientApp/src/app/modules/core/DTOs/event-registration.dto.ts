@@ -3,6 +3,7 @@ import { EventSlotDTO } from '../models/eventslot.dto';
 import { SingerLocationDTO } from './singer-event-location.dto';
 import { DaycareLocationDTO } from './daycarelocation.dto';
 import { IFilterBaseDTO } from './filterbase.dto';
+import format from 'date-fns/format';
 
 export interface CreateEventSlotRegistrationDTO {
    eventSlotId: string;
@@ -107,8 +108,8 @@ export interface UpdateSingerEventDTO {
    locationId: string;
    maxRegistrants: number;
    cost: number;
-   startDateTime: Date;
-   endDateTime: Date;
+   startDateTime: string;
+   endDateTime: string;
    startRegistrationDateTime: Date;
    endRegistrationDateTime: Date;
    finalCancellationDateTime: Date;
@@ -126,8 +127,8 @@ export interface CreateSingerEventDTO {
    locationId: string;
    maxRegistrants: number;
    cost: number;
-   startDateTime: Date;
-   endDateTime: Date;
+   startDateTime: string;
+   endDateTime: string;
    startRegistrationDateTime: Date;
    endRegistrationDateTime: Date;
    finalCancellationDateTime: Date;

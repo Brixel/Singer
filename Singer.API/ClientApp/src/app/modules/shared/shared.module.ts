@@ -21,43 +21,47 @@ import { AccountInfoPageComponent } from './components/account-info/account-info
 import { CareUserMultiAutocompleteComponent } from './components/care-user-multi-autocomplete/care-user-multi-autocomplete.component';
 import { RegistrationStatusToggleComponent } from './components/registration-status-toggle/registration-status-toggle.component';
 import { RegistrationStatusComponent } from './components/registration-status/registration-status.component';
+import { MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
+import { OWL_DATE_TIME_LOCALE, OwlDateTimeIntl } from '@danielmoncada/angular-datetime-picker';
+import { MY_FORMATS } from 'src/app/app.module';
+import { DutchOwlDateTimeIntl } from '../legalguardians/dutchowldatetime';
 
 @NgModule({
-    declarations: [
-        RegistrationComponent,
-        UserCardComponent,
-        DetailedUserCardComponent,
-        LoadingComponent,
-        EventTimelineComponent,
-        ConfirmComponent,
-        DeleteConfirmationComponent,
-        DeleteConfirmationDialogComponent,
-        CareUserSearchComponent,
-        AccountInfoSummaryComponent,
-        AccountInfoPageComponent,
-        AccountInfoCareusersListComponent,
-        CareUserMultiAutocompleteComponent,
-        RegistrationStatusToggleComponent,
-        RegistrationStatusComponent,
-    ],
-    imports: [CommonModule, MaterialModule, CoreModule, ReactiveFormsModule],
-    exports: [
-        RegistrationComponent,
-        UserCardComponent,
-        DetailedUserCardComponent,
-        LoadingComponent,
-        EventTimelineComponent,
-        ConfirmComponent,
-        DeleteConfirmationComponent,
-        DeleteConfirmationDialogComponent,
-        CareUserSearchComponent,
-        AccountInfoSummaryComponent,
-        AccountInfoPageComponent,
-        AccountInfoCareusersListComponent,
-        CareUserMultiAutocompleteComponent,
-        RegistrationStatusToggleComponent,
-        RegistrationStatusComponent,
-    ],
-    providers: [ApiService, SingerEventsService, SingerEventsProxy]
+   declarations: [
+      RegistrationComponent,
+      UserCardComponent,
+      DetailedUserCardComponent,
+      LoadingComponent,
+      EventTimelineComponent,
+      ConfirmComponent,
+      DeleteConfirmationComponent,
+      DeleteConfirmationDialogComponent,
+      CareUserSearchComponent,
+      AccountInfoSummaryComponent,
+      AccountInfoPageComponent,
+      AccountInfoCareusersListComponent,
+      CareUserMultiAutocompleteComponent,
+      RegistrationStatusToggleComponent,
+      RegistrationStatusComponent,
+   ],
+   imports: [CommonModule, MaterialModule, CoreModule, ReactiveFormsModule],
+   exports: [
+      RegistrationComponent,
+      UserCardComponent,
+      DetailedUserCardComponent,
+      LoadingComponent,
+      EventTimelineComponent,
+      ConfirmComponent,
+      DeleteConfirmationComponent,
+      DeleteConfirmationDialogComponent,
+      CareUserSearchComponent,
+      AccountInfoSummaryComponent,
+      AccountInfoPageComponent,
+      AccountInfoCareusersListComponent,
+      CareUserMultiAutocompleteComponent,
+      RegistrationStatusToggleComponent,
+      RegistrationStatusComponent,
+   ],
+   providers: [ApiService, SingerEventsService, SingerEventsProxy],
 })
 export class SharedModule {}

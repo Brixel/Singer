@@ -29,6 +29,6 @@ public class Event : IIdentifiable, IArchivable
     public DateTime DayCareBeforeStartDateTime { get; set; }
     public bool HasDayCareAfter { get; set; }
     public DateTime DayCareAfterEndDateTime { get; set; }
-    public virtual IList<EventSlot> EventSlots { get; set; }
+    public IList<EventSlot> EventSlots { get; set; }
     public bool IsArchived { get; set; }
 }

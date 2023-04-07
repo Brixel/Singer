@@ -35,6 +35,44 @@ public class EventService
        .Include(x => x.EventSlots);
 
 
+    public override async Task<EventDTO> UpdateAsync(Guid id, UpdateEventDTO newValue)
+    {
+        if (newValue == null)
+            throw new BadInputException("The value to create cannot be null", ErrorMessages.NoDataPassed);
+
+        var singerEvent = await Context.Events
+            .Include(x => x.EventSlots)
+            .SingleOrDefaultAsync(x => x.Id == id);
+        if (singerEvent == null)
+        {
+            throw new BadInputException($"No event found with id {id}", ErrorMessages.NotFoundError);
+        }
+        // add slots for all the days in the event
+        var updatedEventSlots = UpdateEventSlots(newValue);
+        Context.RemoveRange(singerEvent.EventSlots);
+        singerEvent.EventSlots = updatedEventSlots.ToList();
+        Context.Update(singerEvent);
+        await Context.SaveChangesAsync();
+
+        var returnEntity = await GetOneAsync(singerEvent.Id).ConfigureAwait(false);
+
+        // return the new updated entity
+        return returnEntity;
+    }
+
+    private IEnumerable<EventSlot> UpdateEventSlots(UpdateEventDTO newValue)
+    {
+        // Updating event slots doesn't take repeatsettings into account, so only "GenerateEventSlotsUntilIncluding" is used
+        // This is the only supported implementation in the frontend right now, so it's not really an issues
+        var eventSlots =
+            EventSlot.GenerateEventSlotsUntilIncluding(
+                newValue.StartDateTime, 
+                newValue.EndDateTime, 
+                newValue.EndDateTime,  // Hardcoded values since the other values aren't used in the frontend either
+                TimeUnit.Day);  // Hardcoded values since the other values aren't used in the frontend either
+        return eventSlots;
+    }
+
     public override async Task<EventDTO> CreateAsync(CreateEventDTO dto)
     {
         if (dto == null)
