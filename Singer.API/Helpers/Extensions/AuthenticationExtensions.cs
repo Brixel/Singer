@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 using Singer.Data.Models.Configuration;
 
@@ -18,7 +19,14 @@ public static class AuthenticationExtensions
            .AddJwtBearer(options =>
            {
                // The API resource scope issued in authorization server
-               options.TokenValidationParameters.ValidAudience = "singer.api";
+               if(builder.Environment.IsDevelopment())
+               {
+                   options.TokenValidationParameters.ValidateAudience = false;
+               }
+               else
+               {
+                   options.TokenValidationParameters.ValidAudience = "singer.api";
+               }
                // URL of my authorization server
                options.Authority = applicationConfig.Authority;
            });
