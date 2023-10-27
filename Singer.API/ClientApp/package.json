@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.1.0-PullRequest0237.1582",
+   "version": "0.1.0-issue-msal.1583",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",
@@ -27,6 +27,8 @@
       "@angular/platform-server": "14.3.0",
       "@angular/router": "14.3.0",
       "@auth0/angular-jwt": "^5.0.2",
+      "@azure/msal-angular": "^2.5.11",
+      "@azure/msal-browser": "^3.3.0",
       "@danielmoncada/angular-datetime-picker": "^14.2.0",
       "angular-calendar": "^0.28.2",
       "date-fns": "^2.9.0",

@@ -1,8 +1,17 @@
 import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
-import { OnInit, Component } from '@angular/core';
+import { OnInit, Component, Inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AuthService } from 'src/app/modules/core/services/auth.service';
 import { LoadingService } from 'src/app/modules/core/services/loading.service';
+import { MSAL_GUARD_CONFIG, MsalBroadcastService, MsalGuardConfiguration, MsalService } from '@azure/msal-angular';
+import { Subject } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
+import {
+   AuthenticationResult,
+   InteractionStatus,
+   InteractionType,
+   PopupRequest,
+   RedirectRequest,
+} from '@azure/msal-browser';
 
 @Component({
    selector: 'app-auth-component',
@@ -10,42 +19,73 @@ import { LoadingService } from 'src/app/modules/core/services/loading.service';
    styleUrls: ['./auth.component.css'],
 })
 export class AuthComponent implements OnInit {
-   form: UntypedFormGroup;
+   isIframe = false;
+   loginDisplay = false;
+   private readonly _destroying$ = new Subject<void>();
    private returnUrl: string;
    constructor(
-      private _authService: AuthService,
       private _router: Router,
       private _activated: ActivatedRoute,
-      private _loadingService: LoadingService
+      private _loadingService: LoadingService,
+      @Inject(MSAL_GUARD_CONFIG) private msalGuardConfig: MsalGuardConfiguration,
+      private authService: MsalService,
+      private msalBroadcastService: MsalBroadcastService
    ) {}
 
    ngOnInit() {
-      this._activated.queryParams.subscribe(params => {
-         this.returnUrl = params['returnUrl'];
-      });
+      this.isIframe = window !== window.parent && !window.opener;
 
-      this.form = new UntypedFormGroup({
-         username: new UntypedFormControl(null),
-         password: new UntypedFormControl(null),
-      });
+      this.msalBroadcastService.inProgress$
+         .pipe(
+            filter((status: InteractionStatus) => status === InteractionStatus.None),
+            takeUntil(this._destroying$)
+         )
+         .subscribe(() => {
+            this.setLoginDisplay();
+         });
    }
 
-   submit() {
-      const username = this.form.get('username').value;
-      const password = this.form.get('password').value;
-      this._loadingService.show();
-      this._authService.authenticate(username, password).subscribe(
-         () => {
-            this._loadingService.hide();
-            const url = this.returnUrl || '/';
-            this._router.navigate([url]);
-         },
-         error => {
-            this._loadingService.hide();
-            this.form.setErrors({
-               notAuthorized: true,
+   setLoginDisplay() {
+      this.loginDisplay = this.authService.instance.getAllAccounts().length > 0;
+   }
+
+   login() {
+      if (this.msalGuardConfig.interactionType === InteractionType.Popup) {
+         if (this.msalGuardConfig.authRequest) {
+            this.authService
+               .loginPopup({ ...this.msalGuardConfig.authRequest } as PopupRequest)
+               .subscribe((response: AuthenticationResult) => {
+                  this.authService.instance.setActiveAccount(response.account);
+               });
+         } else {
+            this.authService.loginPopup().subscribe((response: AuthenticationResult) => {
+               this.authService.instance.setActiveAccount(response.account);
             });
          }
-      );
+      } else {
+         if (this.msalGuardConfig.authRequest) {
+            this.authService.loginRedirect({ ...this.msalGuardConfig.authRequest } as RedirectRequest);
+         } else {
+            this.authService.loginRedirect();
+         }
+      }
+   }
+
+   logout() {
+      if (this.msalGuardConfig.interactionType === InteractionType.Popup) {
+         this.authService.logoutPopup({
+            postLogoutRedirectUri: '/',
+            mainWindowRedirectUri: '/',
+         });
+      } else {
+         this.authService.logoutRedirect({
+            postLogoutRedirectUri: '/',
+         });
+      }
+   }
+
+   ngOnDestroy(): void {
+      this._destroying$.next(undefined);
+      this._destroying$.complete();
    }
 }

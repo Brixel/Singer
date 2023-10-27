@@ -1,6 +1,6 @@
 import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { AuthGuard } from '../core/services/auth.guard';
+
 import { CareUserOverviewComponent } from './components/careusers/careuser-overview/care-user-overview.component';
 import { AdminOverviewComponent } from './components/admin-users/admin-overview/admin-overview.component';
 import { LegalguardianOverviewComponent } from './components/legalguardians/legalguardian-overview/legalguardian-overview.component';
@@ -15,7 +15,7 @@ const routes: Routes = [
    {
       path: 'admin',
       component: MainComponent,
-      canActivate: [AuthGuard],
+      canActivate: [],
       children: [
          {
             path: 'beheerders',

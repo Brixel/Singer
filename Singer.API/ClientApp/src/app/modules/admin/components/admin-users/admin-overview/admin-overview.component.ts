@@ -12,7 +12,6 @@ import { AdminDetailsComponent } from '../admin-details/admin-details.component'
 import { LoadingService } from 'src/app/modules/core/services/loading.service';
 import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { ConfirmComponent, ConfirmRequest } from 'src/app/modules/shared/components/confirm/confirm.component';
-import { AuthService } from 'src/app/modules/core/services/auth.service';
 
 @Component({
    selector: 'app-admin-overview',
@@ -47,7 +46,6 @@ export class AdminOverviewComponent implements OnInit, AfterViewInit {
    constructor(
       public dialog: MatDialog,
       private adminUserService: AdminUserService,
-      private authService: AuthService,
       private _loadingService: LoadingService,
       private _snackBar: MatSnackBar
    ) {}
@@ -80,7 +78,7 @@ export class AdminOverviewComponent implements OnInit, AfterViewInit {
             })
          )
          .subscribe();
-      this.dataSource.loading$.subscribe(res => {
+      this.dataSource.loading$.subscribe((res) => {
          if (res) {
             this._loadingService.show();
          } else {
@@ -107,7 +105,7 @@ export class AdminOverviewComponent implements OnInit, AfterViewInit {
                });
                this.loadAdmins();
             },
-            err => {
+            (err) => {
                this.handleApiError(err);
             }
          );
@@ -127,7 +125,7 @@ export class AdminOverviewComponent implements OnInit, AfterViewInit {
                });
                this.loadAdmins();
             },
-            err => {
+            (err) => {
                this.handleApiError(err);
             }
          );
@@ -135,14 +133,14 @@ export class AdminOverviewComponent implements OnInit, AfterViewInit {
 
       dialogRef.componentInstance.deleteEvent.subscribe((result: AdminUser) => {
          this.adminUserService.delete(result).subscribe(
-            res => {
+            (res) => {
                // Reload AdminUsers
                this.loadAdmins();
                this._snackBar.open(`Beheerder ${result.firstName} ${result.lastName} werd verwijderd.`, 'OK', {
                   duration: 2000,
                });
             },
-            err => {
+            (err) => {
                this.handleApiError(err);
                this.loadAdmins();
             }
@@ -158,7 +156,7 @@ export class AdminOverviewComponent implements OnInit, AfterViewInit {
       });
       dialogRef.afterClosed().subscribe((isConfirmed: boolean) => {
          if (isConfirmed) {
-            this.authService.requestPasswordReset(row.userId);
+            // this.authService.requestPasswordReset(row.userId);
             this._snackBar.open(
                `Nieuw wachtwoord voor gebruiker ${row.firstName} ${row.lastName} werd aangevraagd.`,
                'OK',

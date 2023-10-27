@@ -12,7 +12,6 @@ import { LegalguardianDetailsComponent } from '../legalguardian-details/legalgua
 import { LoadingService } from 'src/app/modules/core/services/loading.service';
 import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { ConfirmComponent, ConfirmRequest } from 'src/app/modules/shared/components/confirm/confirm.component';
-import { AuthService } from 'src/app/modules/core/services/auth.service';
 
 @Component({
    selector: 'app-legalguardian-overview',
@@ -48,8 +47,7 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
       public dialog: MatDialog,
       private _legalguardiansService: LegalguardiansService,
       private _snackBar: MatSnackBar,
-      private _loadingService: LoadingService,
-      private authService: AuthService
+      private _loadingService: LoadingService
    ) {}
 
    ngOnInit() {
@@ -80,7 +78,7 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
             })
          )
          .subscribe();
-      this.dataSource.loading$.subscribe(res => {
+      this.dataSource.loading$.subscribe((res) => {
          if (res) {
             this._loadingService.show();
          } else {
@@ -105,7 +103,7 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
       dialogRef.componentInstance.submitEvent.subscribe((result: LegalGuardian) => {
          // Add the legal guardian
          this._legalguardiansService.createLegalGuardian(result).subscribe(
-            res => {
+            (res) => {
                // Reload LegalGuardians
                this.loadLegalGuardians();
 
@@ -113,7 +111,7 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
                   duration: 2000,
                });
             },
-            err => {
+            (err) => {
                this.handleApiError(err);
             }
          );
@@ -131,12 +129,12 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
       dialogRef.componentInstance.submitEvent.subscribe((result: LegalGuardian) => {
          //Update the legal guardian
          this._legalguardiansService.updateLegalGuardian(result).subscribe(
-            res => {
+            (res) => {
                // Reload LegalGuardians
                this.loadLegalGuardians();
                this._snackBar.open(`${result.firstName} ${result.lastName} werd aangepast.`, 'OK', { duration: 2000 });
             },
-            err => {
+            (err) => {
                this.handleApiError(err);
             }
          );
@@ -144,12 +142,12 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
 
       dialogRef.componentInstance.deleteEvent.subscribe((result: LegalGuardian) => {
          this._legalguardiansService.deleteLegalGuardian(result.id).subscribe(
-            res => {
+            (res) => {
                // Reload LegalGuardians
                this.loadLegalGuardians();
                this._snackBar.open(`${result.firstName} ${result.lastName} werd verwijderd.`, 'OK', { duration: 2000 });
             },
-            err => {
+            (err) => {
                this.handleApiError(err);
                this.loadLegalGuardians();
             }
@@ -180,7 +178,7 @@ export class LegalguardianOverviewComponent implements OnInit, AfterViewInit {
       });
       dialogRef.afterClosed().subscribe((isConfirmed: boolean) => {
          if (isConfirmed) {
-            this.authService.requestPasswordReset(row.userId);
+            // this.authService.requestPasswordReset(row.userId);
             this._snackBar.open(
                `Nieuw wachtwoord voor gebruiker ${row.firstName} ${row.lastName} werd aangevraagd.`,
                'OK',

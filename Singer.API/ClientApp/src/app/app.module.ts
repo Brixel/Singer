@@ -7,11 +7,8 @@ import { AppComponent } from './app.component';
 import { MaterialModule } from './material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
-import { JwtModule, JwtHelperService } from '@auth0/angular-jwt';
 import { MainComponent } from './main.component';
-import { AuthService } from './modules/core/services/auth.service';
-import { AuthGuard } from './modules/core/services/auth.guard';
-import { AuthInterceptor } from './modules/core/services/auth-interceptor';
+
 import { NavMenuComponent } from './modules/core/components/nav-menu/nav-menu.component';
 import { NativeDateModule, MAT_DATE_LOCALE, DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
 import { AdminModule } from './modules/admin/admin.module';
@@ -20,7 +17,9 @@ import { ConfigurationService } from './modules/core/services/clientconfiguratio
 import { ApplicationInsightsService } from './modules/core/services/applicationinsights.service';
 import { registerLocaleData } from '@angular/common';
 import localeBe from '@angular/common/locales/be';
-import { CalendarModule } from 'angular-calendar';
+import { MsalGuard, MsalInterceptor, MsalModule, MsalRedirectComponent } from '@azure/msal-angular';
+import { InteractionType, PublicClientApplication } from '@azure/msal-browser';
+import { msalConfig, protectedResources } from './modules/core/services/auth-config';
 
 // Import locale settings for Belgium
 registerLocaleData(localeBe);
@@ -48,27 +47,39 @@ export const MY_FORMATS = {
       MaterialModule,
       BrowserAnimationsModule,
       NativeDateModule,
-      JwtModule.forRoot({
-         config: {
-            tokenGetter: tokenGetter,
+      MsalModule.forRoot(
+         new PublicClientApplication(msalConfig),
+         {
+            // The routing guard configuration.
+            interactionType: InteractionType.Redirect,
+            authRequest: {
+               scopes: protectedResources.todoListApi.scopes,
+            },
          },
-      }),
+         {
+            // MSAL interceptor configuration.
+            // The protected resource mapping maps your web API with the corresponding app scopes. If your code needs to call another web API, add the URI mapping here.
+            interactionType: InteractionType.Redirect,
+            protectedResourceMap: new Map([
+               [protectedResources.todoListApi.endpoint, protectedResources.todoListApi.scopes],
+            ]),
+         }
+      ),
       // ApplicationInsightsModule.forRoot({
       //    instrumentationKeySetLater: true,
       // }),
    ],
    providers: [
-      JwtHelperService,
-      AuthGuard,
       {
          provide: HTTP_INTERCEPTORS,
-         useClass: AuthInterceptor,
+         useClass: MsalInterceptor,
          multi: true,
       },
+      MsalGuard,
       {
          provide: APP_INITIALIZER,
          useFactory: initializeApp,
-         deps: [AuthService, ConfigurationService, ApplicationInsightsService],
+         deps: [ConfigurationService, ApplicationInsightsService],
          multi: true,
       },
       BrowserAnimationsModule,
@@ -77,12 +88,11 @@ export const MY_FORMATS = {
       { provide: DateAdapter, useClass: MomentDateAdapter },
       // AppInsightsService,
    ],
-   bootstrap: [AppComponent],
+   bootstrap: [AppComponent, MsalRedirectComponent],
 })
 export class AppModule {}
 
 export function initializeApp(
-   authService: AuthService,
    configurationService: ConfigurationService,
    applicationInsightService: ApplicationInsightsService
 ) {
@@ -91,7 +101,6 @@ export function initializeApp(
          .load()
          .toPromise()
          .then(() => {
-            authService.restore();
             applicationInsightService.init();
          });
    };

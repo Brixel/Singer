@@ -11,7 +11,6 @@ import * as moment from 'moment';
 import { RegistrationType } from '../../../core/enums/registration-type';
 import { MatSelect } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AuthService } from '../../../core/services/auth.service';
 import { CareUser } from 'src/app/modules/core/models/careuser.model';
 import { LoadingService } from 'src/app/modules/core/services/loading.service';
 
@@ -40,7 +39,6 @@ export class RegistrationOverviewComponent extends GenericOverviewComponent<
    @ViewChild('searchStatus', { static: true }) searchStatus: MatSelect;
    registrationTypes: any;
    registrationStatus: any;
-   authService: AuthService;
    private _loadingService: LoadingService;
    private _snackBar: MatSnackBar;
    private _registrationService: RegistrationService;
@@ -48,7 +46,6 @@ export class RegistrationOverviewComponent extends GenericOverviewComponent<
    constructor(
       dataService: RegistrationService,
       cd: ChangeDetectorRef,
-      authService: AuthService,
       loadingService: LoadingService,
       snackBar: MatSnackBar
    ) {
@@ -73,18 +70,18 @@ export class RegistrationOverviewComponent extends GenericOverviewComponent<
       this.RegistrationStatus = RegistrationStatus;
       this.registrationTypes = RegistrationType;
       this.registrationStatus = RegistrationStatus;
-      this.authService = authService;
+
       this._loadingService = loadingService;
       this._snackBar = snackBar;
       this._registrationService = dataService;
    }
 
    ngOnInit() {
-      this.dataSource.loading$.subscribe(val => {
+      this.dataSource.loading$.subscribe((val) => {
          if (val) this._loadingService.show();
          if (!val) this._loadingService.hide();
       });
-      this.dataSource.error$.subscribe(err => {
+      this.dataSource.error$.subscribe((err) => {
          this._loadingService.hide();
          if (err !== null && err !== undefined) {
             this._snackBar.open(`⚠ Er heeft zich een fout voorgedaan: ${err}`, 'OK');
@@ -115,7 +112,7 @@ export class RegistrationOverviewComponent extends GenericOverviewComponent<
    }
 
    onCareUserFilterChange(careUsers: CareUser[]) {
-      this.searchDTO.careUserIds = careUsers.map(x => x.userId);
+      this.searchDTO.careUserIds = careUsers.map((x) => x.userId);
       this.loadData();
    }
 
