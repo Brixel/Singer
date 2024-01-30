@@ -12,7 +12,6 @@ export class MSALStateStore extends ObservableStore<Configuration> {
    load(b2cPolicies: IB2CPolicies, clientId: string, redirectUri: string) {
       this.setState({
          auth: {
-            // clientId: '4ea3a07f-5db9-4290-b930-88806df40e9d',
             clientId,
             authority: b2cPolicies.authorities.signUpSignIn.authority,
             redirectUri,
