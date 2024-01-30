@@ -16,7 +16,6 @@ import {
 } from '@azure/msal-browser';
 import { filter, takeUntil } from 'rxjs/operators';
 import { B2PCPolicyStore } from 'src/app/modules/core/services/b2cpolicy.state.store';
-import { b2cPolicyNames } from 'src/app/modules/core/services/auth-config';
 
 type IdTokenClaimsWithPolicyId = IdTokenClaims & {
    acr?: string;
@@ -88,7 +87,10 @@ export class AuthComponent implements OnInit {
             let payload = result.payload as AuthenticationResult;
             let idtoken = payload.idTokenClaims as IdTokenClaimsWithPolicyId;
 
-            if (idtoken.acr === b2cPolicyNames.signUpSignIn || idtoken.tfp === b2cPolicyNames.signUpSignIn) {
+            if (
+               idtoken.acr === this.b2cPolicyStore.getPolicies().b2cPolicyNames.signUpSignIn ||
+               idtoken.tfp === this.b2cPolicyStore.getPolicies().b2cPolicyNames.signUpSignIn
+            ) {
                this.authService.instance.setActiveAccount(payload.account);
             }
 
@@ -97,7 +99,10 @@ export class AuthComponent implements OnInit {
              * from SUSI flow. "acr" claim in the id token tells us the policy (NOTE: newer policies may use the "tfp" claim instead).
              * To learn more about B2C tokens, visit https://docs.microsoft.com/en-us/azure/active-directory-b2c/tokens-overview
              */
-            if (idtoken.acr === b2cPolicyNames.editProfile || idtoken.tfp === b2cPolicyNames.editProfile) {
+            if (
+               idtoken.acr === this.b2cPolicyStore.getPolicies().b2cPolicyNames.editProfile ||
+               idtoken.tfp === this.b2cPolicyStore.getPolicies().b2cPolicyNames.editProfile
+            ) {
                // retrieve the account from initial sing-in to the app
                const originalSignInAccount = this.authService.instance
                   .getAllAccounts()
@@ -105,8 +110,10 @@ export class AuthComponent implements OnInit {
                      (account: AccountInfo) =>
                         account.idTokenClaims?.oid === idtoken.oid &&
                         account.idTokenClaims?.sub === idtoken.sub &&
-                        ((account.idTokenClaims as IdTokenClaimsWithPolicyId).acr === b2cPolicyNames.signUpSignIn ||
-                           (account.idTokenClaims as IdTokenClaimsWithPolicyId).tfp === b2cPolicyNames.signUpSignIn)
+                        ((account.idTokenClaims as IdTokenClaimsWithPolicyId).acr ===
+                           this.b2cPolicyStore.getPolicies().b2cPolicyNames.signUpSignIn ||
+                           (account.idTokenClaims as IdTokenClaimsWithPolicyId).tfp ===
+                              this.b2cPolicyStore.getPolicies().b2cPolicyNames.signUpSignIn)
                   );
 
                let signUpSignInFlowRequest: SsoSilentRequest = {
@@ -125,7 +132,10 @@ export class AuthComponent implements OnInit {
              * you can replace the code below with the same pattern used for handling the return from
              * profile edit flow (see above ln. 74-92).
              */
-            if (idtoken.acr === b2cPolicyNames.resetPassword || idtoken.tfp === b2cPolicyNames.resetPassword) {
+            if (
+               idtoken.acr === this.b2cPolicyStore.getPolicies().b2cPolicyNames.resetPassword ||
+               idtoken.tfp === this.b2cPolicyStore.getPolicies().b2cPolicyNames.resetPassword
+            ) {
                let signUpSignInFlowRequest: RedirectRequest | PopupRequest = {
                   authority: this.b2cPolicyStore.getPolicies().authorities.signUpSignIn.authority,
                   prompt: PromptValue.LOGIN, // force user to reauthenticate with their new password

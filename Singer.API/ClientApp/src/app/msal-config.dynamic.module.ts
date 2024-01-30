@@ -15,7 +15,6 @@ import {
 } from '@azure/msal-angular';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MSALStateStore } from './modules/core/services/msal.state.store';
-import { protectedResources } from './modules/core/services/auth-config';
 import { ApplicationInsightsService } from './modules/core/services/applicationinsights.service';
 import { ConfigurationService } from './modules/core/services/clientconfiguration.service';
 import { B2PCPolicyStore } from './modules/core/services/b2cpolicy.state.store';
@@ -40,7 +39,8 @@ export function MSALInstanceFactory(config: MSALStateStore): IPublicClientApplic
    });
 }
 
-export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
+export function MSALInterceptorConfigFactory(configurationService: ConfigurationService): MsalInterceptorConfiguration {
+   const protectedResources = configurationService.configuration.protectedResources;
    const protectedResourceMap = new Map<string, Array<string | ProtectedResourceScopes> | null>();
    protectedResourceMap.set(protectedResources.default.endpoint, [...protectedResources.default.scopes]);
    // protectedResourceMap.set(protectedResources.registrationsList.endpoint, [
@@ -92,6 +92,7 @@ export class MsalConfigDynamicModule {
             {
                provide: MSAL_INTERCEPTOR_CONFIG,
                useFactory: MSALInterceptorConfigFactory,
+               deps: [ConfigurationService],
             },
             MsalService,
             MsalGuard,
@@ -106,21 +107,6 @@ export class MsalConfigDynamicModule {
    }
 }
 
-export function initializeApp(
-   configurationService: ConfigurationService,
-   applicationInsightService: ApplicationInsightsService,
-   msalStateStore: MSALStateStore,
-   b2PCPolicyStore: B2PCPolicyStore
-) {
-   return () => {
-      configurationService.load().then((c) => {
-         b2PCPolicyStore.load(c.authority, c.tenant);
-         msalStateStore.load(b2PCPolicyStore.getPolicies(), c.client_id, '/');
-         applicationInsightService.init();
-      });
-   };
-}
-
 export function initializerFactory(
    env: ConfigurationService,
    msalStateStore: MSALStateStore,
@@ -132,7 +118,7 @@ export function initializerFactory(
             msalStateStore.load(x, value.client_id, '/');
          }
       });
-      b2cPolicyStateStore.load(value.authority, value.tenant);
+      b2cPolicyStateStore.load(value.authority, value.tenant, value.b2cPolicies);
 
       console.log('finished getting configurations dynamically.');
    });

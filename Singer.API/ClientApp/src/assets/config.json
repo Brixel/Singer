@@ -2,5 +2,16 @@
    "tenant": "",
    "authority": "",
    "client_id": "",
-   "applicationinsights_intrumentationkey": ""
+   "applicationinsights_intrumentationkey": "",
+   "b2cPolicies": {
+      "signUpSignIn": "",
+      "editProfile": "",
+      "resetPassword": ""
+   },
+   "protectedResources": {
+      "default": {
+         "endpoint": "",
+         "scopes": []
+      }
+   }
 }

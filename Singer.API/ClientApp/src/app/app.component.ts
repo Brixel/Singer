@@ -12,7 +12,7 @@ import {
    RedirectRequest,
 } from '@azure/msal-browser';
 import { MsalService, MsalBroadcastService, MSAL_GUARD_CONFIG, MsalGuardConfiguration } from '@azure/msal-angular';
-import { b2cPolicyNames } from './modules/core/services/auth-config';
+
 import { B2PCPolicyStore } from './modules/core/services/b2cpolicy.state.store';
 
 interface Payload extends AuthenticationResult {
@@ -69,7 +69,7 @@ export class AppComponent implements OnInit, OnDestroy {
              * from SUSI flow. "tfp" claim in the id token tells us the policy (NOTE: legacy policies may use "acr" instead of "tfp").
              * To learn more about B2C tokens, visit https://docs.microsoft.com/en-us/azure/active-directory-b2c/tokens-overview
              */
-            if (payload.idTokenClaims['tfp'] === b2cPolicyNames.editProfile) {
+            if (payload.idTokenClaims['tfp'] === this.b2cPolicyStateStore.getPolicies().b2cPolicyNames.editProfile) {
                window.alert('Profile has been updated successfully. \nPlease sign-in again.');
                return this.logout();
             }

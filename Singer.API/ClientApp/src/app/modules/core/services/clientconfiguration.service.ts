@@ -1,7 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { IB2CPolicyNames, IProtectedResources } from './auth-config';
 @Injectable({
    providedIn: 'root',
 })
@@ -25,4 +23,6 @@ export interface Configuration {
    tenant: string;
    client_id: string;
    applicationinsights_intrumentationkey: string;
+   b2cPolicies: IB2CPolicyNames;
+   protectedResources: IProtectedResources;
 }

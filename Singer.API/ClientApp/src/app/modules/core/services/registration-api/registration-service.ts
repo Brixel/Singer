@@ -4,7 +4,7 @@ import { RegistrationOverviewDTO } from '../../DTOs/registration.dto';
 import { GenericService } from '../generic-service';
 import { HttpClient } from '@angular/common/http';
 import { RegistrationSearchDTO } from '../../DTOs/registration.dto';
-import { endpoint, protectedResources } from '../auth-config';
+import { endpoint } from '../auth-config';
 
 @Injectable({
    providedIn: 'root',

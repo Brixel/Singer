@@ -32,7 +32,7 @@ export class PendingRegistrationsService extends GenericService<Registration, Re
       };
    }
    constructor(protected httpClient: HttpClient) {
-      super(`${endpoint}/event/registrations/status/pending`);
+      super(`${endpoint}/api/event/registrations/status/pending`);
    }
 
    advancedSearch(): Observable<PaginationDTO<RegistrationDTO>> {
