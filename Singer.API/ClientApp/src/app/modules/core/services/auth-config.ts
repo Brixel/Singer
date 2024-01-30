@@ -1,50 +1,35 @@
-import { LogLevel, Configuration, BrowserCacheLocation } from '@azure/msal-browser';
+export const isIE =
+   window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigator.userAgent.indexOf('Trident/') > -1;
+export const b2cPolicyNames = {
+   signUpSignIn: '',
+   editProfile: '',
+   resetPassword: '',
+};
 
-const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigator.userAgent.indexOf('Trident/') > -1;
-
-export const b2cPolicies = {
-   names: {
-      signUpSignIn: 'b2c_1_susi_reset_v2',
-      editProfile: 'b2c_1_edit_profile_v2',
-   },
+export interface IB2CPolicies {
    authorities: {
       signUpSignIn: {
-         authority: 'https://your-tenant-name.b2clogin.com/your-tenant-name.onmicrosoft.com/b2c_1_susi_reset_v2',
-      },
+         authority: string;
+      };
       editProfile: {
-         authority: 'https://your-tenant-name.b2clogin.com/your-tenant-name.onmicrosoft.com/b2c_1_edit_profile_v2',
-      },
-   },
-   authorityDomain: 'your-tenant-name.b2clogin.com',
-};
+         authority: string;
+      };
+      resetPassword: {
+         authority: string;
+      };
+   };
+   authorityDomain: string;
+}
 
-export const msalConfig: Configuration = {
-   auth: {
-      clientId: '395f1a8c-235d-41a1-bf7b-88e285f03eac',
-      authority: 'https://login.microsoftonline.com/common',
-      redirectUri: 'http://localhost:4200/',
-   },
-   cache: {
-      cacheLocation: BrowserCacheLocation.LocalStorage,
-      storeAuthStateInCookie: isIE,
-   },
-   system: {
-      loggerOptions: {
-         loggerCallback: (logLevel, message, containsPii) => {
-            console.log(message);
-         },
-         logLevel: LogLevel.Verbose,
-         piiLoggingEnabled: false,
-      },
-   },
-};
+export const endpoint = 'https://localhost:5001/api/';
 
 export const protectedResources = {
-   todoListApi: {
-      endpoint: 'http://localhost:5000/api/todolist',
-      scopes: ['api://395f1a8c-235d-41a1-bf7b-88e285f03eac/Events.Read'],
+   default: {
+      endpoint: `${endpoint}*`,
+      scopes: ['https://vzwstijn.onmicrosoft.com/4ea3a07f-5db9-4290-b930-88806df40e9d/Events.Read'],
    },
 };
+
 export const loginRequest = {
    scopes: [],
 };

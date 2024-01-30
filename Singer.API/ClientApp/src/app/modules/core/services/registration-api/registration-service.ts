@@ -4,6 +4,7 @@ import { RegistrationOverviewDTO } from '../../DTOs/registration.dto';
 import { GenericService } from '../generic-service';
 import { HttpClient } from '@angular/common/http';
 import { RegistrationSearchDTO } from '../../DTOs/registration.dto';
+import { endpoint, protectedResources } from '../auth-config';
 
 @Injectable({
    providedIn: 'root',
@@ -29,7 +30,7 @@ export class RegistrationService extends GenericService<
       };
    }
    constructor(protected httpClient: HttpClient) {
-      super('api/registration');
+      super(`${endpoint}/api/registration`);
    }
 
    toEditDTO(model: RegistrationOverview): null {

@@ -33,34 +33,35 @@ export abstract class GenericService<
          .get<PaginationDTO<TDTO>>(this.endpoint, {
             params: searchParams,
          })
-         .pipe(catchError(error => this.handleError(error)));
+         .pipe(catchError((error) => this.handleError(error)));
    }
 
    delete(model: TModel): Observable<void> {
       return this.httpClient
          .delete<void>(this.endpoint + '/' + model.id)
-         .pipe(catchError(error => this.handleError(error)));
+         .pipe(catchError((error) => this.handleError(error)));
    }
 
    update(model: TModel): Observable<TDTO> {
       let dto = this.toEditDTO(model);
       return this.httpClient
          .put<TDTO>(`${this.endpoint}/${model.id}`, dto)
-         .pipe(catchError(error => this.handleError(error)));
+         .pipe(catchError((error) => this.handleError(error)));
    }
 
    create(model: TModel): Observable<TDTO> {
       let dto = this.toCreateDTO(model);
-      return this.httpClient.post<TDTO>(this.endpoint, dto).pipe(catchError(error => this.handleError(error)));
+      return this.httpClient.post<TDTO>(this.endpoint, dto).pipe(catchError((error) => this.handleError(error)));
    }
 
    advancedSearch(searchDTO: TSearchDTO): Observable<PaginationDTO<TDTO>> {
       return this.httpClient
          .post<PaginationDTO<TDTO>>(`${this.endpoint}/search`, searchDTO)
-         .pipe(catchError(error => this.handleError(error)));
+         .pipe(catchError((error) => this.handleError(error)));
    }
 
    handleError(error: HttpErrorResponse) {
+      console.log(error);
       this.error$.next(error);
       return throwError(error.error);
    }

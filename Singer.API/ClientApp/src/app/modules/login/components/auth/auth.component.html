@@ -1,12 +1,10 @@
 <div class="form-container">
    <mat-card>
-      <form novalidate [formGroup]="form" class="form">
-         <mat-card-title>Aanmelden</mat-card-title>
-         <mat-card-subtitle><p>Nog geen account? Neem dan contact met ons op.</p></mat-card-subtitle>
-         <mat-card-content class="form-input">
-            <button mat-raised-button *ngIf="!loginDisplay" (click)="login()">Login</button>
-            <button mat-raised-button *ngIf="loginDisplay" (click)="logout()">Logout</button>
-         </mat-card-content>
-      </form></mat-card
-   >
+      <mat-card-title>Aanmelden</mat-card-title>
+      <mat-card-subtitle><p>Nog geen account? Neem dan contact met ons op.</p></mat-card-subtitle>
+      <mat-card-content class="form-input">
+         <button mat-raised-button *ngIf="!loginDisplay" (click)="login()">Login</button>
+         <button mat-raised-button *ngIf="loginDisplay" (click)="logout()">Logout</button>
+      </mat-card-content>
+   </mat-card>
 </div>

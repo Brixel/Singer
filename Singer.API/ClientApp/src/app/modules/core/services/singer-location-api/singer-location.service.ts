@@ -24,7 +24,7 @@ export class SingerLocationService extends GenericService<
    SingerLocationSearchDTO
 > {
    constructor(private singerLocationProxy: SingerLocationProxy, protected httpClient: HttpClient) {
-      super('api/location');
+      super('https://localhost:5001/api/location');
    }
 
    toEditDTO(model: SingerLocation): UpdateSingerLocationDTO {
@@ -65,7 +65,7 @@ export class SingerLocationService extends GenericService<
    ): Observable<PaginationDTO> {
       return this.singerLocationProxy
          .getSingerLocations(sortDirection, sortColumn, pageIndex, pageSize, filter)
-         .pipe(map(res => res));
+         .pipe(map((res) => res));
    }
 
    updateSingerLocation(updateSingerLocation: SingerLocation) {
@@ -78,7 +78,7 @@ export class SingerLocationService extends GenericService<
       };
       return this.singerLocationProxy
          .updateSingerLocation(updateSingerLocation.id, updateSingerLocationDTO)
-         .pipe(map(res => res));
+         .pipe(map((res) => res));
    }
 
    createSingerLocation(createSingerLocation: SingerLocation) {
@@ -89,6 +89,6 @@ export class SingerLocationService extends GenericService<
          city: createSingerLocation.city,
          country: createSingerLocation.country,
       };
-      return this.singerLocationProxy.createSingerLocation(createSingerLocationDTO).pipe(map(res => res));
+      return this.singerLocationProxy.createSingerLocation(createSingerLocationDTO).pipe(map((res) => res));
    }
 }

@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.1.0-issue-msal.1583",
+   "version": "0.1.0-issue-msal.1584",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",
@@ -29,6 +29,7 @@
       "@auth0/angular-jwt": "^5.0.2",
       "@azure/msal-angular": "^2.5.11",
       "@azure/msal-browser": "^3.3.0",
+      "@codewithdan/observable-store": "^2.2.15",
       "@danielmoncada/angular-datetime-picker": "^14.2.0",
       "angular-calendar": "^0.28.2",
       "date-fns": "^2.9.0",
@@ -54,9 +55,9 @@
       "karma-coverage-istanbul-reporter": "~1.4.2",
       "karma-jasmine": "~1.1.1",
       "karma-jasmine-html-reporter": "^0.2.2",
-      "typescript": "~4.6.4",
       "protractor": "~7.0.0",
       "ts-node": "~8.3.0",
-      "tslint": "~6.1.0"
+      "tslint": "~6.1.0",
+      "typescript": "~4.6.4"
    }
 }

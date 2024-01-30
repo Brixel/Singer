@@ -7,20 +7,22 @@ import { map } from 'rxjs/operators';
 })
 export class ConfigurationService {
    configuration: Configuration;
-   constructor(private http: HttpClient) {}
-   load(): Observable<Configuration> {
+   constructor() {}
+   load(): Promise<Configuration> {
       const jsonFile = `assets/config.json`;
-      return this.http.get(jsonFile).pipe(
-         map(res => {
-            this.configuration = res as Configuration;
-            return this.configuration;
-         })
-      );
+      // using fetch bypasses the HTTP_INTERCEPTOR, which only works with the httpClient of Angular
+      return fetch(jsonFile)
+         .then((r) => r.json())
+         .then((c: Configuration) => {
+            this.configuration = c;
+            return c;
+         });
    }
 }
 
 export interface Configuration {
+   authority: string;
+   tenant: string;
    client_id: string;
-   client_secret: string;
    applicationinsights_intrumentationkey: string;
 }

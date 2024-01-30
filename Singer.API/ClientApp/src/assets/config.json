@@ -1,5 +1,6 @@
 {
-   "client_id": "singer.client",
-   "client_secret": "secret",
+   "tenant": "",
+   "authority": "",
+   "client_id": "",
    "applicationinsights_intrumentationkey": ""
 }
