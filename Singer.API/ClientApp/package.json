@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.1.0-issue-msal.1590",
+   "version": "0.1.0-issue-msal.1591",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",
@@ -28,7 +28,7 @@
       "@angular/router": "14.3.0",
       "@auth0/angular-jwt": "^5.0.2",
       "@azure/msal-angular": "^2.5.7",
-      "@azure/msal-browser": "^3.7.1",
+      "@azure/msal-browser": "^2.38.3",
       "@codewithdan/observable-store": "^2.2.15",
       "@danielmoncada/angular-datetime-picker": "^14.2.0",
       "angular-calendar": "^0.28.2",
