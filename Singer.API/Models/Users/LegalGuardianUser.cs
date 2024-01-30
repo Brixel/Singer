@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-
 namespace Singer.Models.Users;
 
 public class LegalGuardianUser : IUser, IArchivable

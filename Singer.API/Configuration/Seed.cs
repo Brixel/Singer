@@ -4,18 +4,12 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-using Duende.IdentityServer.EntityFramework.DbContexts;
-using Duende.IdentityServer.EntityFramework.Entities;
-using Duende.IdentityServer.EntityFramework.Mappers;
-
-using IdentityModel;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 using Singer.Data;
-using Singer.Identity;
 using Singer.Models;
 using Singer.Models.Users;
 
@@ -44,7 +38,7 @@ public static class Seed
     public static async Task SeedUsersAsync(IServiceScope serviceScope, ApplicationDbContext applicationDbContext, string initialAdminPassword)
     {
         var userMgr = serviceScope.ServiceProvider.GetRequiredService<UserManager<User>>();
-        var roleMgr = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
+        
         var admin = await userMgr.FindByNameAsync("admin");
         var adminUsersInDatabase = applicationDbContext.AdminUsers.Any();
         if (!adminUsersInDatabase)
@@ -171,103 +165,7 @@ public static class Seed
         }
     }
 
-    public static void SeedIdentityResources(ConfigurationDbContext configrationDbContext)
-    {
-        var identityResources = new List<IdentityResource>
-     {
-        new Duende.IdentityServer.Models.IdentityResources.OpenId().ToEntity(),
-        new Duende.IdentityServer.Models.IdentityResources.Email().ToEntity(),
-        new Duende.IdentityServer.Models.IdentityResources.Profile().ToEntity(),
-        new Duende.IdentityServer.Models.IdentityResources.Phone().ToEntity(),
-        new Duende.IdentityServer.Models.IdentityResources.Address().ToEntity(),
-        new IdentityResource{
-           Name = "Role",
-           UserClaims = new List<IdentityResourceClaim>()
-        {
-           new IdentityResourceClaim()
-           {
-              Type = JwtClaimTypes.Role
-           }
-        }}
-     };
-
-
-        foreach (var identityResource in identityResources)
-        {
-            var identityResourceInDb = configrationDbContext.IdentityResources.SingleOrDefault(x => x.Name == identityResource.Name);
-            if (identityResourceInDb == null)
-            {
-                configrationDbContext.IdentityResources.Add(identityResource);
-            }
-        }
-    }
-
-    public static void CreateAPIAndClient(ConfigurationDbContext configrationDbContext)
-    {
-        var singerApiResourceName = "singer.api";
-        var apiResource = configrationDbContext.ApiResources.SingleOrDefault(x => x.Name == singerApiResourceName);
-        if (apiResource == null)
-        {
-            apiResource = new ApiResource()
-            {
-                Name = singerApiResourceName,
-                ShowInDiscoveryDocument = true,
-                Scopes = new()
-                {
-                    new ()
-                    {
-                        Scope = "apiRead",
-                        ApiResource = new()
-                        {
-                            Name = "apiRead",
-                            ShowInDiscoveryDocument = true,
-                            DisplayName = "Readonly scope for SingerAPI",
-                            UserClaims = new ()
-                            {
-                                new ()
-                                {
-                                    Type = ClaimTypes.Role,
-                                },
-                                new ()
-                                {
-                                    Type = ClaimTypes.Name
-                                }
-                            }
-                        }
-                    }
-                },
-                UserClaims = new List<ApiResourceClaim>()
-                {
-                    new ApiResourceClaim()
-                    {
-                        Type = ClaimTypes.Name,
-                    },
-                    new ApiResourceClaim()
-                    {
-                        Type = ClaimTypes.Email
-                    },
-                }
-            };
-
-
-            configrationDbContext.ApiResources.Add(apiResource);
-        }
-
-
-        var clientId = "singer.client";
-        var singerApiClient = configrationDbContext.Clients.SingleOrDefault(x => x.ClientId == clientId);
-        if (singerApiClient == null)
-        {
-            singerApiClient = Config.GetClient().ToEntity();
-            configrationDbContext.Clients.Add(singerApiClient);
-        }
-
-        UpdateAccessTokenLifeTime(singerApiClient);
-    }
-
-    private static void UpdateAccessTokenLifeTime(Client singerApiClient) =>
-       singerApiClient.AccessTokenLifetime = 3600 * 24;
-
+    
     public static void SeedSingerLocations(ApplicationDbContext applicationDbContext)
     {
         if (!applicationDbContext.SingerLocations.Any())

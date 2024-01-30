@@ -12,7 +12,6 @@ using Singer.Data;
 using Singer.DTOs;
 using Singer.Helpers.Enums;
 using Singer.Helpers.Exceptions;
-using Singer.Helpers.Extensions;
 using Singer.Models;
 using Singer.Profiles;
 using Singer.Resources;

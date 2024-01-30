@@ -15,11 +15,11 @@ public abstract class BaseTest
     [SetUp]
     public virtual void Setup()
     {
-        var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-           .UseInMemoryDatabase(Guid.NewGuid().ToString())
-           .Options;
+        //var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+        //   .UseInMemoryDatabase(Guid.NewGuid().ToString())
+        //   .Options;
 
-        TestDataContext = new ApplicationDbContext(options);
+        //TestDataContext = new ApplicationDbContext(options);
     }
 
 
@@ -27,6 +27,6 @@ public abstract class BaseTest
     [TearDown]
     public virtual void TearDown()
     {
-        TestDataContext.Dispose();
+        //TestDataContext.Dispose();
     }
 }

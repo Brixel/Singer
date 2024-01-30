@@ -48,7 +48,7 @@ public static class ServiceExtensions
            .AddScoped<IDateValidator, DateValidator>();
         builder.Services.AddScoped<IActionNotificationService, ActionNotificationService>();
         builder.Services.Configure<PasswordOptions>(builder.Configuration.GetSection("PasswordOptions"));
-        builder.Services.AddScoped<IUserProfileService, UserProfileService>();
+
         builder.Services.Configure<ApplicationConfig>(builder.Configuration.GetSection("Application"));
         builder.Services.AddScoped<IRegistrationService, RegistrationService>();
 

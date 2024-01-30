@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 using AutoMapper;
 
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -34,9 +33,9 @@ public class CareUserService : UserService<CareUser, CareUserDTO, CreateCareUser
           .ThenInclude(x => x.User)
        .AsQueryable();
 
-    public CareUserService(ApplicationDbContext appContext, IMapper mapper, UserManager<User> userManager,
+    public CareUserService(ApplicationDbContext appContext, IMapper mapper,
        IOptions<ApplicationConfig> applicationConfigurationOptions)
-    : base(appContext, mapper, userManager, null, applicationConfigurationOptions)
+    : base(appContext, mapper, null, applicationConfigurationOptions)
     {
     }
     protected override Expression<Func<CareUser, bool>> Filter(string filter)

@@ -1,16 +1,13 @@
 using System;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 using AutoMapper;
 
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
-using Singer.Configuration;
 using Singer.Data;
 using Singer.Data.Models.Configuration;
 using Singer.DTOs.Users;
@@ -23,8 +20,8 @@ namespace Singer.Services;
 
 public class AdminUserService : UserService<AdminUser, AdminUserDTO, CreateAdminUserDTO, UpdateAdminUserDTO>, IAdminUserService
 {
-    public AdminUserService(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager, IEmailService<AdminUserDTO> emailService, IOptions<ApplicationConfig> applicationConfigurationOptions
-    ) : base(context, mapper, userManager, emailService, applicationConfigurationOptions)
+    public AdminUserService(ApplicationDbContext context, IMapper mapper, IEmailService<AdminUserDTO> emailService, IOptions<ApplicationConfig> applicationConfigurationOptions
+    ) : base(context, mapper, emailService, applicationConfigurationOptions)
     {
     }
 
@@ -51,9 +48,9 @@ public class AdminUserService : UserService<AdminUser, AdminUserDTO, CreateAdmin
        CreateAdminUserDTO dto)
     {
         var result = await base.CreateAsync(dto);
-        var createdUser = await UserManager.FindByEmailAsync(result.Email);
-        await UserManager.AddToRoleAsync(createdUser, Roles.ROLE_ADMINISTRATOR);
-        await UserManager.AddClaimAsync(createdUser, new Claim(ClaimTypes.Role, Roles.ROLE_ADMINISTRATOR));
+        //var createdUser = await UserManager.FindByEmailAsync(result.Email);
+        //await UserManager.AddToRoleAsync(createdUser, Roles.ROLE_ADMINISTRATOR);
+        //await UserManager.AddClaimAsync(createdUser, new Claim(ClaimTypes.Role, Roles.ROLE_ADMINISTRATOR));
         return result;
     }
 

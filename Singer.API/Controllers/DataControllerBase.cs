@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Web.Resource;
 
 using Singer.DTOs;
 using Singer.Helpers;
@@ -64,6 +65,7 @@ public abstract class DataControllerBase<TEntity, TDTO, TCreateDTO, TUpdateDTO> 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [RequiredScope("https://vzwstijn.onmicrosoft.com/4ea3a07f-5db9-4290-b930-88806df40e9d/Events.Read")]
     public virtual async Task<IActionResult> Create([FromBody] TCreateDTO dto)
     {
         var model = ModelState;

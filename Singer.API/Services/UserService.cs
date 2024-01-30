@@ -1,11 +1,9 @@
 using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
 using AutoMapper;
 
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -15,7 +13,6 @@ using Singer.DTOs.Users;
 using Singer.Helpers;
 using Singer.Helpers.Exceptions;
 using Singer.Helpers.Extensions;
-using Singer.Models;
 using Singer.Models.Users;
 using Singer.Resources;
 using Singer.Services.Interfaces;
@@ -28,14 +25,14 @@ public abstract class UserService<TUserEntity, TUserDTO, TCreateUserDTO, TUpdate
   where TCreateUserDTO : class, ICreateUserDTO
   where TUpdateUserDTO : class, IUpdateUserDTO
 {
-    protected UserManager<User> UserManager { get; }
+    //protected UserManager<User> UserManager { get; }
     private readonly IEmailService<TUserDTO> _emailService;
     private readonly string _frontendURL;
 
-    protected UserService(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager,
+    protected UserService(ApplicationDbContext context, IMapper mapper,
       IEmailService<TUserDTO> emailService, IOptions<ApplicationConfig> applicationConfigurationOptions) : base(context, mapper)
     {
-        UserManager = userManager;
+        //UserManager = userManager;
         _emailService = emailService;
         if (applicationConfigurationOptions == null)
         {
@@ -56,10 +53,10 @@ public abstract class UserService<TUserEntity, TUserDTO, TCreateUserDTO, TUpdate
         }
         else
         {
-            var existingEmail = await UserManager.FindByEmailAsync(dto.Email);
+            //var existingEmail = await UserManager.FindByEmailAsync(dto.Email);
 
-            if (existingEmail != null)
-                throw new BadInputException("The email address must be unique to each user.", ErrorMessages.DuplicateEmail);
+            //if (existingEmail != null)
+            //    throw new BadInputException("The email address must be unique to each user.", ErrorMessages.DuplicateEmail);
         }
 
         var baseUser = new User()
@@ -70,28 +67,29 @@ public abstract class UserService<TUserEntity, TUserDTO, TCreateUserDTO, TUpdate
             UserName = dto.Email
         };
 
-        var userCreationResult = await UserManager.CreateAsync(baseUser);
+        //var userCreationResult = await UserManager.CreateAsync(baseUser);
 
-        if (!userCreationResult.Succeeded)
-        {
-            Debug.WriteLine($"User can not be created. {userCreationResult.Errors.First().Code}");
-            throw new InternalServerException($"User can not be created. {userCreationResult.Errors.First().Description}");
-        }
-        var passwordResetToken = await UserManager.GeneratePasswordResetTokenAsync(baseUser);
+        //if (!userCreationResult.Succeeded)
+        //{
+        //    Debug.WriteLine($"User can not be created. {userCreationResult.Errors.First().Code}");
+        //    throw new InternalServerException($"User can not be created. {userCreationResult.Errors.First().Description}");
+        //}
+        //var passwordResetToken = await UserManager.GeneratePasswordResetTokenAsync(baseUser);
 
-        var createdUser = await UserManager.FindByEmailAsync(dto.Email);
-        var entity = Mapper.Map<TUserEntity>(dto);
-        entity.User = createdUser;
-        entity.UserId = createdUser.Id;
-        var changeTracker = await Context.AddAsync(entity);
-        await Context.SaveChangesAsync();
-        var userDTO = Mapper.Map<TUserDTO>(changeTracker.Entity);
-        var passwordResetURL = $"{_frontendURL}/auth/reset?userId={createdUser.Id}&token={passwordResetToken}";
-        if (_emailService != null)
-        {
-            await _emailService.SendAccountDetailsAsync(userDTO, passwordResetURL);
-        }
-        return userDTO;
+        //var createdUser = await UserManager.FindByEmailAsync(dto.Email);
+        //var entity = Mapper.Map<TUserEntity>(dto);
+        //entity.User = createdUser;
+        //entity.UserId = createdUser.Id;
+        //var changeTracker = await Context.AddAsync(entity);
+        //await Context.SaveChangesAsync();
+        //var userDTO = Mapper.Map<TUserDTO>(changeTracker.Entity);
+        //var passwordResetURL = $"{_frontendURL}/auth/reset?userId={createdUser.Id}&token={passwordResetToken}";
+        //if (_emailService != null)
+        //{
+        //    await _emailService.SendAccountDetailsAsync(userDTO, passwordResetURL);
+        //}
+        //return userDTO;
+        return null;
     }
 
     private static string GenerateRandomUserName(string firstName, string lastName)
@@ -162,25 +160,25 @@ public abstract class UserService<TUserEntity, TUserDTO, TCreateUserDTO, TUpdate
            })
            .ForEach(x => x.SetToDefaultValue(user));
 
-        var identity = await UserManager.FindByIdAsync(user.UserId.ToString());
-        identity.GetType().GetProperties()
-           .Where(x =>
-           {
-               return x.Name switch
-               {
-                   nameof(User.Id) => false,
-                   nameof(User.NormalizedEmail) => true,
-                   nameof(User.NormalizedUserName) => true,
-                   _ => x.HasAttribute<PersonalDataAttribute>(),
-               };
-           })
-           .ForEach(x => x.SetToDefaultValue(identity));
+        //var identity = await UserManager.FindByIdAsync(user.UserId.ToString());
+        //identity.GetType().GetProperties()
+        //   .Where(x =>
+        //   {
+        //       return x.Name switch
+        //       {
+        //           nameof(User.Id) => false,
+        //           nameof(User.NormalizedEmail) => true,
+        //           nameof(User.NormalizedUserName) => true,
+        //           _ => x.HasAttribute<PersonalDataAttribute>(),
+        //       };
+        //   })
+        //   .ForEach(x => x.SetToDefaultValue(identity));
 
-        if (user is IArchivable archivable)
-            archivable.IsArchived = true;
+        //if (user is IArchivable archivable)
+        //    archivable.IsArchived = true;
 
-        DbSet.Update(user);
-        await UserManager.UpdateAsync(identity);
-        await Context.SaveChangesAsync();
+        //DbSet.Update(user);
+        //await UserManager.UpdateAsync(identity);
+        //await Context.SaveChangesAsync();
     }
 }

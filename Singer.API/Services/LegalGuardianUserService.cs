@@ -2,16 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 using AutoMapper;
 
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
-using Singer.Configuration;
 using Singer.Data;
 using Singer.Data.Models.Configuration;
 using Singer.DTOs.Users;
@@ -25,9 +22,9 @@ namespace Singer.Services;
 public class LegalGuardianUserService : UserService<LegalGuardianUser, LegalGuardianUserDTO, CreateLegalGuardianUserDTO, UpdateLegalGuardianUserDTO>,
   ILegalGuardianUserService
 {
-    public LegalGuardianUserService(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager,
+    public LegalGuardianUserService(ApplicationDbContext context, IMapper mapper,
        IEmailService<LegalGuardianUserDTO> emailService, IOptions<ApplicationConfig> applicationConfigurationOptions)
-    : base(context, mapper, userManager, emailService, applicationConfigurationOptions)
+    : base(context, mapper, emailService, applicationConfigurationOptions)
     {
     }
 
@@ -103,9 +100,9 @@ public class LegalGuardianUserService : UserService<LegalGuardianUser, LegalGuar
        CreateLegalGuardianUserDTO dto)
     {
         var result = await base.CreateAsync(dto);
-        var createdUser = await UserManager.FindByEmailAsync(result.Email);
-        await UserManager.AddToRoleAsync(createdUser, Roles.ROLE_LEGALGUARDIANUSER);
-        await UserManager.AddClaimAsync(createdUser, new Claim(ClaimTypes.Role, Roles.ROLE_LEGALGUARDIANUSER));
+        //var createdUser = await UserManager.FindByEmailAsync(result.Email);
+        //await UserManager.AddToRoleAsync(createdUser, Roles.ROLE_LEGALGUARDIANUSER);
+        //await UserManager.AddClaimAsync(createdUser, new Claim(ClaimTypes.Role, Roles.ROLE_LEGALGUARDIANUSER));
         return result;
     }
 }
