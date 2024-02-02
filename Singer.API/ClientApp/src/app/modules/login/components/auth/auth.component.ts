@@ -6,14 +6,13 @@ import {
    AuthenticationResult,
    EventMessage,
    EventType,
-   IdTokenClaims,
    InteractionStatus,
    InteractionType,
    PopupRequest,
-   PromptValue,
    RedirectRequest,
    SsoSilentRequest,
 } from '@azure/msal-browser';
+import { IdTokenClaims, PromptValue } from '@azure/msal-common';
 import { filter, takeUntil } from 'rxjs/operators';
 import { B2PCPolicyStore } from 'src/app/modules/core/services/b2cpolicy.state.store';
 
