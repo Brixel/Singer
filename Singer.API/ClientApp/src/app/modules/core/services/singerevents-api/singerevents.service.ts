@@ -18,7 +18,6 @@ import { GenericService } from '../generic-service';
 import { HttpClient } from '@angular/common/http';
 import { EventSlot } from '../../models/eventslot';
 import { RegistrationDTO, CreateRegistrationDTO } from '../../DTOs/registration.dto';
-import { endpoint } from '../auth-config';
 
 @Injectable({
    providedIn: 'root',
@@ -112,7 +111,7 @@ export class SingerEventsService extends GenericService<
       return model;
    }
    constructor(protected httpClient: HttpClient, private singerEventsProxy: SingerEventsProxy) {
-      super(`${endpoint}/api/event`);
+      super(`api/event`);
    }
 
    fetchSingerEventsData(

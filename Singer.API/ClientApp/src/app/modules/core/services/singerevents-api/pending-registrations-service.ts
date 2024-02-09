@@ -7,7 +7,6 @@ import { EventSlot } from '../../models/eventslot';
 import { Observable } from 'rxjs';
 import { PaginationDTO } from '../../DTOs/pagination.dto';
 import { catchError } from 'rxjs/operators';
-import { endpoint } from '../auth-config';
 
 @Injectable({
    providedIn: 'root',
@@ -32,7 +31,7 @@ export class PendingRegistrationsService extends GenericService<Registration, Re
       };
    }
    constructor(protected httpClient: HttpClient) {
-      super(`${endpoint}/api/event/registrations/status/pending`);
+      super(`api/event/registrations/status/pending`);
    }
 
    advancedSearch(): Observable<PaginationDTO<RegistrationDTO>> {

@@ -23,7 +23,7 @@ export interface IB2CPolicies {
    b2cPolicyNames: IB2CPolicyNames;
 }
 
-export const endpoint = 'https://localhost:5001/';
+// export const endpoint = 'https://localhost:5001/';
 
 export interface IProtectedResources {
    [name: string]: {

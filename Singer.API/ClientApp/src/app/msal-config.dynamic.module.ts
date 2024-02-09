@@ -15,7 +15,6 @@ import {
 } from '@azure/msal-angular';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MSALStateStore } from './modules/core/services/msal.state.store';
-import { ApplicationInsightsService } from './modules/core/services/applicationinsights.service';
 import { ConfigurationService } from './modules/core/services/clientconfiguration.service';
 import { B2PCPolicyStore } from './modules/core/services/b2cpolicy.state.store';
 import { distinctUntilChanged } from 'rxjs/operators';
@@ -77,7 +76,7 @@ export class MsalConfigDynamicModule {
             {
                provide: APP_INITIALIZER,
                useFactory: initializerFactory,
-               deps: [ConfigurationService, MSALStateStore, B2PCPolicyStore, ApplicationInsightsService],
+               deps: [ConfigurationService, MSALStateStore, B2PCPolicyStore],
                multi: true,
             },
             {

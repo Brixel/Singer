@@ -12,7 +12,6 @@ import { SingerLocation } from '../../models/singer-location.model';
 import { SingerLocationProxy } from './singer-location.proxy';
 import { GenericService } from '../generic-service';
 import { HttpClient } from '@angular/common/http';
-import { endpoint } from '../auth-config';
 
 @Injectable({
    providedIn: 'root',
@@ -25,7 +24,7 @@ export class SingerLocationService extends GenericService<
    SingerLocationSearchDTO
 > {
    constructor(private singerLocationProxy: SingerLocationProxy, protected httpClient: HttpClient) {
-      super(`${endpoint}/api/location`);
+      super(`api/location`);
    }
 
    toEditDTO(model: SingerLocation): UpdateSingerLocationDTO {

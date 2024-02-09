@@ -7,10 +7,9 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
-import { endpoint } from './app/modules/core/services/auth-config';
 
 export function getBaseUrl(): string {
-   return endpoint;
+   return document.getElementsByTagName('base')[0].href;
 }
 
 const providers = [{ provide: 'BASE_URL', useFactory: getBaseUrl, deps: [] }];
