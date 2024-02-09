@@ -27,6 +27,6 @@ public abstract class BaseTest
     [TearDown]
     public virtual void TearDown()
     {
-        //TestDataContext.Dispose();
+        TestDataContext.Dispose();
     }
 }

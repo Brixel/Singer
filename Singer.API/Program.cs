@@ -59,7 +59,6 @@ try
     app.UseSpaStaticFiles();
 
     app.UseExceptionMiddleware();
-    //app.UseIdentityServer();
 
     // Register the Swagger generator and the Swagger UI middlewares
     // Navigate to:

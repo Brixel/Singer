@@ -55,11 +55,11 @@ public class ApplicationDbContext : DbContext
             .WithOne(x => x.CareUser)
             .OnDelete(DeleteBehavior.Restrict);
 
-        //builder.Entity<EventRegistrationLog>()
-        //    .ToTable("EventRegistrationLogs")
-        //    .HasDiscriminator(x => x.EventRegistrationChanges)
-        //    .HasValue<EventRegistrationLocationChange>(EventRegistrationChanges.LocationChange)
-        //    .HasValue<EventRegistrationStatusChange>(EventRegistrationChanges.RegistrationStatusChange);
+        builder.Entity<EventRegistrationLog>()
+           .ToTable("EventRegistrationLogs")
+           .HasDiscriminator(x => x.EventRegistrationChanges)
+           .HasValue<EventRegistrationLocationChange>(EventRegistrationChanges.LocationChange)
+           .HasValue<EventRegistrationStatusChange>(EventRegistrationChanges.RegistrationStatusChange);
 
         builder.Entity<EventRegistrationLog>()
             .HasOne(x => x.EventRegistration);

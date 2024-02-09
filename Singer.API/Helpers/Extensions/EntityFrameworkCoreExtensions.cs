@@ -35,12 +35,6 @@ public static class EntityFrameworkCoreExtensions
         var applicationDbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
         await applicationDbContext.Database.MigrateAsync();
 
-        // TODO Reintroduce
-        //await Seed.SeedRolesAsync(serviceScope);
-        //await Seed.SeedUsersAsync(serviceScope, applicationDbContext, initialAdminPassword);
-        //await Seed.CheckRolesAsync(serviceScope, applicationDbContext);
-        //Seed.CreateAPIAndClient(configrationDbContext);
-        //Seed.SeedIdentityResources(configrationDbContext);
         Seed.SeedSingerLocations(applicationDbContext);
         
         await applicationDbContext.SaveChangesAsync();

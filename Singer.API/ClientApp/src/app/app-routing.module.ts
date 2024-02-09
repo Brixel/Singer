@@ -2,7 +2,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { MainComponent } from './main.component';
 import { BrowserUtils } from '@azure/msal-browser';
-import { MsalRedirectComponent } from '@azure/msal-angular';
+import { MsalGuard, MsalRedirectComponent } from '@azure/msal-angular';
 
 const routes: Routes = [
    { path: 'login', loadChildren: () => import('./modules/login/login.module').then((m) => m.LoginModule) },
@@ -19,6 +19,7 @@ const routes: Routes = [
    {
       path: 'voogden',
       loadChildren: () => import('./modules/legalguardians/legalguardians.module').then((m) => m.LegalguardiansModule),
+      canActivate: [MsalGuard],
       component: MainComponent,
    },
    { path: '', redirectTo: '/dashboard', pathMatch: 'full' },

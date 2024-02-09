@@ -63,13 +63,4 @@ public class CareUserController : DataControllerBase<CareUser, CareUserDTO, Crea
         return Ok(result);
     }
 
-    //[HttpGet("self")]
-    //public async Task<IActionResult> GetOwnCareUsers(string search)
-    //{
-    //    var userId = Guid.Parse(User.GetSubjectId());
-
-    //    var relatedCareUsers = await _careUserService.GetRelatedCareUserAsync(userId, search);
-    //    return Ok(relatedCareUsers);
-
-    //}
 }

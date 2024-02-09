@@ -26,9 +26,7 @@
 
       <!-- UserName Column -->
       <ng-container matColumnDef="userName">
-         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            Gebruikersnaam
-         </th>
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>Gebruikersnaam</th>
          <td mat-cell *matCellDef="let row">{{ row.userName }}</td>
       </ng-container>
       <ng-container matColumnDef="actions">
@@ -37,9 +35,6 @@
             <div class="action-list">
                <button mat-stroked-button matTooltip="Bewerk beheerder" (click)="editAdmin(row)">
                   <mat-icon>edit</mat-icon>
-               </button>
-               <button mat-stroked-button matTooltip="Wijzig wachtwoord" (click)="changePassword(row)">
-                  <mat-icon>lock</mat-icon>
                </button>
             </div>
          </td>

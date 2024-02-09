@@ -148,25 +148,6 @@ export class AdminOverviewComponent implements OnInit, AfterViewInit {
       });
    }
 
-   changePassword(row: AdminUser) {
-      const dialogRef = this.dialog.open(ConfirmComponent, {
-         data: <ConfirmRequest>{
-            confirmMessage: `Wilt u het wachtwoord van ${row.firstName} ${row.lastName} wijzigen?`,
-         },
-      });
-      dialogRef.afterClosed().subscribe((isConfirmed: boolean) => {
-         if (isConfirmed) {
-            this._snackBar.open(
-               `Nieuw wachtwoord voor gebruiker ${row.firstName} ${row.lastName} werd aangevraagd.`,
-               'OK',
-               {
-                  duration: 2000,
-               }
-            );
-         }
-      });
-   }
-
    handleApiError(err: any) {
       if (typeof err === 'string') {
          this._snackBar.open(`⚠ ${err}`, 'OK');

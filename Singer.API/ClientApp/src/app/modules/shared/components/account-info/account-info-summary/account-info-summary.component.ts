@@ -19,24 +19,4 @@ export class AccountInfoSummaryComponent {
          this.user = res;
       });
    }
-
-   changePassword() {
-      const dialogRef = this.dialog.open(ConfirmComponent, {
-         data: <ConfirmRequest>{
-            confirmMessage: `Wilt u uw wachtwoord wijzigen?`,
-         },
-      });
-      dialogRef.afterClosed().subscribe((isConfirmed: boolean) => {
-         if (isConfirmed) {
-            // this.authService.requestPasswordReset(this.user.id);
-            this._snackBar.open(
-               `Er is een e-mail naar ${this.user.email} verstuurd met verdere instructies om uw wachtwoord kunt wijzigen.`,
-               'OK',
-               {
-                  duration: 10000,
-               }
-            );
-         }
-      });
-   }
 }
