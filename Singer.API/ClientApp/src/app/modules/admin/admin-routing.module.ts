@@ -15,7 +15,7 @@ const routes: Routes = [
    {
       path: 'admin',
       component: MainComponent,
-      canActivate: [],
+      canActivate: [], // TODO Add admin guard
       children: [
          {
             path: 'beheerders',

@@ -41,7 +41,7 @@ export class SearchCareUserDialogComponent implements OnInit {
       );
    }
    careUserLookup(value: string): Observable<RelatedCareUser[]> {
-      // if (this._authService.isAdmin$.value) {
+      // TODO Extend with admin check
       if (true) {
          return this._careUserService
             .fetchCareUsersData('asc', 'id', 0, 15, value)

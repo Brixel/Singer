@@ -156,7 +156,6 @@ export class AdminOverviewComponent implements OnInit, AfterViewInit {
       });
       dialogRef.afterClosed().subscribe((isConfirmed: boolean) => {
          if (isConfirmed) {
-            // this.authService.requestPasswordReset(row.userId);
             this._snackBar.open(
                `Nieuw wachtwoord voor gebruiker ${row.firstName} ${row.lastName} werd aangevraagd.`,
                'OK',

@@ -76,14 +76,6 @@ export class NavMenuComponent implements OnInit {
    ngOnInit() {
       this.isAuthenticated = this.authService.instance.getAllAccounts().length > 0;
       this.updateRequirements();
-      // this.authService.isAdmin$.subscribe((res) => {
-      //    this.isAdmin = res;
-      //    this.updateRequirements();
-      // });
-      // this.authService.isAuthenticated$.subscribe((res) => {
-      //    this.isAuthenticated = res;
-      //    this.updateRequirements();
-      // });
    }
 
    handleLogoClick() {
