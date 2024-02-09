@@ -2,11 +2,11 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Duende.IdentityServer.Extensions;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Web;
+using Microsoft.Identity.Web.Resource;
 
 using Singer.Configuration;
 using Singer.DTOs;
@@ -30,6 +30,7 @@ public class RegistrationController : Controller
     [HttpPost("search")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [RequiredScope("Events.Read")]
     public async Task<IActionResult> Search([FromBody] RegistrationSearchDTO searchDTO)
     {
         var model = ModelState;
@@ -38,7 +39,8 @@ public class RegistrationController : Controller
 
         if (!User.IsInRole(Roles.ROLE_ADMINISTRATOR))
         {
-            var careUserDTOs = await _careUserService.GetCareUsersForLegalGuardianAsync(Guid.Parse(User.GetSubjectId()));
+            var name = User.GetNameIdentifierId();
+            var careUserDTOs = await _careUserService.GetCareUsersForLegalGuardianAsync(Guid.Parse(name));
             if (careUserDTOs.Count == 0)
                 return NotFound(model);
             searchDTO.CareUserIds = careUserDTOs.Select(x => x.UserId).ToList();

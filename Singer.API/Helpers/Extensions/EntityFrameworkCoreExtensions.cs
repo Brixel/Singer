@@ -1,8 +1,6 @@
 using System;
 using System.Threading.Tasks;
 
-using Duende.IdentityServer.EntityFramework.DbContexts;
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -32,25 +30,13 @@ public static class EntityFrameworkCoreExtensions
 
     public static async Task<WebApplication> MigrateContexts(this WebApplication app)
     {
-        var initialAdminPassword = app.Configuration.GetSection("Application").Get<ApplicationConfig>().InitialAdminUserPassword;
         using var serviceScope = app.Services.GetService<IServiceScopeFactory>().CreateScope();
 
-        var configrationDbContext = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
-        configrationDbContext.Database.Migrate();
-
-        var persistedGrantDbContext = serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>();
-        persistedGrantDbContext.Database.Migrate();
-
         var applicationDbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-        applicationDbContext.Database.Migrate();
+        await applicationDbContext.Database.MigrateAsync();
 
-        await Seed.SeedRolesAsync(serviceScope);
-        await Seed.SeedUsersAsync(serviceScope, applicationDbContext, initialAdminPassword);
-        await Seed.CheckRolesAsync(serviceScope, applicationDbContext);
-        Seed.CreateAPIAndClient(configrationDbContext);
-        Seed.SeedIdentityResources(configrationDbContext);
         Seed.SeedSingerLocations(applicationDbContext);
-        await configrationDbContext.SaveChangesAsync();
+        
         await applicationDbContext.SaveChangesAsync();
         return app;
     }

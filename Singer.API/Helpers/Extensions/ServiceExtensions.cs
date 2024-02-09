@@ -39,16 +39,13 @@ public static class ServiceExtensions
 
         // Adds AutoMapper. Maps are defined as profiles in ./Profiles/*Profile.cs
         builder.Services.AddAutoMapper(typeof(EventProfile));
-        builder.Services.AddScoped<ICareUserService, CareUserService>();
-        builder.Services.AddScoped<ILegalGuardianUserService, LegalGuardianUserService>();
         builder.Services.AddScoped<ISingerLocationService, SingerLocationService>();
-        builder.Services.AddScoped<IAdminUserService, AdminUserService>();
         builder.Services.AddScoped<IEventService, EventService>();
         builder.Services.AddScoped<IEventRegistrationService, EventRegistrationService>()
            .AddScoped<IDateValidator, DateValidator>();
         builder.Services.AddScoped<IActionNotificationService, ActionNotificationService>();
         builder.Services.Configure<PasswordOptions>(builder.Configuration.GetSection("PasswordOptions"));
-        builder.Services.AddScoped<IUserProfileService, UserProfileService>();
+
         builder.Services.Configure<ApplicationConfig>(builder.Configuration.GetSection("Application"));
         builder.Services.AddScoped<IRegistrationService, RegistrationService>();
 

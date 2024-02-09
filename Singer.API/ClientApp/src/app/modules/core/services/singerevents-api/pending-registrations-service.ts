@@ -31,13 +31,13 @@ export class PendingRegistrationsService extends GenericService<Registration, Re
       };
    }
    constructor(protected httpClient: HttpClient) {
-      super('api/event/registrations/status/pending');
+      super(`api/event/registrations/status/pending`);
    }
 
    advancedSearch(): Observable<PaginationDTO<RegistrationDTO>> {
       return this.httpClient
          .get<PaginationDTO<RegistrationDTO>>(this.endpoint)
-         .pipe(catchError(error => this.handleError(error)));
+         .pipe(catchError((error) => this.handleError(error)));
    }
 
    toEditDTO(model: Registration): null {

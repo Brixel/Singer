@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/modules/core/services/auth.service';
-import { ReplaySubject, Observable, BehaviorSubject } from 'rxjs';
+import { ReplaySubject, Observable, BehaviorSubject, of } from 'rxjs';
 import { startWith } from 'rxjs/operators';
+import { AuthService } from 'src/app/modules/core/services/auth.service';
 
 @Component({
    selector: 'app-account-info-page',

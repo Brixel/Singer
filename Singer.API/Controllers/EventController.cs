@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 using CsvHelper;
 
-using Duende.IdentityServer.Extensions;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Web;
+using Microsoft.Identity.Web.Resource;
 
 using Singer.Configuration;
 using Singer.DTOs;
@@ -108,7 +108,7 @@ public class EventController : DataControllerBase<Event, EventDTO, CreateEventDT
         // Since admins automatically approve a registration, it's needed to register this.
         if (User.IsInRole(Roles.ROLE_ADMINISTRATOR))
         {
-            var executedByUserId = Guid.Parse(User.GetSubjectId());
+            var executedByUserId = Guid.Parse(User.GetObjectId());
             await _actionNotificationService.RegisterEventRegistrationStatusChange(eventSlotRegistration.Id, executedByUserId,
                RegistrationStatus.Pending, eventSlotRegistration.Status);
         }
@@ -307,6 +307,7 @@ public class EventController : DataControllerBase<Event, EventDTO, CreateEventDT
     #endregion delete
 
     [HttpPost("search")]
+    [RequiredScope("Events.Read")]
     public async Task<IActionResult> GetPublicEvents([FromBody] EventFilterParametersDTO searchEventParams)
     {
         var model = ModelState;

@@ -35,27 +35,27 @@ export class SingerEventsProxy {
          .set('pageIndex', pageIndex.toString())
          .set('pageSize', pageSize.toString())
          .set('filter', filter);
-      return this.apiService.get('api/event', searchParams).pipe(map(res => res));
+      return this.apiService.get('api/event', searchParams).pipe(map((res) => res));
    }
 
    updateSingerEvents(id: string, updateSingerEventDTO: UpdateSingerEventDTO) {
-      return this.apiService.put(`api/event/${id}`, updateSingerEventDTO).pipe(map(res => res));
+      return this.apiService.put(`api/event/${id}`, updateSingerEventDTO).pipe(map((res) => res));
    }
 
    createSingerEvents(createSingerEventDTO: CreateSingerEventDTO): Observable<SingerEventDTO> {
-      return this.apiService.post('api/event', createSingerEventDTO).pipe(map(res => res));
+      return this.apiService.post('api/event', createSingerEventDTO).pipe(map((res) => res));
    }
 
    deleteSingerEvent(eventId: string): Observable<any> {
-      return this.apiService.delete(`api/event/${eventId}`).pipe(map(res => res));
+      return this.apiService.delete(`api/event/${eventId}`).pipe(map((res) => res));
    }
 
    getEventRegisterDetails(eventId: string): Observable<EventRegisterDetails> {
-      return this.apiService.get(`api/event/${eventId}/geteventregisterdetails`).pipe(map(res => res));
+      return this.apiService.get(`api/event/${eventId}/geteventregisterdetails`).pipe(map((res) => res));
    }
 
    registerCareUserOnEvent(eventId: string, dto: CreateRegistrationDTO): Observable<RegistrationDTO[]> {
-      return this.apiService.post(`api/event/${eventId}/registrations`, dto).pipe(map(res => res));
+      return this.apiService.post(`api/event/${eventId}/registrations`, dto).pipe(map((res) => res));
    }
 
    registerCareUserOnEventSlot(
@@ -65,11 +65,11 @@ export class SingerEventsProxy {
    ): Observable<RegistrationDTO> {
       return this.apiService
          .post(`api/event/${eventId}/eventslot/${eventSlotId}/registrations`, dto)
-         .pipe(map(res => res));
+         .pipe(map((res) => res));
    }
 
    isUserRegisteredForEvent(eventId: string, careUserId: string): Observable<UserRegisteredDTO> {
-      return this.apiService.get(`api/event/${eventId}/isuserregistered/${careUserId}`).pipe(map(res => res));
+      return this.apiService.get(`api/event/${eventId}/isuserregistered/${careUserId}`).pipe(map((res) => res));
    }
 
    getRegistrations(
@@ -86,7 +86,7 @@ export class SingerEventsProxy {
          .set('pageIndex', pageIndex.toString())
          .set('pageSize', pageSize.toString())
          .set('filter', filter);
-      return this.apiService.get(`api/event/${eventId}/registrations`, searchParams).pipe(map(res => res));
+      return this.apiService.get(`api/event/${eventId}/registrations`, searchParams).pipe(map((res) => res));
    }
 
    getPublicEvents(eventFilterData: EventFilterParameters): Observable<EventDescriptionDTO[]> {
@@ -97,7 +97,7 @@ export class SingerEventsProxy {
          allowedAgeGroups: eventFilterData.allowedAgeGroups,
          text: eventFilterData.text,
       };
-      return this.apiService.post('api/event/search', filterParams).pipe(map(res => res));
+      return this.apiService.post('api/event/search', filterParams).pipe(map((res) => res));
    }
 
    downloadEventSlotRegistartionCsv(eventId: string, eventSlotId: string): Observable<Blob> {

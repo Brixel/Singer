@@ -1,7 +1,4 @@
-using System;
 
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 using Singer.Models;
@@ -9,12 +6,13 @@ using Singer.Models.Users;
 
 namespace Singer.Data;
 
-public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
+public class ApplicationDbContext : DbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
     }
 
+    public DbSet<User> Users { get; set; }
     public DbSet<CareUser> CareUsers { get; set; }
     public DbSet<LegalGuardianUser> LegalGuardianUsers { get; set; }
     public DbSet<LegalGuardianCareUser> LegalGuardianCareUsers { get; set; }
@@ -30,32 +28,32 @@ public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<Guid>, 
     {
         base.OnModelCreating(builder);
         builder.Entity<LegalGuardianCareUser>()
-           .HasKey(x => new { x.CareUserId, x.LegalGuardianId });
+            .HasKey(x => new { x.CareUserId, x.LegalGuardianId });
         builder.Entity<LegalGuardianCareUser>()
-           .HasOne(x => x.LegalGuardian)
-           .WithMany(x => x.LegalGuardianCareUsers)
-           .OnDelete(DeleteBehavior.Restrict);
+            .HasOne(x => x.LegalGuardian)
+            .WithMany(x => x.LegalGuardianCareUsers)
+            .OnDelete(DeleteBehavior.Restrict);
         builder.Entity<LegalGuardianCareUser>()
-           .HasOne(x => x.CareUser)
-           .WithMany(x => x.LegalGuardianCareUsers)
-           .OnDelete(DeleteBehavior.Restrict);
+            .HasOne(x => x.CareUser)
+            .WithMany(x => x.LegalGuardianCareUsers)
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder.Entity<Event>()
-           .HasMany(x => x.EventSlots)
-           .WithOne(x => x.Event)
-           .OnDelete(DeleteBehavior.Restrict);
+            .HasMany(x => x.EventSlots)
+            .WithOne(x => x.Event)
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder.Entity<Registration>()
-           .HasOne(x => x.EventSlot)
-           .WithMany(x => x.Registrations);
+            .HasOne(x => x.EventSlot)
+            .WithMany(x => x.Registrations);
 
         builder.Entity<Registration>()
-           .HasIndex(x => new { x.CareUserId, x.EventSlotId }).IsUnique();
+            .HasIndex(x => new { x.CareUserId, x.EventSlotId }).IsUnique();
 
         builder.Entity<CareUser>()
-           .HasMany(x => x.EventRegistrations)
-           .WithOne(x => x.CareUser)
-           .OnDelete(DeleteBehavior.Restrict);
+            .HasMany(x => x.EventRegistrations)
+            .WithOne(x => x.CareUser)
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder.Entity<EventRegistrationLog>()
            .ToTable("EventRegistrationLogs")
@@ -64,11 +62,11 @@ public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<Guid>, 
            .HasValue<EventRegistrationStatusChange>(EventRegistrationChanges.RegistrationStatusChange);
 
         builder.Entity<EventRegistrationLog>()
-           .HasOne(x => x.EventRegistration);
+            .HasOne(x => x.EventRegistration);
 
         builder.Entity<EventRegistrationStatusChange>()
-           .HasBaseType<EventRegistrationLog>();
+            .HasBaseType<EventRegistrationLog>();
         builder.Entity<EventRegistrationLocationChange>()
-           .HasBaseType<EventRegistrationLog>();
+            .HasBaseType<EventRegistrationLog>();
     }
 }

@@ -1,6 +1,6 @@
 import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { AuthGuard } from '../core/services/auth.guard';
+
 import { CareUserOverviewComponent } from './components/careusers/careuser-overview/care-user-overview.component';
 import { AdminOverviewComponent } from './components/admin-users/admin-overview/admin-overview.component';
 import { LegalguardianOverviewComponent } from './components/legalguardians/legalguardian-overview/legalguardian-overview.component';
@@ -10,12 +10,13 @@ import { MainComponent } from 'src/app/main.component';
 import { PendingRegistrationsComponent } from './components/pending-registrations/pending-registrations.component';
 import { PendingActionsComponent } from './components/pending-actions/pending-actions.component';
 import { LocationOverviewComponent } from './components/location-overview/location-overview.component';
+import { AdminAuthGuard } from '../core/services/admin.guard';
 
 const routes: Routes = [
    {
       path: 'admin',
       component: MainComponent,
-      canActivate: [AuthGuard],
+      canActivate: [AdminAuthGuard],
       children: [
          {
             path: 'beheerders',

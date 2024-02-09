@@ -8,32 +8,30 @@ using Serilog;
 
 using Singer.Helpers.Extensions;
 
-var builder = WebApplication.CreateBuilder(args);
-
-
-Log.Logger = new LoggerConfiguration()
-    .ReadFrom.Configuration(builder.Configuration)
-    .Enrich.FromLogContext()
-    .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] [{SourceContext}] {Message:lj}{NewLine}{Exception}")
-    .CreateLogger();
-
-builder.Host.UseSerilog();
-
-builder
-    .AddAuthenticationAndAuthorization()
-    .AddAngularSpa()
-    .AddApplicationInsights()
-    .AddApplicationDbContext()
-    .AddIdentity()
-    .AddSingerServices()
-    .AddSwagger();
-
-builder.Services
-    .AddControllersWithViews();
-
 
 try
 {
+
+    var builder = WebApplication.CreateBuilder(args);
+
+    Log.Logger = new LoggerConfiguration()
+        .ReadFrom.Configuration(builder.Configuration)
+        .Enrich.FromLogContext()
+        .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] [{SourceContext}] {Message:lj}{NewLine}{Exception}")
+        .CreateLogger();
+
+    builder.Host.UseSerilog();
+
+    builder
+        .AddAuthenticationAndAuthorization()
+        .AddAngularSpa()
+        .AddApplicationInsights()
+        .AddApplicationDbContext()
+        .AddSingerServices()
+        .AddSwagger();
+
+    builder.Services
+        .AddControllersWithViews();
     Log.Information("Building application");
     var app = builder.Build();
 
@@ -50,17 +48,17 @@ try
         app.UseHsts();
     }
 
+
+    app.UseCors(corsPolicyBuilder => corsPolicyBuilder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+
     app.UseHttpsRedirection();
+    app.UseRouting();
     app.UseAuthentication();
 
     app.UseStaticFiles();
     app.UseSpaStaticFiles();
 
     app.UseExceptionMiddleware();
-    app.UseIdentityServer();
-
-
-    app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
     // Register the Swagger generator and the Swagger UI middlewares
     // Navigate to:
@@ -69,7 +67,6 @@ try
     app.UseOpenApi();
     app.UseSwaggerUi3();
 
-    app.UseRouting();
     app.UseAuthorization();
     app.UseEndpoints(endpoints =>
     {

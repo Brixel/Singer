@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-using Duende.IdentityServer.Extensions;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -65,13 +63,4 @@ public class CareUserController : DataControllerBase<CareUser, CareUserDTO, Crea
         return Ok(result);
     }
 
-    [HttpGet("self")]
-    public async Task<IActionResult> GetOwnCareUsers(string search)
-    {
-        var userId = Guid.Parse(User.GetSubjectId());
-
-        var relatedCareUsers = await _careUserService.GetRelatedCareUserAsync(userId, search);
-        return Ok(relatedCareUsers);
-
-    }
 }

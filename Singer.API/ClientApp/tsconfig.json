@@ -17,13 +17,13 @@
       "importHelpers": true,
       "target": "es2020",
       "module": "ESNext",
-      "lib": ["es2018", "dom"]
+      "lib": ["es2018", "dom"],
    },
    "angularCompilerOptions": {
       "strictInjectionParameters": true,
       "strictInputAccessModifiers": true,
       "strictPropertyInitialization": false,
-      "strictTemplates": false,
-      "enableIvy": true
+      "strictTemplates": true,
+      "enableIvy": true,
    }
 }

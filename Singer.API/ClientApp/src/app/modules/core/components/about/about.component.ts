@@ -2,7 +2,6 @@ import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { BehaviorSubject } from 'rxjs';
-import { AuthService } from 'src/app/modules/core/services/auth.service';
 
 @Component({
    selector: 'app-about',
@@ -18,13 +17,13 @@ export class AboutComponent {
    private isAdminSubject$ = new BehaviorSubject<boolean>(false);
    isAdmin$ = this.isAdminSubject$.asObservable();
 
-   constructor(http: HttpClient, _authService: AuthService, @Inject('BASE_URL') baseUrl: string) {
+   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
       http.get<AboutDTO>(baseUrl + 'api/about').subscribe(
-         result => {
+         (result) => {
             this.apiVersionSubject$.next(result.apiVersion);
             this.isAdminSubject$.next(result.userInfo.isAdmin);
          },
-         error => console.error(error)
+         (error) => console.error(error)
       );
    }
 }

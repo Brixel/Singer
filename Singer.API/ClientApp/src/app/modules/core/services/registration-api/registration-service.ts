@@ -29,7 +29,7 @@ export class RegistrationService extends GenericService<
       };
    }
    constructor(protected httpClient: HttpClient) {
-      super('api/registration');
+      super(`api/registration`);
    }
 
    toEditDTO(model: RegistrationOverview): null {

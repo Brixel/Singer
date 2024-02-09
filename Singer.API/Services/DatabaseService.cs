@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 using Singer.Data;
@@ -17,7 +16,6 @@ using Singer.Helpers;
 using Singer.Helpers.Exceptions;
 using Singer.Helpers.Extensions;
 using Singer.Models;
-using Singer.Models.Users;
 using Singer.Resources;
 using Singer.Services.Interfaces;
 
@@ -74,8 +72,6 @@ public abstract class DatabaseService<TEntity, TDTO, TCreateDTO, TUpdateDTO> : I
     ///     The mapper to map the <see cref="TEntity"/> s to <see cref="TDTO"/> s and vice versa.
     /// </summary>
     protected IMapper Mapper { get; }
-
-    protected RoleManager<User> RoleManager { get; }
 
     #endregion PROPERTIES
 
