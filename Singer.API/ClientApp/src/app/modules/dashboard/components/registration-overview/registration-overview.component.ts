@@ -13,6 +13,7 @@ import { MatSelect } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CareUser } from 'src/app/modules/core/models/careuser.model';
 import { LoadingService } from 'src/app/modules/core/services/loading.service';
+import { AuthService } from 'src/app/modules/core/services/auth.service';
 
 @Component({
    selector: 'app-registration-overview',
@@ -47,7 +48,8 @@ export class RegistrationOverviewComponent extends GenericOverviewComponent<
       dataService: RegistrationService,
       cd: ChangeDetectorRef,
       loadingService: LoadingService,
-      snackBar: MatSnackBar
+      snackBar: MatSnackBar,
+      public authService: AuthService
    ) {
       const ds = new RegistrationOverviewDatasource(dataService);
       super(cd, ds, 'startDateTime', SortDirection.Descending);

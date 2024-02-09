@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MsalService, MsalBroadcastService } from '@azure/msal-angular';
 import { EventMessage, EventType, AuthenticationResult, InteractionStatus } from '@azure/msal-browser';
 import { filter } from 'rxjs/operators';
+import { AuthService } from 'src/app/modules/core/services/auth.service';
 
 @Component({
    selector: 'app-dashboard',
@@ -11,7 +12,11 @@ import { filter } from 'rxjs/operators';
 export class DashboardComponent implements OnInit {
    loginDisplay: boolean = false;
    isAdmin = false;
-   constructor(private authService: MsalService, private msalBroadcastService: MsalBroadcastService) {}
+   constructor(
+      private msalService: MsalService,
+      private authService: AuthService,
+      private msalBroadcastService: MsalBroadcastService
+   ) {}
 
    ngOnInit() {
       this.msalBroadcastService.msalSubject$
@@ -19,7 +24,7 @@ export class DashboardComponent implements OnInit {
          .subscribe((result: EventMessage) => {
             console.log(result);
             const payload = result.payload as AuthenticationResult;
-            this.authService.instance.setActiveAccount(payload.account);
+            this.msalService.instance.setActiveAccount(payload.account);
          });
 
       this.msalBroadcastService.inProgress$
@@ -27,8 +32,12 @@ export class DashboardComponent implements OnInit {
          .subscribe(() => {
             this.setLoginDisplay();
          });
+
+      this.authService.isAdmin$.subscribe((res) => {
+         this.isAdmin = res;
+      });
    }
    setLoginDisplay() {
-      this.loginDisplay = this.authService.instance.getAllAccounts().length > 0;
+      this.loginDisplay = this.msalService.instance.getAllAccounts().length > 0;
    }
 }

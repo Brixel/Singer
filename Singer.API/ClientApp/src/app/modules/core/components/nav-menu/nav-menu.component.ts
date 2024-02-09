@@ -2,6 +2,7 @@ import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { SingerRouterLink, singerRouterLinkRequirements } from '../../models/singer-routerlink.model';
 import { Router } from '@angular/router';
 import { MsalService } from '@azure/msal-angular';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
    selector: 'app-nav-menu',
@@ -71,10 +72,14 @@ export class NavMenuComponent implements OnInit {
 
    routerLinkRequirements: { [name: string]: boolean } = {};
 
-   constructor(public router: Router, private authService: MsalService) {}
+   constructor(public router: Router, private msalService: MsalService, private authService: AuthService) {}
 
    ngOnInit() {
-      this.isAuthenticated = this.authService.instance.getAllAccounts().length > 0;
+      this.isAuthenticated = this.msalService.instance.getAllAccounts().length > 0;
+      this.authService.isAdmin$.subscribe((res) => {
+         this.isAdmin = res;
+         this.updateRequirements();
+      });
       this.updateRequirements();
    }
 

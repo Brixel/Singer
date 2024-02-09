@@ -6,10 +6,11 @@ import {
    SingerRegistrationData,
 } from 'src/app/modules/admin/components/singerevents/event-registrations/event-registrations.component';
 import { UntypedFormControl } from '@angular/forms';
-import { startWith, debounceTime, switchMap, map } from 'rxjs/operators';
-import { of, Observable } from 'rxjs';
+import { startWith, debounceTime, switchMap, map, tap } from 'rxjs/operators';
+import { of, Observable, forkJoin } from 'rxjs';
 import { CareUserService } from 'src/app/modules/core/services/care-users-api/careusers.service';
 import { AgeGroup } from 'src/app/modules/core/models/enum';
+import { AuthService } from 'src/app/modules/core/services/auth.service';
 
 @Component({
    selector: 'app-search-care-user-dialog',
@@ -23,6 +24,7 @@ export class SearchCareUserDialogComponent implements OnInit {
    constructor(
       private _careUserService: CareUserService,
       private dialogRef: MatDialogRef<SingerRegistrationsComponent>,
+      private authService: AuthService,
       @Inject(MAT_DIALOG_DATA) data: SingerRegistrationData
    ) {}
 
@@ -41,8 +43,8 @@ export class SearchCareUserDialogComponent implements OnInit {
       );
    }
    careUserLookup(value: string): Observable<RelatedCareUser[]> {
-      // TODO Extend with admin check
-      if (true) {
+      const isAdmin = this.authService.isAdmin$.value;
+      if (isAdmin) {
          return this._careUserService
             .fetchCareUsersData('asc', 'id', 0, 15, value)
             .pipe(map((res) => res.items.map((careUser) => new RelatedCareUser(careUser))));

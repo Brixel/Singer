@@ -10,12 +10,13 @@ import { MainComponent } from 'src/app/main.component';
 import { PendingRegistrationsComponent } from './components/pending-registrations/pending-registrations.component';
 import { PendingActionsComponent } from './components/pending-actions/pending-actions.component';
 import { LocationOverviewComponent } from './components/location-overview/location-overview.component';
+import { AdminAuthGuard } from '../core/services/admin.guard';
 
 const routes: Routes = [
    {
       path: 'admin',
       component: MainComponent,
-      canActivate: [], // TODO Add admin guard
+      canActivate: [AdminAuthGuard],
       children: [
          {
             path: 'beheerders',

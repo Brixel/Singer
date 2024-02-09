@@ -35,7 +35,7 @@
          </mat-select>
       </mat-form-field>
    </div>
-   <div class="careuser-filter">
+   <div *ngIf="authService.isAdmin$ | async" class="careuser-filter">
       <app-care-user-multi-autocomplete (onChange)="onCareUserFilterChange($event)"></app-care-user-multi-autocomplete>
    </div>
 
@@ -75,6 +75,7 @@
             <app-registration-status [status]="row.registrationStatus" *ngIf="!(authService.isAdmin$ | async)">
             </app-registration-status>
             <app-registration-status-toggle
+               *ngIf="authService.isAdmin$ | async"
                [status]="row.registrationStatus"
                (onStatusChange)="changeRegistration($event, row)"
             >

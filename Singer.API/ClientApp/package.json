@@ -1,6 +1,6 @@
 {
    "name": "Singer",
-   "version": "0.1.0-issue-msal.1593",
+   "version": "0.1.0-issue-msal.1595",
    "scripts": {
       "ng": "ng",
       "start": "ng serve",
